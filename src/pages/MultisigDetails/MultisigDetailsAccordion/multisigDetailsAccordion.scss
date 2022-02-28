@@ -1,0 +1,42 @@
+.multisig-details-accordion {
+  .cards {
+    padding: 23px 0;
+  }
+  position: relative;
+  cursor: pointer;
+  .statcard {
+    justify-content: space-evenly;
+  }
+
+  &:hover {
+    .cards {
+      background: #fafafa;
+    }
+  }
+
+  .expand-icon {
+    position: absolute;
+    color: #1390ff;
+    left: calc(50% - 11px);
+    bottom: -1rem;
+    z-index: 100;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+
+    svg {
+      pointer-events: none;
+      width: 1.5rem;
+      height: 1.5rem;
+      cursor: pointer;
+    }
+  }
+
+  .cards-collapse-content {
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+}

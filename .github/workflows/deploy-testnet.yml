@@ -1,0 +1,43 @@
+name: deploy-testnet
+
+on:
+  push:
+    branches: [master]
+  repository_dispatch:
+    types: deploy-testnet
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+      - run: cp ./src/config.testnet.ts ./src/config.ts
+      - run: echo ${{ secrets.NPMRC }} >> .npmrc
+      - run: echo "export const storageApi = '${{ secrets.EXTRAS_API_TESTNET }}';" >> src/multisigExtrasConfig.ts
+      - run: echo "export const maiarIdApi = '${{ secrets.MAIAR_ID_API_TESTNET }}';" >> src/multisigExtrasConfig.ts
+      - run: npm install
+      - run: npm install @elrondnetwork/dapp-core-internal
+      - run: npm install
+      - run: npm run build
+        env:
+          CI: false
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - run: aws s3 sync ./build/ s3://${{ secrets.AWS_S3_BUCKET_TESTNET }} --delete
+      - uses: rtCamp/action-slack-notify@master
+        env:
+          SLACK_ICON_EMOJI: ":lock:"
+          SLACK_USERNAME: ${{ secrets.AWS_S3_BUCKET_TESTNET }}
+          SLACK_MESSAGE: ${{ secrets.AWS_S3_BUCKET_TESTNET }}
+          SLACK_FOOTER: ""
+          MSG_MINIMAL: true
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}

@@ -1,0 +1,124 @@
+.modal-control-container {
+  display: block;
+}
+
+.modal-control-container label {
+  display: block !important;
+  color: #9dabbd;
+  font-size: 18px;
+  line-height: 21px;
+}
+
+.modal-control-container .input-wrapper {
+  position: relative;
+}
+
+.modal-control-container .input-wrapper input {
+  margin-bottom: 5px !important;
+}
+
+.modal-control-container .input-wrapper span {
+  position: absolute;
+  color: #1390ff;
+  top: calc(50% - 10px);
+  right: 19px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.modal-control-container input {
+  font-size: 18px;
+  height: 48px;
+  border-radius: 8px;
+  line-height: 21px;
+  margin-bottom: 32px;
+}
+
+.modal-control-container textarea {
+  font-size: 18px;
+  border-radius: 8px;
+  line-height: 21px;
+}
+
+.modal-control-container span {
+  display: block;
+  color: #9dabbd;
+  margin-bottom: 32px;
+}
+
+.modal-control-container .center {
+  margin: 32px auto;
+}
+
+.modal-control-container .form-check-label {
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.modal-control-container .form-check-input {
+  width: 20px;
+  height: 20px;
+  margin-bottom: 2px;
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+.receive canvas {
+  padding: 11px;
+  border: 1px solid #f1f1f1;
+  -webkit-box-shadow: 0px 4px 4px rgba(150, 160, 181, 0.08);
+  box-shadow: 0px 4px 4px rgba(150, 160, 181, 0.08);
+  border-radius: 10px;
+}
+
+.copy-address {
+  margin-top: 32px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.copy-address .address {
+  margin: 0;
+  height: 66px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0 26px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border-radius: 8px 0px 0px 8px;
+  border-right: none;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+}
+
+.copy-address .copy-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 66px;
+  height: 66px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  background: #f3f9ff;
+  border: 1px solid #ddeeff;
+  border-radius: 0px 8px 8px 0px;
+  cursor: pointer;
+}
+
+.copy-address svg {
+  font-size: 16px;
+  color: #1392ff;
+}
+/*# sourceMappingURL=modal.css.map */

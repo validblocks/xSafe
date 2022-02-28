@@ -1,0 +1,236 @@
+.owner .my-wallets {
+  width: 100%;
+  margin-top: auto;
+  padding: 64px 20px;
+}
+
+.owner .my-wallets .welcome {
+  margin-bottom: 56px;
+}
+
+.owner .my-wallets .welcome h2 {
+  font-size: 36px;
+  font-weight: bold !important;
+  margin-bottom: 6px;
+}
+
+.owner .my-wallets .welcome span {
+  margin-left: 20.1px;
+}
+
+.owner .my-wallets .welcome p {
+  color: #a0a9bc;
+  font-size: 24px;
+}
+
+.owner .my-wallets .c-o-wallet-card {
+  max-width: 812px;
+  margin: 0 auto;
+}
+
+.owner .my-wallets .c-o-wallet-card .wallet-spacer {
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.owner .my-wallets .c-o-wallet-card button {
+  min-height: 308px;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  background-color: #fff;
+  border: 1px solid #fff;
+  border-radius: 12px;
+  padding: 40px;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+}
+
+.owner .my-wallets .c-o-wallet-card button p {
+  font-size: 21px;
+  line-height: 25px;
+}
+
+.owner .my-wallets .c-o-wallet-card button .action svg {
+  position: relative;
+  width: 14px;
+  height: 16px;
+  color: #1390ff;
+  opacity: 0;
+  margin-left: 10px;
+}
+
+.owner .my-wallets .c-o-wallet-card button .info-text {
+  font-size: 16px;
+  line-height: 19px;
+  color: #9dabbd;
+}
+
+.owner .my-wallets .c-o-wallet-card button:hover {
+  border: 1px solid #1390ff;
+  -webkit-box-shadow: 0px 6px 8px rgba(19, 146, 255, 0.12) !important;
+  box-shadow: 0px 6px 8px rgba(19, 146, 255, 0.12) !important;
+}
+
+.owner .my-wallets .c-o-wallet-card button:hover .action {
+  color: #1390ff;
+}
+
+.owner .my-wallets .c-o-wallet-card button:hover .action svg {
+  opacity: 1;
+}
+
+.owner .my-wallets .wallets-section {
+  max-width: 1140px;
+  width: 100%;
+  border-radius: 12px;
+  margin: 0 auto;
+  padding: 44px 40px;
+}
+
+.owner .my-wallets .wallets-section .top-bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: row;
+  flex-flow: row;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.owner .my-wallets .wallets-section .top-bar .create-btns {
+  gap: 16px;
+}
+
+.owner .my-wallets .wallets-section .top-bar .create-btns button {
+  color: #4aa8ff;
+  background-color: #4aa8ff13;
+  border: 1px solid #ddeeff !important;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+  padding: 14px 23px 14px 16px;
+  line-height: 16px;
+}
+
+.owner .my-wallets .wallets-section .top-bar .create-btns button:hover {
+  background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0, rgba(77, 169, 255, 0.1))
+  );
+  background-image: linear-gradient(rgba(77, 169, 255, 0.1) 0 0);
+}
+
+.owner .my-wallets .wallets-section .top-bar .create-btns button svg {
+  font-size: 14px;
+  color: #4aa8ff;
+  margin-right: 12px;
+}
+
+.owner .my-wallets .wallets-section .list-wallets {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-flow: row;
+  flex-flow: row;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 50px;
+}
+
+.owner .my-wallets .wallets-section .list-wallets button {
+  position: relative;
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  -ms-flex-preferred-size: 247px;
+  flex-basis: 247px;
+  max-width: 247px;
+  border: 1px solid #f1f1f1;
+  border-radius: 10px;
+  padding: 30px 21px;
+}
+
+.owner .my-wallets .wallets-section .list-wallets button:hover {
+  border: 1px solid #1390ff;
+  -webkit-box-shadow: 0px 6px 8px rgba(19, 146, 255, 0.12) !important;
+  box-shadow: 0px 6px 8px rgba(19, 146, 255, 0.12) !important;
+}
+
+.owner .my-wallets .wallets-section .list-wallets button .icon {
+  width: 100%;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: absolute;
+  top: -27.5px;
+  left: 0;
+}
+
+.owner .my-wallets .wallets-section .list-wallets button .wallet-details .name {
+  margin: 12px 0 20px;
+}
+
+.owner
+  .my-wallets
+  .wallets-section
+  .list-wallets
+  button
+  .wallet-details
+  .wallet-address {
+  font-size: 14px;
+  color: #9dabbd;
+  gap: 30px;
+}
+
+.owner
+  .my-wallets
+  .wallets-section
+  .list-wallets
+  button
+  .wallet-details
+  .wallet-address
+  svg {
+  width: 12px;
+}
+
+.owner .info-msg {
+  color: #9dabbd;
+  font-size: 16px;
+  line-height: 19px;
+  margin-top: auto;
+  margin-bottom: 64px;
+}
+
+.owner .info-msg a {
+  color: #1390ff;
+}
+
+.owner .action-dropdown {
+  padding: 0;
+}
+
+.owner .action-dropdown svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+.owner .action-dropdown::after {
+  display: none;
+}
+/*# sourceMappingURL=owner.css.map */

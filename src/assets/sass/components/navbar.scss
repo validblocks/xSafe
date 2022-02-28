@@ -1,0 +1,181 @@
+.navbar {
+  height: 6.071428571428571rem;
+  border: 1px solid #ffffff;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.06);
+
+  .nav-logo {
+    cursor: pointer;
+  }
+
+  .navbar-toggler {
+    display: block;
+    padding: 0.4rem;
+  }
+
+  .nav-link {
+    transition: color 200ms ease;
+    min-width: auto;
+    border-bottom: 0.25rem solid transparent;
+    font-size: 0.725rem;
+    @include media-breakpoint-up(xl) {
+      border-top: 0.25rem solid transparent;
+      min-width: 5rem;
+    }
+    &.soon {
+      cursor: pointer;
+    }
+  }
+  .navbar-brand {
+    svg {
+      height: 1.5rem;
+      width: auto;
+      margin-right: 0.8rem;
+    }
+    span {
+      margin-bottom: 1px;
+      font-size: 1rem;
+      font-weight: 200;
+      padding-left: 0.6rem;
+    }
+    @include media-breakpoint-up(lg) {
+      svg {
+        height: 2.2rem;
+      }
+      span {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  .navbar-buttons .btn {
+    padding: 15px 20px 15px 16px;
+    height: 2.475rem;
+    svg {
+      width: auto;
+    }
+    @include media-breakpoint-down(sm) {
+      padding-left: 0.55rem;
+      padding-right: 0.55rem;
+    }
+  }
+
+  .address-btn {
+    background-color: #4aa8ff13;
+    justify-content: center;
+    border: 1px solid #ddeeff !important;
+    @include media-breakpoint-down(md) {
+      width: 48px;
+      min-width: unset;
+    }
+    .hide {
+      display: none;
+    }
+    .disconnect {
+      visibility: hidden;
+    }
+    .name {
+      display: flex;
+      color: #4aa8ff;
+      transform: translateY(10px);
+    }
+    svg {
+      color: #4aa8ff;
+      font-size: 15px;
+    }
+    &:hover,
+    &:active {
+      color: #fff;
+      background-color: #1392ff !important;
+      border: 1px solid #007ded !important;
+      background-image: unset;
+      .navbar-address {
+        width: auto;
+      }
+      .disconnect {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: translateY(-10px);
+      }
+      .address {
+        visibility: hidden;
+      }
+      > svg {
+        color: #fff;
+        display: none;
+      }
+      .hide {
+        display: block;
+      }
+      .disconnect {
+        color: #fff;
+        visibility: visible;
+      }
+    }
+    .btn-name {
+      .address {
+        width: 7rem;
+        .ellipsis,
+        .trim .left span,
+        .trim .right span {
+          color: #4aa8ff;
+        }
+      }
+      .hero-tag {
+        width: unset;
+        color: #4aa8ff;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    .navbar-logo,
+    .navbar-buttons {
+      width: 30%;
+    }
+
+    .show-claim-mex-btn {
+      width: 43% !important;
+    }
+  }
+}
+@include media-breakpoint-down(xs) {
+  .navbar-nav {
+    width: 100%;
+    justify-content: end;
+    .nav-pills {
+      justify-content: space-between;
+      .nav-item {
+        flex-grow: 1;
+        .nav-link {
+          min-width: auto;
+        }
+      }
+    }
+  }
+}
+
+.navbar-nav {
+  .connect-btns {
+    .btn {
+      @include media-breakpoint-down(sm) {
+        width: 48px;
+        .btn-name,
+        .name {
+          display: none;
+        }
+        &:hover {
+          .hide {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .elrond-logo {
+    width: 113px;
+  }
+}

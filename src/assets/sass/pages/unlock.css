@@ -1,0 +1,17 @@
+.unlock-title .i-icon {
+  padding-left: 0.15rem;
+}
+
+.unlock-page {
+  width: 100%;
+  max-width: toRem(366);
+}
+
+.unlock-page .unlock {
+  width: 100%;
+  border: 1px solid #e6e8ec;
+  -webkit-box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.06);
+  box-shadow: 0px 6px 24px rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
+}
+/*# sourceMappingURL=unlock.css.map */

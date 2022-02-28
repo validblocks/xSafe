@@ -1,0 +1,19 @@
+.account {
+  .address-holder-container {
+    background-color: $input-bg;
+
+    .address-holder {
+      width: 10rem;
+      @include media-breakpoint-up(sm) {
+        width: 20rem;
+      }
+      @include media-breakpoint-up(md) {
+        width: 21rem;
+      }
+    }
+  }
+
+  .tokens-section-loader {
+    @extend .p-2;
+  }
+}

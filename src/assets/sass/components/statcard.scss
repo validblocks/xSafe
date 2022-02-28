@@ -1,0 +1,49 @@
+.statcard {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  align-items: center;
+  border-right: 1px solid #f1f1f1;
+  padding: 0 24px;
+  &:last-of-type {
+    border-right: none;
+  }
+
+  @include media-breakpoint-only(lg) {
+    min-width: 13rem;
+  }
+  .title {
+    color: #9dabbd;
+    margin: 0;
+    padding: 0;
+  }
+  .actions {
+    margin: 0;
+    gap: 16px;
+  }
+  .address {
+    width: 12rem;
+  }
+
+  .value {
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 38px;
+  }
+  .icon {
+    height: 1.5rem;
+
+    svg {
+      height: 1.5rem;
+      color: black;
+    }
+  }
+}
+
+.done-icon {
+  circle {
+    fill: green;
+    opacity: 0.8;
+  }
+}

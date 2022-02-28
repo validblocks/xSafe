@@ -1,0 +1,61 @@
+.home {
+  color: #000;
+  .login-container {
+    font-size: 0.8125rem;
+    max-width: 33.625rem;
+
+    .btn {
+      min-width: 6.875rem;
+      @include media-breakpoint-up(sm) {
+        min-width: 8rem;
+      }
+    }
+    .logo {
+      fill: $white;
+      height: 2.5rem;
+      width: auto;
+    }
+  }
+}
+
+.home-img {
+  width: 100%;
+  height: auto;
+}
+
+.main {
+  display: flex;
+  // height: calc(100vh - 85px);
+  // justify-content: center;
+}
+
+.connect {
+  h2 {
+    color: #3d5170;
+    font-size: toRem(36);
+    font-weight: 400;
+    line-height: toRem(43);
+    letter-spacing: 0em;
+  }
+  p {
+    font-size: toRem(18);
+    line-height: toRem(28);
+    color: #3d5170;
+  }
+  .card-connect {
+    .connect-btns {
+      .btn {
+        width: 149px;
+      }
+    }
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .card-connect {
+    padding-top: 63px;
+  }
+  .card-image {
+    padding-top: 63px;
+  }
+}

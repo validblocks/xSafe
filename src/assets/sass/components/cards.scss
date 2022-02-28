@@ -1,0 +1,19 @@
+.cards {
+  max-width: auto;
+  border-bottom: 1px solid #f1f1f1 !important;
+  display: flex;
+  flex-direction: row;
+  border-radius: 0 !important;
+  padding: 24px 16px;
+}
+
+.cards-accordion-content {
+  .title {
+  }
+
+  .content {
+  }
+}
+.card-header {
+  border-bottom: 1px solid #e6e8ec !important;
+}

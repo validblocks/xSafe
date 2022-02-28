@@ -1,0 +1,10 @@
+{
+  "name": "private-edge-request",
+  "description": "restrict access to the CloudFront only if the IP is whitelisted",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {},
+  "author": "",
+  "private": true,
+  "dependencies": {}
+}

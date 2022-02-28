@@ -1,0 +1,152 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Multisig Hosting
+
+Parameters:
+  Stage:
+    Type: String
+    Default: devnet
+    AllowedValues:
+      - mainnet
+      - staging
+      - devnet
+      - testnet
+
+Conditions:
+  IsProduction: !Equals [!Ref Stage, 'mainnet']
+
+Resources:
+  BucketProduction:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName:
+        !If [
+          IsProduction,
+          'multisig.elrond.com',
+          !Sub '${Stage}-multisig.elrond.com'
+        ]
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        ErrorDocument: error.html
+        IndexDocument: index.html
+
+  BucketProductionPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref BucketProduction
+      PolicyDocument:
+        Id: bucket-policy
+        Version: '2012-10-17'
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: 's3:GetObject'
+            Resource:
+              !If [
+                IsProduction,
+                'arn:aws:s3:::multisig.elrond.com/*',
+                !Sub 'arn:aws:s3:::${Stage}-multisig.elrond.com/*'
+              ]
+
+  CloudFrontProduction:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        PriceClass: PriceClass_100
+        CustomErrorResponses:
+          - ErrorCode: 404
+            ErrorCachingMinTTL: 60
+            ResponseCode: 200
+            ResponsePagePath: '/index.html'
+        Aliases:
+          - !If [
+              IsProduction,
+              'multisig.elrond.com',
+              !Sub '${Stage}-multisig.elrond.com'
+            ]
+        Origins:
+          - Id: s3-static-site
+            DomainName:
+              !If [
+                IsProduction,
+                'multisig.elrond.com.s3-website.us-east-1.amazonaws.com',
+                !Sub '${Stage}-multisig.elrond.com.s3-website.us-east-1.amazonaws.com'
+              ]
+            CustomOriginConfig:
+              HTTPPort: '80'
+              HTTPSPort: '443'
+              OriginProtocolPolicy: http-only
+        ViewerCertificate:
+          AcmCertificateArn: 'arn:aws:acm:us-east-1:777241893292:certificate/4fc48d4f-75c1-4bb9-983f-0c49b1fc44e1'
+          MinimumProtocolVersion: TLSv1
+          SslSupportMethod: sni-only
+        IPV6Enabled: false
+        DefaultCacheBehavior:
+          MaxTTL: 60
+          DefaultTTL: 60
+          ForwardedValues:
+            QueryString: false
+            Headers:
+              - CloudFront-Viewer-Country
+          ViewerProtocolPolicy: redirect-to-https
+          TargetOriginId: s3-static-site
+          LambdaFunctionAssociations:
+            - EventType: viewer-request
+              LambdaFunctionARN: !Ref 
+              LambdaFunctionARN:
+                !If [
+                  IsProduction,
+                  !Ref PrivateEdgeRequestVersion6,
+                  !Ref DummyEdgeRequestVersion1,
+                ]
+
+  EdgeRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - edgelambda.amazonaws.com
+                - lambda.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - 'arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole'
+
+  PrivateEdgeRequest:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub '${Stage}-multisig-private-edge-request'
+      CodeUri: ./private-edge-request
+      Handler: index.handler
+      Runtime: nodejs14.x
+      MemorySize: 128
+      Timeout: 1
+      Role: !GetAtt EdgeRole.Arn
+
+  PrivateEdgeRequestVersion6:
+    Type: AWS::Lambda::Version
+    DeletionPolicy: Retain
+    Properties:
+      FunctionName: !GetAtt PrivateEdgeRequest.Arn
+
+  DummyEdgeRequest:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: !Sub "${Stage}-multisig-dummy-edge-request"
+      CodeUri: ./public-edge-request
+      Handler: index.handler
+      Runtime: nodejs14.x
+      MemorySize: 128
+      Timeout: 1
+      Role: !GetAtt EdgeRole.Arn
+
+  DummyEdgeRequestVersion1:
+    Type: AWS::Lambda::Version
+    DeletionPolicy: Retain
+    Properties:
+      FunctionName: !GetAtt DummyEdgeRequest.Arn

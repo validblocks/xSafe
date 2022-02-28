@@ -1,0 +1,206 @@
+.dashboard {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 100px 0;
+}
+
+.dashboard .wallet-logo {
+  position: absolute;
+  top: -51px;
+}
+
+.dashboard .card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-width: 842px;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.dashboard .card .user-profile {
+  border-bottom: 1px solid #e6e8ec;
+  padding: 40px 0 65px;
+}
+
+.dashboard .card .user-profile .wallet {
+  padding: 0 40px;
+}
+
+.dashboard .card .user-profile .wallet p {
+  color: #a0a9bc;
+}
+
+.dashboard .card .user-profile .wallet p svg {
+  font-size: 13px;
+  margin-right: 8px;
+}
+
+.dashboard .card .user-profile .wallet p span {
+  color: #000;
+}
+
+.dashboard .card .user-profile .wallet .wallet-name {
+  margin-top: 40px;
+  margin-bottom: 10px;
+}
+
+.dashboard .card .user-profile .wallet div {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.dashboard .card .user-profile .address {
+  color: #a0a9bc;
+}
+
+.dashboard .card .action-panel {
+  width: 100%;
+  border-bottom: 1px solid #e6e8ec;
+}
+
+.dashboard .card .action-panel .actions-btns {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 12px;
+  padding-bottom: 40px;
+}
+
+.dashboard .card .action-panel .actions-btns button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  width: 160px;
+  height: 56px;
+  background: #fff;
+  color: #000;
+  border-radius: 500px;
+  border: 1px solid #f1f1f1 !important;
+}
+
+.dashboard .card .action-panel .actions-btns button:hover {
+  background: #1390ff;
+  color: #fff;
+}
+
+.dashboard .card .action-panel .actions-btns button:hover span {
+  background: #fff;
+}
+
+.dashboard .card .action-panel .actions-btns button:hover span svg {
+  color: #1390ff;
+}
+
+.dashboard .card .action-panel .actions-btns button span {
+  width: 48px;
+  height: 48px;
+  color: #fff;
+  border-radius: 500px;
+  background: #1390ff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  position: relative;
+  left: -7px;
+}
+
+.dashboard .card .action-panel .actions-btns button span svg {
+  width: 16px;
+  height: 18px;
+}
+
+.dashboard .card .action-panel .balance {
+  padding-top: 70px;
+}
+
+.dashboard .card .action-panel .balance h2 {
+  font-weight: 600 !important;
+}
+
+.dashboard .card .action-panel .balance .ex-currency {
+  color: #a0a9bc;
+  padding-bottom: 30px;
+}
+
+.dashboard .proposals-list .no-active-proposals {
+  padding: 40px 0;
+}
+
+.dashboard .proposals-list .no-active-proposals svg {
+  margin-bottom: 16px;
+}
+
+.dashboard .proposals-list .no-active-proposals p {
+  color: #9dabbd;
+}
+
+.dashboard .proposals-list .no-active-proposals a {
+  text-decoration: underline;
+}
+
+.dashboard .proposals-list .proposal {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+}
+
+.dashboard .proposals-list .proposal > div {
+  -webkit-box-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.dashboard .proposals-list .proposal .action-btns .action {
+  width: 112px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: 14px;
+  line-height: 16px;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 15px 20px 15px 16px;
+  border-radius: 6px;
+}
+
+.dashboard .proposals-list .proposal .action-btns .sign {
+  color: #16d296;
+  background: #f3fdfa;
+  border: 1px solid #ddf9f0;
+  -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.dashboard .proposals-list .proposal .action-btns .unsign {
+  color: #138eff;
+  background: #f3f9ff;
+  border: 1px solid #ddeeff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+}
+/*# sourceMappingURL=multisigDetailsPage.css.map */

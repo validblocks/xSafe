@@ -1,0 +1,87 @@
+body.modal-open .layout {
+  filter: blur(6px);
+}
+
+.opacity-6 {
+  opacity: 0.6;
+}
+.opacity-5 {
+  opacity: 0.5;
+}
+
+.card {
+  .card-header {
+    &:first-child {
+      border-radius: calc(#{$card-border-radius} - 1px)
+        calc(#{$card-border-radius} - 1px) 0 0;
+    }
+  }
+  box-shadow: rgba(255, 255, 255, 0.2) 0 0 0 0.5px inset;
+}
+
+textarea {
+  min-height: 3.4rem;
+}
+
+.overflow-x-hidden {
+  overflow-x: hidden;
+}
+
+.table {
+  th,
+  td {
+    font-size: 0.875rem;
+    vertical-align: middle;
+    &:first-of-type {
+      padding-left: 0;
+    }
+    &:last-of-type {
+      text-align: right;
+      padding-right: 0;
+    }
+  }
+  th {
+    font-weight: 400;
+    padding-top: 0;
+    padding-bottom: 0.875rem;
+  }
+
+  .trim {
+    max-width: 10rem;
+    @include media-breakpoint-up(sm) {
+      max-width: 14rem;
+    }
+    @include media-breakpoint-up(md) {
+      max-width: 30rem;
+    }
+    @include media-breakpoint-up(xl) {
+      max-width: 42rem;
+    }
+  }
+  .dropdown {
+    position: unset !important;
+    .dropdown-menu {
+      box-shadow: $dropdown-box-shadow;
+    }
+  }
+}
+
+label {
+  @include font-size(80%);
+}
+
+.fa-spin {
+  animation-duration: 0.5s;
+}
+
+.card-bg-grey {
+  background: #c1bfbf;
+  border: 3px solid grey;
+  box-shadow: 0 0.6rem 0.6rem 0 rgba(253, 63, 51, 0.06);
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1300px;
+  }
+}
