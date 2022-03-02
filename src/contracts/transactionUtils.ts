@@ -1,3 +1,4 @@
+import { getChainID } from '@elrondnetwork/dapp-core';
 import {
   ContractFunction,
   Transaction,
@@ -8,10 +9,10 @@ import {
   TypedValue,
   ChainID,
   TransactionOptions,
-  TransactionVersion
+  TransactionVersion,
+  Address
 } from '@elrondnetwork/erdjs';
-import { Address } from '@elrondnetwork/erdjs/out';
-import { chainID, gasLimit } from 'config';
+import { gasLimit } from 'config';
 import { providerTypes } from 'helpers/constants';
 import { multisigContractFunctionNames } from '../types/multisigFunctionNames';
 
@@ -39,7 +40,7 @@ export function buildTransaction(
     .setArgs(args)
     .build();
   const transactionPayload: TransactionPayloadType = {
-    chainID: new ChainID(chainID),
+    chainID: getChainID(),
     receiver: contract.getAddress(),
     value: Balance.egld(value),
     gasLimit: new GasLimit(transactionGasLimit),
@@ -60,12 +61,13 @@ export function buildBlockchainTransaction(
   data: string
 ) {
   const transactionPayload: TransactionPayloadType = {
-    chainID: new ChainID(chainID),
+    chainID: getChainID(),
     receiver,
     value: Balance.egld(value),
     gasLimit: new GasLimit(transactionGasLimit),
     data: new TransactionPayload(data)
   };
+
   if (providerType === providerTypes.ledger) {
     transactionPayload.options = TransactionOptions.withTxHashSignOptions();
     transactionPayload.version = TransactionVersion.withTxHashSignVersion();

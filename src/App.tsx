@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  DappProvider,
-  DappUI,
-  DappCoreUIWrapper
-} from '@elrondnetwork/dapp-core';
-import { ChainID, NetworkConfig } from '@elrondnetwork/erdjs/out';
+import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -16,17 +11,10 @@ import { englishTranslations } from 'i18n/en';
 import { store, persistor } from 'redux/store';
 import Layout from './components/Layout';
 import PageNotFound from './components/PageNotFound';
-import {
-  network,
-  walletConnectBridge,
-  walletConnectDeepLink,
-  chainID
-} from './config';
+
 import routes from './routes';
 
 import '@elrondnetwork/dapp-core/build/index.css';
-
-NetworkConfig.getDefault().ChainID = new ChainID(chainID);
 
 i18n.use(initReactI18next).init({
   resources: {
@@ -48,10 +36,8 @@ i18n.use(initReactI18next).init({
 export default function App() {
   return (
     <ReduxProvider store={store}>
-      <DappProvider
-        networkConfig={{ network, walletConnectBridge, walletConnectDeepLink }}
-      >
-        <DappCoreUIWrapper>
+      <DappProvider environment={'devnet'}>
+        <>
           <DappUI.SignTransactionsModals />
           <DappUI.TransactionsToastList />
           <DappUI.NotificationModal />
@@ -71,7 +57,7 @@ export default function App() {
               </Layout>
             </PersistGate>
           </Router>
-        </DappCoreUIWrapper>
+        </>
       </DappProvider>
     </ReduxProvider>
   );

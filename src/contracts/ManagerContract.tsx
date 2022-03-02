@@ -1,5 +1,9 @@
-import { getAccount, getAddress } from '@elrondnetwork/dapp-core';
-import { sendTransactions } from '@elrondnetwork/dapp-core';
+import {
+  getAccount,
+  getAddress,
+  getChainID,
+  sendTransactions
+} from '@elrondnetwork/dapp-core';
 import {
   Address,
   AddressValue,
@@ -11,13 +15,14 @@ import {
   Balance,
   CodeMetadata,
   DeployArguments,
-  GasLimit
+  GasLimit,
+  NetworkConfig
 } from '@elrondnetwork/erdjs/out';
 import { Code } from '@elrondnetwork/erdjs/out/smartcontracts/code';
 
 import { smartContractCode } from 'helpers/constants';
 
-export const deployContractGasLimit = 200_000_000;
+export const deployContractGasLimit = 400_000_000;
 
 export async function deployMultisigContract() {
   const address = await getAddress();
@@ -41,6 +46,7 @@ function getDeployContractTransaction(
   quorum: number,
   boardMembers: AddressValue[]
 ) {
+  NetworkConfig.getDefault().ChainID = getChainID();
   const contract = new SmartContract({});
   const code = Code.fromBuffer(Buffer.from(smartContractCode, 'hex'));
   const codeMetadata = new CodeMetadata(false, true, true);

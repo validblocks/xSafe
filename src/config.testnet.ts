@@ -7,7 +7,6 @@ export const gasPrice = 100_000_000;
 export const version = 1;
 export const gasPriceModifier = '0.01';
 export const gasPerDataByte = '1500';
-export const chainID = 'T';
 export const gasLimit = 10_000_000;
 export const minGasLimit = 50_000;
 export const maxGasLimit = 1499999999;
