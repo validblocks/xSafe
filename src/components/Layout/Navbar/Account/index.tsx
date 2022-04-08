@@ -56,7 +56,7 @@ const Account = () => {
     logOut();
   };
   return (
-    <div className='connect-btns'>
+    <div className='connect-btns mr-2'>
       <button
         className='btn address-btn btn-light d-flex flex-row align-items-center'
         onClick={onDisconnectClick}
