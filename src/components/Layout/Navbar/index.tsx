@@ -104,7 +104,6 @@ export default function MiniDrawer() {
 
   const isOnUnlockPage = window.location.pathname.includes(routeNames.unlock);
 
-  console.log(menuItems.topItems, 'asd');
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -200,7 +199,7 @@ export default function MiniDrawer() {
           })}
         </List>
         <Divider />
-        <List>
+        <List className='bottom-items'>
           {menuItems.bottomItems.map((el, index) => {
             return (
               <Link key={index} to={el.link}>
