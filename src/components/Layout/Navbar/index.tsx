@@ -5,6 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
+import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
@@ -12,14 +13,13 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
-
 import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import { dAppName } from 'config';
 import { routeNames } from 'routes';
-import items from 'utils/menuItems';
+import menuItems from 'utils/menuItems';
 import { uniqueContractAddress } from '../../../multisigConfig';
 import Account from './Account';
 import Notifications from './Notifications';
@@ -104,6 +104,7 @@ export default function MiniDrawer() {
 
   const isOnUnlockPage = window.location.pathname.includes(routeNames.unlock);
 
+  console.log(menuItems.topItems, 'asd');
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -170,7 +171,7 @@ export default function MiniDrawer() {
       </AppBar>
       <Drawer variant='permanent' open={open}>
         <List sx={{ mt: 10 }}>
-          {items.map((el, index) => {
+          {menuItems.topItems.map((el, index) => {
             return (
               <Link key={index} to={el.link}>
                 <ListItemButton
@@ -197,7 +198,36 @@ export default function MiniDrawer() {
               </Link>
             );
           })}
-          ;
+        </List>
+        <Divider />
+        <List>
+          {menuItems.bottomItems.map((el, index) => {
+            return (
+              <Link key={index} to={el.link}>
+                <ListItemButton
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? 'initial' : 'center',
+                    px: 2.5
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : 'auto',
+                      justifyContent: 'center'
+                    }}
+                  >
+                    {el.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={el.name}
+                    sx={{ opacity: open ? 1 : 0 }}
+                  />
+                </ListItemButton>
+              </Link>
+            );
+          })}
         </List>
       </Drawer>
     </Box>
