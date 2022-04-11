@@ -3,6 +3,10 @@
   .decision-state {
     display: inline-block;
     width: 100%;
+
+    .decision-item {
+      padding: 20px;
+    }
   }
 
   .back-btn-txt {

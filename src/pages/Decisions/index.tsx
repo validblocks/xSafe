@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import LanIcon from '@mui/icons-material/Lan';
 import Looks3OutlinedIcon from '@mui/icons-material/Looks3Outlined';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { Button, Row } from 'react-bootstrap';
+import DecisionsActionsCards from 'components/DecisionsComponents/decisionsActionsCards';
 import CircularStatic from 'components/ProgressBar/progressCircle';
 import LinearWithValueLabel from 'components/ProgressBar/progressLinear';
 
@@ -20,6 +19,7 @@ const Decisions = () => {
     color: theme.palette.text.secondary,
     boxShadow: 'unset'
   }));
+
   return (
     <div
       className={
@@ -89,96 +89,20 @@ const Decisions = () => {
         justifyContent='center'
         sx={{ marginBottom: '20px' }}
       >
-        <Grid item xs={5} sx={{ marginTop: '20px' }}>
-          <Grid xs={6} className='decision-state'>
-            <Item>
+        <Grid item md={5} xs={12} sx={{ marginTop: '20px' }}>
+          <Grid md={6} xs={12} className='decision-state'>
+            <Item className='decision-item'>
               Open decisions <Looks3OutlinedIcon />
             </Item>
           </Grid>
-          <Grid xs={6} className='decision-state'>
-            <Item>
+          <Grid md={6} xs={12} className='decision-state'>
+            <Item className='decision-item'>
               Closed decisions <Looks3OutlinedIcon />
             </Item>
           </Grid>
         </Grid>
       </Grid>
-      <Grid container spacing={2}>
-        <Grid item md={4} xs={12}>
-          <Item className='action-cards'>
-            <div className='top-header'>
-              <Button disabled={true} className='inline-class organization-btn'>
-                <LanIcon />
-                Oraganization
-              </Button>
-              <Typography align='right' className='inline-class box-number'>
-                #5
-              </Typography>
-            </div>
-            <div className='title-date'>
-              <Typography className='actions-title' align='left' variant='h6'>
-                Add board member to organization
-              </Typography>
-              <Typography align='left' variant='inherit'>
-                Due: 27/06/2022
-              </Typography>
-            </div>
-            <Typography align='left' variant='inherit'>
-              Link: https://raw.example.com...
-            </Typography>
-            <LinearWithValueLabel />
-          </Item>
-        </Grid>
-        <Grid item md={4} xs={12}>
-          <Item className='action-cards'>
-            <div className='top-header'>
-              <Button disabled={true} className='inline-class tokens-btn'>
-                <LanIcon />
-                Tokens
-              </Button>
-              <Typography align='right' className='inline-class box-number'>
-                #4
-              </Typography>
-            </div>
-            <div className='title-date'>
-              <Typography className='actions-title' align='left' variant='h6'>
-                Make new payment
-              </Typography>
-              <Typography align='left' variant='inherit'>
-                Due: 27/06/2022
-              </Typography>
-            </div>
-            <Typography align='left' variant='inherit'>
-              Link: https://raw.example.com...
-            </Typography>
-            <LinearWithValueLabel />
-          </Item>
-        </Grid>
-        <Grid item md={4} xs={12}>
-          <Item className='action-cards'>
-            <div className='top-header'>
-              <Button disabled={true} className='inline-class payments-btn'>
-                <LanIcon />
-                Payments
-              </Button>
-              <Typography align='right' className='inline-class box-number'>
-                #6
-              </Typography>
-            </div>
-            <div className='title-date'>
-              <Typography className='actions-title' align='left' variant='h6'>
-                Create new token
-              </Typography>
-              <Typography align='left' variant='inherit'>
-                Due: 27/06/2022
-              </Typography>
-            </div>
-            <Typography align='left' variant='inherit'>
-              Link: https://raw.example.com...
-            </Typography>
-            <LinearWithValueLabel />
-          </Item>
-        </Grid>
-      </Grid>
+      <DecisionsActionsCards />
     </div>
   );
 };
