@@ -10,10 +10,10 @@ import { makeStyles } from '@mui/styles';
 import { useDispatch } from 'react-redux';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
-import BoardMembersTable from './BoardMembersTable';
 import MembersActionCard from './MembersActionCard';
 import MembersCard from './MembersCard';
 import MembersInfoContextProvider from './MembersInfoContextProvider';
+import MembersTable from './MembersTable';
 
 const OrganizationContent = () => {
   const dispatch = useDispatch();
@@ -136,7 +136,7 @@ const OrganizationContent = () => {
         <div className='mb-4'>
           <h2>Permission Catalog</h2>
         </div>
-        <BoardMembersTable />
+        <MembersTable />
       </Grid>
     </MembersInfoContextProvider>
   );
