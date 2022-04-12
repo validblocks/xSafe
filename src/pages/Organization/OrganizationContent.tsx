@@ -1,84 +1,144 @@
-import React from 'react';
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Button, Grid } from '@mui/material';
-import {
-  DataGrid,
-  GridColDef,
-  GridRenderCellParams,
-  GridRowsProp
-} from '@mui/x-data-grid';
+import React, { useCallback, useMemo } from 'react';
+
+import { Address } from '@elrondnetwork/erdjs/out';
+import AddReactionIcon from '@mui/icons-material/AddReaction';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
+import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import { Box, Card, Grid, useMediaQuery } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+
+import { useDispatch } from 'react-redux';
+import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
+import { ProposalsTypes } from 'types/Proposals';
+import BoardMembersTable from './BoardMembersTable';
 import MembersActionCard from './MembersActionCard';
 import MembersCard from './MembersCard';
-
-type ActionType = {
-  icon: any;
-  text: string;
-  callback: CallableFunction;
-};
+import MembersInfoContextProvider from './MembersInfoContextProvider';
 
 const OrganizationContent = () => {
-  const actions: ActionType[] = [
+  const dispatch = useDispatch();
+  const onAddBoardMember = () => {
+    return dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.add_board_member
+      })
+    );
+  };
+  const onAddProposers = () =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.add_proposer
+      })
+    );
+
+  const onChangeQuorum = () =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.change_quorum
+      })
+    );
+
+  const membersActionCards = [
     {
-      icon: '',
-      text: 'Edit',
-      callback: () => {
-        console.log('Edit called');
-      }
+      title: 'Add Board Member',
+      icon: <AddReactionIcon fontSize='large' htmlColor='#dc3545' />,
+      buttonBackground: '#f9f2f2',
+      description:
+        'Extend your organization security by adding decision makers.',
+      onClickHandler: onAddBoardMember
+    },
+    {
+      title: 'Add Proposer',
+      icon: <ThumbUpAltIcon fontSize='large' htmlColor='#16d296' />,
+      buttonBackground: '#f3fdfa',
+      description:
+        'Proposers can suggest and take initiatives whenever is needed without compromising the organization security.',
+      onClickHandler: onAddProposers
+    },
+    {
+      title: 'Adjust quorum size',
+      icon: <FactCheckIcon fontSize='large' htmlColor='#1390ff' />,
+      buttonBackground: '#F3F9FF',
+      description:
+        'Adjust number of members of a deliberative assembly necessary to conduct the business of that group.',
+      onClickHandler: onChangeQuorum
     }
-  ];
-  const rows: GridRowsProp = [
-    { id: 1, member: 'Hello', role: 'World' },
-    { id: 2, member: 'DataGridPro', role: 'is Awesome' },
-    { id: 3, member: 'MUI', role: 'is Amazing' }
   ];
 
-  const columns: GridColDef[] = [
-    { field: 'member', headerName: 'Member', width: 150 },
-    { field: 'role', headerName: 'Role', width: 150 },
-    {
-      field: 'actions',
-      flex: 1,
-      type: 'actions',
-      headerName: 'Quick Actions',
-      sortable: false,
-      getActions: (params: any) =>
-        actions.map((action) => (
-          <Button onClick={() => action.callback(params.row)} key={action.text}>
-            <img src={action.icon} alt={action.text} />
-          </Button>
-        ))
-    }
-  ];
+  const isSmallScreen = useMediaQuery('(max-width:850px)');
+
+  const useStyles: CallableFunction = useMemo(
+    () =>
+      makeStyles({
+        container: {
+          'min-height': '60vh',
+          width: '100%',
+          display: 'grid',
+          gridTemplateColumns: isSmallScreen ? '1fr' : '1fr 1fr',
+          gridTemplateRows: isSmallScreen ? '' : 'repeat(3, 1fr)',
+          gridGap: isSmallScreen ? '1.8rem' : '1.8rem 4rem',
+          margin: '40px 0'
+        },
+        child1: {
+          gridRow: isSmallScreen ? '1 / 2' : '1 / 4',
+          gridColumn: '1 / 2'
+        },
+        child2: {
+          gridRow: isSmallScreen ? '2 / 3' : '1 / 2',
+          gridColumn: isSmallScreen ? '1 / 2' : '2 / 3',
+
+          'border-radius:': '4px'
+        },
+        child3: {
+          gridRow: isSmallScreen ? '3 / 4' : '2 / 3',
+          gridColumn: isSmallScreen ? '1 / 2' : '2 / 3',
+          boxShadow: '0 0.25rem 0.5rem rgba(108, 108, 108, 0.18) !important',
+          backgroundColor: 'red'
+        },
+        child4: {
+          gridRow: isSmallScreen ? '4 / 5 ' : '3 / 4',
+          gridColumn: isSmallScreen ? '1 / 2' : '2 / 3',
+          boxShadow: '0 0.25rem 0.5rem rgba(108, 108, 108, 0.18) !important',
+          backgroundColor: 'red'
+        }
+      }),
+    [isSmallScreen]
+  );
+
+  const classes = useStyles();
 
   return (
-    <>
+    <MembersInfoContextProvider>
+      <Box className={classes.container}>
+        <Box className={classes.child1}>
+          <div className='shadow w-100 h-100 rounded'>
+            <MembersCard />
+          </div>
+        </Box>
+        {membersActionCards.map((item, idx) => (
+          <Box key={idx} className={classes[idx]}>
+            <MembersActionCard
+              buttonBackground={item.buttonBackground}
+              icon={item.icon}
+              description={item.description}
+              title={item.title}
+              onClickHandler={item.onClickHandler}
+            />
+          </Box>
+        ))}
+      </Box>
+
       <Grid
+        direction='column'
         container
-        direction='row'
-        justifyContent='space-between'
-        alignItems='stretch'
-        spacing={3}
-        className='content__container'
+        className='shadow overflow-hidden p-5 rounded '
       >
-        <Grid item xs={12} md={6}>
-          <MembersCard />
-        </Grid>
-        <Grid item xs={12} md={6} className=''>
-          <Grid container direction='column' justifyContent='center'>
-            <Grid item>
-              <MembersActionCard />
-            </Grid>
-            <Grid item>
-              <MembersActionCard />
-            </Grid>
-            <Grid item>
-              <MembersActionCard />
-            </Grid>
-          </Grid>
-        </Grid>
+        <div className='mb-4'>
+          <h2>Permission Catalog</h2>
+        </div>
+        <BoardMembersTable />
       </Grid>
-      {/* <DataGrid rows={rows} columns={columns} /> */}
-    </>
+    </MembersInfoContextProvider>
   );
 };
 
