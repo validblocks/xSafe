@@ -2,7 +2,7 @@ import { operations } from '@elrondnetwork/dapp-utils';
 import { BigUIntValue, Address } from '@elrondnetwork/erdjs';
 import { BytesValue } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
 import i18next from 'i18next';
-import { denomination } from '../config';
+import { denomination } from '../config.devnet';
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
 

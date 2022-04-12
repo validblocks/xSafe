@@ -1,6 +1,7 @@
 import React from 'react';
 import { RouteType as DappCoreRouteTypes } from '@elrondnetwork/dapp-core';
 import { dAppName } from 'config';
+import Organization from 'pages/Organization';
 import Unlock from 'pages/Unlock';
 import withPageTitle from './components/PageTitle';
 import Dashboard from './pages/Dashboard';
@@ -14,7 +15,8 @@ export type ForegroundRoutesType =
   | 'home'
   | 'dashboard'
   | 'multisig'
-  | 'multisigAddress';
+  | 'multisigAddress'
+  | 'organization';
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
 export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
@@ -45,6 +47,11 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/unlock',
     title: 'Unlock',
     component: Unlock
+  },
+  organization: {
+    path: '/organization',
+    title: 'Organization',
+    component: Organization
   }
 };
 
