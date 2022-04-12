@@ -1,16 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import OrganizationContent from './OrganizationContent';
 import OrganizationHeader from './OrganizationHeader';
 
-const OrganizationContainer = styled.div`
-  padding: 4rem;
-`;
-
 const Organization = () => {
   return (
-    <OrganizationContainer>
+    <Box sx={{ padding: '4rem 6rem' }}>
       <Grid
         container
         direction='column'
@@ -20,7 +16,7 @@ const Organization = () => {
         <OrganizationHeader />
         <OrganizationContent />
       </Grid>
-    </OrganizationContainer>
+    </Box>
   );
 };
 

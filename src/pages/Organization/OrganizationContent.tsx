@@ -108,7 +108,7 @@ const OrganizationContent = () => {
   const classes = useStyles();
 
   return (
-    <MembersInfoContextProvider>
+    <>
       <Box className={classes.container}>
         <Box className={classes.child1}>
           <div className='shadow w-100 h-100 rounded'>
@@ -138,7 +138,7 @@ const OrganizationContent = () => {
         </div>
         <MembersTable />
       </Grid>
-    </MembersInfoContextProvider>
+    </>
   );
 };
 

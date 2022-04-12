@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import {
   GridRowId,
@@ -14,7 +13,7 @@ import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import { useMembersInfoContext } from './MembersInfoContextProvider';
 
-const MembersTable = () => {
+const OrganizationsTokensTable = () => {
   const dispatch = useDispatch();
   const onRemoveUser = (address: Address) => {
     return dispatch(
@@ -49,11 +48,22 @@ const MembersTable = () => {
   const columns = useMemo(
     () => [
       {
-        field: 'member',
-        headerName: 'Member',
+        field: 'tokenName',
+        headerName: 'Token Name',
         type: 'string',
-        width: 350,
         renderCell: (params: GridRenderCellParams<any>) => (
+          <div className='d-flex flex-column justify-content-center'>
+            <strong>SOMA</strong>
+            <p className='mb-0'>{params.value}</p>
+          </div>
+        )
+      },
+      {
+        field: 'holder',
+        headerName: 'Holder',
+        width: 250,
+        type: 'string',
+        renderCell: (params: any) => (
           <div className='d-flex align-items-center'>
             <img
               className='mr-3 rounded w-100 h-100'
@@ -61,11 +71,9 @@ const MembersTable = () => {
             />
             <div>
               <div>
-                {params.value.valueHex.slice(0, 10) +
+                {params.value.slice(0, 10) +
                   '...' +
-                  params.value.valueHex.slice(
-                    params.value.valueHex.length - 10
-                  )}
+                  params.value.slice(params.value.length - 10)}
                 {/* <Ui.Trim text={params.value.valueHex} /> */}
               </div>
               <div>@herotag</div>
@@ -74,51 +82,27 @@ const MembersTable = () => {
         )
       },
       {
-        field: 'role',
-        headerName: 'Role',
+        field: 'amount',
+        headerName: 'Amount',
         type: 'string',
-        width: 200,
-        renderCell: (params: GridRenderCellParams<any>) => (
-          <div
-            className='p-2 rounded'
-            style={
-              params.value === 'Board Member'
-                ? { background: 'rgba(255,0,0, 0.1)', color: 'red' }
-                : { background: 'rgba(0,255,0, 0.1)', color: 'green' }
-            }
-          >
-            {params.value}
+        renderCell: (params: any) => (
+          <div className='d-flex flex-column justify-content-center'>
+            <strong>{params.value}</strong>
+            <p className='mb-0'>${params.value}</p>
           </div>
         )
       },
       {
         field: 'actions',
         type: 'actions',
-        width: 300,
-        headerName: 'Quick Actions',
+        headerName: 'Action',
         getActions: (params: any) => [
           // eslint-disable-next-line react/jsx-key
           <div className='shadow-sm p-2 rounded mr-2'>
             <GridActionsCellItem
-              icon={<ToggleOnIcon htmlColor='#9DABBD' />}
+              icon={<MoreHorizIcon htmlColor='#9DABBD' />}
               label='Toggle Admin'
               onClick={toggleAdmin(params.id)}
-            />
-          </div>,
-          // eslint-disable-next-line react/jsx-key
-          <div className='shadow-sm p-2 rounded mr-2'>
-            <GridActionsCellItem
-              icon={<EditIcon htmlColor='#9DABBD' />}
-              label='Disable User'
-              onClick={duplicateUser(params.id)}
-            />
-          </div>,
-          // eslint-disable-next-line react/jsx-key
-          <div className='shadow-sm p-2 rounded mr-2'>
-            <GridActionsCellItem
-              icon={<DeleteIcon htmlColor='#9DABBD' />}
-              label='Delete'
-              onClick={() => onRemoveUser(params.row.member)}
             />
           </div>
         ]
@@ -128,15 +112,34 @@ const MembersTable = () => {
   );
 
   const { allMemberAddresses } = useMembersInfoContext();
+  const rows = [
+    {
+      id: 1,
+      tokenName: 'EGLD',
+      holder: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a',
+      amount: '100'
+    },
+    {
+      id: 2,
+      tokenName: 'EGLD',
+      holder: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a',
+      amount: '100'
+    },
+    {
+      id: 3,
+      tokenName: 'EGLD',
+      holder: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a',
+      amount: '100'
+    },
+    {
+      id: 4,
+      tokenName: 'EGLD',
+      holder: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a',
+      amount: '100'
+    }
+  ];
 
-  return (
-    <DataGrid
-      autoHeight
-      rowHeight={65}
-      rows={allMemberAddresses}
-      columns={columns}
-    />
-  );
+  return <DataGrid autoHeight rowHeight={65} rows={rows} columns={columns} />;
 };
 
-export default MembersTable;
+export default OrganizationsTokensTable;

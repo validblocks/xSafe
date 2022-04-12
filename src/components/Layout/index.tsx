@@ -12,6 +12,8 @@ import { getEconomicsData } from 'apiCalls/economicsCalls';
 import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
 import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
 import Organization from 'pages/Organization';
+import MembersInfoContextProvider from 'pages/Organization/MembersInfoContextProvider';
+import OrganizationTokens from 'pages/Organization/OrganizationTokens';
 import { setAccountData } from 'redux/slices/accountSlice';
 import { setEconomics } from 'redux/slices/economicsSlice';
 import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
@@ -96,7 +98,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <TokenWrapper />
         </main>
       </div>
-      <Organization />
+      <MembersInfoContextProvider>
+        <Organization />
+        <OrganizationTokens />
+      </MembersInfoContextProvider>
     </>
   );
 };
