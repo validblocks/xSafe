@@ -5,6 +5,7 @@ import Decisions from 'pages/Decisions';
 import Unlock from 'pages/Unlock';
 import withPageTitle from './components/PageTitle';
 import Dashboard from './pages/Dashboard';
+import DecisionActions from './pages/DecisionActions';
 import Home from './pages/Home';
 import MultisigDetailsPage from './pages/MultisigDetails/MultisigDetailsPage';
 
@@ -15,6 +16,7 @@ export type ForegroundRoutesType =
   | 'home'
   | 'dashboard'
   | 'decisions'
+  | 'decisionActions'
   | 'multisig'
   | 'multisigAddress';
 export type ModalRoutesType = 'walletconnect' | 'ledger';
@@ -35,6 +37,12 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/decisions',
     title: 'Decisions',
     component: Decisions,
+    authenticatedRoute: true
+  },
+  decisionActions: {
+    path: '/decisions/:decisionsActionParam',
+    title: 'Decision Actions',
+    component: DecisionActions,
     authenticatedRoute: true
   },
   multisigAddress: {

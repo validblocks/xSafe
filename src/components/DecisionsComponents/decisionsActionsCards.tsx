@@ -1,10 +1,14 @@
 import React from 'react';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import LanIcon from '@mui/icons-material/Lan';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import { Button, Row } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom';
 import LinearWithValueLabel from 'components/ProgressBar/progressLinear';
 
 const DecisionsActionsCards = () => {
@@ -25,58 +29,81 @@ const DecisionsActionsCards = () => {
       id: '#6',
       url: 'https://raw.example.com...',
       progress: <LinearWithValueLabel />,
-      type: 'Organization'
+      type: 'Organization',
+      link: 'add-board-member-to-organization',
+      class: 'organization-btn'
     },
     {
       title: 'Make new payment',
       date: '27/06/2022',
-      icon: <LanIcon />,
+      icon: <LocalAtmIcon />,
       id: '#4',
       url: 'https://raw.example.com...',
       progress: <LinearWithValueLabel />,
-      type: 'Tokens'
+      type: 'Tokens',
+      link: 'make-new-payment',
+      class: 'payments-btn'
     },
     {
       title: 'Create new token',
       date: '27/06/2022',
-      icon: <LanIcon />,
+      icon: <InsertDriveFileIcon />,
       id: '#3',
       url: 'https://raw.example.com...',
       progress: <LinearWithValueLabel />,
-      type: 'Payments'
+      type: 'Payments',
+      link: 'create-new-token',
+      class: 'tokens-btn'
     }
   ];
   return (
     <Grid container spacing={2}>
       {actionCardsArray.map((item, index) => {
         return (
-          <Grid key={index} item md={4} xs={12}>
-            <Item className='action-cards'>
-              <div className='top-header'>
-                <Button
-                  disabled={true}
-                  className='inline-class organization-btn'
-                >
-                  {item.icon}
-                  {item.type}
-                </Button>
-                <Typography align='right' className='inline-class box-number'>
-                  {item.id}
-                </Typography>
-              </div>
-              <div className='title-date'>
-                <Typography className='actions-title' align='left' variant='h6'>
-                  {item.title}
-                </Typography>
+          <Grid key={index} item md={4} xs={12} className='action-cards'>
+            <Link to={item.link}>
+              <Item sx={{ p: 5 }}>
+                <div className='display-flex'>
+                  <Button disabled={true} className={item.class}>
+                    {item.icon}
+                    {item.type}
+                  </Button>
+                  <Typography align='right' className='box-number'>
+                    {item.id}
+                  </Typography>
+                </div>
+                <Box sx={{ my: 4 }}>
+                  <Typography
+                    sx={{ fontWeight: 'bold !important' }}
+                    align='left'
+                    variant='h6'
+                  >
+                    {item.title}
+                  </Typography>
+                  <Typography align='left' variant='inherit'>
+                    Due: {item.date}
+                  </Typography>
+                </Box>
                 <Typography align='left' variant='inherit'>
-                  Due: {item.date}
+                  Link: {item.url}
                 </Typography>
-              </div>
-              <Typography align='left' variant='inherit'>
-                Link: {item.url}
-              </Typography>
-              <LinearWithValueLabel />
-            </Item>
+                <Box sx={{ my: 4 }}>
+                  <Box className='display-flex'>
+                    <Typography align='left' variant='inherit'>
+                      Progress
+                    </Typography>
+                    <Typography
+                      align='left'
+                      variant='inherit'
+                      sx={{ fontWeight: 'bold !important' }}
+                    >
+                      Approved
+                    </Typography>
+                  </Box>
+                  <LinearWithValueLabel />
+                </Box>
+              </Item>
+            </Link>
           </Grid>
         );
       })}

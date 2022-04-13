@@ -1,32 +1,8 @@
 .decisions-wrapper {
   padding: toRem(133) 0;
-  .decision-state {
-    display: inline-block;
-    width: 100%;
 
-    .decision-item {
-      padding: 20px;
-    }
-  }
-
-  .back-btn-txt {
-    position: relative;
-    top: 5px;
-    padding-left: 5px;
-  }
-
-  .inline-class {
-    display: inline-block !important;
-  }
-
-  .circular-bar {
-    margin-left: -40px;
-  }
-
-  .circle-bar-txt {
-    position: relative;
-    top: -60px;
-    margin-left: 60px;
+  .linear-label {
+    width: 110px;
   }
 
   .new-decision-btn {
@@ -34,45 +10,29 @@
     color: #fff;
   }
 
-  .actions-title {
-    font-weight: 600 !important;
-  }
-
-  .title-date {
-    margin-top: 25px;
-    margin-bottom: 25px;
-  }
-
   .action-cards {
-    padding: 30px;
+    cursor: pointer;
 
-    .top-header {
-      margin-bottom: 75px;
+    a {
+      text-decoration: unset;
     }
 
     .organization-btn {
       background-color: #fef4f4;
       color: #ff2836;
       border: 1px solid #fef4f4;
-      float: left;
-    }
-
-    .box-number {
-      float: right;
     }
 
     .tokens-btn {
       background-color: #f9f6ff;
       color: #9254e3;
       border: 1px solid #f9f6ff;
-      float: left;
     }
 
     .payments-btn {
       background-color: #fffbf2;
       color: #ffad07;
       border: 1px solid #fffbf2;
-      float: left;
     }
   }
 }
