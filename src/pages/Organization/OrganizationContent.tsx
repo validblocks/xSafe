@@ -12,7 +12,6 @@ import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import MembersActionCard from './MembersActionCard';
 import MembersCard from './MembersCard';
-import MembersInfoContextProvider from './MembersInfoContextProvider';
 import MembersTable from './MembersTable';
 
 const OrganizationContent = () => {

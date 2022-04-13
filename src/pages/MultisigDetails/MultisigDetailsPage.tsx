@@ -196,6 +196,7 @@ const MultisigDetailsPage = () => {
         queryBoardMemberAddresses(),
         queryProposerAddresses()
       ]);
+      console.log({ account });
       const accountInfo = await getAccountData(currentContract.address);
       const newContractInfo: ContractInfo = {
         totalBoardMembers: newTotalBoardMembers,

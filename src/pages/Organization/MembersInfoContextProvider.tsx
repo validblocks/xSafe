@@ -5,6 +5,7 @@ import React, {
   useMemo,
   useState
 } from 'react';
+import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import {
   queryBoardMemberAddresses,
@@ -44,6 +45,8 @@ const MembersInfoContextProvider = ({ children }: Props) => {
   const [boardMembers, setBoardMembers] = useState([] as Address[]);
   const [proposers, setProposers] = useState([] as Address[]);
 
+  const proxy = getNetworkProxy();
+
   const allMemberAddresses = useMemo(() => {
     return [
       ...boardMembers.map((item) => ({ role: 'Board Member', member: item })),
@@ -53,6 +56,16 @@ const MembersInfoContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     setMembersCount(allMemberAddresses.length);
+    for (const address of allMemberAddresses) {
+      console.log({ address });
+      proxy
+        .getAccount(
+          new Address(
+            'erd1qqqqqqqqqqqqqpgqettaulcsh6afs9h4mhsv44lu28p0rezehdeqk7nttw'
+          )
+        )
+        .then((resp: any) => console.log({ resp }));
+    }
   }, [allMemberAddresses]);
 
   useEffect(() => {

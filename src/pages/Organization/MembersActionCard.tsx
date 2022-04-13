@@ -18,7 +18,7 @@ const MembersActionCard = ({
 }: Props) => {
   return (
     <Card className='h-100 shadow d-flex'>
-      <div className='px-5 d-flex flex-column justify-content-center col-10 py-5 py-lg-0'>
+      <div className='px-4 px-md-5 d-flex flex-column justify-content-center col-10 py-4 py-lg-0'>
         <h5>
           <strong>{title}</strong>
         </h5>
