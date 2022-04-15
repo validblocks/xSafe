@@ -4,13 +4,9 @@ import DecisionsActionsCards from 'components/DecisionsComponents/decisionsActio
 import DecisionsHeader from 'components/DecisionsComponents/decisionsHeader';
 import DecisionsStatus from 'components/DecisionsComponents/decisionsStatus';
 import ProgressBarsSection from 'components/DecisionsComponents/progressBarsSection';
-import { queryActionSignerAddresses } from 'contracts/MultisigContract';
+import './decisions.scss';
 
 const Decisions = () => {
-  useEffect(() => {
-    queryActionSignerAddresses(6);
-  });
-
   return (
     <Box
       className={
