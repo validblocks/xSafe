@@ -63,7 +63,7 @@ const DecisionsActionsCards = () => {
           <Grid key={index} item md={4} xs={12} className='action-cards'>
             <Link to={item.link}>
               <Item sx={{ p: 5 }}>
-                <div className='display-flex'>
+                <Box className='d-flex justify-content-between'>
                   <Button disabled={true} className={item.class}>
                     {item.icon}
                     {item.type}
@@ -71,7 +71,7 @@ const DecisionsActionsCards = () => {
                   <Typography align='right' className='box-number'>
                     {item.id}
                   </Typography>
-                </div>
+                </Box>
                 <Box sx={{ my: 4 }}>
                   <Typography
                     sx={{ fontWeight: 'bold !important' }}
@@ -88,7 +88,7 @@ const DecisionsActionsCards = () => {
                   Link: {item.url}
                 </Typography>
                 <Box sx={{ my: 4 }}>
-                  <Box className='display-flex'>
+                  <Box className='d-flex justify-content-between'>
                     <Typography align='left' variant='inherit'>
                       Progress
                     </Typography>

@@ -461,7 +461,6 @@ const MultisigDetailsPage = () => {
                     </div>
                   ) : (
                     allActions.map((action) => {
-                      console.log(action);
                       return (
                         <MultisigProposalCard
                           boardMembers={contractInfo.boardMembersAddresses}
