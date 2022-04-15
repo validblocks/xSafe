@@ -5,13 +5,18 @@ import React, {
   useMemo,
   useState
 } from 'react';
-import { getNetworkProxy } from '@elrondnetwork/dapp-core';
-import { Address } from '@elrondnetwork/erdjs/out';
+import { operations } from '@elrondnetwork/dapp-utils';
+import { Address, Transaction } from '@elrondnetwork/erdjs/out';
+import { current } from '@reduxjs/toolkit';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { denomination, decimals } from 'config';
 import {
   queryBoardMemberAddresses,
   queryProposerAddresses,
   queryQuorumCount
 } from 'contracts/MultisigContract';
+import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 
 type MemberAddressTableRow = { id: number; role: string; member: Address };
 
@@ -45,7 +50,7 @@ const MembersInfoContextProvider = ({ children }: Props) => {
   const [boardMembers, setBoardMembers] = useState([] as Address[]);
   const [proposers, setProposers] = useState([] as Address[]);
 
-  const proxy = getNetworkProxy();
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   const allMemberAddresses = useMemo(() => {
     return [
@@ -56,16 +61,16 @@ const MembersInfoContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     setMembersCount(allMemberAddresses.length);
-    for (const address of allMemberAddresses) {
-      console.log({ address });
-      proxy
-        .getAccount(
-          new Address(
-            'erd1qqqqqqqqqqqqqpgqettaulcsh6afs9h4mhsv44lu28p0rezehdeqk7nttw'
-          )
-        )
-        .then((resp: any) => console.log({ resp }));
-    }
+    // for (const address of allMemberAddresses) {
+    //   console.log({ address });
+    //   proxy
+    //     .getAccount(
+    //       new Address(
+    //         'erd1qqqqqqqqqqqqqpgqettaulcsh6afs9h4mhsv44lu28p0rezehdeqk7nttw'
+    //       )
+    //     )
+    //     .then((resp: any) => console.log({ resp }));
+    // }
   }, [allMemberAddresses]);
 
   useEffect(() => {
@@ -78,6 +83,45 @@ const MembersInfoContextProvider = ({ children }: Props) => {
         setBoardMembers(boardMembersAddresses);
         setProposers(proposersAddresses);
         setQuorumCount(quorumCountResponse);
+        console.log({ currentContract });
+        axios
+          .get(
+            `https://devnet-api.elrond.com/accounts/${currentContract?.address}/transactions`
+          )
+          .then(({ data }) => {
+            const values = data
+              .filter((transaction: any) => transaction.value != 0)
+              .map(({ value, sender, receiver }: any) => ({
+                value: parseFloat(
+                  operations.denominate({
+                    input: value,
+                    denomination,
+                    decimals,
+                    showLastNonZeroDecimal: true
+                  })
+                ),
+                sender,
+                receiver
+              }))
+              .reduce(
+                (contributionOf: any, { sender, receiver, value }: any) => {
+                  if (!contributionOf[sender]) contributionOf[sender] = 0;
+
+                  if (receiver == currentContract?.address) {
+                    contributionOf[sender] += value;
+                    contributionOf.total += value;
+                  }
+
+                  if (sender == currentContract?.address) {
+                    contributionOf[sender] -= value;
+                  }
+                  return contributionOf;
+                },
+                { total: 0 }
+              );
+
+            console.log({ values });
+          });
       }
     );
   }, []);

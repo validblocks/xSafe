@@ -4,3 +4,15 @@
   width: 3.5rem;
   height: 3.5rem;
 }
+
+#vault-container::before {
+  content: 'Vault';
+  top: 0;
+  left: 0;
+  position: absolute;
+  font-size: 25px;
+}
+
+#customPadding {
+  padding: '2rem' !important;
+}

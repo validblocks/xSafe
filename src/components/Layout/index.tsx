@@ -11,6 +11,7 @@ import { getAccountData } from 'apiCalls/accountCalls';
 import { getEconomicsData } from 'apiCalls/economicsCalls';
 import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
 import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
+import NewDashboard from 'pages/NewDashboard';
 import Organization from 'pages/Organization';
 import MembersInfoContextProvider from 'pages/Organization/MembersInfoContextProvider';
 import OrganizationTokens from 'pages/Organization/OrganizationTokens';
@@ -101,6 +102,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <MembersInfoContextProvider>
         <Organization />
         <OrganizationTokens />
+        <NewDashboard />
       </MembersInfoContextProvider>
     </>
   );
