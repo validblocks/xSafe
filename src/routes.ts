@@ -1,6 +1,7 @@
 import React from 'react';
 import { RouteType as DappCoreRouteTypes } from '@elrondnetwork/dapp-core';
 import { dAppName } from 'config';
+import Decisions from 'pages/Decisions';
 import Organization from 'pages/Organization';
 import Unlock from 'pages/Unlock';
 import withPageTitle from './components/PageTitle';

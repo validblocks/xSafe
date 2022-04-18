@@ -45,8 +45,8 @@ const MembersActionCard = ({
           '&:hover .card__left': {
             transition: 'all 0.2s',
             border: `2px solid ${hoverColor}`,
-            'border-top-left-radius': '5px',
-            'border-bottom-left-radius': '5px'
+            borderTopLeftRadius: '5px',
+            borderBottomLeftRadius: '5px'
           }
         },
         {

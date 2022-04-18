@@ -18,6 +18,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import { dAppName } from 'config';
+import MembersInfoContextProvider from 'pages/Organization/MembersInfoContextProvider';
 import { routeNames } from 'routes';
 import menuItems from 'utils/menuItems';
 import { uniqueContractAddress } from '../../../multisigConfig';
@@ -168,67 +169,69 @@ export default function MiniDrawer() {
           </Nav>
         </BsNavbar>
       </AppBar>
-      <Drawer variant='permanent' open={open}>
-        <List sx={{ mt: 10 }}>
-          {menuItems.topItems.map((el, index) => {
-            return (
-              <Link key={index} to={el.link}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5
-                  }}
-                >
-                  <ListItemIcon
+      <MembersInfoContextProvider>
+        <Drawer variant='permanent' open={open}>
+          <List sx={{ mt: 10 }}>
+            {menuItems.topItems.map((el, index) => {
+              return (
+                <Link key={index} to={el.link}>
+                  <ListItemButton
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center'
+                      minHeight: 48,
+                      justifyContent: open ? 'initial' : 'center',
+                      px: 2.5
                     }}
                   >
-                    {el.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={el.name}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </Link>
-            );
-          })}
-        </List>
-        <Divider />
-        <List className='bottom-items'>
-          {menuItems.bottomItems.map((el, index) => {
-            return (
-              <Link key={index} to={el.link}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5
-                  }}
-                >
-                  <ListItemIcon
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : 'auto',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {el.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={el.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Link>
+              );
+            })}
+          </List>
+          <Divider />
+          <List className='bottom-items'>
+            {menuItems.bottomItems.map((el, index) => {
+              return (
+                <Link key={index} to={el.link}>
+                  <ListItemButton
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center'
+                      minHeight: 48,
+                      justifyContent: open ? 'initial' : 'center',
+                      px: 2.5
                     }}
                   >
-                    {el.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={el.name}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </Link>
-            );
-          })}
-        </List>
-      </Drawer>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : 'auto',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {el.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={el.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Link>
+              );
+            })}
+          </List>
+        </Drawer>
+      </MembersInfoContextProvider>
     </Box>
   );
 }

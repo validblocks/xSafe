@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import DecisionsActionsCards from 'components/DecisionsComponents/decisionsActionsCards';
-import DecisionsHeader from 'components/DecisionsComponents/decisionsHeader';
+import DecisionsHeader from 'components/DecisionsComponents/DecisionsHeader';
 import DecisionsStatus from 'components/DecisionsComponents/decisionsStatus';
 import ProgressBarsSection from 'components/DecisionsComponents/progressBarsSection';
 import './decisions.scss';
