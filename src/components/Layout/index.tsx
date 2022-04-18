@@ -11,14 +11,17 @@ import { getAccountData } from 'apiCalls/accountCalls';
 import { getEconomicsData } from 'apiCalls/economicsCalls';
 import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
 import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
+import AssetsPage from 'pages/AssetsPage/AssetsPage';
 import NewDashboard from 'pages/NewDashboard';
 import Organization from 'pages/Organization';
-import MembersInfoContextProvider from 'pages/Organization/MembersInfoContextProvider';
+import OrganizationInfoContextProvider from 'pages/Organization/OrganizationInfoContextProvider';
 import OrganizationTokens from 'pages/Organization/OrganizationTokens';
+import TransactionsPage from 'pages/Transactions/TransactionsPage';
 import { setAccountData } from 'redux/slices/accountSlice';
 import { setEconomics } from 'redux/slices/economicsSlice';
 import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
 import routes, { routeNames } from 'routes';
+('');
 import { accessTokenServices, storageApi } from 'services/accessTokenServices';
 import { TokenWrapper } from '../TokenWrapper';
 import Navbar from './Navbar';
@@ -99,11 +102,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <TokenWrapper />
         </main>
       </div>
-      <MembersInfoContextProvider>
+      <OrganizationInfoContextProvider>
         <Organization />
         <OrganizationTokens />
         <NewDashboard />
-      </MembersInfoContextProvider>
+        <AssetsPage />
+        <TransactionsPage />
+      </OrganizationInfoContextProvider>
     </>
   );
 };

@@ -5,7 +5,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import MembersCountInfoCard from './MembersCountInfoCard';
-import { useMembersInfoContext } from './MembersInfoContextProvider';
+import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
 const MembersCard = () => {
   const {
@@ -13,7 +13,7 @@ const MembersCard = () => {
     quorumCountState: [quorumCount],
     proposersState: [proposers],
     boardMembersState: [boardMembers]
-  } = useMembersInfoContext();
+  } = useOrganizationInfoContext();
 
   const { t } = useTranslation();
 

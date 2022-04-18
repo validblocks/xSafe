@@ -25,7 +25,7 @@ type CustomStateType<InnerType> = [
   setValue: React.Dispatch<React.SetStateAction<InnerType>>
 ];
 
-type MembersInfoContextType = {
+type OrganizationInfoContextType = {
   membersCountState: CustomStateType<number>;
   quorumCountState: CustomStateType<number>;
   boardMembersState: CustomStateType<Address[]>;
@@ -37,13 +37,14 @@ type Props = {
   children?: JSX.Element | JSX.Element[];
 };
 
-const MembersInfoContext = createContext<MembersInfoContextType>(
-  {} as MembersInfoContextType
+const OrganizationInfoContext = createContext<OrganizationInfoContextType>(
+  {} as OrganizationInfoContextType
 );
 
-export const useMembersInfoContext = () => useContext(MembersInfoContext);
+export const useOrganizationInfoContext = () =>
+  useContext(OrganizationInfoContext);
 
-const MembersInfoContextProvider = ({ children }: Props) => {
+const OrganizationInfoContextProvider = ({ children }: Props) => {
   const [membersCount, setMembersCount] = useState(0);
   const [quorumCount, setQuorumCount] = useState(0);
 
@@ -127,7 +128,7 @@ const MembersInfoContextProvider = ({ children }: Props) => {
   }, []);
 
   return (
-    <MembersInfoContext.Provider
+    <OrganizationInfoContext.Provider
       value={{
         membersCountState: [membersCount, setMembersCount],
         boardMembersState: [boardMembers, setBoardMembers],
@@ -137,8 +138,8 @@ const MembersInfoContextProvider = ({ children }: Props) => {
       }}
     >
       {children}
-    </MembersInfoContext.Provider>
+    </OrganizationInfoContext.Provider>
   );
 };
 
-export default MembersInfoContextProvider;
+export default OrganizationInfoContextProvider;

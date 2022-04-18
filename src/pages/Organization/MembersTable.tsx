@@ -12,7 +12,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
-import { useMembersInfoContext } from './MembersInfoContextProvider';
+import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
 const MembersTable = () => {
   const dispatch = useDispatch();
@@ -127,7 +127,7 @@ const MembersTable = () => {
     [onRemoveUser, toggleAdmin, duplicateUser]
   );
 
-  const { allMemberAddresses } = useMembersInfoContext();
+  const { allMemberAddresses } = useOrganizationInfoContext();
 
   return (
     <DataGrid

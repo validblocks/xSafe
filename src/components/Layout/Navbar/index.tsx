@@ -18,7 +18,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import { dAppName } from 'config';
-import MembersInfoContextProvider from 'pages/Organization/MembersInfoContextProvider';
+import OrganizationInfoContextProvider from 'pages/Organization/OrganizationInfoContextProvider';
 import { routeNames } from 'routes';
 import menuItems from 'utils/menuItems';
 import { uniqueContractAddress } from '../../../multisigConfig';
@@ -169,7 +169,7 @@ export default function MiniDrawer() {
           </Nav>
         </BsNavbar>
       </AppBar>
-      <MembersInfoContextProvider>
+      <OrganizationInfoContextProvider>
         <Drawer variant='permanent' open={open}>
           <List sx={{ mt: 10 }}>
             {menuItems.topItems.map((el, index) => {
@@ -231,7 +231,7 @@ export default function MiniDrawer() {
             })}
           </List>
         </Drawer>
-      </MembersInfoContextProvider>
+      </OrganizationInfoContextProvider>
     </Box>
   );
 }
