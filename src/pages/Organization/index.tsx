@@ -6,7 +6,7 @@ import OrganizationHeader from './OrganizationHeader';
 
 const Organization = () => {
   return (
-    <Box sx={{ padding: '4rem 6rem' }}>
+    <Box sx={{ padding: '8rem 1rem' }}>
       <Grid
         container
         direction='column'

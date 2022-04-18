@@ -5,7 +5,7 @@ import OrganizationTokensHeader from './OrganizationTokensHeader';
 
 const OrganizationTokens = () => {
   return (
-    <Box sx={{ padding: '4rem 6rem ' }}>
+    <Box sx={{ padding: '8rem 1rem' }}>
       <OrganizationTokensHeader />
       <OrganizationTokensContent />
     </Box>

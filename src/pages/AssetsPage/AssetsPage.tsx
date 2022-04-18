@@ -71,17 +71,9 @@ const AssetsPage = () => {
   useEffect(() => {
     axios
       .get(`https://devnet-api.elrond.com/address/${currentContract?.address}`)
-      .then(
-        ({
-          data: {
-            data: {
-              account: { balance }
-            }
-          }
-        }) => {
-          console.log({ balance });
-        }
-      );
+      .then(({ data }) => {
+        console.log({ data });
+      });
   }, []);
 
   const { allMemberAddresses } = useOrganizationInfoContext();
@@ -115,7 +107,8 @@ const AssetsPage = () => {
   return (
     <Box
       sx={{
-        padding: '4rem'
+        padding: '8rem 1rem',
+        width: '100%'
       }}
     >
       <h1 className='mb-5'>Assets</h1>

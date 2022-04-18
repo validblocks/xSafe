@@ -85,7 +85,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <>
+    <OrganizationInfoContextProvider>
       <div
         style={{ display: 'none !important' }}
         className='bg-light d-flex flex-column flex-fill wrapper'
@@ -102,14 +102,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <TokenWrapper />
         </main>
       </div>
-      <OrganizationInfoContextProvider>
+      {/* <OrganizationInfoContextProvider>
         <Organization />
         <OrganizationTokens />
         <NewDashboard />
         <AssetsPage />
         <TransactionsPage />
-      </OrganizationInfoContextProvider>
-    </>
+      </OrganizationInfoContextProvider> */}
+    </OrganizationInfoContextProvider>
   );
 };
 

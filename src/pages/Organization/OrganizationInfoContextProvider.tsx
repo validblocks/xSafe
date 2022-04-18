@@ -84,45 +84,6 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
         setBoardMembers(boardMembersAddresses);
         setProposers(proposersAddresses);
         setQuorumCount(quorumCountResponse);
-        console.log({ currentContract });
-        axios
-          .get(
-            `https://devnet-api.elrond.com/accounts/${currentContract?.address}/transactions`
-          )
-          .then(({ data }) => {
-            const values = data
-              .filter((transaction: any) => transaction.value != 0)
-              .map(({ value, sender, receiver }: any) => ({
-                value: parseFloat(
-                  operations.denominate({
-                    input: value,
-                    denomination,
-                    decimals,
-                    showLastNonZeroDecimal: true
-                  })
-                ),
-                sender,
-                receiver
-              }))
-              .reduce(
-                (contributionOf: any, { sender, receiver, value }: any) => {
-                  if (!contributionOf[sender]) contributionOf[sender] = 0;
-
-                  if (receiver == currentContract?.address) {
-                    contributionOf[sender] += value;
-                    contributionOf.total += value;
-                  }
-
-                  if (sender == currentContract?.address) {
-                    contributionOf[sender] -= value;
-                  }
-                  return contributionOf;
-                },
-                { total: 0 }
-              );
-
-            console.log({ values });
-          });
       }
     );
   }, []);

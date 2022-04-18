@@ -58,7 +58,7 @@ export default function TransactionsPage() {
     fetchActions();
   }, []);
   return (
-    <Box sx={{ padding: '5rem', backgroundColor: '#F6F7F8' }}>
+    <Box sx={{ padding: '8rem 1rem', backgroundColor: '#F6F7F8' }}>
       <h2 className='mb-5'>Transactions</h2>
       <Box sx={{ width: '100%' }}>
         <Tabs

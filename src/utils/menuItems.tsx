@@ -17,7 +17,9 @@ const topItems = [
   },
   { name: 'Decisions', link: 'decisions', icon: <ThumbUpAltIcon /> },
   { name: 'Organization', link: 'organization', icon: <LanIcon /> },
-  { name: 'Tokens', link: 'tokens', icon: <LocalAtmIcon /> }
+  { name: 'Tokens', link: 'tokens', icon: <LocalAtmIcon /> },
+  { name: 'Assets', link: 'assets', icon: <LocalAtmIcon /> },
+  { name: 'Transactions', link: 'transactions', icon: <LocalAtmIcon /> }
 ];
 
 const bottomItems = [

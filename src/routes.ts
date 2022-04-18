@@ -1,8 +1,11 @@
 import React from 'react';
 import { RouteType as DappCoreRouteTypes } from '@elrondnetwork/dapp-core';
 import { dAppName } from 'config';
+import AssetsPage from 'pages/AssetsPage/AssetsPage';
 import Decisions from 'pages/Decisions';
 import Organization from 'pages/Organization';
+import OrganizationTokens from 'pages/Organization/OrganizationTokens';
+import TransactionsPage from 'pages/Transactions/TransactionsPage';
 import Unlock from 'pages/Unlock';
 import withPageTitle from './components/PageTitle';
 import Dashboard from './pages/Dashboard';
@@ -20,7 +23,10 @@ export type ForegroundRoutesType =
   | 'decisionActions'
   | 'multisig'
   | 'multisigAddress'
-  | 'organization';
+  | 'organization'
+  | 'organizationTokens'
+  | 'assets'
+  | 'transactions';
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
 export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
@@ -68,6 +74,21 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/organization',
     title: 'Organization',
     component: Organization
+  },
+  organizationTokens: {
+    path: '/tokens',
+    title: 'Organization Tokens',
+    component: OrganizationTokens
+  },
+  assets: {
+    path: '/assets',
+    title: 'Assets',
+    component: AssetsPage
+  },
+  transactions: {
+    path: '/transactions',
+    title: 'Transactions',
+    component: TransactionsPage
   }
 };
 
