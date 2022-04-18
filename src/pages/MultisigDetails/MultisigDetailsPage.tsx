@@ -461,23 +461,25 @@ const MultisigDetailsPage = () => {
                       </p>
                     </div>
                   ) : (
-                    allActions.map((action) => (
-                      <MultisigProposalCard
-                        boardMembers={contractInfo.boardMembersAddresses}
-                        key={action.actionId}
-                        type={action.typeNumber()}
-                        actionId={action.actionId}
-                        title={action.title()}
-                        tooltip={action.tooltip()}
-                        value={action.description()}
-                        data={action.getData()}
-                        canSign={canSign(action)}
-                        canUnsign={canUnsign(action)}
-                        canPerformAction={canPerformAction(action)}
-                        canDiscardAction={canDiscardAction(action)}
-                        signers={action.signers}
-                      />
-                    ))
+                    allActions.map((action) => {
+                      return (
+                        <MultisigProposalCard
+                          boardMembers={contractInfo.boardMembersAddresses}
+                          key={action.actionId}
+                          type={action.typeNumber()}
+                          actionId={action.actionId}
+                          title={action.title()}
+                          tooltip={action.tooltip()}
+                          value={action.description()}
+                          data={action.getData()}
+                          canSign={canSign(action)}
+                          canUnsign={canUnsign(action)}
+                          canPerformAction={canPerformAction(action)}
+                          canDiscardAction={canDiscardAction(action)}
+                          signers={action.signers}
+                        />
+                      );
+                    })
                   )}
                 </div>
               </div>

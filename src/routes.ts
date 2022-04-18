@@ -5,6 +5,7 @@ import Organization from 'pages/Organization';
 import Unlock from 'pages/Unlock';
 import withPageTitle from './components/PageTitle';
 import Dashboard from './pages/Dashboard';
+import DecisionActions from './pages/DecisionActions';
 import Home from './pages/Home';
 import MultisigDetailsPage from './pages/MultisigDetails/MultisigDetailsPage';
 
@@ -14,6 +15,8 @@ export type ForegroundRoutesType =
   | 'unlock'
   | 'home'
   | 'dashboard'
+  | 'decisions'
+  | 'decisionActions'
   | 'multisig'
   | 'multisigAddress'
   | 'organization';
@@ -29,6 +32,18 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/dashboard',
     title: 'Dashboard',
     component: Dashboard,
+    authenticatedRoute: true
+  },
+  decisions: {
+    path: '/decisions',
+    title: 'Decisions',
+    component: Decisions,
+    authenticatedRoute: true
+  },
+  decisionActions: {
+    path: '/decisions/:decisionsActionParam',
+    title: 'Decision Actions',
+    component: DecisionActions,
     authenticatedRoute: true
   },
   multisigAddress: {
