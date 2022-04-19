@@ -11,12 +11,6 @@ import { getAccountData } from 'apiCalls/accountCalls';
 import { getEconomicsData } from 'apiCalls/economicsCalls';
 import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
 import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
-import AssetsPage from 'pages/AssetsPage/AssetsPage';
-import NewDashboard from 'pages/NewDashboard';
-import Organization from 'pages/Organization';
-import OrganizationInfoContextProvider from 'pages/Organization/OrganizationInfoContextProvider';
-import OrganizationTokens from 'pages/Organization/OrganizationTokens';
-import TransactionsPage from 'pages/Transactions/TransactionsPage';
 import { setAccountData } from 'redux/slices/accountSlice';
 import { setEconomics } from 'redux/slices/economicsSlice';
 import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
@@ -24,6 +18,7 @@ import routes, { routeNames } from 'routes';
 ('');
 import { accessTokenServices, storageApi } from 'services/accessTokenServices';
 import { TokenWrapper } from '../TokenWrapper';
+import ModalLayer from './Modal';
 import Navbar from './Navbar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -85,31 +80,30 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <OrganizationInfoContextProvider>
-      <div
-        style={{ display: 'none !important' }}
-        className='bg-light d-flex flex-column flex-fill wrapper'
-      >
-        <Navbar />
+    <div
+      style={{ display: 'none !important' }}
+      className='bg-light d-flex flex-column flex-fill wrapper'
+    >
+      <Navbar />
 
-        <main className='d-flex flex-row flex-fill position-relative justify-center  container'>
-          <AuthenticatedRoutesWrapper
-            routes={routes}
-            unlockRoute={routeNames.unlock}
-          >
-            {children}
-          </AuthenticatedRoutesWrapper>
-          <TokenWrapper />
-        </main>
-      </div>
-      {/* <OrganizationInfoContextProvider>
-        <Organization />
-        <OrganizationTokens />
-        <NewDashboard />
-        <AssetsPage />
-        <TransactionsPage />
-      </OrganizationInfoContextProvider> */}
-    </OrganizationInfoContextProvider>
+      <main className='d-flex flex-row flex-fill position-relative justify-center  container'>
+        <AuthenticatedRoutesWrapper
+          routes={routes}
+          unlockRoute={routeNames.unlock}
+        >
+          {children}
+        </AuthenticatedRoutesWrapper>
+        <TokenWrapper />
+        <ModalLayer />
+      </main>
+    </div>
+    // {/* <OrganizationInfoContextProvider>
+    //   <Organization />
+    //   <OrganizationTokens />
+    //   <NewDashboard />
+    //   <AssetsPage />
+    //   <TransactionsPage />
+    // </OrganizationInfoContextProvider> */}
   );
 };
 

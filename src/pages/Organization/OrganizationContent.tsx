@@ -7,7 +7,15 @@ import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { Box, Card, Grid, useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import PerformActionModal from 'components/PerformActionModal';
+import ProposeModal from 'pages/MultisigDetails/ProposeModal/ProposeModal';
+import ProposeMultiselectModal from 'pages/MultisigDetails/ProposeMultiselectModal/ProposeMultiselectModal';
+import {
+  proposeModalSelectedOptionSelector,
+  proposeMultiselectModalSelectedOptionSelector,
+  selectedPerformedActionSelector
+} from 'redux/selectors/modalsSelector';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import MembersActionCard from './MembersActionCard';
@@ -125,6 +133,15 @@ const OrganizationContent = () => {
             />
           </Box>
         ))}
+        {/* {selectedMultiselectOption != null && (
+          <ProposeMultiselectModal selectedOption={selectedMultiselectOption} />
+        )}
+        {selectedOption != null && (
+          <ProposeModal selectedOption={selectedOption} />
+        )}
+        {selectedAction != null && (
+          <PerformActionModal selectedAction={selectedAction} />
+        )} */}
       </Box>
 
       <Grid
