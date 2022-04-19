@@ -7,6 +7,14 @@ import { Box, Button, Typography } from '@mui/material';
 const NavbarAccountDetails = ({ uniqueAddress }: any) => {
   return (
     <Box>
+      <Box
+        sx={{
+          width: '50px',
+          height: '50px',
+          backgroundColor: '#000',
+          margin: 'auto'
+        }}
+      ></Box>
       <Box sx={{ pt: 1 }}>
         <Typography align='center'>{uniqueAddress}</Typography>
       </Box>

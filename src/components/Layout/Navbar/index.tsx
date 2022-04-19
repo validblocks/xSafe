@@ -33,8 +33,7 @@ import { routeNames } from 'routes';
 import menuItems from 'utils/menuItems';
 import Account from './Account';
 import AccountDetails from './NavbarAccountDetails';
-import Notifications from './Notifications';
-import Settings from './Settings';
+import Network from './Network';
 const drawerWidth = 255;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -136,31 +135,6 @@ export default function MiniDrawer() {
       <CssBaseline />
       <AppBar>
         <BsNavbar className='bg-white px-4 py-3'>
-          {open === false ? (
-            <IconButton
-              color='inherit'
-              aria-label='open drawer'
-              onClick={handleDrawerOpen}
-              edge='start'
-              sx={{
-                marginRight: 5
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-          ) : (
-            <IconButton
-              color='inherit'
-              aria-label='open drawer'
-              onClick={handleDrawerClose}
-              edge='start'
-              sx={{
-                marginRight: 5
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          )}
           <NavItem
             onClick={handleRedirectToHome}
             className='d-flex align-items-center nav-logo'
@@ -175,8 +149,7 @@ export default function MiniDrawer() {
                 style={{ minWidth: 0 }}
               >
                 <Account />
-                <Settings />
-                <Notifications />
+                <Network />
               </div>
             ) : (
               !isOnUnlockPage && (
@@ -200,39 +173,67 @@ export default function MiniDrawer() {
           <AccountDetails uniqueAddress={walletAddress} />
           <Divider />
         </List>
-
-        {menuItems.topItems.map((el, index) => {
-          return (
-            <Accordion key={index} sx={{ ml: 2, mr: 2 }}>
-              <AccordionSummary
-                aria-controls='panel1a-content'
-                expandIcon={<ExpandMoreIcon />}
-                id='panel1a-header'
-              >
-                <Typography>
-                  {el.icon}
-                  {el.name}
-                </Typography>
-              </AccordionSummary>
-              {el.submenu?.map((el, index) => {
-                return (
-                  <AccordionDetails key={index}>
-                    <Link to={el.link}>
-                      <Grid container direction='column'>
-                        <ListItem button>
-                          <Typography>
-                            {el.icon}
-                            {el.name}
-                          </Typography>
-                        </ListItem>
-                      </Grid>
-                    </Link>
-                  </AccordionDetails>
-                );
-              })}
-            </Accordion>
-          );
-        })}
+        <Box sx={{ maxHeight: '240px', overflowY: 'scroll' }}>
+          {menuItems.topItems.map((el, index) => (
+            <div key={index}>
+              {el.submenu && (
+                <Accordion sx={{ ml: 2, mr: 2 }}>
+                  <AccordionSummary
+                    aria-controls='panel1a-content'
+                    expandIcon={<ExpandMoreIcon />}
+                    id='panel1a-header'
+                  >
+                    <Typography>
+                      {el.icon}
+                      {el.name}
+                    </Typography>
+                  </AccordionSummary>
+                  {el.submenu?.map((el, index) => {
+                    return (
+                      <AccordionDetails key={index}>
+                        <Link to={el.link}>
+                          <Grid container direction='column'>
+                            <ListItem button>
+                              <Typography>
+                                {el.icon}
+                                {el.name}
+                              </Typography>
+                            </ListItem>
+                          </Grid>
+                        </Link>
+                      </AccordionDetails>
+                    );
+                  })}
+                </Accordion>
+              )}
+              {!el.submenu && (
+                <Link to={el.link}>
+                  <ListItemButton
+                    sx={{
+                      minHeight: 48,
+                      justifyContent: open ? 'initial' : 'center',
+                      px: 2.5
+                    }}
+                  >
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : 'auto',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {el.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={el.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Link>
+              )}
+            </div>
+          ))}
+        </Box>
         <Divider sx={{ mt: 1 }} />
         <List className='bottom-items'>
           {menuItems.bottomItems.map((el, index) => {

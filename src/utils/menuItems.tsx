@@ -8,18 +8,13 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 const topItems = [
   {
-    name: 'Transactions',
-    link: 'transactions',
-    icon: <DashboardIcon />
-  },
-  {
     name: 'Assets',
     link: 'assets',
     icon: <DashboardIcon />,
     submenu: [
       {
         name: 'Coins',
-        link: 'coins',
+        link: 'tokens',
         icon: <LocalAtmIcon />
       },
       {
@@ -28,6 +23,21 @@ const topItems = [
         icon: <DiamondIcon />
       }
     ]
+  },
+  {
+    name: 'Transactions',
+    link: 'transactions',
+    icon: <DashboardIcon />
+  },
+  {
+    name: 'Settings',
+    link: 'settings',
+    icon: <DashboardIcon />
+  },
+  {
+    name: 'Apps',
+    link: 'apps',
+    icon: <DashboardIcon />
   }
 ];
 

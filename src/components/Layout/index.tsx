@@ -82,7 +82,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       style={{ display: 'none !important' }}
-      className='bg-light d-flex flex-column flex-fill wrapper'
+      className='bg-light d-flex flex-row flex-fill wrapper'
     >
       <Navbar />
 
