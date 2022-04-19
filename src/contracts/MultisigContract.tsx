@@ -424,7 +424,6 @@ export async function queryAddressArray(
   ...args: TypedValue[]
 ): Promise<Address[]> {
   const result = await query(functionName, ...args);
-
   return result.outputUntyped().map((x: Buffer) => new Address(x));
 }
 

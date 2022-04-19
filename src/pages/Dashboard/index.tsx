@@ -18,6 +18,7 @@ import wawe from 'assets/img/wawe.svg';
 import { providerTypes } from 'helpers/constants';
 import { uniqueContractAddress } from 'multisigConfig';
 import MultisigListItem from 'pages/Dashboard/MultisigListItem';
+import NewDashboard from 'pages/NewDashboard';
 import {
   multisigContractsFetchedSelector,
   multisigContractsSelector
@@ -220,6 +221,8 @@ const Dashboard = () => {
             </div>
           )}
         </div>
+
+        <NewDashboard />
 
         <AddMultisigModal
           show={showAddMultisigModal}

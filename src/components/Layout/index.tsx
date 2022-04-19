@@ -15,8 +15,10 @@ import { setAccountData } from 'redux/slices/accountSlice';
 import { setEconomics } from 'redux/slices/economicsSlice';
 import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
 import routes, { routeNames } from 'routes';
+('');
 import { accessTokenServices, storageApi } from 'services/accessTokenServices';
 import { TokenWrapper } from '../TokenWrapper';
+import ModalLayer from './Modal';
 import Navbar from './Navbar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -78,7 +80,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <div className='bg-light d-flex flex-column flex-fill wrapper'>
+    <div
+      style={{ display: 'none !important' }}
+      className='bg-light d-flex flex-column flex-fill wrapper'
+    >
       <Navbar />
 
       <main className='d-flex flex-row flex-fill position-relative justify-center  container'>
@@ -89,8 +94,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           {children}
         </AuthenticatedRoutesWrapper>
         <TokenWrapper />
+        <ModalLayer />
       </main>
     </div>
+    // {/* <OrganizationInfoContextProvider>
+    //   <Organization />
+    //   <OrganizationTokens />
+    //   <NewDashboard />
+    //   <AssetsPage />
+    //   <TransactionsPage />
+    // </OrganizationInfoContextProvider> */}
   );
 };
 

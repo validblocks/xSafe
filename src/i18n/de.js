@@ -12,6 +12,7 @@ export const germanTranslations = {
   Attach: 'Anfügen',
   Name: 'Name',
   'Board Members': 'Vorstandsmitglieder',
+  'Total Members': 'Gesamtmitgliederzahl',
   Proposers: 'Antragsteller',
   'Quorum Size': 'Quorumgröße',
   'User Role': 'Benutzer-Rolle',

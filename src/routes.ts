@@ -1,9 +1,15 @@
 import React from 'react';
 import { RouteType as DappCoreRouteTypes } from '@elrondnetwork/dapp-core';
 import { dAppName } from 'config';
+import AssetsPage from 'pages/AssetsPage/AssetsPage';
+import Decisions from 'pages/Decisions';
+import Organization from 'pages/Organization';
+import OrganizationTokens from 'pages/Organization/OrganizationTokens';
+import TransactionsPage from 'pages/Transactions/TransactionsPage';
 import Unlock from 'pages/Unlock';
 import withPageTitle from './components/PageTitle';
 import Dashboard from './pages/Dashboard';
+import DecisionActions from './pages/DecisionActions';
 import Home from './pages/Home';
 import MultisigDetailsPage from './pages/MultisigDetails/MultisigDetailsPage';
 
@@ -13,8 +19,14 @@ export type ForegroundRoutesType =
   | 'unlock'
   | 'home'
   | 'dashboard'
+  | 'decisions'
+  | 'decisionActions'
   | 'multisig'
-  | 'multisigAddress';
+  | 'multisigAddress'
+  | 'organization'
+  | 'organizationTokens'
+  | 'assets'
+  | 'transactions';
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
 export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
@@ -27,6 +39,18 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/dashboard',
     title: 'Dashboard',
     component: Dashboard,
+    authenticatedRoute: true
+  },
+  decisions: {
+    path: '/decisions',
+    title: 'Decisions',
+    component: Decisions,
+    authenticatedRoute: true
+  },
+  decisionActions: {
+    path: '/decisions/:decisionsActionParam',
+    title: 'Decision Actions',
+    component: DecisionActions,
     authenticatedRoute: true
   },
   multisigAddress: {
@@ -45,6 +69,26 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/unlock',
     title: 'Unlock',
     component: Unlock
+  },
+  organization: {
+    path: '/organization',
+    title: 'Organization',
+    component: Organization
+  },
+  organizationTokens: {
+    path: '/tokens',
+    title: 'Organization Tokens',
+    component: OrganizationTokens
+  },
+  assets: {
+    path: '/assets',
+    title: 'Assets',
+    component: AssetsPage
+  },
+  transactions: {
+    path: '/transactions',
+    title: 'Transactions',
+    component: TransactionsPage
   }
 };
 
