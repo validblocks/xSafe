@@ -13,7 +13,6 @@ const Network = () => {
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
-      {/* <InputLabel id='demo-select-small'>Mainnet</InputLabel> */}
       <Select
         labelId='demo-select-small'
         id='demo-select-small'
@@ -22,9 +21,6 @@ const Network = () => {
         label={age}
         onChange={handleChange}
       >
-        {/* <MenuItem value=''>
-          <em>None</em>
-        </MenuItem> */}
         <MenuItem value={'mainnet'}>Mainnet</MenuItem>
         <MenuItem value={'devnet'}>Devnet</MenuItem>
         <MenuItem value={'testnet'}>Testnet</MenuItem>
