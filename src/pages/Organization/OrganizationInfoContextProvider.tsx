@@ -12,6 +12,7 @@ import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { denomination, decimals } from 'config';
 import {
+  queryAllActions,
   queryBoardMemberAddresses,
   queryProposerAddresses,
   queryQuorumCount
@@ -78,12 +79,20 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
     Promise.all([
       queryBoardMemberAddresses(),
       queryProposerAddresses(),
-      queryQuorumCount()
+      queryQuorumCount(),
+      queryAllActions()
     ]).then(
-      ([boardMembersAddresses, proposersAddresses, quorumCountResponse]) => {
+      ([
+        boardMembersAddresses,
+        proposersAddresses,
+        quorumCountResponse,
+        actionsResponse
+      ]) => {
         setBoardMembers(boardMembersAddresses);
         setProposers(proposersAddresses);
         setQuorumCount(quorumCountResponse);
+
+        console.log({ actionsResponse });
       }
     );
   }, []);
