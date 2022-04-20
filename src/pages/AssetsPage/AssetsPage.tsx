@@ -63,6 +63,7 @@ const AssetsPage = () => {
       {
         field: 'value',
         headerName: 'VALUE',
+        width: 250,
         type: 'any',
         renderCell: (params: any) => (
           <h5 className='ex-currency text-center mb-0'>
@@ -88,14 +89,14 @@ const AssetsPage = () => {
           <div key='0' className='shadow-sm p-2 rounded mr-2'>
             <GridActionsCellItem
               icon={<CallMadeIcon htmlColor='#9DABBD' />}
-              label='Toggle Admin'
+              label='Send'
               onClick={() => handleOptionSelected(ProposalsTypes.send_token)}
-            />
+            ></GridActionsCellItem>
           </div>,
           <div key='1' className='shadow-sm p-2 rounded mr-2'>
             <GridActionsCellItem
               icon={<CallReceivedIcon htmlColor='#9DABBD' />}
-              label='Delete'
+              label='Receive'
               onClick={() => openProposeSendTokenForm}
             />
           </div>
