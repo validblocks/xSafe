@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { selectedTokenToSendSelector } from 'redux/selectors/modalsSelector';
 import { MultisigSendToken } from 'types/MultisigSendToken';
 
 interface ProposeSendTokenType {
@@ -13,6 +15,9 @@ const ProposeSendToken = ({ handleChange }: ProposeSendTokenType) => {
   const [address, setAddress] = useState('');
   const [identifier, setIdentifier] = useState('');
   const [amount, setAmount] = useState('');
+  const selectedToken = useSelector(selectedTokenToSendSelector);
+
+  console.log({ selectedToken });
 
   const getProposal = (): MultisigSendToken | null => {
     try {
@@ -71,7 +76,7 @@ const ProposeSendToken = ({ handleChange }: ProposeSendTokenType) => {
         <input
           type='text'
           className='form-control'
-          value={identifier}
+          value={selectedToken.identifier}
           autoComplete='off'
           onChange={onIdentifierChanged}
         />

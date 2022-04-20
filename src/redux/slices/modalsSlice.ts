@@ -20,8 +20,13 @@ export interface SelectedActionToPerform {
   id: number;
   actionType?: MultisigActionType;
 }
+
+export interface SelectedTokenToSend {
+  token?: any;
+}
 interface PerformActionModal {
   selectedAction: SelectedActionToPerform | null;
+  selectedToken: any | null;
 }
 
 interface ProposeModal {
@@ -48,7 +53,8 @@ const initialState: ModalsSliceState = {
     selectedOption: null
   },
   performActionModal: {
-    selectedAction: null
+    selectedAction: null,
+    selectedToken: null
   }
 };
 
@@ -91,6 +97,12 @@ export const modalsSlice = createSlice({
       action: PayloadAction<SelectedActionToPerform | null>
     ) => {
       state.performActionModal.selectedAction = action.payload;
+    },
+    setSelectedTokenToSend: (
+      state: ModalsSliceState,
+      action: PayloadAction<any>
+    ) => {
+      state.performActionModal.selectedToken = action.payload;
     }
   },
 
@@ -108,7 +120,8 @@ export const {
   clearTxSubmittedModal,
   clearNotificationModal,
   setProposeModalSelectedOption,
-  setSelectedPerformedAction
+  setSelectedPerformedAction,
+  setSelectedTokenToSend
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

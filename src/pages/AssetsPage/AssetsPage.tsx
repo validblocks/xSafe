@@ -13,7 +13,8 @@ import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoC
 import { priceSelector } from 'redux/selectors/economicsSelector';
 import {
   setProposeModalSelectedOption,
-  setProposeMultiselectSelectedOption
+  setProposeMultiselectSelectedOption,
+  setSelectedTokenToSend
 } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 
@@ -21,15 +22,24 @@ const AssetsPage = () => {
   const egldPrice = useSelector(priceSelector);
   const dispatch = useDispatch();
 
-  const openProposeSendTokenForm = () =>
+  const openProposeSendTokenForm = (token: any) => {
     dispatch(
       setProposeModalSelectedOption({
         option: ProposalsTypes.send_token
       })
     );
+  };
 
-  const handleOptionSelected = (option: ProposalsTypes) => {
+  const handleOptionSelected = (option: ProposalsTypes, token: any) => {
+    console.log({ token });
     dispatch(setProposeMultiselectSelectedOption({ option }));
+    dispatch(
+      setSelectedTokenToSend({
+        id: token.id,
+        identifier: token.identifier,
+        balance: token.balance
+      })
+    );
   };
 
   const columns = useMemo(
@@ -90,14 +100,16 @@ const AssetsPage = () => {
             <GridActionsCellItem
               icon={<CallMadeIcon htmlColor='#9DABBD' />}
               label='Send'
-              onClick={() => handleOptionSelected(ProposalsTypes.send_token)}
+              onClick={() =>
+                handleOptionSelected(ProposalsTypes.send_token, params.row)
+              }
             ></GridActionsCellItem>
           </div>,
           <div key='1' className='shadow-sm p-2 rounded mr-2'>
             <GridActionsCellItem
               icon={<CallReceivedIcon htmlColor='#9DABBD' />}
               label='Receive'
-              onClick={() => openProposeSendTokenForm}
+              onClick={() => openProposeSendTokenForm(params.value)}
             />
           </div>
         ]

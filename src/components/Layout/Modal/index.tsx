@@ -1,8 +1,8 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
 import PerformActionModal from 'components/PerformActionModal';
 import ProposeModal from 'pages/MultisigDetails/ProposeModal/ProposeModal';
 import ProposeMultiselectModal from 'pages/MultisigDetails/ProposeMultiselectModal/ProposeMultiselectModal';
-import React from 'react';
-import { useSelector } from 'react-redux';
 import {
   proposeModalSelectedOptionSelector,
   proposeMultiselectModalSelectedOptionSelector,
