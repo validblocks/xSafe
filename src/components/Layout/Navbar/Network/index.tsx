@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
+import './network.scss';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
@@ -12,7 +12,11 @@ const Network = () => {
   };
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }} size='small'>
+    <FormControl
+      sx={{ m: 1, minWidth: 120 }}
+      size='small'
+      className='network-wrapper'
+    >
       <Select
         labelId='demo-select-small'
         id='demo-select-small'
