@@ -6,6 +6,7 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { queryAllActions } from 'contracts/MultisigContract';
+import TransactionHistory from './TransactionHistory';
 import TransactionQueue from './TransactionQueue';
 
 interface TabPanelProps {
@@ -78,7 +79,7 @@ export default function TransactionsPage() {
           <TransactionQueue />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          Item Two
+          <TransactionHistory />
         </TabPanel>
       </Box>
     </Box>
