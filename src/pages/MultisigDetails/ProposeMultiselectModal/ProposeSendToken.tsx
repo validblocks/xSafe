@@ -150,6 +150,7 @@ const ProposeSendToken = ({
 
   const onIdentifierChanged = (event: SelectChangeEvent) => {
     setIdentifier(event.target.value as string);
+    formik.setFieldValue('amount', 0);
   };
 
   useEffect(() => {
