@@ -1,0 +1,64 @@
+name: graffino-deploy-staging
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'develop'
+
+jobs:
+  deploy-staging:
+    runs-on: [self-hosted]
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    steps:
+      - uses: act10ns/slack@v1
+        with:
+          status: starting
+        if: always()
+
+      - name: Checkout
+        id: Checkout
+        uses: actions/checkout@develop
+        if: success()
+
+      - name: Create .env
+        run: |
+          .env.staging > .env
+
+      - name: Deploy
+        id: Deploy
+        uses: up9cloud/action-rsync@v1.1
+        if: success()
+        env:
+          HOST: docker.graffino.net
+          USER: ec2-user
+          KEY: ${{secrets.DEPLOY_SSH_KEY}}
+          SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+
+          VERBOSE: true
+          ARGS: -carEzhvP --delete-before --exclude .git --exclude .github --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
+
+          TARGET: ~/docker/graffino.live
+          SOURCE: ./
+
+          PRE_SCRIPT: |
+            echo "Start at: " $(date -u)
+            mkdir -p ~/docker/graffino.live
+            cd ~/docker/graffino.live
+            sudo chown -R ec2-user:ec2-user ~/docker/graffino.live
+
+          POST_SCRIPT: |
+            cd ~/docker/graffino.live
+            make staging
+            echo "Stop at: " $(date -u)
+
+      - uses: act10ns/slack@v1.2.2
+        if: always()
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}
+      - uses: act10ns/slack@v1.2.2
+        with:
+          status: ${{ job.status }}
+          steps: ${{ toJson(steps) }}

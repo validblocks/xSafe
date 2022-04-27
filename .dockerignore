@@ -5,3 +5,9 @@ build
 **/.git
 **/.DS_Store
 **/node_modules
+
+.docker/logs/nginx/*
+.docker/traefik/acme/acme-cloudflare.json
+.docker/traefik/acme/acme-route53.json
+
+.cache

@@ -2,11 +2,11 @@ version: '3.7'
 
 services:
 
-  hello-world:
+  multisig:
     container_name: multisig
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: .docker/node/Dockerfile
     volumes:
       - '.:/app'
       - '/app/node_modules'

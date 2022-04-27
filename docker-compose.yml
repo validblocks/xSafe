@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+    nginx:
+        image: graffino/nginx:v1
+        restart: unless-stopped
+        container_name: ${COMPOSE_PROJECT_NAME}-nginx
+        platform: linux/amd64
+        build:
+            context: .
+            dockerfile: .docker/nginx/Dockerfile
+        volumes:
+            - ./:/var/www:rw
+            - node_modules:/var/www/node_modules
+            - ./.docker/logs/nginx/:/var/log/nginx
+            - ./.docker/nginx/conf.d:/etc/nginx/templates
+        networks:
+            - servers
+            - proxy
+        # ports:
+        #    - '${DOCKER_NGINX_EXPOSED_PORT}:${DOCKER_NGINX_PORT}'
+        env_file:
+            - .env
+        labels:
+            - traefik.enable=true
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=http
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${TRAEFIK_HOSTNAME}`)
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=traefik-auth
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.entrypoints=https
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.rule=Host(`${TRAEFIK_HOSTNAME}`)
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.tls=true
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.tls.certresolver=${TRAEFIK_RESOLVER}
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.tls.domains[0].main=${TRAEFIK_HOSTNAME}
+            # - traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.tls.domains[0].sans=${TRAEFIK_DOMAIN}
+            - traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.middlewares=traefik-auth
+            - traefik.http.middlewares.https_redirect.redirectscheme.scheme=https
+            - traefik.http.middlewares.https_redirect.redirectscheme.permanent=true
+            - traefik.http.middlewares.${COMPOSE_PROJECT_NAME}-auth.basicauth.users=${TRAEFIK_USER}:${TRAEFIK_PASSWORD}
+            - traefik.http.services.${COMPOSE_PROJECT_NAME}-secure.loadbalancer.server.port=80
+
+networks:
+    servers:
+        driver: bridge
+    proxy:
+        external: true
+
+volumes:
+    node_modules:

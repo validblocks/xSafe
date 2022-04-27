@@ -1,0 +1,214 @@
+2022/04/26 13:59:13 [notice] 1#1: using the "epoll" event method
+2022/04/26 13:59:13 [notice] 1#1: nginx/1.20.2
+2022/04/26 13:59:13 [notice] 1#1: built by gcc 10.3.1 20210424 (Alpine 10.3.1_git20210424) 
+2022/04/26 13:59:13 [notice] 1#1: OS: Linux 5.10.104-linuxkit
+2022/04/26 13:59:13 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/04/26 13:59:13 [notice] 1#1: start worker processes
+2022/04/26 13:59:13 [notice] 1#1: start worker process 47
+2022/04/26 13:59:13 [notice] 1#1: start worker process 48
+2022/04/26 13:59:13 [notice] 1#1: start worker process 49
+2022/04/26 13:59:13 [notice] 1#1: start worker process 50
+2022/04/26 14:11:36 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2022/04/26 14:11:36 [notice] 49#49: gracefully shutting down
+2022/04/26 14:11:36 [notice] 47#47: gracefully shutting down
+2022/04/26 14:11:36 [notice] 50#50: gracefully shutting down
+2022/04/26 14:11:36 [notice] 48#48: gracefully shutting down
+2022/04/26 14:11:36 [notice] 49#49: exiting
+2022/04/26 14:11:36 [notice] 47#47: exiting
+2022/04/26 14:11:36 [notice] 48#48: exiting
+2022/04/26 14:11:36 [notice] 49#49: exit
+2022/04/26 14:11:36 [notice] 50#50: exiting
+2022/04/26 14:11:36 [notice] 48#48: exit
+2022/04/26 14:11:36 [notice] 47#47: exit
+2022/04/26 14:11:36 [notice] 50#50: exit
+2022/04/26 14:11:37 [notice] 1#1: signal 17 (SIGCHLD) received from 49
+2022/04/26 14:11:37 [notice] 1#1: worker process 49 exited with code 0
+2022/04/26 14:11:37 [notice] 1#1: worker process 48 exited with code 0
+2022/04/26 14:11:37 [notice] 1#1: worker process 50 exited with code 0
+2022/04/26 14:11:37 [notice] 1#1: signal 29 (SIGIO) received
+2022/04/26 14:11:37 [notice] 1#1: signal 17 (SIGCHLD) received from 48
+2022/04/26 14:11:37 [notice] 1#1: signal 17 (SIGCHLD) received from 47
+2022/04/26 14:11:37 [notice] 1#1: worker process 47 exited with code 0
+2022/04/26 14:11:37 [notice] 1#1: exit
+2022/04/26 14:11:42 [notice] 1#1: using the "epoll" event method
+2022/04/26 14:11:42 [notice] 1#1: nginx/1.20.2
+2022/04/26 14:11:42 [notice] 1#1: built by gcc 10.3.1 20210424 (Alpine 10.3.1_git20210424) 
+2022/04/26 14:11:42 [notice] 1#1: OS: Linux 5.10.104-linuxkit
+2022/04/26 14:11:42 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/04/26 14:11:42 [notice] 1#1: start worker processes
+2022/04/26 14:11:42 [notice] 1#1: start worker process 37
+2022/04/26 14:11:42 [notice] 1#1: start worker process 38
+2022/04/26 14:11:42 [notice] 1#1: start worker process 39
+2022/04/26 14:11:42 [notice] 1#1: start worker process 40
+2022/04/26 14:17:40 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2022/04/26 14:17:40 [notice] 38#38: gracefully shutting down
+2022/04/26 14:17:40 [notice] 37#37: gracefully shutting down
+2022/04/26 14:17:40 [notice] 39#39: gracefully shutting down
+2022/04/26 14:17:40 [notice] 40#40: gracefully shutting down
+2022/04/26 14:17:40 [notice] 37#37: exiting
+2022/04/26 14:17:40 [notice] 39#39: exiting
+2022/04/26 14:17:40 [notice] 39#39: exit
+2022/04/26 14:17:40 [notice] 38#38: exiting
+2022/04/26 14:17:40 [notice] 38#38: exit
+2022/04/26 14:17:40 [notice] 37#37: exit
+2022/04/26 14:17:40 [notice] 40#40: exiting
+2022/04/26 14:17:40 [notice] 40#40: exit
+2022/04/26 14:17:40 [notice] 1#1: signal 17 (SIGCHLD) received from 39
+2022/04/26 14:17:40 [notice] 1#1: worker process 39 exited with code 0
+2022/04/26 14:17:40 [notice] 1#1: signal 29 (SIGIO) received
+2022/04/26 14:17:41 [notice] 1#1: signal 17 (SIGCHLD) received from 38
+2022/04/26 14:17:41 [notice] 1#1: worker process 37 exited with code 0
+2022/04/26 14:17:41 [notice] 1#1: worker process 38 exited with code 0
+2022/04/26 14:17:41 [notice] 1#1: signal 29 (SIGIO) received
+2022/04/26 14:17:41 [notice] 1#1: signal 17 (SIGCHLD) received from 40
+2022/04/26 14:17:41 [notice] 1#1: worker process 40 exited with code 0
+2022/04/26 14:17:41 [notice] 1#1: exit
+2022/04/26 14:17:51 [notice] 1#1: using the "epoll" event method
+2022/04/26 14:17:51 [notice] 1#1: nginx/1.20.2
+2022/04/26 14:17:51 [notice] 1#1: built by gcc 10.3.1 20210424 (Alpine 10.3.1_git20210424) 
+2022/04/26 14:17:51 [notice] 1#1: OS: Linux 5.10.104-linuxkit
+2022/04/26 14:17:51 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/04/26 14:17:51 [notice] 1#1: start worker processes
+2022/04/26 14:17:51 [notice] 1#1: start worker process 47
+2022/04/26 14:17:51 [notice] 1#1: start worker process 48
+2022/04/26 14:17:51 [notice] 1#1: start worker process 49
+2022/04/26 14:17:51 [notice] 1#1: start worker process 50
+2022/04/26 14:20:46 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2022/04/26 14:20:46 [notice] 47#47: gracefully shutting down
+2022/04/26 14:20:46 [notice] 49#49: gracefully shutting down
+2022/04/26 14:20:46 [notice] 48#48: gracefully shutting down
+2022/04/26 14:20:46 [notice] 50#50: gracefully shutting down
+2022/04/26 14:20:46 [notice] 47#47: exiting
+2022/04/26 14:20:46 [notice] 49#49: exiting
+2022/04/26 14:20:46 [notice] 48#48: exiting
+2022/04/26 14:20:46 [notice] 50#50: exiting
+2022/04/26 14:20:46 [notice] 47#47: exit
+2022/04/26 14:20:46 [notice] 49#49: exit
+2022/04/26 14:20:46 [notice] 48#48: exit
+2022/04/26 14:20:46 [notice] 50#50: exit
+2022/04/26 14:20:46 [notice] 1#1: signal 17 (SIGCHLD) received from 47
+2022/04/26 14:20:46 [notice] 1#1: worker process 47 exited with code 0
+2022/04/26 14:20:46 [notice] 1#1: signal 29 (SIGIO) received
+2022/04/26 14:20:46 [notice] 1#1: signal 17 (SIGCHLD) received from 50
+2022/04/26 14:20:46 [notice] 1#1: worker process 50 exited with code 0
+2022/04/26 14:20:46 [notice] 1#1: signal 29 (SIGIO) received
+2022/04/26 14:20:46 [notice] 1#1: signal 17 (SIGCHLD) received from 49
+2022/04/26 14:20:46 [notice] 1#1: worker process 49 exited with code 0
+2022/04/26 14:20:46 [notice] 1#1: signal 29 (SIGIO) received
+2022/04/26 14:20:46 [notice] 1#1: signal 17 (SIGCHLD) received from 48
+2022/04/26 14:20:46 [notice] 1#1: worker process 48 exited with code 0
+2022/04/26 14:20:46 [notice] 1#1: exit
+2022/04/26 14:20:51 [notice] 1#1: using the "epoll" event method
+2022/04/26 14:20:51 [notice] 1#1: nginx/1.20.2
+2022/04/26 14:20:51 [notice] 1#1: built by gcc 10.3.1 20210424 (Alpine 10.3.1_git20210424) 
+2022/04/26 14:20:51 [notice] 1#1: OS: Linux 5.10.104-linuxkit
+2022/04/26 14:20:51 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/04/26 14:20:51 [notice] 1#1: start worker processes
+2022/04/26 14:20:51 [notice] 1#1: start worker process 51
+2022/04/26 14:20:51 [notice] 1#1: start worker process 52
+2022/04/26 14:20:51 [notice] 1#1: start worker process 53
+2022/04/26 14:20:51 [notice] 1#1: start worker process 54
+2022/04/26 14:27:46 [notice] 1#1: signal 17 (SIGCHLD) received from 116
+2022/04/26 14:27:46 [alert] 1#1: unknown process 116 exited on signal 15
+2022/04/26 14:37:18 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2022/04/26 14:37:18 [notice] 53#53: gracefully shutting down
+2022/04/26 14:37:18 [notice] 52#52: gracefully shutting down
+2022/04/26 14:37:18 [notice] 51#51: gracefully shutting down
+2022/04/26 14:37:18 [notice] 54#54: gracefully shutting down
+2022/04/26 14:37:18 [notice] 51#51: exiting
+2022/04/26 14:37:18 [notice] 52#52: exiting
+2022/04/26 14:37:18 [notice] 53#53: exiting
+2022/04/26 14:37:18 [notice] 54#54: exiting
+2022/04/26 14:37:18 [notice] 54#54: exit
+2022/04/26 14:37:18 [notice] 51#51: exit
+2022/04/26 14:37:18 [notice] 52#52: exit
+2022/04/26 14:37:18 [notice] 53#53: exit
+2022/04/26 14:37:18 [notice] 1#1: signal 17 (SIGCHLD) received from 53
+2022/04/26 14:37:18 [notice] 1#1: worker process 51 exited with code 0
+2022/04/26 14:37:18 [notice] 1#1: worker process 52 exited with code 0
+2022/04/26 14:37:18 [notice] 1#1: worker process 53 exited with code 0
+2022/04/26 14:37:18 [notice] 1#1: worker process 54 exited with code 0
+2022/04/26 14:37:18 [notice] 1#1: exit
+2022/04/26 14:37:21 [notice] 1#1: using the "epoll" event method
+2022/04/26 14:37:21 [notice] 1#1: nginx/1.20.2
+2022/04/26 14:37:21 [notice] 1#1: built by gcc 10.3.1 20210424 (Alpine 10.3.1_git20210424) 
+2022/04/26 14:37:21 [notice] 1#1: OS: Linux 5.10.104-linuxkit
+2022/04/26 14:37:21 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/04/26 14:37:21 [notice] 1#1: start worker processes
+2022/04/26 14:37:21 [notice] 1#1: start worker process 92
+2022/04/26 14:37:21 [emerg] 92#92: io_setup() failed (38: Function not implemented)
+2022/04/26 14:37:21 [notice] 1#1: start worker process 94
+2022/04/26 14:37:21 [emerg] 94#94: io_setup() failed (38: Function not implemented)
+2022/04/26 14:37:21 [notice] 1#1: start worker process 96
+2022/04/26 14:37:21 [emerg] 96#96: io_setup() failed (38: Function not implemented)
+2022/04/26 14:37:21 [notice] 1#1: start worker process 98
+2022/04/26 14:37:21 [emerg] 98#98: io_setup() failed (38: Function not implemented)
+2022/04/26 14:54:57 [notice] 1#1: signal 17 (SIGCHLD) received from 176
+2022/04/26 14:54:57 [alert] 1#1: unknown process 176 exited on signal 15
+2022/04/26 14:56:27 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2022/04/26 14:56:27 [notice] 96#96: gracefully shutting down
+2022/04/26 14:56:27 [notice] 92#92: gracefully shutting down
+2022/04/26 14:56:27 [notice] 94#94: gracefully shutting down
+2022/04/26 14:56:27 [notice] 98#98: gracefully shutting down
+2022/04/26 14:56:27 [notice] 96#96: exiting
+2022/04/26 14:56:27 [notice] 92#92: exiting
+2022/04/26 14:56:27 [notice] 98#98: exiting
+2022/04/26 14:56:27 [notice] 94#94: exiting
+2022/04/26 14:56:27 [notice] 94#94: exit
+2022/04/26 14:56:27 [notice] 92#92: exit
+2022/04/26 14:56:27 [notice] 98#98: exit
+2022/04/26 14:56:27 [notice] 96#96: exit
+2022/04/26 14:56:28 [notice] 1#1: signal 17 (SIGCHLD) received from 92
+2022/04/26 14:56:28 [notice] 1#1: worker process 92 exited with code 0
+2022/04/26 14:56:28 [notice] 1#1: worker process 94 exited with code 0
+2022/04/26 14:56:28 [notice] 1#1: worker process 96 exited with code 0
+2022/04/26 14:56:28 [notice] 1#1: worker process 98 exited with code 0
+2022/04/26 14:56:28 [notice] 1#1: exit
+2022/04/26 19:28:29 [notice] 1#1: using the "epoll" event method
+2022/04/26 19:28:29 [notice] 1#1: nginx/1.20.2
+2022/04/26 19:28:29 [notice] 1#1: built by gcc 10.3.1 20210424 (Alpine 10.3.1_git20210424) 
+2022/04/26 19:28:29 [notice] 1#1: OS: Linux 5.10.104-linuxkit
+2022/04/26 19:28:29 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2022/04/26 19:28:29 [notice] 1#1: start worker processes
+2022/04/26 19:28:29 [notice] 1#1: start worker process 92
+2022/04/26 19:28:29 [notice] 1#1: start worker process 94
+2022/04/26 19:28:29 [notice] 1#1: start worker process 96
+2022/04/26 19:28:29 [emerg] 92#92: io_setup() failed (38: Function not implemented)
+2022/04/26 19:28:29 [notice] 1#1: start worker process 98
+2022/04/26 19:28:29 [emerg] 94#94: io_setup() failed (38: Function not implemented)
+2022/04/26 19:28:29 [emerg] 96#96: io_setup() failed (38: Function not implemented)
+2022/04/26 19:28:29 [emerg] 98#98: io_setup() failed (38: Function not implemented)
+2022/04/27 06:21:32 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2022/04/27 06:21:32 [notice] 94#94: gracefully shutting down
+2022/04/27 06:21:32 [notice] 98#98: gracefully shutting down
+2022/04/27 06:21:32 [notice] 94#94: exiting
+2022/04/27 06:21:32 [notice] 96#96: gracefully shutting down
+2022/04/27 06:21:32 [notice] 98#98: exiting
+2022/04/27 06:21:32 [notice] 92#92: gracefully shutting down
+2022/04/27 06:21:32 [notice] 98#98: exit
+2022/04/27 06:21:32 [notice] 96#96: exiting
+2022/04/27 06:21:32 [notice] 94#94: exit
+2022/04/27 06:21:32 [notice] 96#96: exit
+2022/04/27 06:21:32 [notice] 92#92: exiting
+2022/04/27 06:21:32 [notice] 92#92: exit
+2022/04/27 06:21:32 [notice] 1#1: signal 17 (SIGCHLD) received from 94
+2022/04/27 06:21:32 [notice] 1#1: worker process 94 exited with code 0
+2022/04/27 06:21:32 [notice] 1#1: worker process 96 exited with code 0
+2022/04/27 06:21:32 [notice] 1#1: signal 29 (SIGIO) received
+2022/04/27 06:21:32 [notice] 1#1: signal 17 (SIGCHLD) received from 96
+2022/04/27 06:21:32 [notice] 1#1: worker process 92 exited with code 0
+2022/04/27 06:21:32 [notice] 1#1: worker process 98 exited with code 0
+2022/04/27 06:21:32 [notice] 1#1: exit
+2022/04/27 09:13:12 [emerg] 1#1: unknown log format "main" in /etc/nginx/sites-enabled/default.conf:24
+2022/04/27 09:22:18 [emerg] 1#1: unknown log format "main" in /etc/nginx/sites-enabled/default.conf:24
+2022/04/27 09:22:42 [emerg] 1#1: unknown log format "main" in /etc/nginx/sites-enabled/default.conf:24
+2022/04/27 09:44:13 [emerg] 1#1: unknown log format "main" in /etc/nginx/sites-enabled/default.conf:24
+2022/04/27 11:58:30 [emerg] 1#1: unknown log format "main" in /etc/nginx/sites-enabled/default.conf:24
+2022/04/27 12:01:00 [emerg] 1#1: unknown log format "main" in /etc/nginx/sites-enabled/default.conf:24
+2022/04/27 12:08:05 [emerg] 1#1: unknown log format "main" in /etc/nginx/sites-enabled/default.conf:24
+2022/04/27 12:10:50 [emerg] 1#1: unknown log format "main" in /etc/nginx/sites-enabled/default.conf:24
+2022/04/27 12:12:31 [emerg] 1#1: unknown log format "main" in /etc/nginx/sites-enabled/default.conf:24
+2022/04/27 12:16:03 [emerg] 1#1: unknown log format "main" in /etc/nginx/sites-enabled/default.conf:24
+2022/04/27 12:24:37 [alert] 1#1: unknown process 107 exited on signal 15
+2022/04/27 12:53:23 [alert] 1#1: unknown process 129 exited on signal 15
+2022/04/27 13:19:06 [alert] 1#1: unknown process 4129 exited on signal 1

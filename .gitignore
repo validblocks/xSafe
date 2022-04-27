@@ -14,10 +14,10 @@
 # misc
 /src/config.tsx
 .DS_Store
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env
+.env.development
+.env.test
+.env.production
 .npmrc
 src/multisigExtrasConfig.ts
 .idea
