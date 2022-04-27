@@ -79,20 +79,12 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
     Promise.all([
       queryBoardMemberAddresses(),
       queryProposerAddresses(),
-      queryQuorumCount(),
-      queryAllActions()
+      queryQuorumCount()
     ]).then(
-      ([
-        boardMembersAddresses,
-        proposersAddresses,
-        quorumCountResponse,
-        actionsResponse
-      ]) => {
+      ([boardMembersAddresses, proposersAddresses, quorumCountResponse]) => {
         setBoardMembers(boardMembersAddresses);
         setProposers(proposersAddresses);
         setQuorumCount(quorumCountResponse);
-
-        console.log({ actionsResponse });
       }
     );
   }, []);

@@ -50,14 +50,6 @@ export default function TransactionsPage() {
     setValue(newValue);
   };
 
-  React.useEffect(() => {
-    const fetchActions = async () => {
-      const response = await queryAllActions();
-      console.log({ response });
-    };
-
-    fetchActions();
-  }, []);
   return (
     <Box
       sx={{

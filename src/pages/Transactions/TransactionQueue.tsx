@@ -1,11 +1,20 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
+import { queryAllActions } from 'contracts/MultisigContract';
 
 const TransactionQueue = () => {
+  const [pendingTransactions, setAllPendingTransactions] = useState([]);
+
+  useEffect(() => {
+    queryAllActions().then((resp) => {
+      console.log({ resp });
+      console.log(resp[0].title());
+    });
+  }, []);
   return (
     <>
       <Accordion>
