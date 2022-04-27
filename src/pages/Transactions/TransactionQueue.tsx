@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { Address } from '@elrondnetwork/erdjs/out';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -9,15 +11,20 @@ import Typography from '@mui/material/Typography';
 import { queryAllActions } from 'contracts/MultisigContract';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
+import TransactionActionsCard from './TransactionActionsCard';
+import useTransactionPermissions from './useTransactionPermissions';
 
 const TransactionQueue = () => {
   const [allPendingTransactions, setAllPendingTransactions] = useState(
     [] as MultisigActionDetailed[]
   );
-
   const {
-    quorumCountState: [quorumCount]
+    quorumCountState: [quorumCount],
+    boardMembersState: [boardMembers]
   } = useOrganizationInfoContext();
+
+  const { canUnsign, canPerformAction, canSign, canDiscardAction } =
+    useTransactionPermissions();
 
   useEffect(() => {
     queryAllActions().then((resp) => {
@@ -54,6 +61,21 @@ const TransactionQueue = () => {
             <Typography component='span'>
               {transaction.description()}
             </Typography>
+            <TransactionActionsCard
+              boardMembers={boardMembers}
+              key={transaction.actionId}
+              type={transaction.typeNumber()}
+              actionId={transaction.actionId}
+              title={transaction.title()}
+              tooltip={transaction.tooltip()}
+              value={transaction.description()}
+              data={transaction.getData()}
+              canSign={canSign(transaction)}
+              canUnsign={canUnsign(transaction)}
+              canPerformAction={canPerformAction(transaction)}
+              canDiscardAction={canDiscardAction(transaction)}
+              signers={transaction.signers}
+            />
           </AccordionDetails>
         </Accordion>
       ))}

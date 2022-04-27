@@ -5,19 +5,14 @@ import React, {
   useMemo,
   useState
 } from 'react';
-import { operations } from '@elrondnetwork/dapp-utils';
-import { Address, Transaction } from '@elrondnetwork/erdjs/out';
-import { current } from '@reduxjs/toolkit';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { denomination, decimals } from 'config';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { Address } from '@elrondnetwork/erdjs/out';
 import {
-  queryAllActions,
   queryBoardMemberAddresses,
   queryProposerAddresses,
-  queryQuorumCount
+  queryQuorumCount,
+  queryUserRole
 } from 'contracts/MultisigContract';
-import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 
 type MemberAddressTableRow = { id: number; role: string; member: Address };
 
@@ -32,6 +27,7 @@ type OrganizationInfoContextType = {
   boardMembersState: CustomStateType<Address[]>;
   proposersState: CustomStateType<Address[]>;
   allMemberAddresses: MemberAddressTableRow[];
+  userRole: number;
 };
 
 type Props = {
@@ -52,7 +48,7 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
   const [boardMembers, setBoardMembers] = useState([] as Address[]);
   const [proposers, setProposers] = useState([] as Address[]);
 
-  const currentContract = useSelector(currentMultisigContractSelector);
+  const { address } = useGetAccountInfo();
 
   const allMemberAddresses = useMemo(() => {
     return [
@@ -63,28 +59,27 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     setMembersCount(allMemberAddresses.length);
-    // for (const address of allMemberAddresses) {
-    //   console.log({ address });
-    //   proxy
-    //     .getAccount(
-    //       new Address(
-    //         'erd1qqqqqqqqqqqqqpgqettaulcsh6afs9h4mhsv44lu28p0rezehdeqk7nttw'
-    //       )
-    //     )
-    //     .then((resp: any) => console.log({ resp }));
-    // }
   }, [allMemberAddresses]);
+
+  const [userRole, setUserRole] = useState<number>();
 
   useEffect(() => {
     Promise.all([
       queryBoardMemberAddresses(),
+      queryUserRole(new Address(address).hex()),
       queryProposerAddresses(),
       queryQuorumCount()
     ]).then(
-      ([boardMembersAddresses, proposersAddresses, quorumCountResponse]) => {
+      ([
+        boardMembersAddresses,
+        userRoleResponse,
+        proposersAddresses,
+        quorumCountResponse
+      ]) => {
         setBoardMembers(boardMembersAddresses);
         setProposers(proposersAddresses);
         setQuorumCount(quorumCountResponse);
+        setUserRole(userRoleResponse);
       }
     );
   }, []);
@@ -96,6 +91,7 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
         boardMembersState: [boardMembers, setBoardMembers],
         quorumCountState: [quorumCount, setQuorumCount],
         proposersState: [proposers, setProposers],
+        userRole: userRole as number,
         allMemberAddresses
       }}
     >

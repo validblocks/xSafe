@@ -53,6 +53,7 @@ export default function TransactionsPage() {
   return (
     <Box
       sx={{
+        width: '100%',
         padding: '8rem 1rem',
         backgroundColor: '#F6F7F8'
       }}
