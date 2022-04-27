@@ -81,17 +81,21 @@ const ProposeSendToken = ({
     return true;
   };
 
-  const validationSchema = Yup.object().shape({
-    address: Yup.string()
-      .min(2, 'Too Short!')
-      .max(500, 'Too Long!')
-      .required('Required')
-      .test(validateRecipient),
-    amount: Yup.string()
-      .required('Required')
-      .transform((value) => value.replace(',', '.'))
-      .test(validateAmount)
-  });
+  const validationSchema = useMemo(
+    () =>
+      Yup.object().shape({
+        address: Yup.string()
+          .min(2, 'Too Short!')
+          .max(500, 'Too Long!')
+          .required('Required')
+          .test(validateRecipient),
+        amount: Yup.string()
+          .required('Required')
+          .transform((value) => value.replace(',', '.'))
+          .test(validateAmount)
+      }),
+    [validateAmount, validateRecipient]
+  );
 
   const formik = useFormik({
     initialValues: {
