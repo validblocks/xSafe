@@ -19,7 +19,9 @@ jobs:
 
       - name: Checkout
         id: Checkout
-        uses: actions/checkout@develop
+        uses: actions/checkout@master
+        with:
+          ref: 'develop'
         if: success()
 
       - name: Create .env
