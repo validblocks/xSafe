@@ -1,17 +1,17 @@
 import React from 'react';
 import AdjustOutlinedIcon from '@mui/icons-material/AdjustOutlined';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 import DiamondIcon from '@mui/icons-material/Diamond';
+import GridViewSharpIcon from '@mui/icons-material/GridViewSharp';
 import HelpIcon from '@mui/icons-material/Help';
-import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 
 const topItems = [
   {
     name: 'Assets',
     link: 'assets',
-    icon: <PaidOutlinedIcon />,
+    icon: <AttachMoneyIcon />,
     submenu: [
       {
         name: 'Coins',
@@ -31,9 +31,36 @@ const topItems = [
     icon: <CompareArrowsOutlinedIcon />
   },
   {
+    name: 'Address Book',
+    link: 'address-book',
+    icon: <GridViewSharpIcon />
+  },
+  {
     name: 'Apps',
     link: 'apps',
-    icon: <DashboardIcon />
+    icon: <GridViewSharpIcon />
+  },
+  {
+    name: 'Organization',
+    link: 'organization',
+    icon: <AttachMoneyIcon />,
+    submenu: [
+      {
+        name: 'Owners',
+        link: 'owners',
+        icon: <AdjustOutlinedIcon />
+      },
+      {
+        name: 'Cvorum',
+        link: 'cvorum',
+        icon: <DiamondIcon />
+      },
+      {
+        name: 'Organization Details',
+        link: 'organization-details',
+        icon: <DiamondIcon />
+      }
+    ]
   }
 ];
 

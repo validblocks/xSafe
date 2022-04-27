@@ -173,7 +173,7 @@ export default function MiniDrawer() {
           <AccountDetails uniqueAddress={walletAddress} />
           <Divider />
         </List>
-        <Box sx={{ maxHeight: '240px', overflowY: 'scroll' }}>
+        <Box sx={{ maxHeight: '290px', overflowY: 'scroll' }}>
           {menuItems.topItems.map((el, index) => (
             <div key={index}>
               {el.submenu && (
@@ -182,7 +182,7 @@ export default function MiniDrawer() {
                     aria-controls='panel1a-content'
                     expandIcon={<ExpandMoreIcon />}
                     id='panel1a-header'
-                    sx={{ paddingLeft: '5px' }}
+                    sx={{ paddingLeft: '0px' }}
                   >
                     <ListItemButton
                       sx={{
@@ -265,8 +265,8 @@ export default function MiniDrawer() {
             </div>
           ))}
         </Box>
-        <Divider sx={{ mt: 1 }} />
         <List className='bottom-items'>
+          <Divider sx={{ mt: 1 }} />
           {menuItems.bottomItems.map((el, index) => {
             return (
               <Link key={index} to={el.link}>
