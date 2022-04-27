@@ -23,8 +23,7 @@ jobs:
         if: success()
 
       - name: Create .env
-        run: |
-          .env.staging > .env
+        run: .env.staging > .env
 
       - name: Deploy
         id: Deploy
