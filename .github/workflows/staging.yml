@@ -25,7 +25,7 @@ jobs:
         if: success()
 
       - name: Create .env
-        run: .env.staging > .env
+        run: cat .env.staging > .env
 
       - name: Deploy
         id: Deploy
