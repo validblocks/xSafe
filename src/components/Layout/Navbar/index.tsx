@@ -116,7 +116,7 @@ export default function MiniDrawer() {
 
   const [walletAddress, setWalletAddress] = useState('');
 
-  const miau = () => {
+  const addressShorthand = () => {
     const walletAddressFirstElements =
       uniqueContractAddress.substring(0, 4) +
       '...' +
@@ -127,7 +127,7 @@ export default function MiniDrawer() {
     setWalletAddress(walletAddressFirstElements);
   };
   useEffect(() => {
-    miau();
+    addressShorthand();
   }, []);
 
   return (
@@ -170,7 +170,10 @@ export default function MiniDrawer() {
       </AppBar>
       <Drawer variant='permanent' open={open}>
         <List sx={{ mt: 10 }}>
-          <AccountDetails uniqueAddress={walletAddress} />
+          <AccountDetails
+            uniqueAddress={walletAddress}
+            address={uniqueContractAddress}
+          />
           <Divider />
         </List>
         <Box sx={{ maxHeight: '290px', overflowY: 'scroll' }}>

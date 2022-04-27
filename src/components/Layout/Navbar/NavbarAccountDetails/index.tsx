@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
+import CopyAllIcon from '@mui/icons-material/CopyAll';
 import NorthEastRoundedIcon from '@mui/icons-material/NorthEastRounded';
+import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Box, Button, Typography } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import ReceiveModal from 'components/ReceiveModal';
+import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 
-const NavbarAccountDetails = ({ uniqueAddress }: any) => {
+const NavbarAccountDetails = ({ uniqueAddress, address }: any) => {
   const dispatch = useDispatch();
+  const currentContract = useSelector(currentMultisigContractSelector);
+
+  const [showQr, setShowQr] = useState(false);
+
+  const handleQrModal = () => {
+    setShowQr(!showQr);
+  };
 
   const onAddBoardMember = () =>
     dispatch(
@@ -30,10 +40,22 @@ const NavbarAccountDetails = ({ uniqueAddress }: any) => {
         <Typography align='center'>{uniqueAddress}</Typography>
       </Box>
       <Box className='d-flex justify-content-center' sx={{ pt: 1 }}>
-        <a href='`https://explorer.elrond.com/${address}`'>
-          <ContentCopyIcon />
+        <Button onClick={handleQrModal}>
+          <QrCode2Icon />
+        </Button>
+        <CopyAllIcon />
+        <a
+          href={`https://devnet-explorer.elrond.com/accounts/${address}`}
+          target='_blank'
+          rel='noreferrer'
+        >
+          <ContentPasteSearchIcon />
         </a>
-        <ExitToAppRoundedIcon />
+        <ReceiveModal
+          showQrFromSidebar={showQr}
+          address={currentContract?.address}
+          handleQr={handleQrModal}
+        />
       </Box>
       <Box sx={{ pt: 1 }}>
         <h5 className='ex-currency text-center'>199 USD</h5>

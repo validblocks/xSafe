@@ -1,14 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { faQrcode } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import QrCode from 'qrcode.react';
 import { Modal } from 'react-bootstrap';
 import CopyButton from '../CopyButton';
-const ReceiveModal = ({ address }: { address?: string }) => {
-  const [showModal, setShowModal] = React.useState(false);
+const ReceiveModal = ({
+  showQrFromSidebar,
+  address,
+  handleQr
+}: {
+  showQrFromSidebar?: boolean;
+  address?: string;
+  handleQr?: () => void;
+}) => {
+  const [showModal, setShowModal] = React.useState<boolean | undefined>(false);
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+
+  useEffect(() => {
+    showQrFromSidebar !== undefined ? setShowModal(showQrFromSidebar) : '';
+  }, [showQrFromSidebar]);
 
   if (!address) {
     return null;
@@ -16,16 +28,18 @@ const ReceiveModal = ({ address }: { address?: string }) => {
 
   return (
     <>
-      <button onClick={handleOpenModal} className='btn btn-primary'>
-        <span className='icon'>
-          <FontAwesomeIcon icon={faQrcode} />
-        </span>
-        <span className='name'>Deposit</span>
-      </button>
+      {showQrFromSidebar === undefined && (
+        <button onClick={handleOpenModal} className='btn btn-primary'>
+          <span className='icon'>
+            <FontAwesomeIcon icon={faQrcode} />
+          </span>
+          <span className='name'>Deposit</span>
+        </button>
+      )}
       <Modal
         show={showModal}
         size='lg'
-        onHide={handleCloseModal}
+        onHide={handleQr === undefined ? handleCloseModal : handleQr}
         className='modal-container'
         animation={false}
         centered
@@ -47,7 +61,10 @@ const ReceiveModal = ({ address }: { address?: string }) => {
               </span>
             </div>
             <div className='modal-action-btns'>
-              <button onClick={handleCloseModal} className='btn btn-primary'>
+              <button
+                onClick={handleQr === undefined ? handleCloseModal : handleQr}
+                className='btn btn-primary'
+              >
                 Done
               </button>
             </div>
