@@ -4,7 +4,6 @@ import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import HelpIcon from '@mui/icons-material/Help';
-import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 

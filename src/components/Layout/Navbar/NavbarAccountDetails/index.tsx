@@ -3,8 +3,19 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
 import NorthEastRoundedIcon from '@mui/icons-material/NorthEastRounded';
 import { Box, Button, Typography } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
+import { ProposalsTypes } from 'types/Proposals';
 
 const NavbarAccountDetails = ({ uniqueAddress }: any) => {
+  const dispatch = useDispatch();
+
+  const onAddBoardMember = () =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.send_token
+      })
+    );
   return (
     <Box>
       <Box
@@ -28,7 +39,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: any) => {
         <h5 className='ex-currency text-center'>199 USD</h5>
       </Box>
       <Box className='d-flex justify-content-center' sx={{ pb: 1 }}>
-        <Button variant='contained'>
+        <Button variant='contained' onClick={onAddBoardMember}>
           <NorthEastRoundedIcon /> New Transaction
         </Button>
       </Box>

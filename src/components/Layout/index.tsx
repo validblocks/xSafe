@@ -19,6 +19,7 @@ import routes, { routeNames } from 'routes';
 import { accessTokenServices, storageApi } from 'services/accessTokenServices';
 import { TokenWrapper } from '../TokenWrapper';
 import ModalLayer from './Modal';
+import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
 import Navbar from './Navbar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -95,6 +96,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </AuthenticatedRoutesWrapper>
         <TokenWrapper />
         <ModalLayer />
+        <SidebarSelectOptionModal />
       </main>
     </div>
     // {/* <OrganizationInfoContextProvider>
