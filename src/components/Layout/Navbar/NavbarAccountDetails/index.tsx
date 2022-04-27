@@ -4,7 +4,7 @@ import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
 import NorthEastRoundedIcon from '@mui/icons-material/NorthEastRounded';
 import { Box, Button, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
+import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 
 const NavbarAccountDetails = ({ uniqueAddress }: any) => {
@@ -12,8 +12,8 @@ const NavbarAccountDetails = ({ uniqueAddress }: any) => {
 
   const onAddBoardMember = () =>
     dispatch(
-      setProposeModalSelectedOption({
-        option: ProposalsTypes.send_token
+      setProposeMultiselectSelectedOption({
+        option: ProposalsTypes.multiselect_proposal_options
       })
     );
   return (
