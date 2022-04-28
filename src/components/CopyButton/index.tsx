@@ -2,6 +2,7 @@ import React from 'react';
 import { faCopy } from '@fortawesome/free-regular-svg-icons/faCopy';
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import CopyAllIcon from '@mui/icons-material/CopyAll';
 import copyTextToClipboard from './helpers/copyToClipboard';
 
 interface CopyButtonType {
@@ -40,7 +41,7 @@ const CopyButton = ({ text, className = '' }: CopyButtonType) => {
       className={`side-action text-secondary ${className}`}
     >
       {copyResult.default || !copyResult.success ? (
-        <FontAwesomeIcon icon={faCopy} />
+        <CopyAllIcon />
       ) : (
         <FontAwesomeIcon icon={faCheck} className='text-primary-highlight' />
       )}
