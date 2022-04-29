@@ -40,17 +40,17 @@ jobs:
           VERBOSE: true
           ARGS: -carEzhvP --delete-before --exclude .git --exclude .github --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
 
-          TARGET: ~/docker/graffino.live
+          TARGET: ~/docker/multisig.graffino.live
           SOURCE: ./
 
           PRE_SCRIPT: |
             echo "Start at: " $(date -u)
-            mkdir -p ~/docker/graffino.live
-            cd ~/docker/graffino.live
-            sudo chown -R ec2-user:ec2-user ~/docker/graffino.live
+            mkdir -p ~/docker/multisig.graffino.live
+            cd ~/docker/multisig.graffino.live
+            sudo chown -R ec2-user:ec2-user ~/docker/multisig.graffino.live
 
           POST_SCRIPT: |
-            cd ~/docker/graffino.live
+            cd ~/docker/multisig.graffino.live
             make staging
             echo "Stop at: " $(date -u)
 
