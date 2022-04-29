@@ -1,7 +1,7 @@
 server {
     listen ${DOCKER_NGINX_PORT};
     index index.html;
-    root /var/www/dist;
+    root /var/www/public;
 
     absolute_redirect off;
     port_in_redirect off;
