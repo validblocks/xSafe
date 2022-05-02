@@ -27,6 +27,9 @@ jobs:
       - name: Create .env
         run: cat .env.staging > .env
 
+      - name: Creat config.ts
+      - run: cp ./src/config.testnet.ts ./src/config.ts
+
       - name: Deploy
         id: Deploy
         uses: up9cloud/action-rsync@v1.1
