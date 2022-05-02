@@ -34,7 +34,7 @@ production:
 	$(CONTAINER_NGINX) './node_modules/prettier/bin-prettier.js -w src/multisigConfig.ts'
 	$(CONTAINER_NGINX) 'mkdir -p node_modules/.cache'
 	$(CONTAINER_NGINX) 'chmod -R 777 node_modules/.cache'
-	$(CONTAINER_NGINX) 'mkdir -p node_modules/.cache/.eslintcache'
+	$(CONTAINER_NGINX) 'touch node_modules/.cache/.eslintcache'
 	$(CONTAINER_NGINX) 'chmod -R 777 node_modules/.cache/.eslintcache'
 	$(CONTAINER_NGINX) 'npm run build'
 
