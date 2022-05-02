@@ -33,7 +33,6 @@ jobs:
           cat /dev/null > src/multisigConfig.ts
           echo "export const uniqueContractName = '${{ secrets.UNIQUE_CONTRACT_NAME }}';" >> src/multisigConfig.ts
           echo "export const uniqueContractAddress = '${{ secrets.UNIQUE_CONTRACT_ADDRESS }}';" >> src/multisigConfig.ts
-          ./node_modules/prettier/bin-prettier.js -w src/multisigConfig.ts
 
 
       - name: Deploy

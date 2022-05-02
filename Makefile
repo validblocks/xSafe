@@ -31,6 +31,7 @@ production:
 	docker compose up -d
 	$(CONTAINER_NGINX) 'npm install'
 	$(CONTAINER_NGINX) 'npm rebuild node-sass --force'
+	./node_modules/prettier/bin-prettier.js -w src/multisigConfig.ts
 	$(CONTAINER_NGINX) 'npm run build'
 
 
