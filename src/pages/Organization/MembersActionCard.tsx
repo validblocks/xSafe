@@ -1,6 +1,5 @@
 import React from 'react';
 import { Card, IconButton } from '@mui/material';
-import { borderRadius } from '@mui/system';
 
 type Props = {
   title: string;

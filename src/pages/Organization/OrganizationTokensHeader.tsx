@@ -1,8 +1,5 @@
 import React from 'react';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
-import { Ui } from '@elrondnetwork/dapp-utils';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Button, Grid, IconButton } from '@mui/material';
 import './styles/style.css';
 import { useDispatch } from 'react-redux';

@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import {
   GridRowId,
   GridActionsCellItem,

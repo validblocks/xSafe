@@ -6,7 +6,6 @@ import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
 export default function useTransactionPermissions() {
   const {
     quorumCountState: [quorumCount],
-    boardMembersState: [boardMembers],
     userRole
   } = useOrganizationInfoContext();
   const isBoardMember = userRole === 2;
