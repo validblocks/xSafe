@@ -27,8 +27,11 @@ jobs:
       - name: Create .env
         run: cat .env.staging > .env
 
-      - name: Create config.ts
-        run: cp ./src/config.testnet.ts ./src/config.ts
+      - name: Config setup
+        run: |
+          cp ./src/config.testnet.ts ./src/config.ts
+          echo "export const uniqueContractName = '${{ secrets.UNIQUE_CONTRACT_NAME }}';" >> src/multisigConfig.ts
+          echo "export const uniqueContractAddress = '${{ secrets.UNIQUE_CONTRACT_ADDRESS }}';" >> src/multisigConfig.ts
 
       - name: Deploy
         id: Deploy

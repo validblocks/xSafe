@@ -13,7 +13,8 @@ services:
             - ./:/var/www:rw
             - node_modules:/var/www/node_modules
             - ./.docker/logs/nginx/:/var/log/nginx
-            - ./.docker/nginx/conf.d:/etc/nginx/templates
+            # add server files correctly
+            - ./.docker/nginx/conf.d/default:/etc/nginx/sites-enabled/
         networks:
             - servers
             - proxy
