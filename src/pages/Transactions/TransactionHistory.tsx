@@ -5,14 +5,18 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import axios from 'axios';
+import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { network } from 'config';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
+import TransactionDescription from './TransactionDescription';
 
 const getDate = (unix_timestamp: any) => {
   const milliseconds = unix_timestamp * 1000;
   return new Date(milliseconds);
 };
+
+const dateFormat = 'MMM D, YYYY';
 
 const TransactionHistory = () => {
   const currentContract = useSelector(currentMultisigContractSelector);
@@ -26,9 +30,13 @@ const TransactionHistory = () => {
 
     getAllTransactions().then(({ data }) => {
       const groupedTransactions = data.reduce((acc: any, transaction: any) => {
-        const dateOfTransaction = getDate(transaction.timestamp)
-          .toLocaleString()
-          .split(',')[0];
+        const dateOfTransaction = dayjs(getDate(transaction.timestamp)).format(
+          dateFormat
+        );
+
+        console.log(
+          dayjs.duration(-transaction.timestamp, 'milliseconds').humanize(true)
+        );
 
         if (!acc[dateOfTransaction]) acc[dateOfTransaction] = [];
         acc[dateOfTransaction].push(transaction);
@@ -49,7 +57,7 @@ const TransactionHistory = () => {
             <div key={transactionDate}>
               {
                 <Typography variant='subtitle1' className='my-4'>
-                  {transactionDate}
+                  <strong>{transactionDate}</strong>
                 </Typography>
               }
               {transactionArray.map((transaction: any) => {
@@ -70,7 +78,7 @@ const TransactionHistory = () => {
                     </AccordionSummary>
                     <AccordionDetails>
                       <Typography component='span'>
-                        {Object.entries(transaction).map(
+                        {/* {Object.entries(transaction).map(
                           ([property, value]: any) => (
                             <div key={property}>
                               <strong>{property}:</strong>
@@ -80,7 +88,9 @@ const TransactionHistory = () => {
                               </h6>
                             </div>
                           )
-                        )}
+                        )} */}
+
+                        <TransactionDescription />
                       </Typography>
                     </AccordionDetails>
                   </Accordion>

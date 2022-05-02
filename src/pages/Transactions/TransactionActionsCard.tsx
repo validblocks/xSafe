@@ -36,10 +36,13 @@ const TransactionActionsCard = ({
   canSign = false,
   canUnsign = false,
   canPerformAction = false,
-  canDiscardAction = false
+  canDiscardAction = false,
+  value
 }: TransactionActionsCardType) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  console.log({ value });
 
   const sign = () => {
     mutateSign(actionId);

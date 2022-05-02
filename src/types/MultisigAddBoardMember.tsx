@@ -23,6 +23,7 @@ export class MultisigAddBoardMember extends MultisigAction {
   description() {
     return (
       <>
+        <h2>{this.title()}</h2>
         <div className='address'>
           <Ui.Trim text={this.address.bech32()} />
           <ExplorerLink

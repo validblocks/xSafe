@@ -1,5 +1,9 @@
 import React from 'react';
 import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
+import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import updateLocale from 'dayjs/plugin/updateLocale';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -16,6 +20,28 @@ import PageNotFound from './components/PageNotFound';
 import routes from './routes';
 
 import '@elrondnetwork/dapp-core/build/index.css';
+
+dayjs.extend(duration);
+dayjs.extend(relativeTime);
+
+dayjs.extend(updateLocale);
+
+dayjs.updateLocale('en', {
+  months: [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ]
+});
 
 i18n.use(initReactI18next).init({
   resources: {

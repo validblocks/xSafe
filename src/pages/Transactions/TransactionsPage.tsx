@@ -44,7 +44,6 @@ function a11yProps(index: number) {
 
 export default function TransactionsPage() {
   const [value, setValue] = React.useState(0);
-  const [allActions, setAllActions] = React.useState([]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -66,7 +65,7 @@ export default function TransactionsPage() {
           aria-label='basic tabs example'
         >
           <Tab label='QUEUE' {...a11yProps(0)} />
-          <Tab label='TRANSACTIONS' {...a11yProps(1)} />
+          <Tab label='HISTORY' {...a11yProps(1)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <TransactionQueue />
