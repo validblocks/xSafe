@@ -32,6 +32,8 @@ production:
 	$(CONTAINER_NGINX) 'npm install'
 	$(CONTAINER_NGINX) 'npm rebuild node-sass --force'
 	$(CONTAINER_NGINX) './node_modules/prettier/bin-prettier.js -w src/multisigConfig.ts'
+	mkdir -p node_modules/.cache/.eslintcache
+	chmod -R 777 node_modules/.cache/
 	$(CONTAINER_NGINX) 'npm run build'
 
 
@@ -40,8 +42,6 @@ permissions:
 	mkdir -p .docker/logs/nginx/
 	chmod -R 777 .docker/logs/
 	mkdir -p node_modules/.cache 
-	mkdir -p node_modules/.cache/.eslintcache
-	chmod -R 777 node_modules/.cache/
 
 
 .PHONY: reset
