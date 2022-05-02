@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
-import { Address } from '@elrondnetwork/erdjs/out';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -12,6 +10,7 @@ import { queryAllActions } from 'contracts/MultisigContract';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
 import TransactionActionsCard from './TransactionActionsCard';
+import TransactionDescription from './TransactionDescription';
 import useTransactionPermissions from './useTransactionPermissions';
 
 const TransactionQueue = () => {
@@ -28,11 +27,11 @@ const TransactionQueue = () => {
 
   useEffect(() => {
     queryAllActions().then((resp) => {
-      console.log({ resp });
-      console.log(resp[0].title());
+      console.log('trans', { resp });
       setAllPendingTransactions(resp);
     });
   }, []);
+
   return (
     <>
       {allPendingTransactions.reverse().map((transaction) => (
@@ -58,9 +57,7 @@ const TransactionQueue = () => {
             </div>
           </AccordionSummary>
           <AccordionDetails>
-            <Typography component='span'>
-              {transaction.description()}
-            </Typography>
+            <TransactionDescription description={transaction.description()} />
             <TransactionActionsCard
               boardMembers={boardMembers}
               key={transaction.actionId}

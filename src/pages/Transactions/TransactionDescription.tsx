@@ -1,18 +1,21 @@
 import React, { useMemo } from 'react';
-import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
-import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import {
   Timeline,
   TimelineConnector,
   TimelineContent,
   TimelineDot,
   TimelineItem,
+  TimelineOppositeContent,
   TimelineSeparator
 } from '@mui/lab';
 import { Box, useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-const TransactionDescription = () => {
+type Props = Partial<{
+  description: React.ReactNode;
+}>;
+
+const TransactionDescription = ({ description }: Props) => {
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
   const useStyles: CallableFunction = useMemo(
@@ -23,22 +26,18 @@ const TransactionDescription = () => {
           width: '100%',
           display: 'grid',
           gridTemplateColumns: '2fr 1fr',
-          gridTemplateRows: '1fr 1fr',
-          gridGap: '1rem'
+          gridTemplateRows: '1fr 1fr'
         },
         child1: {
           gridRow: '1 / 2',
-          gridColumn: '1 / 2'
-          //   display: 'flex'
-          //   flexDirection: 'column',
-          //   justifyContent: 'center',
-          //   height: '100%',
-          //   position: 'relative'
+          gridColumn: '1 / 2',
+          borderBottom: '2px solid #eee'
         },
         child2: {
           gridRow: '1 / 3',
-          gridColumn: '2 / 3'
-          //   minHeight: '5.5rem'
+          gridColumn: '2 / 3',
+          borderLeft: '2px solid #eee',
+          padding: '1rem 2rem'
         },
         child3: {
           gridRow: '2 / 3',
@@ -51,10 +50,13 @@ const TransactionDescription = () => {
   const classes = useStyles();
   return (
     <Box className={classes.container}>
-      <Box className={classes.child1}>Child 1</Box>
+      <Box sx={{ padding: '2rem' }} className={classes.child1}>
+        {description}
+      </Box>
       <Box className={classes.child2}>
         <Timeline position='right'>
           <TimelineItem>
+            <TimelineOppositeContent sx={{ display: 'none' }} />
             <TimelineSeparator>
               <TimelineDot />
               <TimelineConnector />
@@ -62,6 +64,7 @@ const TransactionDescription = () => {
             <TimelineContent>Eat</TimelineContent>
           </TimelineItem>
           <TimelineItem>
+            <TimelineOppositeContent sx={{ display: 'none' }} />
             <TimelineSeparator>
               <TimelineDot />
               <TimelineConnector />
@@ -69,6 +72,7 @@ const TransactionDescription = () => {
             <TimelineContent>Code</TimelineContent>
           </TimelineItem>
           <TimelineItem>
+            <TimelineOppositeContent sx={{ display: 'none' }} />
             <TimelineSeparator>
               <TimelineDot />
             </TimelineSeparator>
