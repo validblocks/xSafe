@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
     nginx:
-        image: graffino/nginx:v1
+        image: multisig:latest
         restart: unless-stopped
         container_name: ${COMPOSE_PROJECT_NAME}-nginx
         platform: linux/amd64

@@ -1,4 +1,4 @@
-name: graffino-deploy-staging
+name: multisig-deploy-staging
 
 on:
   workflow_dispatch:
