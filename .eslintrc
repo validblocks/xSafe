@@ -61,7 +61,7 @@
     "prettier/prettier": [
       "error",
       {
-        "endOfLine": "lf"
+        "endOfLine": "auto"
       }
     ],
     "@typescript-eslint/indent": "off",
