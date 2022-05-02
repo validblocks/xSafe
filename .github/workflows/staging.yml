@@ -30,7 +30,7 @@ jobs:
       - name: Config setup
         run: |
           cp ./src/config.testnet.ts ./src/config.ts
-          cat /dev/null src/multisigConfig.ts
+          cat /dev/null > src/multisigConfig.ts
           echo "export const uniqueContractName = '${{ secrets.UNIQUE_CONTRACT_NAME }}';" >> src/multisigConfig.ts
           echo "export const uniqueContractAddress = '${{ secrets.UNIQUE_CONTRACT_ADDRESS }}';" >> src/multisigConfig.ts
 
