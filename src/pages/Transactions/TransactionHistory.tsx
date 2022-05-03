@@ -77,8 +77,7 @@ const TransactionHistory = () => {
                       </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Typography component='span'>
-                        {/* {Object.entries(transaction).map(
+                      {/* {Object.entries(transaction).map(
                           ([property, value]: any) => (
                             <div key={property}>
                               <strong>{property}:</strong>
@@ -89,9 +88,7 @@ const TransactionHistory = () => {
                             </div>
                           )
                         )} */}
-
-                        <TransactionDescription />
-                      </Typography>
+                      <TransactionDescription transaction={transaction} />
                     </AccordionDetails>
                   </Accordion>
                 );

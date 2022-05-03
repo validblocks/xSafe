@@ -10,23 +10,22 @@ import {
 } from '@mui/lab';
 import { Box, useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import TransactionTechnicalDetails from './TransactionTechnicalDetails';
 
 type Props = Partial<{
   description: React.ReactNode;
+  transaction: any;
 }>;
 
-const TransactionDescription = ({ description }: Props) => {
+const TransactionDescription = ({ description, transaction }: Props) => {
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
   const useStyles: CallableFunction = useMemo(
     () =>
       makeStyles({
         container: {
-          height: '100%',
-          width: '100%',
           display: 'grid',
-          gridTemplateColumns: '2fr 1fr',
-          gridTemplateRows: '1fr 1fr'
+          gridTemplateColumns: '2fr 1fr'
         },
         child1: {
           gridRow: '1 / 2',
@@ -51,7 +50,7 @@ const TransactionDescription = ({ description }: Props) => {
   return (
     <Box className={classes.container}>
       <Box sx={{ padding: '2rem' }} className={classes.child1}>
-        {description}
+        {description ?? 'Child1'}
       </Box>
       <Box className={classes.child2}>
         <Timeline position='right'>
@@ -81,7 +80,9 @@ const TransactionDescription = ({ description }: Props) => {
         </Timeline>
       </Box>
 
-      <Box className={classes.child3}>Child 3</Box>
+      <Box sx={{ width: '100%' }} className={classes.child3}>
+        <TransactionTechnicalDetails transaction={transaction} />
+      </Box>
     </Box>
   );
 };
