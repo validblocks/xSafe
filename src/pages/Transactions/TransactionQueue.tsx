@@ -35,7 +35,7 @@ const TransactionQueue = () => {
   return (
     <>
       {allPendingTransactions.reverse().map((transaction) => (
-        <Accordion key={transaction.actionId}>
+        <Accordion key={transaction.actionId} sx={{ overflow: 'scroll' }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls='panel1a-content'
@@ -57,7 +57,11 @@ const TransactionQueue = () => {
             </div>
           </AccordionSummary>
           <AccordionDetails>
-            <TransactionDescription description={transaction.description()} />
+            <TransactionDescription
+              boardMembers={boardMembers}
+              signers={transaction.signers}
+              description={transaction.description()}
+            />
             <TransactionActionsCard
               boardMembers={boardMembers}
               key={transaction.actionId}

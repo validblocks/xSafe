@@ -4,12 +4,20 @@ import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
+import { withStyles } from '@mui/styles';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { network } from 'config';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import TransactionDescription from './TransactionDescription';
+
+export const GreenTextTypography = withStyles({
+  root: {
+    color: '#17d297',
+    fontWeight: 'bold'
+  }
+})(Typography);
 
 const getDate = (unix_timestamp: any) => {
   const milliseconds = unix_timestamp * 1000;
@@ -34,17 +42,12 @@ const TransactionHistory = () => {
           dateFormat
         );
 
-        console.log(
-          dayjs.duration(-transaction.timestamp, 'milliseconds').humanize(true)
-        );
-
         if (!acc[dateOfTransaction]) acc[dateOfTransaction] = [];
         acc[dateOfTransaction].push(transaction);
 
         return acc;
       }, {});
 
-      console.log({ groupedTransactions });
       setAllTransactions(groupedTransactions);
     });
   }, []);
@@ -75,7 +78,24 @@ const TransactionHistory = () => {
                           transaction.txHash.length - 10
                         )}
                       </Typography>
+                      <Typography className='ml-3' component='span'>
+                        <strong>
+                          {' '}
+                          {dayjs
+                            .duration(
+                              dayjs(getDate(transaction.timestamp)).diff(
+                                Date.now()
+                              ),
+                              'milliseconds'
+                            )
+                            .humanize(true)}
+                        </strong>{' '}
+                      </Typography>
+                      <GreenTextTypography className='ml-3'>
+                        {transaction.status}
+                      </GreenTextTypography>
                     </AccordionSummary>
+
                     <AccordionDetails>
                       {/* {Object.entries(transaction).map(
                           ([property, value]: any) => (

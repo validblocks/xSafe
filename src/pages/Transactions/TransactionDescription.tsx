@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { Address } from '@elrondnetwork/erdjs/out';
 import {
   Timeline,
   TimelineConnector,
@@ -8,16 +9,25 @@ import {
   TimelineOppositeContent,
   TimelineSeparator
 } from '@mui/lab';
-import { Box, useMediaQuery } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
+import { truncateInTheMiddle } from 'utils/addressUtils';
 import TransactionTechnicalDetails from './TransactionTechnicalDetails';
 
 type Props = Partial<{
   description: React.ReactNode;
   transaction: any;
+  boardMembers: Address[];
+  signers: Address[];
 }>;
 
-const TransactionDescription = ({ description, transaction }: Props) => {
+const TransactionDescription = ({
+  description,
+  transaction,
+  signers,
+  boardMembers
+}: Props) => {
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
   const useStyles: CallableFunction = useMemo(
@@ -46,6 +56,13 @@ const TransactionDescription = ({ description, transaction }: Props) => {
     [isSmallScreen]
   );
 
+  const {
+    quorumCountState: [quorumCount]
+  } = useOrganizationInfoContext();
+
+  console.log({ signers });
+  console.log({ boardMembers });
+
   const classes = useStyles();
   return (
     <Box className={classes.container}>
@@ -57,25 +74,45 @@ const TransactionDescription = ({ description, transaction }: Props) => {
           <TimelineItem>
             <TimelineOppositeContent sx={{ display: 'none' }} />
             <TimelineSeparator>
-              <TimelineDot />
+              <TimelineDot color='success' />
               <TimelineConnector />
             </TimelineSeparator>
-            <TimelineContent>Eat</TimelineContent>
+            <TimelineContent>Created</TimelineContent>
           </TimelineItem>
+          {signers?.map((signer, idx) => {
+            return (
+              <TimelineItem key={signer.hex()}>
+                <TimelineOppositeContent sx={{ display: 'none' }} />
+                <TimelineSeparator color='success'>
+                  <TimelineDot color='success' />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent>
+                  <Typography>Signed by:</Typography>
+                  <div className='d-flex align-items-center'>
+                    <img
+                      className='mr-3 rounded w-100 h-100'
+                      src='https://picsum.photos/30/30?random=1'
+                    />
+                    <div>
+                      <div>{truncateInTheMiddle(signer.bech32(), 10)}</div>
+                      <div>@herotag</div>
+                    </div>
+                  </div>
+                  <Typography className='mt-2'>
+                    {idx + 1} out of {quorumCount}
+                  </Typography>
+                </TimelineContent>
+              </TimelineItem>
+            );
+          })}
+
           <TimelineItem>
             <TimelineOppositeContent sx={{ display: 'none' }} />
             <TimelineSeparator>
-              <TimelineDot />
-              <TimelineConnector />
+              <TimelineDot variant='outlined' />
             </TimelineSeparator>
-            <TimelineContent>Code</TimelineContent>
-          </TimelineItem>
-          <TimelineItem>
-            <TimelineOppositeContent sx={{ display: 'none' }} />
-            <TimelineSeparator>
-              <TimelineDot />
-            </TimelineSeparator>
-            <TimelineContent>Sleep</TimelineContent>
+            <TimelineContent>Executed</TimelineContent>
           </TimelineItem>
         </Timeline>
       </Box>

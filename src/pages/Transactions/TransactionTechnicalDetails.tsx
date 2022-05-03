@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import TransactionAdvancedDetails from './TransactionAdvancedDetails';

@@ -1,17 +1,10 @@
-import React, { Suspense, useCallback, useState } from 'react';
-import { Button, Typography } from '@mui/material';
+import React from 'react';
+import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
 type Props = any;
 
 const TransactionAdvancedDetails = ({ transaction }: Props) => {
-  const [isAdvancedDetailsVisibile, setIsAdvancedDetailsVisible] =
-    useState(false);
-  const toggleAdvancedDetails = useCallback(
-    () => setIsAdvancedDetailsVisible((currentState) => !currentState),
-    []
-  );
-  console.log({ transaction });
   return (
     <Box>
       <Typography component='div' variant='body1' className='my-1'>
