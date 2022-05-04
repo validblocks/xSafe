@@ -1,122 +1,93 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
-import { withStyles } from '@mui/styles';
-import axios from 'axios';
+import { makeStyles } from '@mui/styles';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { network } from 'config';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
+import { getDate } from 'utils/transactionUtils';
+import useFetch from 'utils/useFetch';
 import TransactionDescription from './TransactionDescription';
-
-export const GreenTextTypography = withStyles({
-  root: {
-    color: '#17d297',
-    fontWeight: 'bold'
-  }
-})(Typography);
-
-const getDate = (unix_timestamp: any) => {
-  const milliseconds = unix_timestamp * 1000;
-  return new Date(milliseconds);
-};
+import TransactionSummary from './TransactionSummary';
 
 const dateFormat = 'MMM D, YYYY';
 
-const TransactionHistory = () => {
-  const currentContract = useSelector(currentMultisigContractSelector);
-  const [allTransactions, setAllTransactions] = useState({});
-  useEffect(() => {
-    async function getAllTransactions() {
-      return await axios.get(
-        `${network.apiAddress}/transactions?receiver=${currentContract?.address}`
-      );
+const useStyles = makeStyles(() => ({
+  expanded: { margin: 0 },
+  content: {
+    margin: 0,
+    display: 'flex',
+    justifyContent: 'space-between',
+
+    '&$expanded': {
+      margin: 0
     }
+  }
+}));
 
-    getAllTransactions().then(({ data }) => {
-      const groupedTransactions = data.reduce((acc: any, transaction: any) => {
-        const dateOfTransaction = dayjs(getDate(transaction.timestamp)).format(
-          dateFormat
-        );
+const TransactionHistory = () => {
+  const classes = useStyles();
+  const currentContract = useSelector(currentMultisigContractSelector);
+  const { data: allTransactions = [] } = useFetch(
+    `${network.apiAddress}/transactions?receiver=${currentContract?.address}`
+  );
+  const groupedTransactions = useMemo(() => {
+    return allTransactions?.reduce((acc: any, transaction: any) => {
+      const dateOfTransaction = dayjs(getDate(transaction.timestamp)).format(
+        dateFormat
+      );
 
-        if (!acc[dateOfTransaction]) acc[dateOfTransaction] = [];
-        acc[dateOfTransaction].push(transaction);
+      if (!acc[dateOfTransaction]) acc[dateOfTransaction] = [];
+      acc[dateOfTransaction].push(transaction);
 
-        return acc;
-      }, {});
-
-      setAllTransactions(groupedTransactions);
-    });
-  }, []);
+      return acc;
+    }, {});
+  }, [allTransactions]);
 
   return (
     <>
-      {Object.entries(allTransactions).map(
-        ([transactionDate, transactionArray]: any) => {
-          return (
-            <div key={transactionDate}>
-              {
-                <Typography variant='subtitle1' className='my-4'>
-                  <strong>{transactionDate}</strong>
-                </Typography>
-              }
-              {transactionArray.map((transaction: any) => {
-                return (
-                  <Accordion key={transaction.txHash}>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls='panel1a-content'
-                      id='panel1a-header'
-                    >
-                      <Typography component='span'>
-                        <strong> txHash:</strong>{' '}
-                        {transaction.txHash.slice(0, 10)}...
-                        {transaction.txHash.slice(
-                          transaction.txHash.length - 10
-                        )}
-                      </Typography>
-                      <Typography className='ml-3' component='span'>
-                        <strong>
-                          {' '}
-                          {dayjs
-                            .duration(
-                              dayjs(getDate(transaction.timestamp)).diff(
-                                Date.now()
-                              ),
-                              'milliseconds'
-                            )
-                            .humanize(true)}
-                        </strong>{' '}
-                      </Typography>
-                      <GreenTextTypography className='ml-3'>
-                        {transaction.status}
-                      </GreenTextTypography>
-                    </AccordionSummary>
+      {groupedTransactions &&
+        Object.entries(groupedTransactions).map(
+          ([transactionDate, transactionArray]: any) => {
+            return (
+              <div key={transactionDate}>
+                {
+                  <Typography variant='subtitle1' className='my-4'>
+                    <strong>{transactionDate}</strong>
+                  </Typography>
+                }
+                {transactionArray.map((transaction: any) => {
+                  return (
+                    <Accordion key={transaction.txHash}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls='panel1a-content'
+                        sx={{ borderBottom: '2px solid #eee' }}
+                        className='pl-0 m-0 d-flex'
+                        classes={{
+                          content: classes.content,
+                          expanded: classes.expanded
+                        }}
+                      >
+                        <TransactionSummary
+                          transaction={transaction}
+                        ></TransactionSummary>
+                      </AccordionSummary>
 
-                    <AccordionDetails>
-                      {/* {Object.entries(transaction).map(
-                          ([property, value]: any) => (
-                            <div key={property}>
-                              <strong>{property}:</strong>
-                              <h6>
-                                {value.toString().slice(0, 20)}
-                                {value.toString().length > 20 ? '[...]' : ''}
-                              </h6>
-                            </div>
-                          )
-                        )} */}
-                      <TransactionDescription transaction={transaction} />
-                    </AccordionDetails>
-                  </Accordion>
-                );
-              })}
-            </div>
-          );
-        }
-      )}
+                      <AccordionDetails>
+                        <TransactionDescription transaction={transaction} />
+                      </AccordionDetails>
+                    </Accordion>
+                  );
+                })}
+              </div>
+            );
+          }
+        )}
     </>
   );
 };

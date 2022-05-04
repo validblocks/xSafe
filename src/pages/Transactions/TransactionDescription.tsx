@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import {
   Timeline,
@@ -25,8 +25,7 @@ type Props = Partial<{
 const TransactionDescription = ({
   description,
   transaction,
-  signers,
-  boardMembers
+  signers = []
 }: Props) => {
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
@@ -60,8 +59,13 @@ const TransactionDescription = ({
     quorumCountState: [quorumCount]
   } = useOrganizationInfoContext();
 
-  console.log({ signers });
-  console.log({ boardMembers });
+  const [allSigners, setAllSigners] = useState([] as Address[]);
+
+  useEffect(() => {
+    const newSigners = [...signers];
+    if (transaction) newSigners.push(new Address(transaction.sender));
+    setAllSigners(newSigners);
+  }, []);
 
   const classes = useStyles();
   return (
@@ -79,7 +83,8 @@ const TransactionDescription = ({
             </TimelineSeparator>
             <TimelineContent>Created</TimelineContent>
           </TimelineItem>
-          {signers?.map((signer, idx) => {
+
+          {allSigners.map((signer: Address, idx: number) => {
             return (
               <TimelineItem key={signer.hex()}>
                 <TimelineOppositeContent sx={{ display: 'none' }} />
@@ -110,7 +115,12 @@ const TransactionDescription = ({
           <TimelineItem>
             <TimelineOppositeContent sx={{ display: 'none' }} />
             <TimelineSeparator>
-              <TimelineDot variant='outlined' />
+              <TimelineDot
+                color={transaction?.status === 'success' ? 'success' : 'grey'}
+                variant={
+                  transaction?.status === 'success' ? 'filled' : 'outlined'
+                }
+              />
             </TimelineSeparator>
             <TimelineContent>Executed</TimelineContent>
           </TimelineItem>
