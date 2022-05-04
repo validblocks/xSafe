@@ -52,7 +52,6 @@ const TransactionSummary = ({ transaction }: Props) => {
         <Typography
           component='span'
           sx={{
-            borderRight: '2px solid #eee',
             padding: '1rem',
             fontSize: '0.85rem'
           }}
@@ -69,7 +68,14 @@ const TransactionSummary = ({ transaction }: Props) => {
           </div>
         </Typography>
       </div>
-      <div className='d-flex'>
+      <Box
+        className='d-flex'
+        sx={{
+          borderLeft: '2px solid #eee',
+          padding: '1rem',
+          fontSize: '0.85rem'
+        }}
+      >
         <div className='mx-3 d-flex align-items-center justify-content-end'>
           <Box
             sx={{
@@ -83,7 +89,7 @@ const TransactionSummary = ({ transaction }: Props) => {
             {transaction.status}
           </Box>
         </div>
-      </div>
+      </Box>
     </>
   );
 };
