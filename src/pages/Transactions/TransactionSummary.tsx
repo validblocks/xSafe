@@ -40,7 +40,11 @@ const TransactionSummary = ({ transaction }: Props) => {
           sx={{
             borderRight: '2px solid #eee',
             padding: '1rem',
-            fontSize: '0.85rem'
+            fontSize: '0.85rem',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            justifyContent: 'center'
           }}
         >
           <div>

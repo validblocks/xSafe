@@ -96,7 +96,7 @@ const TransactionDescription = ({
                   <Typography>Signed by:</Typography>
                   <div className='d-flex align-items-center'>
                     <img
-                      className='mr-3 rounded w-100 h-100'
+                      className='mr-3 rounded'
                       src='https://picsum.photos/30/30?random=1'
                     />
                     <div>
