@@ -1,7 +1,16 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { getIsLoggedIn } from '@elrondnetwork/dapp-core';
 import CloseIcon from '@mui/icons-material/Close';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuIcon from '@mui/icons-material/Menu';
+import {
+  Grid,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  ListItem
+} from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -18,11 +27,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import { dAppName } from 'config';
+import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
 import OrganizationInfoContextProvider from 'pages/Organization/OrganizationInfoContextProvider';
 import { routeNames } from 'routes';
 import menuItems from 'utils/menuItems';
-import { uniqueContractAddress } from '../../../multisigConfig';
 import Account from './Account';
+import AccountDetails from './NavbarAccountDetails';
 import Notifications from './Notifications';
 import Settings from './Settings';
 const drawerWidth = 255;
@@ -83,7 +93,7 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -104,6 +114,22 @@ export default function MiniDrawer() {
   };
 
   const isOnUnlockPage = window.location.pathname.includes(routeNames.unlock);
+
+  const [walletAddress, setWalletAddress] = useState('');
+
+  const miau = () => {
+    const walletAddressFirstElements =
+      uniqueContractAddress.substring(0, 4) +
+      '...' +
+      uniqueContractAddress.substring(
+        uniqueContractAddress.length - 4,
+        uniqueContractAddress.length
+      );
+    setWalletAddress(walletAddressFirstElements);
+  };
+  useEffect(() => {
+    miau();
+  }, []);
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -171,35 +197,43 @@ export default function MiniDrawer() {
       </AppBar>
       <Drawer variant='permanent' open={open}>
         <List sx={{ mt: 10 }}>
-          {menuItems.topItems.map((el, index) => {
-            return (
-              <Link key={index} to={el.link}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    {el.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={el.name}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </Link>
-            );
-          })}
+          <AccountDetails uniqueAddress={walletAddress} />
+          <Divider />
         </List>
-        <Divider />
+
+        {menuItems.topItems.map((el, index) => {
+          return (
+            <Accordion key={index} sx={{ ml: 2, mr: 2 }}>
+              <AccordionSummary
+                aria-controls='panel1a-content'
+                expandIcon={<ExpandMoreIcon />}
+                id='panel1a-header'
+              >
+                <Typography>
+                  {el.icon}
+                  {el.name}
+                </Typography>
+              </AccordionSummary>
+              {el.submenu?.map((el, index) => {
+                return (
+                  <AccordionDetails key={index}>
+                    <Link to={el.link}>
+                      <Grid container direction='column'>
+                        <ListItem button>
+                          <Typography>
+                            {el.icon}
+                            {el.name}
+                          </Typography>
+                        </ListItem>
+                      </Grid>
+                    </Link>
+                  </AccordionDetails>
+                );
+              })}
+            </Accordion>
+          );
+        })}
+        <Divider sx={{ mt: 1 }} />
         <List className='bottom-items'>
           {menuItems.bottomItems.map((el, index) => {
             return (
