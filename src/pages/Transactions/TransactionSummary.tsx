@@ -32,7 +32,7 @@ const TransactionSummary = ({ transaction }: Props) => {
             fontWeight: 'bold'
           }}
         >
-          {transaction.action.name} - {transaction.action.category}
+          {transaction?.function}
         </Typography>
 
         <Typography

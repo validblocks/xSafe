@@ -1,6 +1,8 @@
 import React, { useCallback, useState } from 'react';
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import dayjs from 'dayjs';
+import { getDate } from 'utils/transactionUtils';
 import TransactionAdvancedDetails from './TransactionAdvancedDetails';
 
 type Props = any;
@@ -41,9 +43,9 @@ const TransactionTechnicalDetails = ({ transaction }: Props) => {
             letterSpacing: 0.5
           }}
         >
-          Action Name:{' '}
+          Function Name:{' '}
         </Typography>
-        {transaction?.action.name}
+        {transaction?.function}
       </Typography>
       <Typography component='div' className='my-1'>
         <Typography
@@ -55,9 +57,9 @@ const TransactionTechnicalDetails = ({ transaction }: Props) => {
             letterSpacing: 0.5
           }}
         >
-          Action Category:{' '}
+          Timestamp:{' '}
         </Typography>
-        {transaction?.action.category}
+        {dayjs(getDate(transaction.timestamp)).format('H:mm A')}
       </Typography>
       <Button
         variant='text'
