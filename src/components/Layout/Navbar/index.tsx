@@ -177,29 +177,60 @@ export default function MiniDrawer() {
           {menuItems.topItems.map((el, index) => (
             <div key={index}>
               {el.submenu && (
-                <Accordion sx={{ ml: 2, mr: 2 }}>
+                <Accordion sx={{ boxShadow: 'none' }}>
                   <AccordionSummary
                     aria-controls='panel1a-content'
                     expandIcon={<ExpandMoreIcon />}
                     id='panel1a-header'
+                    sx={{ paddingLeft: '5px' }}
                   >
-                    <Typography>
-                      {el.icon}
-                      {el.name}
-                    </Typography>
+                    <ListItemButton
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? 'initial' : 'center',
+                        px: 2.5
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: open ? 3 : 'auto',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        {el.icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={el.name}
+                        sx={{ opacity: open ? 1 : 0 }}
+                      />
+                    </ListItemButton>
                   </AccordionSummary>
                   {el.submenu?.map((el, index) => {
                     return (
                       <AccordionDetails key={index}>
                         <Link to={el.link}>
-                          <Grid container direction='column'>
-                            <ListItem button>
-                              <Typography>
-                                {el.icon}
-                                {el.name}
-                              </Typography>
-                            </ListItem>
-                          </Grid>
+                          <ListItemButton
+                            sx={{
+                              minHeight: 48,
+                              justifyContent: open ? 'initial' : 'center',
+                              px: 2.5
+                            }}
+                          >
+                            <ListItemIcon
+                              sx={{
+                                minWidth: 0,
+                                mr: open ? 3 : 'auto',
+                                justifyContent: 'center'
+                              }}
+                            >
+                              {el.icon}
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={el.name}
+                              sx={{ opacity: open ? 1 : 0 }}
+                            />
+                          </ListItemButton>
                         </Link>
                       </AccordionDetails>
                     );

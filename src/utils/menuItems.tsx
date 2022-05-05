@@ -1,21 +1,23 @@
 import React from 'react';
+import AdjustOutlinedIcon from '@mui/icons-material/AdjustOutlined';
+import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import HelpIcon from '@mui/icons-material/Help';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
-import LogoutIcon from '@mui/icons-material/Logout';
+import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
+import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 
 const topItems = [
   {
     name: 'Assets',
     link: 'assets',
-    icon: <DashboardIcon />,
+    icon: <PaidOutlinedIcon />,
     submenu: [
       {
         name: 'Coins',
         link: 'tokens',
-        icon: <LocalAtmIcon />
+        icon: <AdjustOutlinedIcon />
       },
       {
         name: 'NFTs',
@@ -27,12 +29,7 @@ const topItems = [
   {
     name: 'Transactions',
     link: 'transactions',
-    icon: <DashboardIcon />
-  },
-  {
-    name: 'Settings',
-    link: 'settings',
-    icon: <DashboardIcon />
+    icon: <CompareArrowsOutlinedIcon />
   },
   {
     name: 'Apps',
@@ -42,13 +39,12 @@ const topItems = [
 ];
 
 const bottomItems = [
-  { name: 'FAQ', link: 'faq', icon: <HelpIcon /> },
   {
-    name: 'Documentation',
-    link: 'documentation',
-    icon: <InsertDriveFileIcon />
+    name: 'Settings',
+    link: 'settings',
+    icon: <SettingsApplicationsIcon />
   },
-  { name: 'End session', link: 'end-session', icon: <LogoutIcon /> }
+  { name: 'Help Center', link: 'help-center', icon: <HelpIcon /> }
 ];
 
 export default { topItems, bottomItems };

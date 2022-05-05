@@ -8,7 +8,7 @@ const DecisionActions = () => {
   return (
     <Box
       className={
-        'd-flex flex-fill justify-content-center align-items-center flex-column decision-actions-wrapper'
+        'flex-fill justify-content-center align-items-center flex-column decision-actions-wrapper'
       }
     >
       <DecisionsActionsHeader />

@@ -5,7 +5,6 @@ import DecisionsHeader from 'components/DecisionsComponents/DecisionsHeader';
 import DecisionsStatus from 'components/DecisionsComponents/decisionsStatus';
 import ProgressBarsSection from 'components/DecisionsComponents/progressBarsSection';
 import './decisions.scss';
-import PageBreadcrumbs from 'components/Layout/Breadcrumb';
 
 const Decisions = () => {
   return (
@@ -15,7 +14,6 @@ const Decisions = () => {
           'd-flex flex-fill justify-content-center align-items-center flex-column decisions-wrapper'
         }
       >
-        <PageBreadcrumbs />
         <DecisionsHeader />
         <ProgressBarsSection />
         <DecisionsStatus />
