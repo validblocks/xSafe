@@ -1,30 +1,46 @@
-import React, { useEffect, useMemo } from 'react';
-import { useGetNetworkConfig } from '@elrondnetwork/dapp-core';
+import React, { useMemo } from 'react';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
+import CallMadeIcon from '@mui/icons-material/CallMade';
+import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import { Box } from '@mui/material';
-import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { denomination, decimals } from 'config';
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridRenderCellParams
+} from '@mui/x-data-grid';
+import { useDispatch, useSelector } from 'react-redux';
+import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { priceSelector } from 'redux/selectors/economicsSelector';
-import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
+import {
+  setProposeModalSelectedOption,
+  setProposeMultiselectSelectedOption
+} from 'redux/slices/modalsSlice';
+import { ProposalsTypes } from 'types/Proposals';
 
 const AssetsPage = () => {
-  const currentContract = useSelector(currentMultisigContractSelector);
   const egldPrice = useSelector(priceSelector);
-  const {
-    network: { egldLabel }
-  } = useGetNetworkConfig();
+  const dispatch = useDispatch();
+
+  const openProposeSendTokenForm = () =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.send_token
+      })
+    );
+
+  const handleOptionSelected = (option: ProposalsTypes) => {
+    dispatch(setProposeMultiselectSelectedOption({ option }));
+  };
 
   const columns = useMemo(
     () => [
       {
-        field: 'asset',
+        field: 'identifier',
         headerName: 'ASSET',
         type: 'string',
         renderCell: (params: GridRenderCellParams<any>) => (
           <div className='d-flex flex-column justify-content-center'>
-            <p className='mb-0'>{params.value}</p>
+            <p className='mb-0'>{params.value.split('-')[0] ?? 'unknown'}</p>
           </div>
         )
       },
@@ -36,9 +52,9 @@ const AssetsPage = () => {
         renderCell: (params: any) => (
           <h6 className='text-center mb-0'>
             {operations.denominate({
-              input: params.value,
-              denomination,
-              decimals,
+              input: params.value.amount,
+              denomination: params.value.decimals,
+              decimals: params.value.decimals,
               showLastNonZeroDecimal: true
             })}{' '}
           </h6>
@@ -47,14 +63,14 @@ const AssetsPage = () => {
       {
         field: 'value',
         headerName: 'VALUE',
-        type: 'string',
+        type: 'any',
         renderCell: (params: any) => (
           <h5 className='ex-currency text-center mb-0'>
             <Ui.UsdValue
               amount={operations.denominate({
-                input: params.value,
-                denomination,
-                decimals,
+                input: params.value.amount,
+                denomination: params.value.decimals,
+                decimals: params.value.decimals,
                 showLastNonZeroDecimal: true,
                 addCommas: false
               })}
@@ -62,45 +78,34 @@ const AssetsPage = () => {
             />{' '}
           </h5>
         )
+      },
+      {
+        field: 'actions',
+        type: 'actions',
+        width: 300,
+        headerName: 'Quick Actions',
+        getActions: (params: any) => [
+          <div key='0' className='shadow-sm p-2 rounded mr-2'>
+            <GridActionsCellItem
+              icon={<CallMadeIcon htmlColor='#9DABBD' />}
+              label='Toggle Admin'
+              onClick={() => handleOptionSelected(ProposalsTypes.send_token)}
+            />
+          </div>,
+          <div key='1' className='shadow-sm p-2 rounded mr-2'>
+            <GridActionsCellItem
+              icon={<CallReceivedIcon htmlColor='#9DABBD' />}
+              label='Delete'
+              onClick={() => openProposeSendTokenForm}
+            />
+          </div>
+        ]
       }
     ],
     []
   );
 
-  useEffect(() => {
-    axios
-      .get(`https://devnet-api.elrond.com/address/${currentContract?.address}`)
-      .then(({ data }) => {
-        console.log({ data });
-      });
-  }, []);
-
-  const rows = [
-    {
-      id: 1,
-      asset: 'EGLD',
-      balance: '3558932340000000000',
-      value: '3558932340000000000'
-    },
-    {
-      id: 2,
-      asset: 'EGLD',
-      balance: '3558932340000000000',
-      value: '3558932340000000000'
-    },
-    {
-      id: 3,
-      asset: 'EGLD',
-      balance: '3558932340000000000',
-      value: '3558932340000000000'
-    },
-    {
-      id: 4,
-      asset: 'EGLD',
-      balance: '3558932340000000000',
-      value: '3558932340000000000'
-    }
-  ];
+  const { tokensState: rows } = useOrganizationInfoContext();
 
   return (
     <Box

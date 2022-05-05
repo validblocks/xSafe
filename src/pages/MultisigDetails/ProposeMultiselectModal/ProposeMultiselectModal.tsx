@@ -131,8 +131,9 @@ const ProposeMultiselectModal = ({
             handleChange={handleProposalChange}
           />
         );
-      case ProposalsTypes.send_token:
+      case ProposalsTypes.send_token: {
         return <ProposeSendToken handleChange={handleProposalChange} />;
+      }
       case ProposalsTypes.deploy_contract_from_source:
         return (
           <ProposeDeployContractFromSource
@@ -181,10 +182,7 @@ const ProposeMultiselectModal = ({
       {t('Cancel')}
     </button>
   );
-  const cancelButton =
-    selectedOption?.option !== ProposalsTypes.multiselect_proposal_options
-      ? goBackButton
-      : closeButton;
+  const cancelButton = closeButton;
 
   const actionTitle =
     selectedOption?.option != null ? `: ${titles[selectedOption?.option]}` : '';
