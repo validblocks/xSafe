@@ -10,7 +10,6 @@ import {
 import { useDispatch } from 'react-redux';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
-import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
 const OrganizationsTokensTable = () => {
   const dispatch = useDispatch();
@@ -110,7 +109,6 @@ const OrganizationsTokensTable = () => {
     [onRemoveUser, toggleAdmin, duplicateUser]
   );
 
-  const { allMemberAddresses } = useOrganizationInfoContext();
   const rows = [
     {
       id: 1,

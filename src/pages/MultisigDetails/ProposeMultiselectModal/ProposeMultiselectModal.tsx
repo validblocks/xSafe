@@ -50,7 +50,7 @@ const ProposeMultiselectModal = ({
   const { t } = useTranslation();
   const [selectedProposal, setSelectedProposal] =
     React.useState<MultisigAction | null>(null);
-  const [submitDisabled, setSubmitDisabled] = React.useState(false);
+  const [submitDisabled, setSubmitDisabled] = React.useState(true);
 
   const onProposeClicked = () => {
     try {
@@ -131,8 +131,14 @@ const ProposeMultiselectModal = ({
             handleChange={handleProposalChange}
           />
         );
-      case ProposalsTypes.send_token:
-        return <ProposeSendToken handleChange={handleProposalChange} />;
+      case ProposalsTypes.send_token: {
+        return (
+          <ProposeSendToken
+            setSubmitDisabled={setSubmitDisabled}
+            handleChange={handleProposalChange}
+          />
+        );
+      }
       case ProposalsTypes.deploy_contract_from_source:
         return (
           <ProposeDeployContractFromSource
@@ -181,10 +187,7 @@ const ProposeMultiselectModal = ({
       {t('Cancel')}
     </button>
   );
-  const cancelButton =
-    selectedOption?.option !== ProposalsTypes.multiselect_proposal_options
-      ? goBackButton
-      : closeButton;
+  const cancelButton = closeButton;
 
   const actionTitle =
     selectedOption?.option != null ? `: ${titles[selectedOption?.option]}` : '';
@@ -204,6 +207,7 @@ const ProposeMultiselectModal = ({
         {getContent()}
         <div className='modal-action-btns'>
           {cancelButton}
+
           {selectedOption?.option !==
             ProposalsTypes.multiselect_proposal_options && proposeButton}
         </div>

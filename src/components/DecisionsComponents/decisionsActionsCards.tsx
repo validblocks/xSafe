@@ -8,7 +8,7 @@ import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { Button } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import LinearWithValueLabel from 'components/ProgressBar/progressLinear';
 
 const DecisionsActionsCards = () => {

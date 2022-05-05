@@ -9,6 +9,7 @@ import { TestContext } from 'yup';
 import { denomination } from 'config';
 import MultisigDetailsContext from 'context/MultisigDetailsContext';
 import { FormikInputField } from 'helpers/formikFields';
+import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { MultisigSendEgld } from 'types/MultisigSendEgld';
 
 interface ProposeSendEgldType {
@@ -20,7 +21,7 @@ const ProposeSendEgld = ({
   handleChange,
   setSubmitDisabled
 }: ProposeSendEgldType) => {
-  const { multisigBalance } = React.useContext(MultisigDetailsContext);
+  const { multisigBalance } = useOrganizationInfoContext();
 
   const { t } = useTranslation();
 

@@ -43,3 +43,8 @@ export const selectedPerformedActionSelector = createDeepEqualSelector(
   performActionModalSelector,
   (state) => state.selectedAction
 );
+
+export const selectedTokenToSendSelector = createDeepEqualSelector(
+  performActionModalSelector,
+  (state) => state.selectedToken
+);

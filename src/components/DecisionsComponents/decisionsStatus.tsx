@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Looks3OutlinedIcon from '@mui/icons-material/Looks3Outlined';
-import { Grid, Box } from '@mui/material';
+import { Grid } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 
