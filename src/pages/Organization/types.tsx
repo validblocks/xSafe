@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address, Balance } from '@elrondnetwork/erdjs/out';
 
 export type MemberAddressTableRow = {
   id: number;
@@ -58,4 +58,5 @@ export type OrganizationInfoContextType = {
   tokensState: TokenTableRow[];
   userRole: number;
   allMemberAddresses: MemberAddressTableRow[];
+  multisigBalance: Balance;
 };

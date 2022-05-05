@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address, Balance } from '@elrondnetwork/erdjs/out';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { network } from 'config';
@@ -34,6 +34,9 @@ export const useOrganizationInfoContext = () =>
 const OrganizationInfoContextProvider = ({ children }: Props) => {
   const [membersCount, setMembersCount] = useState(0);
   const [quorumCount, setQuorumCount] = useState(0);
+  const [multisigBalance, setMultisigBalance] = useState(
+    Balance.fromString('0')
+  );
 
   const [boardMembers, setBoardMembers] = useState([] as Address[]);
   const [proposers, setProposers] = useState([] as Address[]);
@@ -68,10 +71,13 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
     );
     Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]).then(
       ([{ balance: egldBalance }, { data: otherTokens }]) => {
+        setMultisigBalance(egldBalance);
+
         const allTokens = [
           { ...egldBalance.token, balance: egldBalance.value.toString() },
           ...otherTokens
         ];
+
         setOrganizationTokens(
           allTokens.map((token: any, idx: number) => ({
             ...token,
@@ -120,7 +126,8 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
         proposersState: [proposers, setProposers],
         userRole: userRole as number,
         tokensState: organizationTokens,
-        allMemberAddresses
+        allMemberAddresses,
+        multisigBalance
       }}
     >
       {children}
