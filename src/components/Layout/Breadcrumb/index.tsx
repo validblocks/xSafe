@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import breadcrumbItems from './breadcrumbItems';
+import breadcrumbItems from './BreadcrumbItems';
 
 const PageBreadcrumbs = () => {
   const [breadcrumb, setBreadcrumb] = useState([]);
