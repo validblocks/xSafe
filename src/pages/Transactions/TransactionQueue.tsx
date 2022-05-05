@@ -6,6 +6,7 @@ import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
+import { makeStyles } from '@mui/styles';
 import { queryAllActions } from 'contracts/MultisigContract';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
@@ -13,7 +14,21 @@ import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
 import useTransactionPermissions from './useTransactionPermissions';
 
+const useStyles = makeStyles(() => ({
+  expanded: { margin: 0 },
+  content: {
+    margin: 0,
+    display: 'flex',
+    justifyContent: 'space-between',
+
+    '&$expanded': {
+      margin: 0
+    }
+  }
+}));
+
 const TransactionQueue = () => {
+  const classes = useStyles();
   const [allPendingTransactions, setAllPendingTransactions] = useState(
     [] as MultisigActionDetailed[]
   );
@@ -39,18 +54,52 @@ const TransactionQueue = () => {
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls='panel1a-content'
+            className='pl-0'
+            classes={{
+              content: classes.content,
+              expanded: classes.expanded
+            }}
             id='panel1a-header'
           >
             <div className='d-flex w-100'>
-              <Typography component='span' className='mr-4'>
+              <Typography
+                sx={{
+                  borderRight: '2px solid #eee',
+                  padding: '1rem',
+                  fontSize: '0.85rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'
+                }}
+                component='span'
+              >
                 <strong>ID: </strong>
                 {transaction.actionId}
               </Typography>
-              <Typography align='left' component='span' className='mr-4'>
+              <Typography
+                sx={{
+                  borderRight: '2px solid #eee',
+                  padding: '1rem',
+                  fontSize: '0.85rem',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+                align='left'
+                component='span'
+              >
                 <SettingsIcon className='mr-2' color='info' />
                 {transaction.title()}
               </Typography>
-              <Typography component='span'>
+              <Typography
+                sx={{
+                  borderRight: '2px solid #eee',
+                  padding: '1rem',
+                  fontSize: '0.85rem',
+                  display: 'flex',
+                  alignItems: 'center'
+                }}
+                component='span'
+              >
                 <PeopleIcon color='secondary' className='mr-2' />
                 {transaction.signers.length} out of {quorumCount}
               </Typography>
