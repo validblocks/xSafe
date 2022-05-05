@@ -3,13 +3,11 @@ import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import NorthEastRoundedIcon from '@mui/icons-material/NorthEastRounded';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Box, Button, Typography } from '@mui/material';
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
-import { styled, useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import Safe from 'assets/img/safe.png';
 import CopyButton from 'components/CopyButton';
 import ReceiveModal from 'components/ReceiveModal';
+import { queryBoardMemberAddresses } from 'contracts/MultisigContract';
 import { uniqueContractAddress } from 'multisigConfig';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
@@ -19,9 +17,17 @@ import './navbarAccountDetails.scss';
 const NavbarAccountDetails = ({ uniqueAddress }: any) => {
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
-  const [open, setOpen] = React.useState(false);
+  const [boardMembers, setBoardMembers] = useState([]);
 
   const [showQr, setShowQr] = useState(false);
+
+  useEffect(() => {
+    console.log('asd');
+    queryBoardMemberAddresses().then((response) => {
+      console.log(response, 'response');
+      // setBoardMembers(response);
+    });
+  }, []);
 
   const handleQrModal = () => {
     setShowQr(!showQr);

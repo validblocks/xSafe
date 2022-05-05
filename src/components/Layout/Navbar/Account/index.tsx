@@ -55,7 +55,7 @@ const Account = () => {
           variant='outlined'
           onClick={handleClick}
           size='small'
-          sx={{ width: '200px', height: '45px' }}
+          className='connect-btn'
         >
           {loggedIn ? (
             <Box className='d-flex'>

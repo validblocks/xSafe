@@ -99,14 +99,6 @@ export default function MiniDrawer() {
 
   const [open, setOpen] = React.useState(true);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
   const navigate = useNavigate();
   const loggedIn = getIsLoggedIn();
 
