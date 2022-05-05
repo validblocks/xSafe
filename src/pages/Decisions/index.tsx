@@ -8,16 +8,18 @@ import './decisions.scss';
 
 const Decisions = () => {
   return (
-    <Box
-      className={
-        'd-flex flex-fill justify-content-center align-items-center flex-column decisions-wrapper'
-      }
-    >
-      <DecisionsHeader />
-      <ProgressBarsSection />
-      <DecisionsStatus />
-      <DecisionsActionsCards />
-    </Box>
+    <div>
+      <Box
+        className={
+          'd-flex flex-fill justify-content-center align-items-center flex-column decisions-wrapper'
+        }
+      >
+        <DecisionsHeader />
+        <ProgressBarsSection />
+        <DecisionsStatus />
+        <DecisionsActionsCards />
+      </Box>
+    </div>
   );
 };
 

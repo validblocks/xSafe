@@ -1,13 +1,21 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { getIsLoggedIn } from '@elrondnetwork/dapp-core';
 import CloseIcon from '@mui/icons-material/Close';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuIcon from '@mui/icons-material/Menu';
+import {
+  Grid,
+  Typography,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  ListItem
+} from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -18,13 +26,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import { dAppName } from 'config';
-import OrganizationInfoContextProvider from 'pages/Organization/OrganizationInfoContextProvider';
+import addressShorthand from 'helpers/addressShorthand';
+import { uniqueContractAddress } from 'multisigConfig';
 import { routeNames } from 'routes';
 import menuItems from 'utils/menuItems';
-import { uniqueContractAddress } from '../../../multisigConfig';
 import Account from './Account';
-import Notifications from './Notifications';
-import Settings from './Settings';
+import AccountDetails from './NavbarAccountDetails';
+import Network from './Network';
+import './menu.scss';
+import { useLocation } from 'react-router-dom';
+
 const drawerWidth = 255;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -83,15 +94,10 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const location = useLocation();
+  const locationString = location.pathname.substring(1);
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const [open, setOpen] = React.useState(true);
 
   const navigate = useNavigate();
   const loggedIn = getIsLoggedIn();
@@ -105,36 +111,25 @@ export default function MiniDrawer() {
 
   const isOnUnlockPage = window.location.pathname.includes(routeNames.unlock);
 
+  const [walletAddress, setWalletAddress] = useState('');
+
+  useEffect(() => {
+    setWalletAddress(addressShorthand());
+  }, []);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar>
-        <BsNavbar className='bg-white px-4 py-3'>
-          {open === false ? (
-            <IconButton
-              color='inherit'
-              aria-label='open drawer'
-              onClick={handleDrawerOpen}
-              edge='start'
-              sx={{
-                marginRight: 5
-              }}
-            >
-              <MenuIcon />
-            </IconButton>
-          ) : (
-            <IconButton
-              color='inherit'
-              aria-label='open drawer'
-              onClick={handleDrawerClose}
-              edge='start'
-              sx={{
-                marginRight: 5
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          )}
+      <AppBar></AppBar>
+      <Box
+        className='miau d-flex justify-content-end px-4 py-3'
+        sx={{ position: 'absolute', width: '100%', zIndex: '9' }}
+      >
+        <Account />
+        {/* <Network /> */}
+      </Box>
+      <Drawer variant='permanent' open={open}>
+        <BsNavbar className='px-4 py-3'>
           <NavItem
             onClick={handleRedirectToHome}
             className='d-flex align-items-center nav-logo'
@@ -142,69 +137,141 @@ export default function MiniDrawer() {
             <ElrondLogo className='elrond-logo' />
             <span className='dapp-name'>{dAppName}</span>
           </NavItem>
-          <Nav className='ml-auto'>
-            {loggedIn ? (
-              <div
-                className='d-flex align-items-center logged-in'
-                style={{ minWidth: 0 }}
-              >
-                <Account />
-                <Settings />
-                <Notifications />
-              </div>
-            ) : (
-              !isOnUnlockPage && (
-                <div className='connect-btns '>
-                  <Link
-                    to={routeNames.unlock}
-                    className='btn primary'
-                    data-testid='loginBtn'
-                  >
-                    <Union />
-                    <span className='name'>Connect now</span>
-                  </Link>
-                </div>
-              )
-            )}
-          </Nav>
+          <Nav className='ml-auto align-items-center'></Nav>
         </BsNavbar>
-      </AppBar>
-      <Drawer variant='permanent' open={open}>
-        <List sx={{ mt: 10 }}>
-          {menuItems.topItems.map((el, index) => {
-            return (
-              <Link key={index} to={el.link}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5
-                  }}
+        <Divider />
+        <List sx={{ mt: 1 }}>
+          <AccountDetails uniqueAddress={walletAddress} />
+          <Divider />
+        </List>
+        <Box sx={{ maxHeight: '200px', overflowY: 'scroll' }}>
+          {menuItems.topItems.map((el, index) => (
+            <div key={index}>
+              {el.submenu && (
+                <Accordion sx={{ boxShadow: 'none' }}>
+                  <AccordionSummary
+                    aria-controls='panel1a-content'
+                    expandIcon={<ExpandMoreIcon />}
+                    id='panel1a-header'
+                    className='menu-accordion'
+                    sx={{ paddingLeft: '0px' }}
+                  >
+                    <ListItemButton
+                      className='link-hover'
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? 'initial' : 'center',
+                        px: 2.5
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: open ? 3 : 'auto',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        {el.icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={el.name}
+                        sx={{ opacity: open ? 1 : 0 }}
+                      />
+                    </ListItemButton>
+                  </AccordionSummary>
+                  {el.submenu?.map((el, index) => {
+                    return (
+                      <AccordionDetails
+                        key={index}
+                        className='accordion-details-link'
+                      >
+                        <Link
+                          to={el.link}
+                          className={
+                            locationString == el.link
+                              ? 'active link-decoration'
+                              : 'link-decoration'
+                          }
+                        >
+                          <ListItemButton
+                            className='link-hover'
+                            sx={{
+                              minHeight: 48,
+                              justifyContent: open ? 'initial' : 'center',
+                              px: 2.5
+                            }}
+                          >
+                            <ListItemIcon
+                              sx={{
+                                minWidth: 0,
+                                mr: open ? 3 : 'auto',
+                                justifyContent: 'center'
+                              }}
+                            >
+                              {el.icon}
+                            </ListItemIcon>
+                            <ListItemText
+                              primary={el.name}
+                              sx={{ opacity: open ? 1 : 0 }}
+                            />
+                          </ListItemButton>
+                        </Link>
+                      </AccordionDetails>
+                    );
+                  })}
+                </Accordion>
+              )}
+              {!el.submenu && (
+                <Link
+                  to={el.link}
+                  className={
+                    locationString == el.link
+                      ? 'active link-decoration'
+                      : 'link-decoration'
+                  }
                 >
-                  <ListItemIcon
+                  <ListItemButton
+                    className='link-hover'
                     sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center'
+                      minHeight: 48,
+                      justifyContent: open ? 'initial' : 'center',
+                      px: 2.5
                     }}
                   >
-                    {el.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={el.name}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItemButton>
-              </Link>
-            );
-          })}
-        </List>
-        <Divider />
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 3 : 'auto',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      {el.icon}
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={el.name}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                  </ListItemButton>
+                </Link>
+              )}
+            </div>
+          ))}
+        </Box>
         <List className='bottom-items'>
+          <Divider sx={{ mt: 1 }} />
           {menuItems.bottomItems.map((el, index) => {
             return (
-              <Link key={index} to={el.link}>
+              <Link
+                key={index}
+                to={el.link}
+                className={
+                  locationString == el.link
+                    ? 'active link-decoration'
+                    : 'link-decoration'
+                }
+              >
                 <ListItemButton
+                  className='link-hover'
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? 'initial' : 'center',

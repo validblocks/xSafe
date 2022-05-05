@@ -79,7 +79,6 @@ export interface ContractInfo {
   boardMembersAddresses?: Address[];
   proposersAddresses?: Address[];
 }
-
 const MultisigDetailsPage = () => {
   const [contractInfo, setContractInfo] = useState<ContractInfo>({
     totalBoardMembers: 0,
@@ -92,6 +91,7 @@ const MultisigDetailsPage = () => {
     boardMembersAddresses: [],
     proposersAddresses: []
   });
+
   const [dataFetched, setDataFetched] = useState(false);
   const selectedAction = useSelector(selectedPerformedActionSelector);
   const selectedOption = useSelector(proposeModalSelectedOptionSelector);

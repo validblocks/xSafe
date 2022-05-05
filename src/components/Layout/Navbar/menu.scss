@@ -1,0 +1,23 @@
+.link-hover:hover {
+  color: #4c2ffc !important;
+  background-color: #f5f7ff !important;
+}
+
+.link-decoration:hover {
+  text-decoration: none;
+}
+
+.link-decoration {
+  color: #08041d !important;
+}
+.active {
+  border-right: 2px solid #4c2ffc;
+  display: block;
+  background: #e4eaff;
+}
+.accordion-details-link {
+  padding: 0 !important;
+}
+.accordion-details-link .link-hover {
+  padding-left: 45px;
+}

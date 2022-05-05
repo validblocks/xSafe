@@ -1,35 +1,81 @@
 import React from 'react';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
-import DashboardIcon from '@mui/icons-material/Dashboard';
+import AdjustOutlinedIcon from '@mui/icons-material/AdjustOutlined';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined';
+import DiamondIcon from '@mui/icons-material/Diamond';
+import GridViewSharpIcon from '@mui/icons-material/GridViewSharp';
+import GroupsIcon from '@mui/icons-material/Groups';
 import HelpIcon from '@mui/icons-material/Help';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
-import LanIcon from '@mui/icons-material/Lan';
-import LocalAtmIcon from '@mui/icons-material/LocalAtm';
-import LogoutIcon from '@mui/icons-material/Logout';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
+import InfoIcon from '@mui/icons-material/Info';
+import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
+import PeopleIcon from '@mui/icons-material/People';
+import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 
 const topItems = [
-  { name: 'Dashboard', link: 'dashboard', icon: <DashboardIcon /> },
   {
-    name: 'Vault',
-    link: 'vault',
-    icon: <AccountBalanceWalletIcon />
+    name: 'Assets',
+    link: 'assets',
+    icon: <AttachMoneyIcon />,
+    submenu: [
+      {
+        name: 'Coins',
+        link: 'tokens',
+        icon: <AdjustOutlinedIcon />
+      },
+      {
+        name: 'NFTs',
+        link: 'decisions',
+        icon: <DiamondIcon />
+      }
+    ]
   },
-  { name: 'Decisions', link: 'decisions', icon: <ThumbUpAltIcon /> },
-  { name: 'Organization', link: 'organization', icon: <LanIcon /> },
-  { name: 'Tokens', link: 'tokens', icon: <LocalAtmIcon /> },
-  { name: 'Assets', link: 'assets', icon: <LocalAtmIcon /> },
-  { name: 'Transactions', link: 'transactions', icon: <LocalAtmIcon /> }
+  {
+    name: 'Transactions',
+    link: 'transactions',
+    icon: <CompareArrowsOutlinedIcon />
+  },
+  {
+    name: 'Address Book',
+    link: 'address-book',
+    icon: <MenuBookIcon />
+  },
+  {
+    name: 'Apps',
+    link: 'apps',
+    icon: <GridViewSharpIcon />
+  },
+  {
+    name: 'Organization',
+    link: 'organization',
+    icon: <MapsHomeWorkIcon />,
+    submenu: [
+      {
+        name: 'Owners',
+        link: 'owners',
+        icon: <GroupsIcon />
+      },
+      {
+        name: 'Cvorum',
+        link: 'cvorum',
+        icon: <PeopleIcon />
+      },
+      {
+        name: 'Organization Details',
+        link: 'organization-details',
+        icon: <InfoIcon />
+      }
+    ]
+  }
 ];
 
 const bottomItems = [
-  { name: 'FAQ', link: 'faq', icon: <HelpIcon /> },
   {
-    name: 'Documentation',
-    link: 'documentation',
-    icon: <InsertDriveFileIcon />
+    name: 'Settings',
+    link: 'settings',
+    icon: <SettingsApplicationsIcon />
   },
-  { name: 'End session', link: 'end-session', icon: <LogoutIcon /> }
+  { name: 'Help Center', link: 'help-center', icon: <HelpIcon /> }
 ];
 
 export default { topItems, bottomItems };

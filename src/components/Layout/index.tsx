@@ -19,6 +19,7 @@ import routes, { routeNames } from 'routes';
 import { accessTokenServices, storageApi } from 'services/accessTokenServices';
 import { TokenWrapper } from '../TokenWrapper';
 import ModalLayer from './Modal';
+import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
 import Navbar from './Navbar';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -82,11 +83,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       style={{ display: 'none !important' }}
-      className='bg-light d-flex flex-column flex-fill wrapper'
+      className='bg-light d-flex flex-row flex-fill wrapper'
     >
       <Navbar />
 
-      <main className='d-flex flex-row flex-fill position-relative justify-center  container'>
+      <main
+        style={{ background: '#F4F6FD' }}
+        className='d-flex flex-row flex-fill position-relative justify-center  container'
+      >
         <AuthenticatedRoutesWrapper
           routes={routes}
           unlockRoute={routeNames.unlock}
@@ -95,6 +99,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </AuthenticatedRoutesWrapper>
         <TokenWrapper />
         <ModalLayer />
+        <SidebarSelectOptionModal />
       </main>
     </div>
     // {/* <OrganizationInfoContextProvider>
