@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from '@emotion/styled';
 import { Box, Grid } from '@mui/material';
 import OrganizationContent from './OrganizationContent';
 import OrganizationHeader from './OrganizationHeader';

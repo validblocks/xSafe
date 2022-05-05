@@ -4,9 +4,8 @@ import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import { Box } from '@mui/material';
 import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
 import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { denomination, decimals } from 'config';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { priceSelector } from 'redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 
@@ -76,7 +75,6 @@ const AssetsPage = () => {
       });
   }, []);
 
-  const { allMemberAddresses } = useOrganizationInfoContext();
   const rows = [
     {
       id: 1,
