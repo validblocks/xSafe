@@ -59,7 +59,7 @@ const TransactionTechnicalDetails = ({ transaction }: Props) => {
         >
           Timestamp:{' '}
         </Typography>
-        {dayjs(getDate(transaction.timestamp)).format('H:mm A')}
+        {dayjs(getDate(transaction?.timestamp)).format('H:mm A')}
       </Typography>
       <Button
         variant='text'
