@@ -31,7 +31,6 @@ const AssetsPage = () => {
   };
 
   const handleOptionSelected = (option: ProposalsTypes, token: any) => {
-    console.log({ token });
     dispatch(setProposeMultiselectSelectedOption({ option }));
     dispatch(
       setSelectedTokenToSend({
@@ -61,12 +60,16 @@ const AssetsPage = () => {
         type: 'string',
         renderCell: (params: any) => (
           <h6 className='text-center mb-0'>
-            {operations.denominate({
-              input: params.value.amount,
-              denomination: params.value.decimals,
-              decimals: params.value.decimals,
-              showLastNonZeroDecimal: true
-            })}{' '}
+            {Number(
+              Number(
+                operations.denominate({
+                  input: params.value.amount,
+                  denomination: params.value.decimals,
+                  decimals: params.value.decimals,
+                  showLastNonZeroDecimal: true
+                })
+              ).toFixed(8)
+            )}{' '}
           </h6>
         )
       },
