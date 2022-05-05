@@ -89,7 +89,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
       <main
         style={{ background: '#F4F6FD' }}
-        className='flex-row flex-fill position-relative justify-center  container'
+        className='d-flex flex-row flex-fill position-relative justify-center  container'
       >
         <AuthenticatedRoutesWrapper
           routes={routes}
