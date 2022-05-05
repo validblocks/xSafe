@@ -39,7 +39,8 @@ const TransactionDescription = ({
         child1: {
           gridRow: '1 / 2',
           gridColumn: '1 / 2',
-          borderBottom: '2px solid #eee'
+          borderBottom: '2px solid #eee',
+          minHeight: '12rem'
         },
         child2: {
           gridRow: '1 / 3',

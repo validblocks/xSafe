@@ -65,7 +65,7 @@ const TransactionSummary = ({ transaction }: Props) => {
           </div>
           <div className='d-flex align-items-center mt-1'>
             <img
-              className='mr-3 rounded'
+              className='mr-2 rounded'
               src='https://picsum.photos/20/20?random=1'
             />
             {truncateInTheMiddle(transaction.sender, 10)}
