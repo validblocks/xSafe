@@ -16,7 +16,6 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -27,13 +26,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import { dAppName } from 'config';
-import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
-import OrganizationInfoContextProvider from 'pages/Organization/OrganizationInfoContextProvider';
+import addressShorthand from 'helpers/addressShorthand';
+import { uniqueContractAddress } from 'multisigConfig';
 import { routeNames } from 'routes';
 import menuItems from 'utils/menuItems';
 import Account from './Account';
 import AccountDetails from './NavbarAccountDetails';
 import Network from './Network';
+import './menu.scss';
+import { useLocation } from 'react-router-dom';
+
 const drawerWidth = 255;
 
 const openedMixin = (theme: Theme): CSSObject => ({
@@ -92,6 +94,9 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer() {
   const theme = useTheme();
+  const location = useLocation();
+  const locationString = location.pathname.substring(1);
+
   const [open, setOpen] = React.useState(true);
 
   const handleDrawerOpen = () => {
@@ -116,25 +121,23 @@ export default function MiniDrawer() {
 
   const [walletAddress, setWalletAddress] = useState('');
 
-  const addressShorthand = () => {
-    const walletAddressFirstElements =
-      uniqueContractAddress.substring(0, 4) +
-      '...' +
-      uniqueContractAddress.substring(
-        uniqueContractAddress.length - 4,
-        uniqueContractAddress.length
-      );
-    setWalletAddress(walletAddressFirstElements);
-  };
   useEffect(() => {
-    addressShorthand();
+    setWalletAddress(addressShorthand());
   }, []);
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar>
-        <BsNavbar className='bg-white px-4 py-3'>
+      <AppBar></AppBar>
+      <Box
+        className='miau d-flex justify-content-end px-4 py-3'
+        sx={{ position: 'absolute', width: '100%', zIndex: '9' }}
+      >
+        <Account />
+        {/* <Network /> */}
+      </Box>
+      <Drawer variant='permanent' open={open}>
+        <BsNavbar className='px-4 py-3'>
           <NavItem
             onClick={handleRedirectToHome}
             className='d-flex align-items-center nav-logo'
@@ -142,41 +145,14 @@ export default function MiniDrawer() {
             <ElrondLogo className='elrond-logo' />
             <span className='dapp-name'>{dAppName}</span>
           </NavItem>
-          <Nav className='ml-auto'>
-            {loggedIn ? (
-              <div
-                className='d-flex align-items-center logged-in'
-                style={{ minWidth: 0 }}
-              >
-                <Account />
-                <Network />
-              </div>
-            ) : (
-              !isOnUnlockPage && (
-                <div className='connect-btns '>
-                  <Link
-                    to={routeNames.unlock}
-                    className='btn primary'
-                    data-testid='loginBtn'
-                  >
-                    <Union />
-                    <span className='name'>Connect now</span>
-                  </Link>
-                </div>
-              )
-            )}
-          </Nav>
+          <Nav className='ml-auto align-items-center'></Nav>
         </BsNavbar>
-      </AppBar>
-      <Drawer variant='permanent' open={open}>
-        <List sx={{ mt: 10 }}>
-          <AccountDetails
-            uniqueAddress={walletAddress}
-            address={uniqueContractAddress}
-          />
+        <Divider />
+        <List sx={{ mt: 1 }}>
+          <AccountDetails uniqueAddress={walletAddress} />
           <Divider />
         </List>
-        <Box sx={{ maxHeight: '290px', overflowY: 'scroll' }}>
+        <Box sx={{ maxHeight: '200px', overflowY: 'scroll' }}>
           {menuItems.topItems.map((el, index) => (
             <div key={index}>
               {el.submenu && (
@@ -185,9 +161,11 @@ export default function MiniDrawer() {
                     aria-controls='panel1a-content'
                     expandIcon={<ExpandMoreIcon />}
                     id='panel1a-header'
+                    className='menu-accordion'
                     sx={{ paddingLeft: '0px' }}
                   >
                     <ListItemButton
+                      className='link-hover'
                       sx={{
                         minHeight: 48,
                         justifyContent: open ? 'initial' : 'center',
@@ -211,9 +189,20 @@ export default function MiniDrawer() {
                   </AccordionSummary>
                   {el.submenu?.map((el, index) => {
                     return (
-                      <AccordionDetails key={index}>
-                        <Link to={el.link}>
+                      <AccordionDetails
+                        key={index}
+                        className='accordion-details-link'
+                      >
+                        <Link
+                          to={el.link}
+                          className={
+                            locationString == el.link
+                              ? 'active link-decoration'
+                              : 'link-decoration'
+                          }
+                        >
                           <ListItemButton
+                            className='link-hover'
                             sx={{
                               minHeight: 48,
                               justifyContent: open ? 'initial' : 'center',
@@ -241,8 +230,16 @@ export default function MiniDrawer() {
                 </Accordion>
               )}
               {!el.submenu && (
-                <Link to={el.link}>
+                <Link
+                  to={el.link}
+                  className={
+                    locationString == el.link
+                      ? 'active link-decoration'
+                      : 'link-decoration'
+                  }
+                >
                   <ListItemButton
+                    className='link-hover'
                     sx={{
                       minHeight: 48,
                       justifyContent: open ? 'initial' : 'center',
@@ -272,8 +269,17 @@ export default function MiniDrawer() {
           <Divider sx={{ mt: 1 }} />
           {menuItems.bottomItems.map((el, index) => {
             return (
-              <Link key={index} to={el.link}>
+              <Link
+                key={index}
+                to={el.link}
+                className={
+                  locationString == el.link
+                    ? 'active link-decoration'
+                    : 'link-decoration'
+                }
+              >
                 <ListItemButton
+                  className='link-hover'
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? 'initial' : 'center',

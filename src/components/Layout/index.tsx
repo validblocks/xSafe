@@ -87,7 +87,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     >
       <Navbar />
 
-      <main className='flex-row flex-fill position-relative justify-center  container'>
+      <main
+        style={{ background: '#F4F6FD' }}
+        className='flex-row flex-fill position-relative justify-center  container'
+      >
         <AuthenticatedRoutesWrapper
           routes={routes}
           unlockRoute={routeNames.unlock}

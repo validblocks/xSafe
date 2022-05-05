@@ -10,15 +10,16 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import { styled, useTheme } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
+import Safe from 'assets/img/safe.png';
 import CopyButton from 'components/CopyButton';
-import DrawerAccounts from 'components/Layout/Navbar/DrawerAccounts';
 import ReceiveModal from 'components/ReceiveModal';
 import { uniqueContractAddress } from 'multisigConfig';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
+import './navbarAccountDetails.scss';
 
-const NavbarAccountDetails = ({ uniqueAddress, address }: any) => {
+const NavbarAccountDetails = ({ uniqueAddress }: any) => {
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
   const [open, setOpen] = React.useState(false);
@@ -59,20 +60,20 @@ const NavbarAccountDetails = ({ uniqueAddress, address }: any) => {
     setOpen(true);
   };
   return (
-    <Box>
-      <Box>
-        <Box
-          sx={{
-            width: '50px',
-            height: '50px',
-            backgroundColor: '#000',
-            margin: 'auto'
-          }}
-        ></Box>
+    <Box className='navbar-account-details'>
+      <Box sx={{ textAlign: 'center' }}>
+        <Box>
+          <img src={Safe} width='91px' height='91px' />
+        </Box>
+        <Box>
+          <Box className='members-box'>
+            <Typography>8 Members</Typography>
+          </Box>
+        </Box>
         <Box sx={{ pt: 1 }}>
           <Typography align='center'>{uniqueAddress}</Typography>
         </Box>
-        {!uniqueContractAddress && (
+        {uniqueContractAddress && (
           <IconButton
             color='inherit'
             aria-label='open drawer'
@@ -105,7 +106,7 @@ const NavbarAccountDetails = ({ uniqueAddress, address }: any) => {
       >
         <DrawerHeader>
           <Box
-            sx={{ mt: 12, width: '100%' }}
+            sx={{ mt: 2, width: '100%' }}
             className='d-flex align-items-center justify-content-between'
           >
             <Box className='d-flex'>
@@ -123,20 +124,20 @@ const NavbarAccountDetails = ({ uniqueAddress, address }: any) => {
             </IconButton>
           </Box>
         </DrawerHeader>
-        <DrawerAccounts />
       </Drawer>
       <Box className='d-flex justify-content-center' sx={{ pt: 1 }}>
         <Box onClick={handleQrModal} sx={{ mx: 1 }}>
           <QrCode2Icon />
         </Box>
         <Box className={'copy-btn'} sx={{ mx: 1 }}>
-          <CopyButton text={address} />
+          <CopyButton text={uniqueContractAddress} />
         </Box>
         <Box sx={{ mx: 1 }}>
           <a
-            href={`https://devnet-explorer.elrond.com/accounts/${address}`}
+            href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
             target='_blank'
             rel='noreferrer'
+            className='explorer-link'
           >
             <ContentPasteSearchIcon />
           </a>
@@ -148,11 +149,16 @@ const NavbarAccountDetails = ({ uniqueAddress, address }: any) => {
         />
       </Box>
       <Box sx={{ pt: 1 }}>
+        <Typography className='text-center'>Total balance:</Typography>
         <h5 className='ex-currency text-center'>199 USD</h5>
       </Box>
       <Box className='d-flex justify-content-center' sx={{ pb: 1 }}>
-        <Button variant='contained' onClick={onAddBoardMember}>
-          <NorthEastRoundedIcon /> New Transaction
+        <Button
+          className='new-transfer-btn'
+          variant='outlined'
+          onClick={onAddBoardMember}
+        >
+          <NorthEastRoundedIcon /> New Transfer
         </Button>
       </Box>
     </Box>
