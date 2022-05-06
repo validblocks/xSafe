@@ -78,7 +78,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
   organizationTokens: {
     path: '/tokens',
     title: 'Organization Tokens',
-    component: OrganizationTokens
+    component: AssetsPage
   },
   assets: {
     path: '/assets',
