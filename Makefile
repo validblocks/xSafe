@@ -24,13 +24,13 @@ setup-single-wallet:
 	rm .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
 
-	rm ./src/multisigExtrasConfig.ts && touch ./src/multisigExtrasConfig.ts
+	rm ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 
 	cp -p ./src/config.devnet.ts ./src/config.ts
 
-	rm ./src/multisigConfig.ts && touch ./src/multisigConfig.ts
+	rm ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
 	echo "export const uniqueContractAddress = '$(UNIQUE_CONTRACT_ADDRESS)';" >> ./src/multisigConfig.ts
 	echo "export const uniqueContractName = '$(UNIQUE_CONTRACT_NAME)';" >> ./src/multisigConfig.ts
 
@@ -44,13 +44,13 @@ setup-multi-wallet:
 	rm .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
 
-	rm ./src/multisigExtrasConfig.ts && touch ./src/multisigExtrasConfig.ts
+	rm ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 
 	cp -p ./src/config.devnet.ts ./src/config.ts
 
-	rm ./src/multisigConfig.ts && touch ./src/multisigConfig.ts
+	rm ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
 
 	$(CONTAINER_DEV) 'npm install'
 	$(CONTAINER_DEV) 'npm install @elrondnetwork/dapp-core-internal'
