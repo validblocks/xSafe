@@ -63,9 +63,9 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
   const [userRole, setUserRole] = useState<number>();
 
   useEffect(() => {
-    const getEgldBalancePromise = proxy.getAccount(
-      new Address(currentContract?.address)
-    );
+    const getEgldBalancePromise = currentContract?.address
+      ? proxy.getAccount(new Address(currentContract?.address))
+      : {};
     const getAllOtherTokensPromise = axios.get(
       `${network.apiAddress}/accounts/${currentContract?.address}/tokens`
     );
@@ -97,24 +97,25 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
   }, []);
 
   useEffect(() => {
-    Promise.all([
-      queryBoardMemberAddresses(),
-      queryUserRole(new Address(address).hex()),
-      queryProposerAddresses(),
-      queryQuorumCount()
-    ]).then(
-      ([
-        boardMembersAddresses,
-        userRoleResponse,
-        proposersAddresses,
-        quorumCountResponse
-      ]) => {
-        setBoardMembers(boardMembersAddresses);
-        setProposers(proposersAddresses);
-        setQuorumCount(quorumCountResponse);
-        setUserRole(userRoleResponse);
-      }
-    );
+    currentContract?.address &&
+      Promise.all([
+        queryBoardMemberAddresses(),
+        queryUserRole(new Address(address).hex()),
+        queryProposerAddresses(),
+        queryQuorumCount()
+      ]).then(
+        ([
+          boardMembersAddresses,
+          userRoleResponse,
+          proposersAddresses,
+          quorumCountResponse
+        ]) => {
+          setBoardMembers(boardMembersAddresses);
+          setProposers(proposersAddresses);
+          setQuorumCount(quorumCountResponse);
+          setUserRole(userRoleResponse);
+        }
+      );
   }, []);
 
   return (
