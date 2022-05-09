@@ -1,5 +1,4 @@
-
-#  @elrondnetwork/multisig
+# @elrondnetwork/multisig
 
 > An application that allows a user to create and manage multisig wallets on the Elrond Network.
 
@@ -8,8 +7,8 @@
 This application can be started with a single multisig contract and
 integrated into other applications as needed.
 
-To configure the application to run for a specific contract with a specific alias as a name, 
-one has  to edit the multisigConfig.ts file as follows:
+To configure the application to run for a specific contract with a specific alias as a name,
+one has to edit the multisigConfig.ts file as follows:
 
 ```
 export const uniqueContractAddress = 'your contract address';
@@ -40,8 +39,5 @@ One can contribute by creating _pull requests_, or by opening _issues_ for disco
 The [Elrond Team](https://elrond.com/team/).
 
 ## License
+
 GPL-3.0-or-later
-
-
-
-

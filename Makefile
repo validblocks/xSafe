@@ -2,6 +2,7 @@ include .env
 export
 
 CONTAINER_NGINX=docker compose exec -T nginx sh -c
+CONTAINER_DEV=docker compose exec -T multisig_dev sh -c
 
 .PHONY: start
 start:
@@ -17,10 +18,54 @@ setup:
 	docker network create proxy || true
 	docker compose up --build -d
 
+.PHONY: setup-single-wallet
+setup-single-wallet:
+	make setup-dev
+	rm .npmrc && touch .npmrc
+	echo $(NPMRC) >> .npmrc
+
+	rm ./src/multisigExtrasConfig.ts && touch ./src/multisigExtrasConfig.ts
+	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
+	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
+
+	cp -p ./src/config.devnet.ts ./src/config.ts
+
+	rm ./src/multisigConfig.ts && touch ./src/multisigConfig.ts
+	echo "export const uniqueContractAddress = '$(UNIQUE_CONTRACT_ADDRESS)';" >> ./src/multisigConfig.ts
+	echo "export const uniqueContractName = '$(UNIQUE_CONTRACT_NAME)';" >> ./src/multisigConfig.ts
+
+	$(CONTAINER_DEV) 'npx prettier --write ./src/multisigConfig.ts'
+	$(CONTAINER_DEV) 'npm install'
+	$(CONTAINER_DEV) 'npm install @elrondnetwork/dapp-core-internal'
+
+.PHONY: setup-multi-wallet
+setup-multi-wallet:
+	make setup-dev
+	rm .npmrc && touch .npmrc
+	echo $(NPMRC) >> .npmrc
+
+	rm ./src/multisigExtrasConfig.ts && touch ./src/multisigExtrasConfig.ts
+	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
+	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
+
+	cp -p ./src/config.devnet.ts ./src/config.ts
+
+	rm ./src/multisigConfig.ts && touch ./src/multisigConfig.ts
+
+	$(CONTAINER_DEV) 'npm install'
+	$(CONTAINER_DEV) 'npm install @elrondnetwork/dapp-core-internal'
+
+.PHONY: setup-dev
+setup-dev:
+	docker-compose -f docker-compose.dev.yml up -d
+
 .PHONY: dev
 dev:
-	docker-compose -f docker-compose.dev.yml up
+	$(CONTAINER_DEV) 'npm start'
 
+
+
+# TODO: staging and production single / multiwallet
 .PHONY: staging
 staging:
 	make production

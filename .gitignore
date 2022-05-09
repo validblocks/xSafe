@@ -15,9 +15,6 @@
 /src/config.tsx
 .DS_Store
 .env
-.env.development
-.env.test
-.env.production
 .npmrc
 src/multisigExtrasConfig.ts
 .idea

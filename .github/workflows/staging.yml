@@ -34,7 +34,6 @@ jobs:
           echo "export const uniqueContractName = '${{ secrets.UNIQUE_CONTRACT_NAME }}';" >> src/multisigConfig.ts
           echo "export const uniqueContractAddress = '${{ secrets.UNIQUE_CONTRACT_ADDRESS }}';" >> src/multisigConfig.ts
 
-
       - name: Deploy
         id: Deploy
         uses: up9cloud/action-rsync@v1.1
