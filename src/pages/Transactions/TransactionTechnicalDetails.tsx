@@ -14,8 +14,7 @@ const TransactionTechnicalDetails = ({ transaction }: Props) => {
     () => setIsAdvancedDetailsVisible((currentState) => !currentState),
     []
   );
-  console.log({ transaction });
-  //   return <div>{JSON.stringify(transaction)}</div>;
+
   return (
     <Box sx={{ padding: '1rem' }}>
       <Typography component='div' variant='body1' className='my-1'>

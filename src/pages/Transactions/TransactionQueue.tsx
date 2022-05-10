@@ -42,7 +42,6 @@ const TransactionQueue = () => {
 
   useEffect(() => {
     queryAllActions().then((resp) => {
-      console.log('trans', { resp });
       setAllPendingTransactions(resp);
     });
   }, []);
