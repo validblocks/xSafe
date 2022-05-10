@@ -21,14 +21,6 @@ const NavbarAccountDetails = ({ uniqueAddress }: any) => {
 
   const [showQr, setShowQr] = useState(false);
 
-  useEffect(() => {
-    console.log('asd');
-    queryBoardMemberAddresses().then((response) => {
-      console.log(response, 'response');
-      // setBoardMembers(response);
-    });
-  }, []);
-
   const handleQrModal = () => {
     setShowQr(!showQr);
   };
