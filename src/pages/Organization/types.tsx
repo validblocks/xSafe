@@ -39,24 +39,29 @@ export type Token = {
 
 export type BalanceDetails = {
   amount: string;
-  decimals: string;
+  decimals: number;
 };
 
-export type TokenTableRow = Partial<
+export type TokenTableRowItem = Partial<
   Token & {
     id: number;
-    balance: BalanceDetails;
+    balanceDetails: BalanceDetails;
     value: BalanceDetails;
   }
 >;
+
+export type TokenWithPrice = {
+  symbol: string;
+  name: string;
+  price: number;
+};
 
 export type OrganizationInfoContextType = {
   membersCountState: CustomStateType<number>;
   quorumCountState: CustomStateType<number>;
   boardMembersState: CustomStateType<Address[]>;
   proposersState: CustomStateType<Address[]>;
-  tokensState: TokenTableRow[];
+  tokenPrices: TokenWithPrice[];
   userRole: number;
   allMemberAddresses: MemberAddressTableRow[];
-  multisigBalance: Balance;
 };
