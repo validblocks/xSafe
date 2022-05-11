@@ -35,6 +35,7 @@ import AccountDetails from './NavbarAccountDetails';
 import Network from './Network';
 import './menu.scss';
 import { useLocation } from 'react-router-dom';
+import PageBreadcrumbs from '../Breadcrumb';
 
 const drawerWidth = 255;
 
@@ -122,9 +123,12 @@ export default function MiniDrawer() {
       <CssBaseline />
       <AppBar></AppBar>
       <Box
-        className='miau d-flex justify-content-end px-4 py-3'
+        className='d-flex justify-content-between px-4 py-3 align-items-center'
         sx={{ position: 'absolute', width: '100%', zIndex: '9' }}
       >
+        <Box className='breadcrumbs-header'>
+          <PageBreadcrumbs />
+        </Box>
         <Account />
         {/* <Network /> */}
       </Box>
@@ -144,7 +148,7 @@ export default function MiniDrawer() {
           <AccountDetails uniqueAddress={walletAddress} />
           <Divider />
         </List>
-        <Box sx={{ maxHeight: '200px', overflowY: 'scroll' }}>
+        <Box className='first-menu'>
           {menuItems.topItems.map((el, index) => (
             <div key={index}>
               {el.submenu && (
@@ -207,9 +211,7 @@ export default function MiniDrawer() {
                                 mr: open ? 3 : 'auto',
                                 justifyContent: 'center'
                               }}
-                            >
-                              {el.icon}
-                            </ListItemIcon>
+                            ></ListItemIcon>
                             <ListItemText
                               primary={el.name}
                               sx={{ opacity: open ? 1 : 0 }}

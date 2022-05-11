@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import PageBreadcrumbs from 'components/Layout/Breadcrumb';
 import { queryAllActions } from 'contracts/MultisigContract';
 import TransactionHistory from './TransactionHistory';
 import TransactionQueue from './TransactionQueue';
@@ -54,7 +53,6 @@ export default function TransactionsPage() {
         backgroundColor: '#F6F7F8'
       }}
     >
-      <PageBreadcrumbs />
       <h2 className='mb-5'>Transactions</h2>
       <Box sx={{ width: '100%' }}>
         <Tabs
