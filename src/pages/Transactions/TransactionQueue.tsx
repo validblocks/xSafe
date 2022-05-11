@@ -54,6 +54,7 @@ const TransactionQueue = () => {
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls='panel1a-content'
+            sx={{ borderBottom: '2px solid #eee' }}
             className='pl-0'
             classes={{
               content: classes.content,
