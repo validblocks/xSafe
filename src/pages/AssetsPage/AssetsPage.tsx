@@ -102,8 +102,6 @@ const AssetsPage = () => {
 
               const { owner, ...tokenWithoutOwner } = token;
 
-              console.log(token.identifier);
-
               return {
                 ...tokenWithoutOwner,
                 id: idx,
