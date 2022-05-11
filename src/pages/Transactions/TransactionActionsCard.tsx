@@ -42,8 +42,6 @@ const TransactionActionsCard = ({
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  console.log({ value });
-
   const sign = () => {
     mutateSign(actionId);
   };

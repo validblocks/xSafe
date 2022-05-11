@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import { truncateInTheMiddle } from 'utils/addressUtils';
 import { getDate } from 'utils/transactionUtils';
@@ -11,9 +11,8 @@ type Props = {
 const TransactionSummary = ({ transaction }: Props) => {
   return (
     <>
-      <div className='d-flex'>
-        <Typography
-          component='span'
+      <Box className='d-flex'>
+        <Box
           className='d-flex align-items-center justify-content-center'
           sx={{
             borderRight: '2px solid #eee',
@@ -21,10 +20,9 @@ const TransactionSummary = ({ transaction }: Props) => {
           }}
         >
           {transaction.nonce}
-        </Typography>
+        </Box>
 
-        <Typography
-          component='span'
+        <Box
           className='d-flex align-items-center justify-content-center'
           sx={{
             borderRight: '2px solid #eee',
@@ -33,10 +31,9 @@ const TransactionSummary = ({ transaction }: Props) => {
           }}
         >
           {transaction?.function}
-        </Typography>
+        </Box>
 
-        <Typography
-          component='span'
+        <Box
           sx={{
             borderRight: '2px solid #eee',
             padding: '1rem',
@@ -51,10 +48,9 @@ const TransactionSummary = ({ transaction }: Props) => {
             <strong>Execution Time:</strong>
           </div>
           {dayjs(getDate(transaction.timestamp)).format('H:mm A')}
-        </Typography>
+        </Box>
 
-        <Typography
-          component='span'
+        <Box
           sx={{
             padding: '1rem',
             fontSize: '0.85rem'
@@ -70,8 +66,8 @@ const TransactionSummary = ({ transaction }: Props) => {
             />
             {truncateInTheMiddle(transaction.sender, 10)}
           </div>
-        </Typography>
-      </div>
+        </Box>
+      </Box>
       <Box
         className='d-flex'
         sx={{

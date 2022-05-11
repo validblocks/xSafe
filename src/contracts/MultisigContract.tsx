@@ -401,7 +401,6 @@ export async function queryActionContainer(
     return null;
   }
   const [action] = parseAction(result.outputUntyped()[0]);
-  console.log({ action });
   return action;
 }
 

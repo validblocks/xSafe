@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { Box } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -42,7 +43,6 @@ const TransactionQueue = () => {
 
   useEffect(() => {
     queryAllActions().then((resp) => {
-      console.log('trans', { resp });
       setAllPendingTransactions(resp);
     });
   }, []);
@@ -54,6 +54,7 @@ const TransactionQueue = () => {
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls='panel1a-content'
+            sx={{ borderBottom: '2px solid #eee' }}
             className='pl-0'
             classes={{
               content: classes.content,
@@ -62,7 +63,7 @@ const TransactionQueue = () => {
             id='panel1a-header'
           >
             <div className='d-flex w-100'>
-              <Typography
+              <Box
                 sx={{
                   borderRight: '2px solid #eee',
                   padding: '1rem',
@@ -75,8 +76,8 @@ const TransactionQueue = () => {
               >
                 <strong>ID: </strong>
                 {transaction.actionId}
-              </Typography>
-              <Typography
+              </Box>
+              <Box
                 sx={{
                   borderRight: '2px solid #eee',
                   padding: '1rem',
@@ -84,13 +85,11 @@ const TransactionQueue = () => {
                   display: 'flex',
                   alignItems: 'center'
                 }}
-                align='left'
-                component='span'
               >
                 <SettingsIcon className='mr-2' color='info' />
                 {transaction.title()}
-              </Typography>
-              <Typography
+              </Box>
+              <Box
                 sx={{
                   borderRight: '2px solid #eee',
                   padding: '1rem',
@@ -98,11 +97,10 @@ const TransactionQueue = () => {
                   display: 'flex',
                   alignItems: 'center'
                 }}
-                component='span'
               >
                 <PeopleIcon color='secondary' className='mr-2' />
                 {transaction.signers.length} out of {quorumCount}
-              </Typography>
+              </Box>
             </div>
           </AccordionSummary>
           <AccordionDetails>

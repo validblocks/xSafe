@@ -6,11 +6,8 @@ import React, {
   useState
 } from 'react';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
-import { getNetworkProxy } from '@elrondnetwork/dapp-core';
-import { Address, Balance } from '@elrondnetwork/erdjs/out';
-import axios from 'axios';
+import { Address } from '@elrondnetwork/erdjs/out';
 import { useSelector } from 'react-redux';
-import { network } from 'config';
 import {
   queryBoardMemberAddresses,
   queryProposerAddresses,
@@ -18,7 +15,8 @@ import {
   queryUserRole
 } from 'contracts/MultisigContract';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
-import { OrganizationInfoContextType, TokenTableRow } from './types';
+import useFetch from 'utils/useFetch';
+import { OrganizationInfoContextType, TokenWithPrice } from './types';
 
 type Props = {
   children?: JSX.Element | JSX.Element[];
@@ -34,20 +32,16 @@ export const useOrganizationInfoContext = () =>
 const OrganizationInfoContextProvider = ({ children }: Props) => {
   const [membersCount, setMembersCount] = useState(0);
   const [quorumCount, setQuorumCount] = useState(0);
-  const [multisigBalance, setMultisigBalance] = useState(
-    Balance.fromString('0')
-  );
 
   const [boardMembers, setBoardMembers] = useState([] as Address[]);
   const [proposers, setProposers] = useState([] as Address[]);
 
   const { address } = useGetAccountInfo();
-  const [organizationTokens, setOrganizationTokens] = useState(
-    [] as TokenTableRow[]
-  );
+
+  const { data: tokenPrices }: { data: TokenWithPrice[] | undefined } =
+    useFetch('https://devnet-api.elrond.com/mex/tokens');
 
   const currentContract = useSelector(currentMultisigContractSelector);
-  const proxy = getNetworkProxy();
 
   const allMemberAddresses = useMemo(() => {
     return [
@@ -63,40 +57,12 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
   const [userRole, setUserRole] = useState<number>();
 
   useEffect(() => {
-    const getEgldBalancePromise = currentContract?.address
-      ? proxy.getAccount(new Address(currentContract?.address))
-      : {};
-    const getAllOtherTokensPromise = axios.get(
-      `${network.apiAddress}/accounts/${currentContract?.address}/tokens`
-    );
-    Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]).then(
-      ([{ balance: egldBalance }, { data: otherTokens }]) => {
-        setMultisigBalance(egldBalance);
+    let isMounted = true;
+    if (!currentContract?.address)
+      return () => {
+        isMounted = false;
+      };
 
-        const allTokens = [
-          { ...egldBalance.token, balance: egldBalance.value.toString() },
-          ...otherTokens
-        ];
-
-        setOrganizationTokens(
-          allTokens.map((token: any, idx: number) => ({
-            ...token,
-            id: idx,
-            balance: {
-              amount: token.balance,
-              decimals: token.decimals
-            },
-            value: {
-              amount: token.balance,
-              decimals: token.decimals
-            }
-          }))
-        );
-      }
-    );
-  }, []);
-
-  useEffect(() => {
     currentContract?.address &&
       Promise.all([
         queryBoardMemberAddresses(),
@@ -110,12 +76,16 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
           proposersAddresses,
           quorumCountResponse
         ]) => {
+          if (!isMounted) return;
           setBoardMembers(boardMembersAddresses);
           setProposers(proposersAddresses);
           setQuorumCount(quorumCountResponse);
           setUserRole(userRoleResponse);
         }
       );
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (
@@ -126,9 +96,8 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
         quorumCountState: [quorumCount, setQuorumCount],
         proposersState: [proposers, setProposers],
         userRole: userRole as number,
-        tokensState: organizationTokens,
-        allMemberAddresses,
-        multisigBalance
+        tokenPrices: tokenPrices as unknown as TokenWithPrice[],
+        allMemberAddresses
       }}
     >
       {children}

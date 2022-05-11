@@ -1,5 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
+import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
+import { Address } from '@elrondnetwork/erdjs/out';
 import CallMadeIcon from '@mui/icons-material/CallMade';
 import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import { Box } from '@mui/material';
@@ -8,9 +10,18 @@ import {
   GridActionsCellItem,
   GridRenderCellParams
 } from '@mui/x-data-grid';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { network } from 'config';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
+import { TokenTableRowItem, TokenWithPrice } from 'pages/Organization/types';
+import { organizationTokensSelector } from 'redux/selectors/accountSelector';
 import { priceSelector } from 'redux/selectors/economicsSelector';
+import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
+import {
+  setMultisigBalance,
+  setOrganizationTokens
+} from 'redux/slices/accountSlice';
 import {
   setProposeModalSelectedOption,
   setProposeMultiselectSelectedOption,
@@ -22,15 +33,18 @@ const AssetsPage = () => {
   const egldPrice = useSelector(priceSelector);
   const dispatch = useDispatch();
 
-  const openProposeSendTokenForm = (token: any) => {
+  const openProposeSendTokenForm = useCallback(() => {
     dispatch(
       setProposeModalSelectedOption({
         option: ProposalsTypes.send_token
       })
     );
-  };
+  }, []);
 
-  const handleOptionSelected = (option: ProposalsTypes, token: any) => {
+  const handleOptionSelected = (
+    option: ProposalsTypes,
+    token: TokenTableRowItem
+  ) => {
     dispatch(setProposeMultiselectSelectedOption({ option }));
     dispatch(
       setSelectedTokenToSend({
@@ -40,6 +54,78 @@ const AssetsPage = () => {
       })
     );
   };
+
+  const getTokenPrice = useCallback(
+    (tokenIdentifier: string) =>
+      tokenPrices.find((tokenWithPrice: TokenWithPrice) => {
+        return tokenWithPrice.symbol == tokenIdentifier;
+      })?.price ?? egldPrice,
+    []
+  );
+
+  const currentContract = useSelector(currentMultisigContractSelector);
+  const proxy = getNetworkProxy();
+
+  const organizationTokens = useSelector(organizationTokensSelector);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    if (!currentContract?.address)
+      return () => {
+        isMounted = false;
+      };
+
+    const getEgldBalancePromise = currentContract?.address
+      ? proxy.getAccount(new Address(currentContract?.address))
+      : {};
+
+    const getAllOtherTokensPromise = axios.get(
+      `${network.apiAddress}/accounts/${currentContract?.address}/tokens`
+    );
+
+    try {
+      Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]).then(
+        ([{ balance: egldBalance }, { data: otherTokens }]) => {
+          if (!isMounted) return;
+
+          dispatch(setMultisigBalance(JSON.stringify(egldBalance)));
+
+          const allTokens = [
+            { ...egldBalance.token, balance: egldBalance.value.toString() },
+            ...otherTokens
+          ];
+
+          const tokensWithPrices = allTokens.map(
+            (token: TokenTableRowItem, idx: number) => {
+              const priceOfCurrentToken = getTokenPrice(token.identifier ?? '');
+
+              const { owner, ...tokenWithoutOwner } = token;
+
+              return {
+                ...tokenWithoutOwner,
+                id: idx,
+                balanceDetails: {
+                  identifier: token.identifier?.split('-')[0] ?? '',
+                  amount: token.balance as string,
+                  decimals: token.decimals as number
+                },
+                value: {
+                  tokenPrice: priceOfCurrentToken,
+                  decimals: token.decimals as number,
+                  amount: token.balance as string
+                }
+              };
+            }
+          );
+
+          dispatch(setOrganizationTokens(tokensWithPrices));
+        }
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }, [currentContract]);
 
   const columns = useMemo(
     () => [
@@ -54,11 +140,11 @@ const AssetsPage = () => {
         )
       },
       {
-        field: 'balance',
+        field: 'balanceDetails',
         headerName: 'BALANCE',
-        width: 300,
+        width: 200,
         type: 'string',
-        renderCell: (params: any) => (
+        renderCell: (params: GridRenderCellParams<any>) => (
           <h6 className='text-center mb-0'>
             {Number(
               Number(
@@ -70,6 +156,7 @@ const AssetsPage = () => {
                 })
               ).toFixed(8)
             )}{' '}
+            ${params.value.identifier}
           </h6>
         )
       },
@@ -77,8 +164,7 @@ const AssetsPage = () => {
         field: 'value',
         headerName: 'VALUE',
         width: 250,
-        type: 'any',
-        renderCell: (params: any) => (
+        renderCell: (params: GridRenderCellParams<any>) => (
           <h5 className='ex-currency text-center mb-0'>
             <Ui.UsdValue
               amount={operations.denominate({
@@ -88,7 +174,7 @@ const AssetsPage = () => {
                 showLastNonZeroDecimal: true,
                 addCommas: false
               })}
-              usd={egldPrice}
+              usd={params.value.tokenPrice}
             />{' '}
           </h5>
         )
@@ -98,7 +184,7 @@ const AssetsPage = () => {
         type: 'actions',
         width: 300,
         headerName: 'Quick Actions',
-        getActions: (params: any) => [
+        getActions: (params: GridRenderCellParams) => [
           <div key='0' className='shadow-sm p-2 rounded mr-2'>
             <GridActionsCellItem
               icon={<CallMadeIcon htmlColor='#9DABBD' />}
@@ -112,7 +198,7 @@ const AssetsPage = () => {
             <GridActionsCellItem
               icon={<CallReceivedIcon htmlColor='#9DABBD' />}
               label='Receive'
-              onClick={() => openProposeSendTokenForm(params.value)}
+              onClick={() => openProposeSendTokenForm()}
             />
           </div>
         ]
@@ -121,7 +207,7 @@ const AssetsPage = () => {
     []
   );
 
-  const { tokensState: rows } = useOrganizationInfoContext();
+  const { tokenPrices } = useOrganizationInfoContext();
 
   return (
     <Box
@@ -131,7 +217,12 @@ const AssetsPage = () => {
       }}
     >
       <h1 className='mb-5'>Assets</h1>
-      <DataGrid autoHeight rowHeight={65} rows={rows} columns={columns} />
+      <DataGrid
+        autoHeight
+        rowHeight={65}
+        rows={organizationTokens ?? []}
+        columns={columns}
+      />
     </Box>
   );
 };
