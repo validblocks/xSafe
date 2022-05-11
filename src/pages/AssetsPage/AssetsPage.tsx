@@ -102,10 +102,13 @@ const AssetsPage = () => {
 
               const { owner, ...tokenWithoutOwner } = token;
 
+              console.log(token.identifier);
+
               return {
                 ...tokenWithoutOwner,
                 id: idx,
                 balanceDetails: {
+                  identifier: token.identifier?.split('-')[0] ?? '',
                   amount: token.balance as string,
                   decimals: token.decimals as number
                 },
@@ -155,6 +158,7 @@ const AssetsPage = () => {
                 })
               ).toFixed(8)
             )}{' '}
+            ${params.value.identifier}
           </h6>
         )
       },
