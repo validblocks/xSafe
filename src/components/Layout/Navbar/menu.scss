@@ -19,5 +19,37 @@
   padding: 0 !important;
 }
 .accordion-details-link .link-hover {
-  padding-left: 45px;
+  padding-left: 43px;
+}
+
+.first-menu::after {
+  content: '';
+  box-shadow: 0px -26px 31px 0px rgba(100, 100, 111, 0.3);
+  width: 100%;
+  height: 40px;
+  display: block;
+  position: absolute;
+  bottom: 75px;
+}
+
+.first-menu {
+  overflow-y: scroll;
+}
+@media (max-width: 1450px) {
+  .first-menu {
+    max-height: 253px;
+  }
+}
+@media (min-width: 1450px) {
+  .first-menu {
+    max-height: 433px;
+  }
+}
+
+.css-azsv2d-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
+  min-height: 50px !important;
+}
+
+.breadcrumbs-header {
+  margin-left: 260px;
 }
