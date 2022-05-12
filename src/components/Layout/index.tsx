@@ -82,29 +82,24 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }
 
   return (
-    <>
-      <div
-        style={{ display: 'none !important' }}
-        className='bg-light d-flex flex-row flex-fill wrapper'
-      >
-        <Navbar />
+    <div
+      style={{ display: 'none !important', background: '#F4F6FD' }}
+      className='bg-light d-flex flex-row flex-fill wrapper'
+    >
+      <Navbar />
 
-        <main
-          style={{ background: '#F4F6FD' }}
-          className='d-flex flex-row flex-fill position-relative justify-center  container'
+      <main className=' flex-row flex-fill position-relative justify-center  container'>
+        <AuthenticatedRoutesWrapper
+          routes={routes}
+          unlockRoute={routeNames.unlock}
         >
-          <AuthenticatedRoutesWrapper
-            routes={routes}
-            unlockRoute={routeNames.unlock}
-          >
-            {children}
-          </AuthenticatedRoutesWrapper>
-          <TokenWrapper />
-          <ModalLayer />
-          <SidebarSelectOptionModal />
-        </main>
-      </div>
-    </>
+          {children}
+        </AuthenticatedRoutesWrapper>
+        <TokenWrapper />
+        <ModalLayer />
+        <SidebarSelectOptionModal />
+      </main>
+    </div>
   );
 };
 

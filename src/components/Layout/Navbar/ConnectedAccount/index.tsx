@@ -51,10 +51,7 @@ const ConnectedAccount = () => {
           <img src={Safe} />
         </Box>
         <Box sx={{ ml: 2 }}>
-          <Box
-            className='d-flex'
-            sx={{ backgroundColor: '#f0f1fd', p: 1, borderRadius: '10px' }}
-          >
+          <Box className='d-flex connect-actions-btns' sx={{ p: 1 }}>
             <Typography sx={{ mr: 2, ml: 1 }}>{addressShorthand()}</Typography>
             <Box sx={{ mr: 2 }}>
               <CopyButton text={uniqueContractAddress} />
