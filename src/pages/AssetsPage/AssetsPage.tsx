@@ -12,6 +12,7 @@ import {
 } from '@mui/x-data-grid';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { ReactComponent as ElrondLogo } from 'assets/img/logo.svg';
 import { network } from 'config';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { TokenTableRowItem, TokenWithPrice } from 'pages/Organization/types';
@@ -68,74 +69,108 @@ const AssetsPage = () => {
 
   const organizationTokens = useSelector(organizationTokensSelector);
 
-  useEffect(() => {
-    let isMounted = true;
-
-    if (!currentContract?.address)
-      return () => {
-        isMounted = false;
-      };
-
-    const getEgldBalancePromise = currentContract?.address
-      ? proxy.getAccount(new Address(currentContract?.address))
-      : {};
-
-    const getAllOtherTokensPromise = axios.get(
-      `${network.apiAddress}/accounts/${currentContract?.address}/tokens`
+  const fetchTokenPhotoUrl = useCallback(async (tokenIdentifier: string) => {
+    const { data } = await axios.get(
+      `${network.apiAddress}/tokens/${tokenIdentifier}`
     );
 
-    try {
-      Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]).then(
-        ([{ balance: egldBalance }, { data: otherTokens }]) => {
-          if (!isMounted) return;
+    return data.assets.pngUrl;
+  }, []);
 
-          dispatch(setMultisigBalance(JSON.stringify(egldBalance)));
+  useEffect(() => {
+    (async function getTokens() {
+      let isMounted = true;
 
-          const allTokens = [
-            { ...egldBalance.token, balance: egldBalance.value.toString() },
-            ...otherTokens
-          ];
+      if (!currentContract?.address)
+        return () => {
+          isMounted = false;
+        };
 
-          const tokensWithPrices = allTokens.map(
-            (token: TokenTableRowItem, idx: number) => {
-              const priceOfCurrentToken = getTokenPrice(token.identifier ?? '');
+      const getEgldBalancePromise = currentContract?.address
+        ? proxy.getAccount(new Address(currentContract?.address))
+        : {};
 
-              const { owner, ...tokenWithoutOwner } = token;
-
-              return {
-                ...tokenWithoutOwner,
-                id: idx,
-                balanceDetails: {
-                  identifier: token.identifier?.split('-')[0] ?? '',
-                  amount: token.balance as string,
-                  decimals: token.decimals as number
-                },
-                value: {
-                  tokenPrice: priceOfCurrentToken,
-                  decimals: token.decimals as number,
-                  amount: token.balance as string
-                }
-              };
-            }
-          );
-
-          dispatch(setOrganizationTokens(tokensWithPrices));
-        }
+      const getAllOtherTokensPromise = axios.get(
+        `${network.apiAddress}/accounts/${currentContract?.address}/tokens`
       );
-    } catch (error) {
-      console.log(error);
-    }
+
+      try {
+        const [{ balance: egldBalance }, { data: otherTokens }] =
+          await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
+
+        if (!isMounted) return;
+
+        dispatch(setMultisigBalance(JSON.stringify(egldBalance)));
+
+        const allTokens = [
+          { ...egldBalance.token, balance: egldBalance.value.toString() },
+          ...otherTokens
+        ];
+
+        const tokensWithPrices = [];
+
+        for (const [idx, token] of Object.entries(allTokens)) {
+          const priceOfCurrentToken = getTokenPrice(token.identifier ?? '');
+
+          const { owner, ...tokenWithoutOwner } = token;
+
+          let photoUrl = '';
+          if (token.identifier !== 'EGLD')
+            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
+
+          tokensWithPrices.push({
+            ...tokenWithoutOwner,
+            presentation: {
+              tokenIdentifier: token.identifier,
+              photoUrl
+            },
+            id: idx,
+            balanceDetails: {
+              photoUrl,
+              identifier: token.identifier?.split('-')[0] ?? '',
+              amount: token.balance as string,
+              decimals: token.decimals as number
+            },
+            value: {
+              tokenPrice: priceOfCurrentToken,
+              decimals: token.decimals as number,
+              amount: token.balance as string
+            }
+          });
+        }
+        console.log({ tokensWithPrices });
+
+        dispatch(setOrganizationTokens(tokensWithPrices));
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, [currentContract]);
 
   const columns = useMemo(
     () => [
       {
-        field: 'identifier',
+        field: 'presentation',
         headerName: 'ASSET',
+        width: 150,
         type: 'string',
         renderCell: (params: GridRenderCellParams<any>) => (
-          <div className='d-flex flex-column justify-content-center'>
-            <p className='mb-0'>{params.value.split('-')[0] ?? 'unknown'}</p>
+          <div className='d-flex justify-content-center align-items-center'>
+            {params.value.tokenIdentifier !== 'EGLD' && (
+              <img
+                width={30}
+                height={30}
+                src={params.value.photoUrl}
+                alt='Token image'
+                className='mr-3'
+              />
+            )}
+            {params.value.tokenIdentifier === 'EGLD' && (
+              <ElrondLogo width={30} height={30} className='mr-3' />
+            )}
+            <p className='mb-0'>
+              {params.value.tokenIdentifier.split('-')[0] ?? 'unknown'}
+            </p>
           </div>
         )
       },
