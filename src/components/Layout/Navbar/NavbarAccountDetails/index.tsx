@@ -16,21 +16,21 @@ import { ProposalsTypes } from 'types/Proposals';
 import './navbarAccountDetails.scss';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { organizationTokensSelector } from 'redux/selectors/accountSelector';
 
 const NavbarAccountDetails = ({ uniqueAddress }: any) => {
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
   const [boardMembers, setBoardMembers] = useState(0);
-
   const [showQr, setShowQr] = useState(false);
-
   useEffect(() => {
     queryBoardMembersCount().then((response: number) => {
       setBoardMembers(response);
     });
-  }, [queryBoardMembersCount]);
+  }, [queryBoardMembersCount, organizationTokensSelector]);
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
   const [openedCurencySelect, setOpenedCurencySelect] = useState(false);
+  const [selectedCurrency, setSelectedCurrency] = useState('USD');
 
   const handleQrModal = () => {
     setShowQr(!showQr);
@@ -47,6 +47,10 @@ const NavbarAccountDetails = ({ uniqueAddress }: any) => {
     setOpenedCurencySelect(data);
   };
 
+  const setCurrency = (data: string) => {
+    setSelectedCurrency(data);
+  };
+
   const closeSafeDropdown = (data: boolean) => {
     setOpenedSafeSelect(data);
   };
@@ -59,7 +63,9 @@ const NavbarAccountDetails = ({ uniqueAddress }: any) => {
         </Box>
         <Box>
           <Box className='members-box'>
-            <Typography>{boardMembers} Members</Typography>
+            <Typography>
+              {boardMembers} {boardMembers == 1 ? 'Member' : 'Members'}
+            </Typography>
           </Box>
         </Box>
         <Box
@@ -119,7 +125,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: any) => {
       <Box sx={{ pt: 1 }}>
         <Typography className='text-center'>Total balance:</Typography>
         <Box className='d-flex justify-content-center'>
-          <h5 className='ex-currency text-center'>199 USD</h5>
+          <h5 className='ex-currency text-center'>199 {selectedCurrency}</h5>
           {openedCurencySelect === true && (
             <Box>
               <ArrowDropUpIcon
@@ -127,7 +133,10 @@ const NavbarAccountDetails = ({ uniqueAddress }: any) => {
                   setOpenedCurencySelect(false);
                 }}
               />
-              <ChangeCurrency closeCurrencyDropdown={closeCurrencyDropdown} />
+              <ChangeCurrency
+                closeCurrencyDropdown={closeCurrencyDropdown}
+                setCurrencyFromChild={setCurrency}
+              />
             </Box>
           )}
           {openedCurencySelect === false && (

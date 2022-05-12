@@ -6,17 +6,21 @@ import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 
-const ChangeCurrency = ({ closeCurrencyDropdown }: any) => {
+const ChangeCurrency = ({
+  closeCurrencyDropdown,
+  setCurrencyFromChild
+}: any) => {
   interface CountryType {
     code: string;
     label: string;
     suggested?: boolean;
   }
-  const text = 'asd';
-  const countries: readonly CountryType[] = [
+
+  const currencyList: CountryType[] = [
     { code: 'US', label: 'USD' },
     { code: 'EU', label: 'EUR' }
   ];
+
   return (
     <Box
       className='change-currency-wrapper'
@@ -30,9 +34,12 @@ const ChangeCurrency = ({ closeCurrencyDropdown }: any) => {
       <Divider />
       <Box>
         <Autocomplete
+          onInputChange={(event, newInputValue) => {
+            setCurrencyFromChild(newInputValue);
+          }}
           id='country-select-demo'
           sx={{ width: 200 }}
-          options={countries}
+          options={currencyList}
           autoHighlight
           getOptionLabel={(option) => option.label}
           renderOption={(props, option) => (
@@ -58,10 +65,6 @@ const ChangeCurrency = ({ closeCurrencyDropdown }: any) => {
                 {...params}
                 className='currency-input'
                 label='Search...'
-                inputProps={{
-                  ...params.inputProps,
-                  autoComplete: 'new-password' // disable autocomplete and autofill
-                }}
               />
             </div>
           )}
