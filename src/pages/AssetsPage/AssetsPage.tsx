@@ -30,6 +30,8 @@ import {
 } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 
+const squareImageWidth = 30;
+
 const AssetsPage = () => {
   const egldPrice = useSelector(priceSelector);
   const dispatch = useDispatch();
@@ -138,7 +140,6 @@ const AssetsPage = () => {
             }
           });
         }
-        console.log({ tokensWithPrices });
 
         dispatch(setOrganizationTokens(tokensWithPrices));
       } catch (error) {
@@ -158,15 +159,19 @@ const AssetsPage = () => {
           <div className='d-flex justify-content-center align-items-center'>
             {params.value.tokenIdentifier !== 'EGLD' && (
               <img
-                width={30}
-                height={30}
+                width={squareImageWidth}
+                height={squareImageWidth}
                 src={params.value.photoUrl}
                 alt='Token image'
                 className='mr-3'
               />
             )}
             {params.value.tokenIdentifier === 'EGLD' && (
-              <ElrondLogo width={30} height={30} className='mr-3' />
+              <ElrondLogo
+                width={squareImageWidth}
+                height={squareImageWidth}
+                className='mr-3'
+              />
             )}
             <p className='mb-0'>
               {params.value.tokenIdentifier.split('-')[0] ?? 'unknown'}
