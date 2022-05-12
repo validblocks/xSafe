@@ -1,5 +1,5 @@
 import { uniqueContractAddress } from 'multisigConfig';
-const asd = uniqueContractAddress;
+
 const breadcrumbItems: any = {
   decisions: [
     {
@@ -7,7 +7,7 @@ const breadcrumbItems: any = {
       name: 'Decisions'
     }
   ],
-  'multisig/erd1qqqqqqqqqqqqqpgqettaulcsh6afs9h4mhsv44lu28p0rezehdeqk7nttw': [
+  [`multisig/${uniqueContractAddress}`]: [
     {
       link: `/multisig/${uniqueContractAddress}`,
       name: 'Multisig'
