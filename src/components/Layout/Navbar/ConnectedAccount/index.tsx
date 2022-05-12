@@ -35,7 +35,7 @@ const ConnectedAccount = () => {
     accessTokenServices?.services?.maiarId?.removeToken?.();
     localStorage.clear();
     sessionStorage.clear();
-    logout(routeNames.home, (route) => navigate(route!));
+    logout(routeNames.unlock, (route) => navigate(route!));
   };
   const onDisconnectClick = () => {
     setIsLoggedIn(false);

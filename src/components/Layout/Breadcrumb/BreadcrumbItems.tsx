@@ -49,6 +49,12 @@ const breadcrumbItems: any = {
       name: 'Settings'
     }
   ],
+  unlock: [
+    {
+      link: '/unlock',
+      name: 'Unlock'
+    }
+  ],
   'help-center': [
     {
       link: '/help-center',
