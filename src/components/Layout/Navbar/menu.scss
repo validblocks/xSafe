@@ -34,17 +34,18 @@
 
 .first-menu {
   overflow-y: scroll;
+  height: 100%;
 }
-@media (max-width: 1450px) {
-  .first-menu {
-    max-height: 253px;
-  }
-}
-@media (min-width: 1450px) {
-  .first-menu {
-    max-height: 433px;
-  }
-}
+// @media (max-width: 1450px) {
+//   .first-menu {
+//     max-height: 253px;
+//   }
+// }
+// @media (min-width: 1450px) {
+//   .first-menu {
+//     max-height: 433px;
+//   }
+// }
 
 .css-azsv2d-MuiButtonBase-root-MuiAccordionSummary-root.Mui-expanded {
   min-height: 50px !important;
