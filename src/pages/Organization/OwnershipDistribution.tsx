@@ -4,22 +4,22 @@ import MultiColorProgressBar from './MultiColorProgressBar';
 const OwnershipDistribution = () => {
   const readings = [
     {
-      name: 'Apples',
+      name: 'Owner1',
       value: 60,
       color: '#eb4d4b'
     },
     {
-      name: 'Blueberries',
+      name: 'Owner2',
       value: 7,
       color: '#22a6b3'
     },
     {
-      name: 'Guavas',
+      name: 'Owner3',
       value: 23,
       color: '#6ab04c'
     },
     {
-      name: 'Grapes',
+      name: 'Owner4',
       value: 10,
       color: '#e056fd'
     }

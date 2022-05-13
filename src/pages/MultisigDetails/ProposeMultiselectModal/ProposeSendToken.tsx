@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 import { denomination } from 'config';
 import { FormikInputField } from 'helpers/formikFields';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
+import { organizationTokensSelector } from 'redux/selectors/accountSelector';
 import { selectedTokenToSendSelector } from 'redux/selectors/modalsSelector';
 import { MultisigSendToken } from 'types/MultisigSendToken';
 
@@ -36,19 +37,21 @@ const ProposeSendToken = ({
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
   const [identifier, setIdentifier] = useState(selectedToken.identifier);
+  const organizationTokens = useSelector(organizationTokensSelector);
 
-  const { tokensState } = useOrganizationInfoContext();
-  const [availableTokensWithBalances] = useState(
-    tokensState.map((token) => ({
-      identifier: token.identifier,
-      balance: operations.denominate({
-        input: token?.balance?.amount as string,
-        denomination: parseInt(token?.balance?.decimals as string) as number,
-        decimals: parseInt(token?.balance?.decimals as string) as number,
-        showLastNonZeroDecimal: true,
-        addCommas: false
-      })
-    }))
+  const availableTokensWithBalances = useMemo(
+    () =>
+      organizationTokens.map((token) => ({
+        identifier: token.identifier,
+        balance: operations.denominate({
+          input: token?.balanceDetails?.amount as string,
+          denomination: token?.balanceDetails?.decimals as number,
+          decimals: token?.balanceDetails?.decimals as number,
+          showLastNonZeroDecimal: true,
+          addCommas: false
+        })
+      })),
+    []
   );
 
   const validateAmount = (value?: string, testContext?: TestContext) => {

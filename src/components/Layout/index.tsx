@@ -11,6 +11,7 @@ import { getAccountData } from 'apiCalls/accountCalls';
 import { getEconomicsData } from 'apiCalls/economicsCalls';
 import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
 import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
+import ProposersTable from 'pages/Organization/ProposersTable';
 import { setAccountData } from 'redux/slices/accountSlice';
 import { setEconomics } from 'redux/slices/economicsSlice';
 import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
@@ -82,15 +83,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div
-      style={{ display: 'none !important' }}
+      style={{ display: 'none !important', background: '#F4F6FD' }}
       className='bg-light d-flex flex-row flex-fill wrapper'
     >
       <Navbar />
 
-      <main
-        style={{ background: '#F4F6FD' }}
-        className='d-flex flex-row flex-fill position-relative justify-center  container'
-      >
+      <main className=' flex-row flex-fill position-relative justify-center  container'>
         <AuthenticatedRoutesWrapper
           routes={routes}
           unlockRoute={routeNames.unlock}
@@ -102,13 +100,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <SidebarSelectOptionModal />
       </main>
     </div>
-    // {/* <OrganizationInfoContextProvider>
-    //   <Organization />
-    //   <OrganizationTokens />
-    //   <NewDashboard />
-    //   <AssetsPage />
-    //   <TransactionsPage />
-    // </OrganizationInfoContextProvider> */}
   );
 };
 

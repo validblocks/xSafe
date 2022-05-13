@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Container } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -66,16 +67,14 @@ const TransactionHistory = () => {
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls='panel1a-content'
-                        sx={{ borderBottom: '2px solid #eee' }}
+                        sx={{ borderBottom: '2px solid #ddd' }}
                         className='pl-0 m-0 d-flex'
                         classes={{
                           content: classes.content,
                           expanded: classes.expanded
                         }}
                       >
-                        <TransactionSummary
-                          transaction={transaction}
-                        ></TransactionSummary>
+                        <TransactionSummary transaction={transaction} />
                       </AccordionSummary>
 
                       <AccordionDetails>

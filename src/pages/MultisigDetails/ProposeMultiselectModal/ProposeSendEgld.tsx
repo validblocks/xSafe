@@ -4,12 +4,12 @@ import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
 import { denomination } from 'config';
-import MultisigDetailsContext from 'context/MultisigDetailsContext';
 import { FormikInputField } from 'helpers/formikFields';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
+import { multisigBalanceSelector } from 'redux/selectors/accountSelector';
 import { MultisigSendEgld } from 'types/MultisigSendEgld';
 
 interface ProposeSendEgldType {
@@ -21,7 +21,7 @@ const ProposeSendEgld = ({
   handleChange,
   setSubmitDisabled
 }: ProposeSendEgldType) => {
-  const { multisigBalance } = useOrganizationInfoContext();
+  const multisigBalance = useSelector(multisigBalanceSelector);
 
   const { t } = useTranslation();
 

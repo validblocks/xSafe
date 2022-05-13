@@ -2,12 +2,10 @@ import React from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Box, Grid } from '@mui/material';
-import PageBreadcrumbs from 'components/Layout/Breadcrumb';
 
 const DecisionsHeader = () => {
   return (
     <Grid container>
-      <PageBreadcrumbs />
       <Grid
         container
         sx={{ mb: 2 }}

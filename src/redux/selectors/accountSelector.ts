@@ -7,3 +7,13 @@ export const usernameSelector = createDeepEqualSelector(
   accountSelector,
   (state) => state.username
 );
+
+export const organizationTokensSelector = createDeepEqualSelector(
+  accountSelector,
+  (state) => state.organizationTokens
+);
+
+export const multisigBalanceSelector = createDeepEqualSelector(
+  accountSelector,
+  (state) => JSON.parse(state.multisigBalance)
+);
