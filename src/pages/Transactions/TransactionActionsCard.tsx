@@ -62,13 +62,16 @@ const TransactionActionsCard = ({
       <div className='d-flex'>
         <div className='d-flex btns action-btns'>
           {canSign && (
-            <button onClick={sign} className='btn action sign'>
+            <button onClick={sign} className='btn action sign btn--approve'>
               <FontAwesomeIcon icon={faThumbsUp} />
               <span>{t('Approve')} </span>
             </button>
           )}
           {canUnsign && (
-            <button onClick={unsign} className='btn  action unsign '>
+            <button
+              onClick={unsign}
+              className='btn  action unsign btn--discard'
+            >
               <FontAwesomeIcon icon={faTimes} />
               <span>{t('Withdraw')}</span>
             </button>
@@ -77,7 +80,7 @@ const TransactionActionsCard = ({
             <button
               style={{ whiteSpace: 'nowrap' }}
               onClick={performAction}
-              className='btn action perform '
+              className='btn action perform btn--approve'
             >
               <FontAwesomeIcon icon={faCheck} />
               {t('Perform')}
@@ -87,7 +90,7 @@ const TransactionActionsCard = ({
             <button
               style={{ whiteSpace: 'nowrap' }}
               onClick={discardAction}
-              className='btn action remove'
+              className='btn action remove btn--discard'
             >
               <FontAwesomeIcon icon={faTimes} />
               {t('Discard')}
