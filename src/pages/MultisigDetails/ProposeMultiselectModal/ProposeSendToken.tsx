@@ -80,6 +80,15 @@ const ProposeSendToken = ({
       );
     }
 
+    if (newAmount == 0) {
+      setSubmitDisabled(true);
+      return (
+        testContext?.createError({
+          message: 'The amount should be greater than 0'
+        }) ?? false
+      );
+    }
+
     setSubmitDisabled(!formik.isValid || !formik.dirty);
     return true;
   };
