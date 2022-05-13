@@ -25,7 +25,7 @@ const topItems = [
       },
       {
         name: 'NFTs',
-        link: 'decisions',
+        link: 'nft',
         icon: <DiamondIcon />
       }
     ]
