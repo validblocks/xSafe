@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
@@ -13,6 +13,7 @@ import {
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReactComponent as ElrondLogo } from 'assets/img/logo.svg';
+import ReceiveModal from 'components/ReceiveModal';
 import { network } from 'config';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { TokenTableRowItem, TokenWithPrice } from 'pages/Organization/types';
@@ -30,9 +31,16 @@ import {
 } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 
+const squareImageWidth = 30;
+
 const AssetsPage = () => {
   const egldPrice = useSelector(priceSelector);
   const dispatch = useDispatch();
+  const [showQr, setShowQr] = useState(false);
+
+  const handleQrModal = useCallback(() => {
+    setShowQr((showQr) => !showQr);
+  }, []);
 
   const openProposeSendTokenForm = useCallback(() => {
     dispatch(
@@ -138,7 +146,6 @@ const AssetsPage = () => {
             }
           });
         }
-        console.log({ tokensWithPrices });
 
         dispatch(setOrganizationTokens(tokensWithPrices));
       } catch (error) {
@@ -158,15 +165,19 @@ const AssetsPage = () => {
           <div className='d-flex justify-content-center align-items-center'>
             {params.value.tokenIdentifier !== 'EGLD' && (
               <img
-                width={30}
-                height={30}
+                width={squareImageWidth}
+                height={squareImageWidth}
                 src={params.value.photoUrl}
                 alt='Token image'
                 className='mr-3'
               />
             )}
             {params.value.tokenIdentifier === 'EGLD' && (
-              <ElrondLogo width={30} height={30} className='mr-3' />
+              <ElrondLogo
+                width={squareImageWidth}
+                height={squareImageWidth}
+                className='mr-3'
+              />
             )}
             <p className='mb-0'>
               {params.value.tokenIdentifier.split('-')[0] ?? 'unknown'}
@@ -233,8 +244,8 @@ const AssetsPage = () => {
             <GridActionsCellItem
               icon={<CallReceivedIcon htmlColor='#9DABBD' />}
               label='Receive'
-              onClick={() => openProposeSendTokenForm()}
-            />
+              onClick={handleQrModal}
+            ></GridActionsCellItem>
           </div>
         ]
       }
@@ -257,6 +268,11 @@ const AssetsPage = () => {
         rowHeight={65}
         rows={organizationTokens ?? []}
         columns={columns}
+      />
+      <ReceiveModal
+        showQrFromSidebar={showQr}
+        address={currentContract?.address}
+        handleQr={handleQrModal}
       />
     </Box>
   );
