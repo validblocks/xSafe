@@ -23,7 +23,7 @@ const TransactionSummary = ({ transaction }: Props) => {
         </Box>
 
         <Box
-          className='d-flex align-items-center justify-content-center'
+          className='d-flex align-items-center justify-content-start'
           sx={{
             borderRight: '2px solid #ddd',
             padding: '1rem',

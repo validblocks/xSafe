@@ -6,7 +6,6 @@ import { Box } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import { queryAllActions } from 'contracts/MultisigContract';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
@@ -54,7 +53,7 @@ const TransactionQueue = () => {
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls='panel1a-content'
-            sx={{ borderBottom: '2px solid #eee' }}
+            sx={{ borderBottom: '2px solid #ddd' }}
             className='pl-0'
             classes={{
               content: classes.content,
@@ -65,7 +64,7 @@ const TransactionQueue = () => {
             <div className='d-flex w-100'>
               <Box
                 sx={{
-                  borderRight: '2px solid #eee',
+                  borderRight: '2px solid #ddd',
                   padding: '1rem',
                   fontSize: '0.85rem',
                   display: 'flex',
@@ -79,11 +78,12 @@ const TransactionQueue = () => {
               </Box>
               <Box
                 sx={{
-                  borderRight: '2px solid #eee',
+                  borderRight: '2px solid #ddd',
                   padding: '1rem',
                   fontSize: '0.85rem',
                   display: 'flex',
-                  alignItems: 'center'
+                  alignItems: 'center',
+                  minWidth: '230px'
                 }}
               >
                 <SettingsIcon className='mr-2' color='info' />
@@ -91,7 +91,7 @@ const TransactionQueue = () => {
               </Box>
               <Box
                 sx={{
-                  borderRight: '2px solid #eee',
+                  borderRight: '2px solid #ddd',
                   padding: '1rem',
                   fontSize: '0.85rem',
                   display: 'flex',
