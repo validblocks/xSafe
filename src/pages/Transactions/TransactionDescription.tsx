@@ -10,7 +10,7 @@ import {
   TimelineSeparator
 } from '@mui/lab';
 import { Box, Typography, useMediaQuery } from '@mui/material';
-import { makeStyles } from '@mui/styles';
+import { makeStyles, withStyles } from '@mui/styles';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { truncateInTheMiddle } from 'utils/addressUtils';
 import TransactionTechnicalDetails from './TransactionTechnicalDetails';
@@ -21,6 +21,18 @@ type Props = Partial<{
   boardMembers: Address[];
   signers: Address[];
 }>;
+
+const StyledConnector = withStyles({ root: { backgroundColor: '#4c2ffc' } })(
+  TimelineConnector
+);
+
+const StyledDot = withStyles({ root: { backgroundColor: '#4c2ffc' } })(
+  TimelineDot
+);
+
+const StyledStatusText = withStyles({
+  root: { color: '#4c2ffc', marginTop: '2px' }
+})(Typography);
 
 const TransactionDescription = ({
   description,
@@ -79,22 +91,24 @@ const TransactionDescription = ({
           <TimelineItem>
             <TimelineOppositeContent sx={{ display: 'none' }} />
             <TimelineSeparator>
-              <TimelineDot color='success' />
-              <TimelineConnector />
+              <StyledDot />
+              <StyledConnector />
             </TimelineSeparator>
-            <TimelineContent>Created</TimelineContent>
+            <TimelineContent>
+              <StyledStatusText>Created</StyledStatusText>
+            </TimelineContent>
           </TimelineItem>
 
           {allSigners.map((signer: Address, idx: number) => {
             return (
               <TimelineItem key={signer.hex()}>
                 <TimelineOppositeContent sx={{ display: 'none' }} />
-                <TimelineSeparator color='success'>
-                  <TimelineDot color='success' />
-                  <TimelineConnector />
+                <TimelineSeparator>
+                  <StyledDot />
+                  <StyledConnector />
                 </TimelineSeparator>
                 <TimelineContent>
-                  <Typography>Signed by:</Typography>
+                  <StyledStatusText>Signed by:</StyledStatusText>
                   <div className='d-flex align-items-center'>
                     <img
                       className='mr-3 rounded'
@@ -117,13 +131,18 @@ const TransactionDescription = ({
             <TimelineOppositeContent sx={{ display: 'none' }} />
             <TimelineSeparator>
               <TimelineDot
-                color={transaction?.status === 'success' ? 'success' : 'grey'}
+                sx={{
+                  backgroundColor:
+                    transaction?.status === 'success' ? '#4c2ffc' : 'grey'
+                }}
                 variant={
                   transaction?.status === 'success' ? 'filled' : 'outlined'
                 }
               />
             </TimelineSeparator>
-            <TimelineContent>Executed</TimelineContent>
+            <TimelineContent>
+              <StyledStatusText>Executed</StyledStatusText>
+            </TimelineContent>
           </TimelineItem>
         </Timeline>
       </Box>
