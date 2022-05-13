@@ -13,9 +13,9 @@ const TransactionSummary = ({ transaction }: Props) => {
     <>
       <Box className='d-flex'>
         <Box
-          className='d-flex align-items-center justify-content-center'
+          className='d-flex align-items-center justify-content-center w-100'
           sx={{
-            borderRight: '2px solid #eee',
+            borderRight: '2px solid #dddddd',
             padding: '1rem'
           }}
         >
@@ -23,11 +23,12 @@ const TransactionSummary = ({ transaction }: Props) => {
         </Box>
 
         <Box
-          className='d-flex align-items-center justify-content-center'
+          className='d-flex align-items-center justify-content-start'
           sx={{
-            borderRight: '2px solid #eee',
+            borderRight: '2px solid #ddd',
             padding: '1rem',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            minWidth: '230px'
           }}
         >
           {transaction?.function}
@@ -35,13 +36,14 @@ const TransactionSummary = ({ transaction }: Props) => {
 
         <Box
           sx={{
-            borderRight: '2px solid #eee',
+            borderRight: '2px solid #ddd',
             padding: '1rem',
             fontSize: '0.85rem',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'flex-start',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            minWidth: '150px'
           }}
         >
           <div>
@@ -53,7 +55,8 @@ const TransactionSummary = ({ transaction }: Props) => {
         <Box
           sx={{
             padding: '1rem',
-            fontSize: '0.85rem'
+            fontSize: '0.85rem',
+            flex: 1
           }}
         >
           <div>
@@ -71,7 +74,7 @@ const TransactionSummary = ({ transaction }: Props) => {
       <Box
         className='d-flex'
         sx={{
-          borderLeft: '2px solid #eee',
+          borderLeft: '2px solid #ddd',
           padding: '1rem',
           fontSize: '0.85rem'
         }}

@@ -67,7 +67,7 @@ const TransactionHistory = () => {
                       <AccordionSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls='panel1a-content'
-                        sx={{ borderBottom: '2px solid #eee' }}
+                        sx={{ borderBottom: '2px solid #ddd' }}
                         className='pl-0 m-0 d-flex'
                         classes={{
                           content: classes.content,
