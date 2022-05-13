@@ -1,13 +1,15 @@
 import React from 'react';
-import { Card, Grid } from '@mui/material';
+import { Card, Box } from '@mui/material';
 import ProposersTable from './ProposersTable';
 
 const CvorumContainer = () => {
   return (
-    <Grid
-      direction='column'
-      container
-      className='shadow overflow-hidden p-5 rounded '
+    <Box
+      sx={{
+        width: '100%',
+        padding: '8rem 1rem',
+        backgroundColor: '#F6F7F8'
+      }}
     >
       <Card className='px-4 py-5 mt-5'>
         <div className='mb-4'>
@@ -15,7 +17,7 @@ const CvorumContainer = () => {
         </div>
         <ProposersTable />
       </Card>
-    </Grid>
+    </Box>
   );
 };
 

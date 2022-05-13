@@ -3,12 +3,10 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LanIcon from '@mui/icons-material/Lan';
 import { Grid, Box } from '@mui/material';
 import { Link, Navigate } from 'react-router-dom';
-import PageBreadcrumbs from 'components/Layout/Breadcrumb';
 
 const DecisionsActionsHeader = () => {
   return (
     <Grid container>
-      <PageBreadcrumbs />
       <Grid
         container
         sx={{ mb: 2 }}

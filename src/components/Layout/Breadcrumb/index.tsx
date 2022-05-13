@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { uniqueContractAddress } from 'multisigConfig';
 import breadcrumbItems from './BreadcrumbItems';
 
 const PageBreadcrumbs = () => {
@@ -10,15 +11,16 @@ const PageBreadcrumbs = () => {
 
   const location = useLocation();
   useEffect(() => {
+    console.log(location.pathname, 'location.pathname');
     setBreadcrumb(breadcrumbItems[location.pathname.substring(1)]);
 
     // setbreadcrumbLink(breadcrumbItems[location.pathname.substring(1)].link);
-  }, []);
+  }, [location.pathname]);
 
   return (
     <div role='presentation'>
-      <Breadcrumbs aria-label='breadcrumb'>
-        <Link color='inherit' to={'/'}>
+      <Breadcrumbs separator='›' aria-label='breadcrumb'>
+        <Link color='inherit' to={`/multisig/${uniqueContractAddress}`}>
           Home
         </Link>
         {breadcrumb.map((el: any, index: any) => (
