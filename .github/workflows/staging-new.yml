@@ -1,15 +1,13 @@
 name: multisig-deploy-staging
 
-# on:
-#   workflow_dispatch:
-#   push:
-#     branches:
-#       - 'develop'
+on: [workflow_dispatch]
 
 jobs:
   deploy-staging:
     runs-on: self-hosted
     container: ghcr.io/graffino/multisig:latest
+    volumes:
+      - ./:./
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     steps:
