@@ -28,7 +28,7 @@ import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoC
 import { TokenWithPrice } from 'pages/Organization/types';
 import { priceSelector } from 'redux/selectors/economicsSelector';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
-const NavbarAccountDetails = ({ uniqueAddress }: any) => {
+const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
   const [showQr, setShowQr] = useState(false);
@@ -129,9 +129,9 @@ const NavbarAccountDetails = ({ uniqueAddress }: any) => {
 
   const [totalUsdValue, setTotalUsdValue] = useState(0);
   const totalValue = () => {
-    const arrayOfUsdValues: any = [];
+    const arrayOfUsdValues: Array<number> = [];
     let egldTokenPrice: any = 0;
-    let egldTokensAmount: any = 0;
+    let egldTokensAmount = 0;
     if (organizationTokens) {
       organizationTokens.map((el) => {
         if (el.valueUsd) {
@@ -156,7 +156,9 @@ const NavbarAccountDetails = ({ uniqueAddress }: any) => {
     }
 
     if (arrayOfUsdValues.length > 0) {
-      setTotalUsdValue(arrayOfUsdValues.reduce((x: any, y: any) => x + y));
+      setTotalUsdValue(
+        arrayOfUsdValues.reduce((x: number, y: number) => x + y)
+      );
     }
   };
 
