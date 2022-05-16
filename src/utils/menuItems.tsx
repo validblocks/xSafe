@@ -17,6 +17,7 @@ const topItems = [
     name: 'Assets',
     link: 'assets',
     icon: <AttachMoneyIcon />,
+    id: 'panel1',
     submenu: [
       {
         name: 'Coins',
@@ -49,6 +50,7 @@ const topItems = [
     name: 'Organization',
     link: 'organization',
     icon: <MapsHomeWorkIcon />,
+    id: 'panel2',
     submenu: [
       {
         name: 'Owners',
