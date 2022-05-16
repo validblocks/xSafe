@@ -29,7 +29,6 @@ import { TokenWithPrice } from 'pages/Organization/types';
 import { priceSelector } from 'redux/selectors/economicsSelector';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
 const NavbarAccountDetails = ({ uniqueAddress }: any) => {
-  console.log(uniqueAddress, 'uniqueAddress');
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
   const [showQr, setShowQr] = useState(false);
@@ -155,7 +154,6 @@ const NavbarAccountDetails = ({ uniqueAddress }: any) => {
         }
       });
     }
-    console.log(arrayOfUsdValues, 'arrayOfUsdValues');
 
     if (arrayOfUsdValues.length > 0) {
       setTotalUsdValue(arrayOfUsdValues.reduce((x: any, y: any) => x + y));
