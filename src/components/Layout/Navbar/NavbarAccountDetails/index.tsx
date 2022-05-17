@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Box, Button, Typography } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import Safe from 'assets/img/safe.png';
-import ChangeCurrency from 'components/ChangeCurrency';
 import CopyButton from 'components/CopyButton';
 import ReceiveModal from 'components/ReceiveModal';
 import SafeOptions from 'components/SafeOptions';
@@ -16,7 +15,6 @@ import { ProposalsTypes } from 'types/Proposals';
 import './navbarAccountDetails.scss';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { organizationTokensSelector } from 'redux/selectors/accountSelector';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { network } from 'config';
@@ -27,7 +25,8 @@ import {
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { TokenWithPrice } from 'pages/Organization/types';
 import { priceSelector } from 'redux/selectors/economicsSelector';
-import { operations, Ui } from '@elrondnetwork/dapp-utils';
+import TotalBalance from '../TotalBalance';
+
 const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
@@ -56,7 +55,6 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
     return data.assets.pngUrl;
   }, []);
 
-  const organizationTokens = useSelector(organizationTokensSelector);
   useEffect(() => {
     (async function getTokens() {
       let isMounted = true;
@@ -127,48 +125,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
     })();
   }, [currentContract]);
 
-  const [totalUsdValue, setTotalUsdValue] = useState(0);
-  const totalValue = () => {
-    const arrayOfUsdValues: Array<number> = [];
-    let egldTokenPrice: any = 0;
-    let egldTokensAmount = 0;
-    if (organizationTokens) {
-      organizationTokens.map((el) => {
-        if (el.valueUsd) {
-          arrayOfUsdValues.push(el.valueUsd);
-        }
-
-        if (el.identifier === 'EGLD') {
-          egldTokenPrice = el.value?.tokenPrice ? el.value?.tokenPrice : 0;
-          egldTokensAmount = el.value?.amount ? Number(el.value?.amount) : 0;
-
-          const egldTotalPrice = egldTokenPrice * egldTokensAmount;
-
-          const denominatedEgldPrice = operations.denominate({
-            input: egldTotalPrice.toString(),
-            denomination: 18,
-            decimals: 4,
-            showLastNonZeroDecimal: true
-          });
-          arrayOfUsdValues.push(Number(denominatedEgldPrice));
-        }
-      });
-    }
-
-    if (arrayOfUsdValues.length > 0) {
-      setTotalUsdValue(
-        arrayOfUsdValues.reduce((x: number, y: number) => x + y)
-      );
-    }
-  };
-
-  useEffect(() => {
-    totalValue();
-  }, []);
-
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
-  const [openedCurencySelect, setOpenedCurencySelect] = useState(false);
-  const [selectedCurrency, setSelectedCurrency] = useState('USD');
 
   const handleQrModal = () => {
     setShowQr(!showQr);
@@ -180,14 +137,6 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
         option: ProposalsTypes.multiselect_proposal_options
       })
     );
-
-  const closeCurrencyDropdown = (data: boolean) => {
-    setOpenedCurencySelect(data);
-  };
-
-  const setCurrency = (data: string) => {
-    setSelectedCurrency(data);
-  };
 
   const closeSafeDropdown = (data: boolean) => {
     setOpenedSafeSelect(data);
@@ -260,37 +209,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
           <Typography>Read-only</Typography>
         </Box>
       </Box>
-      <Box sx={{ pt: 1 }}>
-        <Typography className='text-center'>Total balance:</Typography>
-        <Box className='d-flex justify-content-center'>
-          <h5 className='ex-currency text-center'>
-            ≈{totalUsdValue.toFixed(2)}
-            {selectedCurrency}
-          </h5>
-          {openedCurencySelect === true && (
-            <Box>
-              <ArrowDropUpIcon
-                onClick={() => {
-                  setOpenedCurencySelect(false);
-                }}
-              />
-              <ChangeCurrency
-                closeCurrencyDropdown={closeCurrencyDropdown}
-                setCurrencyFromChild={setCurrency}
-              />
-            </Box>
-          )}
-          {openedCurencySelect === false && (
-            <Box>
-              <ArrowDropDownIcon
-                onClick={() => {
-                  setOpenedCurencySelect(true);
-                }}
-              />
-            </Box>
-          )}
-        </Box>
-      </Box>
+      <TotalBalance />
       <Box className='d-flex justify-content-center' sx={{ pb: 1 }}>
         <Button
           className='new-transfer-btn'

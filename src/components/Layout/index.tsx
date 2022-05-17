@@ -5,6 +5,8 @@ import {
   useGetAccountInfo,
   useGetLoginInfo
 } from '@elrondnetwork/dapp-core';
+import { Box } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getAccountData } from 'apiCalls/accountCalls';
@@ -22,6 +24,7 @@ import { TokenWrapper } from '../TokenWrapper';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
 import Navbar from './Navbar';
+import MobileLayout from './Navbar/mobileLayout';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();
@@ -80,13 +83,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       dispatch(setAccountData(accountData));
     }
   }
+  const width = useMediaQuery('(min-width:600px)');
 
   return (
     <div
       style={{ display: 'none !important', background: '#F4F6FD' }}
       className='bg-light d-flex flex-row flex-fill wrapper'
     >
-      <Navbar />
+      {width ? <Navbar /> : <MobileLayout />}
 
       <main className=' flex-row flex-fill position-relative justify-center  container'>
         <AuthenticatedRoutesWrapper
