@@ -61,7 +61,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           { address: uniqueContractAddress, name: uniqueContractName ?? '' }
         ])
       );
-      navigate('/multisig/' + uniqueContractAddress);
       return;
     }
     if (isAuthenticated?.isAuthenticated) {
