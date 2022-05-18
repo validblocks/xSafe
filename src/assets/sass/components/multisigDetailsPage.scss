@@ -352,3 +352,9 @@
     }
   }
 }
+@include media-breakpoint-down(sm) {
+  .dashboard {
+    padding-top: 60px !important
+    ;
+  }
+}
