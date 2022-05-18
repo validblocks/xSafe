@@ -88,7 +88,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div
       style={{ display: 'none !important', background: '#F4F6FD' }}
-      className='bg-light d-flex flex-row flex-fill wrapper'
+      className='bg-light flex-row flex-fill wrapper page-wrapper'
     >
       {width ? <Navbar /> : <MobileLayout />}
 
