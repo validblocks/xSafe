@@ -80,4 +80,39 @@ const bottomItems = [
   { name: 'Help Center', link: 'help-center', icon: <HelpIcon /> }
 ];
 
-export default { topItems, bottomItems };
+const mobileBottomItems = [
+  {
+    name: 'Assets',
+    link: 'assets',
+    icon: <AttachMoneyIcon />,
+    submenu: [
+      {
+        name: 'Coins',
+        link: 'tokens',
+        icon: <AdjustOutlinedIcon />
+      },
+      {
+        name: 'NFTs',
+        link: 'nft',
+        icon: <DiamondIcon />
+      }
+    ]
+  },
+  {
+    name: 'Transactions',
+    link: 'transactions',
+    icon: <CompareArrowsOutlinedIcon />
+  },
+  {
+    name: 'Apps',
+    link: 'apps',
+    icon: <GridViewSharpIcon />
+  },
+  {
+    name: 'Address Book',
+    link: 'address-book',
+    icon: <MenuBookIcon />
+  }
+];
+
+export default { topItems, bottomItems, mobileBottomItems };
