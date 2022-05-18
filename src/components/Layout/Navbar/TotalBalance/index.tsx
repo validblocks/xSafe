@@ -20,6 +20,7 @@ import {
 } from 'redux/slices/accountSlice';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
+import './totalBalance.scss';
 
 const TotalBalance = () => {
   const dispatch = useDispatch();
@@ -177,12 +178,17 @@ const TotalBalance = () => {
 
   return (
     <Box sx={{ pt: 1 }}>
-      <Typography className='text-center'>Total balance:</Typography>
+      <Typography className='text-center total-balance-text'>
+        Total balance:
+      </Typography>
       <Box className='d-flex justify-content-center'>
-        <h5 className='ex-currency text-center'>
+        <Typography
+          className='ex-currency text-center'
+          sx={{ fontWeight: 'bold' }}
+        >
           ≈{totalUsdValue.toFixed(2)}
           {selectedCurrency}
-        </h5>
+        </Typography>
         {openedCurencySelect === true && (
           <Box>
             <ArrowDropUpIcon
