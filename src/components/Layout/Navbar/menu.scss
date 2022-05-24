@@ -31,12 +31,13 @@
   display: block;
   position: absolute;
   bottom: 75px;
-  z-index: 2;
+  z-index: 9;
 }
 
 .first-menu {
   overflow-y: scroll;
   height: 100%;
+  z-index: 0;
 }
 @media (min-width: 600px) {
   .page-wrapper {
@@ -86,7 +87,7 @@
   border-bottom: 2px solid #4c2ffc;
 }
 .drawer-wrapper .MuiPaper-elevation {
-  z-index: 1 !important;
+  z-index: 9 !important;
 }
 
 .mobile-top-side {

@@ -12,6 +12,7 @@ import { network } from 'config';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { TokenWithPrice } from 'pages/Organization/types';
 import { organizationTokensSelector } from 'redux/selectors/accountSelector';
+import { currencyConvertedSelector } from 'redux/selectors/currencySelector';
 import { priceSelector } from 'redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import {
@@ -21,6 +22,7 @@ import {
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import './totalBalance.scss';
+import useCurrency from 'utils/useCurrency';
 
 const TotalBalance = () => {
   const dispatch = useDispatch();
@@ -28,6 +30,8 @@ const TotalBalance = () => {
   const [totalUsdValue, setTotalUsdValue] = useState(0);
 
   const organizationTokens = useSelector(organizationTokensSelector);
+  const currencyConverted = useSelector(currencyConvertedSelector);
+
   const egldPrice = useSelector(priceSelector);
 
   const [openedCurencySelect, setOpenedCurencySelect] = useState(false);
@@ -172,6 +176,11 @@ const TotalBalance = () => {
     setSelectedCurrency(data);
   };
 
+  const setLoading = (data: string) => {
+    console.log(data);
+  };
+  useCurrency(totalUsdValue, selectedCurrency);
+
   useEffect(() => {
     totalValue();
   }, []);
@@ -186,10 +195,10 @@ const TotalBalance = () => {
           className='ex-currency text-center'
           sx={{ fontWeight: 'bold' }}
         >
-          ≈{totalUsdValue.toFixed(2)}
+          ≈{currencyConverted?.toFixed(2)}
           {selectedCurrency}
         </Typography>
-        {openedCurencySelect === true && (
+        {openedCurencySelect === true ? (
           <Box>
             <ArrowDropUpIcon
               onClick={() => {
@@ -199,17 +208,19 @@ const TotalBalance = () => {
             <ChangeCurrency
               closeCurrencyDropdown={closeCurrencyDropdown}
               setCurrencyFromChild={setCurrency}
+              setLoadingFromChild={setLoading}
             />
           </Box>
-        )}
-        {openedCurencySelect === false && (
-          <Box>
-            <ArrowDropDownIcon
-              onClick={() => {
-                setOpenedCurencySelect(true);
-              }}
-            />
-          </Box>
+        ) : (
+          openedCurencySelect === false && (
+            <Box>
+              <ArrowDropDownIcon
+                onClick={() => {
+                  setOpenedCurencySelect(true);
+                }}
+              />
+            </Box>
+          )
         )}
       </Box>
       <Box className='d-flex justify-content-center' sx={{ pb: 1 }}>
