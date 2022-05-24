@@ -117,7 +117,11 @@ export default function MiniDrawer() {
   useEffect(() => {
     setWalletAddress(addressShorthand());
   }, []);
-
+  const [expanded, setExpanded] = React.useState<string | false>(false);
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -152,7 +156,11 @@ export default function MiniDrawer() {
           {menuItems.topItems.map((el, index) => (
             <div key={index}>
               {el.submenu && (
-                <Accordion sx={{ boxShadow: 'none' }}>
+                <Accordion
+                  expanded={expanded === `${el.id}`}
+                  onChange={handleChange(`${el.id}`)}
+                  sx={{ boxShadow: 'none' }}
+                >
                   <AccordionSummary
                     aria-controls='panel1a-content'
                     expandIcon={<ExpandMoreIcon />}

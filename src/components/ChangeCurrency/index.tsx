@@ -39,6 +39,7 @@ const ChangeCurrency = ({
           }}
           id='country-select-demo'
           sx={{ width: 200 }}
+          defaultValue={{ code: '', label: 'USD' }}
           options={currencyList}
           autoHighlight
           getOptionLabel={(option) => option.label}

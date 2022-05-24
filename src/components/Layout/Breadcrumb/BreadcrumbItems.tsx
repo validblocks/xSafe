@@ -31,6 +31,12 @@ const breadcrumbItems: any = {
       name: 'Owners'
     }
   ],
+  nft: [
+    {
+      link: '/nft',
+      name: 'NFT'
+    }
+  ],
   cvorum: [
     {
       link: '/cvorum',
