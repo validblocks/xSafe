@@ -159,10 +159,6 @@ const SafeSettings = () => {
     }
   };
 
-  const setCurrency = (data: string) => {
-    setSelectedCurrency(data);
-  };
-
   useEffect(() => {
     totalValue();
   }, []);
@@ -206,10 +202,7 @@ const SafeSettings = () => {
       <Typography sx={{ mb: 2 }}>
         Pick a default currency for your Safe.
       </Typography>
-      <ChangeCurrency
-        setCurrencyFromChild={setCurrency}
-        totalValue={totalUsdValue}
-      />
+      <ChangeCurrency totalValue={totalUsdValue} />
       <Typography sx={{ mb: 1, mt: 2, fontSize: '18px' }} className='bold-text'>
         Appearance
       </Typography>

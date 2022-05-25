@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { selectedCurrencySelector } from 'redux/selectors/currencySelector';
 import useCurrency from 'utils/useCurrency';
 
-const ChangeCurrency = ({ setCurrencyFromChild, totalValue }: any) => {
+const ChangeCurrency = ({ totalValue }: any) => {
   interface CountryType {
     code: string;
     label: string;
