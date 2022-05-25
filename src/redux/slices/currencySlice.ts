@@ -2,26 +2,31 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface StateType {
   currencyConverted: number;
+  selectedCurrency: string;
 }
 
 const initialState: StateType = {
-  currencyConverted: 0
+  currencyConverted: 0,
+  selectedCurrency: ''
 };
-console.log(initialState, 'initialState');
 
 export const currencySlice = createSlice({
   name: 'currencySlice',
   initialState,
   reducers: {
-    setCurrencyConverted(state: StateType, action: any) {
+    setTotalValueConverted(state: StateType, action: any) {
       return {
         ...state,
         currencyConverted: action.payload
       };
+    },
+    setSelectedCurrency(state: StateType, action: any) {
+      return { ...state, selectedCurrency: action.payload };
     }
   }
 });
 
-export const { setCurrencyConverted } = currencySlice.actions;
+export const { setTotalValueConverted, setSelectedCurrency } =
+  currencySlice.actions;
 
 export default currencySlice.reducer;

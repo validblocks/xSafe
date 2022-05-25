@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setCurrencyConverted } from 'redux/slices/currencySlice';
+import {
+  setTotalValueConverted,
+  setSelectedCurrency
+} from 'redux/slices/currencySlice';
 
 const useCurrency = (val: number, currency: string) => {
   const dispatch = useDispatch();
@@ -15,11 +18,12 @@ const useCurrency = (val: number, currency: string) => {
             .then((resp) => resp.json())
             .then((data) => {
               const convertedValue = data.rates[currency];
-              dispatch(setCurrencyConverted(convertedValue));
+              dispatch(setTotalValueConverted(convertedValue));
             });
         } else {
-          dispatch(setCurrencyConverted(val));
+          dispatch(setTotalValueConverted(val));
         }
+        dispatch(setSelectedCurrency(currency));
       })();
     }
   }, [val, currency]);
