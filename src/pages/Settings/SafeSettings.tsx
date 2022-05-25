@@ -14,20 +14,24 @@ import { TokenWithPrice } from 'pages/Organization/types';
 import { organizationTokensSelector } from 'redux/selectors/accountSelector';
 import { priceSelector } from 'redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
+import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
 import {
   setMultisigBalance,
   setOrganizationTokens
 } from 'redux/slices/accountSlice';
+import { setSafeName } from 'redux/slices/safeNameSlice';
 import useCurrency from 'utils/useCurrency';
 
 const SafeSettings = () => {
-  const [value, setValue] = React.useState('My Safe');
-
   const dispatch = useDispatch();
 
   const [totalUsdValue, setTotalUsdValue] = useState(0);
 
   const organizationTokens = useSelector(organizationTokensSelector);
+  const safeName = useSelector(safeNameStoredSelector);
+  useEffect(() => {
+    setName(safeName);
+  }, [safeName]);
   const egldPrice = useSelector(priceSelector);
 
   const [selectedCurrency, setSelectedCurrency] = useState('');
@@ -167,6 +171,16 @@ const SafeSettings = () => {
     totalValue();
   }, []);
 
+  const [name, setName] = React.useState('');
+
+  const changeSafeName = (event: any) => {
+    setName(event.target.value);
+  };
+
+  const saveUpdates = () => {
+    dispatch(setSafeName(name));
+  };
+
   return (
     <Box>
       <Typography sx={{ mb: 1, fontSize: '18px' }} className='bold-text'>
@@ -185,7 +199,8 @@ const SafeSettings = () => {
         id='outlined-basic'
         label='Safe Name'
         variant='outlined'
-        value={value}
+        onChange={changeSafeName}
+        value={name}
         sx={{ width: 250 }}
       />
       <Typography sx={{ mb: 1, mt: 2, fontSize: '18px' }} className='bold-text'>
@@ -208,6 +223,7 @@ const SafeSettings = () => {
         className='new-transfer-btn'
         variant='outlined'
         sx={{ display: 'block', mt: 5 }}
+        onClick={saveUpdates}
       >
         Save Updates
       </Button>
