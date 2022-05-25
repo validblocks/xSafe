@@ -7,7 +7,7 @@ export interface StateType {
 
 const initialState: StateType = {
   currencyConverted: 0,
-  selectedCurrency: ''
+  selectedCurrency: 'USD'
 };
 
 export const currencySlice = createSlice({

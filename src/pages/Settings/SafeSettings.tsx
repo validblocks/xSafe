@@ -20,7 +20,6 @@ import {
   setOrganizationTokens
 } from 'redux/slices/accountSlice';
 import { setSafeName } from 'redux/slices/safeNameSlice';
-import useCurrency from 'utils/useCurrency';
 
 const SafeSettings = () => {
   const dispatch = useDispatch();
@@ -165,8 +164,6 @@ const SafeSettings = () => {
     setSelectedCurrency(data);
   };
 
-  useCurrency(totalUsdValue, selectedCurrency);
-
   useEffect(() => {
     totalValue();
   }, []);
@@ -210,7 +207,7 @@ const SafeSettings = () => {
       <Typography sx={{ mb: 2 }}>
         Pick a default currency for your Safe.
       </Typography>
-      <ChangeCurrency setCurrencyFromChild={setCurrency} />
+      <ChangeCurrency setCurrencyFromChild={setCurrency} test={totalUsdValue} />
       <Typography sx={{ mb: 1, mt: 2, fontSize: '18px' }} className='bold-text'>
         Appearance
       </Typography>

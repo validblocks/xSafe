@@ -5,9 +5,15 @@ import './ChangeCurrency.scss';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
+import { useDispatch } from 'react-redux';
 import { selectedCurrencySelector } from 'redux/selectors/currencySelector';
+import {
+  setTotalValueConverted,
+  setSelectedCurrency
+} from 'redux/slices/currencySlice';
+import useCurrency from 'utils/useCurrency';
 
-const ChangeCurrency = ({ setCurrencyFromChild }: any) => {
+const ChangeCurrency = ({ setCurrencyFromChild, test }: any) => {
   interface CountryType {
     code: string;
     label: string;
@@ -20,13 +26,18 @@ const ChangeCurrency = ({ setCurrencyFromChild }: any) => {
   ];
 
   const getCurrency = useSelector(selectedCurrencySelector);
+  const dispatch = useDispatch();
 
+  const testFunct = (test: any, param: any) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useCurrency(test, param, dispatch);
+  };
   return (
     <Box>
       <Box>
         <Autocomplete
           onInputChange={(event, newInputValue) => {
-            setCurrencyFromChild(newInputValue);
+            testFunct(test, newInputValue);
           }}
           value={{ code: '', label: `${getCurrency}` }}
           id='country-select-demo'
