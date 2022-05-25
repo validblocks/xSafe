@@ -22,15 +22,14 @@ import {
 import { setSafeName } from 'redux/slices/safeNameSlice';
 
 const SafeSettings = () => {
-  const dispatch = useDispatch();
-
   const [totalUsdValue, setTotalUsdValue] = useState(0);
-
-  const organizationTokens = useSelector(organizationTokensSelector);
   const safeName = useSelector(safeNameStoredSelector);
   useEffect(() => {
     setName(safeName);
   }, [safeName]);
+  const dispatch = useDispatch();
+
+  const organizationTokens = useSelector(organizationTokensSelector);
   const egldPrice = useSelector(priceSelector);
 
   const [selectedCurrency, setSelectedCurrency] = useState('');
@@ -207,7 +206,10 @@ const SafeSettings = () => {
       <Typography sx={{ mb: 2 }}>
         Pick a default currency for your Safe.
       </Typography>
-      <ChangeCurrency setCurrencyFromChild={setCurrency} test={totalUsdValue} />
+      <ChangeCurrency
+        setCurrencyFromChild={setCurrency}
+        totalValue={totalUsdValue}
+      />
       <Typography sx={{ mb: 1, mt: 2, fontSize: '18px' }} className='bold-text'>
         Appearance
       </Typography>
