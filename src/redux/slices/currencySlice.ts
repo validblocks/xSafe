@@ -3,11 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 export interface StateType {
   currencyConverted: number;
   selectedCurrency: string;
+  valueInUsd: number;
 }
 
 const initialState: StateType = {
   currencyConverted: 0,
-  selectedCurrency: 'USD'
+  selectedCurrency: 'USD',
+  valueInUsd: 0
 };
 
 export const currencySlice = createSlice({
@@ -22,11 +24,15 @@ export const currencySlice = createSlice({
     },
     setSelectedCurrency(state: StateType, action: any) {
       return { ...state, selectedCurrency: action.payload };
+    },
+    setValueInUsd(state: StateType, action: any) {
+      console.log(action, 'act');
+      return { ...state, valueInUsd: action.payload };
     }
   }
 });
 
-export const { setTotalValueConverted, setSelectedCurrency } =
+export const { setTotalValueConverted, setSelectedCurrency, setValueInUsd } =
   currencySlice.actions;
 
 export default currencySlice.reducer;
