@@ -18,6 +18,7 @@ import {
   setMultisigBalance,
   setOrganizationTokens
 } from 'redux/slices/accountSlice';
+import { setValueInUsd } from 'redux/slices/currencySlice';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
@@ -166,6 +167,10 @@ const TotalBalance = () => {
   useEffect(() => {
     totalValue();
   }, []);
+
+  useEffect(() => {
+    dispatch(setValueInUsd(totalUsdValue));
+  }, [totalUsdValue]);
 
   const currencyConverted = useSelector(currencyConvertedSelector);
 
