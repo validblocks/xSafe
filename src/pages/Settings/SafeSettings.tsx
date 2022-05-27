@@ -62,14 +62,16 @@ const SafeSettings = () => {
         You can choose between a dark and a light theme.
       </Typography>
       <ThemeColor />
-      <Button
-        className='new-transfer-btn'
-        variant='outlined'
-        sx={{ display: 'block', mt: 5 }}
-        onClick={saveUpdates}
-      >
-        Save Updates
-      </Button>
+      <Box className=' d-flex justify-content-end'>
+        <Button
+          className='new-transfer-btn'
+          variant='outlined'
+          sx={{ display: 'block', mt: 5 }}
+          onClick={saveUpdates}
+        >
+          Save Updates
+        </Button>
+      </Box>
     </Box>
   );
 };

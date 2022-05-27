@@ -54,11 +54,11 @@ const ConnectedAccount = () => {
           <Box className='d-flex connect-actions-btns' sx={{ p: 1 }}>
             <Typography sx={{ mr: 2, ml: 1 }}>{addressShorthand()}</Typography>
             <Box sx={{ mr: 2 }}>
-              <CopyButton text={uniqueContractAddress} />
+              <CopyButton className='link-color' text={uniqueContractAddress} />
             </Box>
             <Box sx={{ mr: 1 }}>
               <a
-                className='explorer-link'
+                className='link-color'
                 href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
                 target='_blank'
                 rel='noreferrer'

@@ -45,9 +45,9 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
         Safe Options
       </Typography>
       <Divider />
-      <Box sx={{ p: 2, pl: 0 }}>
-        <Button onClick={addSafe} sx={{ pl: 0 }}>
-          <AddIcon />
+      <Box sx={{ p: 2, pl: 0 }} className='add-safe-wrapper'>
+        <Button onClick={addSafe} sx={{ color: '#4C2FFC' }}>
+          <AddIcon sx={{ mr: 1 }} />
           Add a new safe
         </Button>
       </Box>
@@ -66,7 +66,7 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
             </Typography>
           </Box>
           <Box>
-            <Checkbox {...label} defaultChecked />
+            <Checkbox {...label} disabled checked />
           </Box>
         </Box>
       </Button>
@@ -82,9 +82,6 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
             <Typography align='left' className='bold'>
               14,590 USD
             </Typography>
-          </Box>
-          <Box>
-            <Checkbox {...label} />
           </Box>
         </Box>
       </Button>

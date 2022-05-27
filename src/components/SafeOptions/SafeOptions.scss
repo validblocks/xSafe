@@ -20,3 +20,11 @@
   color: #08041d;
   opacity: 0.5;
 }
+
+.add-safe-wrapper {
+  text-align: left;
+  button {
+    text-transform: capitalize;
+    font-size: 14px;
+  }
+}
