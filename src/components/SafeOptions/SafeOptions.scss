@@ -5,4 +5,26 @@
   box-shadow: 0px 0px 24px rgba(76, 47, 252, 0.13);
   border-radius: 10px;
   z-index: 2;
+  width: 240px;
+}
+
+.bold {
+  font-weight: 600 !important;
+}
+
+.active-wallet-wrapper {
+  color: #08041d;
+}
+
+.inactive-wallet-wrapper {
+  color: #08041d;
+  opacity: 0.5;
+}
+
+.add-safe-wrapper {
+  text-align: left;
+  button {
+    text-transform: capitalize;
+    font-size: 14px;
+  }
 }

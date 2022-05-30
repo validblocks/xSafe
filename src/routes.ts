@@ -14,6 +14,7 @@ import Dashboard from './pages/Dashboard';
 import DecisionActions from './pages/DecisionActions';
 import Home from './pages/Home';
 import MultisigDetailsPage from './pages/MultisigDetails/MultisigDetailsPage';
+import Settings from './pages/Settings';
 
 type RouteType = DappCoreRouteTypes & { title: string };
 
@@ -30,7 +31,8 @@ export type ForegroundRoutesType =
   | 'assets'
   | 'cvorum'
   | 'owners'
-  | 'transactions';
+  | 'transactions'
+  | 'settings';
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
 export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
@@ -103,6 +105,11 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/owners',
     title: 'Owners',
     component: OrganizationTokens
+  },
+  settings: {
+    path: '/settings',
+    title: 'Settings',
+    component: Settings
   }
 };
 

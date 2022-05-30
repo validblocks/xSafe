@@ -11,7 +11,6 @@ const PageBreadcrumbs = () => {
 
   const location = useLocation();
   useEffect(() => {
-    console.log(location.pathname, 'location.pathname');
     setBreadcrumb(breadcrumbItems[location.pathname.substring(1)]);
 
     // setbreadcrumbLink(breadcrumbItems[location.pathname.substring(1)].link);

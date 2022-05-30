@@ -1,0 +1,22 @@
+.settings-wrapper {
+  background-color: #fff;
+  border-radius: 10px;
+
+  .note-wrapper span {
+    background-color: #e6e5fc;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  .bold-text {
+    font-weight: 600;
+  }
+
+  .active-tab {
+    color: #4c2ffc !important;
+    font-weight: 600;
+  }
+
+  .MuiTabs-indicator {
+    background-color: #4c2ffc;
+  }
+}

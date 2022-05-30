@@ -5,6 +5,7 @@ import currency from './slices/currencySlice';
 import economics from './slices/economicsSlice';
 import modals from './slices/modalsSlice';
 import multisigContracts from './slices/multisigContractsSlice';
+import safeName from './slices/safeNameSlice';
 
 export default function makeRootReducer() {
   return combineReducers({
@@ -13,6 +14,7 @@ export default function makeRootReducer() {
     economics,
     account,
     appConfig,
-    currency
+    currency,
+    safeName
   });
 }

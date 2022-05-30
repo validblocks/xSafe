@@ -1,47 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import { Box, Button, Typography } from '@mui/material';
+import React from 'react';
+import { Box } from '@mui/material';
+import { useSelector } from 'react-redux';
 import './ChangeCurrency.scss';
 import Autocomplete from '@mui/material/Autocomplete';
-import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
+import { useDispatch } from 'react-redux';
+import { selectedCurrencySelector } from 'redux/selectors/currencySelector';
+import { valueInUsdSelector } from 'redux/selectors/currencySelector';
+import useCurrency from 'utils/useCurrency';
 
-const ChangeCurrency = ({
-  closeCurrencyDropdown,
-  setCurrencyFromChild
-}: any) => {
+const ChangeCurrency = () => {
   interface CountryType {
     code: string;
     label: string;
     suggested?: boolean;
   }
-
   const currencyList: CountryType[] = [
     { code: 'US', label: 'USD' },
     { code: 'EU', label: 'EUR' },
     { code: 'RO', label: 'RON' }
   ];
+  const getValueInUsd = useSelector(valueInUsdSelector);
 
+  const getCurrency = useSelector(selectedCurrencySelector);
+  const dispatch = useDispatch();
+
+  const changeCurrency = (param: any) => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useCurrency(getValueInUsd, param, dispatch);
+  };
   return (
-    <Box
-      className='change-currency-wrapper'
-      onBlur={() => {
-        closeCurrencyDropdown(false);
-      }}
-    >
-      <Typography sx={{ p: 2 }} align='left'>
-        Change Currency
-      </Typography>
-      <Divider />
+    <Box>
       <Box>
         <Autocomplete
           onInputChange={(event, newInputValue) => {
-            console.log(event, newInputValue, 'coco');
-            setCurrencyFromChild(newInputValue);
+            changeCurrency(newInputValue);
           }}
+          value={{ code: '', label: `${getCurrency}` }}
           id='country-select-demo'
-          sx={{ width: 200 }}
-          defaultValue={{ code: '', label: 'USD' }}
+          sx={{ width: 250 }}
           options={currencyList}
           autoHighlight
           getOptionLabel={(option) => option.label}

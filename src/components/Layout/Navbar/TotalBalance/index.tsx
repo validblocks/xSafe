@@ -1,48 +1,40 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { getNetworkProxy } from '@elrondnetwork/dapp-core';
-import { operations, Ui } from '@elrondnetwork/dapp-utils';
-import { Address } from '@elrondnetwork/erdjs/out';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Box, Typography, Button } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import ChangeCurrency from 'components/ChangeCurrency';
 import { network } from 'config';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { TokenWithPrice } from 'pages/Organization/types';
+import {
+  currencyConvertedSelector,
+  selectedCurrencySelector
+} from 'redux/selectors/currencySelector';
+import './totalBalance.scss';
 import { organizationTokensSelector } from 'redux/selectors/accountSelector';
-import { currencyConvertedSelector } from 'redux/selectors/currencySelector';
 import { priceSelector } from 'redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
+import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
 import {
   setMultisigBalance,
   setOrganizationTokens
 } from 'redux/slices/accountSlice';
+import { setValueInUsd } from 'redux/slices/currencySlice';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
-import './totalBalance.scss';
+import { getNetworkProxy } from '@elrondnetwork/dapp-core';
+import { Address } from '@elrondnetwork/erdjs/out';
+import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import useCurrency from 'utils/useCurrency';
 
 const TotalBalance = () => {
   const dispatch = useDispatch();
 
   const [totalUsdValue, setTotalUsdValue] = useState(0);
-
   const organizationTokens = useSelector(organizationTokensSelector);
-  const currencyConverted = useSelector(currencyConvertedSelector);
-
   const egldPrice = useSelector(priceSelector);
 
-  const [openedCurencySelect, setOpenedCurencySelect] = useState(false);
-  const [selectedCurrency, setSelectedCurrency] = useState('USD');
+  const [selectedCurrency, setSelectedCurrency] = useState('');
 
-  const onAddBoardMember = () =>
-    dispatch(
-      setProposeMultiselectSelectedOption({
-        option: ProposalsTypes.multiselect_proposal_options
-      })
-    );
   const currentContract = useSelector(currentMultisigContractSelector);
   const {
     tokenPrices,
@@ -168,22 +160,33 @@ const TotalBalance = () => {
     }
   };
 
-  const closeCurrencyDropdown = (data: boolean) => {
-    setOpenedCurencySelect(data);
-  };
-
   const setCurrency = (data: string) => {
     setSelectedCurrency(data);
   };
 
-  const setLoading = (data: string) => {
-    console.log(data);
-  };
-  useCurrency(totalUsdValue, selectedCurrency);
-
   useEffect(() => {
     totalValue();
   }, []);
+
+  useEffect(() => {
+    dispatch(setValueInUsd(totalUsdValue));
+  }, [totalUsdValue]);
+
+  const currencyConverted = useSelector(currencyConvertedSelector);
+
+  const onAddBoardMember = () =>
+    dispatch(
+      setProposeMultiselectSelectedOption({
+        option: ProposalsTypes.multiselect_proposal_options
+      })
+    );
+
+  const getCurrency = useSelector(selectedCurrencySelector);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useCurrency(totalUsdValue, getCurrency, dispatch);
+  }, [totalUsdValue]);
 
   return (
     <Box sx={{ pt: 1 }}>
@@ -196,32 +199,8 @@ const TotalBalance = () => {
           sx={{ fontWeight: 'bold' }}
         >
           ≈{currencyConverted?.toFixed(2)}
-          {selectedCurrency}
+          {getCurrency}
         </Typography>
-        {openedCurencySelect === true ? (
-          <Box>
-            <ArrowDropUpIcon
-              onClick={() => {
-                setOpenedCurencySelect(false);
-              }}
-            />
-            <ChangeCurrency
-              closeCurrencyDropdown={closeCurrencyDropdown}
-              setCurrencyFromChild={setCurrency}
-              setLoadingFromChild={setLoading}
-            />
-          </Box>
-        ) : (
-          openedCurencySelect === false && (
-            <Box>
-              <ArrowDropDownIcon
-                onClick={() => {
-                  setOpenedCurencySelect(true);
-                }}
-              />
-            </Box>
-          )
-        )}
       </Box>
       <Box className='d-flex justify-content-center' sx={{ pb: 1 }}>
         <Button
