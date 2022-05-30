@@ -136,7 +136,7 @@ export default function MiniDrawer() {
         <Account />
         {/* <Network /> */}
       </Box>
-      <Drawer variant='permanent' open={open}>
+      <Drawer variant='permanent' open={open} className='drawer-wrapper'>
         <BsNavbar className='px-4 py-3'>
           <NavItem
             onClick={handleRedirectToHome}

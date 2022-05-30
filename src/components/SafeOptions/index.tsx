@@ -29,9 +29,9 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
   return (
     <Box
       className='safe-options-wrapper'
-      onBlur={() => {
-        closeSafeDropdown(false);
-      }}
+      // onBlur={() => {
+      //   closeSafeDropdown(false);
+      // }}
     >
       <Typography sx={{ p: 2 }} align='left'>
         Safe Options

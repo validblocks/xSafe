@@ -18,7 +18,8 @@ const ChangeCurrency = ({
 
   const currencyList: CountryType[] = [
     { code: 'US', label: 'USD' },
-    { code: 'EU', label: 'EUR' }
+    { code: 'EU', label: 'EUR' },
+    { code: 'RO', label: 'RON' }
   ];
 
   return (
@@ -35,6 +36,7 @@ const ChangeCurrency = ({
       <Box>
         <Autocomplete
           onInputChange={(event, newInputValue) => {
+            console.log(event, newInputValue, 'coco');
             setCurrencyFromChild(newInputValue);
           }}
           id='country-select-demo'

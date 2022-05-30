@@ -6,7 +6,13 @@ import makeRootReducer from './makeRootReducer';
 const persistConfig = {
   key: 'multisig-root',
   storage: localStorage,
-  whitelist: ['account', 'appConfig', 'multisigContracts', 'economics']
+  whitelist: [
+    'account',
+    'appConfig',
+    'multisigContracts',
+    'economics',
+    'currency'
+  ]
 };
 
 const persistedReducer = persistReducer(persistConfig, makeRootReducer());
