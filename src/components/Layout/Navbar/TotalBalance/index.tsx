@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { getNetworkProxy } from '@elrondnetwork/dapp-core';
+import { operations, Ui } from '@elrondnetwork/dapp-utils';
+import { Address } from '@elrondnetwork/erdjs/out';
 import { Box, Typography, Button } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { MainButton } from 'components/StyledComponents/StyledComponents';
 import { network } from 'config';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { TokenWithPrice } from 'pages/Organization/types';
+import { organizationTokensSelector } from 'redux/selectors/accountSelector';
 import {
   currencyConvertedSelector,
   selectedCurrencySelector
 } from 'redux/selectors/currencySelector';
-import './totalBalance.scss';
-import { organizationTokensSelector } from 'redux/selectors/accountSelector';
 import { priceSelector } from 'redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
@@ -21,9 +24,6 @@ import {
 import { setValueInUsd } from 'redux/slices/currencySlice';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
-import { getNetworkProxy } from '@elrondnetwork/dapp-core';
-import { Address } from '@elrondnetwork/erdjs/out';
-import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import useCurrency from 'utils/useCurrency';
 
 const TotalBalance = () => {
@@ -203,13 +203,9 @@ const TotalBalance = () => {
         </Typography>
       </Box>
       <Box className='d-flex justify-content-center' sx={{ pb: 1 }}>
-        <Button
-          className='new-transfer-btn'
-          variant='outlined'
-          onClick={onAddBoardMember}
-        >
+        <MainButton variant='outlined' onClick={onAddBoardMember}>
           New Transaction
-        </Button>
+        </MainButton>
       </Box>
     </Box>
   );
