@@ -7,7 +7,7 @@ import { MainButton } from 'components/StyledComponents/StyledComponents';
 import { network } from 'config';
 import { uniqueContractAddress } from 'multisigConfig';
 import useFetch from 'utils/useFetch';
-import { EmptyList, CollectionName, TextDivider, EmptyCard } from './nft-style';
+import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
 
 const NftCompmonent = () => {
   const fetchNftList = useFetch(
@@ -37,7 +37,7 @@ const NftCompmonent = () => {
                 </CollectionName>
               )}
               <Grid xs={12} md={3} sm={4} item key={index}>
-                <Card>
+                <CardBox height='auto'>
                   <Box>
                     <CardMedia
                       component='img'
@@ -52,7 +52,7 @@ const NftCompmonent = () => {
                     </Typography>
                     <MainButton sx={{ width: '100%' }}>Send NFT</MainButton>
                   </CardContent>
-                </Card>
+                </CardBox>
               </Grid>
             </>
           ))}
@@ -60,11 +60,14 @@ const NftCompmonent = () => {
       ) : (
         <Grid container>
           <Grid xs={3} item>
-            <EmptyCard className='d-flex align-items-center justify-content-center'>
+            <CardBox
+              height='350px'
+              className='d-flex align-items-center justify-content-center'
+            >
               <CardContent>
                 <EmptyList>You don&apos;t have any NFTs yet.</EmptyList>
               </CardContent>
-            </EmptyCard>
+            </CardBox>
           </Grid>
         </Grid>
       )}
