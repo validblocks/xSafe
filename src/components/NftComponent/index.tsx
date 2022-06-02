@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, Button } from '@mui/material';
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
+import { Box, Grid, Button, Typography } from '@mui/material';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import { MainButton } from 'components/StyledComponents/StyledComponents';
 import { network } from 'config';
 import { uniqueContractAddress } from 'multisigConfig';
 import useFetch from 'utils/useFetch';
-import { EmptyList, Img, CollectionName, TextDivider } from './nft';
+import { EmptyList, CollectionName, TextDivider, EmptyCard } from './nft-style';
 
 const NftCompmonent = () => {
-  const fetchList = useFetch(
+  const fetchNftList = useFetch(
     `${network.apiAddress}/accounts/${uniqueContractAddress}/nfts`
   );
-  const nftList: any = fetchList.data;
+
+  const nftList: any = fetchNftList.data;
+  console.log(nftList, 'nftList');
 
   const nftListSorted = nftList.sort((a: any, b: any) =>
     a.collection.localeCompare(b.collection)
   );
 
-  const Item = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-    ...theme.typography.body2,
-    padding: theme.spacing(1),
-    textAlign: 'center',
-    height: '250px',
-    borderRadius: '10px',
-    color: '#08041D'
-  }));
   return (
     <Box>
       {nftListSorted.length > 0 ? (
@@ -43,33 +36,35 @@ const NftCompmonent = () => {
                   </TextDivider>
                 </CollectionName>
               )}
-              <Grid xs={12} sm={3} item key={index}>
-                <Item>
-                  <ImageListItem>
-                    <Box>
-                      <Img
-                        src={`${item.media[0].url}?w=248&fit=crop&auto=format`}
-                        srcSet={`${item.media[0].url}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                        alt={item.name}
-                        loading='lazy'
-                      />
-                    </Box>
-                    <ImageListItemBar title={item.name} position='below' />
-                  </ImageListItem>
-                  <Button className='new-transfer-btn' sx={{ width: '100%' }}>
-                    Send NFT
-                  </Button>
-                </Item>
+              <Grid xs={12} md={3} sm={4} item key={index}>
+                <Card>
+                  <Box>
+                    <CardMedia
+                      component='img'
+                      height='auto'
+                      image={`${item.media[0].url}?w=164&h=164&fit=crop&auto=format`}
+                      alt='nft'
+                    />
+                  </Box>
+                  <CardContent>
+                    <Typography gutterBottom variant='h5' component='div'>
+                      {item.name}
+                    </Typography>
+                    <MainButton sx={{ width: '100%' }}>Send NFT</MainButton>
+                  </CardContent>
+                </Card>
               </Grid>
             </>
           ))}
         </Grid>
       ) : (
         <Grid container>
-          <Grid xs={3} item className='nft-block-wrapper'>
-            <Item className='d-flex align-items-center justify-content-center'>
-              <EmptyList>You don&apos;t have any NFTs yet.</EmptyList>
-            </Item>
+          <Grid xs={3} item>
+            <EmptyCard className='d-flex align-items-center justify-content-center'>
+              <CardContent>
+                <EmptyList>You don&apos;t have any NFTs yet.</EmptyList>
+              </CardContent>
+            </EmptyCard>
           </Grid>
         </Grid>
       )}
