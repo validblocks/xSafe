@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import ConnectedAccount from 'components/Layout/Navbar/ConnectedAccount';
+import { MainButton } from 'components/StyledComponents/StyledComponents';
 import addressShorthand from 'helpers/addressShorthand';
 import Unlock from 'pages/Unlock';
 import { routeNames } from 'routes';
@@ -55,11 +56,11 @@ const Account = () => {
   return (
     <div className='connect-btns mr-2'>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Button
+        <MainButton
           variant='outlined'
           onClick={handleClick}
           size='small'
-          className='connect-btn'
+          sx={{ width: '200px', height: '45px' }}
         >
           {loggedIn ? (
             <Box className='d-flex'>
@@ -72,7 +73,7 @@ const Account = () => {
               <Typography>Connect</Typography>
             </Box>
           )}
-        </Button>
+        </MainButton>
       </Box>
       <Menu
         anchorEl={anchorEl}

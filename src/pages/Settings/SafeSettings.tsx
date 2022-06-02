@@ -3,6 +3,7 @@ import { Box, Typography, Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeCurrency from 'components/ChangeCurrency';
+import { MainButton } from 'components/StyledComponents/StyledComponents';
 import ThemeColor from 'components/ThemeColor';
 import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
 import { setSafeName } from 'redux/slices/safeNameSlice';
@@ -63,14 +64,13 @@ const SafeSettings = () => {
       </Typography>
       <ThemeColor />
       <Box className=' d-flex justify-content-end'>
-        <Button
-          className='new-transfer-btn'
+        <MainButton
           variant='outlined'
           sx={{ display: 'block', mt: 5 }}
           onClick={saveUpdates}
         >
           Save Updates
-        </Button>
+        </MainButton>
       </Box>
     </Box>
   );
