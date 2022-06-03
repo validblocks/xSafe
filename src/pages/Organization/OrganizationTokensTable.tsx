@@ -1,33 +1,38 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import styled from '@emotion/styled';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Box, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { GridRowId, DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
 import { useDispatch } from 'react-redux';
+import { queryBoardMemberAddresses } from 'contracts/MultisigContract';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 
 const OrganizationsTokensTable = () => {
+  const [addresses, setAddresses] = useState<Array<Address>>([]);
+
+  const getAddresses = async () => await queryBoardMemberAddresses();
+
+  useEffect(() => {
+    getAddresses().then(setAddresses);
+  }, []);
+
   const dispatch = useDispatch();
 
-  const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
-    position: 'absolute',
-    '&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft': {
-      // bottom: theme.spacing(2),
-      // right: theme.spacing(2)
-    },
-    '&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight': {
-      // top: theme.spacing(2),
-      // left: theme.spacing(2)
-    }
-  }));
-
-  const actions = [
-    { icon: <DeleteIcon />, name: 'Edit Owner' },
-    { icon: <DeleteIcon />, name: 'Replace Owner' },
-    { icon: <DeleteIcon />, name: 'RemoveOwner' }
-  ];
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const onRemoveUser = (address: Address) => {
     return dispatch(
@@ -102,43 +107,52 @@ const OrganizationsTokensTable = () => {
         headerName: 'Action',
         getActions: (params: any) => [
           // eslint-disable-next-line react/jsx-key
-          <div className='shadow-sm p-2 rounded mr-2'>
-            <Box sx={{ position: 'relative', mt: 3, height: 320 }}>
-              <StyledSpeedDial
-                ariaLabel='Owner actions'
-                icon={<SpeedDialIcon />}
-                direction='right'
-              >
-                {actions.map((action) => (
-                  <SpeedDialAction
-                    key={action.name}
-                    icon={action.icon}
-                    tooltipTitle={action.name}
-                  />
-                ))}
-              </StyledSpeedDial>
-            </Box>
-
-            {/* <GridActionsCellItem
-              icon={<MoreHorizIcon htmlColor='#9DABBD' />}
-              label='Toggle Admin'
-              onClick={toggleAdmin(params.id)}
-            /> */}
-          </div>
+          <>
+            <Button
+              disableRipple
+              id='basic-button'
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup='true'
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+            >
+              <MoreHorizIcon />
+            </Button>
+            <Menu
+              id='basic-menu'
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button'
+              }}
+            >
+              <MenuItem disableRipple onClick={handleClose}>
+                <EditIcon />
+                Edit Owner
+              </MenuItem>
+              <MenuItem disableRipple onClick={handleClose}>
+                <PublishedWithChangesIcon />
+                Replace Owner
+              </MenuItem>
+              <MenuItem disableRipple onClick={handleClose}>
+                <DeleteIcon />
+                Remove Owner
+              </MenuItem>
+            </Menu>
+          </>
         ]
       }
     ],
     [onRemoveUser, toggleAdmin, duplicateUser]
   );
 
-  const rows = [
-    {
-      id: 1,
-      name: 'Nick',
-      address: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a'
-    }
-  ];
-
+  const rows = addresses.map((address: Address) => ({
+    id: 1,
+    name: 'Nick',
+    address: address.hex()
+  }));
+  console.log(getAddresses());
   return <DataGrid autoHeight rowHeight={65} rows={rows} columns={columns} />;
 };
 
