@@ -3,7 +3,6 @@ import AddIcon from '@mui/icons-material/Add';
 import { Box, Button, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
-import './SafeOptions.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import OtherSafe from 'assets/img/other-safe.png';
 import Safe from 'assets/img/safe.png';
@@ -15,6 +14,13 @@ import {
 } from 'redux/selectors/currencySelector';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
+import {
+  ActiveWallet,
+  AddSafe,
+  AddSafeWrapper,
+  InactiveWallet,
+  SafeOptionsWrapper
+} from './safe-style';
 
 const SafeOptions = ({ closeSafeDropdown }: any) => {
   const dispatch = useDispatch();
@@ -36,34 +42,33 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
   const getCurrency = useSelector(selectedCurrencySelector);
 
   return (
-    <Box
-      className='safe-options-wrapper'
-      // onBlur={() => {
-      //   closeSafeDropdown(false);
-      // }}
+    <SafeOptionsWrapper
+    // onBlur={() => {
+    //   closeSafeDropdown(false);
+    // }}
     >
       <Typography sx={{ p: 2 }} align='left'>
         Safe Options
       </Typography>
       <Divider />
-      <Box sx={{ p: 2, pl: 0 }} className='add-safe-wrapper'>
-        <Button onClick={addSafe} sx={{ color: '#4C2FFC' }}>
+      <AddSafeWrapper sx={{ p: 2, pl: 0 }}>
+        <AddSafe onClick={addSafe}>
           <AddIcon sx={{ mr: 1 }} />
           Add a new safe
-        </Button>
-      </Box>
+        </AddSafe>
+      </AddSafeWrapper>
       <Divider />
       <Button sx={{ p: 0 }}>
         <Box sx={{ p: 1 }} className='d-flex align-items-center'>
           <img src={Safe} width='60px' height='60px' />
-          <Box sx={{ ml: 2 }} className='active-wallet-wrapper'>
+          <ActiveWallet sx={{ ml: 2 }}>
             <TypographyBold align='left'>My Safe</TypographyBold>
             <Typography align='left'>{shortAddress}</Typography>
             <TypographyBold align='left'>
               ≈{currencyConverted.toFixed(2)}
               {getCurrency}
             </TypographyBold>
-          </Box>
+          </ActiveWallet>
           <Box>
             <Checkbox {...label} disabled checked />
           </Box>
@@ -73,14 +78,14 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
       <Button sx={{ p: 0 }}>
         <Box sx={{ p: 1 }} className='d-flex align-items-center'>
           <img src={OtherSafe} width='60px' height='60px' />
-          <Box sx={{ ml: 2 }} className='inactive-wallet-wrapper'>
+          <InactiveWallet sx={{ ml: 2 }}>
             <TypographyBold align='left'>My Other Safe</TypographyBold>
             <Typography align='left'>{shortAddress}</Typography>
             <TypographyBold align='left'>14,590 USD</TypographyBold>
-          </Box>
+          </InactiveWallet>
         </Box>
       </Button>
-    </Box>
+    </SafeOptionsWrapper>
   );
 };
 
