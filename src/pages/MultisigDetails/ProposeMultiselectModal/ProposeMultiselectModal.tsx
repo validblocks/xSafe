@@ -47,7 +47,7 @@ const ProposeMultiselectModal = ({
   selectedOption
 }: ProposeMultiselectModalPropsType) => {
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
   const [selectedProposal, setSelectedProposal] =
     React.useState<MultisigAction | null>(null);
   const [submitDisabled, setSubmitDisabled] = React.useState(true);

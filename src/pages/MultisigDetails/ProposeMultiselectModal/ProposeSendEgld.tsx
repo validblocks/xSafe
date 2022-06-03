@@ -23,7 +23,7 @@ const ProposeSendEgld = ({
 }: ProposeSendEgldType) => {
   const multisigBalance = useSelector(multisigBalanceSelector);
 
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   React.useEffect(() => {
     setSubmitDisabled(true);

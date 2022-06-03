@@ -1,22 +1,21 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import OrganizationsTokensTable from './OrganizationTokensTable';
-import OwnershipDistribution from './OwnershipDistribution';
 
 const OrganizationTokensContent = () => {
   return (
-    <Box className='d-flex flex-wrap pt-5'>
-      <Box className='col-12 col-md-8 p-0 pr-md-4'>
+    <Box className='d-flex flex-wrap pt-5 row '>
+      <Box className='col-12'>
         <Box sx={{ padding: '2rem' }} className='shadow'>
           <h3 className='mb-4'>
-            <strong>Holders</strong>
+            <strong>Manage Safe Owners</strong>
           </h3>
+          <p>
+            Add, remove and replace owners or rename existing owners. Owner
+            names are only stored locally and never shared with Gnosis or any
+            third parties.
+          </p>
           <OrganizationsTokensTable />
-        </Box>
-      </Box>
-      <Box className='col-12 col-md-4 p-0 pl-md-4 mt-5 mt-md-0'>
-        <Box sx={{ padding: '2rem' }} className='shadow'>
-          <OwnershipDistribution />
         </Box>
       </Box>
     </Box>

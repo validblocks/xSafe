@@ -15,7 +15,7 @@ const ProposeIssueToken = ({
   handleChange,
   setSubmitDisabled
 }: ProposeIssueTokenType) => {
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Required'),

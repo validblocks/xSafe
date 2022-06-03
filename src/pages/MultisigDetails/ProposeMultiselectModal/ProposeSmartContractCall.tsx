@@ -30,7 +30,7 @@ const ProposeSmartContractCall = ({
 }: ProposeSmartContractCallType) => {
   const { multisigBalance } = React.useContext(MultisigDetailsContext);
 
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   React.useEffect(() => {
     setSubmitDisabled(true);

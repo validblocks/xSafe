@@ -67,12 +67,6 @@ const breadcrumbItems: any = {
       name: 'Help Center'
     }
   ],
-  'organization-details': [
-    {
-      link: '/organization-details',
-      name: 'Organization Details'
-    }
-  ],
   'decisions/add-board-member-to-organization': [
     {
       link: '/decisions',

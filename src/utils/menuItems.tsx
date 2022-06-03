@@ -61,11 +61,6 @@ const topItems = [
         name: 'Cvorum',
         link: 'cvorum',
         icon: <PeopleIcon />
-      },
-      {
-        name: 'Organization Details',
-        link: 'organization-details',
-        icon: <InfoIcon />
       }
     ]
   }

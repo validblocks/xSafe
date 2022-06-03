@@ -91,7 +91,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     >
       {width ? <Navbar /> : <MobileLayout />}
 
-      <main className=' flex-row flex-fill position-relative justify-center  container'>
+      <main className=' flex-row flex-fill position-relative justify-center'>
         <AuthenticatedRoutesWrapper
           routes={routes}
           unlockRoute={routeNames.unlock}

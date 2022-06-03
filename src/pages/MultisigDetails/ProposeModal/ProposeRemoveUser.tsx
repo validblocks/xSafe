@@ -12,7 +12,7 @@ const ProposeRemoveUser = ({
   selectedOption,
   handleSetAddress
 }: ProposeRemoveUserType) => {
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
   const address = 'address' in selectedOption! ? selectedOption?.address : '';
 
   React.useEffect(() => {

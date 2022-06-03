@@ -3,10 +3,8 @@ import { RouteType as DappCoreRouteTypes } from '@elrondnetwork/dapp-core';
 import { dAppName } from 'config';
 import AssetsPage from 'pages/AssetsPage/AssetsPage';
 import Decisions from 'pages/Decisions';
-import Organization from 'pages/Organization';
 import CvorumContainer from 'pages/Organization/CvorumContainer';
 import OrganizationTokens from 'pages/Organization/OrganizationTokens';
-import ProposersTable from 'pages/Organization/ProposersTable';
 import TransactionsPage from 'pages/Transactions/TransactionsPage';
 import Unlock from 'pages/Unlock';
 import withPageTitle from './components/PageTitle';
@@ -26,7 +24,6 @@ export type ForegroundRoutesType =
   | 'decisionActions'
   | 'multisig'
   | 'multisigAddress'
-  | 'organization'
   | 'organizationTokens'
   | 'assets'
   | 'cvorum'
@@ -75,11 +72,6 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/unlock',
     title: 'Unlock',
     component: Unlock
-  },
-  organization: {
-    path: '/organization-details',
-    title: 'Organization',
-    component: Organization
   },
   organizationTokens: {
     path: '/tokens',

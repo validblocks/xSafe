@@ -17,7 +17,7 @@ const EditContractNameModal = ({
   onConfirm,
   onCancel
 }: EditContractNameModalPropsType) => {
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   const [name, setName] = useState(contractName);
 

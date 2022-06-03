@@ -17,7 +17,7 @@ const ProposeInputAddress = ({
 }: ProposeInputAddressType) => {
   const [address, setAddress] = useState('');
   const [error, setError] = useState(false);
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   const handleAddressChanged = (event: any) => {
     const newAddress = String(event.target.value);

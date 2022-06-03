@@ -124,7 +124,7 @@ const MultisigDetailsPage = () => {
   const { multisigAddressParam } = useParams<string>();
   const confirmModal = useConfirmModal();
   const egldPrice = useSelector(priceSelector);
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
   const isProposer = userRole !== 0;
   const isBoardMember = userRole === 2;
 

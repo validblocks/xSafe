@@ -46,12 +46,7 @@ const Settings = () => {
   };
 
   return (
-    <Box
-      sx={{
-        padding: '8rem 1rem',
-        width: '100%'
-      }}
-    >
+    <Box>
       <Box className='settings-wrapper' sx={{ p: 3, width: '55%' }}>
         <SafeSettings />
       </Box>

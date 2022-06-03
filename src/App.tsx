@@ -80,7 +80,7 @@ export default function App() {
                         element={<route.component />}
                       />
                     ))}
-                    <Route element={PageNotFound} />
+                    <Route element={<PageNotFound />} />
                   </Routes>
                 </Layout>
               </PersistGate>

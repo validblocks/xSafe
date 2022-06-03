@@ -256,12 +256,7 @@ const AssetsPage = () => {
   const { tokenPrices } = useOrganizationInfoContext();
 
   return (
-    <Box
-      sx={{
-        padding: '8rem 1rem',
-        width: '100%'
-      }}
-    >
+    <Box>
       <h1 className='mb-5'>Assets</h1>
       <DataGrid
         autoHeight

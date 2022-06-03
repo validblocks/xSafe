@@ -33,7 +33,7 @@ const ProposeSendToken = ({
   handleChange,
   setSubmitDisabled
 }: ProposeSendTokenType) => {
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
   const [identifier, setIdentifier] = useState(selectedToken.identifier);

@@ -24,7 +24,7 @@ interface ProposeModalPropsType {
 
 const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   const [submitDisabled, setSubmitDisabled] = useState(false);
   const [selectedNumericParam, setSelectedNumericParam] = useState(1);
