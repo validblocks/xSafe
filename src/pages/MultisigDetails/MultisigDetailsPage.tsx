@@ -172,7 +172,7 @@ const MultisigDetailsPage = () => {
   };
 
   async function getDashboardInfo() {
-    if (currentContract == null) {
+    if (currentContract == null || !currentContract?.address || !address) {
       return;
     }
     const proxy = getNetworkProxy();

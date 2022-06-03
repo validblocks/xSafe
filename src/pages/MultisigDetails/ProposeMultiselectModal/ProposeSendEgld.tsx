@@ -32,7 +32,7 @@ const ProposeSendEgld = ({
   const denominatedValue = useMemo(
     () =>
       operations.denominate({
-        input: multisigBalance.toString(),
+        input: multisigBalance.asString,
         denomination: denomination,
         decimals: 4,
         showLastNonZeroDecimal: true
@@ -132,7 +132,7 @@ const ProposeSendEgld = ({
     if (newAmount < 0) {
       formik.setFieldValue('amount', 0);
     }
-    if (newAmount > Number(multisigBalance.toDenominated())) {
+    if (newAmount > Number(multisigBalance.asCurrencyString.split(' '[0]))) {
       return (
         testContext?.createError({
           message:

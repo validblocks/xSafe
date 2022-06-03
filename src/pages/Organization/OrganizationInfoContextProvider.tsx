@@ -58,12 +58,13 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     let isMounted = true;
-    if (!currentContract?.address)
+    if (!currentContract?.address && address)
       return () => {
         isMounted = false;
       };
 
     currentContract?.address &&
+      address &&
       Promise.all([
         queryBoardMemberAddresses(),
         queryUserRole(new Address(address).hex()),

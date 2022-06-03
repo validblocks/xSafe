@@ -15,6 +15,7 @@ export enum multisigContractFunctionNames {
 
   'issue' = 'issue',
   'ESDTTransfer' = 'ESDTTransfer',
+  'ESDTNFTTransfer' = 'ESDTNFTTransfer',
   'getPendingActionFullInfo' = 'getPendingActionFullInfo',
   'getNumBoardMembers' = 'getNumBoardMembers',
   'getNumProposers' = 'getNumProposers',
