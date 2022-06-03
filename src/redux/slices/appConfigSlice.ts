@@ -14,7 +14,7 @@ export interface AppConfigStateType {
 function getInitialState(): AppConfigStateType {
   return {
     multisigOrigin: {
-      pathname: routeNames.home,
+      pathname: routeNames.welcome,
       search: ''
     }
   };

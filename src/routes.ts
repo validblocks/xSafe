@@ -6,13 +6,12 @@ import Decisions from 'pages/Decisions';
 import Organization from 'pages/Organization';
 import CvorumContainer from 'pages/Organization/CvorumContainer';
 import OrganizationTokens from 'pages/Organization/OrganizationTokens';
-import ProposersTable from 'pages/Organization/ProposersTable';
 import TransactionsPage from 'pages/Transactions/TransactionsPage';
 import Unlock from 'pages/Unlock';
 import withPageTitle from './components/PageTitle';
 import Dashboard from './pages/Dashboard';
 import DecisionActions from './pages/DecisionActions';
-import Home from './pages/Home';
+import Welcome from './pages/Welcome';
 import MultisigDetailsPage from './pages/MultisigDetails/MultisigDetailsPage';
 import Settings from './pages/Settings';
 
@@ -20,7 +19,7 @@ type RouteType = DappCoreRouteTypes & { title: string };
 
 export type ForegroundRoutesType =
   | 'unlock'
-  | 'home'
+  | 'welcome'
   | 'dashboard'
   | 'decisions'
   | 'decisionActions'
@@ -36,10 +35,10 @@ export type ForegroundRoutesType =
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
 export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
-  home: {
+  welcome: {
     path: '/',
-    title: 'Home',
-    component: Home
+    title: 'Welcome',
+    component: Welcome
   },
   dashboard: {
     path: '/dashboard',

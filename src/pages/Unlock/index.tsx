@@ -60,7 +60,7 @@ const Unlock = () => {
   const loginParams = {
     callbackRoute: routeNames.dashboard,
     token,
-    logoutRoute: routeNames.home,
+    logoutRoute: routeNames.welcome,
     buttonClassName: 'btn btn-unlock btn-block'
   };
 

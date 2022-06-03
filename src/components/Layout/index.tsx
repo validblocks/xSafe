@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+
+import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import {
   AuthenticatedRoutesWrapper,
   refreshAccount,
@@ -6,10 +8,12 @@ import {
   useGetLoginInfo
 } from '@elrondnetwork/dapp-core';
 import { Box } from '@mui/material';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getAccountData } from 'apiCalls/accountCalls';
+import PageBreadcrumbs from './Breadcrumb';
 import { getEconomicsData } from 'apiCalls/economicsCalls';
 import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
 import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
@@ -25,6 +29,7 @@ import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
 import Navbar from './Navbar';
 import MobileLayout from './Navbar/mobileLayout';
+import Account from './Navbar/Account';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();
@@ -36,6 +41,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     accessTokenServices?.maiarIdApi,
     isLoggedIn
   );
+  interface AppBarProps extends MuiAppBarProps {
+    open?: boolean;
+  }
 
   const loggedIn = loginMethod != '';
   React.useEffect(() => {
@@ -84,6 +92,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }
   const width = useMediaQuery('(min-width:600px)');
 
+  const AppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== 'open'
+  })<AppBarProps>(({ theme }) => ({
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen
+    }),
+    boxShadow: 'unset',
+    borderBottom: '1px solid #e0e0e0',
+    right: 'auto',
+    left: 'auto'
+  }));
+
   return (
     <div
       style={{ display: 'none !important', background: '#F4F6FD' }}
@@ -91,7 +113,24 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     >
       {width ? <Navbar /> : <MobileLayout />}
 
-      <main className=' flex-row flex-fill position-relative justify-center  container'>
+      <main className=' flex-row flex-fill position-relative justify-center'>
+        <AppBar sx={{ width: 'calc(100% - 255px)', background: '#F4F6FD' }}>
+          <Box
+            className='d-flex justify-content-between px-4 py-3 align-items-center'
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              zIndex: '9',
+              background: '#F4F6FD'
+            }}
+          >
+            <Box className='breadcrumbs-header'>
+              <PageBreadcrumbs />
+            </Box>
+            <Account />
+            {/* <Network /> */}
+          </Box>
+        </AppBar>
         <AuthenticatedRoutesWrapper
           routes={routes}
           unlockRoute={routeNames.unlock}

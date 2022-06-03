@@ -11,7 +11,6 @@ import {
   AccordionDetails,
   ListItem
 } from '@mui/material';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
@@ -30,12 +29,10 @@ import addressShorthand from 'helpers/addressShorthand';
 import { uniqueContractAddress } from 'multisigConfig';
 import { routeNames } from 'routes';
 import menuItems from 'utils/menuItems';
-import Account from './Account';
 import AccountDetails from './NavbarAccountDetails';
 import Network from './Network';
 import './menu.scss';
 import { useLocation } from 'react-router-dom';
-import PageBreadcrumbs from '../Breadcrumb';
 
 const drawerWidth = 255;
 
@@ -59,22 +56,6 @@ const closedMixin = (theme: Theme): CSSObject => ({
     width: `calc(${theme.spacing(8)} + 1px)`
   }
 });
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open'
-})<AppBarProps>(({ theme }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
-  }),
-  boxShadow: 'unset',
-  borderBottom: '1px solid #e0e0e0'
-}));
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open'
@@ -106,7 +87,7 @@ export default function MiniDrawer() {
   const handleRedirectToHome = () => {
     const route = uniqueContractAddress
       ? '/multisig/' + uniqueContractAddress
-      : routeNames.home;
+      : routeNames.welcome;
     navigate(route);
   };
 
@@ -125,17 +106,6 @@ export default function MiniDrawer() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar></AppBar>
-      <Box
-        className='d-flex justify-content-between px-4 py-3 align-items-center'
-        sx={{ position: 'absolute', width: '100%', zIndex: '9' }}
-      >
-        <Box className='breadcrumbs-header'>
-          <PageBreadcrumbs />
-        </Box>
-        <Account />
-        {/* <Network /> */}
-      </Box>
       <Drawer variant='permanent' open={open} className='drawer-wrapper'>
         <BsNavbar className='px-4 py-3'>
           <NavItem

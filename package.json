@@ -53,7 +53,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "fix": "prettier --write ."
+    "lint": "eslint src -c .eslintrc.js --ext tsx,ts",
+    "fix": "eslint src -c .eslintrc.js --ext tsx,ts --fix"
   },
   "eslintConfig": {
     "extends": [
