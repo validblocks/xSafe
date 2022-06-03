@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
@@ -16,4 +16,10 @@ export const MainButton = styled(Button)`
     ${(props) => {
       return props.theme.palette.shadow.main;
     }};
+`;
+
+export const TypographyBold = styled(Typography)`
+  font-weight: ${(props) => {
+    return props.theme.palette.typography.bold;
+  }};
 `;

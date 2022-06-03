@@ -70,6 +70,7 @@ const ConnectedAccount = () => {
                 href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
                 target='_blank'
                 rel='noreferrer'
+                color='#4c2ffc8a'
               >
                 <ContentPasteSearchIcon />
               </Anchor>
