@@ -5,26 +5,29 @@ export const theme = createTheme({
     primary: {
       main: '#4c2ffc'
     },
+    secondary: {
+      main: '#4c2ffc8a'
+    },
     background: {
       main: '#4c2ffc1a',
       default: '#FFFFFF',
       danger: '#e51a3e1a'
     },
-    shadow: {
-      main: '#4c2ffc2e',
-      secondary: '#4c2ffc08'
-    },
-    radius: {
-      main: '10px'
-    },
     danger: {
       main: '#e51a3e'
-    },
-    typography: {
-      bold: '600'
     },
     anchor: {
       main: '#4c2ffc8a'
     }
+  },
+  shape: {
+    radius: '10px'
+  },
+  shadows: {
+    main: '#4c2ffc2e',
+    secondary: '#4c2ffc08'
+  },
+  typography: {
+    bold: '600'
   }
 });

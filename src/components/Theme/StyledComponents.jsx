@@ -14,12 +14,12 @@ export const MainButton = styled(Button)`
   }};
   box-shadow: 0px 0px 8px
     ${(props) => {
-      return props.theme.palette.shadow.main;
+      return props.theme.shadows.main;
     }};
 `;
 
 export const TypographyBold = styled(Typography)`
   font-weight: ${(props) => {
-    return props.theme.palette.typography.bold;
+    return props.theme.typography.bold;
   }};
 `;

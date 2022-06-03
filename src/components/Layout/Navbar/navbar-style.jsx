@@ -25,7 +25,7 @@ export const ConnectItems = styled(Box)`
     return props.theme.palette.primary.main;
   }};
   border-radius: ${(props) => {
-    return props.theme.palette.radius.main;
+    return props.theme.shape.radius;
   }};
 `;
 
@@ -51,7 +51,7 @@ export const DisconnectButton = styled(Button)`
   margin-top: 0px;
   top: 15px;
   border-radius: ${(props) => {
-    return props.theme.palette.radius.main;
+    return props.theme.shape.radius;
   }};
   background: ${(props) => {
     return props.theme.palette.background.danger;
@@ -60,7 +60,7 @@ export const DisconnectButton = styled(Button)`
 
 export const ReadOnly = styled(Typography)`
   border-radius: ${(props) => {
-    return props.theme.palette.radius.main;
+    return props.theme.shape.radius;
   }};
   background: rgba(8, 4, 29, 0.1);
   color: #7a7883;
@@ -71,7 +71,7 @@ export const MembersBox = styled(Box)`
   margin: auto;
   background-color: #f0f1fd;
   border-radius: ${(props) => {
-    return props.theme.palette.radius.main;
+    return props.theme.shape.radius;
   }};
   margin-top: 10px;
   color: ${(props) => {
@@ -164,10 +164,10 @@ export const BottomMenu = styled(List)`
 
 export const MobileMenu = styled(Box)`
   border-top-right-radius: ${(props) => {
-    return props.theme.palette.radius.main;
+    return props.theme.shape.radius;
   }};
   border-top-left-radius: ${(props) => {
-    return props.theme.palette.radius.main;
+    return props.theme.shape.radius;
   }};
   box-shadow: 0px -14px 24px rgba(76, 47, 252, 0.03);
   position: fixed;
@@ -178,9 +178,9 @@ export const MobileMenu = styled(Box)`
 
 export const TopMobileMenu = styled(Box)`
   border-bottom-left-radius: ${(props) => {
-    return props.theme.palette.radius.main;
+    return props.theme.shape.radius;
   }};
   border-bottom-right-radius: ${(props) => {
-    return props.theme.palette.radius.main;
+    return props.theme.shape.radius;
   }};
 `;

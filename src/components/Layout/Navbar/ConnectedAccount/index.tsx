@@ -7,15 +7,18 @@ import {
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Typography } from '@mui/material';
+import { SimplePaletteColorOptions } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Safe from 'assets/img/safe.png';
+import { theme } from 'components/Theme/createTheme';
 import addressShorthand from 'helpers/addressShorthand';
 import { uniqueContractAddress } from 'multisigConfig';
 import { logoutAction } from 'redux/commonActions';
 import { usernameSelector } from 'redux/selectors/accountSelector';
 import { routeNames } from 'routes';
 import { accessTokenServices } from 'services/accessTokenServices';
+
 import {
   ConnectItems,
   Anchor,
@@ -70,7 +73,7 @@ const ConnectedAccount = () => {
                 href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
                 target='_blank'
                 rel='noreferrer'
-                color='#4c2ffc8a'
+                color={theme.palette.secondary.main}
               >
                 <ContentPasteSearchIcon />
               </Anchor>
