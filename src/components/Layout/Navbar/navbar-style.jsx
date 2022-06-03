@@ -134,3 +134,20 @@ export const BottomMenu = styled(List)`
   width: 100%;
   z-index: 9;
 `;
+
+// Mobile Layout
+
+export const MobileMenu = styled(Box)`
+  border-top-right-radius: var(--radius);
+  border-top-left-radius: var(--radius);
+  box-shadow: 0px -14px 24px rgba(76, 47, 252, 0.03);
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 2;
+`;
+
+export const TopMobileMenu = styled(Box)`
+  border-bottom-left-radius: var(--radius);
+  border-bottom-right-radius: var(--radius);
+`;

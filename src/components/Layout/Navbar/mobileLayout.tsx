@@ -9,6 +9,7 @@ import Safe from 'assets/img/safe.png';
 import SafeOptions from 'components/SafeOptions';
 import addressShorthand from 'helpers/addressShorthand';
 import menuItems from 'utils/menuItems';
+import { MobileMenu, TopMobileMenu } from './navbar-style';
 import TotalBalance from './TotalBalance';
 import { uniqueContractAddress } from 'multisigConfig';
 
@@ -27,7 +28,7 @@ const MobileLayout = () => {
 
   return (
     <Box>
-      <Box className='d-flex pt-4 pb-2 bg-white mobile-top-side justify-content-around align-items-center'>
+      <TopMobileMenu className='d-flex pt-4 pb-2 bg-white justify-content-around align-items-center'>
         <Box>
           <img src={Safe} width='50' height='50' />
         </Box>
@@ -71,12 +72,12 @@ const MobileLayout = () => {
             />
           </Link>
         </Box>
-      </Box>
+      </TopMobileMenu>
       <Box className='total-balance-wrapper'>
         <TotalBalance />
       </Box>
       <Box>
-        <Box className='d-flex bg-white justify-content-around mobile-menu'>
+        <MobileMenu className='d-flex bg-white justify-content-around mobile-menu'>
           {menuItems.mobileBottomItems.map((el, index) => (
             <Box
               className={
@@ -101,7 +102,7 @@ const MobileLayout = () => {
               </Link>
             </Box>
           ))}
-        </Box>
+        </MobileMenu>
       </Box>
       <Box>
         {(locationString === 'assets' ||
