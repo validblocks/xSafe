@@ -179,12 +179,12 @@ export default function MiniDrawer() {
                           }
                         >
                           <ListItem
-                            className='dada'
                             sx={{
                               minHeight: 48,
                               justifyContent: open ? 'initial' : 'center',
                               px: 2.5,
-                              ml: 3
+                              ml: 0,
+                              pl: 5
                             }}
                           >
                             <ListItemIcon
