@@ -7,6 +7,7 @@ import './SafeOptions.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import OtherSafe from 'assets/img/other-safe.png';
 import Safe from 'assets/img/safe.png';
+import { TypographyBold } from 'components/Theme/StyledComponents';
 import addressShorthand from 'helpers/addressShorthand';
 import {
   currencyConvertedSelector,
@@ -56,14 +57,12 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
         <Box sx={{ p: 1 }} className='d-flex align-items-center'>
           <img src={Safe} width='60px' height='60px' />
           <Box sx={{ ml: 2 }} className='active-wallet-wrapper'>
-            <Typography align='left' className='bold'>
-              My Safe
-            </Typography>
+            <TypographyBold align='left'>My Safe</TypographyBold>
             <Typography align='left'>{shortAddress}</Typography>
-            <Typography align='left' className='bold'>
+            <TypographyBold align='left'>
               ≈{currencyConverted.toFixed(2)}
               {getCurrency}
-            </Typography>
+            </TypographyBold>
           </Box>
           <Box>
             <Checkbox {...label} disabled checked />
@@ -75,13 +74,9 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
         <Box sx={{ p: 1 }} className='d-flex align-items-center'>
           <img src={OtherSafe} width='60px' height='60px' />
           <Box sx={{ ml: 2 }} className='inactive-wallet-wrapper'>
-            <Typography align='left' className='bold'>
-              My Other Safe
-            </Typography>
+            <TypographyBold align='left'>My Other Safe</TypographyBold>
             <Typography align='left'>{shortAddress}</Typography>
-            <Typography align='left' className='bold'>
-              14,590 USD
-            </Typography>
+            <TypographyBold align='left'>14,590 USD</TypographyBold>
           </Box>
         </Box>
       </Button>

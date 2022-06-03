@@ -18,9 +18,9 @@ export const ConnectDropdown = styled(Menu)`
 `;
 
 export const ConnectItems = styled(Box)`
-  background: ${(props) => {
+  background-color: ${(props) => {
     return props.theme.palette.background.main;
-  }}
+  }};
   color: ${(props) => {
     return props.theme.palette.primary.main;
   }};
@@ -36,7 +36,7 @@ export const Anchor = styled.a`
 export const CopyBtn = styled(CopyButton)`
   color: ${(props) => {
     return props.theme.palette.anchor.main;
-  }};
+  }} !important;
 `;
 
 export const DisconnectButton = styled(Button)`
@@ -70,7 +70,9 @@ export const MembersBox = styled(Box)`
   width: 91px;
   margin: auto;
   background-color: #f0f1fd;
-  border-radius: 6px;
+  border-radius: ${(props) => {
+    return props.theme.palette.radius.main;
+  }};
   margin-top: 10px;
   color: ${(props) => {
     return props.theme.palette.primary.main;

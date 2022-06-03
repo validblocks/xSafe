@@ -6,6 +6,7 @@ import { Typography, Grid, Paper, Button, Box } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
 import LinearWithValueLabel from 'components/ProgressBar/progressLinear';
+import { TypographyBold } from 'components/Theme/StyledComponents';
 import DecisionApproved from './decisionApproved';
 import TimelineCard from './timeline';
 
@@ -89,26 +90,18 @@ const ActionBoxDetails = () => {
             <Typography align='left' variant='inherit'>
               Progress
             </Typography>
-            <Typography
-              align='left'
-              variant='inherit'
-              sx={{ fontWeight: 'bold !important' }}
-            >
+            <TypographyBold align='left' variant='inherit'>
               Approved
-            </Typography>
+            </TypographyBold>
           </Box>
           <LinearWithValueLabel />
           <Box className='d-flex justify-content-between mt-4'>
             <Typography align='left' variant='inherit'>
               Support
             </Typography>
-            <Typography
-              align='left'
-              variant='inherit'
-              sx={{ fontWeight: 'bold !important' }}
-            >
+            <TypographyBold align='left' variant='inherit'>
               56% (50% needed)
-            </Typography>
+            </TypographyBold>
           </Box>
           {!showConfirm && showApproved && (
             <Button

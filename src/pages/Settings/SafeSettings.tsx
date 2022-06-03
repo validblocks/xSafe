@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeCurrency from 'components/ChangeCurrency';
-import { MainButton } from 'components/Theme/StyledComponents';
+import { MainButton, TypographyBold } from 'components/Theme/StyledComponents';
 import ThemeColor from 'components/ThemeColor';
 import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
 import { setSafeName } from 'redux/slices/safeNameSlice';
+import { NoteSpan, Span } from './settings-style';
 
 const SafeSettings = () => {
   const safeName = useSelector(safeNameStoredSelector);
@@ -27,17 +28,17 @@ const SafeSettings = () => {
 
   return (
     <Box>
-      <Typography sx={{ mb: 1, fontSize: '18px' }} className='bold-text'>
+      <TypographyBold sx={{ mb: 1, fontSize: '18px' }}>
         Your safe name:
-      </Typography>
+      </TypographyBold>
       <Typography sx={{ mb: 2 }}>
         Here you can change the name of your Safe.
       </Typography>
-      <Typography sx={{ mb: 3 }} className='note-wrapper'>
-        <span>
-          <span className='bold-text'>Note:</span>This name is only stored
-          locally. (You&apos;re the only one who&apos;s seeing it)
-        </span>
+      <Typography sx={{ mb: 3 }}>
+        <NoteSpan>
+          <Span>Note:</Span>This name is only stored locally. (You&apos;re the
+          only one who&apos;s seeing it)
+        </NoteSpan>
       </Typography>
       <TextField
         id='outlined-basic'
@@ -47,17 +48,17 @@ const SafeSettings = () => {
         value={name}
         sx={{ width: 250 }}
       />
-      <Typography sx={{ mb: 1, mt: 2, fontSize: '18px' }} className='bold-text'>
+      <TypographyBold sx={{ mb: 1, mt: 2, fontSize: '18px' }}>
         Default Currency
-      </Typography>
+      </TypographyBold>
 
       <Typography sx={{ mb: 2 }}>
         Pick a default currency for your Safe.
       </Typography>
       <ChangeCurrency />
-      <Typography sx={{ mb: 1, mt: 2, fontSize: '18px' }} className='bold-text'>
+      <TypographyBold sx={{ mb: 1, mt: 2, fontSize: '18px' }}>
         Appearance
-      </Typography>
+      </TypographyBold>
 
       <Typography sx={{ mb: 2 }}>
         You can choose between a dark and a light theme.
