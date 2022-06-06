@@ -9,7 +9,7 @@ export const Span = styled.span`
 
 export const SettingsWrapper = styled(Box)`
   background-color: ${(props) => {
-    return props.theme.palette.background.default;
+    return props.theme.palette.background.white;
   }};
   border-radius: ${(props) => {
     return props.theme.shape.radius;

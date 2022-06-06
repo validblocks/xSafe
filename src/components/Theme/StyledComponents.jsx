@@ -23,3 +23,9 @@ export const TypographyBold = styled(Typography)`
     return props.theme.typography.bold;
   }};
 `;
+
+export const Main = styled.main`
+  background-color: ${(props) => {
+    return props.theme.palette.background.default;
+  }};
+`;

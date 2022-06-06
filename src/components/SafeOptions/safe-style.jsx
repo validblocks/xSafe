@@ -5,7 +5,7 @@ export const SafeOptionsWrapper = styled(Box)`
   position: absolute;
   margin-left: -150px;
   background: ${(props) => {
-    return props.theme.palette.background.default;
+    return props.theme.palette.background.white;
   }};
   box-shadow: 0px 0px 24px
     ${(props) => {

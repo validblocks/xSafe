@@ -13,8 +13,9 @@ export const theme = createTheme({
     },
     background: {
       main: '#4c2ffc1a',
-      default: '#FFFFFF',
-      danger: '#e51a3e1a'
+      white: '#FFFFFF',
+      danger: '#e51a3e1a',
+      default: '#F4F6FD'
     },
     danger: {
       main: '#e51a3e'
