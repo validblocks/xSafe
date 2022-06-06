@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, Button, Typography } from '@mui/material';
-import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { MainButton } from 'components/StyledComponents/StyledComponents';
@@ -30,14 +29,14 @@ const NftCompmonent = () => {
               {((index > 0 &&
                 item.collection !== nftListSorted[index - 1].collection) ||
                 index === 0) && (
-                <CollectionName sx={{ mt: 3 }}>
+                <CollectionName>
                   <TextDivider textAlign='left'>
                     <Box sx={{ mt: 3, mb: 3 }}>{item.collection}</Box>
                   </TextDivider>
                 </CollectionName>
               )}
               <Grid xs={12} md={3} sm={4} item key={index}>
-                <CardBox height='auto'>
+                <CardBox>
                   <Box>
                     <CardMedia
                       component='img'
@@ -60,10 +59,7 @@ const NftCompmonent = () => {
       ) : (
         <Grid container>
           <Grid xs={3} item>
-            <CardBox
-              height='350px'
-              className='d-flex align-items-center justify-content-center'
-            >
+            <CardBox className='d-flex align-items-center justify-content-center'>
               <CardContent>
                 <EmptyList>You don&apos;t have any NFTs yet.</EmptyList>
               </CardContent>

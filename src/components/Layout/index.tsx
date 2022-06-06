@@ -107,10 +107,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }));
 
   return (
-    <div
-      style={{ display: 'none !important', background: '#F4F6FD' }}
-      className='bg-light flex-row flex-fill wrapper page-wrapper'
-    >
+    <div className='bg-light flex-row flex-fill wrapper page-wrapper'>
       {width ? <Navbar /> : <MobileLayout />}
 
       <main className=' flex-row flex-fill position-relative justify-center'>

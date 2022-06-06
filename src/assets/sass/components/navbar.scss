@@ -1,10 +1,6 @@
 .navbar {
   height: 6.071428571428571rem;
 
-  .nav-logo {
-    cursor: pointer;
-  }
-
   .navbar-toggler {
     display: block;
     padding: 0.4rem;
@@ -139,9 +135,6 @@
   .elrond-logo {
     width: 85px;
   }
-  .dapp-name {
-    font-size: 23px;
-  }
 }
 @include media-breakpoint-down(xs) {
   .navbar-nav {
@@ -177,18 +170,9 @@
     }
   }
 }
-.menu-accordion .MuiAccordionSummary-content {
-  margin: 0px !important;
-}
 
 @include media-breakpoint-down(sm) {
   .elrond-logo {
     width: 113px;
   }
-}
-
-.bottom-items {
-  bottom: 10px;
-  width: 100%;
-  z-index: 9;
 }
