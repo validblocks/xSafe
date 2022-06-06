@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import { getIsLoggedIn, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { Box, Button } from '@mui/material';
@@ -22,7 +21,6 @@ const Account = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>();
   const intervalRef = React.useRef<any>();
-
   const logoutOnSessionExpire = () => {
     intervalRef.current = setInterval(() => {
       const loggedIn = getIsLoggedIn();
@@ -37,6 +35,12 @@ const Account = () => {
       clearInterval(intervalRef.current);
     };
   };
+
+  const [walletAddress, setWalletAddress] = useState('');
+
+  useEffect(() => {
+    setWalletAddress(addressShorthand(address));
+  }, []);
 
   React.useEffect(logoutOnSessionExpire, [isLoggedIn]);
 
@@ -60,7 +64,7 @@ const Account = () => {
           {loggedIn ? (
             <Box className='d-flex'>
               <BoltIcon />
-              <Typography>{addressShorthand()}</Typography>
+              <Typography>{walletAddress}</Typography>
             </Box>
           ) : (
             <Box className='d-flex'>

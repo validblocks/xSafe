@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   getIsLoggedIn,
   logout,
@@ -29,6 +29,12 @@ const ConnectedAccount = () => {
   const username = useSelector(usernameSelector);
   const { address } = useGetAccountInfo();
 
+  const [walletAddress, setWalletAddress] = useState('');
+
+  useEffect(() => {
+    setWalletAddress(addressShorthand(address));
+  }, []);
+
   const logOut = async () => {
     document.cookie = '';
     dispatch(logoutAction());
@@ -52,9 +58,9 @@ const ConnectedAccount = () => {
         </Box>
         <Box sx={{ ml: 2 }}>
           <Box className='d-flex connect-actions-btns' sx={{ p: 1 }}>
-            <Typography sx={{ mr: 2, ml: 1 }}>{addressShorthand()}</Typography>
+            <Typography sx={{ mr: 2, ml: 1 }}>{walletAddress}</Typography>
             <Box sx={{ mr: 2 }}>
-              <CopyButton className='link-color' text={uniqueContractAddress} />
+              <CopyButton className='link-color' text={address} />
             </Box>
             <Box sx={{ mr: 1 }}>
               <a
