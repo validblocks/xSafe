@@ -112,13 +112,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       {width ? <Navbar /> : <MobileLayout />}
 
       <Main className=' flex-row flex-fill position-relative justify-center'>
-        <AppBar sx={{ width: 'calc(100% - 255px)' }}>
+        <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '0' }}>
           <Box
             className='d-flex justify-content-between px-4 py-3 align-items-center coo'
             sx={{
               position: 'absolute',
-              width: '100%',
-              zIndex: '9'
+              width: '100%'
             }}
           >
             <Box>
