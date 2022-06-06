@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import ConnectedAccount from 'components/Layout/Navbar/ConnectedAccount';
-import { MainButton } from 'components/StyledComponents/StyledComponents';
+import { MainButton } from 'components/Theme/StyledComponents';
 import addressShorthand from 'helpers/addressShorthand';
 import Unlock from 'pages/Unlock';
 import { routeNames } from 'routes';

@@ -5,7 +5,7 @@ import { Address } from '@elrondnetwork/erdjs/out';
 import { Box, Typography, Button } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { MainButton } from 'components/StyledComponents/StyledComponents';
+import { MainButton } from 'components/Theme/StyledComponents';
 import { network } from 'config';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { TokenWithPrice } from 'pages/Organization/types';
