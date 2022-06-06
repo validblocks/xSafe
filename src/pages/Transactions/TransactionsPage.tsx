@@ -49,8 +49,7 @@ export default function TransactionsPage() {
     <Box
       sx={{
         width: '100%',
-        padding: '8rem 1rem',
-        backgroundColor: '#F6F7F8'
+        padding: '8rem 1rem'
       }}
     >
       <h2 className='mb-5'>Transactions</h2>
