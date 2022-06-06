@@ -57,13 +57,7 @@ const Account = () => {
   return (
     <div className='mr-2'>
       <Box>
-        <MainButton
-          variant='outlined'
-          onClick={handleClick}
-          size='small'
-          height='45px'
-          width='200px'
-        >
+        <MainButton variant='outlined' onClick={handleClick} size='large'>
           {loggedIn ? (
             <Box className='d-flex'>
               <BoltIcon />
