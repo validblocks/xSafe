@@ -59,7 +59,10 @@ const NftCompmonent = () => {
       ) : (
         <Grid container>
           <Grid xs={3} item>
-            <CardBox className='d-flex align-items-center justify-content-center'>
+            <CardBox
+              className='d-flex align-items-center justify-content-center'
+              sx={{ height: '300px' }}
+            >
               <CardContent>
                 <EmptyList>You don&apos;t have any NFTs yet.</EmptyList>
               </CardContent>

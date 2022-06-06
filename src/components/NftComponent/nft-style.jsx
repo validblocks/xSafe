@@ -20,5 +20,7 @@ export const TextDivider = styled(Divider)`
 `;
 
 export const CardBox = styled(Card)`
-  height: ${(props) => props.height};
+  height: ${(props) => {
+    return props.height;
+  }};
 `;
