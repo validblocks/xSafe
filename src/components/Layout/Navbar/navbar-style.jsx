@@ -18,9 +18,15 @@ export const ConnectDropdown = styled(Menu)`
 `;
 
 export const ConnectItems = styled(Box)`
-  background: var(--primary-background);
-  color: var(--primary-color);
-  border-radius: var(--radius);
+  background: ${(props) => {
+    return props.theme.palette.background.main;
+  }}
+  color: ${(props) => {
+    return props.theme.palette.primary.main;
+  }};
+  border-radius: ${(props) => {
+    return props.theme.palette.radius.main;
+  }};
 `;
 
 export const Anchor = styled.a`
@@ -28,21 +34,34 @@ export const Anchor = styled.a`
 `;
 
 export const CopyBtn = styled(CopyButton)`
-  color: var(--link) !important;
+  color: ${(props) => {
+    return props.theme.palette.anchor.main;
+  }};
 `;
 
 export const DisconnectButton = styled(Button)`
-  color: var(--danger-color);
-  border: 1px solid var(--danger-color);
+  color: ${(props) => {
+    return props.theme.palette.danger.main;
+  }};
+  border: 1px solid
+    ${(props) => {
+      return props.theme.palette.danger.main;
+    }};
   padding: 10px 16px;
   margin-top: 0px;
   top: 15px;
-  border-radius: var(--radius);
-  background: var(--danger-background);
+  border-radius: ${(props) => {
+    return props.theme.palette.radius.main;
+  }};
+  background: ${(props) => {
+    return props.theme.palette.background.danger;
+  }};
 `;
 
 export const ReadOnly = styled(Typography)`
-  border-radius: var(--radius);
+  border-radius: ${(props) => {
+    return props.theme.palette.radius.main;
+  }};
   background: rgba(8, 4, 29, 0.1);
   color: #7a7883;
 `;
@@ -53,7 +72,9 @@ export const MembersBox = styled(Box)`
   background-color: #f0f1fd;
   border-radius: 6px;
   margin-top: 10px;
-  color: var(--primary-color);
+  color: ${(props) => {
+    return props.theme.palette.primary.main;
+  }};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
@@ -108,7 +129,9 @@ export const TopMenu = styled(Box)`
 
 export const ListItem = styled(ListItemButton)`
   &:hover {
-    color: var(--primary-color);
+    color: ${(props) => {
+      return props.theme.palette.primary.main;
+    }};
     background-color: #f5f7ff !important;
   }
 `;
@@ -138,8 +161,12 @@ export const BottomMenu = styled(List)`
 // Mobile Layout
 
 export const MobileMenu = styled(Box)`
-  border-top-right-radius: var(--radius);
-  border-top-left-radius: var(--radius);
+  border-top-right-radius: ${(props) => {
+    return props.theme.palette.radius.main;
+  }};
+  border-top-left-radius: ${(props) => {
+    return props.theme.palette.radius.main;
+  }};
   box-shadow: 0px -14px 24px rgba(76, 47, 252, 0.03);
   position: fixed;
   bottom: 0;
@@ -148,6 +175,10 @@ export const MobileMenu = styled(Box)`
 `;
 
 export const TopMobileMenu = styled(Box)`
-  border-bottom-left-radius: var(--radius);
-  border-bottom-right-radius: var(--radius);
+  border-bottom-left-radius: ${(props) => {
+    return props.theme.palette.radius.main;
+  }};
+  border-bottom-right-radius: ${(props) => {
+    return props.theme.palette.radius.main;
+  }};
 `;

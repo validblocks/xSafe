@@ -3,7 +3,7 @@ import { Box, Typography, Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeCurrency from 'components/ChangeCurrency';
-import { MainButton } from 'components/StyledComponents/StyledComponents';
+import { MainButton } from 'components/Theme/StyledComponents';
 import ThemeColor from 'components/ThemeColor';
 import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
 import { setSafeName } from 'redux/slices/safeNameSlice';

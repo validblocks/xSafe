@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box, Grid, Button, Typography } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { MainButton } from 'components/StyledComponents/StyledComponents';
+import { MainButton } from 'components/Theme/StyledComponents';
 import { network } from 'config';
 import { uniqueContractAddress } from 'multisigConfig';
 import useFetch from 'utils/useFetch';
