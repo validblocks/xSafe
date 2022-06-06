@@ -6,7 +6,8 @@ const NftPage = () => {
   return (
     <Box
       sx={{
-        padding: '8rem 1rem',
+        pt: 10,
+        pl: 5,
         width: '100%'
       }}
     >
