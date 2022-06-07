@@ -194,18 +194,17 @@ const TotalBalance = () => {
     <Box
       sx={{
         py: 1,
+        px: 2,
         display: { sm: 'block', xs: 'flex' },
         justifyContent: { sm: 'center', xs: 'space-around' }
       }}
     >
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
         <CenteredText>Total balance:</CenteredText>
-        <Box className='d-flex justify-content-center'>
-          <CenteredText fontSize='16px' fontWeight='bold'>
-            ≈{currencyConverted?.toFixed(2)}
-            {getCurrency}
-          </CenteredText>
-        </Box>
+        <CenteredText fontSize='16px' fontWeight='bold'>
+          ≈{currencyConverted?.toFixed(2)}
+          {getCurrency}
+        </CenteredText>
       </Box>
       <Divider orientation='vertical' flexItem />
       <Box
