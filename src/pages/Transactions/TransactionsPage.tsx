@@ -48,8 +48,7 @@ export default function TransactionsPage() {
   return (
     <Box
       sx={{
-        width: '100%',
-        padding: '8rem 1rem'
+        width: '100%'
       }}
     >
       <h2 className='mb-5'>Transactions</h2>

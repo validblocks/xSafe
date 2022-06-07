@@ -16,7 +16,6 @@ import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
-import { dAppName } from 'config';
 import addressShorthand from 'helpers/addressShorthand';
 import { uniqueContractAddress } from 'multisigConfig';
 import { routeNames } from 'routes';
@@ -28,9 +27,6 @@ import { useLocation } from 'react-router-dom';
 import PageBreadcrumbs from '../Breadcrumb';
 import {
   TopHeader,
-  NavLogo,
-  Logo,
-  DappName,
   TopMenu,
   ListItem,
   BreadcrumbsWrapper,
@@ -38,6 +34,7 @@ import {
   AccordionDetail,
   BottomMenu
 } from './navbar-style';
+import NavbarLogo from './Logo';
 
 const drawerWidth = 255;
 
@@ -87,15 +84,7 @@ export default function MiniDrawer() {
 
   const [open, setOpen] = React.useState(true);
 
-  const navigate = useNavigate();
   const loggedIn = getIsLoggedIn();
-
-  const handleRedirectToHome = () => {
-    const route = uniqueContractAddress
-      ? '/multisig/' + uniqueContractAddress
-      : routeNames.welcome;
-    navigate(route);
-  };
 
   const isOnUnlockPage = window.location.pathname.includes(routeNames.unlock);
 
@@ -114,15 +103,7 @@ export default function MiniDrawer() {
       <CssBaseline />
       <Drawer variant='permanent' open={open} className='drawer-wrapper'>
         <BsNavbar className='px-4 py-3'>
-          <NavLogo
-            onClick={handleRedirectToHome}
-            className='d-flex align-items-center'
-          >
-            <Logo />
-            <DappName className='d-flex align-items-center'>
-              {dAppName}
-            </DappName>
-          </NavLogo>
+          <NavbarLogo />
           <Nav className='ml-auto align-items-center'></Nav>
         </BsNavbar>
         <Divider />

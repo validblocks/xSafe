@@ -258,7 +258,6 @@ const AssetsPage = () => {
   return (
     <Box
       sx={{
-        padding: '8rem 1rem',
         width: '100%'
       }}
     >

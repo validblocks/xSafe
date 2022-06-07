@@ -111,36 +111,37 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='flex-row flex-fill wrapper page-wrapper'>
       {width ? <Navbar /> : <MobileLayout />}
-
-      <Main className=' flex-row flex-fill position-relative justify-center'>
-        <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '0' }}>
-          {width ? (
-            <Box
-              className='d-flex justify-content-between px-4 py-3 align-items-center'
-              sx={{
-                position: 'absolute',
-                width: '100%'
-              }}
-            >
-              <Box>
-                <PageBreadcrumbs />
+      <Main className='flex-row flex-fill position-relative justify-center'>
+        <Box sx={{ padding: '6rem 1rem' }}>
+          <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '0' }}>
+            {width ? (
+              <Box
+                className='d-flex justify-content-between px-4 py-3 align-items-center'
+                sx={{
+                  position: 'absolute',
+                  width: '100%'
+                }}
+              >
+                <Box>
+                  <PageBreadcrumbs />
+                </Box>
+                <Account />
+                {/* <Network /> */}
               </Box>
-              <Account />
-              {/* <Network /> */}
-            </Box>
-          ) : (
-            ''
-          )}
-        </AppBar>
-        <AuthenticatedRoutesWrapper
-          routes={routes}
-          unlockRoute={routeNames.unlock}
-        >
-          {children}
-        </AuthenticatedRoutesWrapper>
-        <TokenWrapper />
-        <ModalLayer />
-        <SidebarSelectOptionModal />
+            ) : (
+              ''
+            )}
+          </AppBar>
+          <AuthenticatedRoutesWrapper
+            routes={routes}
+            unlockRoute={routeNames.unlock}
+          >
+            {children}
+          </AuthenticatedRoutesWrapper>
+          <TokenWrapper />
+          <ModalLayer />
+          <SidebarSelectOptionModal />
+        </Box>
       </Main>
     </div>
   );
