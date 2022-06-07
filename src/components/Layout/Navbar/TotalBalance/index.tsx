@@ -26,6 +26,7 @@ import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import useCurrency from 'utils/useCurrency';
 import { CenteredText } from '../navbar-style';
+import Divider from '@mui/material/Divider';
 
 const TotalBalance = () => {
   const dispatch = useDispatch();
@@ -192,12 +193,12 @@ const TotalBalance = () => {
   return (
     <Box
       sx={{
-        pt: 1,
+        py: 1,
         display: { sm: 'block', xs: 'flex' },
         justifyContent: { sm: 'center', xs: 'space-around' }
       }}
     >
-      <Box>
+      <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
         <CenteredText>Total balance:</CenteredText>
         <Box className='d-flex justify-content-center'>
           <CenteredText fontSize='16px' fontWeight='bold'>
@@ -206,7 +207,11 @@ const TotalBalance = () => {
           </CenteredText>
         </Box>
       </Box>
-      <Box className='d-flex justify-content-center' sx={{ pb: 1 }}>
+      <Divider orientation='vertical' flexItem />
+      <Box
+        className='d-flex justify-content-center'
+        sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
+      >
         <MainButton variant='outlined' onClick={onAddBoardMember}>
           New Transaction
         </MainButton>

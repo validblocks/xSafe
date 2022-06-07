@@ -11,6 +11,7 @@ import addressShorthand from 'helpers/addressShorthand';
 import menuItems from 'utils/menuItems';
 import { MobileMenu, MobileSecondaryMenu, TopMobileMenu } from './navbar-style';
 import TotalBalance from './TotalBalance';
+import Divider from '@mui/material/Divider';
 
 const MobileLayout = () => {
   const locationString = location.pathname.substring(1);
@@ -72,6 +73,7 @@ const MobileLayout = () => {
           </Link>
         </Box>
       </TopMobileMenu>
+      <Divider />
       <Box>
         <TotalBalance />
       </Box>
