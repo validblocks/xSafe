@@ -81,6 +81,9 @@ export const MembersBox = styled(Box)`
 `;
 
 export const CenteredText = styled(Typography)`
+  @media (max-width: 600px) {
+    text-align: left;
+  }
   text-align: center;
   font-size: ${(props) => props.fontSize};
   font-weight: ${(props) => props.fontWeight};
