@@ -65,7 +65,7 @@ const ConnectedAccount = () => {
             <Box sx={{ mr: 1 }}>
               <a
                 className='link-color'
-                href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
+                href={`https://devnet-explorer.elrond.com/accounts/${address}`}
                 target='_blank'
                 rel='noreferrer'
               >
