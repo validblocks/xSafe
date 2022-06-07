@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Safe from 'assets/img/safe.png';
 import CopyButton from 'components/CopyButton';

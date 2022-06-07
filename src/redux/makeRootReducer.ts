@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import account from './slices/accountSlice';
+import addressBook from './slices/addressBookSlice';
 import appConfig from './slices/appConfigSlice';
 import currency from './slices/currencySlice';
 import economics from './slices/economicsSlice';
@@ -15,6 +16,7 @@ export default function makeRootReducer() {
     account,
     appConfig,
     currency,
-    safeName
+    safeName,
+    addressBook
   });
 }
