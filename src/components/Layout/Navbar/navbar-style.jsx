@@ -184,3 +184,9 @@ export const TopMobileMenu = styled(Box)`
     return props.theme.shape.radius;
   }};
 `;
+
+export const MobileSecondaryMenu = styled(Box)`
+  background-color: ${(props) => {
+    return props.theme.palette.background.default;
+  }};
+`;
