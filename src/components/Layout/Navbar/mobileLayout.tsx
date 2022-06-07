@@ -72,7 +72,7 @@ const MobileLayout = () => {
           </Link>
         </Box>
       </TopMobileMenu>
-      <Box className='total-balance-wrapper'>
+      <Box>
         <TotalBalance />
       </Box>
       <Box>
