@@ -10,6 +10,7 @@ import SafeOptions from 'components/SafeOptions';
 import addressShorthand from 'helpers/addressShorthand';
 import menuItems from 'utils/menuItems';
 import TotalBalance from './TotalBalance';
+import { uniqueContractAddress } from 'multisigConfig';
 
 const MobileLayout = () => {
   const locationString = location.pathname.substring(1);
@@ -21,7 +22,7 @@ const MobileLayout = () => {
   };
 
   useEffect(() => {
-    setWalletAddress(addressShorthand());
+    setWalletAddress(addressShorthand(uniqueContractAddress));
   }, [addressShorthand]);
 
   return (

@@ -96,8 +96,9 @@ export default function MiniDrawer() {
   const [walletAddress, setWalletAddress] = useState('');
 
   useEffect(() => {
-    setWalletAddress(addressShorthand());
+    setWalletAddress(addressShorthand(uniqueContractAddress));
   }, []);
+  
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
