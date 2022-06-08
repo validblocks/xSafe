@@ -9,7 +9,13 @@ import Safe from 'assets/img/safe.png';
 import SafeOptions from 'components/SafeOptions';
 import addressShorthand from 'helpers/addressShorthand';
 import menuItems from 'utils/menuItems';
-import { MobileMenu, MobileSecondaryMenu, TopMobileMenu } from './navbar-style';
+import {
+  LogoMenuWrapper,
+  MobileMenu,
+  MobileSecondaryMenu,
+  TopMobileMenu,
+  TotalBalanceWrapper
+} from './navbar-style';
 import TotalBalance from './TotalBalance';
 import Divider from '@mui/material/Divider';
 import NavbarLogo from './Logo';
@@ -22,66 +28,67 @@ const MobileLayout = () => {
   const closeSafeDropdown = (data: boolean) => {
     setOpenedSafeSelect(data);
   };
-
   useEffect(() => {
     setWalletAddress(addressShorthand());
   }, [addressShorthand]);
 
   return (
     <Box>
-      <NavbarLogo />
-      <TopMobileMenu
-        className='d-flex pt-1 pb-2 bg-white justify-content-between align-items-center'
-        sx={{ px: 2 }}
-      >
-        <Box>
-          <img src={Safe} width='50' height='50' />
-        </Box>
-        <Box className='d-flex'>
+      <LogoMenuWrapper>
+        <NavbarLogo />
+        <TopMobileMenu
+          className='d-flex pt-1 pb-2 bg-white justify-content-between align-items-center'
+          sx={{ px: 2 }}
+        >
           <Box>
-            <Typography sx={{ fontWeight: '600' }}>My Great Safe</Typography>
-            <Typography>{walletAddress}</Typography>
+            <img src={Safe} width='50' height='50' />
           </Box>
-          <Box className='d-flex ml-4'>
-            <Typography sx={{ color: '#7A7883' }}>Read-only</Typography>
-            {openedSafeSelect === true && (
-              <Box>
-                <ArrowDropUpIcon
-                  onClick={() => {
-                    setOpenedSafeSelect(false);
-                  }}
-                />
-                <SafeOptions closeSafeDropdown={closeSafeDropdown} />
-              </Box>
-            )}
-            {openedSafeSelect === false && (
-              <Box>
-                <ArrowDropDownIcon
-                  onClick={() => {
-                    setOpenedSafeSelect(true);
-                  }}
-                />
-              </Box>
-            )}
+          <Box className='d-flex'>
+            <Box>
+              <Typography sx={{ fontWeight: '600' }}>My Great Safe</Typography>
+              <Typography>{walletAddress}</Typography>
+            </Box>
+            <Box className='d-flex ml-4'>
+              <Typography sx={{ color: '#7A7883' }}>Read-only</Typography>
+              {openedSafeSelect === true && (
+                <Box>
+                  <ArrowDropUpIcon
+                    onClick={() => {
+                      setOpenedSafeSelect(false);
+                    }}
+                  />
+                  <SafeOptions closeSafeDropdown={closeSafeDropdown} />
+                </Box>
+              )}
+              {openedSafeSelect === false && (
+                <Box>
+                  <ArrowDropDownIcon
+                    onClick={() => {
+                      setOpenedSafeSelect(true);
+                    }}
+                  />
+                </Box>
+              )}
+            </Box>
           </Box>
-        </Box>
-        <Box className='d-flex'></Box>
-        <Box>
-          <Link to='/settings'>
-            <SettingsIcon
-              sx={{
-                width: '30px',
-                height: '30px',
-                color: 'rgba(8, 4, 29, 0.54)'
-              }}
-            />
-          </Link>
-        </Box>
-      </TopMobileMenu>
+          <Box className='d-flex'></Box>
+          <Box>
+            <Link to='/settings'>
+              <SettingsIcon
+                sx={{
+                  width: '30px',
+                  height: '30px',
+                  color: 'rgba(8, 4, 29, 0.54)'
+                }}
+              />
+            </Link>
+          </Box>
+        </TopMobileMenu>
+      </LogoMenuWrapper>
       <Divider />
-      <Box>
+      <TotalBalanceWrapper>
         <TotalBalance />
-      </Box>
+      </TotalBalanceWrapper>
       <Box>
         <MobileMenu className='d-flex bg-white justify-content-around mobile-menu'>
           {menuItems.mobileBottomItems.map((el, index) => (
