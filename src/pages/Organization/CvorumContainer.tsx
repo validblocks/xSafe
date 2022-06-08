@@ -7,8 +7,7 @@ const CvorumContainer = () => {
     <Box
       sx={{
         width: '100%',
-        padding: '8rem 1rem',
-        backgroundColor: '#F6F7F8'
+        padding: '8rem 1rem'
       }}
     >
       <Card className='px-4 py-5 mt-5'>

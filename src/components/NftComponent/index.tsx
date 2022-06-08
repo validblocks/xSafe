@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, Button, Typography } from '@mui/material';
-import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { MainButton } from 'components/StyledComponents/StyledComponents';
+import { MainButton } from 'components/Theme/StyledComponents';
 import { network } from 'config';
 import { uniqueContractAddress } from 'multisigConfig';
 import useFetch from 'utils/useFetch';
-import { EmptyList, CollectionName, TextDivider, EmptyCard } from './nft-style';
+import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
 
 const NftCompmonent = () => {
   const fetchNftList = useFetch(
@@ -30,14 +29,14 @@ const NftCompmonent = () => {
               {((index > 0 &&
                 item.collection !== nftListSorted[index - 1].collection) ||
                 index === 0) && (
-                <CollectionName sx={{ mt: 3 }}>
+                <CollectionName>
                   <TextDivider textAlign='left'>
                     <Box sx={{ mt: 3, mb: 3 }}>{item.collection}</Box>
                   </TextDivider>
                 </CollectionName>
               )}
               <Grid xs={12} md={3} sm={4} item key={index}>
-                <Card>
+                <CardBox>
                   <Box>
                     <CardMedia
                       component='img'
@@ -52,7 +51,7 @@ const NftCompmonent = () => {
                     </Typography>
                     <MainButton sx={{ width: '100%' }}>Send NFT</MainButton>
                   </CardContent>
-                </Card>
+                </CardBox>
               </Grid>
             </>
           ))}
@@ -60,11 +59,14 @@ const NftCompmonent = () => {
       ) : (
         <Grid container>
           <Grid xs={3} item>
-            <EmptyCard className='d-flex align-items-center justify-content-center'>
+            <CardBox
+              className='d-flex align-items-center justify-content-center'
+              sx={{ height: '300px' }}
+            >
               <CardContent>
                 <EmptyList>You don&apos;t have any NFTs yet.</EmptyList>
               </CardContent>
-            </EmptyCard>
+            </CardBox>
           </Grid>
         </Grid>
       )}

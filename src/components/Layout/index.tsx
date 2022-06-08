@@ -30,6 +30,7 @@ import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
 import Navbar from './Navbar';
 import MobileLayout from './Navbar/mobileLayout';
 import Account from './Navbar/Account';
+import { Main } from 'components/Theme/StyledComponents';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();
@@ -107,24 +108,19 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }));
 
   return (
-    <div
-      style={{ display: 'none !important', background: '#F4F6FD' }}
-      className='bg-light flex-row flex-fill wrapper page-wrapper'
-    >
+    <div className='flex-row flex-fill wrapper page-wrapper'>
       {width ? <Navbar /> : <MobileLayout />}
 
-      <main className=' flex-row flex-fill position-relative justify-center'>
-        <AppBar sx={{ width: 'calc(100% - 255px)', background: '#F4F6FD' }}>
+      <Main className=' flex-row flex-fill position-relative justify-center'>
+        <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '0' }}>
           <Box
-            className='d-flex justify-content-between px-4 py-3 align-items-center'
+            className='d-flex justify-content-between px-4 py-3 align-items-center coo'
             sx={{
               position: 'absolute',
-              width: '100%',
-              zIndex: '9',
-              background: '#F4F6FD'
+              width: '100%'
             }}
           >
-            <Box className='breadcrumbs-header'>
+            <Box>
               <PageBreadcrumbs />
             </Box>
             <Account />
@@ -140,7 +136,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <TokenWrapper />
         <ModalLayer />
         <SidebarSelectOptionModal />
-      </main>
+      </Main>
     </div>
   );
 };

@@ -10,6 +10,7 @@ import Typography from '@mui/material/Typography';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LinearWithValueLabel from 'components/ProgressBar/progressLinear';
+import { TypographyBold } from 'components/Theme/StyledComponents';
 
 const DecisionsActionsCards = () => {
   const Item = styled(Paper)(({ theme }) => ({
@@ -73,13 +74,9 @@ const DecisionsActionsCards = () => {
                   </Typography>
                 </Box>
                 <Box sx={{ my: 4 }}>
-                  <Typography
-                    sx={{ fontWeight: 'bold !important' }}
-                    align='left'
-                    variant='h6'
-                  >
+                  <TypographyBold align='left' variant='h6'>
                     {item.title}
-                  </Typography>
+                  </TypographyBold>
                   <Typography align='left' variant='inherit'>
                     Due: {item.date}
                   </Typography>
@@ -92,13 +89,9 @@ const DecisionsActionsCards = () => {
                     <Typography align='left' variant='inherit'>
                       Progress
                     </Typography>
-                    <Typography
-                      align='left'
-                      variant='inherit'
-                      sx={{ fontWeight: 'bold !important' }}
-                    >
+                    <TypographyBold align='left' variant='inherit'>
                       Approved
-                    </Typography>
+                    </TypographyBold>
                   </Box>
                   <LinearWithValueLabel />
                 </Box>

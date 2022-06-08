@@ -1,8 +1,3 @@
-.link-hover:hover {
-  color: #4c2ffc !important;
-  background-color: #f5f7ff !important;
-}
-
 .link-decoration:hover {
   text-decoration: none;
 }
@@ -16,29 +11,10 @@
 .active span {
   font-weight: 600;
 }
-.accordion-details-link {
-  padding: 0 !important;
-}
 .accordion-details-link .link-hover {
   padding-left: 43px;
 }
 
-.first-menu::after {
-  content: '';
-  box-shadow: 0px -26px 31px 0px rgba(100, 100, 111, 0.3);
-  width: 100%;
-  height: 40px;
-  display: block;
-  position: absolute;
-  bottom: 75px;
-  z-index: 9;
-}
-
-.first-menu {
-  overflow-y: scroll;
-  height: 100%;
-  z-index: 0;
-}
 @media (min-width: 600px) {
   .page-wrapper {
     display: flex;
@@ -62,16 +38,6 @@
   min-height: 50px !important;
 }
 
-.mobile-menu {
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-  box-shadow: 0px -14px 24px rgba(76, 47, 252, 0.03);
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 2;
-}
-
 .assets-mobile-submenu {
   display: inline-block;
   width: 50%;
@@ -81,18 +47,4 @@
 
 .active-submenu {
   border-bottom: 2px solid #4c2ffc;
-}
-.drawer-wrapper .MuiPaper-elevation {
-  z-index: 9 !important;
-}
-
-.mobile-top-side {
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-}
-.total-balance-wrapper .total-balance-text {
-  font-size: 15px;
-}
-.total-balance-wrapper .ex-currency {
-  font-size: 24px;
 }
