@@ -31,7 +31,7 @@ export type ForegroundRoutesType =
   | 'owners'
   | 'transactions'
   | 'settings'
-  | 'address-book';
+  | 'addressBook';
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
 export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {

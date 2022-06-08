@@ -30,7 +30,6 @@ import addressShorthand from 'helpers/addressShorthand';
 import { uniqueContractAddress } from 'multisigConfig';
 import { routeNames } from 'routes';
 import menuItems from 'utils/menuItems';
-import Account from './Account';
 import AccountDetails from './NavbarAccountDetails';
 import Network from './Network';
 import './menu.scss';
@@ -125,17 +124,6 @@ export default function MiniDrawer() {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar></AppBar>
-      <Box
-        className='d-flex justify-content-between px-4 py-3 align-items-center'
-        sx={{ position: 'absolute', width: '100%', zIndex: '9' }}
-      >
-        <Box className='breadcrumbs-header'>
-          <PageBreadcrumbs />
-        </Box>
-        <Account />
-        {/* <Network /> */}
-      </Box>
       <Drawer variant='permanent' open={open} className='drawer-wrapper'>
         <BsNavbar className='px-4 py-3'>
           <NavItem

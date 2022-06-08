@@ -17,6 +17,7 @@ import { addressBookSelector } from 'redux/selectors/addressBookSelector';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { RootState } from 'redux/store';
 import { ProposalsTypes } from 'types/Proposals';
+import { AccountInfo, AddressBook } from './types';
 
 const OrganizationsTokensTable = () => {
   const [addresses, setAddresses] = useState<Array<OwnerRow>>([]);
@@ -28,9 +29,6 @@ const OrganizationsTokensTable = () => {
     herotag?: string;
     name?: string;
   };
-
-  type AddressBook = Record<string, string>;
-  type AccountInfo = Record<string, any>;
 
   // Set the address book
   // Test the address book and herotag

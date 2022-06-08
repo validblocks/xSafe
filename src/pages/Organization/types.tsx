@@ -67,3 +67,6 @@ export type OrganizationInfoContextType = {
   userRole: number;
   allMemberAddresses: MemberAddressTableRow[];
 };
+
+export type AddressBook = Record<string, string>;
+export type AccountInfo = Record<string, any>;
