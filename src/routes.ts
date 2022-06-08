@@ -8,6 +8,7 @@ import OrganizationTokens from 'pages/Organization/OrganizationTokens';
 import TransactionsPage from 'pages/Transactions/TransactionsPage';
 import Unlock from 'pages/Unlock';
 import withPageTitle from './components/PageTitle';
+import AddressBook from './pages/AddressBook';
 import Dashboard from './pages/Dashboard';
 import DecisionActions from './pages/DecisionActions';
 import Home from './pages/Home';
@@ -29,7 +30,8 @@ export type ForegroundRoutesType =
   | 'cvorum'
   | 'owners'
   | 'transactions'
-  | 'settings';
+  | 'settings'
+  | 'address-book';
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
 export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
@@ -102,6 +104,11 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/settings',
     title: 'Settings',
     component: Settings
+  },
+  addressBook: {
+    path: '/address-book',
+    title: 'Address Book',
+    component: AddressBook
   }
 };
 
