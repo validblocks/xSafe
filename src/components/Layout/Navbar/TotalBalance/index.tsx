@@ -25,6 +25,7 @@ import { setValueInUsd } from 'redux/slices/currencySlice';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import useCurrency from 'utils/useCurrency';
+import { CenteredText } from '../navbar-style';
 
 const TotalBalance = () => {
   const dispatch = useDispatch();
@@ -190,17 +191,12 @@ const TotalBalance = () => {
 
   return (
     <Box sx={{ pt: 1 }}>
-      <Typography className='text-center total-balance-text'>
-        Total balance:
-      </Typography>
+      <CenteredText>Total balance:</CenteredText>
       <Box className='d-flex justify-content-center'>
-        <Typography
-          className='ex-currency text-center'
-          sx={{ fontWeight: 'bold' }}
-        >
+        <CenteredText fontSize='16px' fontWeight='bold'>
           ≈{currencyConverted?.toFixed(2)}
           {getCurrency}
-        </Typography>
+        </CenteredText>
       </Box>
       <Box className='d-flex justify-content-center' sx={{ pb: 1 }}>
         <MainButton variant='outlined' onClick={onAddBoardMember}>

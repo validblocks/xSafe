@@ -13,6 +13,7 @@ import { MainButton } from 'components/StyledComponents/StyledComponents';
 import addressShorthand from 'helpers/addressShorthand';
 import Unlock from 'pages/Unlock';
 import { routeNames } from 'routes';
+import { ConnectDropdown } from '../navbar-style';
 
 const Account = () => {
   const { address } = useGetAccountInfo();
@@ -54,13 +55,14 @@ const Account = () => {
     setAnchorEl(null);
   };
   return (
-    <div className='connect-btns mr-2'>
-      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+    <div className='mr-2'>
+      <Box>
         <MainButton
           variant='outlined'
           onClick={handleClick}
           size='small'
-          sx={{ width: '200px', height: '45px' }}
+          height='45px'
+          width='200px'
         >
           {loggedIn ? (
             <Box className='d-flex'>
@@ -75,9 +77,8 @@ const Account = () => {
           )}
         </MainButton>
       </Box>
-      <Menu
+      <ConnectDropdown
         anchorEl={anchorEl}
-        id='account-menu'
         open={open}
         onClose={handleClose}
         onClick={handleClose}
@@ -91,7 +92,7 @@ const Account = () => {
             <Unlock />
           </MenuItem>
         )}
-      </Menu>
+      </ConnectDropdown>
     </div>
   );
 };
