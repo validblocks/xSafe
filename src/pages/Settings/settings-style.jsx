@@ -14,10 +14,14 @@ export const SettingsWrapper = styled(Box)`
   border-radius: ${(props) => {
     return props.theme.shape.radius;
   }};
+  @media (max-width: 1200px) {
+    width: 100%;
+  }
   width: 55%;
 `;
 
 export const NoteSpan = styled.span`
+  line-height: 2.5;
   background-color: ${(props) => {
     return props.theme.palette.background.main;
   }};

@@ -114,7 +114,7 @@ const MobileLayout = () => {
           <Box>
             <Box
               className={
-                locationString == 'tokens'
+                locationString == 'tokens' || locationString == 'assets'
                   ? 'active-submenu assets-mobile-submenu py-3'
                   : 'assets-mobile-submenu py-3'
               }

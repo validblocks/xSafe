@@ -92,7 +92,9 @@ export const CenteredText = styled(Typography)`
 export const TopHeader = styled(Box)`
   position: absolute;
   z-index: 1;
-  width: 100%;
+  background: ${(props) => {
+    return props.theme.palette.background.default;
+  }};
 `;
 
 export const NavLogo = styled(NavItem)`
