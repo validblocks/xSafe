@@ -3,6 +3,7 @@ import { RouteType as DappCoreRouteTypes } from '@elrondnetwork/dapp-core';
 import { dAppName } from 'config';
 import AssetsPage from 'pages/AssetsPage/AssetsPage';
 import Decisions from 'pages/Decisions';
+import NftPage from 'pages/NftPage';
 import Organization from 'pages/Organization';
 import CvorumContainer from 'pages/Organization/CvorumContainer';
 import OrganizationTokens from 'pages/Organization/OrganizationTokens';
@@ -28,6 +29,7 @@ export type ForegroundRoutesType =
   | 'organization'
   | 'organizationTokens'
   | 'assets'
+  | 'nft'
   | 'cvorum'
   | 'owners'
   | 'transactions'
@@ -89,6 +91,11 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/assets',
     title: 'Assets',
     component: AssetsPage
+  },
+  nft: {
+    path: '/nft',
+    title: 'NFT',
+    component: NftPage
   },
   transactions: {
     path: '/transactions',
