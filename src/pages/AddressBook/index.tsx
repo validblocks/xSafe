@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Modal, Button, Card } from '@mui/material';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { useFormik } from 'formik';
+import { CSVLink } from 'react-csv';
+
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { AddressBook as AddressBookType } from 'pages/Organization/types';
@@ -59,6 +61,12 @@ const AddressBook = () => {
     validateOnMount: true
   });
 
+  const csvHeaders = ['Address', 'Name'];
+  const csvData = [
+    csvHeaders,
+    ...Object.entries(addressBook).map(([key, value]) => [key, value])
+  ];
+
   // const { touched, errors, values } = createEntryForm;
   // const { address, name } = values;
 
@@ -68,6 +76,7 @@ const AddressBook = () => {
         <Button onClick={() => setModalState(true)}>Import</Button>
         <Button onClick={() => setModalState(true)}>Export</Button>
         <Button onClick={() => setModalState(true)}>Create entry</Button>
+        <CSVLink data={csvData}>Download me</CSVLink>;
       </div>
       <Box height='300px' display='flex' flexDirection='column'>
         <DataGrid
