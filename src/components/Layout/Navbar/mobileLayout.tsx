@@ -30,7 +30,10 @@ const MobileLayout = () => {
   return (
     <Box>
       <NavbarLogo />
-      <TopMobileMenu className='d-flex pt-1 pb-2 bg-white justify-content-around align-items-center'>
+      <TopMobileMenu
+        className='d-flex pt-1 pb-2 bg-white justify-content-between align-items-center'
+        sx={{ px: 2 }}
+      >
         <Box>
           <img src={Safe} width='50' height='50' />
         </Box>
