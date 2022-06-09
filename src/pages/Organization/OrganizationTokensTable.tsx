@@ -8,7 +8,11 @@ import { Avatar } from '@mui/material';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridRenderCellParams
+} from '@mui/x-data-grid';
 import { toSvg } from 'jdenticon';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAccountData } from 'apiCalls/accountCalls';
@@ -73,8 +77,7 @@ const OrganizationsTokensTable = () => {
     );
   };
 
-  const onEditOnwer = (owner: Owner) => {
-    console.log(owner);
+  const onEditOwner = (owner: Owner) => {
     return dispatch(
       setProposeModalSelectedOption({
         option: ProposalsTypes.edit_owner,
@@ -149,71 +152,36 @@ const OrganizationsTokensTable = () => {
         type: 'actions',
         headerName: 'Action',
         getActions: (params: any) => [
-          // eslint-disable-next-line react/jsx-key
-          <>
-            <Button
-              disableRipple
-              id='basic-button'
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup='true'
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick}
-            >
-              <MoreHorizIcon />
-            </Button>
-            <Menu
-              id='basic-menu'
-              anchorEl={anchorEl}
-              open={open}
-              onClose={handleClose}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button'
-              }}
-            >
-              <MenuItem
-                disableRipple
-                onClick={() => {
-                  const owner = {
-                    address: params.row.address.address,
-                    name: params.row.owner.name
-                  };
-                  onEditOnwer(owner);
-                  handleClose();
-                }}
-              >
-                <EditIcon />
-                Edit Owner
-              </MenuItem>
-              <MenuItem
-                disableRipple
-                onClick={() => {
-                  const owner = {
-                    address: params.row.address.address,
-                    name: params.row.owner.name
-                  };
-                  onReplaceOwner(owner);
-                  handleClose();
-                }}
-              >
-                <PublishedWithChangesIcon />
-                Replace Owner
-              </MenuItem>
-              <MenuItem
-                disableRipple
-                onClick={() => {
-                  onRemoveUser(new Address(params.row.address.address));
-                  handleClose();
-                }}
-              >
-                <DeleteIcon />
-                Remove Owner
-              </MenuItem>
-            </Menu>
-          </>
+          <GridActionsCellItem
+            key={params.id}
+            icon={<DeleteIcon />}
+            label='Delete'
+            onClick={() => onRemoveUser(new Address(params.id))}
+          />,
+          <GridActionsCellItem
+            key={params.id}
+            icon={<DeleteIcon />}
+            label='Edit Owner'
+            onClick={() =>
+              onEditOwner(
+                addresses.find(
+                  (address) => address.address === params.id
+                ) as Owner
+              )
+            }
+            showInMenu
+          />,
+          <GridActionsCellItem
+            key={params.id}
+            icon={<DeleteIcon />}
+            label='Replace Owner'
+            onClick={() => onReplaceOwner(params.id)}
+            showInMenu
+          />
         ]
       }
     ],
-    [onRemoveUser]
+    [onRemoveUser, onEditOwner, onReplaceOwner]
   );
 
   const rows = addresses.map((owner: Owner) => {
