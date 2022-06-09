@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -8,7 +8,7 @@ import { Avatar } from '@mui/material';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { GridRowId, DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
+import { DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
 import { toSvg } from 'jdenticon';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAccountData } from 'apiCalls/accountCalls';
@@ -79,26 +79,30 @@ const OrganizationsTokensTable = () => {
     );
   };
 
-  const toggleAdmin = useCallback(
-    (id: GridRowId) => () => {
-      // setRows((prevRows) =>
-      //   prevRows.map((row) =>
-      //     row.id === id ? { ...row, isAdmin: !row.isAdmin } : row
-      //   )
-      // );
-    },
-    []
-  );
+  const onEditOnwer = (address: Address) => {
+    return dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.remove_user,
+        address: address.bech32()
+      })
+    );
+  };
 
-  const duplicateUser = useCallback(
-    (id: GridRowId) => () => {
-      // setRows((prevRows) => {
-      //   const rowToDuplicate = prevRows.find((row) => row.id === id)!;
-      //   return [...prevRows, { ...rowToDuplicate, id: Date.now() }];
-      // });
-    },
-    []
-  );
+  const onReplaceOwner = (address: Address) => {
+    return dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.remove_user,
+        address: address.bech32()
+      })
+    );
+  };
+
+  const onAddBoardMember = () =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.add_board_member
+      })
+    );
 
   const columns = useMemo(
     () => [
@@ -170,15 +174,21 @@ const OrganizationsTokensTable = () => {
                 'aria-labelledby': 'basic-button'
               }}
             >
-              <MenuItem disableRipple onClick={handleClose}>
+              <MenuItem disableRipple onClick={() => onEditOnwer}>
                 <EditIcon />
                 Edit Owner
               </MenuItem>
-              <MenuItem disableRipple onClick={handleClose}>
+              <MenuItem disableRipple onClick={() => onReplaceOwner}>
                 <PublishedWithChangesIcon />
                 Replace Owner
               </MenuItem>
-              <MenuItem disableRipple onClick={handleClose}>
+              <MenuItem
+                disableRipple
+                onClick={() => {
+                  onRemoveUser(new Address(params.row.address.address));
+                  handleClose();
+                }}
+              >
                 <DeleteIcon />
                 Remove Owner
               </MenuItem>
@@ -187,7 +197,7 @@ const OrganizationsTokensTable = () => {
         ]
       }
     ],
-    [onRemoveUser, toggleAdmin, duplicateUser]
+    [onRemoveUser]
   );
 
   const rows = addresses.map((owner: OwnerRow) => {
@@ -198,7 +208,14 @@ const OrganizationsTokensTable = () => {
     };
   });
 
-  return <DataGrid autoHeight rowHeight={65} rows={rows} columns={columns} />;
+  return (
+    <>
+      <div>
+        <Button onClick={() => onAddBoardMember()}>Add new owner</Button>
+      </div>
+      <DataGrid autoHeight rowHeight={65} rows={rows} columns={columns} />
+    </>
+  );
 };
 
 export default OrganizationsTokensTable;
