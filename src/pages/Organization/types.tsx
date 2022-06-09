@@ -70,3 +70,9 @@ export type OrganizationInfoContextType = {
 
 export type AddressBook = Record<string, string>;
 export type AccountInfo = Record<string, any>;
+
+export type Owner = {
+  address: Address;
+  herotag?: string;
+  name?: string;
+};

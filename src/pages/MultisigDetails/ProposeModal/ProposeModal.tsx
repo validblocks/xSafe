@@ -47,6 +47,9 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
         case ProposalsTypes.remove_user:
           mutateProposeRemoveUser(selectedAddressParam);
           break;
+        case ProposalsTypes.edit_owner:
+          mutateProposeRemoveUser(selectedAddressParam);
+          break;
         default:
           console.error(`Unrecognized option ${selectedOption}`);
           break;
@@ -89,6 +92,13 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
           />
         );
       case ProposalsTypes.remove_user:
+        return (
+          <ProposeRemoveUser
+            handleSetAddress={handleAddressParamChange}
+            selectedOption={selectedOption}
+          />
+        );
+      case ProposalsTypes.edit_owner:
         return (
           <ProposeRemoveUser
             handleSetAddress={handleAddressParamChange}

@@ -77,7 +77,7 @@ const AddressBook = () => {
         <Button onClick={() => setModalState(true)}>Import</Button>
         <Button onClick={() => setModalState(true)}>Export</Button>
         <Button onClick={() => setModalState(true)}>Create entry</Button>
-        <CSVLink data={csvData}>Download me</CSVLink>;
+        <CSVLink data={csvData}>Download me</CSVLink>
       </div>
       <Box height='300px' display='flex' flexDirection='column'>
         <DataGrid
