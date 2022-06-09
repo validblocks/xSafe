@@ -28,6 +28,10 @@ interface PerformActionModal {
   selectedAction: SelectedActionToPerform | null;
   selectedToken: any | null;
 }
+interface proposeNftModal {
+  selectedAction: SelectedActionToPerform | null;
+  selectedNft: any | null;
+}
 
 interface ProposeModal {
   selectedOption?: SelectedOptionType;
@@ -43,6 +47,7 @@ export interface ModalsSliceState {
   proposeModal: ProposeModal;
   proposeMultiselectModal: ProposeMultiselectModal;
   performActionModal: PerformActionModal;
+  proposeNftModal: proposeNftModal;
 }
 
 const initialState: ModalsSliceState = {
@@ -55,6 +60,10 @@ const initialState: ModalsSliceState = {
   performActionModal: {
     selectedAction: null,
     selectedToken: null
+  },
+  proposeNftModal: {
+    selectedAction: null,
+    selectedNft: null
   }
 };
 
@@ -103,6 +112,12 @@ export const modalsSlice = createSlice({
       action: PayloadAction<any>
     ) => {
       state.performActionModal.selectedToken = action.payload;
+    },
+    setSelectedNftToSend: (
+      state: ModalsSliceState,
+      action: PayloadAction<any>
+    ) => {
+      state.proposeNftModal.selectedNft = action.payload;
     }
   },
 
@@ -121,7 +136,8 @@ export const {
   clearNotificationModal,
   setProposeModalSelectedOption,
   setSelectedPerformedAction,
-  setSelectedTokenToSend
+  setSelectedTokenToSend,
+  setSelectedNftToSend
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

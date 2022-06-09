@@ -8,6 +8,7 @@ export const titles = {
   [ProposalsTypes.change_quorum]: 'change quorum',
   [ProposalsTypes.issue_token]: 'issue token',
   [ProposalsTypes.send_token]: 'send token',
+  [ProposalsTypes.send_nft]: 'send nft',
   [ProposalsTypes.multiselect_proposal_options]: 'select proposal type',
   [ProposalsTypes.smart_contract_call]: 'smart contract call',
   [ProposalsTypes.deploy_contract]: 'Deploy smart contract',

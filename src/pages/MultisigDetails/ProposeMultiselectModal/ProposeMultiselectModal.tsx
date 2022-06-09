@@ -38,6 +38,7 @@ import ProposeUpgradeContractFromSource from './ProposeUpgradeContractFromSource
 import SelectOption from './SelectOption';
 
 import './proposeMultiselectModal.scss';
+import ProposeSendNft from './ProposeSendNft';
 
 interface ProposeMultiselectModalPropsType {
   selectedOption: SelectedOptionType;
@@ -134,6 +135,14 @@ const ProposeMultiselectModal = ({
       case ProposalsTypes.send_token: {
         return (
           <ProposeSendToken
+            setSubmitDisabled={setSubmitDisabled}
+            handleChange={handleProposalChange}
+          />
+        );
+      }
+      case ProposalsTypes.send_nft: {
+        return (
+          <ProposeSendNft
             setSubmitDisabled={setSubmitDisabled}
             handleChange={handleProposalChange}
           />

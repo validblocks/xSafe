@@ -6,6 +6,7 @@ export enum ProposalsTypes {
   'send_egld' = 'send_egld',
   'issue_token' = 'issue_token',
   'send_token' = 'send_token',
+  'send_nft' = 'send_nft',
   'smart_contract_call' = 'smart_contract_call',
   'multiselect_proposal_options' = 'multiselect_proposal_options',
   'deploy_contract' = 'deploy_contract',

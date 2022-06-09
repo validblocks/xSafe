@@ -7,18 +7,37 @@ import { network } from 'config';
 import { uniqueContractAddress } from 'multisigConfig';
 import useFetch from 'utils/useFetch';
 import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
+import { ProposalsTypes } from 'types/Proposals';
+import { useDispatch } from 'react-redux';
+import {
+  setProposeModalSelectedOption,
+  setProposeMultiselectSelectedOption,
+  setSelectedNftToSend
+} from 'redux/slices/modalsSlice';
 
 const NftCompmonent = () => {
   const fetchNftList = useFetch(
     `${network.apiAddress}/accounts/${uniqueContractAddress}/nfts`
   );
+  const dispatch = useDispatch();
 
   const nftList: any = fetchNftList.data;
-  console.log(nftList, 'nftList');
 
   const nftListSorted = nftList.sort((a: any, b: any) =>
     a.collection.localeCompare(b.collection)
   );
+
+  const handleOptionSelected = (option: ProposalsTypes, nft: any) => {
+    console.log(option, nft, 'opt');
+    dispatch(setProposeMultiselectSelectedOption({ option }));
+    dispatch(
+      setSelectedNftToSend({
+        id: nft.id,
+        identifier: nft.identifier,
+        balance: nft.balance
+      })
+    );
+  };
 
   return (
     <Box>
@@ -49,7 +68,14 @@ const NftCompmonent = () => {
                     <Typography gutterBottom variant='h5' component='div'>
                       {item.name}
                     </Typography>
-                    <MainButton sx={{ width: '100%' }}>Send NFT</MainButton>
+                    <MainButton
+                      sx={{ width: '100%' }}
+                      onClick={() =>
+                        handleOptionSelected(ProposalsTypes.send_nft, item)
+                      }
+                    >
+                      Send NFT
+                    </MainButton>
                   </CardContent>
                 </CardBox>
               </Grid>
