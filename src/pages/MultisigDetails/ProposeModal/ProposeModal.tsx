@@ -11,9 +11,11 @@ import {
   mutateProposeAddBoardMember,
   mutateProposeRemoveUser
 } from 'contracts/MultisigContract';
+import { addEntry } from 'redux/slices/addressBookSlice';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes, SelectedOptionType } from 'types/Proposals';
 import { titles } from '../constants';
+import EditOwner from '../ProposeModal/EditOwner';
 import ProposeChangeQuorum from '../ProposeModal/ProposeChangeQuorum';
 import ProposeInputAddress from '../ProposeModal/ProposeInputAddress';
 import ProposeRemoveUser from '../ProposeModal/ProposeRemoveUser';
@@ -31,6 +33,7 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
   const [selectedAddressParam, setSelectedAddressParam] = useState(
     new Address()
   );
+  const [selectedNameParam, setSelectedNameParam] = useState('');
 
   const onProposeClicked = () => {
     try {
@@ -48,7 +51,7 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
           mutateProposeRemoveUser(selectedAddressParam);
           break;
         case ProposalsTypes.edit_owner:
-          mutateProposeRemoveUser(selectedAddressParam);
+          dispatch(addEntry({ selectedAddressParam, selectedNameParam }));
           break;
         default:
           console.error(`Unrecognized option ${selectedOption}`);
@@ -64,6 +67,10 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
 
   const handleAddressParamChange = (value: Address) => {
     setSelectedAddressParam(value);
+  };
+
+  const handleNameChange = (value: string) => {
+    setSelectedNameParam(value);
   };
 
   const handleClose = () => {
@@ -100,9 +107,10 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
         );
       case ProposalsTypes.edit_owner:
         return (
-          <ProposeRemoveUser
-            handleSetAddress={handleAddressParamChange}
+          <EditOwner
+            handleSetName={handleNameChange}
             selectedOption={selectedOption}
+            selectedAddress={selectedAddressParam}
           />
         );
     }
