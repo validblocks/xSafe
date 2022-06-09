@@ -47,6 +47,7 @@ const AddressBook = () => {
     address: Yup.string().required('Required'),
     name: Yup.string().required('Required')
   });
+
   const createEntryForm = useFormik({
     initialValues: {
       address: '',
