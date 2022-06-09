@@ -17,24 +17,18 @@ import { addressBookSelector } from 'redux/selectors/addressBookSelector';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { RootState } from 'redux/store';
 import { ProposalsTypes } from 'types/Proposals';
-import { AccountInfo, AddressBook } from './types';
+import { Owner, AccountInfo, AddressBook } from './types';
 
 const OrganizationsTokensTable = () => {
-  const [addresses, setAddresses] = useState<Array<OwnerRow>>([]);
+  const [addresses, setAddresses] = useState<Array<Owner>>([]);
 
   const getAddresses = async () => await queryBoardMemberAddresses();
-
-  type OwnerRow = {
-    address: Address;
-    herotag?: string;
-    name?: string;
-  };
 
   // Set the address book
   // Test the address book and herotag
   const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
 
-  const addAddressBookEntry = (accountInformation: AccountInfo): OwnerRow => {
+  const addAddressBookEntry = (accountInformation: AccountInfo): Owner => {
     return {
       address: accountInformation.address,
       ...(!!accountInformation.username && {
@@ -79,20 +73,22 @@ const OrganizationsTokensTable = () => {
     );
   };
 
-  const onEditOnwer = (address: Address) => {
+  const onEditOnwer = (owner: Owner) => {
+    console.log(owner);
     return dispatch(
       setProposeModalSelectedOption({
-        option: ProposalsTypes.remove_user,
-        address: address.bech32()
+        option: ProposalsTypes.edit_owner,
+        name: owner.name,
+        address: new Address(owner.address).bech32()
       })
     );
   };
 
-  const onReplaceOwner = (address: Address) => {
+  const onReplaceOwner = (owner: Owner) => {
     return dispatch(
       setProposeModalSelectedOption({
-        option: ProposalsTypes.remove_user,
-        address: address.bech32()
+        option: ProposalsTypes.replace_owner,
+        currentOwner: owner
       })
     );
   };
@@ -174,11 +170,31 @@ const OrganizationsTokensTable = () => {
                 'aria-labelledby': 'basic-button'
               }}
             >
-              <MenuItem disableRipple onClick={() => onEditOnwer}>
+              <MenuItem
+                disableRipple
+                onClick={() => {
+                  const owner = {
+                    address: params.row.address.address,
+                    name: params.row.owner.name
+                  };
+                  onEditOnwer(owner);
+                  handleClose();
+                }}
+              >
                 <EditIcon />
                 Edit Owner
               </MenuItem>
-              <MenuItem disableRipple onClick={() => onReplaceOwner}>
+              <MenuItem
+                disableRipple
+                onClick={() => {
+                  const owner = {
+                    address: params.row.address.address,
+                    name: params.row.owner.name
+                  };
+                  onReplaceOwner(owner);
+                  handleClose();
+                }}
+              >
                 <PublishedWithChangesIcon />
                 Replace Owner
               </MenuItem>
@@ -200,7 +216,7 @@ const OrganizationsTokensTable = () => {
     [onRemoveUser]
   );
 
-  const rows = addresses.map((owner: OwnerRow) => {
+  const rows = addresses.map((owner: Owner) => {
     return {
       id: owner.address,
       owner: { name: owner.name, herotag: owner.herotag },

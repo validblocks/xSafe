@@ -15,6 +15,7 @@ const ModalLayer = () => {
   const selectedMultiselectOption = useSelector(
     proposeMultiselectModalSelectedOptionSelector
   );
+  console.log(selectedOption);
   return (
     <div>
       {selectedMultiselectOption != null && (
