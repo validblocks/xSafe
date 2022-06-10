@@ -12,10 +12,15 @@ import { SelectedOptionType } from 'types/Proposals';
 type ProposeEditOwnerType = {
   selectedOption: SelectedOptionType;
   selectedAddress: Address;
+  handleSetAddress: (address: Address) => void;
   handleSetName: (name: string) => void;
 };
 
-const EditOwner = ({ selectedOption, handleSetName }: ProposeEditOwnerType) => {
+const EditOwner = ({
+  selectedOption,
+  handleSetAddress,
+  handleSetName
+}: ProposeEditOwnerType) => {
   const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
   const { t }: { t: any } = useTranslation();
   const address = 'address' in selectedOption! ? selectedOption?.address : '';
@@ -39,11 +44,15 @@ const EditOwner = ({ selectedOption, handleSetName }: ProposeEditOwnerType) => {
     validateOnChange: true,
     validateOnMount: true
   });
-  // React.useEffect(() => {
-  //   if (address != null) {
-  //     handleSetAddress(new Address(address));
-  //   }
-  // }, []);
+
+  React.useEffect(() => {
+    if (address != null) {
+      handleSetAddress(new Address(address));
+    }
+  }, []);
+  React.useEffect(() => {
+    handleSetName(editOwnerForm.values.name);
+  }, [editOwnerForm.values.name]);
 
   if (selectedOption == undefined) {
     return null;
