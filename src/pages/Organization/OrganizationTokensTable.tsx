@@ -1,13 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+
 import { Avatar } from '@mui/material';
 import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -160,7 +158,7 @@ const OrganizationsTokensTable = () => {
           />,
           <GridActionsCellItem
             key={params.id}
-            icon={<DeleteIcon />}
+            icon={<EditIcon />}
             label='Edit Owner'
             onClick={() =>
               onEditOwner(
@@ -170,14 +168,20 @@ const OrganizationsTokensTable = () => {
               )
             }
             showInMenu
-          />,
-          <GridActionsCellItem
-            key={params.id}
-            icon={<DeleteIcon />}
-            label='Replace Owner'
-            onClick={() => onReplaceOwner(params.id)}
-            showInMenu
           />
+          // <GridActionsCellItem
+          //   key={params.id}
+          //   icon={<AutorenewIcon />}
+          //   label='Replace Owner'
+          //   onClick={() =>
+          //     onReplaceOwner(
+          //       addresses.find(
+          //         (address) => address.address === params.id
+          //       ) as Owner
+          //     )
+          //   }
+          //   showInMenu
+          // />
         ]
       }
     ],
@@ -194,9 +198,14 @@ const OrganizationsTokensTable = () => {
 
   return (
     <>
-      <div>
-        <Button onClick={() => onAddBoardMember()}>Add new owner</Button>
-      </div>
+      <Button
+        color='primary'
+        startIcon={<AddIcon />}
+        onClick={() => onAddBoardMember()}
+      >
+        Add new owner
+      </Button>
+
       <DataGrid autoHeight rowHeight={65} rows={rows} columns={columns} />
     </>
   );

@@ -1,6 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import AddIcon from '@mui/icons-material/Add';
+import DownloadIcon from '@mui/icons-material/Download';
+import UploadIcon from '@mui/icons-material/Upload';
 import { Box, Typography, Modal, Button, Card } from '@mui/material';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridToolbarContainer } from '@mui/x-data-grid';
 import { useFormik } from 'formik';
 import { CSVLink } from 'react-csv';
 
@@ -12,7 +15,6 @@ import { addEntry } from 'redux/slices/addressBookSlice';
 import { RootState } from 'redux/store';
 
 const columns: GridColDef[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
   {
     field: 'name',
     headerName: 'Name',
@@ -31,6 +33,34 @@ let rows = [
   { id: 2, name: 'Lannister', address: 'Cersei' }
 ];
 const AddressBook = () => {
+  const [modalState, setModalState] = useState(false);
+  const dispatch = useDispatch();
+
+  const toolbar = () => {
+    return (
+      <GridToolbarContainer>
+        <>
+          <Button
+            startIcon={<DownloadIcon />}
+            onClick={() => setModalState(true)}
+          >
+            Import
+          </Button>
+          <Button
+            startIcon={<UploadIcon />}
+            onClick={() => setModalState(true)}
+          >
+            Export
+          </Button>
+          <Button startIcon={<AddIcon />} onClick={() => setModalState(true)}>
+            Create entry
+          </Button>
+          <CSVLink data={csvData}>Download me</CSVLink>
+        </>
+      </GridToolbarContainer>
+    );
+  };
+
   const addressBook = useSelector<RootState, AddressBookType>(
     addressBookSelector
   );
@@ -39,9 +69,6 @@ const AddressBook = () => {
     name: key,
     address: value
   }));
-
-  const [modalState, setModalState] = useState(false);
-  const dispatch = useDispatch();
 
   const validationSchema = Yup.object().shape({
     address: Yup.string().required('Required'),
@@ -73,19 +100,14 @@ const AddressBook = () => {
 
   return (
     <div className='container'>
-      <div>
-        <Button onClick={() => setModalState(true)}>Import</Button>
-        <Button onClick={() => setModalState(true)}>Export</Button>
-        <Button onClick={() => setModalState(true)}>Create entry</Button>
-        <CSVLink data={csvData}>Download me</CSVLink>
-      </div>
       <Box height='300px' display='flex' flexDirection='column'>
         <DataGrid
+          components={{ Toolbar: toolbar }}
+          autoHeight
           rows={rows}
           columns={columns}
-          pageSize={5}
+          pageSize={20}
           rowsPerPageOptions={[5]}
-          checkboxSelection
           disableSelectionOnClick
         />
       </Box>

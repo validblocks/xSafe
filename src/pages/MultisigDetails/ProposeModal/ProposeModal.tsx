@@ -19,6 +19,7 @@ import EditOwner from '../ProposeModal/EditOwner';
 import ProposeChangeQuorum from '../ProposeModal/ProposeChangeQuorum';
 import ProposeInputAddress from '../ProposeModal/ProposeInputAddress';
 import ProposeRemoveUser from '../ProposeModal/ProposeRemoveUser';
+import ReplaceOwner from '../ProposeModal/ReplaceOwner';
 
 interface ProposeModalPropsType {
   selectedOption: SelectedOptionType;
@@ -34,6 +35,8 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
     new Address()
   );
   const [selectedNameParam, setSelectedNameParam] = useState('');
+  const [selectedReplacementAddressParam, setSelectedReplacementAddressParam] =
+    useState(new Address());
 
   const onProposeClicked = () => {
     try {
@@ -51,7 +54,27 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
           mutateProposeRemoveUser(selectedAddressParam);
           break;
         case ProposalsTypes.edit_owner:
-          dispatch(addEntry({ selectedAddressParam, selectedNameParam }));
+          dispatch(
+            addEntry({
+              address: selectedAddressParam.bech32(),
+              name: selectedNameParam
+            })
+          );
+          break;
+        case ProposalsTypes.replace_owner:
+          console.log(
+            selectedAddressParam,
+            selectedReplacementAddressParam,
+            selectedNameParam
+          );
+          mutateProposeRemoveUser(selectedAddressParam);
+          mutateProposeAddBoardMember(selectedReplacementAddressParam);
+          dispatch(
+            addEntry({
+              address: selectedReplacementAddressParam.bech32(),
+              name: selectedNameParam
+            })
+          );
           break;
         default:
           console.error(`Unrecognized option ${selectedOption}`);
@@ -67,10 +90,6 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
 
   const handleAddressParamChange = (value: Address) => {
     setSelectedAddressParam(value);
-  };
-
-  const handleNameChange = (value: string) => {
-    setSelectedNameParam(value);
   };
 
   const handleClose = () => {
@@ -108,7 +127,20 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
       case ProposalsTypes.edit_owner:
         return (
           <EditOwner
-            handleSetName={handleNameChange}
+            handleSetAddress={handleAddressParamChange}
+            handleSetName={(value) => setSelectedNameParam(value)}
+            selectedOption={selectedOption}
+            selectedAddress={selectedAddressParam}
+          />
+        );
+      case ProposalsTypes.replace_owner:
+        return (
+          <ReplaceOwner
+            handleSetAddress={handleAddressParamChange}
+            handleSetReplacementAddress={(value) =>
+              setSelectedReplacementAddressParam(value)
+            }
+            handleSetName={(value) => setSelectedNameParam(value)}
             selectedOption={selectedOption}
             selectedAddress={selectedAddressParam}
           />
