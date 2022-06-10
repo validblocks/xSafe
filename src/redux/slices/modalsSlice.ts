@@ -27,6 +27,7 @@ export interface SelectedTokenToSend {
 interface PerformActionModal {
   selectedAction: SelectedActionToPerform | null;
   selectedToken: any | null;
+  selectedNft: any | null;
 }
 interface proposeNftModal {
   selectedAction: SelectedActionToPerform | null;
@@ -47,7 +48,7 @@ export interface ModalsSliceState {
   proposeModal: ProposeModal;
   proposeMultiselectModal: ProposeMultiselectModal;
   performActionModal: PerformActionModal;
-  proposeNftModal: proposeNftModal;
+  // proposeNftModal: PerformActionModal;
 }
 
 const initialState: ModalsSliceState = {
@@ -59,12 +60,12 @@ const initialState: ModalsSliceState = {
   },
   performActionModal: {
     selectedAction: null,
-    selectedToken: null
-  },
-  proposeNftModal: {
-    selectedAction: null,
+    selectedToken: null,
     selectedNft: null
   }
+  // proposeNftModal: {
+  //   selectedAction: null,
+  // }
 };
 
 export const modalsSlice = createSlice({
@@ -117,7 +118,8 @@ export const modalsSlice = createSlice({
       state: ModalsSliceState,
       action: PayloadAction<any>
     ) => {
-      state.proposeNftModal.selectedNft = action.payload;
+      console.log(action, 'action');
+      state.performActionModal.selectedNft = action.payload;
     }
   },
 

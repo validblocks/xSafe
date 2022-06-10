@@ -48,3 +48,8 @@ export const selectedTokenToSendSelector = createDeepEqualSelector(
   performActionModalSelector,
   (state) => state.selectedToken
 );
+
+export const selectedNftToSendSelector = createDeepEqualSelector(
+  performActionModalSelector,
+  (state) => state.selectedNft
+);

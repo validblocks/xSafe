@@ -6,7 +6,6 @@ import { MainButton } from 'components/Theme/StyledComponents';
 import { network } from 'config';
 import { uniqueContractAddress } from 'multisigConfig';
 import useFetch from 'utils/useFetch';
-import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
 import { ProposalsTypes } from 'types/Proposals';
 import { useDispatch } from 'react-redux';
 import {
@@ -14,6 +13,7 @@ import {
   setProposeMultiselectSelectedOption,
   setSelectedNftToSend
 } from 'redux/slices/modalsSlice';
+import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
 
 const NftCompmonent = () => {
   const fetchNftList = useFetch(
@@ -32,9 +32,7 @@ const NftCompmonent = () => {
     dispatch(setProposeMultiselectSelectedOption({ option }));
     dispatch(
       setSelectedNftToSend({
-        id: nft.id,
-        identifier: nft.identifier,
-        balance: nft.balance
+        identifier: nft.identifier
       })
     );
   };

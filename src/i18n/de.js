@@ -34,6 +34,7 @@ export const germanTranslations = {
   'New Quorum Size': 'Neue Quorumgröße',
   'Issue Token': 'Token ausgeben',
   'Send Token': 'Token senden',
+  'Send NFT': 'NFT senden',
   'Remove User': 'Benutzer entfernen',
   'Send eGLD': 'eGLD senden',
   'Smart Contract Call': 'Smart Contract Aufruf',
