@@ -13,9 +13,7 @@ const OrganizationTokensContent = () => {
           Add, remove and replace owners or rename existing owners. Owner names
           are only stored locally and never shared with us or any third parties.
         </p>
-        <Box sx={{ padding: '2rem' }} className='shadow'>
-          <OrganizationsTokensTable />
-        </Box>
+        <OrganizationsTokensTable />
       </Box>
     </Box>
   );
