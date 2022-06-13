@@ -169,19 +169,6 @@ const OrganizationsTokensTable = () => {
             }
             showInMenu
           />
-          // <GridActionsCellItem
-          //   key={params.id}
-          //   icon={<AutorenewIcon />}
-          //   label='Replace Owner'
-          //   onClick={() =>
-          //     onReplaceOwner(
-          //       addresses.find(
-          //         (address) => address.address === params.id
-          //       ) as Owner
-          //     )
-          //   }
-          //   showInMenu
-          // />
         ]
       }
     ],
