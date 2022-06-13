@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import DownloadIcon from '@mui/icons-material/Download';
 import UploadIcon from '@mui/icons-material/Upload';
-import { Box, Typography, Modal, Button, Card } from '@mui/material';
+import { Box, Button, Card } from '@mui/material';
 import { DataGrid, GridColDef, GridToolbarContainer } from '@mui/x-data-grid';
 import { useFormik } from 'formik';
-import { CSVLink } from 'react-csv';
+import { Modal } from 'react-bootstrap';
 
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -13,6 +13,9 @@ import { AddressBook as AddressBookType } from 'pages/Organization/types';
 import { addressBookSelector } from 'redux/selectors/addressBookSelector';
 import { addEntry } from 'redux/slices/addressBookSlice';
 import { RootState } from 'redux/store';
+import ExportModal from './ExportModal';
+import ImportModal from './ImportModal';
+import NewEntryModal from './NewEntryModal';
 
 const columns: GridColDef[] = [
   {
@@ -34,6 +37,7 @@ let rows = [
 ];
 const AddressBook = () => {
   const [modalState, setModalState] = useState(false);
+  const [actionType, setActionType] = useState<string | null>(null);
   const dispatch = useDispatch();
 
   const toolbar = () => {
@@ -42,20 +46,31 @@ const AddressBook = () => {
         <>
           <Button
             startIcon={<DownloadIcon />}
-            onClick={() => setModalState(true)}
+            onClick={() => {
+              setActionType('import');
+              setModalState(true);
+            }}
           >
             Import
           </Button>
           <Button
             startIcon={<UploadIcon />}
-            onClick={() => setModalState(true)}
+            onClick={() => {
+              setActionType('export');
+              setModalState(true);
+            }}
           >
             Export
           </Button>
-          <Button startIcon={<AddIcon />} onClick={() => setModalState(true)}>
+          <Button
+            startIcon={<AddIcon />}
+            onClick={() => {
+              setActionType('new');
+              setModalState(true);
+            }}
+          >
             Create entry
           </Button>
-          <CSVLink data={csvData}>Download me</CSVLink>
         </>
       </GridToolbarContainer>
     );
@@ -88,15 +103,33 @@ const AddressBook = () => {
     validateOnChange: true,
     validateOnMount: true
   });
+  const importForm = useFormik({
+    initialValues: {
+      address: '',
+      name: ''
+    },
+    onSubmit: ({ address, name }) => {
+      dispatch(addEntry({ address, name }));
+      setModalState(false);
+    },
+    validationSchema,
+    validateOnChange: true,
+    validateOnMount: true
+  });
 
-  const csvHeaders = ['Address', 'Name'];
-  const csvData = [
-    csvHeaders,
-    ...Object.entries(addressBook).map(([key, value]) => [key, value])
-  ];
-
-  // const { touched, errors, values } = createEntryForm;
-  // const { address, name } = values;
+  const exportForm = useFormik({
+    initialValues: {
+      address: '',
+      name: ''
+    },
+    onSubmit: ({ address, name }) => {
+      dispatch(addEntry({ address, name }));
+      setModalState(false);
+    },
+    validationSchema,
+    validateOnChange: true,
+    validateOnMount: true
+  });
 
   return (
     <div className='container'>
@@ -112,36 +145,35 @@ const AddressBook = () => {
         />
       </Box>
       <Modal
+        show={modalState}
+        size='lg'
         className='modal-container'
-        open={modalState}
-        onClose={() => setModalState(false)}
+        animation={false}
+        centered
+        onHide={() => {
+          setModalState(false);
+          setActionType(null);
+        }}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
       >
-        <Card>
-          <Typography id='modal-modal-title' variant='h6' component='h2'>
-            Text in a modal
-          </Typography>
-          <form onSubmit={createEntryForm.handleSubmit}>
-            <label htmlFor='address'>Address</label>
-            <input
-              id='address'
-              name='address'
-              type='text'
-              onChange={createEntryForm.handleChange}
-              value={createEntryForm.values.address}
-            />
-            <label htmlFor='name'>Name</label>
-            <input
-              id='name'
-              name='name'
-              type='text'
-              onChange={createEntryForm.handleChange}
-              value={createEntryForm.values.name}
-            />
-            <button type='submit'>Submit</button>
-          </form>
-        </Card>
+        <div className='card'>
+          <div className='card-body'>
+            <div className='modal-control-container'>
+              {actionType === 'new' && <NewEntryModal form={createEntryForm} />}
+              {actionType === 'export' && (
+                <ExportModal
+                  handleClose={() => {
+                    setModalState(false);
+                    setActionType(null);
+                  }}
+                  addressBook={addressBook}
+                />
+              )}
+              {actionType === 'import' && <ImportModal form={importForm} />}
+            </div>
+          </div>
+        </div>
       </Modal>
     </div>
   );
