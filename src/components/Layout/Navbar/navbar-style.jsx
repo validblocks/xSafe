@@ -64,7 +64,6 @@ export const MembersBox = styled(Box)`
   width: 91px;
   margin: auto;
   background-color: #f0f1fd;
-<<<<<<< HEAD
   border-radius: ${(props) => {
     return props.theme.shape.radius;
   }};
@@ -72,11 +71,6 @@ export const MembersBox = styled(Box)`
   color: ${(props) => {
     return props.theme.palette.primary.main;
   }};
-=======
-  border-radius: 6px;
-  margin-top: 10px;
-  color: var(--primary-color);
->>>>>>> 70aaed1 (style(styledComponents): added styled components instead of scss style)
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 

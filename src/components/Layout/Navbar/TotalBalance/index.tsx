@@ -190,7 +190,13 @@ const TotalBalance = () => {
   }, [totalUsdValue]);
 
   return (
-    <Box sx={{ pt: 1 }}>
+    <Box
+      sx={{
+        pt: 1,
+        display: { sm: 'block', xs: 'flex' },
+        justifyContent: { sm: 'center', xs: 'space-around' }
+      }}
+    >
       <Box>
         <CenteredText>Total balance:</CenteredText>
         <Box className='d-flex justify-content-center'>

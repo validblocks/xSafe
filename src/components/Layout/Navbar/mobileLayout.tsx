@@ -9,7 +9,7 @@ import Safe from 'assets/img/safe.png';
 import SafeOptions from 'components/SafeOptions';
 import addressShorthand from 'helpers/addressShorthand';
 import menuItems from 'utils/menuItems';
-import { MobileMenu, TopMobileMenu } from './navbar-style';
+import { MobileMenu, MobileSecondaryMenu, TopMobileMenu } from './navbar-style';
 import TotalBalance from './TotalBalance';
 import { uniqueContractAddress } from 'multisigConfig';
 
@@ -104,7 +104,7 @@ const MobileLayout = () => {
           ))}
         </MobileMenu>
       </Box>
-      <Box>
+      <MobileSecondaryMenu>
         {(locationString === 'assets' ||
           locationString === 'tokens' ||
           locationString === 'nft') && (
@@ -133,7 +133,7 @@ const MobileLayout = () => {
             </Box>
           </Box>
         )}
-      </Box>
+      </MobileSecondaryMenu>
     </Box>
   );
 };
