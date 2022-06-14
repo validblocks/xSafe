@@ -18,6 +18,7 @@ export const ConnectDropdown = styled(Menu)`
 `;
 
 export const ConnectItems = styled(Box)`
+<<<<<<< HEAD
   background-color: ${(props) => {
     return props.theme.palette.background.main;
   }};
@@ -27,6 +28,11 @@ export const ConnectItems = styled(Box)`
   border-radius: ${(props) => {
     return props.theme.shape.radius;
   }};
+=======
+  background: var(--primary-background);
+  color: var(--primary-color);
+  border-radius: var(--radius);
+>>>>>>> 70aaed1 (style(styledComponents): added styled components instead of scss style)
 `;
 
 export const Anchor = styled.a`
@@ -34,6 +40,7 @@ export const Anchor = styled.a`
 `;
 
 export const CopyBtn = styled(CopyButton)`
+<<<<<<< HEAD
   color: ${(props) => {
     return props.theme.palette.anchor.main;
   }} !important;
@@ -62,6 +69,23 @@ export const ReadOnly = styled(Typography)`
   border-radius: ${(props) => {
     return props.theme.shape.radius;
   }};
+=======
+  color: var(--link) !important;
+`;
+
+export const DisconnectButton = styled(Button)`
+  color: var(--danger-color);
+  border: 1px solid var(--danger-color);
+  padding: 10px 16px;
+  margin-top: 0px;
+  top: 15px;
+  border-radius: var(--radius);
+  background: var(--danger-background);
+`;
+
+export const ReadOnly = styled(Typography)`
+  border-radius: var(--radius);
+>>>>>>> 70aaed1 (style(styledComponents): added styled components instead of scss style)
   background: rgba(8, 4, 29, 0.1);
   color: #7a7883;
 `;
@@ -70,6 +94,7 @@ export const MembersBox = styled(Box)`
   width: 91px;
   margin: auto;
   background-color: #f0f1fd;
+<<<<<<< HEAD
   border-radius: ${(props) => {
     return props.theme.shape.radius;
   }};
@@ -77,6 +102,11 @@ export const MembersBox = styled(Box)`
   color: ${(props) => {
     return props.theme.palette.primary.main;
   }};
+=======
+  border-radius: 6px;
+  margin-top: 10px;
+  color: var(--primary-color);
+>>>>>>> 70aaed1 (style(styledComponents): added styled components instead of scss style)
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
@@ -131,9 +161,13 @@ export const TopMenu = styled(Box)`
 
 export const ListItem = styled(ListItemButton)`
   &:hover {
+<<<<<<< HEAD
     color: ${(props) => {
       return props.theme.palette.primary.main;
     }};
+=======
+    color: var(--primary-color);
+>>>>>>> 70aaed1 (style(styledComponents): added styled components instead of scss style)
     background-color: #f5f7ff !important;
   }
 `;
@@ -159,6 +193,7 @@ export const BottomMenu = styled(List)`
   width: 100%;
   z-index: 9;
 `;
+<<<<<<< HEAD
 
 // Mobile Layout
 
@@ -184,3 +219,5 @@ export const TopMobileMenu = styled(Box)`
     return props.theme.shape.radius;
   }};
 `;
+=======
+>>>>>>> 70aaed1 (style(styledComponents): added styled components instead of scss style)

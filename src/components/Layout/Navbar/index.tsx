@@ -1,31 +1,31 @@
-import React, { useState, useEffect } from 'react';
-import { getIsLoggedIn } from '@elrondnetwork/dapp-core';
-import CloseIcon from '@mui/icons-material/Close';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MenuIcon from '@mui/icons-material/Menu';
-import { List, Accordion } from '@mui/material';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
-import MuiDrawer from '@mui/material/Drawer';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
-import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-import { ReactComponent as Union } from 'assets/img/Union.svg';
-import { dAppName } from 'config';
-import addressShorthand from 'helpers/addressShorthand';
-import { uniqueContractAddress } from 'multisigConfig';
-import { routeNames } from 'routes';
-import menuItems from 'utils/menuItems';
-import AccountDetails from './NavbarAccountDetails';
-import Network from './Network';
-import './menu.scss';
-import { useLocation } from 'react-router-dom';
-import PageBreadcrumbs from '../Breadcrumb';
+import React, { useState, useEffect } from "react";
+import { getIsLoggedIn } from "@elrondnetwork/dapp-core";
+import CloseIcon from "@mui/icons-material/Close";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import MenuIcon from "@mui/icons-material/Menu";
+import { List, Accordion } from "@mui/material";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import CssBaseline from "@mui/material/CssBaseline";
+import Divider from "@mui/material/Divider";
+import MuiDrawer from "@mui/material/Drawer";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import { Navbar as BsNavbar, NavItem, Nav } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import { ReactComponent as Union } from "assets/img/Union.svg";
+import { dAppName } from "config";
+import addressShorthand from "helpers/addressShorthand";
+import { uniqueContractAddress } from "multisigConfig";
+import { routeNames } from "routes";
+import menuItems from "utils/menuItems";
+import AccountDetails from "./NavbarAccountDetails";
+import Network from "./Network";
+import "./menu.scss";
+import { useLocation } from "react-router-dom";
+import PageBreadcrumbs from "../Breadcrumb";
 import {
   TopHeader,
   NavLogo,
@@ -36,48 +36,48 @@ import {
   BreadcrumbsWrapper,
   MenuAccordion,
   AccordionDetail,
-  BottomMenu
-} from './navbar-style';
+  BottomMenu,
+} from "./navbar-style";
 
 const drawerWidth = 255;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen
+    duration: theme.transitions.duration.enteringScreen,
   }),
-  overflowX: 'hidden'
+  overflowX: "hidden",
 });
 
 const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create('width', {
+  transition: theme.transitions.create("width", {
     easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
+    duration: theme.transitions.duration.leavingScreen,
   }),
-  overflowX: 'hidden',
+  overflowX: "hidden",
   width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`
-  }
+  [theme.breakpoints.up("sm")]: {
+    width: `calc(${theme.spacing(8)} + 1px)`,
+  },
 });
 
 const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== 'open'
+  shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
   zIndex: 1,
-  whiteSpace: 'nowrap',
-  boxSizing: 'border-box',
+  whiteSpace: "nowrap",
+  boxSizing: "border-box",
   ...(open && {
     ...openedMixin(theme),
-    '& .MuiDrawer-paper': openedMixin(theme)
+    "& .MuiDrawer-paper": openedMixin(theme),
   }),
   ...(!open && {
     ...closedMixin(theme),
-    '& .MuiDrawer-paper': closedMixin(theme)
-  })
+    "& .MuiDrawer-paper": closedMixin(theme),
+  }),
 }));
 
 export default function MiniDrawer() {
@@ -92,14 +92,14 @@ export default function MiniDrawer() {
 
   const handleRedirectToHome = () => {
     const route = uniqueContractAddress
-      ? '/multisig/' + uniqueContractAddress
+      ? "/multisig/" + uniqueContractAddress
       : routeNames.welcome;
     navigate(route);
   };
 
   const isOnUnlockPage = window.location.pathname.includes(routeNames.unlock);
 
-  const [walletAddress, setWalletAddress] = useState('');
+  const [walletAddress, setWalletAddress] = useState("");
 
   useEffect(() => {
     setWalletAddress(addressShorthand(uniqueContractAddress));
@@ -111,20 +111,20 @@ export default function MiniDrawer() {
       setExpanded(isExpanded ? panel : false);
     };
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <Drawer variant='permanent' open={open} className='drawer-wrapper'>
-        <BsNavbar className='px-4 py-3'>
+      <Drawer variant="permanent" open={open} className="drawer-wrapper">
+        <BsNavbar className="px-4 py-3">
           <NavLogo
             onClick={handleRedirectToHome}
-            className='d-flex align-items-center'
+            className="d-flex align-items-center"
           >
             <Logo />
-            <DappName className='d-flex align-items-center'>
+            <DappName className="d-flex align-items-center">
               {dAppName}
             </DappName>
           </NavLogo>
-          <Nav className='ml-auto align-items-center'></Nav>
+          <Nav className="ml-auto align-items-center"></Nav>
         </BsNavbar>
         <Divider />
         <List sx={{ mt: 1 }}>
@@ -138,26 +138,26 @@ export default function MiniDrawer() {
                 <Accordion
                   expanded={expanded === `${el.id}`}
                   onChange={handleChange(`${el.id}`)}
-                  sx={{ boxShadow: 'none' }}
+                  sx={{ boxShadow: "none" }}
                 >
                   <MenuAccordion
-                    aria-controls='panel1a-content'
+                    aria-controls="panel1a-content"
                     expandIcon={<ExpandMoreIcon />}
-                    id='panel1a-header'
+                    id="panel1a-header"
                     sx={{ pl: 0 }}
                   >
                     <ListItem
                       sx={{
                         minHeight: 48,
-                        justifyContent: open ? 'initial' : 'center',
-                        px: 2.5
+                        justifyContent: open ? "initial" : "center",
+                        px: 2.5,
                       }}
                     >
                       <ListItemIcon
                         sx={{
                           minWidth: 0,
-                          mr: open ? 3 : 'auto',
-                          justifyContent: 'center'
+                          mr: open ? 3 : "auto",
+                          justifyContent: "center",
                         }}
                       >
                         {el.icon}
@@ -175,24 +175,24 @@ export default function MiniDrawer() {
                           to={el.link}
                           className={
                             locationString == el.link
-                              ? 'active link-decoration'
-                              : 'link-decoration'
+                              ? "active link-decoration"
+                              : "link-decoration"
                           }
                         >
                           <ListItem
                             sx={{
                               minHeight: 48,
-                              justifyContent: open ? 'initial' : 'center',
+                              justifyContent: open ? "initial" : "center",
                               px: 2.5,
                               ml: 0,
-                              pl: 5
+                              pl: 5,
                             }}
                           >
                             <ListItemIcon
                               sx={{
                                 minWidth: 0,
-                                mr: open ? 3 : 'auto',
-                                justifyContent: 'center'
+                                mr: open ? 3 : "auto",
+                                justifyContent: "center",
                               }}
                             ></ListItemIcon>
                             <ListItemText
@@ -211,22 +211,22 @@ export default function MiniDrawer() {
                   to={el.link}
                   className={
                     locationString == el.link
-                      ? 'active link-decoration'
-                      : 'link-decoration'
+                      ? "active link-decoration"
+                      : "link-decoration"
                   }
                 >
                   <ListItem
                     sx={{
                       minHeight: 48,
-                      justifyContent: open ? 'initial' : 'center',
-                      px: 2.5
+                      justifyContent: open ? "initial" : "center",
+                      px: 2.5,
                     }}
                   >
                     <ListItemIcon
                       sx={{
                         minWidth: 0,
-                        mr: open ? 3 : 'auto',
-                        justifyContent: 'center'
+                        mr: open ? 3 : "auto",
+                        justifyContent: "center",
                       }}
                     >
                       {el.icon}
@@ -250,22 +250,22 @@ export default function MiniDrawer() {
                 to={el.link}
                 className={
                   locationString == el.link
-                    ? 'active link-decoration'
-                    : 'link-decoration'
+                    ? "active link-decoration"
+                    : "link-decoration"
                 }
               >
                 <ListItem
                   sx={{
                     minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
                   }}
                 >
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center'
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
                     }}
                   >
                     {el.icon}
