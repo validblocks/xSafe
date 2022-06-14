@@ -191,12 +191,14 @@ const TotalBalance = () => {
 
   return (
     <Box sx={{ pt: 1 }}>
-      <CenteredText>Total balance:</CenteredText>
-      <Box className='d-flex justify-content-center'>
-        <CenteredText fontSize='16px' fontWeight='bold'>
-          ≈{currencyConverted?.toFixed(2)}
-          {getCurrency}
-        </CenteredText>
+      <Box>
+        <CenteredText>Total balance:</CenteredText>
+        <Box className='d-flex justify-content-center'>
+          <CenteredText fontSize='16px' fontWeight='bold'>
+            ≈{currencyConverted?.toFixed(2)}
+            {getCurrency}
+          </CenteredText>
+        </Box>
       </Box>
       <Box className='d-flex justify-content-center' sx={{ pb: 1 }}>
         <MainButton variant='outlined' onClick={onAddBoardMember}>

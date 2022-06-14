@@ -1,36 +1,36 @@
-import React, { useEffect } from "react";
+import React, { useEffect } from 'react';
 
-import { styled, useTheme, Theme, CSSObject } from "@mui/material/styles";
+import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import {
   AuthenticatedRoutesWrapper,
   refreshAccount,
   useGetAccountInfo,
-  useGetLoginInfo,
-} from "@elrondnetwork/dapp-core";
-import { Box } from "@mui/material";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { getAccountData } from "apiCalls/accountCalls";
-import PageBreadcrumbs from "./Breadcrumb";
-import { getEconomicsData } from "apiCalls/economicsCalls";
-import { getUserMultisigContractsList } from "apiCalls/multisigContractsCalls";
-import { uniqueContractAddress, uniqueContractName } from "multisigConfig";
-import ProposersTable from "pages/Organization/ProposersTable";
-import { setAccountData } from "redux/slices/accountSlice";
-import { setEconomics } from "redux/slices/economicsSlice";
-import { setMultisigContracts } from "redux/slices/multisigContractsSlice";
-import routes, { routeNames } from "routes";
-("");
-import { accessTokenServices, storageApi } from "services/accessTokenServices";
-import { TokenWrapper } from "../TokenWrapper";
-import ModalLayer from "./Modal";
-import SidebarSelectOptionModal from "./Modal/sidebarSelectOptionModal";
-import Navbar from "./Navbar";
-import MobileLayout from "./Navbar/mobileLayout";
-import Account from "./Navbar/Account";
-import { Main } from "components/Theme/StyledComponents";
+  useGetLoginInfo
+} from '@elrondnetwork/dapp-core';
+import { Box } from '@mui/material';
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { getAccountData } from 'apiCalls/accountCalls';
+import PageBreadcrumbs from './Breadcrumb';
+import { getEconomicsData } from 'apiCalls/economicsCalls';
+import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
+import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
+import ProposersTable from 'pages/Organization/ProposersTable';
+import { setAccountData } from 'redux/slices/accountSlice';
+import { setEconomics } from 'redux/slices/economicsSlice';
+import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
+import routes, { routeNames } from 'routes';
+('');
+import { accessTokenServices, storageApi } from 'services/accessTokenServices';
+import { TokenWrapper } from '../TokenWrapper';
+import ModalLayer from './Modal';
+import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
+import Navbar from './Navbar';
+import MobileLayout from './Navbar/mobileLayout';
+import Account from './Navbar/Account';
+import { Main } from 'components/Theme/StyledComponents';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();
@@ -46,7 +46,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     open?: boolean;
   }
 
-  const loggedIn = loginMethod != "";
+  const loggedIn = loginMethod != '';
   React.useEffect(() => {
     if (loggedIn) {
       refreshAccount();
@@ -67,7 +67,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     if (uniqueContractAddress || storageApi == null) {
       dispatch(
         setMultisigContracts([
-          { address: uniqueContractAddress, name: uniqueContractName ?? "" },
+          { address: uniqueContractAddress, name: uniqueContractName ?? '' }
         ])
       );
       return;
@@ -91,41 +91,45 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       dispatch(setAccountData(accountData));
     }
   }
-  const width = useMediaQuery("(min-width:600px)");
+  const width = useMediaQuery('(min-width:600px)');
 
   const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== "open",
+    shouldForwardProp: (prop) => prop !== 'open'
   })<AppBarProps>(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(["width", "margin"], {
+    transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: theme.transitions.duration.leavingScreen
     }),
-    boxShadow: "unset",
-    borderBottom: "1px solid #e0e0e0",
-    right: "auto",
-    left: "auto",
+    boxShadow: 'unset',
+    borderBottom: '1px solid #e0e0e0',
+    right: 'auto',
+    left: 'auto'
   }));
 
   return (
-    <div className="flex-row flex-fill wrapper page-wrapper">
+    <div className='flex-row flex-fill wrapper page-wrapper'>
       {width ? <Navbar /> : <MobileLayout />}
 
-      <Main className=" flex-row flex-fill position-relative justify-center">
-        <AppBar sx={{ width: "calc(100% - 255px)", zIndex: "0" }}>
-          <Box
-            className="d-flex justify-content-between px-4 py-3 align-items-center coo"
-            sx={{
-              position: "absolute",
-              width: "100%",
-            }}
-          >
-            <Box>
-              <PageBreadcrumbs />
+      <Main className=' flex-row flex-fill position-relative justify-center'>
+        <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '0' }}>
+          {width ? (
+            <Box
+              className='d-flex justify-content-between px-4 py-3 align-items-center'
+              sx={{
+                position: 'absolute',
+                width: '100%'
+              }}
+            >
+              <Box>
+                <PageBreadcrumbs />
+              </Box>
+              <Account />
+              {/* <Network /> */}
             </Box>
-            <Account />
-            {/* <Network /> */}
-          </Box>
+          ) : (
+            ''
+          )}
         </AppBar>
         <AuthenticatedRoutesWrapper
           routes={routes}
