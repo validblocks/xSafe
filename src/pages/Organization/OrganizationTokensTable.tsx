@@ -167,7 +167,6 @@ const OrganizationsTokensTable = () => {
                 ) as Owner
               )
             }
-            showInMenu
           />
         ]
       }

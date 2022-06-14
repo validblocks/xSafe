@@ -17,9 +17,14 @@ export const addressBookSlice = createSlice({
         ...state,
         addressBook: { ...state.addressBook, [address]: name }
       };
+    },
+    removeEntry(state: StateType, { payload: { address } }: any) {
+      console.log(address);
+      delete state.addressBook[address];
+      return state;
     }
   }
 });
 
-export const { addEntry } = addressBookSlice.actions;
+export const { addEntry, removeEntry } = addressBookSlice.actions;
 export default addressBookSlice.reducer;

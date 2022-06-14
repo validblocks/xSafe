@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
+import DeleteIcon from '@mui/icons-material/Delete';
 import DownloadIcon from '@mui/icons-material/Download';
+import EditIcon from '@mui/icons-material/Edit';
 import UploadIcon from '@mui/icons-material/Upload';
-import { Box, Button, Card } from '@mui/material';
-import { DataGrid, GridColDef, GridToolbarContainer } from '@mui/x-data-grid';
+import { Box, Button } from '@mui/material';
+import {
+  DataGrid,
+  GridActionsCellItem,
+  GridToolbarContainer
+} from '@mui/x-data-grid';
 import { useFormik } from 'formik';
 import { Modal } from 'react-bootstrap';
 
@@ -11,33 +17,53 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { AddressBook as AddressBookType } from 'pages/Organization/types';
 import { addressBookSelector } from 'redux/selectors/addressBookSelector';
-import { addEntry } from 'redux/slices/addressBookSlice';
+import { addEntry, removeEntry } from 'redux/slices/addressBookSlice';
 import { RootState } from 'redux/store';
 import ExportModal from './ExportModal';
 import ImportModal from './ImportModal';
 import NewEntryModal from './NewEntryModal';
-
-const columns: GridColDef[] = [
-  {
-    field: 'name',
-    headerName: 'Name',
-    width: 150,
-    editable: true
-  },
-  {
-    field: 'address',
-    headerName: 'Address',
-    width: 150,
-    editable: true
-  }
-];
-let rows = [
-  { id: 1, name: 'Snow', address: 'Jon' },
-  { id: 2, name: 'Lannister', address: 'Cersei' }
-];
 const AddressBook = () => {
+  const onRemoveEntry = (address: string) => {
+    dispatch(removeEntry({ address }));
+  };
+  const onEditEntry = (address: string) => {
+    setSelectedAddress(address);
+    setActionType('new');
+    setModalState(true);
+  };
+  const columns = [
+    {
+      field: 'name',
+      headerName: 'Name'
+    },
+    {
+      field: 'address',
+      headerName: 'Address'
+    },
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: 'Action',
+      getActions: (params: any) => [
+        <GridActionsCellItem
+          key={params.id}
+          icon={<DeleteIcon />}
+          label='Delete'
+          onClick={() => onRemoveEntry(params.id)}
+        />,
+        <GridActionsCellItem
+          key={params.id}
+          icon={<EditIcon />}
+          label='Edit Entry'
+          onClick={() => onEditEntry(params.id)}
+        />
+      ]
+    }
+  ];
+
   const [modalState, setModalState] = useState(false);
   const [actionType, setActionType] = useState<string | null>(null);
+  const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
   const dispatch = useDispatch();
 
   const toolbar = () => {
@@ -79,10 +105,10 @@ const AddressBook = () => {
   const addressBook = useSelector<RootState, AddressBookType>(
     addressBookSelector
   );
-  rows = Object.entries(addressBook).map(([key, value], index) => ({
-    id: index + 1,
-    name: key,
-    address: value
+  const rows = Object.entries(addressBook).map(([key, value]) => ({
+    id: key,
+    address: key,
+    name: value
   }));
 
   const validationSchema = Yup.object().shape({
@@ -91,33 +117,6 @@ const AddressBook = () => {
   });
 
   const createEntryForm = useFormik({
-    initialValues: {
-      address: '',
-      name: ''
-    },
-    onSubmit: ({ address, name }) => {
-      dispatch(addEntry({ address, name }));
-      setModalState(false);
-    },
-    validationSchema,
-    validateOnChange: true,
-    validateOnMount: true
-  });
-  const importForm = useFormik({
-    initialValues: {
-      address: '',
-      name: ''
-    },
-    onSubmit: ({ address, name }) => {
-      dispatch(addEntry({ address, name }));
-      setModalState(false);
-    },
-    validationSchema,
-    validateOnChange: true,
-    validateOnMount: true
-  });
-
-  const exportForm = useFormik({
     initialValues: {
       address: '',
       name: ''
@@ -151,8 +150,10 @@ const AddressBook = () => {
         animation={false}
         centered
         onHide={() => {
-          setModalState(false);
+          setSelectedAddress(null);
           setActionType(null);
+          setModalState(false);
+          createEntryForm.resetForm();
         }}
         aria-labelledby='modal-modal-title'
         aria-describedby='modal-modal-description'
@@ -160,7 +161,13 @@ const AddressBook = () => {
         <div className='card'>
           <div className='card-body'>
             <div className='modal-control-container'>
-              {actionType === 'new' && <NewEntryModal form={createEntryForm} />}
+              {actionType === 'new' && (
+                <NewEntryModal
+                  form={createEntryForm}
+                  selectedAddress={selectedAddress}
+                  addressBook={addressBook}
+                />
+              )}
               {actionType === 'export' && (
                 <ExportModal
                   handleClose={() => {
@@ -170,7 +177,14 @@ const AddressBook = () => {
                   addressBook={addressBook}
                 />
               )}
-              {actionType === 'import' && <ImportModal form={importForm} />}
+              {actionType === 'import' && (
+                <ImportModal
+                  handleClose={() => {
+                    setModalState(false);
+                    setActionType(null);
+                  }}
+                />
+              )}
             </div>
           </div>
         </div>
