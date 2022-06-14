@@ -1,23 +1,30 @@
 /* Bootstrap overrides
 -------------------------------------------------- */
 // Fonts
-@import "./fonts";
-@import "./variables";
+@import './fonts';
+@import './variables';
 
 $headings-font-weight: 300 !important;
 $primary: #4c2ffc;
 $light: #fafafa;
 $a: #1392ff;
 
+// Theme variables
+:root {
+  --text-color: #4c2ffc;
+  --button-background: #4c2ffc1a;
+  --button-shadow: #4c2ffc2e;
+}
+
 /* Do not move the imports from here. 
 Override Bootstrap variables only above.
 -------------------------------------------------- */
 
 // Bootstrap
-@import "./../../../node_modules/bootstrap/scss/bootstrap.scss";
+@import './../../../node_modules/bootstrap/scss/bootstrap.scss';
 
 // Progress bar
-@import "./../../../node_modules/react-circular-progressbar/dist/styles.css";
+// @import './../../../node_modules/react-circular-progressbar/dist/styles.css';
 
 /* Base
 -------------------------------------------------- */
@@ -139,7 +146,7 @@ a,
     color: #9ba5b4;
     margin-left: 1.6428571428571428rem;
     &:before {
-      content: "";
+      content: '';
       display: block;
       width: 1px;
       height: toRem(42);
