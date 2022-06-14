@@ -60,6 +60,10 @@ export const ReadOnly = styled(Typography)`
   color: #7a7883;
 `;
 
+export const Anchor = styled.a`
+  color: #7a7883;
+`;
+
 export const MembersBox = styled(Box)`
   width: 91px;
   margin: auto;

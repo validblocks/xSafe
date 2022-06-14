@@ -20,7 +20,6 @@ import TotalBalance from './TotalBalance';
 import { uniqueContractAddress } from 'multisigConfig';
 import Divider from '@mui/material/Divider';
 import NavbarLogo from './Logo';
-import { uniqueContractAddress } from 'multisigConfig';
 
 const MobileLayout = () => {
   const locationString = location.pathname.substring(1);
