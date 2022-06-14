@@ -3,29 +3,19 @@ import { getIsLoggedIn } from '@elrondnetwork/dapp-core';
 import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import MenuIcon from '@mui/icons-material/Menu';
-import {
-  Grid,
-  Typography,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  ListItem
-} from '@mui/material';
+import { List, Accordion } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
-import { dAppName } from 'config';
 import addressShorthand from 'helpers/addressShorthand';
 import { uniqueContractAddress } from 'multisigConfig';
 import { routeNames } from 'routes';
@@ -35,6 +25,16 @@ import Network from './Network';
 import './menu.scss';
 import { useLocation } from 'react-router-dom';
 import PageBreadcrumbs from '../Breadcrumb';
+import {
+  TopHeader,
+  TopMenu,
+  ListItem,
+  BreadcrumbsWrapper,
+  MenuAccordion,
+  AccordionDetail,
+  BottomMenu
+} from './navbar-style';
+import NavbarLogo from './Logo';
 
 const drawerWidth = 255;
 
@@ -59,27 +59,12 @@ const closedMixin = (theme: Theme): CSSObject => ({
   }
 });
 
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open'
-})<AppBarProps>(({ theme }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen
-  }),
-  boxShadow: 'unset',
-  borderBottom: '1px solid #e0e0e0'
-}));
-
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== 'open'
 })(({ theme, open }) => ({
   width: drawerWidth,
   flexShrink: 0,
+  zIndex: 1,
   whiteSpace: 'nowrap',
   boxSizing: 'border-box',
   ...(open && {
@@ -99,13 +84,12 @@ export default function MiniDrawer() {
 
   const [open, setOpen] = React.useState(true);
 
-  const navigate = useNavigate();
   const loggedIn = getIsLoggedIn();
-
+  const navigate = useNavigate();
   const handleRedirectToHome = () => {
     const route = uniqueContractAddress
       ? '/multisig/' + uniqueContractAddress
-      : routeNames.home;
+      : routeNames.welcome;
     navigate(route);
   };
 
@@ -114,8 +98,9 @@ export default function MiniDrawer() {
   const [walletAddress, setWalletAddress] = useState('');
 
   useEffect(() => {
-    setWalletAddress(addressShorthand());
+    setWalletAddress(addressShorthand(uniqueContractAddress));
   }, []);
+
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -126,13 +111,7 @@ export default function MiniDrawer() {
       <CssBaseline />
       <Drawer variant='permanent' open={open} className='drawer-wrapper'>
         <BsNavbar className='px-4 py-3'>
-          <NavItem
-            onClick={handleRedirectToHome}
-            className='d-flex align-items-center nav-logo'
-          >
-            <ElrondLogo className='elrond-logo' />
-            <span className='dapp-name'>{dAppName}</span>
-          </NavItem>
+          <NavbarLogo />
           <Nav className='ml-auto align-items-center'></Nav>
         </BsNavbar>
         <Divider />
@@ -140,7 +119,7 @@ export default function MiniDrawer() {
           <AccountDetails uniqueAddress={walletAddress} />
           <Divider />
         </List>
-        <Box className='first-menu'>
+        <TopMenu>
           {menuItems.topItems.map((el, index) => (
             <div key={index}>
               {el.submenu && (
@@ -149,15 +128,13 @@ export default function MiniDrawer() {
                   onChange={handleChange(`${el.id}`)}
                   sx={{ boxShadow: 'none' }}
                 >
-                  <AccordionSummary
+                  <MenuAccordion
                     aria-controls='panel1a-content'
                     expandIcon={<ExpandMoreIcon />}
                     id='panel1a-header'
-                    className='menu-accordion'
-                    sx={{ paddingLeft: '0px' }}
+                    sx={{ pl: 0 }}
                   >
-                    <ListItemButton
-                      className='link-hover'
+                    <ListItem
                       sx={{
                         minHeight: 48,
                         justifyContent: open ? 'initial' : 'center',
@@ -177,14 +154,11 @@ export default function MiniDrawer() {
                         primary={el.name}
                         sx={{ opacity: open ? 1 : 0 }}
                       />
-                    </ListItemButton>
-                  </AccordionSummary>
+                    </ListItem>
+                  </MenuAccordion>
                   {el.submenu?.map((el, index) => {
                     return (
-                      <AccordionDetails
-                        key={index}
-                        className='accordion-details-link'
-                      >
+                      <AccordionDetail key={index} sx={{ p: 0 }}>
                         <Link
                           to={el.link}
                           className={
@@ -193,12 +167,13 @@ export default function MiniDrawer() {
                               : 'link-decoration'
                           }
                         >
-                          <ListItemButton
-                            className='link-hover'
+                          <ListItem
                             sx={{
                               minHeight: 48,
                               justifyContent: open ? 'initial' : 'center',
-                              px: 2.5
+                              px: 2.5,
+                              ml: 0,
+                              pl: 5
                             }}
                           >
                             <ListItemIcon
@@ -212,9 +187,9 @@ export default function MiniDrawer() {
                               primary={el.name}
                               sx={{ opacity: open ? 1 : 0 }}
                             />
-                          </ListItemButton>
+                          </ListItem>
                         </Link>
-                      </AccordionDetails>
+                      </AccordionDetail>
                     );
                   })}
                 </Accordion>
@@ -228,8 +203,7 @@ export default function MiniDrawer() {
                       : 'link-decoration'
                   }
                 >
-                  <ListItemButton
-                    className='link-hover'
+                  <ListItem
                     sx={{
                       minHeight: 48,
                       justifyContent: open ? 'initial' : 'center',
@@ -249,13 +223,13 @@ export default function MiniDrawer() {
                       primary={el.name}
                       sx={{ opacity: open ? 1 : 0 }}
                     />
-                  </ListItemButton>
+                  </ListItem>
                 </Link>
               )}
             </div>
           ))}
-        </Box>
-        <List className='bottom-items'>
+        </TopMenu>
+        <BottomMenu>
           <Divider sx={{ mt: 1 }} />
           {menuItems.bottomItems.map((el, index) => {
             return (
@@ -268,8 +242,7 @@ export default function MiniDrawer() {
                     : 'link-decoration'
                 }
               >
-                <ListItemButton
-                  className='link-hover'
+                <ListItem
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? 'initial' : 'center',
@@ -289,11 +262,11 @@ export default function MiniDrawer() {
                     primary={el.name}
                     sx={{ opacity: open ? 1 : 0 }}
                   />
-                </ListItemButton>
+                </ListItem>
               </Link>
             );
           })}
-        </List>
+        </BottomMenu>
       </Drawer>
     </Box>
   );

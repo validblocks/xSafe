@@ -3,6 +3,8 @@ import { RouteType as DappCoreRouteTypes } from '@elrondnetwork/dapp-core';
 import { dAppName } from 'config';
 import AssetsPage from 'pages/AssetsPage/AssetsPage';
 import Decisions from 'pages/Decisions';
+import NftPage from 'pages/NftPage';
+import Organization from 'pages/Organization';
 import CvorumContainer from 'pages/Organization/CvorumContainer';
 import OrganizationTokens from 'pages/Organization/OrganizationTokens';
 import TransactionsPage from 'pages/Transactions/TransactionsPage';
@@ -11,7 +13,7 @@ import withPageTitle from './components/PageTitle';
 import AddressBook from './pages/AddressBook';
 import Dashboard from './pages/Dashboard';
 import DecisionActions from './pages/DecisionActions';
-import Home from './pages/Home';
+import Welcome from './pages/Welcome';
 import MultisigDetailsPage from './pages/MultisigDetails/MultisigDetailsPage';
 import Settings from './pages/Settings';
 
@@ -19,7 +21,7 @@ type RouteType = DappCoreRouteTypes & { title: string };
 
 export type ForegroundRoutesType =
   | 'unlock'
-  | 'home'
+  | 'welcome'
   | 'dashboard'
   | 'decisions'
   | 'decisionActions'
@@ -27,6 +29,7 @@ export type ForegroundRoutesType =
   | 'multisigAddress'
   | 'organizationTokens'
   | 'assets'
+  | 'nft'
   | 'cvorum'
   | 'owners'
   | 'transactions'
@@ -35,10 +38,10 @@ export type ForegroundRoutesType =
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
 export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
-  home: {
+  welcome: {
     path: '/',
-    title: 'Home',
-    component: Home
+    title: 'Welcome',
+    component: Welcome
   },
   dashboard: {
     path: '/dashboard',
@@ -84,6 +87,11 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/assets',
     title: 'Assets',
     component: AssetsPage
+  },
+  nft: {
+    path: '/nft',
+    title: 'NFT',
+    component: NftPage
   },
   transactions: {
     path: '/transactions',

@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import { getIsLoggedIn, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { Box, Button } from '@mui/material';
@@ -10,9 +9,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import ConnectedAccount from 'components/Layout/Navbar/ConnectedAccount';
+import { MainButton } from 'components/Theme/StyledComponents';
 import addressShorthand from 'helpers/addressShorthand';
 import Unlock from 'pages/Unlock';
 import { routeNames } from 'routes';
+import { ConnectDropdown } from '../navbar-style';
 
 const Account = () => {
   const { address } = useGetAccountInfo();
@@ -22,7 +23,6 @@ const Account = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>();
   const intervalRef = React.useRef<any>();
-
   const logoutOnSessionExpire = () => {
     intervalRef.current = setInterval(() => {
       const loggedIn = getIsLoggedIn();
@@ -38,6 +38,12 @@ const Account = () => {
     };
   };
 
+  const [walletAddress, setWalletAddress] = useState('');
+
+  useEffect(() => {
+    setWalletAddress(addressShorthand(address));
+  }, []);
+
   React.useEffect(logoutOnSessionExpire, [isLoggedIn]);
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -49,18 +55,13 @@ const Account = () => {
     setAnchorEl(null);
   };
   return (
-    <div className='connect-btns mr-2'>
-      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-        <Button
-          variant='outlined'
-          onClick={handleClick}
-          size='small'
-          className='connect-btn'
-        >
+    <div className='mr-2'>
+      <Box>
+        <MainButton variant='outlined' onClick={handleClick} size='large'>
           {loggedIn ? (
             <Box className='d-flex'>
               <BoltIcon />
-              <Typography>{addressShorthand()}</Typography>
+              <Typography>{walletAddress}</Typography>
             </Box>
           ) : (
             <Box className='d-flex'>
@@ -68,11 +69,10 @@ const Account = () => {
               <Typography>Connect</Typography>
             </Box>
           )}
-        </Button>
+        </MainButton>
       </Box>
-      <Menu
+      <ConnectDropdown
         anchorEl={anchorEl}
-        id='account-menu'
         open={open}
         onClose={handleClose}
         onClick={handleClose}
@@ -86,7 +86,7 @@ const Account = () => {
             <Unlock />
           </MenuItem>
         )}
-      </Menu>
+      </ConnectDropdown>
     </div>
   );
 };

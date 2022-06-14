@@ -1,6 +1,4 @@
-import { uniqueContractAddress } from 'multisigConfig';
-
-const addressShorthand = () => {
+const addressShorthand = (uniqueContractAddress: string) => {
   const walletAddressFirstElements =
     uniqueContractAddress.substring(0, 5) +
     '...' +

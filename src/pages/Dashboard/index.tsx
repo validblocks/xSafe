@@ -162,68 +162,7 @@ const Dashboard = () => {
   return (
     <>
       <div className='owner w-100 d-flex justify-content-center align-items-center flex-column'>
-        <div className='my-wallets'>
-          <div className='welcome text-center'>
-            <h2>
-              Welcome to Multisig
-              <span>
-                <img src={wawe} alt='wawe-icon' width='36' height='36' />
-              </span>
-            </h2>
-            <p>Create your own organization in a few minutes</p>
-          </div>
-          {multisigContracts.length == 0 ? (
-            <div className='c-o-wallet-card'>
-              <div className='d-flex wallet-spacer'>
-                {deployButtonContainer}
-
-                <button onClick={onAddMultisigClicked} className='shadow-sm'>
-                  <figure>
-                    <img src={OpenWallet} alt='create-wallet-icon' />
-                  </figure>
-                  <p className='action'>
-                    {t('Open wallet')}
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </p>
-                  <p className='info-text'>
-                    Search and explore existing organizations
-                  </p>
-                </button>
-              </div>
-            </div>
-          ) : (
-            <div className='wallets-section shadow bg-white'>
-              <div className='top-bar'>
-                <h3 className='title'>
-                  {uniqueContractAddress ? 'My wallet' : 'My wallets'}
-                </h3>
-                {!uniqueContractAddress && (
-                  <div className='create-btns d-flex'>
-                    {deployButtonSecondaryContainer}
-                    <button
-                      className='btn address-btn btn-light d-flex flex-row align-items-center'
-                      onClick={onAddMultisigClicked}
-                    >
-                      <FontAwesomeIcon icon={faWallet} size='lg' />
-                      <div className='navbar-address ml-2 d-lg-block'>Open</div>
-                    </button>
-                  </div>
-                )}
-              </div>
-              <div className='list-wallets'>
-                {multisigContracts.map((contract) => (
-                  <MultisigListItem
-                    key={contract.address}
-                    contract={contract}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
         <NewDashboard />
-
         <AddMultisigModal
           show={showAddMultisigModal}
           handleClose={() => {

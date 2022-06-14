@@ -1,26 +1,30 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   getIsLoggedIn,
   logout,
   useGetAccountInfo
 } from '@elrondnetwork/dapp-core';
-import { Ui } from '@elrondnetwork/dapp-utils';
-import { faUserCircle, faPowerOff } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Box, Typography, Button } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { SimplePaletteColorOptions } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Safe from 'assets/img/safe.png';
-import CopyButton from 'components/CopyButton';
+import { theme } from 'components/Theme/createTheme';
 import addressShorthand from 'helpers/addressShorthand';
-import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
+import { uniqueContractAddress } from 'multisigConfig';
 import { logoutAction } from 'redux/commonActions';
 import { usernameSelector } from 'redux/selectors/accountSelector';
 import { routeNames } from 'routes';
 import { accessTokenServices } from 'services/accessTokenServices';
-import './connectedAccount.scss';
+
+import {
+  ConnectItems,
+  Anchor,
+  CopyBtn,
+  DisconnectButton
+} from '../navbar-style';
 
 const ConnectedAccount = () => {
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>();
@@ -28,6 +32,12 @@ const ConnectedAccount = () => {
   const navigate = useNavigate();
   const username = useSelector(usernameSelector);
   const { address } = useGetAccountInfo();
+
+  const [walletAddress, setWalletAddress] = useState('');
+
+  useEffect(() => {
+    setWalletAddress(addressShorthand(address));
+  }, []);
 
   const logOut = async () => {
     document.cookie = '';
@@ -51,33 +61,34 @@ const ConnectedAccount = () => {
           <img src={Safe} />
         </Box>
         <Box sx={{ ml: 2 }}>
-          <Box className='d-flex connect-actions-btns' sx={{ p: 1 }}>
-            <Typography sx={{ mr: 2, ml: 1 }}>{addressShorthand()}</Typography>
+          <ConnectItems className='d-flex' sx={{ p: 1 }}>
+            <Typography sx={{ mr: 2, ml: 1 }}>
+              {addressShorthand(uniqueContractAddress)}
+            </Typography>
             <Box sx={{ mr: 2 }}>
-              <CopyButton className='link-color' text={uniqueContractAddress} />
+              <CopyBtn className='link-color' text={uniqueContractAddress} />
             </Box>
             <Box sx={{ mr: 1 }}>
-              <a
-                className='link-color'
+              <Anchor
                 href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
                 target='_blank'
                 rel='noreferrer'
+                color={theme.palette.secondary.main}
               >
                 <ContentPasteSearchIcon />
-              </a>
+              </Anchor>
             </Box>
-          </Box>
-          <Button
+          </ConnectItems>
+          <DisconnectButton
             variant='outlined'
-            className='btn address-btn btn-light d-flex flex-row align-items-center disconnect-wallet-btn'
             onClick={onDisconnectClick}
             sx={{ margin: 'auto', mt: 2, mb: 2 }}
           >
-            <div className='btn-name '>
+            <div>
               <LogoutIcon sx={{ mr: 1 }} />
-              <span className='disconnect'>Disconnect Wallet</span>
+              <span>Disconnect Wallet</span>
             </div>
-          </Button>
+          </DisconnectButton>
         </Box>
       </Box>
     </Box>

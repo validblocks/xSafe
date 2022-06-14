@@ -23,6 +23,7 @@
     cursor: pointer;
     border: none;
     background: transparent;
+    z-index: 1;
 
     svg {
       pointer-events: none;

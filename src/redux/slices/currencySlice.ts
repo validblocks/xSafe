@@ -26,7 +26,6 @@ export const currencySlice = createSlice({
       return { ...state, selectedCurrency: action.payload };
     },
     setValueInUsd(state: StateType, action: any) {
-      console.log(action, 'act');
       return { ...state, valueInUsd: action.payload };
     }
   }

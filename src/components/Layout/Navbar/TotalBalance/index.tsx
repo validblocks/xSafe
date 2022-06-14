@@ -1,16 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { getNetworkProxy } from '@elrondnetwork/dapp-core';
+import { operations, Ui } from '@elrondnetwork/dapp-utils';
+import { Address } from '@elrondnetwork/erdjs/out';
 import { Box, Typography, Button } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import { MainButton } from 'components/Theme/StyledComponents';
 import { network } from 'config';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { TokenWithPrice } from 'pages/Organization/types';
+import { organizationTokensSelector } from 'redux/selectors/accountSelector';
 import {
   currencyConvertedSelector,
   selectedCurrencySelector
 } from 'redux/selectors/currencySelector';
-import './totalBalance.scss';
-import { organizationTokensSelector } from 'redux/selectors/accountSelector';
 import { priceSelector } from 'redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
@@ -21,10 +24,9 @@ import {
 import { setValueInUsd } from 'redux/slices/currencySlice';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
-import { getNetworkProxy } from '@elrondnetwork/dapp-core';
-import { Address } from '@elrondnetwork/erdjs/out';
-import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import useCurrency from 'utils/useCurrency';
+import { CenteredText } from '../navbar-style';
+import Divider from '@mui/material/Divider';
 
 const TotalBalance = () => {
   const dispatch = useDispatch();
@@ -189,27 +191,29 @@ const TotalBalance = () => {
   }, [totalUsdValue]);
 
   return (
-    <Box sx={{ pt: 1 }}>
-      <Typography className='text-center total-balance-text'>
-        Total balance:
-      </Typography>
-      <Box className='d-flex justify-content-center'>
-        <Typography
-          className='ex-currency text-center'
-          sx={{ fontWeight: 'bold' }}
-        >
+    <Box
+      sx={{
+        py: 1,
+        px: 2,
+        display: { sm: 'block', xs: 'flex' },
+        justifyContent: { sm: 'center', xs: 'space-around' }
+      }}
+    >
+      <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
+        <CenteredText>Total balance:</CenteredText>
+        <CenteredText fontSize='16px' fontWeight='bold'>
           ≈{currencyConverted?.toFixed(2)}
           {getCurrency}
-        </Typography>
+        </CenteredText>
       </Box>
-      <Box className='d-flex justify-content-center' sx={{ pb: 1 }}>
-        <Button
-          className='new-transfer-btn'
-          variant='outlined'
-          onClick={onAddBoardMember}
-        >
+      <Divider orientation='vertical' flexItem />
+      <Box
+        className='d-flex justify-content-center'
+        sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
+      >
+        <MainButton variant='outlined' onClick={onAddBoardMember}>
           New Transaction
-        </Button>
+        </MainButton>
       </Box>
     </Box>
   );

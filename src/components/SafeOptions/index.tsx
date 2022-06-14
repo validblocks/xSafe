@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
-import './SafeOptions.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import OtherSafe from 'assets/img/other-safe.png';
 import Safe from 'assets/img/safe.png';
+import { TypographyBold } from 'components/Theme/StyledComponents';
 import addressShorthand from 'helpers/addressShorthand';
 import {
   currencyConvertedSelector,
@@ -14,9 +14,22 @@ import {
 } from 'redux/selectors/currencySelector';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
+import {
+  ActiveWallet,
+  AddSafe,
+  AddSafeWrapper,
+  InactiveWallet,
+  SafeOptionsWrapper
+} from './safe-style';
+import { useNavigate } from 'react-router-dom';
+import { uniqueContractAddress } from 'multisigConfig';
+import DeployStepsModal from 'pages/Dashboard/DeployMultisigModal';
+import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
+import { MultisigContractInfoType } from 'types/multisigContracts';
 
 const SafeOptions = ({ closeSafeDropdown }: any) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [shortAddress, setShortAddress] = useState('');
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
@@ -31,61 +44,85 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
       })
     );
 
+  const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
+
+  async function onDeployClicked() {
+    setShowDeployMultisigModal(true);
+  }
+
   const currencyConverted = useSelector(currencyConvertedSelector);
   const getCurrency = useSelector(selectedCurrencySelector);
-
+  const onEnterClicked = () => {
+    navigate('/multisig/' + uniqueContractAddress);
+  };
+  async function updateMultisigContract(
+    newContracts: MultisigContractInfoType[]
+  ) {
+    dispatch(setMultisigContracts(newContracts));
+  }
   return (
-    <Box
-      className='safe-options-wrapper'
-      // onBlur={() => {
-      //   closeSafeDropdown(false);
-      // }}
+    <SafeOptionsWrapper
+    // onBlur={() => {
+    //   closeSafeDropdown(false);
+    // }}
     >
       <Typography sx={{ p: 2 }} align='left'>
         Safe Options
       </Typography>
       <Divider />
-      <Box sx={{ p: 2, pl: 0 }} className='add-safe-wrapper'>
-        <Button onClick={addSafe} sx={{ color: '#4C2FFC' }}>
+      <AddSafeWrapper sx={{ p: 2, pl: 0 }}>
+        <AddSafe onClick={onDeployClicked}>
           <AddIcon sx={{ mr: 1 }} />
           Add a new safe
-        </Button>
-      </Box>
+        </AddSafe>
+      </AddSafeWrapper>
       <Divider />
-      <Button sx={{ p: 0 }}>
-        <Box sx={{ p: 1 }} className='d-flex align-items-center'>
-          <img src={Safe} width='60px' height='60px' />
-          <Box sx={{ ml: 2 }} className='active-wallet-wrapper'>
-            <Typography align='left' className='bold'>
-              My Safe
-            </Typography>
-            <Typography align='left'>{shortAddress}</Typography>
-            <Typography align='left' className='bold'>
-              ≈{currencyConverted.toFixed(2)}
-              {getCurrency}
-            </Typography>
-          </Box>
-          <Box>
-            <Checkbox {...label} disabled checked />
-          </Box>
+      <Button sx={{ p: 0, width: '100%' }} onClick={onEnterClicked}>
+        <Box sx={{ p: 1, width: '100%' }} className='d-flex align-items-center'>
+          <Grid sm={3}>
+            <img src={Safe} width='60px' height='60px' />
+          </Grid>
+          <Grid sm={7}>
+            <ActiveWallet sx={{ ml: 2 }}>
+              <TypographyBold align='left'>My Safe</TypographyBold>
+              <Typography align='left'>{shortAddress}</Typography>
+              <TypographyBold align='left'>
+                ≈{currencyConverted.toFixed(2)}
+                {getCurrency}
+              </TypographyBold>
+            </ActiveWallet>
+          </Grid>
+          <Grid sm={2}>
+            <Box>
+              <Checkbox {...label} disabled checked />
+            </Box>
+          </Grid>
         </Box>
       </Button>
       <Divider />
-      <Button sx={{ p: 0 }}>
-        <Box sx={{ p: 1 }} className='d-flex align-items-center'>
-          <img src={OtherSafe} width='60px' height='60px' />
-          <Box sx={{ ml: 2 }} className='inactive-wallet-wrapper'>
-            <Typography align='left' className='bold'>
-              My Other Safe
-            </Typography>
-            <Typography align='left'>{shortAddress}</Typography>
-            <Typography align='left' className='bold'>
-              14,590 USD
-            </Typography>
-          </Box>
+      <Button sx={{ p: 0, width: '100%' }}>
+        <Box sx={{ p: 1, width: '100%' }} className='d-flex align-items-center'>
+          <Grid sm={3}>
+            <img src={OtherSafe} width='60px' height='60px' />
+          </Grid>
+          <Grid sm={7}>
+            <InactiveWallet sx={{ ml: 2 }}>
+              <TypographyBold align='left'>My Other Safe</TypographyBold>
+              <Typography align='left'>{shortAddress}</Typography>
+              <TypographyBold align='left'>14,590 USD</TypographyBold>
+            </InactiveWallet>
+          </Grid>
+          <Grid sm={2}>
+            <></>
+          </Grid>
         </Box>
       </Button>
-    </Box>
+      <DeployStepsModal
+        show={showDeployMultisigModal}
+        handleClose={() => setShowDeployMultisigModal(false)}
+        setNewContracts={updateMultisigContract}
+      />
+    </SafeOptionsWrapper>
   );
 };
 
