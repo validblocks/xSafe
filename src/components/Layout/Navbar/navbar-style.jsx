@@ -61,7 +61,7 @@ export const ReadOnly = styled(Typography)`
 `;
 
 export const Anchor = styled.a`
-  color: #7a7883;
+  color: ${(props) => props.color} !important;
 `;
 
 export const MembersBox = styled(Box)`
