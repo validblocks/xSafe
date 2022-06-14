@@ -11,7 +11,15 @@ import { makeStyles } from '@mui/styles';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { network } from 'config';
-import { decodeActionIdFromTransactionData } from 'contracts/transactionUtils';
+import {
+  queryActionData,
+  queryAllActions,
+  queryAllActionsHistory
+} from 'contracts/MultisigContract';
+import {
+  decodeActionIdFromTransactionData,
+  TransactionTypesWithoutSCInteraction
+} from 'contracts/transactionUtils';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import { multisigContractFunctionNames } from 'types/multisigFunctionNames';
 import { getDate } from 'utils/transactionUtils';
@@ -54,75 +62,74 @@ const TransactionHistory = () => {
   const classes = useStyles();
   const currentContract = useSelector(currentMultisigContractSelector);
   const { data: allTransactions = [] as any[] } = useFetch(
-    `${network.apiAddress}/transactions?receiver=${currentContract?.address}&withScResults=true`
+    `${network.apiAddress}/transactions?receiver=${currentContract?.address}&withScResults=true&size=50`
   );
-
-  const { data: smartContractResultsCount = 0 } = useFetch(
-    `${network.apiAddress}/accounts/${currentContract?.address}/sc-results/count`
-  );
-
-  const { data: smartContractResults }: { data: SmartContractResult[] } =
-    useFetch(
-      `${network.apiAddress}/accounts/${currentContract?.address}/sc-results?size=${smartContractResultsCount}`
-    );
-
-  // const [smartContractResults, setSmartContractResults] = useState(
-  //   [] as SmartContractResult[]
-  // );
 
   useEffect(() => {
-    console.log('----------------------------------');
-    // console.log({ smartContractResults });
-    // console.log({ allTransactions });
-    // console.log(smartContractResults.length);
-    // console.log(allTransactions.length);
+    console.log('---------------useEffect-------------------');
 
-    // const SCRs = axios
-    //   .get(
-    //     `${network.apiAddress}/accounts/${currentContract?.address}/sc-results?size=${smartContractResultsCount}`
-    //   )
-    //   .then(({ data }) => {
-    //     console.log('NEW TRY', { data });
-    //     setSmartContractResults(data);
-    //   });
+    if (allTransactions.length == 0) return;
 
-    // smartContractResults.find(
-    //   (r) =>
-    //     r.originalTxHash ===
-    //     '9511d64eb4382bb2b2802fb093f5bc4882733f3fe17ff0552f089674d2fdf10d'
-    // ) && console.log('FOUND 9511');
-
-    if (smartContractResults.length == 0 || allTransactions.length == 0) return;
-
-    // const countOccurences = smartContractResults.reduce((acc, item) => {
-    //   acc[item.originalTxHash] = acc[item.originalTxHash]
-    //     ? acc[item.originalTxHash] + 1
-    //     : 1;
-    //   return acc;
-    // }, {} as Record<string, number>);
-
-    // console.log({ countOccurences });
-
-    const allActionIds = [] as string[];
     const groupedTransactionsByActionId: Record<string, Transaction[]> = {};
 
     allTransactions?.map((transaction: any) => {
-      console.log(transaction, ' contains the ID directly');
+      // console.log(transaction, ' contains the ID directly');
 
       const actionIdHex = decodeActionIdFromTransactionData(transaction);
+
+      if (!actionIdHex) return;
 
       if (!groupedTransactionsByActionId[actionIdHex])
         groupedTransactionsByActionId[actionIdHex] = [];
 
       groupedTransactionsByActionId[actionIdHex].push(transaction);
-
-      allActionIds.push(actionIdHex);
     });
 
-    console.log({ smartContractResultsCount });
-    console.log({ smartContractResults });
+    // const receivedFundsTransactions = [
+    //   ...groupedTransactionsByActionId[
+    //     TransactionTypesWithoutSCInteraction.SCRsWithoutActionId
+    //   ],
+    //   ...groupedTransactionsByActionId[
+    //     TransactionTypesWithoutSCInteraction.noSCRs
+    //   ]
+    // ];
+
+    const {
+      [TransactionTypesWithoutSCInteraction.SCRsWithoutActionId]: _noId,
+      [TransactionTypesWithoutSCInteraction.noSCRs]: _noSCRs,
+      ...rest
+    } = groupedTransactionsByActionId;
+
+    //testare getActionData
+    // const actionIds = Object.keys(rest);
+    // for (const actionId of actionIds) {
+    //   (async () => {
+    //     const actionData = await queryActionData(parseInt(actionId));
+
+    //     console.log('actionData', actionData);
+    //   })();
+    // }
+
+    // queryAllActions().then((response) => {
+    //   console.log({ response });
+    // });
+
+    // queryActionData(26).then((r) => console.log({ r }));
+
+    // Object.keys(rest).map((actionId) => {
+    //   console.log(actionId, parseInt(actionId, 16));
+    //   queryActionData(parseInt(actionId, 16))
+    //     .then((result) => {
+    //       console.log({ result });
+    //     })
+    //     .catch((err) => console.log(err, actionId));
+    // });
+
+    console.log('CALLING queryAllActionsHistory');
+    queryAllActionsHistory().then((d) => console.log({ d }));
+
     console.log({ groupedTransactionsByActionId });
-  }, [smartContractResults, allTransactions]);
+  }, [allTransactions]);
 
   const groupedTransactions = useMemo(() => {
     return allTransactions?.reduce((acc: any, transaction: any) => {

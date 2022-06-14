@@ -285,6 +285,10 @@ export function queryAllActions(): Promise<MultisigActionDetailed[]> {
   );
 }
 
+export function queryAllActionsHistory(): Promise<MultisigActionDetailed[]> {
+  return queryActionContainerArray('getActionFullInfo');
+}
+
 export function queryBoardMembersCount(): Promise<number> {
   return queryNumber(multisigContractFunctionNames.getNumBoardMembers);
 }
@@ -419,6 +423,7 @@ export async function queryActionContainerArray(
   }
   return actions;
 }
+
 export async function queryAddressArray(
   functionName: string,
   ...args: TypedValue[]
