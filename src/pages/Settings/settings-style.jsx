@@ -9,34 +9,10 @@ export const Span = styled.span`
 
 export const SettingsWrapper = styled(Box)`
   background-color: ${(props) => {
-    return props.theme.palette.background.white;
-  }};
-  border-radius: ${(props) => {
-    return props.theme.shape.radius;
-  }};
-  @media (max-width: 1200px) {
-    width: 100%;
-  }
-  width: 55%;
-`;
-
-export const NoteSpan = styled.span`
-  line-height: 2.5;
-  background-color: ${(props) => {
-    return props.theme.palette.background.main;
-  }};
-  padding: 5px 10px;
-  border-radius: ${(props) => {
-    return props.theme.shape.radius;
-  }};
-`;
-
-export const SettingsWrapper = styled(Box)`
-  background-color: ${(props) => {
     return props.theme.palette.background.default;
   }};
   border-radius: ${(props) => {
-    return props.theme.palette.radius.main;
+    return props.theme.shape.radius;
   }};
   width: 55%;
 `;
@@ -47,6 +23,6 @@ export const NoteSpan = styled.span`
   }};
   padding: 5px 10px;
   border-radius: ${(props) => {
-    return props.theme.palette.radius.main;
+    return props.theme.shape.radius;
   }};
 `;
