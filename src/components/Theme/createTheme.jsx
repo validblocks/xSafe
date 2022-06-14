@@ -29,7 +29,7 @@ export const theme = createTheme({
   },
   shadows: {
     main: '#4c2ffc2e',
-    secondary: '#4c2ffc08'
+    secondary: '#4c2ffc36'
   },
   typography: {
     bold: '600'
