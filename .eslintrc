@@ -90,6 +90,7 @@
     "react/destructuring-assignment": "off",
     "no-shadow": "off",
     "@typescript-eslint/no-shadow": ["warn"],
-    "react/no-array-index-key": "off"
+    "react/no-array-index-key": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "[_]+" }]
   }
 }
