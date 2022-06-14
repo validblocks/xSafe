@@ -30,3 +30,23 @@ export const NoteSpan = styled.span`
     return props.theme.shape.radius;
   }};
 `;
+
+export const SettingsWrapper = styled(Box)`
+  background-color: ${(props) => {
+    return props.theme.palette.background.default;
+  }};
+  border-radius: ${(props) => {
+    return props.theme.palette.radius.main;
+  }};
+  width: 55%;
+`;
+
+export const NoteSpan = styled.span`
+  background-color: ${(props) => {
+    return props.theme.palette.background.main;
+  }};
+  padding: 5px 10px;
+  border-radius: ${(props) => {
+    return props.theme.palette.radius.main;
+  }};
+`;
