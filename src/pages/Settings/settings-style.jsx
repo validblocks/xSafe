@@ -15,6 +15,9 @@ export const SettingsWrapper = styled(Box)`
     return props.theme.shape.radius;
   }};
   width: 55%;
+  @media (max-width: 600px) {
+    width: 100%;
+  }
 `;
 
 export const NoteSpan = styled.span`
@@ -22,6 +25,7 @@ export const NoteSpan = styled.span`
     return props.theme.palette.background.main;
   }};
   padding: 5px 10px;
+  line-height: 2.5;
   border-radius: ${(props) => {
     return props.theme.shape.radius;
   }};

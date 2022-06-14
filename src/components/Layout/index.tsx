@@ -31,6 +31,8 @@ import Navbar from './Navbar';
 import MobileLayout from './Navbar/mobileLayout';
 import Account from './Navbar/Account';
 import { Main } from 'components/Theme/StyledComponents';
+import { theme } from 'components/Theme/createTheme';
+import { TopHeader } from './Navbar/navbar-style';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();
@@ -102,7 +104,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       duration: theme.transitions.duration.leavingScreen
     }),
     boxShadow: 'unset',
-    borderBottom: '1px solid #e0e0e0',
     right: 'auto',
     left: 'auto'
   }));
@@ -110,32 +111,37 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='flex-row flex-fill wrapper page-wrapper'>
       {width ? <Navbar /> : <MobileLayout />}
-
-      <Main className=' flex-row flex-fill position-relative justify-center'>
-        <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '0' }}>
-          <Box
-            className='d-flex justify-content-between px-4 py-3 align-items-center coo'
-            sx={{
-              position: 'absolute',
-              width: '100%'
-            }}
+      <Main className='flex-row flex-fill position-relative justify-center'>
+        <Box sx={{ padding: '6rem 0px' }}>
+          <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '1' }}>
+            {width ? (
+              <TopHeader
+                className='d-flex justify-content-between px-4 py-3 align-items-center'
+                sx={{
+                  position: 'absolute',
+                  width: '100%'
+                }}
+              >
+                <Box>
+                  <PageBreadcrumbs />
+                </Box>
+                <Account />
+                {/* <Network /> */}
+              </TopHeader>
+            ) : (
+              ''
+            )}
+          </AppBar>
+          <AuthenticatedRoutesWrapper
+            routes={routes}
+            unlockRoute={routeNames.unlock}
           >
-            <Box>
-              <PageBreadcrumbs />
-            </Box>
-            <Account />
-            {/* <Network /> */}
-          </Box>
-        </AppBar>
-        <AuthenticatedRoutesWrapper
-          routes={routes}
-          unlockRoute={routeNames.unlock}
-        >
-          {children}
-        </AuthenticatedRoutesWrapper>
-        <TokenWrapper />
-        <ModalLayer />
-        <SidebarSelectOptionModal />
+            {children}
+          </AuthenticatedRoutesWrapper>
+          <TokenWrapper />
+          <ModalLayer />
+          <SidebarSelectOptionModal />
+        </Box>
       </Main>
     </div>
   );

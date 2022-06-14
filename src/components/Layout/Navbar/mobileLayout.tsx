@@ -9,9 +9,17 @@ import Safe from 'assets/img/safe.png';
 import SafeOptions from 'components/SafeOptions';
 import addressShorthand from 'helpers/addressShorthand';
 import menuItems from 'utils/menuItems';
-import { MobileMenu, TopMobileMenu } from './navbar-style';
+import {
+  LogoMenuWrapper,
+  MobileMenu,
+  MobileSecondaryMenu,
+  TopMobileMenu,
+  TotalBalanceWrapper
+} from './navbar-style';
 import TotalBalance from './TotalBalance';
 import { uniqueContractAddress } from 'multisigConfig';
+import Divider from '@mui/material/Divider';
+import NavbarLogo from './Logo';
 
 const MobileLayout = () => {
   const locationString = location.pathname.substring(1);
@@ -21,61 +29,67 @@ const MobileLayout = () => {
   const closeSafeDropdown = (data: boolean) => {
     setOpenedSafeSelect(data);
   };
-
   useEffect(() => {
     setWalletAddress(addressShorthand(uniqueContractAddress));
   }, [addressShorthand]);
 
   return (
     <Box>
-      <TopMobileMenu className='d-flex pt-4 pb-2 bg-white justify-content-around align-items-center'>
-        <Box>
-          <img src={Safe} width='50' height='50' />
-        </Box>
-        <Box className='d-flex'>
+      <LogoMenuWrapper>
+        <NavbarLogo />
+        <TopMobileMenu
+          className='d-flex pt-1 pb-2 bg-white justify-content-between align-items-center'
+          sx={{ px: 2 }}
+        >
           <Box>
-            <Typography sx={{ fontWeight: '600' }}>My Great Safe</Typography>
-            <Typography>{walletAddress}</Typography>
+            <img src={Safe} width='50' height='50' />
           </Box>
-          <Box className='d-flex ml-4'>
-            <Typography sx={{ color: '#7A7883' }}>Read-only</Typography>
-            {openedSafeSelect === true && (
-              <Box>
-                <ArrowDropUpIcon
-                  onClick={() => {
-                    setOpenedSafeSelect(false);
-                  }}
-                />
-                <SafeOptions closeSafeDropdown={closeSafeDropdown} />
-              </Box>
-            )}
-            {openedSafeSelect === false && (
-              <Box>
-                <ArrowDropDownIcon
-                  onClick={() => {
-                    setOpenedSafeSelect(true);
-                  }}
-                />
-              </Box>
-            )}
+          <Box className='d-flex'>
+            <Box>
+              <Typography sx={{ fontWeight: '600' }}>My Great Safe</Typography>
+              <Typography>{walletAddress}</Typography>
+            </Box>
+            <Box className='d-flex ml-4'>
+              <Typography sx={{ color: '#7A7883' }}>Read-only</Typography>
+              {openedSafeSelect === true && (
+                <Box>
+                  <ArrowDropUpIcon
+                    onClick={() => {
+                      setOpenedSafeSelect(false);
+                    }}
+                  />
+                  <SafeOptions closeSafeDropdown={closeSafeDropdown} />
+                </Box>
+              )}
+              {openedSafeSelect === false && (
+                <Box>
+                  <ArrowDropDownIcon
+                    onClick={() => {
+                      setOpenedSafeSelect(true);
+                    }}
+                  />
+                </Box>
+              )}
+            </Box>
           </Box>
-        </Box>
-        <Box className='d-flex'></Box>
-        <Box>
-          <Link to='/settings'>
-            <SettingsIcon
-              sx={{
-                width: '30px',
-                height: '30px',
-                color: 'rgba(8, 4, 29, 0.54)'
-              }}
-            />
-          </Link>
-        </Box>
-      </TopMobileMenu>
-      <Box className='total-balance-wrapper'>
+          <Box className='d-flex'></Box>
+          <Box>
+            <Link to='/settings'>
+              <SettingsIcon
+                sx={{
+                  width: '30px',
+                  height: '30px',
+                  color: 'rgba(8, 4, 29, 0.54)'
+                }}
+              />
+            </Link>
+          </Box>
+        </TopMobileMenu>
+      </LogoMenuWrapper>
+      <Divider />
+      <TotalBalanceWrapper>
         <TotalBalance />
-      </Box>
+      </TotalBalanceWrapper>
       <Box>
         <MobileMenu className='d-flex bg-white justify-content-around mobile-menu'>
           {menuItems.mobileBottomItems.map((el, index) => (
@@ -104,14 +118,14 @@ const MobileLayout = () => {
           ))}
         </MobileMenu>
       </Box>
-      <Box>
+      <MobileSecondaryMenu>
         {(locationString === 'assets' ||
           locationString === 'tokens' ||
           locationString === 'nft') && (
           <Box>
             <Box
               className={
-                locationString == 'tokens'
+                locationString == 'tokens' || locationString == 'assets'
                   ? 'active-submenu assets-mobile-submenu py-3'
                   : 'assets-mobile-submenu py-3'
               }
@@ -133,7 +147,7 @@ const MobileLayout = () => {
             </Box>
           </Box>
         )}
-      </Box>
+      </MobileSecondaryMenu>
     </Box>
   );
 };

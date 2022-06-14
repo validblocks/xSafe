@@ -18,7 +18,6 @@ export const ConnectDropdown = styled(Menu)`
 `;
 
 export const ConnectItems = styled(Box)`
-  background-color: ${(props) => {
     return props.theme.palette.background.main;
   }};
   color: ${(props) => {
@@ -28,11 +27,6 @@ export const ConnectItems = styled(Box)`
     return props.theme.shape.radius;
   }};
 `;
-
-export const Anchor = styled.a`
-  color: ${(props) => props.color} !important;
-`;
-
 export const CopyBtn = styled(CopyButton)`
   color: ${(props) => {
     return props.theme.palette.anchor.main;
@@ -66,6 +60,10 @@ export const ReadOnly = styled(Typography)`
   color: #7a7883;
 `;
 
+export const Anchor = styled.a`
+  color: ${(props) => props.color} !important;
+`;
+
 export const MembersBox = styled(Box)`
   width: 91px;
   margin: auto;
@@ -81,6 +79,9 @@ export const MembersBox = styled(Box)`
 `;
 
 export const CenteredText = styled(Typography)`
+  @media (max-width: 600px) {
+    text-align: left;
+  }
   text-align: center;
   font-size: ${(props) => props.fontSize};
   font-weight: ${(props) => props.fontWeight};
@@ -89,7 +90,9 @@ export const CenteredText = styled(Typography)`
 export const TopHeader = styled(Box)`
   position: absolute;
   z-index: 1;
-  width: 100%;
+  background: ${(props) => {
+    return props.theme.palette.background.default;
+  }};
 `;
 
 export const NavLogo = styled(NavItem)`
@@ -183,4 +186,23 @@ export const TopMobileMenu = styled(Box)`
   border-bottom-right-radius: ${(props) => {
     return props.theme.shape.radius;
   }};
+`;
+
+export const MobileSecondaryMenu = styled(Box)`
+  background-color: ${(props) => {
+    return props.theme.palette.background.default;
+  }};
+`;
+
+export const TotalBalanceWrapper = styled(Box)`
+  margin-top: 150px;
+`;
+
+export const LogoMenuWrapper = styled(Box)`
+  position: fixed;
+  background-color: ${(props) => {
+    return props.theme.palette.background.white;
+  }};
+  z-index: 1;
+  width: 100%;
 `;
