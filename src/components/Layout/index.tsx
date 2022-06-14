@@ -31,6 +31,8 @@ import Navbar from './Navbar';
 import MobileLayout from './Navbar/mobileLayout';
 import Account from './Navbar/Account';
 import { Main } from 'components/Theme/StyledComponents';
+import { theme } from 'components/Theme/createTheme';
+import { TopHeader } from './Navbar/navbar-style';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();
@@ -110,10 +112,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <div className='flex-row flex-fill wrapper page-wrapper'>
       {width ? <Navbar /> : <MobileLayout />}
       <Main className='flex-row flex-fill position-relative justify-center'>
-        <Box sx={{ padding: '6rem 1rem' }}>
-          <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '0' }}>
+        <Box sx={{ padding: '6rem 0px' }}>
+          <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '1' }}>
             {width ? (
-              <Box
+              <TopHeader
                 className='d-flex justify-content-between px-4 py-3 align-items-center'
                 sx={{
                   position: 'absolute',
@@ -125,7 +127,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 </Box>
                 <Account />
                 {/* <Network /> */}
-              </Box>
+              </TopHeader>
             ) : (
               ''
             )}
