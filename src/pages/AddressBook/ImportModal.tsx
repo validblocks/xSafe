@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
-import { Typography } from '@mui/material';
+import React from 'react';
+import { Button, Typography } from '@mui/material';
 import { Importer, ImporterField } from 'react-csv-importer';
 import 'react-csv-importer/dist/index.css';
-import { ConstructionOutlined } from '@mui/icons-material';
 import { useDispatch } from 'react-redux';
 import { addEntry } from 'redux/slices/addressBookSlice';
 
 type ImportModalProps = {
-  form: Record<string, any>;
+  handleClose: () => void;
 };
 
-const ImportModal = ({ form }: ImportModalProps) => {
+const ImportModal = ({ handleClose }: ImportModalProps) => {
   const dispatch = useDispatch();
   return (
     <>
@@ -29,6 +28,7 @@ const ImportModal = ({ form }: ImportModalProps) => {
         <ImporterField name='name' label='Name' />
         <ImporterField name='address' label='Address' />
       </Importer>
+      <Button onClick={handleClose}>Cancel</Button>
     </>
   );
 };

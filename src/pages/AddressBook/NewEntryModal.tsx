@@ -3,13 +3,19 @@ import { Typography } from '@mui/material';
 
 type NewEntryModalProps = {
   form: Record<string, any>;
+  selectedAddress: string | null;
+  addressBook: Record<string, string>;
 };
 
-const NewEntryModal = ({ form }: NewEntryModalProps) => {
+const NewEntryModal = ({
+  form,
+  selectedAddress,
+  addressBook
+}: NewEntryModalProps) => {
   return (
     <>
       <Typography id='modal-modal-title' variant='h6' component='h2'>
-        Text in a modal
+        {!!selectedAddress ? 'Edit Entry' : 'Create Entry'}
       </Typography>
       <form onSubmit={form.handleSubmit}>
         <label htmlFor='address'>Address</label>
@@ -18,7 +24,9 @@ const NewEntryModal = ({ form }: NewEntryModalProps) => {
           name='address'
           type='text'
           onChange={form.handleChange}
+          readOnly={!!selectedAddress}
           value={form.values.address}
+          placeholder={!!selectedAddress ? selectedAddress : 'Enter address'}
         />
         <label htmlFor='name'>Name</label>
         <input
@@ -26,6 +34,11 @@ const NewEntryModal = ({ form }: NewEntryModalProps) => {
           name='name'
           type='text'
           onChange={form.handleChange}
+          placeholder={
+            !!selectedAddress && addressBook[selectedAddress]
+              ? addressBook[selectedAddress]
+              : 'Enter name'
+          }
           value={form.values.name}
         />
         <button type='submit'>Submit</button>
