@@ -28,7 +28,6 @@ const NftCompmonent = () => {
   );
 
   const handleOptionSelected = (option: ProposalsTypes, nft: any) => {
-    console.log(option, nft, 'opt');
     dispatch(setProposeMultiselectSelectedOption({ option }));
     dispatch(
       setSelectedNftToSend({
