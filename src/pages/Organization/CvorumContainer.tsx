@@ -6,8 +6,7 @@ const CvorumContainer = () => {
   return (
     <Box
       sx={{
-        width: '100%',
-        padding: '8rem 1rem'
+        width: '100%'
       }}
     >
       <Card className='px-4 py-5 mt-5'>

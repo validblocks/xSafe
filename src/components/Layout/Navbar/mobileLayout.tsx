@@ -13,6 +13,7 @@ import { MobileMenu, MobileSecondaryMenu, TopMobileMenu } from './navbar-style';
 import TotalBalance from './TotalBalance';
 import { uniqueContractAddress } from 'multisigConfig';
 import Divider from '@mui/material/Divider';
+import NavbarLogo from './Logo';
 
 const MobileLayout = () => {
   const locationString = location.pathname.substring(1);
@@ -29,7 +30,8 @@ const MobileLayout = () => {
 
   return (
     <Box>
-      <TopMobileMenu className='d-flex pt-4 pb-2 bg-white justify-content-around align-items-center'>
+      <NavbarLogo />
+      <TopMobileMenu className='d-flex pt-1 pb-2 bg-white justify-content-around align-items-center'>
         <Box>
           <img src={Safe} width='50' height='50' />
         </Box>

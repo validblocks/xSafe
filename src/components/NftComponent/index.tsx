@@ -23,7 +23,7 @@ const NftCompmonent = () => {
   return (
     <Box>
       {nftListSorted.length > 0 ? (
-        <Grid container spacing={1}>
+        <Grid container spacing={2}>
           {nftListSorted.map((item: any, index: number) => (
             <>
               {((index > 0 &&
@@ -35,7 +35,7 @@ const NftCompmonent = () => {
                   </TextDivider>
                 </CollectionName>
               )}
-              <Grid xs={12} md={3} sm={4} item key={index}>
+              <Grid xs={12} sm={6} md={4} lg={3} item key={index}>
                 <CardBox>
                   <Box>
                     <CardMedia
