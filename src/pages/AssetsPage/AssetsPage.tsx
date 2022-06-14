@@ -35,7 +35,6 @@ const AssetsPage = () => {
     option: ProposalsTypes,
     token: TokenTableRowItem,
   ) => {
-    console.log(token, 'token');
     dispatch(setProposeMultiselectSelectedOption({ option }));
     dispatch(
       setSelectedTokenToSend({

@@ -24,7 +24,6 @@ function NftCompmonent() {
   const nftListSorted = nftList.sort((a: any, b: any) => a.collection.localeCompare(b.collection));
 
   const handleOptionSelected = (option: ProposalsTypes, nft: any) => {
-    console.log(option, nft, 'opt');
     dispatch(setProposeMultiselectSelectedOption({ option }));
     dispatch(
       setSelectedNftToSend({
