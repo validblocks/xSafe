@@ -10,18 +10,19 @@ import {
   GridRenderCellParams,
 } from '@mui/x-data-grid';
 import { useDispatch } from 'react-redux';
-import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
+import { setProposeModalSelectedOption } from '@redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
 const MembersTable = () => {
   const dispatch = useDispatch();
-  const onRemoveUser = (address: Address) => dispatch(
-    setProposeModalSelectedOption({
-      option: ProposalsTypes.remove_user,
-      address: address.bech32(),
-    }),
-  );
+  const onRemoveUser = (address: Address) =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.remove_user,
+        address: address.bech32(),
+      }),
+    );
 
   const toggleAdmin = useCallback(
     (id: GridRowId) => () => {
@@ -59,11 +60,12 @@ const MembersTable = () => {
             />
             <div>
               <div>
-                {`${params.value.valueHex.slice(0, 10)
-                }...${
-                  params.value.valueHex.slice(
-                    params.value.valueHex.length - 10,
-                  )}`}
+                {`${params.value.valueHex.slice(
+                  0,
+                  10,
+                )}...${params.value.valueHex.slice(
+                  params.value.valueHex.length - 10,
+                )}`}
                 {/* <Ui.Trim text={params.value.valueHex} /> */}
               </div>
               <div>@herotag</div>

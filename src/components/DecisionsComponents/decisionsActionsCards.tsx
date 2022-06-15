@@ -60,7 +60,7 @@ const DecisionsActionsCards = () => {
   return (
     <Grid container spacing={2}>
       {actionCardsArray.map((item, index) => (
-        <Grid key={index} item md={4} xs={12} className="action-cards">
+        <Grid key={item.id} item md={4} xs={12} className="action-cards">
           <Link to={item.link}>
             <Item sx={{ p: 5 }}>
               <Box className="d-flex justify-content-between">

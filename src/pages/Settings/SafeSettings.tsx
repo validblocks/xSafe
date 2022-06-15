@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import ChangeCurrency from 'components/ChangeCurrency';
 import { MainButton, TypographyBold } from 'components/Theme/StyledComponents';
 import ThemeColor from 'components/ThemeColor';
-import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
-import { setSafeName } from 'redux/slices/safeNameSlice';
+import { safeNameStoredSelector } from '@redux/selectors/safeNameSelector';
+import { setSafeName } from '@redux/slices/safeNameSlice';
 import { NoteSpan, Span } from './settings-style';
 
 const SafeSettings = () => {
@@ -37,8 +37,8 @@ const SafeSettings = () => {
       <Typography sx={{ mb: 3 }}>
         <NoteSpan>
           <Span>Note:</Span>
-          This name is only stored locally. (You&apos;re the
-          only one who&apos;s seeing it)
+          This name is only stored locally. (You&apos;re the only one who&apos;s
+          seeing it)
         </NoteSpan>
       </Typography>
       <TextField

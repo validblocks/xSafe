@@ -6,7 +6,7 @@ import {
   ListItemButton,
   AccordionSummary,
   AccordionDetails,
-  List
+  List,
 } from '@mui/material';
 import { Navbar as NavItem } from 'react-bootstrap';
 import styled from 'styled-components';

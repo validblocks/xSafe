@@ -7,7 +7,7 @@ import {
   proposeModalSelectedOptionSelector,
   proposeMultiselectModalSelectedOptionSelector,
   selectedPerformedActionSelector,
-} from 'redux/selectors/modalsSelector';
+} from '@redux/selectors/modalsSelector';
 
 const ModalLayer = () => {
   const selectedAction = useSelector(selectedPerformedActionSelector);

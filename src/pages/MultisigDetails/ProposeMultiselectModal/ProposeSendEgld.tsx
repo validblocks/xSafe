@@ -9,7 +9,7 @@ import * as Yup from 'yup';
 import { TestContext } from 'yup';
 import { denomination } from 'config';
 import { FormikInputField } from 'helpers/formikFields';
-import { multisigBalanceSelector } from 'redux/selectors/accountSelector';
+import { multisigBalanceSelector } from '@redux/selectors/accountSelector';
 import { MultisigSendEgld } from 'types/MultisigSendEgld';
 
 interface ProposeSendEgldType {
@@ -30,12 +30,13 @@ const ProposeSendEgld = ({
   }, []);
 
   const denominatedValue = useMemo(
-    () => operations.denominate({
-      input: multisigBalance.toString(),
-      denomination,
-      decimals: 4,
-      showLastNonZeroDecimal: true,
-    }),
+    () =>
+      operations.denominate({
+        input: multisigBalance.toString(),
+        denomination,
+        decimals: 4,
+        showLastNonZeroDecimal: true,
+      }),
     [multisigBalance],
   );
 
@@ -58,9 +59,7 @@ const ProposeSendEgld = ({
       amount: 0,
       data: '',
     },
-    onSubmit: () => {
-
-    },
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -155,10 +154,7 @@ const ProposeSendEgld = ({
         handleBlur={formik.handleBlur}
       />
       <div className="modal-control-container">
-        <label>
-          {t('Amount')}
-          {' '}
-        </label>
+        <label>{t('Amount')} </label>
         <div className="input-wrapper">
           <Form.Control
             id="amount"
@@ -175,16 +171,10 @@ const ProposeSendEgld = ({
             </Form.Control.Feedback>
           )}
         </div>
-        <span>
-          {`Balance: ${denominatedValue} EGLD`}
-          {' '}
-        </span>
+        <span>{`Balance: ${denominatedValue} EGLD`} </span>
       </div>
       <div className="modal-control-container">
-        <label>
-          {t('data (optional)')}
-          {' '}
-        </label>
+        <label>{t('data (optional)')} </label>
         <Form.Control
           id="data"
           name="data"

@@ -8,7 +8,7 @@ import { mutatePerformAction } from 'contracts/MultisigContract';
 import {
   SelectedActionToPerform,
   setSelectedPerformedAction,
-} from 'redux/slices/modalsSlice';
+} from '@redux/slices/modalsSlice';
 import { MultisigActionType } from 'types/MultisigActionType';
 
 const gasLimits = {
@@ -30,9 +30,10 @@ interface PerformActionModalPropsType {
 const PerformActionModal = ({
   selectedAction,
 }: PerformActionModalPropsType) => {
-  const gasLimit = selectedAction?.actionType != null
-    ? gasLimits[selectedAction.actionType] ?? defaultGasLimit
-    : defaultGasLimit;
+  const gasLimit =
+    selectedAction?.actionType != null
+      ? gasLimits[selectedAction.actionType] ?? defaultGasLimit
+      : defaultGasLimit;
   const [selectedGasLimit, setSelectedGasLimit] = React.useState(gasLimit);
   const [error, setError] = React.useState<string | null>(null);
   const dispatch = useDispatch();

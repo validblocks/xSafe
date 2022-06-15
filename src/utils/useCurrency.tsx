@@ -1,7 +1,7 @@
 import {
   setTotalValueConverted,
   setSelectedCurrency,
-} from 'redux/slices/currencySlice';
+} from '@redux/slices/currencySlice';
 
 const useCurrency = (val: number, currency: string, dispatch: any) => {
   if (val && currency) {
@@ -19,7 +19,7 @@ const useCurrency = (val: number, currency: string, dispatch: any) => {
         dispatch(setTotalValueConverted(val));
       }
       dispatch(setSelectedCurrency(currency));
-    }());
+    })();
   }
 };
 

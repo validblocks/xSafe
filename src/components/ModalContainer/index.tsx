@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { multisigOriginSelector } from 'redux/selectors/appConfigSelector';
+import { multisigOriginSelector } from '@redux/selectors/appConfigSelector';
 
 const ModalContainer = ({
   children,
@@ -24,9 +24,12 @@ const ModalContainer = ({
     setClose(true);
   };
 
-  React.useEffect(() => () => {
-    setClose(false);
-  }, []);
+  React.useEffect(
+    () => () => {
+      setClose(false);
+    },
+    [],
+  );
 
   return close ? (
     <Navigate

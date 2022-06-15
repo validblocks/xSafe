@@ -45,21 +45,21 @@ import {
 import { hexToNumber, hexToString } from 'helpers/converters';
 import { tryParseTransactionParameter } from 'helpers/urlparameters';
 import MultisigProposalCard from 'pages/MultisigDetails/MultisigProposalCard';
-import { priceSelector } from 'redux/selectors/economicsSelector';
+import { priceSelector } from '@redux/selectors/economicsSelector';
 import {
   proposeModalSelectedOptionSelector,
   proposeMultiselectModalSelectedOptionSelector,
   selectedPerformedActionSelector,
-} from 'redux/selectors/modalsSelector';
+} from '@redux/selectors/modalsSelector';
 import {
   currentMultisigContractSelector,
   currentMultisigTransactionIdSelector,
-} from 'redux/selectors/multisigContractsSelectors';
+} from '@redux/selectors/multisigContractsSelectors';
 import {
   setProposeMultiselectSelectedOption,
   setSelectedPerformedAction,
-} from 'redux/slices/modalsSlice';
-import { setCurrentMultisigContract } from 'redux/slices/multisigContractsSlice';
+} from '@redux/slices/modalsSlice';
+import { setCurrentMultisigContract } from '@redux/slices/multisigContractsSlice';
 import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
 import { ProposalsTypes } from 'types/Proposals';
 import { routeNames } from '../../routes';
@@ -148,13 +148,14 @@ const MultisigDetailsPage = () => {
     }
 
     const isCurrentMultisigAddressNotSet = currentContract == null;
-    const isCurrentMultisigAddressDiferentThanParam = newMultisigAddressParam != null
-      && currentContract?.address !== newMultisigAddressParam.bech32();
+    const isCurrentMultisigAddressDiferentThanParam =
+      newMultisigAddressParam != null &&
+      currentContract?.address !== newMultisigAddressParam.bech32();
 
     if (
-      (isCurrentMultisigAddressNotSet
-        || isCurrentMultisigAddressDiferentThanParam)
-      && newMultisigAddressParam != null
+      (isCurrentMultisigAddressNotSet ||
+        isCurrentMultisigAddressDiferentThanParam) &&
+      newMultisigAddressParam != null
     ) {
       dispatch(setCurrentMultisigContract(newMultisigAddressParam.bech32()));
     } else if (address != null) {
@@ -243,17 +244,19 @@ const MultisigDetailsPage = () => {
     return false;
   };
 
-  const canSign = (action: MultisigActionDetailed) => isBoardMember && !alreadySigned(action);
+  const canSign = (action: MultisigActionDetailed) =>
+    isBoardMember && !alreadySigned(action);
 
-  const canUnsign = (action: MultisigActionDetailed) => isBoardMember && alreadySigned(action);
+  const canUnsign = (action: MultisigActionDetailed) =>
+    isBoardMember && alreadySigned(action);
 
-  const canPerformAction = (action: MultisigActionDetailed) => (
-    isBoardMember
-      && alreadySigned(action)
-      && action.signers.length >= quorumSize
-  );
+  const canPerformAction = (action: MultisigActionDetailed) =>
+    isBoardMember &&
+    alreadySigned(action) &&
+    action.signers.length >= quorumSize;
 
-  const canDiscardAction = (action: MultisigActionDetailed) => isBoardMember && action.signers.length === 0;
+  const canDiscardAction = (action: MultisigActionDetailed) =>
+    isBoardMember && action.signers.length === 0;
 
   const tryParseUrlParams = async () => {
     const parameters = await tryParseTransactionParameter(apiAddress);
@@ -264,8 +267,8 @@ const MultisigDetailsPage = () => {
     if (parameters.receiver.bech32() === currentContract?.address) {
       if (parameters.functionName.startsWith('propose')) {
         if (
-          parameters.outputParameters.length === 2
-          && hexToString(parameters.outputParameters[0]) === 'ok'
+          parameters.outputParameters.length === 2 &&
+          hexToString(parameters.outputParameters[0]) === 'ok'
         ) {
           const actionId = hexToNumber(parameters.outputParameters[1]);
           if (actionId !== null) {
@@ -274,8 +277,8 @@ const MultisigDetailsPage = () => {
         }
       } else if (parameters.functionName === 'sign') {
         if (
-          parameters.outputParameters.length === 1
-          && hexToString(parameters.outputParameters[0]) === 'ok'
+          parameters.outputParameters.length === 1 &&
+          hexToString(parameters.outputParameters[0]) === 'ok'
         ) {
           const actionId = hexToNumber(parameters.inputParameters[0]);
           if (actionId !== null) {
@@ -284,8 +287,8 @@ const MultisigDetailsPage = () => {
         }
       } else if (parameters.functionName === 'unsign') {
         if (
-          parameters.outputParameters.length === 1
-          && hexToString(parameters.outputParameters[0]) === 'ok'
+          parameters.outputParameters.length === 1 &&
+          hexToString(parameters.outputParameters[0]) === 'ok'
         ) {
           const actionId = hexToNumber(parameters.inputParameters[0]);
           if (actionId !== null) {
@@ -327,11 +330,12 @@ const MultisigDetailsPage = () => {
     }
   };
 
-  const onSendEgld = () => dispatch(
-    setProposeMultiselectSelectedOption({
-      option: ProposalsTypes.multiselect_proposal_options,
-    }),
-  );
+  const onSendEgld = () =>
+    dispatch(
+      setProposeMultiselectSelectedOption({
+        option: ProposalsTypes.multiselect_proposal_options,
+      }),
+    );
 
   if (!parseMultisigAddress()) {
     return <Navigate to="/multisig" />;
@@ -344,7 +348,10 @@ const MultisigDetailsPage = () => {
   return (
     <MultisigDetailsContext.Provider
       value={{
-        quorumSize, totalBoardMembers, isProposer, multisigBalance,
+        quorumSize,
+        totalBoardMembers,
+        isProposer,
+        multisigBalance,
       }}
     >
       <div className="dashboard w-100">
@@ -356,25 +363,17 @@ const MultisigDetailsPage = () => {
                 <div className="user-role">
                   <p className="icon">
                     <FontAwesomeIcon icon={faUser} />
-                    Role:
-                    {' '}
-                    <span className="text">{t(userRoleAsString)}</span>
+                    Role: <span className="text">{t(userRoleAsString)}</span>
                   </p>
                 </div>
                 <div className="wallet-name position-relative">
-                  <h3 className="text-center mb-0">
-                    {multisigName}
-                    {' '}
-                  </h3>
+                  <h3 className="text-center mb-0">{multisigName} </h3>
                 </div>
                 {deployedAt != null && (
                   <div className="created d-flex">
                     <p className="time">
-                      <FontAwesomeIcon icon={faCalendarAlt} className="icon" />
-                      {' '}
-                      Created:
-                      {' '}
-                      <span className="text">{deployedAt}</span>
+                      <FontAwesomeIcon icon={faCalendarAlt} className="icon" />{' '}
+                      Created: <span className="text">{deployedAt}</span>
                     </p>
                   </div>
                 )}
@@ -409,8 +408,7 @@ const MultisigDetailsPage = () => {
                     denomination,
                     decimals,
                     showLastNonZeroDecimal: true,
-                  })}
-                  {' '}
+                  })}{' '}
                   {egldLabel}
                 </h2>
                 <h5 className="ex-currency text-center">
@@ -423,8 +421,7 @@ const MultisigDetailsPage = () => {
                       addCommas: false,
                     })}
                     usd={egldPrice}
-                  />
-                  {' '}
+                  />{' '}
                   USD
                 </h5>
               </div>

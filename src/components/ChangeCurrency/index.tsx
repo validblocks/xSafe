@@ -5,7 +5,10 @@ import './ChangeCurrency.scss';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
-import { selectedCurrencySelector, valueInUsdSelector } from 'redux/selectors/currencySelector';
+import {
+  selectedCurrencySelector,
+  valueInUsdSelector,
+} from '@redux/selectors/currencySelector';
 import useCurrency from 'utils/useCurrency';
 
 const ChangeCurrency = () => {

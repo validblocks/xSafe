@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { AddressBook } from 'pages/Organization/types';
-import { addressBookSelector } from 'redux/selectors/addressBookSelector';
-import { RootState } from 'redux/store';
+import { addressBookSelector } from '@redux/selectors/addressBookSelector';
+import { RootState } from '@redux/store';
 import { SelectedOptionType } from 'types/Proposals';
 
 type ProposeReplaceOwnerType = {
@@ -26,9 +26,10 @@ const ReplaceOwner = ({
   const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
   const { t }: { t: any } = useTranslation();
 
-  const currentOwner = 'currentOwner' in selectedOption!
-    ? selectedOption?.currentOwner
-    : { name: '', address: '' };
+  const currentOwner =
+    'currentOwner' in selectedOption!
+      ? selectedOption?.currentOwner
+      : { name: '', address: '' };
 
   const name = addressBook[currentOwner.address as string] || '';
   const { address } = currentOwner;
@@ -45,9 +46,7 @@ const ReplaceOwner = ({
       name: '',
       replacementAddress: '',
     },
-    onSubmit: () => {
-
-    },
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -76,17 +75,10 @@ const ReplaceOwner = ({
       onSubmit={replaceOwnerForm.handleSubmit}
     >
       <p>Current owner:</p>
-      Name:
-      {' '}
-      <span>{name}</span>
-      Adress:
-      {' '}
-      <span>{address as string}</span>
+      Name: <span>{name}</span>
+      Adress: <span>{address as string}</span>
       <fieldset>
-        <label htmlFor="name">
-          {t('Name')}
-          {' '}
-        </label>
+        <label htmlFor="name">{t('Name')} </label>
         <input
           id="name"
           name="name"
@@ -100,10 +92,7 @@ const ReplaceOwner = ({
           className="h6 mb-spacer text-break remove-user"
           data-testid="delegateSubTitle"
         />
-        <label>
-          {t('Address')}
-          {' '}
-        </label>
+        <label>{t('Address')} </label>
         <input
           id="replacementAddress"
           name="replacementAddress"

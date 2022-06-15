@@ -11,7 +11,7 @@ import ReceiveModal from 'components/ReceiveModal';
 import SafeOptions from 'components/SafeOptions';
 import { uniqueContractAddress } from 'multisigConfig';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
-import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
+import { currentMultisigContractSelector } from '@redux/selectors/multisigContractsSelectors';
 import { Anchor, ReadOnly, MembersBox } from '../navbar-style';
 import TotalBalance from '../TotalBalance';
 
@@ -44,9 +44,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
         <Box>
           <MembersBox>
             <Typography>
-              {membersCount}
-              {' '}
-              {membersCount == 1 ? 'Member' : 'Members'}
+              {membersCount} {membersCount == 1 ? 'Member' : 'Members'}
             </Typography>
           </MembersBox>
         </Box>

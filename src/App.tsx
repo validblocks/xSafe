@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
+import { CssBaseline } from '@mui/material';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -13,16 +14,14 @@ import { ThemeProvider } from 'styled-components';
 import { germanTranslations } from 'i18n/de';
 import { englishTranslations } from 'i18n/en';
 import OrganizationInfoContextProvider from 'pages/Organization/OrganizationInfoContextProvider';
-import { store, persistor } from 'redux/store';
+import { theme } from 'components/Theme/createTheme';
+import { store, persistor } from './redux/store';
 import Layout from './components/Layout';
 import PageNotFound from './components/PageNotFound';
 
 import routes from './routes';
 
 import '@elrondnetwork/dapp-core/build/index.css';
-// import { theme } from 'components/StyledComponents/createTheme';
-import { createTheme, CssBaseline } from '@mui/material';
-import { theme } from 'components/Theme/createTheme';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -81,7 +80,7 @@ export default function App() {
                       {routes.map((route, i) => (
                         <Route
                           path={route.path}
-                          key={route.path + i}
+                          key={route.path}
                           element={<route.component />}
                         />
                       ))}

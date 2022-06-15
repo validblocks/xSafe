@@ -1,6 +1,4 @@
-import React, {
-  useCallback, useEffect, useMemo, useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -14,7 +12,7 @@ import {
 } from '@mui/x-data-grid';
 import { useDispatch } from 'react-redux';
 import { queryProposerAddresses } from 'contracts/MultisigContract';
-import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
+import { setProposeModalSelectedOption } from '@redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import { truncateInTheMiddle } from 'utils/addressUtils';
 
@@ -22,12 +20,13 @@ type ProposerTableRow = Address & { id: number; role: string };
 
 const ProposersTable = () => {
   const dispatch = useDispatch();
-  const onRemoveUser = (address: string) => dispatch(
-    setProposeModalSelectedOption({
-      option: ProposalsTypes.remove_user,
-      address,
-    }),
-  );
+  const onRemoveUser = (address: string) =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.remove_user,
+        address,
+      }),
+    );
 
   const toggleAdmin = useCallback(
     (id: GridRowId) => () => {
@@ -117,7 +116,9 @@ const ProposersTable = () => {
             <GridActionsCellItem
               icon={<DeleteIcon htmlColor="#9DABBD" />}
               label="Delete"
-              onClick={() => onRemoveUser(new Address(params.row.valueHex).bech32())}
+              onClick={() =>
+                onRemoveUser(new Address(params.row.valueHex).bech32())
+              }
             />
           </div>,
         ],
@@ -137,7 +138,7 @@ const ProposersTable = () => {
         id: idx,
       }));
       setAllProposers(proposersWithIndexes as ProposerTableRow[]);
-    }());
+    })();
   }, []);
 
   return (

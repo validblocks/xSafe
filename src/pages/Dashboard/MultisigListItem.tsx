@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { Ui } from '@elrondnetwork/dapp-utils';
-import { faPencilAlt, faExternalLinkAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPencilAlt,
+  faExternalLinkAlt,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -15,7 +19,7 @@ import { uniqueContractAddress } from 'multisigConfig';
 import {
   setMultisigContracts,
   updateMultisigContract,
-} from 'redux/slices/multisigContractsSlice';
+} from '@redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'types/multisigContracts';
 import ConfirmUnregisterModal from './ConfirmUnregisterModal';
 import EditContractNameModal from './EditContractNameModal';

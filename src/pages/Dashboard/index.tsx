@@ -22,8 +22,8 @@ import NewDashboard from 'pages/NewDashboard';
 import {
   multisigContractsFetchedSelector,
   multisigContractsSelector,
-} from 'redux/selectors/multisigContractsSelectors';
-import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
+} from '@redux/selectors/multisigContractsSelectors';
+import { setMultisigContracts } from '@redux/slices/multisigContractsSlice';
 import { storageApi } from 'services/accessTokenServices';
 import { MultisigContractInfoType } from 'types/multisigContracts';
 import AddMultisigModal from './AddMultisigModal';
@@ -136,9 +136,7 @@ const Dashboard = () => {
   }
   if (invalidMultisigContract) {
     return (
-      <div
-        className="d-flex flex-fill justify-content-center align-items-center flex-column"
-      >
+      <div className="d-flex flex-fill justify-content-center align-items-center flex-column">
         <p className="h2">
           {t(
             'The address you provided does not belong to a valid Multisig contract',

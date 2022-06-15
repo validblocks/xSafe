@@ -16,7 +16,7 @@ import {
   mutateEsdtIssueToken,
   mutateEsdtSendToken,
 } from 'contracts/MultisigContract';
-import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
+import { setProposeMultiselectSelectedOption } from '@redux/slices/modalsSlice';
 import { MultisigAction } from 'types/MultisigAction';
 import { MultisigDeployContractFromSource } from 'types/MultisigDeployContractFromSource';
 import { MultisigIssueToken } from 'types/MultisigIssueToken';
@@ -48,7 +48,8 @@ const ProposeMultiselectModal = ({
 }: ProposeMultiselectModalPropsType) => {
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
-  const [selectedProposal, setSelectedProposal] = React.useState<MultisigAction | null>(null);
+  const [selectedProposal, setSelectedProposal] =
+    React.useState<MultisigAction | null>(null);
   const [submitDisabled, setSubmitDisabled] = React.useState(true);
 
   const onProposeClicked = () => {
@@ -170,7 +171,9 @@ const ProposeMultiselectModal = ({
 
   const goBackButton = (
     <button
-      onClick={() => handleOptionSelected(ProposalsTypes.multiselect_proposal_options)}
+      onClick={() =>
+        handleOptionSelected(ProposalsTypes.multiselect_proposal_options)
+      }
       className="btn btn-primary btn-light "
     >
       <FontAwesomeIcon icon={faArrowLeft} />
@@ -186,9 +189,11 @@ const ProposeMultiselectModal = ({
   );
   const cancelButton = closeButton;
 
-  const actionTitle = selectedOption?.option != null ? `: ${titles[selectedOption?.option]}` : '';
+  const actionTitle =
+    selectedOption?.option != null ? `: ${titles[selectedOption?.option]}` : '';
 
-  const isAttachContractAction = selectedOption?.option === ProposalsTypes.attach_contract;
+  const isAttachContractAction =
+    selectedOption?.option === ProposalsTypes.attach_contract;
 
   const modalContent = isAttachContractAction ? (
     <AttachContractContent handleClose={handleClose} />
@@ -203,8 +208,8 @@ const ProposeMultiselectModal = ({
         <div className="modal-action-btns">
           {cancelButton}
 
-          {selectedOption?.option
-            !== ProposalsTypes.multiselect_proposal_options && proposeButton}
+          {selectedOption?.option !==
+            ProposalsTypes.multiselect_proposal_options && proposeButton}
         </div>
       </div>
     </div>

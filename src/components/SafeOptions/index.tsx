@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import {
-  Box, Button, Grid, Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,13 +11,13 @@ import addressShorthand from 'helpers/addressShorthand';
 import {
   currencyConvertedSelector,
   selectedCurrencySelector,
-} from 'redux/selectors/currencySelector';
-import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
+} from '@redux/selectors/currencySelector';
+import { setProposeMultiselectSelectedOption } from '@redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import { useNavigate } from 'react-router-dom';
 import { uniqueContractAddress } from 'multisigConfig';
 import DeployStepsModal from 'pages/Dashboard/DeployMultisigModal';
-import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
+import { setMultisigContracts } from '@redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'types/multisigContracts';
 import {
   ActiveWallet,
@@ -39,11 +37,12 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
     setShortAddress(addressShorthand);
   }, [addressShorthand]);
 
-  const addSafe = () => dispatch(
-    setProposeMultiselectSelectedOption({
-      option: ProposalsTypes.add_proposer,
-    }),
-  );
+  const addSafe = () =>
+    dispatch(
+      setProposeMultiselectSelectedOption({
+        option: ProposalsTypes.add_proposer,
+      }),
+    );
 
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
 
@@ -84,8 +83,7 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
               <TypographyBold align="left">My Safe</TypographyBold>
               <Typography align="left">{shortAddress}</Typography>
               <TypographyBold align="left">
-                ≈
-                {currencyConverted.toFixed(2)}
+                ≈{currencyConverted.toFixed(2)}
                 {getCurrency}
               </TypographyBold>
             </ActiveWallet>
