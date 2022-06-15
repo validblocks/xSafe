@@ -111,7 +111,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className='flex-row flex-fill wrapper page-wrapper'>
       {width ? <Navbar /> : <MobileLayout />}
-      <Main className='flex-row flex-fill position-relative justify-center'>
+      <Main
+        className='flex-row flex-fill position-relative justify-center'
+        style={{ paddingLeft: '10px', paddingRight: '10px' }}
+      >
         <Box sx={{ padding: '6rem 0px' }}>
           <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '1' }}>
             {width ? (

@@ -32,6 +32,7 @@ import { MultisigAction } from 'types/MultisigAction';
 import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
 import { multisigContractFunctionNames } from 'types/multisigFunctionNames';
 import { MultisigIssueToken } from 'types/MultisigIssueToken';
+import { MultisigSendNft } from 'types/MultisigSendNft';
 import { MultisigSendToken } from 'types/MultisigSendToken';
 import { setCurrentMultisigTransactionId } from '../redux/slices/multisigContractsSlice';
 import { store } from '../redux/store';
@@ -223,6 +224,16 @@ export function mutateEsdtSendToken(proposal: MultisigSendToken) {
     multisigContractFunctionNames.ESDTTransfer,
     BytesValue.fromUTF8(proposal.identifier),
     new U32Value(proposal.amount)
+  );
+}
+
+export function mutateEsdtSendNft(proposal: MultisigSendNft) {
+  mutateSmartContractCall(
+    proposal.address,
+    new BigUIntValue(new BigNumber(0)),
+    multisigContractFunctionNames.ESDTNFTTransfer,
+    BytesValue.fromUTF8(proposal.identifier)
+    // new U32Value(proposal.amount)
   );
 }
 

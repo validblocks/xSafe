@@ -14,7 +14,8 @@ import {
   mutateDeployContractFromSource,
   mutateUpgradeContractFromSource,
   mutateEsdtIssueToken,
-  mutateEsdtSendToken
+  mutateEsdtSendToken,
+  mutateEsdtSendNft
 } from 'contracts/MultisigContract';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { MultisigAction } from 'types/MultisigAction';
@@ -39,6 +40,7 @@ import SelectOption from './SelectOption';
 
 import './proposeMultiselectModal.scss';
 import ProposeSendNft from './ProposeSendNft';
+import { MultisigSendNft } from 'types/MultisigSendNft';
 
 interface ProposeMultiselectModalPropsType {
   selectedOption: SelectedOptionType;
@@ -73,6 +75,8 @@ const ProposeMultiselectModal = ({
         mutateEsdtIssueToken(selectedProposal as MultisigIssueToken);
       } else if (selectedProposal instanceof MultisigSendToken) {
         mutateEsdtSendToken(selectedProposal as MultisigSendToken);
+      } else if (selectedProposal instanceof MultisigSendNft) {
+        mutateEsdtSendNft(selectedProposal as MultisigSendNft);
       } else if (selectedProposal instanceof MultisigDeployContractFromSource) {
         mutateDeployContractFromSource(
           selectedProposal.amount,

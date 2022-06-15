@@ -48,7 +48,6 @@ export interface ModalsSliceState {
   proposeModal: ProposeModal;
   proposeMultiselectModal: ProposeMultiselectModal;
   performActionModal: PerformActionModal;
-  // proposeNftModal: PerformActionModal;
 }
 
 const initialState: ModalsSliceState = {
@@ -63,9 +62,6 @@ const initialState: ModalsSliceState = {
     selectedToken: null,
     selectedNft: null
   }
-  // proposeNftModal: {
-  //   selectedAction: null,
-  // }
 };
 
 export const modalsSlice = createSlice({
