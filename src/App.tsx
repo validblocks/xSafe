@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
-// import { ThemeProvider } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
