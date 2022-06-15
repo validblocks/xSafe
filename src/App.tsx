@@ -42,25 +42,25 @@ dayjs.updateLocale('en', {
     'September',
     'October',
     'November',
-    'December'
-  ]
+    'December',
+  ],
 });
 
 i18n.use(initReactI18next).init({
   resources: {
     en: {
-      translation: englishTranslations
+      translation: englishTranslations,
     },
     de: {
-      translation: germanTranslations
-    }
+      translation: germanTranslations,
+    },
   },
   lng: 'en',
   fallbackLng: 'en',
 
   interpolation: {
-    escapeValue: false
-  }
+    escapeValue: false,
+  },
 });
 
 export default function App() {
@@ -68,7 +68,7 @@ export default function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ReduxProvider store={store}>
-        <DappProvider environment={'devnet'}>
+        <DappProvider environment="devnet">
           <OrganizationInfoContextProvider>
             <>
               <DappUI.SignTransactionsModals />

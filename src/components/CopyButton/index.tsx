@@ -13,7 +13,7 @@ interface CopyButtonType {
 const CopyButton = ({ text, className = '' }: CopyButtonType) => {
   const [copyResult, setCopyResut] = React.useState({
     default: true,
-    success: false
+    success: false,
   });
 
   const handleCopyToClipboard = async (e: React.MouseEvent) => {
@@ -23,27 +23,27 @@ const CopyButton = ({ text, className = '' }: CopyButtonType) => {
     const noSpaces = text ? text.trim() : text;
     setCopyResut({
       default: false,
-      success: await copyTextToClipboard(noSpaces)
+      success: await copyTextToClipboard(noSpaces),
     });
 
     setTimeout(() => {
       setCopyResut({
         default: true,
-        success: false
+        success: false,
       });
     }, 1000);
   };
 
   return (
     <a
-      href='/#'
+      href="/#"
       onClick={handleCopyToClipboard}
       className={`side-action text-secondary ${className}`}
     >
       {copyResult.default || !copyResult.success ? (
         <CopyAllIcon />
       ) : (
-        <FontAwesomeIcon icon={faCheck} className='text-primary-highlight' />
+        <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
       )}
     </a>
   );

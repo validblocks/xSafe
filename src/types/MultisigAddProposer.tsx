@@ -23,16 +23,14 @@ export class MultisigAddProposer extends MultisigAction {
 
   description() {
     return (
-      <>
-        <div className='address'>
-          <Ui.Trim text={this.address.bech32()} />
-          <ExplorerLink
-            page={`accounts/${this.address.bech32()}`}
-            text={<FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />}
-            className='link-second-style'
-          />
-        </div>
-      </>
+      <div className="address">
+        <Ui.Trim text={this.address.bech32()} />
+        <ExplorerLink
+          page={`accounts/${this.address.bech32()}`}
+          text={<FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />}
+          className="link-second-style"
+        />
+      </div>
     );
   }
 

@@ -10,11 +10,11 @@ interface TrustedBadgePropsType {
   onVerificationComplete?: (trusted: boolean) => void;
 }
 
-function TrustedBadge({
+const TrustedBadge = ({
   contractAddress,
   initialValue,
-  onVerificationComplete
-}: TrustedBadgePropsType) {
+  onVerificationComplete,
+}: TrustedBadgePropsType) => {
   const [isTrusted, setIsTrusted] = React.useState(initialValue);
 
   async function validateContractHash() {
@@ -32,12 +32,12 @@ function TrustedBadge({
   return (
     <>
       {isTrusted && (
-        <span className='trust-badge'>
-          <img src={TrustedBadgeIcon} alt='trusted-badge' />
+        <span className="trust-badge">
+          <img src={TrustedBadgeIcon} alt="trusted-badge" />
         </span>
       )}
     </>
   );
-}
+};
 
 export default TrustedBadge;

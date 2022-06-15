@@ -13,7 +13,7 @@ const ProposeInputAddress = ({
   handleParamsChange,
   setSubmitDisabled,
   invalidAddress,
-  disabled
+  disabled,
 }: ProposeInputAddressType) => {
   const [address, setAddress] = useState('');
   const [error, setError] = useState(false);
@@ -35,19 +35,22 @@ const ProposeInputAddress = ({
   };
 
   return (
-    <div className='modal-control-container'>
-      <label>{t('Address')} </label>
+    <div className="modal-control-container">
+      <label>
+        {t('Address')}
+        {' '}
+      </label>
       <input
-        type='text'
+        type="text"
         disabled={disabled}
-        className='form-control'
+        className="form-control"
         value={address}
-        autoComplete='off'
+        autoComplete="off"
         onChange={handleAddressChanged}
       />
-      {error && <p className='text-danger'>{t('Invalid address')}</p>}
+      {error && <p className="text-danger">{t('Invalid address')}</p>}
       {invalidAddress && !error && (
-        <p className='text-danger'>
+        <p className="text-danger">
           {t('This is not a valid multisig address')}
         </p>
       )}

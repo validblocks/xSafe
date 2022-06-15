@@ -10,12 +10,14 @@ const Settings = () => {
     value: number;
   }
 
-  function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
+  const TabPanel = (props: TabPanelProps) => {
+    const {
+      children, value, index, ...other
+    } = props;
 
     return (
       <div
-        role='tabpanel'
+        role="tabpanel"
         hidden={value !== index}
         id={`simple-tabpanel-${index}`}
         aria-labelledby={`simple-tab-${index}`}
@@ -23,17 +25,17 @@ const Settings = () => {
       >
         {value === index && (
           <Box sx={{ p: 3 }}>
-            <Typography component='span'>{children}</Typography>
+            <Typography component="span">{children}</Typography>
           </Box>
         )}
       </div>
     );
-  }
+  };
 
   function a11yProps(index: number) {
     return {
       id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`
+      'aria-controls': `simple-tabpanel-${index}`,
     };
   }
 

@@ -4,85 +4,85 @@ const breadcrumbItems: any = {
   decisions: [
     {
       link: '/decisions',
-      name: 'Decisions'
-    }
+      name: 'Decisions',
+    },
   ],
   [`multisig/${uniqueContractAddress}`]: [
     {
       link: `/multisig/${uniqueContractAddress}`,
-      name: 'Multisig'
-    }
+      name: 'Multisig',
+    },
   ],
   'address-book': [
     {
       link: '/address-book',
-      name: 'Address Book'
-    }
+      name: 'Address Book',
+    },
   ],
   apps: [
     {
       link: '/apps',
-      name: 'Apps'
-    }
+      name: 'Apps',
+    },
   ],
   owners: [
     {
       link: '/owners',
-      name: 'Owners'
-    }
+      name: 'Owners',
+    },
   ],
   nft: [
     {
       link: '/nft',
-      name: 'NFT'
-    }
+      name: 'NFT',
+    },
   ],
   cvorum: [
     {
       link: '/cvorum',
-      name: 'Cvorum'
-    }
+      name: 'Cvorum',
+    },
   ],
   tokens: [
     {
       link: '/tokens',
-      name: 'Tokens'
-    }
+      name: 'Tokens',
+    },
   ],
   settings: [
     {
       link: '/settings',
-      name: 'Settings'
-    }
+      name: 'Settings',
+    },
   ],
   unlock: [
     {
       link: '/unlock',
-      name: 'Unlock'
-    }
+      name: 'Unlock',
+    },
   ],
   'help-center': [
     {
       link: '/help-center',
-      name: 'Help Center'
-    }
+      name: 'Help Center',
+    },
   ],
   'decisions/add-board-member-to-organization': [
     {
       link: '/decisions',
-      name: 'Decisions'
+      name: 'Decisions',
     },
     {
       link: '/decisions/add-board-member-to-organization',
-      name: 'Add Board Member To Organization'
-    }
+      name: 'Add Board Member To Organization',
+    },
   ],
   transactions: [
     {
       link: '/transactions',
-      name: 'Transactions'
-    }
-  ]
+      name: 'Transactions',
+    },
+  ],
 };
 
 export default breadcrumbItems;

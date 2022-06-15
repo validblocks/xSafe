@@ -9,17 +9,17 @@ import {
   mutateProposeChangeQuorum,
   mutateProposeAddProposer,
   mutateProposeAddBoardMember,
-  mutateProposeRemoveUser
+  mutateProposeRemoveUser,
 } from 'contracts/MultisigContract';
 import { addEntry } from 'redux/slices/addressBookSlice';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes, SelectedOptionType } from 'types/Proposals';
 import { titles } from '../constants';
-import EditOwner from '../ProposeModal/EditOwner';
-import ProposeChangeQuorum from '../ProposeModal/ProposeChangeQuorum';
-import ProposeInputAddress from '../ProposeModal/ProposeInputAddress';
-import ProposeRemoveUser from '../ProposeModal/ProposeRemoveUser';
-import ReplaceOwner from '../ProposeModal/ReplaceOwner';
+import EditOwner from './EditOwner';
+import ProposeChangeQuorum from './ProposeChangeQuorum';
+import ProposeInputAddress from './ProposeInputAddress';
+import ProposeRemoveUser from './ProposeRemoveUser';
+import ReplaceOwner from './ReplaceOwner';
 
 interface ProposeModalPropsType {
   selectedOption: SelectedOptionType;
@@ -32,11 +32,10 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
   const [submitDisabled, setSubmitDisabled] = useState(false);
   const [selectedNumericParam, setSelectedNumericParam] = useState(1);
   const [selectedAddressParam, setSelectedAddressParam] = useState(
-    new Address()
+    new Address(),
   );
   const [selectedNameParam, setSelectedNameParam] = useState('');
-  const [selectedReplacementAddressParam, setSelectedReplacementAddressParam] =
-    useState(new Address());
+  const [selectedReplacementAddressParam, setSelectedReplacementAddressParam] = useState(new Address());
 
   const onProposeClicked = () => {
     try {
@@ -57,23 +56,23 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
           dispatch(
             addEntry({
               address: selectedAddressParam.bech32(),
-              name: selectedNameParam
-            })
+              name: selectedNameParam,
+            }),
           );
           break;
         case ProposalsTypes.replace_owner:
           console.log(
             selectedAddressParam,
             selectedReplacementAddressParam,
-            selectedNameParam
+            selectedNameParam,
           );
           mutateProposeRemoveUser(selectedAddressParam);
           mutateProposeAddBoardMember(selectedReplacementAddressParam);
           dispatch(
             addEntry({
               address: selectedReplacementAddressParam.bech32(),
-              name: selectedNameParam
-            })
+              name: selectedNameParam,
+            }),
           );
           break;
         default:
@@ -137,9 +136,7 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
         return (
           <ReplaceOwner
             handleSetAddress={handleAddressParamChange}
-            handleSetReplacementAddress={(value) =>
-              setSelectedReplacementAddressParam(value)
-            }
+            handleSetReplacementAddress={(value) => setSelectedReplacementAddressParam(value)}
             handleSetName={(value) => setSelectedNameParam(value)}
             selectedOption={selectedOption}
             selectedAddress={selectedAddressParam}
@@ -148,29 +145,28 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
     }
   };
 
-  const actionTitle =
-    selectedOption?.option != null ? `: ${titles[selectedOption?.option]}` : '';
+  const actionTitle = selectedOption?.option != null ? `: ${titles[selectedOption?.option]}` : '';
   return (
     <Modal
       show
-      size='lg'
+      size="lg"
       onHide={handleClose}
-      className='modal-container proposal-modal'
+      className="modal-container proposal-modal"
       animation={false}
       centered
     >
-      <div className='card'>
-        <div className='card-body'>
-          <p className='h3 mb-spacer text-center' data-testid='delegateTitle'>
+      <div className="card">
+        <div className="card-body">
+          <p className="h3 mb-spacer text-center" data-testid="delegateTitle">
             {`${t('Make a proposal')}${actionTitle}`}
           </p>
 
           <div>
             {getModalContent()}
-            <div className='modal-action-btns'>
+            <div className="modal-action-btns">
               <button
                 onClick={handleClose}
-                className='btn btn-primary btn-light '
+                className="btn btn-primary btn-light "
               >
                 <FontAwesomeIcon icon={faTimes} />
                 {t('Cancel')}
@@ -178,7 +174,7 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
               <button
                 disabled={submitDisabled}
                 onClick={onProposeClicked}
-                className='btn btn-primary '
+                className="btn btn-primary "
               >
                 <FontAwesomeIcon icon={faHandPaper} />
                 {t('Propose')}

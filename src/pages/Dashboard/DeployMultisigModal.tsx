@@ -22,24 +22,23 @@ interface PendingDeploymentContractData {
 const DeployStepsModal = ({
   show,
   handleClose,
-  setNewContracts
+  setNewContracts,
 }: DeployStepsModalType) => {
   const { t }: { t: any } = useTranslation();
 
   const [name, setName] = useState('');
 
-  const [pendingDeploymentContractData, setPendingDeploymentContractData] =
-    useState<PendingDeploymentContractData | null>(null);
+  const [pendingDeploymentContractData, setPendingDeploymentContractData] = useState<PendingDeploymentContractData | null>(null);
 
   transactionServices.useTrackTransactionStatus({
     transactionId: pendingDeploymentContractData?.transactionId || null,
-    onSuccess: onAddMultisigFinished
+    onSuccess: onAddMultisigFinished,
   });
   async function onAddMultisigFinished() {
     const { multisigAddress } = pendingDeploymentContractData!;
     const newContracts = await addContractToMultisigContractsList({
       address: multisigAddress,
-      name
+      name,
     });
     setNewContracts(newContracts);
     handleClose();
@@ -49,7 +48,7 @@ const DeployStepsModal = ({
     const { multisigAddress, sessionId } = await deployMultisigContract();
     setPendingDeploymentContractData({
       multisigAddress,
-      transactionId: sessionId
+      transactionId: sessionId,
     });
     setName('');
     handleClose();
@@ -59,36 +58,40 @@ const DeployStepsModal = ({
     <Modal
       show={show}
       onHide={handleClose}
-      className='modal-container'
+      className="modal-container"
       animation={false}
       centered
     >
-      <div className='card'>
-        <div className='card-body p-spacer '>
-          <p className='h3 text-center' data-testid='delegateTitle'>
+      <div className="card">
+        <div className="card-body p-spacer ">
+          <p className="h3 text-center" data-testid="delegateTitle">
             {t('Multisig Deployment')}
           </p>
 
-          <div className='modal-control-container'>
-            <label>{t('Name')}: </label>
+          <div className="modal-control-container">
+            <label>
+              {t('Name')}
+              :
+              {' '}
+            </label>
             <input
-              type='text'
-              className='form-control'
+              type="text"
+              className="form-control"
               value={name}
-              autoComplete='off'
+              autoComplete="off"
               onChange={(e) => setName(e.target.value)}
             />
           </div>
 
-          <div className='modal-action-btns'>
+          <div className="modal-action-btns">
             <button
               onClick={handleClose}
-              className='btn btn-primary btn-light '
+              className="btn btn-primary btn-light "
             >
               <FontAwesomeIcon icon={faTimes} />
               {t('Cancel')}
             </button>
-            <button onClick={onDeploy} className='btn btn-primary mb-3'>
+            <button onClick={onDeploy} className="btn btn-primary mb-3">
               Sign and Deploy
             </button>
           </div>

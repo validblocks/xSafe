@@ -4,7 +4,7 @@ import { network } from '../config';
 export async function getAccountData(address: string) {
   try {
     const response = await axios.get(
-      `${network.apiAddress}/accounts/${address}`
+      `${network.apiAddress}/accounts/${address}`,
     );
     if (response && response.data) {
       return response.data;

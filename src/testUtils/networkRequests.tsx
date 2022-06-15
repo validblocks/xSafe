@@ -9,7 +9,7 @@ const mockImplementation = ({ networkRequests }: MockImplementationType) => {
     accountBalance: () => Promise.resolve({ data: rawData.accountBalance }),
     transactions: () => Promise.resolve({ data: rawData.transactions }),
     networkConfig: () => Promise.resolve({ data: rawData.networkConfig }),
-    ...networkRequests
+    ...networkRequests,
   };
 
   return (url: string): any => {

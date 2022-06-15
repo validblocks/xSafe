@@ -3,7 +3,9 @@ import { MultisigAction } from './MultisigAction';
 
 export class MultisigActionDetailed {
   actionId: number;
+
   signers: Address[];
+
   action: MultisigAction;
 
   constructor(action: MultisigAction, actionId: number, signers: Address[]) {
@@ -27,6 +29,7 @@ export class MultisigActionDetailed {
   typeNumber(): number {
     return this.action.type;
   }
+
   getData(): string | undefined {
     return this.action.getData();
   }

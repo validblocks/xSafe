@@ -12,21 +12,21 @@ import { TokenWithPrice } from 'pages/Organization/types';
 import { organizationTokensSelector } from 'redux/selectors/accountSelector';
 import {
   currencyConvertedSelector,
-  selectedCurrencySelector
+  selectedCurrencySelector,
 } from 'redux/selectors/currencySelector';
 import { priceSelector } from 'redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
 import {
   setMultisigBalance,
-  setOrganizationTokens
+  setOrganizationTokens,
 } from 'redux/slices/accountSlice';
 import { setValueInUsd } from 'redux/slices/currencySlice';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import useCurrency from 'utils/useCurrency';
-import { CenteredText } from '../navbar-style';
 import Divider from '@mui/material/Divider';
+import { CenteredText } from '../navbar-style';
 
 const TotalBalance = () => {
   const dispatch = useDispatch();
@@ -40,19 +40,16 @@ const TotalBalance = () => {
   const currentContract = useSelector(currentMultisigContractSelector);
   const {
     tokenPrices,
-    membersCountState: [membersCount]
+    membersCountState: [membersCount],
   } = useOrganizationInfoContext();
   const proxy = getNetworkProxy();
   const getTokenPrice = useCallback(
-    (tokenIdentifier: string) =>
-      tokenPrices.find((tokenWithPrice: TokenWithPrice) => {
-        return tokenWithPrice.symbol == tokenIdentifier;
-      })?.price ?? egldPrice,
-    []
+    (tokenIdentifier: string) => tokenPrices.find((tokenWithPrice: TokenWithPrice) => tokenWithPrice.symbol == tokenIdentifier)?.price ?? egldPrice,
+    [],
   );
   const fetchTokenPhotoUrl = useCallback(async (tokenIdentifier: string) => {
     const { data } = await axios.get(
-      `${network.apiAddress}/tokens/${tokenIdentifier}`
+      `${network.apiAddress}/tokens/${tokenIdentifier}`,
     );
 
     return data.assets.pngUrl;
@@ -62,22 +59,22 @@ const TotalBalance = () => {
     (async function getTokens() {
       let isMounted = true;
 
-      if (!currentContract?.address)
+      if (!currentContract?.address) {
         return () => {
           isMounted = false;
         };
+      }
 
       const getEgldBalancePromise = currentContract?.address
         ? proxy.getAccount(new Address(currentContract?.address))
         : {};
 
       const getAllOtherTokensPromise = axios.get(
-        `${network.apiAddress}/accounts/${currentContract?.address}/tokens`
+        `${network.apiAddress}/accounts/${currentContract?.address}/tokens`,
       );
 
       try {
-        const [{ balance: egldBalance }, { data: otherTokens }] =
-          await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
+        const [{ balance: egldBalance }, { data: otherTokens }] = await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
 
         if (!isMounted) return;
 
@@ -85,7 +82,7 @@ const TotalBalance = () => {
 
         const allTokens = [
           { ...egldBalance.token, balance: egldBalance.value.toString() },
-          ...otherTokens
+          ...otherTokens,
         ];
 
         const tokensWithPrices = [];
@@ -97,27 +94,26 @@ const TotalBalance = () => {
 
           let photoUrl = '';
 
-          if (token.identifier !== 'EGLD')
-            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
+          if (token.identifier !== 'EGLD') photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
 
           tokensWithPrices.push({
             ...tokenWithoutOwner,
             presentation: {
               tokenIdentifier: token.identifier,
-              photoUrl
+              photoUrl,
             },
             id: idx,
             balanceDetails: {
               photoUrl,
               identifier: token.identifier?.split('-')[0] ?? '',
               amount: token.balance as string,
-              decimals: token.decimals as number
+              decimals: token.decimals as number,
             },
             value: {
               tokenPrice: priceOfCurrentToken,
               decimals: token.decimals as number,
-              amount: token.balance as string
-            }
+              amount: token.balance as string,
+            },
           });
         }
 
@@ -125,7 +121,7 @@ const TotalBalance = () => {
       } catch (error) {
         console.log(error);
       }
-    })();
+    }());
   }, [currentContract]);
 
   const totalValue = () => {
@@ -148,7 +144,7 @@ const TotalBalance = () => {
             input: egldTotalPrice.toString(),
             denomination: 18,
             decimals: 4,
-            showLastNonZeroDecimal: true
+            showLastNonZeroDecimal: true,
           });
           arrayOfUsdValues.push(Number(denominatedEgldPrice));
         }
@@ -157,7 +153,7 @@ const TotalBalance = () => {
 
     if (arrayOfUsdValues.length > 0) {
       setTotalUsdValue(
-        arrayOfUsdValues.reduce((x: number, y: number) => x + y)
+        arrayOfUsdValues.reduce((x: number, y: number) => x + y),
       );
     }
   };
@@ -176,12 +172,11 @@ const TotalBalance = () => {
 
   const currencyConverted = useSelector(currencyConvertedSelector);
 
-  const onAddBoardMember = () =>
-    dispatch(
-      setProposeMultiselectSelectedOption({
-        option: ProposalsTypes.multiselect_proposal_options
-      })
-    );
+  const onAddBoardMember = () => dispatch(
+    setProposeMultiselectSelectedOption({
+      option: ProposalsTypes.multiselect_proposal_options,
+    }),
+  );
 
   const getCurrency = useSelector(selectedCurrencySelector);
 
@@ -196,22 +191,23 @@ const TotalBalance = () => {
         py: 1,
         px: 2,
         display: { sm: 'block', xs: 'flex' },
-        justifyContent: { sm: 'center', xs: 'space-around' }
+        justifyContent: { sm: 'center', xs: 'space-around' },
       }}
     >
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
         <CenteredText>Total balance:</CenteredText>
-        <CenteredText fontSize='16px' fontWeight='bold'>
-          ≈{currencyConverted?.toFixed(2)}
+        <CenteredText fontSize="16px" fontWeight="bold">
+          ≈
+          {currencyConverted?.toFixed(2)}
           {getCurrency}
         </CenteredText>
       </Box>
-      <Divider orientation='vertical' flexItem />
+      <Divider orientation="vertical" flexItem />
       <Box
-        className='d-flex justify-content-center'
+        className="d-flex justify-content-center"
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
       >
-        <MainButton variant='outlined' onClick={onAddBoardMember}>
+        <MainButton variant="outlined" onClick={onAddBoardMember}>
           New Transaction
         </MainButton>
       </Box>

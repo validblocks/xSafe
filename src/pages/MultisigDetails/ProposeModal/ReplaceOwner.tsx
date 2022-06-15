@@ -21,37 +21,36 @@ const ReplaceOwner = ({
   selectedOption,
   handleSetAddress,
   handleSetReplacementAddress,
-  handleSetName
+  handleSetName,
 }: ProposeReplaceOwnerType) => {
   const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
   const { t }: { t: any } = useTranslation();
 
-  const currentOwner =
-    'currentOwner' in selectedOption!
-      ? selectedOption?.currentOwner
-      : { name: '', address: '' };
+  const currentOwner = 'currentOwner' in selectedOption!
+    ? selectedOption?.currentOwner
+    : { name: '', address: '' };
 
   const name = addressBook[currentOwner.address as string] || '';
-  const address = currentOwner.address;
+  const { address } = currentOwner;
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(2, 'Too Short!')
       .max(500, 'Too Long!')
-      .required('Required')
+      .required('Required'),
   });
 
   const replaceOwnerForm = useFormik({
     initialValues: {
       name: '',
-      replacementAddress: ''
+      replacementAddress: '',
     },
     onSubmit: () => {
-      return;
+
     },
     validationSchema,
     validateOnChange: true,
-    validateOnMount: true
+    validateOnMount: true,
   });
 
   React.useEffect(() => {
@@ -73,33 +72,43 @@ const ReplaceOwner = ({
 
   return (
     <form
-      className='modal-controll-container'
+      className="modal-controll-container"
       onSubmit={replaceOwnerForm.handleSubmit}
     >
       <p>Current owner:</p>
-      Name: <span>{name}</span>
-      Adress: <span>{address as string}</span>
+      Name:
+      {' '}
+      <span>{name}</span>
+      Adress:
+      {' '}
+      <span>{address as string}</span>
       <fieldset>
-        <label htmlFor='name'>{t('Name')} </label>
+        <label htmlFor="name">
+          {t('Name')}
+          {' '}
+        </label>
         <input
-          id='name'
-          name='name'
-          type='text'
-          className='form-control'
+          id="name"
+          name="name"
+          type="text"
+          className="form-control"
           onChange={replaceOwnerForm.handleChange}
           value={replaceOwnerForm.values.name}
         />
 
         <div
-          className='h6 mb-spacer text-break remove-user'
-          data-testid='delegateSubTitle'
-        ></div>
-        <label>{t('Address')} </label>
+          className="h6 mb-spacer text-break remove-user"
+          data-testid="delegateSubTitle"
+        />
+        <label>
+          {t('Address')}
+          {' '}
+        </label>
         <input
-          id='replacementAddress'
-          name='replacementAddress'
-          type='text'
-          className='form-control'
+          id="replacementAddress"
+          name="replacementAddress"
+          type="text"
+          className="form-control"
           onChange={replaceOwnerForm.handleChange}
           value={replaceOwnerForm.values.replacementAddress}
         />

@@ -2,7 +2,7 @@ import { Address } from '@elrondnetwork/erdjs/out';
 import TransactionParameter from 'types/TransactionParameter';
 
 export async function tryParseTransactionParameter(
-  apiEndpoint: string
+  apiEndpoint: string,
 ): Promise<TransactionParameter | null> {
   const searchParams = new URLSearchParams(window.location.search);
   const txHash = searchParams.get('txHash');
@@ -43,6 +43,6 @@ export async function tryParseTransactionParameter(
     receiver,
     functionName,
     inputParameters.slice(1),
-    outputParameters
+    outputParameters,
   );
 }

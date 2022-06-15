@@ -19,5 +19,5 @@ export const titles = {
 
   [ProposalsTypes.attach_contract]: 'Attach contract',
   [ProposalsTypes.replace_owner]: 'Replace owner',
-  [ProposalsTypes.edit_owner]: 'Edit owner'
+  [ProposalsTypes.edit_owner]: 'Edit owner',
 };

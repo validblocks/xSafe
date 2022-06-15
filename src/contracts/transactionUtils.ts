@@ -10,7 +10,7 @@ import {
   ChainID,
   TransactionOptions,
   TransactionVersion,
-  Address
+  Address,
 } from '@elrondnetwork/erdjs';
 import { gasLimit } from 'config';
 import { providerTypes } from 'helpers/constants';
@@ -44,7 +44,7 @@ export function buildTransaction(
     receiver: contract.getAddress(),
     value: Balance.egld(value),
     gasLimit: new GasLimit(transactionGasLimit),
-    data: payload
+    data: payload,
   };
   if (providerType === providerTypes.ledger) {
     transactionPayload.options = TransactionOptions.withTxHashSignOptions();
@@ -58,14 +58,14 @@ export function buildBlockchainTransaction(
   providerType: string,
   transactionGasLimit: number = gasLimit,
   receiver: Address,
-  data: string
+  data: string,
 ) {
   const transactionPayload: TransactionPayloadType = {
     chainID: getChainID(),
     receiver,
     value: Balance.egld(value),
     gasLimit: new GasLimit(transactionGasLimit),
-    data: new TransactionPayload(data)
+    data: new TransactionPayload(data),
   };
 
   if (providerType === providerTypes.ledger) {

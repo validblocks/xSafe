@@ -3,7 +3,7 @@ import { Address } from '@elrondnetwork/erdjs/out';
 import {
   faTimes,
   faThumbsUp,
-  faCheck
+  faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import {
   mutateSign,
   mutateUnsign,
-  mutateDiscardAction
+  mutateDiscardAction,
 } from 'contracts/MultisigContract';
 import { setSelectedPerformedAction } from 'redux/slices/modalsSlice';
 
@@ -37,7 +37,7 @@ const TransactionActionsCard = ({
   canUnsign = false,
   canPerformAction = false,
   canDiscardAction = false,
-  value
+  value,
 }: TransactionActionsCardType) => {
   const { t }: { t: any } = useTranslation();
   const dispatch = useDispatch();
@@ -58,19 +58,22 @@ const TransactionActionsCard = ({
     mutateDiscardAction(actionId);
   };
   return (
-    <div className='text-black py-3'>
-      <div className='d-flex'>
-        <div className='d-flex btns action-btns'>
+    <div className="text-black py-3">
+      <div className="d-flex">
+        <div className="d-flex btns action-btns">
           {canSign && (
-            <button onClick={sign} className='btn action sign btn--approve'>
+            <button onClick={sign} className="btn action sign btn--approve">
               <FontAwesomeIcon icon={faThumbsUp} />
-              <span>{t('Approve')} </span>
+              <span>
+                {t('Approve')}
+                {' '}
+              </span>
             </button>
           )}
           {canUnsign && (
             <button
               onClick={unsign}
-              className='btn  action unsign btn--discard'
+              className="btn  action unsign btn--discard"
             >
               <FontAwesomeIcon icon={faTimes} />
               <span>{t('Withdraw')}</span>
@@ -80,7 +83,7 @@ const TransactionActionsCard = ({
             <button
               style={{ whiteSpace: 'nowrap' }}
               onClick={performAction}
-              className='btn action perform btn--approve'
+              className="btn action perform btn--approve"
             >
               <FontAwesomeIcon icon={faCheck} />
               {t('Perform')}
@@ -90,7 +93,7 @@ const TransactionActionsCard = ({
             <button
               style={{ whiteSpace: 'nowrap' }}
               onClick={discardAction}
-              className='btn action remove btn--discard'
+              className="btn action remove btn--discard"
             >
               <FontAwesomeIcon icon={faTimes} />
               {t('Discard')}

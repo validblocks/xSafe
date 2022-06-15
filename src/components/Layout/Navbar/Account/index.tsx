@@ -55,16 +55,16 @@ const Account = () => {
     setAnchorEl(null);
   };
   return (
-    <div className='mr-2'>
+    <div className="mr-2">
       <Box>
-        <MainButton variant='outlined' onClick={handleClick} size='large'>
+        <MainButton variant="outlined" onClick={handleClick} size="large">
           {loggedIn ? (
-            <Box className='d-flex'>
+            <Box className="d-flex">
               <BoltIcon />
               <Typography>{walletAddress}</Typography>
             </Box>
           ) : (
-            <Box className='d-flex'>
+            <Box className="d-flex">
               <BoltIcon />
               <Typography>Connect</Typography>
             </Box>

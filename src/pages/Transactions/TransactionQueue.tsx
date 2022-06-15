@@ -22,23 +22,24 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
 
     '&$expanded': {
-      margin: 0
-    }
-  }
+      margin: 0,
+    },
+  },
 }));
 
 const TransactionQueue = () => {
   const classes = useStyles();
   const [allPendingTransactions, setAllPendingTransactions] = useState(
-    [] as MultisigActionDetailed[]
+    [] as MultisigActionDetailed[],
   );
   const {
     quorumCountState: [quorumCount],
-    boardMembersState: [boardMembers]
+    boardMembersState: [boardMembers],
   } = useOrganizationInfoContext();
 
-  const { canUnsign, canPerformAction, canSign, canDiscardAction } =
-    useTransactionPermissions();
+  const {
+    canUnsign, canPerformAction, canSign, canDiscardAction,
+  } = useTransactionPermissions();
 
   useEffect(() => {
     queryAllActions().then((resp) => {
@@ -52,16 +53,16 @@ const TransactionQueue = () => {
         <Accordion key={transaction.actionId} sx={{ overflow: 'scroll' }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
+            aria-controls="panel1a-content"
             sx={{ borderBottom: '2px solid #ddd' }}
-            className='pl-0'
+            className="pl-0"
             classes={{
               content: classes.content,
-              expanded: classes.expanded
+              expanded: classes.expanded,
             }}
-            id='panel1a-header'
+            id="panel1a-header"
           >
-            <div className='d-flex w-100'>
+            <div className="d-flex w-100">
               <Box
                 sx={{
                   borderRight: '2px solid #ddd',
@@ -69,9 +70,9 @@ const TransactionQueue = () => {
                   fontSize: '0.85rem',
                   display: 'flex',
                   flexDirection: 'column',
-                  alignItems: 'center'
+                  alignItems: 'center',
                 }}
-                component='span'
+                component="span"
               >
                 <strong>ID: </strong>
                 {transaction.actionId}
@@ -83,10 +84,10 @@ const TransactionQueue = () => {
                   fontSize: '0.85rem',
                   display: 'flex',
                   alignItems: 'center',
-                  minWidth: '230px'
+                  minWidth: '230px',
                 }}
               >
-                <SettingsIcon className='mr-2' color='info' />
+                <SettingsIcon className="mr-2" color="info" />
                 {transaction.title()}
               </Box>
               <Box
@@ -95,11 +96,14 @@ const TransactionQueue = () => {
                   padding: '1rem',
                   fontSize: '0.85rem',
                   display: 'flex',
-                  alignItems: 'center'
+                  alignItems: 'center',
                 }}
               >
-                <PeopleIcon color='secondary' className='mr-2' />
-                {transaction.signers.length} out of {quorumCount}
+                <PeopleIcon color="secondary" className="mr-2" />
+                {transaction.signers.length}
+                {' '}
+                out of
+                {quorumCount}
               </Box>
             </div>
           </AccordionSummary>

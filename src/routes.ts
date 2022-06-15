@@ -41,118 +41,120 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
   welcome: {
     path: '/',
     title: 'Welcome',
-    component: Welcome
+    component: Welcome,
   },
   dashboard: {
     path: '/dashboard',
     title: 'Dashboard',
     component: Dashboard,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   decisions: {
     path: '/decisions',
     title: 'Decisions',
     component: Decisions,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   decisionActions: {
     path: '/decisions/:decisionsActionParam',
     title: 'Decision Actions',
     component: DecisionActions,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   multisigAddress: {
     path: '/multisig/:multisigAddressParam',
     title: 'Multisig',
     component: MultisigDetailsPage,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   multisig: {
     path: '/multisig',
     title: 'Multisig Details',
     component: Dashboard,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   unlock: {
     path: '/unlock',
     title: 'Unlock',
-    component: Unlock
+    component: Unlock,
   },
   organizationTokens: {
     path: '/tokens',
     title: 'Organization Tokens',
-    component: AssetsPage
+    component: AssetsPage,
   },
   assets: {
     path: '/assets',
     title: 'Assets',
-    component: AssetsPage
+    component: AssetsPage,
   },
   nft: {
     path: '/nft',
     title: 'NFT',
-    component: NftPage
+    component: NftPage,
   },
   transactions: {
     path: '/transactions',
     title: 'Transactions',
-    component: TransactionsPage
+    component: TransactionsPage,
   },
   cvorum: {
     path: '/cvorum',
     title: 'Cvorum',
-    component: CvorumContainer
+    component: CvorumContainer,
   },
   owners: {
     path: '/owners',
     title: 'Owners',
-    component: OrganizationTokens
+    component: OrganizationTokens,
   },
   settings: {
     path: '/settings',
     title: 'Settings',
-    component: Settings
+    component: Settings,
   },
   addressBook: {
     path: '/address-book',
     title: 'Address Book',
-    component: AddressBook
-  }
+    component: AddressBook,
+  },
 };
 
 export const foregroundRouteNames = Object.keys(foregroundRoutes).reduce(
   (acc, cur) => ({
     ...acc,
-    [cur]: foregroundRoutes[cur as ForegroundRoutesType].path
+    [cur]: foregroundRoutes[cur as ForegroundRoutesType].path,
   }),
-  {} as Record<ForegroundRoutesType, string>
+  {} as Record<ForegroundRoutesType, string>,
 );
 
 export const routeNames = {
-  ...foregroundRouteNames
+  ...foregroundRouteNames,
 };
 
 const routes: RouteType[] = [
   ...Object.keys(foregroundRoutes).map((route) => {
-    const { path, title, authenticatedRoute, component } =
-      foregroundRoutes[route as ForegroundRoutesType];
-    return { path, title, authenticatedRoute, component };
-  })
+    const {
+      path, title, authenticatedRoute, component,
+    } = foregroundRoutes[route as ForegroundRoutesType];
+    return {
+      path, title, authenticatedRoute, component,
+    };
+  }),
 ];
 
-const wrappedRoutes = () =>
-  routes.map((route) => {
-    const title = route.title
-      ? `${route.title} • Elrond ${dAppName}`
-      : `Elrond ${dAppName}`;
-    return {
-      path: route.path,
-      authenticatedRoute: Boolean(route.authenticatedRoute),
-      component: withPageTitle(
-        title,
-        route.component
-      ) as any as React.ComponentClass<any, any>
-    };
-  });
+const wrappedRoutes = () => routes.map((route) => {
+  const title = route.title
+    ? `${route.title} • Elrond ${dAppName}`
+    : `Elrond ${dAppName}`;
+  return {
+    path: route.path,
+    authenticatedRoute: Boolean(route.authenticatedRoute),
+    component: withPageTitle(
+      title,
+      route.component,
+    ) as any as React.ComponentClass<any, any>,
+  };
+});
 
 export default wrappedRoutes();

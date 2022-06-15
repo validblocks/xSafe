@@ -20,7 +20,7 @@ const initialState: StateType = {
   marketCap: 4354194414,
   apr: 0.145685,
   topUpApr: 0.110861,
-  baseApr: 0.166948
+  baseApr: 0.166948,
 };
 
 export const economicsSlice = createSlice({
@@ -29,13 +29,11 @@ export const economicsSlice = createSlice({
   reducers: {
     setEconomics(state: StateType, action: PayloadAction<StateType>) {
       return action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(logoutAction, () => {
-      return initialState;
-    });
-  }
+    builder.addCase(logoutAction, () => initialState);
+  },
 });
 
 export const { setEconomics } = economicsSlice.actions;

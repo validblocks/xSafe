@@ -29,30 +29,30 @@ const NotificationModal = () => {
       {showModal && notificationModal && (
         <Modal
           show={showModal}
-          backdrop={true}
+          backdrop
           onHide={toggleModal(false)}
-          className='modal-container'
+          className="modal-container"
           animation={false}
           centered
         >
-          <div className='card w-100 notification-modal'>
+          <div className="card w-100 notification-modal">
             <PageState
               icon={notificationModal.icon}
               iconClass={notificationModal.iconClassName}
-              iconBgClass='p-4 rounded-bg-circle'
-              iconSize='3x'
+              iconBgClass="p-4 rounded-bg-circle"
+              iconSize="3x"
               title={notificationModal.title}
               description={notificationModal.description}
-              action={
+              action={(
                 <button
-                  className='btn btn-primary'
+                  className="btn btn-primary"
                   onClick={() => {
                     onDone();
                   }}
                 >
                   Done
                 </button>
-              }
+              )}
             />
           </div>
         </Modal>

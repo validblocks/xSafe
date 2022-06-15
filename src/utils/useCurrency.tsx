@@ -1,6 +1,6 @@
 import {
   setTotalValueConverted,
-  setSelectedCurrency
+  setSelectedCurrency,
 } from 'redux/slices/currencySlice';
 
 const useCurrency = (val: number, currency: string, dispatch: any) => {
@@ -8,7 +8,7 @@ const useCurrency = (val: number, currency: string, dispatch: any) => {
     (async function () {
       if (currency != 'USD') {
         await fetch(
-          `https://api.frankfurter.app/latest?amount=${val}&from=USD&to=${currency}`
+          `https://api.frankfurter.app/latest?amount=${val}&from=USD&to=${currency}`,
         )
           .then((resp) => resp.json())
           .then((data) => {
@@ -19,7 +19,7 @@ const useCurrency = (val: number, currency: string, dispatch: any) => {
         dispatch(setTotalValueConverted(val));
       }
       dispatch(setSelectedCurrency(currency));
-    })();
+    }());
   }
 };
 

@@ -36,14 +36,15 @@ const SafeSettings = () => {
       </Typography>
       <Typography sx={{ mb: 3 }}>
         <NoteSpan>
-          <Span>Note:</Span>This name is only stored locally. (You&apos;re the
+          <Span>Note:</Span>
+          This name is only stored locally. (You&apos;re the
           only one who&apos;s seeing it)
         </NoteSpan>
       </Typography>
       <TextField
-        id='outlined-basic'
-        label='Safe Name'
-        variant='outlined'
+        id="outlined-basic"
+        label="Safe Name"
+        variant="outlined"
         onChange={changeSafeName}
         value={name}
         sx={{ width: 250 }}
@@ -64,9 +65,9 @@ const SafeSettings = () => {
         You can choose between a dark and a light theme.
       </Typography>
       <ThemeColor />
-      <Box className=' d-flex justify-content-end'>
+      <Box className=" d-flex justify-content-end">
         <MainButton
-          variant='outlined'
+          variant="outlined"
           sx={{ display: 'block', mt: 5 }}
           onClick={saveUpdates}
         >

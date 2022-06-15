@@ -8,7 +8,7 @@ import { Box, Button } from '@mui/material';
 import {
   DataGrid,
   GridActionsCellItem,
-  GridToolbarContainer
+  GridToolbarContainer,
 } from '@mui/x-data-grid';
 import { useFormik } from 'formik';
 import { Modal } from 'react-bootstrap';
@@ -22,6 +22,7 @@ import { RootState } from 'redux/store';
 import ExportModal from './ExportModal';
 import ImportModal from './ImportModal';
 import NewEntryModal from './NewEntryModal';
+
 const AddressBook = () => {
   const onRemoveEntry = (address: string) => {
     dispatch(removeEntry({ address }));
@@ -34,11 +35,11 @@ const AddressBook = () => {
   const columns = [
     {
       field: 'name',
-      headerName: 'Name'
+      headerName: 'Name',
     },
     {
       field: 'address',
-      headerName: 'Address'
+      headerName: 'Address',
     },
     {
       field: 'actions',
@@ -48,17 +49,17 @@ const AddressBook = () => {
         <GridActionsCellItem
           key={params.id}
           icon={<DeleteIcon />}
-          label='Delete'
+          label="Delete"
           onClick={() => onRemoveEntry(params.id)}
         />,
         <GridActionsCellItem
           key={params.id}
           icon={<EditIcon />}
-          label='Edit Entry'
+          label="Edit Entry"
           onClick={() => onEditEntry(params.id)}
-        />
-      ]
-    }
+        />,
+      ],
+    },
   ];
 
   const [modalState, setModalState] = useState(false);
@@ -66,60 +67,58 @@ const AddressBook = () => {
   const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
   const dispatch = useDispatch();
 
-  const toolbar = () => {
-    return (
-      <GridToolbarContainer>
-        <>
-          <Button
-            startIcon={<DownloadIcon />}
-            onClick={() => {
-              setActionType('import');
-              setModalState(true);
-            }}
-          >
-            Import
-          </Button>
-          <Button
-            startIcon={<UploadIcon />}
-            onClick={() => {
-              setActionType('export');
-              setModalState(true);
-            }}
-          >
-            Export
-          </Button>
-          <Button
-            startIcon={<AddIcon />}
-            onClick={() => {
-              setActionType('new');
-              setModalState(true);
-            }}
-          >
-            Create entry
-          </Button>
-        </>
-      </GridToolbarContainer>
-    );
-  };
+  const toolbar = () => (
+    <GridToolbarContainer>
+      <>
+        <Button
+          startIcon={<DownloadIcon />}
+          onClick={() => {
+            setActionType('import');
+            setModalState(true);
+          }}
+        >
+          Import
+        </Button>
+        <Button
+          startIcon={<UploadIcon />}
+          onClick={() => {
+            setActionType('export');
+            setModalState(true);
+          }}
+        >
+          Export
+        </Button>
+        <Button
+          startIcon={<AddIcon />}
+          onClick={() => {
+            setActionType('new');
+            setModalState(true);
+          }}
+        >
+          Create entry
+        </Button>
+      </>
+    </GridToolbarContainer>
+  );
 
   const addressBook = useSelector<RootState, AddressBookType>(
-    addressBookSelector
+    addressBookSelector,
   );
   const rows = Object.entries(addressBook).map(([key, value]) => ({
     id: key,
     address: key,
-    name: value
+    name: value,
   }));
 
   const validationSchema = Yup.object().shape({
     address: Yup.string().required('Required'),
-    name: Yup.string().required('Required')
+    name: Yup.string().required('Required'),
   });
 
   const createEntryForm = useFormik({
     initialValues: {
       address: '',
-      name: ''
+      name: '',
     },
     onSubmit: ({ address, name }) => {
       dispatch(addEntry({ address, name }));
@@ -127,12 +126,12 @@ const AddressBook = () => {
     },
     validationSchema,
     validateOnChange: true,
-    validateOnMount: true
+    validateOnMount: true,
   });
 
   return (
-    <div className='container'>
-      <Box height='300px' display='flex' flexDirection='column'>
+    <div className="container">
+      <Box height="300px" display="flex" flexDirection="column">
         <DataGrid
           components={{ Toolbar: toolbar }}
           autoHeight
@@ -145,8 +144,8 @@ const AddressBook = () => {
       </Box>
       <Modal
         show={modalState}
-        size='lg'
-        className='modal-container'
+        size="lg"
+        className="modal-container"
         animation={false}
         centered
         onHide={() => {
@@ -155,12 +154,12 @@ const AddressBook = () => {
           setModalState(false);
           createEntryForm.resetForm();
         }}
-        aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        <div className='card'>
-          <div className='card-body'>
-            <div className='modal-control-container'>
+        <div className="card">
+          <div className="card-body">
+            <div className="modal-control-container">
               {actionType === 'new' && (
                 <NewEntryModal
                   form={createEntryForm}

@@ -6,14 +6,14 @@ import ProposeMultiselectModal from 'pages/MultisigDetails/ProposeMultiselectMod
 import {
   proposeModalSelectedOptionSelector,
   proposeMultiselectModalSelectedOptionSelector,
-  selectedPerformedActionSelector
+  selectedPerformedActionSelector,
 } from 'redux/selectors/modalsSelector';
 
 const ModalLayer = () => {
   const selectedAction = useSelector(selectedPerformedActionSelector);
   const selectedOption = useSelector(proposeModalSelectedOptionSelector);
   const selectedMultiselectOption = useSelector(
-    proposeMultiselectModalSelectedOptionSelector
+    proposeMultiselectModalSelectedOptionSelector,
   );
   return (
     <div>

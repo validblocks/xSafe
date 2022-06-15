@@ -5,7 +5,7 @@ import {
   AuthenticatedRoutesWrapper,
   refreshAccount,
   useGetAccountInfo,
-  useGetLoginInfo
+  useGetLoginInfo,
 } from '@elrondnetwork/dapp-core';
 import { Box } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
@@ -20,8 +20,8 @@ import { setAccountData } from 'redux/slices/accountSlice';
 import { setEconomics } from 'redux/slices/economicsSlice';
 import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
 import routes, { routeNames } from 'routes';
-('');
 import { accessTokenServices, storageApi } from 'services/accessTokenServices';
+import { Main } from 'components/Theme/StyledComponents';
 import { TokenWrapper } from '../TokenWrapper';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
@@ -29,8 +29,9 @@ import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
 import Navbar from './Navbar';
 import MobileLayout from './Navbar/mobileLayout';
 import Account from './Navbar/Account';
-import { Main } from 'components/Theme/StyledComponents';
 import { TopHeader } from './Navbar/navbar-style';
+
+('');
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();
@@ -40,7 +41,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
     address,
     accessTokenServices?.maiarIdApi,
-    isLoggedIn
+    isLoggedIn,
   );
   interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
@@ -67,8 +68,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     if (uniqueContractAddress || storageApi == null) {
       dispatch(
         setMultisigContracts([
-          { address: uniqueContractAddress, name: uniqueContractName ?? '' }
-        ])
+          { address: uniqueContractAddress, name: uniqueContractName ?? '' },
+        ]),
       );
       return;
     }
@@ -94,30 +95,30 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const width = useMediaQuery('(min-width:600px)');
 
   const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open'
+    shouldForwardProp: (prop) => prop !== 'open',
   })<AppBarProps>(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     }),
     boxShadow: 'unset',
     right: 'auto',
-    left: 'auto'
+    left: 'auto',
   }));
 
   return (
-    <div className='flex-row flex-fill wrapper page-wrapper'>
+    <div className="flex-row flex-fill wrapper page-wrapper">
       {width ? <Navbar /> : <MobileLayout />}
-      <Main className='flex-row flex-fill position-relative justify-center'>
+      <Main className="flex-row flex-fill position-relative justify-center">
         <Box sx={{ padding: '6rem 0px' }}>
           <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '1' }}>
             {width ? (
               <TopHeader
-                className='d-flex justify-content-between px-4 py-3 align-items-center'
+                className="d-flex justify-content-between px-4 py-3 align-items-center"
                 sx={{
                   position: 'absolute',
-                  width: '100%'
+                  width: '100%',
                 }}
               >
                 <Box>

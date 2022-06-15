@@ -11,12 +11,14 @@ interface TabPanelProps {
   value: number;
 }
 
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
+const TabPanel = (props: TabPanelProps) => {
+  const {
+    children, value, index, ...other
+  } = props;
 
   return (
     <div
-      role='tabpanel'
+      role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
@@ -24,17 +26,17 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography component='span'>{children}</Typography>
+          <Typography component="span">{children}</Typography>
         </Box>
       )}
     </div>
   );
-}
+};
 
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`
+    'aria-controls': `simple-tabpanel-${index}`,
   };
 }
 
@@ -47,15 +49,15 @@ export default function TransactionsPage() {
 
   return (
     <Box>
-      <h2 className='mb-5'>Transactions</h2>
+      <h2 className="mb-5">Transactions</h2>
       <Box sx={{ width: '100%' }}>
         <Tabs
           value={value}
           onChange={handleChange}
-          aria-label='basic tabs example'
+          aria-label="basic tabs example"
         >
-          <Tab label='QUEUE' {...a11yProps(0)} />
-          <Tab label='HISTORY' {...a11yProps(1)} />
+          <Tab label="QUEUE" {...a11yProps(0)} />
+          <Tab label="HISTORY" {...a11yProps(1)} />
         </Tabs>
         <TabPanel value={value} index={0}>
           <TransactionQueue />

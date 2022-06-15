@@ -6,21 +6,17 @@ import DecisionsStatus from 'components/DecisionsComponents/decisionsStatus';
 import ProgressBarsSection from 'components/DecisionsComponents/progressBarsSection';
 import './decisions.scss';
 
-const Decisions = () => {
-  return (
-    <div>
-      <Box
-        className={
-          'd-flex flex-fill justify-content-center align-items-center flex-column decisions-wrapper'
-        }
-      >
-        <DecisionsHeader />
-        <ProgressBarsSection />
-        <DecisionsStatus />
-        <DecisionsActionsCards />
-      </Box>
-    </div>
-  );
-};
+const Decisions = () => (
+  <div>
+    <Box
+      className="d-flex flex-fill justify-content-center align-items-center flex-column decisions-wrapper"
+    >
+      <DecisionsHeader />
+      <ProgressBarsSection />
+      <DecisionsStatus />
+      <DecisionsActionsCards />
+    </Box>
+  </div>
+);
 
 export default Decisions;

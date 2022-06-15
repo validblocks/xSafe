@@ -19,7 +19,7 @@ type ProposeEditOwnerType = {
 const EditOwner = ({
   selectedOption,
   handleSetAddress,
-  handleSetName
+  handleSetName,
 }: ProposeEditOwnerType) => {
   const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
   const { t }: { t: any } = useTranslation();
@@ -30,19 +30,19 @@ const EditOwner = ({
     name: Yup.string()
       .min(2, 'Too Short!')
       .max(500, 'Too Long!')
-      .required('Required')
+      .required('Required'),
   });
 
   const editOwnerForm = useFormik({
     initialValues: {
-      name
+      name,
     },
     onSubmit: () => {
-      return;
+
     },
     validationSchema,
     validateOnChange: true,
-    validateOnMount: true
+    validateOnMount: true,
   });
 
   React.useEffect(() => {
@@ -60,29 +60,39 @@ const EditOwner = ({
 
   return (
     <form
-      className='modal-controll-container'
+      className="modal-controll-container"
       onSubmit={editOwnerForm.handleSubmit}
     >
-      <label htmlFor='name'>{t('Name')} </label>
+      <label htmlFor="name">
+        {t('Name')}
+        {' '}
+      </label>
       <input
-        id='name'
-        name='name'
-        type='text'
-        className='form-control'
+        id="name"
+        name="name"
+        type="text"
+        className="form-control"
         onChange={editOwnerForm.handleChange}
         value={editOwnerForm.values.name}
       />
 
       <div
-        className='h6 mb-spacer text-break remove-user'
-        data-testid='delegateSubTitle'
-      ></div>
-      <label>{t('Address')} </label>
+        className="h6 mb-spacer text-break remove-user"
+        data-testid="delegateSubTitle"
+      />
+      <label>
+        {t('Address')}
+        {' '}
+      </label>
       <div
-        className='h6 mb-spacer text-break remove-user'
-        data-testid='delegateSubTitle'
+        className="h6 mb-spacer text-break remove-user"
+        data-testid="delegateSubTitle"
       >
-        <p className='address'> {address} </p>
+        <p className="address">
+          {' '}
+          {address}
+          {' '}
+        </p>
       </div>
     </form>
   );

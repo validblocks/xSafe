@@ -11,7 +11,7 @@ const PageState = ({
   title,
   description,
   action,
-  dataTestId
+  dataTestId,
 }: {
   icon?: IconProp;
   iconClass?: string;
@@ -28,16 +28,16 @@ const PageState = ({
     data-testid={dataTestId}
   >
     {icon && (
-      <span className={`icon-state mx-auto ${iconBgClass ? iconBgClass : ''}`}>
+      <span className={`icon-state mx-auto ${iconBgClass || ''}`}>
         <FontAwesomeIcon
           icon={icon}
-          className={iconClass ? iconClass : ''}
+          className={iconClass || ''}
           size={iconSize}
         />
       </span>
     )}
-    {title && <p className='h4 mt-spacer mb-3'>{title}</p>}
-    {description && <div className='mb-spacer'>{description}</div>}
+    {title && <p className="h4 mt-spacer mb-3">{title}</p>}
+    {description && <div className="mb-spacer">{description}</div>}
     {action && <>{action}</>}
   </div>
 );

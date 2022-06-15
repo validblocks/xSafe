@@ -22,29 +22,29 @@ const topItems = [
       {
         name: 'Coins',
         link: 'tokens',
-        icon: <AdjustOutlinedIcon />
+        icon: <AdjustOutlinedIcon />,
       },
       {
         name: 'NFTs',
         link: 'nft',
-        icon: <DiamondIcon />
-      }
-    ]
+        icon: <DiamondIcon />,
+      },
+    ],
   },
   {
     name: 'Transactions',
     link: 'transactions',
-    icon: <CompareArrowsOutlinedIcon />
+    icon: <CompareArrowsOutlinedIcon />,
   },
   {
     name: 'Address Book',
     link: 'address-book',
-    icon: <MenuBookIcon />
+    icon: <MenuBookIcon />,
   },
   {
     name: 'Apps',
     link: 'apps',
-    icon: <GridViewSharpIcon />
+    icon: <GridViewSharpIcon />,
   },
   {
     name: 'Organization',
@@ -55,24 +55,24 @@ const topItems = [
       {
         name: 'Owners',
         link: 'owners',
-        icon: <GroupsIcon />
+        icon: <GroupsIcon />,
       },
       {
         name: 'Cvorum',
         link: 'cvorum',
-        icon: <PeopleIcon />
-      }
-    ]
-  }
+        icon: <PeopleIcon />,
+      },
+    ],
+  },
 ];
 
 const bottomItems = [
   {
     name: 'Settings',
     link: 'settings',
-    icon: <SettingsApplicationsIcon />
+    icon: <SettingsApplicationsIcon />,
   },
-  { name: 'Help Center', link: 'help-center', icon: <HelpIcon /> }
+  { name: 'Help Center', link: 'help-center', icon: <HelpIcon /> },
 ];
 
 const mobileBottomItems = [
@@ -84,30 +84,30 @@ const mobileBottomItems = [
       {
         name: 'Coins',
         link: 'tokens',
-        icon: <AdjustOutlinedIcon />
+        icon: <AdjustOutlinedIcon />,
       },
       {
         name: 'NFTs',
         link: 'nft',
-        icon: <DiamondIcon />
-      }
-    ]
+        icon: <DiamondIcon />,
+      },
+    ],
   },
   {
     name: 'Transactions',
     link: 'transactions',
-    icon: <CompareArrowsOutlinedIcon />
+    icon: <CompareArrowsOutlinedIcon />,
   },
   {
     name: 'Apps',
     link: 'apps',
-    icon: <GridViewSharpIcon />
+    icon: <GridViewSharpIcon />,
   },
   {
     name: 'Address Book',
     link: 'address-book',
-    icon: <MenuBookIcon />
-  }
+    icon: <MenuBookIcon />,
+  },
 ];
 
 export default { topItems, bottomItems, mobileBottomItems };

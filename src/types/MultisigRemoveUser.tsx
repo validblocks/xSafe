@@ -22,11 +22,11 @@ export class MultisigRemoveUser extends MultisigAction {
     return (
       <ExplorerLink
         page={`accounts/${this.address.bech32()}`}
-        text={
-          <div className='address'>
+        text={(
+          <div className="address">
             <Ui.Trim text={this.address.bech32()} />
           </div>
-        }
+        )}
       />
     );
   }

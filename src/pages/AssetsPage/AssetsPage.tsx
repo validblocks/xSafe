@@ -1,4 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback, useEffect, useMemo, useState,
+} from 'react';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
@@ -8,7 +10,7 @@ import { Box } from '@mui/material';
 import {
   DataGrid,
   GridActionsCellItem,
-  GridRenderCellParams
+  GridRenderCellParams,
 } from '@mui/x-data-grid';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,12 +24,12 @@ import { priceSelector } from 'redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import {
   setMultisigBalance,
-  setOrganizationTokens
+  setOrganizationTokens,
 } from 'redux/slices/accountSlice';
 import {
   setProposeModalSelectedOption,
   setProposeMultiselectSelectedOption,
-  setSelectedTokenToSend
+  setSelectedTokenToSend,
 } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 
@@ -45,31 +47,28 @@ const AssetsPage = () => {
   const openProposeSendTokenForm = useCallback(() => {
     dispatch(
       setProposeModalSelectedOption({
-        option: ProposalsTypes.send_token
-      })
+        option: ProposalsTypes.send_token,
+      }),
     );
   }, []);
 
   const handleOptionSelected = (
     option: ProposalsTypes,
-    token: TokenTableRowItem
+    token: TokenTableRowItem,
   ) => {
     dispatch(setProposeMultiselectSelectedOption({ option }));
     dispatch(
       setSelectedTokenToSend({
         id: token.id,
         identifier: token.identifier,
-        balance: token.balance
-      })
+        balance: token.balance,
+      }),
     );
   };
 
   const getTokenPrice = useCallback(
-    (tokenIdentifier: string) =>
-      tokenPrices.find((tokenWithPrice: TokenWithPrice) => {
-        return tokenWithPrice.symbol == tokenIdentifier;
-      })?.price ?? egldPrice,
-    []
+    (tokenIdentifier: string) => tokenPrices.find((tokenWithPrice: TokenWithPrice) => tokenWithPrice.symbol == tokenIdentifier)?.price ?? egldPrice,
+    [],
   );
 
   const currentContract = useSelector(currentMultisigContractSelector);
@@ -79,7 +78,7 @@ const AssetsPage = () => {
 
   const fetchTokenPhotoUrl = useCallback(async (tokenIdentifier: string) => {
     const { data } = await axios.get(
-      `${network.apiAddress}/tokens/${tokenIdentifier}`
+      `${network.apiAddress}/tokens/${tokenIdentifier}`,
     );
 
     return data.assets.pngUrl;
@@ -89,22 +88,22 @@ const AssetsPage = () => {
     (async function getTokens() {
       let isMounted = true;
 
-      if (!currentContract?.address)
+      if (!currentContract?.address) {
         return () => {
           isMounted = false;
         };
+      }
 
       const getEgldBalancePromise = currentContract?.address
         ? proxy.getAccount(new Address(currentContract?.address))
         : {};
 
       const getAllOtherTokensPromise = axios.get(
-        `${network.apiAddress}/accounts/${currentContract?.address}/tokens`
+        `${network.apiAddress}/accounts/${currentContract?.address}/tokens`,
       );
 
       try {
-        const [{ balance: egldBalance }, { data: otherTokens }] =
-          await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
+        const [{ balance: egldBalance }, { data: otherTokens }] = await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
 
         if (!isMounted) return;
 
@@ -112,7 +111,7 @@ const AssetsPage = () => {
 
         const allTokens = [
           { ...egldBalance.token, balance: egldBalance.value.toString() },
-          ...otherTokens
+          ...otherTokens,
         ];
 
         const tokensWithPrices = [];
@@ -123,27 +122,26 @@ const AssetsPage = () => {
           const { owner, ...tokenWithoutOwner } = token;
 
           let photoUrl = '';
-          if (token.identifier !== 'EGLD')
-            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
+          if (token.identifier !== 'EGLD') photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
 
           tokensWithPrices.push({
             ...tokenWithoutOwner,
             presentation: {
               tokenIdentifier: token.identifier,
-              photoUrl
+              photoUrl,
             },
             id: idx,
             balanceDetails: {
               photoUrl,
               identifier: token.identifier?.split('-')[0] ?? '',
               amount: token.balance as string,
-              decimals: token.decimals as number
+              decimals: token.decimals as number,
             },
             value: {
               tokenPrice: priceOfCurrentToken,
               decimals: token.decimals as number,
-              amount: token.balance as string
-            }
+              amount: token.balance as string,
+            },
           });
         }
 
@@ -151,7 +149,7 @@ const AssetsPage = () => {
       } catch (error) {
         console.log(error);
       }
-    })();
+    }());
   }, [currentContract]);
 
   const columns = useMemo(
@@ -162,28 +160,28 @@ const AssetsPage = () => {
         width: 150,
         type: 'string',
         renderCell: (params: GridRenderCellParams<any>) => (
-          <div className='d-flex justify-content-center align-items-center'>
+          <div className="d-flex justify-content-center align-items-center">
             {params.value.tokenIdentifier !== 'EGLD' && (
               <img
                 width={squareImageWidth}
                 height={squareImageWidth}
                 src={params.value.photoUrl}
-                alt='Token image'
-                className='mr-3'
+                alt="Token image"
+                className="mr-3"
               />
             )}
             {params.value.tokenIdentifier === 'EGLD' && (
               <ElrondLogo
                 width={squareImageWidth}
                 height={squareImageWidth}
-                className='mr-3'
+                className="mr-3"
               />
             )}
-            <p className='mb-0'>
+            <p className="mb-0">
               {params.value.tokenIdentifier.split('-')[0] ?? 'unknown'}
             </p>
           </div>
-        )
+        ),
       },
       {
         field: 'balanceDetails',
@@ -191,39 +189,42 @@ const AssetsPage = () => {
         width: 200,
         type: 'string',
         renderCell: (params: GridRenderCellParams<any>) => (
-          <h6 className='text-center mb-0'>
+          <h6 className="text-center mb-0">
             {Number(
               Number(
                 operations.denominate({
                   input: params.value.amount,
                   denomination: params.value.decimals,
                   decimals: params.value.decimals,
-                  showLastNonZeroDecimal: true
-                })
-              ).toFixed(8)
-            )}{' '}
-            ${params.value.identifier}
+                  showLastNonZeroDecimal: true,
+                }),
+              ).toFixed(8),
+            )}
+            {' '}
+            $
+            {params.value.identifier}
           </h6>
-        )
+        ),
       },
       {
         field: 'value',
         headerName: 'VALUE',
         width: 250,
         renderCell: (params: GridRenderCellParams<any>) => (
-          <h5 className='ex-currency text-center mb-0'>
+          <h5 className="ex-currency text-center mb-0">
             <Ui.UsdValue
               amount={operations.denominate({
                 input: params.value.amount,
                 denomination: params.value.decimals,
                 decimals: params.value.decimals,
                 showLastNonZeroDecimal: true,
-                addCommas: false
+                addCommas: false,
               })}
               usd={params.value.tokenPrice}
-            />{' '}
+            />
+            {' '}
           </h5>
-        )
+        ),
       },
       {
         field: 'actions',
@@ -231,26 +232,24 @@ const AssetsPage = () => {
         width: 300,
         headerName: 'Quick Actions',
         getActions: (params: GridRenderCellParams) => [
-          <div key='0' className='shadow-sm p-2 rounded mr-2'>
+          <div key="0" className="shadow-sm p-2 rounded mr-2">
             <GridActionsCellItem
-              icon={<CallMadeIcon htmlColor='#9DABBD' />}
-              label='Send'
-              onClick={() =>
-                handleOptionSelected(ProposalsTypes.send_token, params.row)
-              }
-            ></GridActionsCellItem>
+              icon={<CallMadeIcon htmlColor="#9DABBD" />}
+              label="Send"
+              onClick={() => handleOptionSelected(ProposalsTypes.send_token, params.row)}
+            />
           </div>,
-          <div key='1' className='shadow-sm p-2 rounded mr-2'>
+          <div key="1" className="shadow-sm p-2 rounded mr-2">
             <GridActionsCellItem
-              icon={<CallReceivedIcon htmlColor='#9DABBD' />}
-              label='Receive'
+              icon={<CallReceivedIcon htmlColor="#9DABBD" />}
+              label="Receive"
               onClick={handleQrModal}
-            ></GridActionsCellItem>
-          </div>
-        ]
-      }
+            />
+          </div>,
+        ],
+      },
     ],
-    []
+    [],
   );
 
   const { tokenPrices } = useOrganizationInfoContext();
@@ -259,9 +258,9 @@ const AssetsPage = () => {
     <Box>
       sx=
       {{
-        width: '100%'
+        width: '100%',
       }}
-      <h1 className='mb-5'>Assets</h1>
+      <h1 className="mb-5">Assets</h1>
       <DataGrid
         autoHeight
         rowHeight={65}
