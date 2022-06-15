@@ -25,6 +25,11 @@ module.exports = {
     'operator-linebreak': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     'import/extensions': [1, 'never', { svg: 'always' }],
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { argsIgnorePattern: '^_|^React$' },
+    ],
     'react/jsx-boolean-value': 1,
     'react/jsx-props-no-spreading': 0,
     'react/jsx-curly-brace-presence': [1, 'never'],

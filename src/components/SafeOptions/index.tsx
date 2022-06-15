@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import {
+  Box, Button, Grid, Typography,
+} from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { useDispatch, useSelector } from 'react-redux';
@@ -83,7 +85,8 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
               <TypographyBold align="left">My Safe</TypographyBold>
               <Typography align="left">{shortAddress}</Typography>
               <TypographyBold align="left">
-                ≈{currencyConverted.toFixed(2)}
+                ≈
+                {currencyConverted.toFixed(2)}
                 {getCurrency}
               </TypographyBold>
             </ActiveWallet>

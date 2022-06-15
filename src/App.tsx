@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
 import { CssBaseline } from '@mui/material';
 import dayjs from 'dayjs';
@@ -77,7 +77,7 @@ export default function App() {
                 <PersistGate loading={null} persistor={persistor}>
                   <Layout>
                     <Routes>
-                      {routes.map((route, i) => (
+                      {routes.map((route) => (
                         <Route
                           path={route.path}
                           key={route.path}

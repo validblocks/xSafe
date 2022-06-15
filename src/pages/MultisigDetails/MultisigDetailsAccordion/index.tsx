@@ -166,8 +166,7 @@ const MultisigDetailsAccordion = ({
       {Object.keys(boardMembersAddresses).length > 0 ? (
         <Card.Body>
           {boardMembersAddresses.map((address, index) =>
-            renderAddress(address, index, true),
-          )}
+            renderAddress(address, index, true))}
         </Card.Body>
       ) : (
         <div className=" w-100 no-active-proposals">
@@ -199,8 +198,7 @@ const MultisigDetailsAccordion = ({
       {Object.keys(proposersAddresses).length > 0 ? (
         <Card.Body>
           {proposersAddresses.map((address, index) =>
-            renderAddress(address, index),
-          )}
+            renderAddress(address, index))}
         </Card.Body>
       ) : (
         <div className=" w-100 no-active-proposals">

@@ -99,8 +99,7 @@ const TotalBalance = () => {
 
           let photoUrl = '';
 
-          if (token.identifier !== 'EGLD')
-            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
+          if (token.identifier !== 'EGLD') photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
 
           tokensWithPrices.push({
             ...tokenWithoutOwner,
@@ -127,7 +126,7 @@ const TotalBalance = () => {
       } catch (error) {
         console.log(error);
       }
-    })();
+    }());
   }, [currentContract]);
 
   const totalValue = () => {
@@ -204,7 +203,8 @@ const TotalBalance = () => {
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
         <CenteredText>Total balance:</CenteredText>
         <CenteredText fontSize="16px" fontWeight="bold">
-          ≈{currencyConverted?.toFixed(2)}
+          ≈
+          {currencyConverted?.toFixed(2)}
           {getCurrency}
         </CenteredText>
       </Box>

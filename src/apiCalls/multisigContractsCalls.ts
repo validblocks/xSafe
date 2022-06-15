@@ -47,7 +47,7 @@ multisigAxiosInstance.interceptors.response.use(
 );
 export async function getUserMultisigContractsList(): Promise<
   MultisigContractInfoType[]
-> {
+  > {
   try {
     const response = await multisigAxiosInstance.get(
       contractsInfoStorageEndpoint,

@@ -60,7 +60,9 @@ const ProposeDeployContract = ({
   });
   const { touched, errors, values } = formik;
 
-  const { address, amount, args, source, upgradeable, payable, readable } =
+  const {
+    address, amount, args, source, upgradeable, payable, readable,
+  } =
     values;
 
   useEffect(() => {
@@ -193,7 +195,10 @@ const ProposeDeployContract = ({
       <div className="d-flex flex-column">
         {args.map((arg, idx) => (
           <div key={idx} className="modal-control-container my-3">
-            <label>{`${t('argument')} ${idx + 1}`} </label>
+            <label>
+              {`${t('argument')} ${idx + 1}`}
+              {' '}
+            </label>
             <div className="d-flex align-items-stretch my-0">
               <Form.Control
                 id={`args[${idx}]`}

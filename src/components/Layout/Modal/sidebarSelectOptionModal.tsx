@@ -1,7 +1,9 @@
 import React from 'react';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
-import { Box, Button, Modal, Grid } from '@mui/material';
+import {
+  Box, Button, Modal, Grid,
+} from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { setProposeModalSelectedOption } from '@redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';

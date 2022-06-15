@@ -59,8 +59,7 @@ const MultisigProposalCard = ({
       return signers;
     }
     return signers.filter((signer) =>
-      boardMembers.some((boardMember) => boardMember.equals(signer)),
-    );
+      boardMembers.some((boardMember) => boardMember.equals(signer)));
   }, [signers, boardMembers]);
   const sign = () => {
     mutateSign(actionId);
@@ -111,7 +110,10 @@ const MultisigProposalCard = ({
           {canSign && (
             <button onClick={sign} className="btn action sign btn--approve">
               <FontAwesomeIcon icon={faThumbsUp} />
-              <span>{t('Approve')} </span>
+              <span>
+                {t('Approve')}
+                {' '}
+              </span>
             </button>
           )}
           {canUnsign && (

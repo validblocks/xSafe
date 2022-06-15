@@ -43,7 +43,7 @@ const NotificationModal = () => {
               iconSize="3x"
               title={notificationModal.title}
               description={notificationModal.description}
-              action={
+              action={(
                 <button
                   className="btn btn-primary"
                   onClick={() => {
@@ -52,7 +52,7 @@ const NotificationModal = () => {
                 >
                   Done
                 </button>
-              }
+              )}
             />
           </div>
         </Modal>
