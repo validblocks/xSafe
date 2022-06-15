@@ -14,7 +14,7 @@ import {
   CodeMetadata,
   DeployArguments,
   GasLimit,
-  NetworkConfig
+  NetworkConfig,
 } from '@elrondnetwork/erdjs';
 import { Code } from '@elrondnetwork/erdjs/out/smartcontracts/code';
 

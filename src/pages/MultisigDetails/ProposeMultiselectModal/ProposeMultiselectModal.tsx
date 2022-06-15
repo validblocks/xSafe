@@ -172,8 +172,7 @@ const ProposeMultiselectModal = ({
   const goBackButton = (
     <button
       onClick={() =>
-        handleOptionSelected(ProposalsTypes.multiselect_proposal_options)
-      }
+        handleOptionSelected(ProposalsTypes.multiselect_proposal_options)}
       className="btn btn-primary btn-light "
     >
       <FontAwesomeIcon icon={faArrowLeft} />

@@ -44,7 +44,9 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
         <Box>
           <MembersBox>
             <Typography>
-              {membersCount} {membersCount == 1 ? 'Member' : 'Members'}
+              {membersCount}
+              {' '}
+              {membersCount == 1 ? 'Member' : 'Members'}
             </Typography>
           </MembersBox>
         </Box>

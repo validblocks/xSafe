@@ -82,7 +82,10 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
         </p>
 
         <div className="modal-control-container">
-          <label>{t('Contract address')} </label>
+          <label>
+            {t('Contract address')}
+            {' '}
+          </label>
           <div className="input-wrapper">
             <Form.Control
               id="contractAddress"

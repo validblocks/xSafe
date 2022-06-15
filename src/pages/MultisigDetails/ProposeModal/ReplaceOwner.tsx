@@ -75,10 +75,17 @@ const ReplaceOwner = ({
       onSubmit={replaceOwnerForm.handleSubmit}
     >
       <p>Current owner:</p>
-      Name: <span>{name}</span>
-      Adress: <span>{address as string}</span>
+      Name:
+      {' '}
+      <span>{name}</span>
+      Adress:
+      {' '}
+      <span>{address as string}</span>
       <fieldset>
-        <label htmlFor="name">{t('Name')} </label>
+        <label htmlFor="name">
+          {t('Name')}
+          {' '}
+        </label>
         <input
           id="name"
           name="name"
@@ -92,7 +99,10 @@ const ReplaceOwner = ({
           className="h6 mb-spacer text-break remove-user"
           data-testid="delegateSubTitle"
         />
-        <label>{t('Address')} </label>
+        <label>
+          {t('Address')}
+          {' '}
+        </label>
         <input
           id="replacementAddress"
           name="replacementAddress"
