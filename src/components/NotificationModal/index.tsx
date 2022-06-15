@@ -3,8 +3,8 @@ import { Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import PageState from 'components/PageState';
-import { notificationModalSelector } from 'redux/selectors/modalsSelector';
-import { clearNotificationModal } from 'redux/slices/modalsSlice';
+import { notificationModalSelector } from '@redux/selectors/modalsSelector';
+import { clearNotificationModal } from '@redux/slices/modalsSlice';
 
 const NotificationModal = () => {
   const notificationModal = useSelector(notificationModalSelector);
@@ -43,7 +43,7 @@ const NotificationModal = () => {
               iconSize="3x"
               title={notificationModal.title}
               description={notificationModal.description}
-              action={(
+              action={
                 <button
                   className="btn btn-primary"
                   onClick={() => {
@@ -52,7 +52,7 @@ const NotificationModal = () => {
                 >
                   Done
                 </button>
-              )}
+              }
             />
           </div>
         </Modal>

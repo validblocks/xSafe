@@ -13,8 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { buildBlockchainTransaction } from 'contracts/transactionUtils';
 import { validateContractAddressOwner } from 'helpers/validation';
-import { currentMultisigAddressSelector } from 'redux/selectors/multisigContractsSelectors';
-import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
+import { currentMultisigAddressSelector } from '@redux/selectors/multisigContractsSelectors';
+import { setProposeMultiselectSelectedOption } from '@redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 
 const gasLimit = 10_000_000;
@@ -71,7 +71,8 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
     );
   };
 
-  const contractAddressError = touched.contractAddress && errors.contractAddress;
+  const contractAddressError =
+    touched.contractAddress && errors.contractAddress;
 
   return (
     <div className="card attach-contract-content">
@@ -81,10 +82,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
         </p>
 
         <div className="modal-control-container">
-          <label>
-            {t('Contract address')}
-            {' '}
-          </label>
+          <label>{t('Contract address')} </label>
           <div className="input-wrapper">
             <Form.Control
               id="contractAddress"

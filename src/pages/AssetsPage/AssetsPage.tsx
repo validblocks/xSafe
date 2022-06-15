@@ -1,6 +1,4 @@
-import React, {
-  useCallback, useEffect, useMemo, useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
@@ -19,18 +17,18 @@ import ReceiveModal from 'components/ReceiveModal';
 import { network } from 'config';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { TokenTableRowItem, TokenWithPrice } from 'pages/Organization/types';
-import { organizationTokensSelector } from 'redux/selectors/accountSelector';
-import { priceSelector } from 'redux/selectors/economicsSelector';
-import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
+import { organizationTokensSelector } from '@redux/selectors/accountSelector';
+import { priceSelector } from '@redux/selectors/economicsSelector';
+import { currentMultisigContractSelector } from '@redux/selectors/multisigContractsSelectors';
 import {
   setMultisigBalance,
   setOrganizationTokens,
-} from 'redux/slices/accountSlice';
+} from '@redux/slices/accountSlice';
 import {
   setProposeModalSelectedOption,
   setProposeMultiselectSelectedOption,
   setSelectedTokenToSend,
-} from 'redux/slices/modalsSlice';
+} from '@redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 
 const squareImageWidth = 30;
@@ -67,7 +65,11 @@ const AssetsPage = () => {
   };
 
   const getTokenPrice = useCallback(
-    (tokenIdentifier: string) => tokenPrices.find((tokenWithPrice: TokenWithPrice) => tokenWithPrice.symbol == tokenIdentifier)?.price ?? egldPrice,
+    (tokenIdentifier: string) =>
+      tokenPrices.find(
+        (tokenWithPrice: TokenWithPrice) =>
+          tokenWithPrice.symbol == tokenIdentifier,
+      )?.price ?? egldPrice,
     [],
   );
 
@@ -103,7 +105,8 @@ const AssetsPage = () => {
       );
 
       try {
-        const [{ balance: egldBalance }, { data: otherTokens }] = await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
+        const [{ balance: egldBalance }, { data: otherTokens }] =
+          await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
 
         if (!isMounted) return;
 
@@ -122,7 +125,8 @@ const AssetsPage = () => {
           const { owner, ...tokenWithoutOwner } = token;
 
           let photoUrl = '';
-          if (token.identifier !== 'EGLD') photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
+          if (token.identifier !== 'EGLD')
+            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
 
           tokensWithPrices.push({
             ...tokenWithoutOwner,
@@ -149,7 +153,7 @@ const AssetsPage = () => {
       } catch (error) {
         console.log(error);
       }
-    }());
+    })();
   }, [currentContract]);
 
   const columns = useMemo(
@@ -199,10 +203,8 @@ const AssetsPage = () => {
                   showLastNonZeroDecimal: true,
                 }),
               ).toFixed(8),
-            )}
-            {' '}
-            $
-            {params.value.identifier}
+            )}{' '}
+            ${params.value.identifier}
           </h6>
         ),
       },
@@ -221,8 +223,7 @@ const AssetsPage = () => {
                 addCommas: false,
               })}
               usd={params.value.tokenPrice}
-            />
-            {' '}
+            />{' '}
           </h5>
         ),
       },
@@ -236,7 +237,9 @@ const AssetsPage = () => {
             <GridActionsCellItem
               icon={<CallMadeIcon htmlColor="#9DABBD" />}
               label="Send"
-              onClick={() => handleOptionSelected(ProposalsTypes.send_token, params.row)}
+              onClick={() =>
+                handleOptionSelected(ProposalsTypes.send_token, params.row)
+              }
             />
           </div>,
           <div key="1" className="shadow-sm p-2 rounded mr-2">

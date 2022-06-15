@@ -20,10 +20,11 @@ multisigAxiosInstance.interceptors.request.use(
     try {
       if (accessTokenServices?.services != null) {
         const address = await getAddress();
-        const token = await accessTokenServices?.services?.maiarId?.getAccessToken({
-          address,
-          maiarIdApi,
-        });
+        const token =
+          await accessTokenServices?.services?.maiarId?.getAccessToken({
+            address,
+            maiarIdApi,
+          });
         config.headers.Authorization = `Bearer ${token.accessToken}`;
       }
     } catch (err) {
@@ -44,8 +45,26 @@ multisigAxiosInstance.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-
-export async function validateMultisigAddress(address: string) {
+export async function getUserMultisigContractsList(): Promise<
+  MultisigContractInfoType[]
+> {
+  try {
+    const response = await multisigAxiosInstance.get(
+      contractsInfoStorageEndpoint,
+    );
+    const { data } = response;
+    if (data != null) {
+      return data;
+    }
+    return [];
+  } catch (err) {
+    console.error('error getting multisig contracts');
+    return [];
+  }
+}
+export async function validateMultisigAddress(
+  address: string,
+): Promise<boolean> {
   try {
     const response = await axios.get(
       `${network.apiAddress}/accounts/${address}`,
@@ -58,6 +77,7 @@ export async function validateMultisigAddress(address: string) {
     console.error('error validating multisig address');
     return false;
   }
+  return false;
 }
 
 export async function getIsContractTrusted(address?: string) {
@@ -113,26 +133,8 @@ export async function removeContractFromMultisigContractsList(
 ): Promise<MultisigContractInfoType[]> {
   const currentContracts = await getUserMultisigContractsList();
   const newContracts = currentContracts.filter(
-    (contract) => contract.address != deletedContractAddress,
+    (contract) => contract.address !== deletedContractAddress,
   );
   await multisigAxiosInstance.post(contractsInfoStorageEndpoint, newContracts);
   return newContracts;
-}
-
-export async function getUserMultisigContractsList(): Promise<
-  MultisigContractInfoType[]
-  > {
-  try {
-    const response = await multisigAxiosInstance.get(
-      contractsInfoStorageEndpoint,
-    );
-    const { data } = response;
-    if (data != null) {
-      return data;
-    }
-    return [];
-  } catch (err) {
-    console.error('error getting multisig contracts');
-    return [];
-  }
 }

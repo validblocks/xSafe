@@ -9,7 +9,7 @@ import { makeStyles } from '@mui/styles';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import { network } from 'config';
-import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
+import { currentMultisigContractSelector } from '@redux/selectors/multisigContractsSelectors';
 import { getDate } from 'utils/transactionUtils';
 import useFetch from 'utils/useFetch';
 import TransactionDescription from './TransactionDescription';
@@ -36,21 +36,25 @@ const TransactionHistory = () => {
   const { data: allTransactions = [] } = useFetch(
     `${network.apiAddress}/transactions?receiver=${currentContract?.address}`,
   );
-  const groupedTransactions = useMemo(() => allTransactions?.reduce((acc: any, transaction: any) => {
-    const dateOfTransaction = dayjs(getDate(transaction.timestamp)).format(
-      dateFormat,
-    );
+  const groupedTransactions = useMemo(
+    () =>
+      allTransactions?.reduce((acc: any, transaction: any) => {
+        const dateOfTransaction = dayjs(getDate(transaction.timestamp)).format(
+          dateFormat,
+        );
 
-    if (!acc[dateOfTransaction]) acc[dateOfTransaction] = [];
-    acc[dateOfTransaction].push(transaction);
+        if (!acc[dateOfTransaction]) acc[dateOfTransaction] = [];
+        acc[dateOfTransaction].push(transaction);
 
-    return acc;
-  }, {}), [allTransactions]);
+        return acc;
+      }, {}),
+    [allTransactions],
+  );
 
   return (
     <>
-      {groupedTransactions
-        && Object.entries(groupedTransactions).map(
+      {groupedTransactions &&
+        Object.entries(groupedTransactions).map(
           ([transactionDate, transactionArray]: any) => (
             <div key={transactionDate}>
               <Typography variant="subtitle1" className="my-4">

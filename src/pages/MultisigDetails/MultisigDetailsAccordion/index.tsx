@@ -22,7 +22,7 @@ import { useDispatch } from 'react-redux';
 import { ReactComponent as EmptyStateIcon } from 'assets/img/empty-state-icon.svg';
 import StatCard from 'components/StatCard';
 import { network } from 'config';
-import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
+import { setProposeModalSelectedOption } from '@redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 
 import { ContractInfo } from '../MultisigDetailsPage';
@@ -54,27 +54,31 @@ const MultisigDetailsAccordion = ({
 
   const decoratedOnClick = useAccordionToggle('0', handleToggleExpanded);
 
-  const onAddBoardMember = () => dispatch(
-    setProposeModalSelectedOption({
-      option: ProposalsTypes.add_board_member,
-    }),
-  );
-  const onAddProposers = () => dispatch(
-    setProposeModalSelectedOption({
-      option: ProposalsTypes.add_proposer,
-    }),
-  );
-  const onRemoveUser = (address: Address) => dispatch(
-    setProposeModalSelectedOption({
-      option: ProposalsTypes.remove_user,
-      address: address.bech32(),
-    }),
-  );
-  const onChangeQuorum = () => dispatch(
-    setProposeModalSelectedOption({
-      option: ProposalsTypes.change_quorum,
-    }),
-  );
+  const onAddBoardMember = () =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.add_board_member,
+      }),
+    );
+  const onAddProposers = () =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.add_proposer,
+      }),
+    );
+  const onRemoveUser = (address: Address) =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.remove_user,
+        address: address.bech32(),
+      }),
+    );
+  const onChangeQuorum = () =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.change_quorum,
+      }),
+    );
 
   const boardMembersExceedQuorumSize = totalBoardMembers > quorumSize;
 
@@ -161,7 +165,9 @@ const MultisigDetailsAccordion = ({
 
       {Object.keys(boardMembersAddresses).length > 0 ? (
         <Card.Body>
-          {boardMembersAddresses.map((address, index) => renderAddress(address, index, true))}
+          {boardMembersAddresses.map((address, index) =>
+            renderAddress(address, index, true),
+          )}
         </Card.Body>
       ) : (
         <div className=" w-100 no-active-proposals">
@@ -192,7 +198,9 @@ const MultisigDetailsAccordion = ({
       </Card.Header>
       {Object.keys(proposersAddresses).length > 0 ? (
         <Card.Body>
-          {proposersAddresses.map((address, index) => renderAddress(address, index))}
+          {proposersAddresses.map((address, index) =>
+            renderAddress(address, index),
+          )}
         </Card.Body>
       ) : (
         <div className=" w-100 no-active-proposals">

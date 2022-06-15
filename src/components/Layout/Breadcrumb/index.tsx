@@ -21,8 +21,8 @@ const PageBreadcrumbs = () => {
         <Link color="inherit" to={`/multisig/${uniqueContractAddress}`}>
           Home
         </Link>
-        {breadcrumb?.map((el: any, index: any) => (
-          <Link key={index} color="inherit" to={el.link}>
+        {breadcrumb?.map((el: any) => (
+          <Link key={el.link} color="inherit" to={el.link}>
             {el.name}
           </Link>
         ))}

@@ -16,7 +16,7 @@ import {
   validateAddressIsContract,
   validateContractAddressOwner,
 } from 'helpers/validation';
-import { currentMultisigAddressSelector } from 'redux/selectors/multisigContractsSelectors';
+import { currentMultisigAddressSelector } from '@redux/selectors/multisigContractsSelectors';
 import { MultisigUpgradeContractFromSource } from 'types/MultisigUpgradeContractFromSource';
 
 interface ProposeDeployContractType {
@@ -53,18 +53,15 @@ const ProposeDeployContract = ({
       payable: true,
       readable: true,
     },
-    onSubmit: () => {
-
-    },
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
   });
   const { touched, errors, values } = formik;
 
-  const {
-    address, amount, args, source, upgradeable, payable, readable,
-  } = values;
+  const { address, amount, args, source, upgradeable, payable, readable } =
+    values;
 
   useEffect(() => {
     const hasErrors = Object.keys(errors).length > 0;
@@ -141,10 +138,11 @@ const ProposeDeployContract = ({
 
   const sourceError = touched.source && errors.source;
   const amountError = touched.amount && errors.amount;
-  const argsError = Array.isArray(touched?.args)
-    && touched.args.length === args.length
-    && touched.args.every((arg) => arg)
-    && errors.args;
+  const argsError =
+    Array.isArray(touched?.args) &&
+    touched.args.length === args.length &&
+    touched.args.every((arg) => arg) &&
+    errors.args;
 
   return (
     <div>
@@ -195,10 +193,7 @@ const ProposeDeployContract = ({
       <div className="d-flex flex-column">
         {args.map((arg, idx) => (
           <div key={idx} className="modal-control-container my-3">
-            <label>
-              {`${t('argument')} ${idx + 1}`}
-              {' '}
-            </label>
+            <label>{`${t('argument')} ${idx + 1}`} </label>
             <div className="d-flex align-items-stretch my-0">
               <Form.Control
                 id={`args[${idx}]`}

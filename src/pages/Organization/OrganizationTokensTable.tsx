@@ -15,9 +15,9 @@ import { toSvg } from 'jdenticon';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAccountData } from 'apiCalls/accountCalls';
 import { queryBoardMemberAddresses } from 'contracts/MultisigContract';
-import { addressBookSelector } from 'redux/selectors/addressBookSelector';
-import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
-import { RootState } from 'redux/store';
+import { addressBookSelector } from '@redux/selectors/addressBookSelector';
+import { setProposeModalSelectedOption } from '@redux/slices/modalsSlice';
+import { RootState } from '@redux/store';
 import { ProposalsTypes } from 'types/Proposals';
 import { Owner, AccountInfo, AddressBook } from './types';
 
@@ -44,7 +44,9 @@ const OrganizationsTokensTable = () => {
     // get addressbook names
     getAddresses().then((ownerAddresses) => {
       Promise.all(
-        ownerAddresses.map((address) => getAccountData(new Address(address).bech32())),
+        ownerAddresses.map((address) =>
+          getAccountData(new Address(address).bech32()),
+        ),
       ).then((accountsInformation) => {
         setAddresses(accountsInformation.map(addAddressBookEntry));
       });
@@ -62,33 +64,37 @@ const OrganizationsTokensTable = () => {
     setAnchorEl(null);
   };
 
-  const onRemoveUser = (address: Address) => dispatch(
-    setProposeModalSelectedOption({
-      option: ProposalsTypes.remove_user,
-      address: address.bech32(),
-    }),
-  );
+  const onRemoveUser = (address: Address) =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.remove_user,
+        address: address.bech32(),
+      }),
+    );
 
-  const onEditOwner = (owner: Owner) => dispatch(
-    setProposeModalSelectedOption({
-      option: ProposalsTypes.edit_owner,
-      name: owner.name,
-      address: new Address(owner.address).bech32(),
-    }),
-  );
+  const onEditOwner = (owner: Owner) =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.edit_owner,
+        name: owner.name,
+        address: new Address(owner.address).bech32(),
+      }),
+    );
 
-  const onReplaceOwner = (owner: Owner) => dispatch(
-    setProposeModalSelectedOption({
-      option: ProposalsTypes.replace_owner,
-      currentOwner: owner,
-    }),
-  );
+  const onReplaceOwner = (owner: Owner) =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.replace_owner,
+        currentOwner: owner,
+      }),
+    );
 
-  const onAddBoardMember = () => dispatch(
-    setProposeModalSelectedOption({
-      option: ProposalsTypes.add_board_member,
-    }),
-  );
+  const onAddBoardMember = () =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.add_board_member,
+      }),
+    );
 
   const columns = useMemo(
     () => [
@@ -123,9 +129,10 @@ const OrganizationsTokensTable = () => {
                 />
               </Avatar>
               <div>
-                {`${params.value.address.slice(0, 10)
-                }...${
-                  params.value.address.slice(params.value.length - 10)}`}
+                {`${params.value.address.slice(
+                  0,
+                  10,
+                )}...${params.value.address.slice(params.value.length - 10)}`}
                 {/* <Ui.Trim text={params.value.valueHex} /> */}
               </div>
             </div>
@@ -147,11 +154,13 @@ const OrganizationsTokensTable = () => {
             key={params.id}
             icon={<EditIcon />}
             label="Edit Owner"
-            onClick={() => onEditOwner(
+            onClick={() =>
+              onEditOwner(
                 addresses.find(
                   (address) => address.address === params.id,
                 ) as Owner,
-            )}
+              )
+            }
           />,
         ],
       },

@@ -11,8 +11,8 @@ import {
   mutateProposeAddBoardMember,
   mutateProposeRemoveUser,
 } from 'contracts/MultisigContract';
-import { addEntry } from 'redux/slices/addressBookSlice';
-import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
+import { addEntry } from '@redux/slices/addressBookSlice';
+import { setProposeModalSelectedOption } from '@redux/slices/modalsSlice';
 import { ProposalsTypes, SelectedOptionType } from 'types/Proposals';
 import { titles } from '../constants';
 import EditOwner from './EditOwner';
@@ -35,7 +35,8 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
     new Address(),
   );
   const [selectedNameParam, setSelectedNameParam] = useState('');
-  const [selectedReplacementAddressParam, setSelectedReplacementAddressParam] = useState(new Address());
+  const [selectedReplacementAddressParam, setSelectedReplacementAddressParam] =
+    useState(new Address());
 
   const onProposeClicked = () => {
     try {
@@ -136,7 +137,9 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
         return (
           <ReplaceOwner
             handleSetAddress={handleAddressParamChange}
-            handleSetReplacementAddress={(value) => setSelectedReplacementAddressParam(value)}
+            handleSetReplacementAddress={(value) =>
+              setSelectedReplacementAddressParam(value)
+            }
             handleSetName={(value) => setSelectedNameParam(value)}
             selectedOption={selectedOption}
             selectedAddress={selectedAddressParam}
@@ -145,7 +148,8 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
     }
   };
 
-  const actionTitle = selectedOption?.option != null ? `: ${titles[selectedOption?.option]}` : '';
+  const actionTitle =
+    selectedOption?.option != null ? `: ${titles[selectedOption?.option]}` : '';
   return (
     <Modal
       show

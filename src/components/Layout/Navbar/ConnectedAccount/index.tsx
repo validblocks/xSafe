@@ -13,8 +13,8 @@ import Safe from 'assets/img/safe.png';
 import { theme } from 'components/Theme/createTheme';
 import addressShorthand from 'helpers/addressShorthand';
 import { uniqueContractAddress } from 'multisigConfig';
-import { logoutAction } from 'redux/commonActions';
-import { usernameSelector } from 'redux/selectors/accountSelector';
+import { logoutAction } from '@redux/commonActions';
+import { usernameSelector } from '@redux/selectors/accountSelector';
 import { routeNames } from 'routes';
 import { accessTokenServices } from 'services/accessTokenServices';
 

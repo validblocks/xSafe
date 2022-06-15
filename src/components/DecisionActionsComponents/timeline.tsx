@@ -21,7 +21,7 @@ const TimelineCard = () => {
     <Grid className="timeline-wrapper">
       <Timeline className="align-items-start mt-3">
         {addresses.map((el: any, index: number) => (
-          <TimelineItem key={index}>
+          <TimelineItem key={el.valueHex}>
             <TimelineSeparator>
               <TimelineDot variant="outlined" />
               <TimelineConnector />

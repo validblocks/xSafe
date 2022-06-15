@@ -27,7 +27,7 @@ import {
 import BigNumber from 'bignumber.js';
 import { gasLimit, minGasLimit, issueTokenContractAddress } from 'config';
 import { parseAction, parseActionDetailed } from 'helpers/converters';
-import { currentMultisigAddressSelector } from 'redux/selectors/multisigContractsSelectors';
+import { currentMultisigAddressSelector } from '@redux/selectors/multisigContractsSelectors';
 import { MultisigAction } from 'types/MultisigAction';
 import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
 import { multisigContractFunctionNames } from 'types/multisigFunctionNames';

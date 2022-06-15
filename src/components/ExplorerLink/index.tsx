@@ -20,7 +20,7 @@ const ExplorerLink = ({
     className={`link-style ${className}`}
   >
     {text ? (
-      <>{text}</>
+      <span>{text}</span>
     ) : (
       <FontAwesomeIcon icon={faSearch} className="text-secondary" />
     )}

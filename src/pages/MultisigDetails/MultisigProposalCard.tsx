@@ -19,7 +19,7 @@ import {
   mutateUnsign,
   mutateDiscardAction,
 } from 'contracts/MultisigContract';
-import { setSelectedPerformedAction } from 'redux/slices/modalsSlice';
+import { setSelectedPerformedAction } from '@redux/slices/modalsSlice';
 
 export interface MultisigProposalCardType {
   type: number;
@@ -58,7 +58,9 @@ const MultisigProposalCard = ({
     if (boardMembers == null) {
       return signers;
     }
-    return signers.filter((signer) => boardMembers.some((boardMember) => boardMember.equals(signer)));
+    return signers.filter((signer) =>
+      boardMembers.some((boardMember) => boardMember.equals(signer)),
+    );
   }, [signers, boardMembers]);
   const sign = () => {
     mutateSign(actionId);
@@ -109,10 +111,7 @@ const MultisigProposalCard = ({
           {canSign && (
             <button onClick={sign} className="btn action sign btn--approve">
               <FontAwesomeIcon icon={faThumbsUp} />
-              <span>
-                {t('Approve')}
-                {' '}
-              </span>
+              <span>{t('Approve')} </span>
             </button>
           )}
           {canUnsign && (

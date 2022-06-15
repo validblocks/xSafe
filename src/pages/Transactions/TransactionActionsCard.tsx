@@ -13,7 +13,7 @@ import {
   mutateUnsign,
   mutateDiscardAction,
 } from 'contracts/MultisigContract';
-import { setSelectedPerformedAction } from 'redux/slices/modalsSlice';
+import { setSelectedPerformedAction } from '@redux/slices/modalsSlice';
 
 export interface TransactionActionsCardType {
   type: number;
@@ -64,10 +64,7 @@ const TransactionActionsCard = ({
           {canSign && (
             <button onClick={sign} className="btn action sign btn--approve">
               <FontAwesomeIcon icon={faThumbsUp} />
-              <span>
-                {t('Approve')}
-                {' '}
-              </span>
+              <span>{t('Approve')} </span>
             </button>
           )}
           {canUnsign && (

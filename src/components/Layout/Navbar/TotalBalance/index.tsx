@@ -9,20 +9,20 @@ import { MainButton } from 'components/Theme/StyledComponents';
 import { network } from 'config';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { TokenWithPrice } from 'pages/Organization/types';
-import { organizationTokensSelector } from 'redux/selectors/accountSelector';
+import { organizationTokensSelector } from '@redux/selectors/accountSelector';
 import {
   currencyConvertedSelector,
   selectedCurrencySelector,
-} from 'redux/selectors/currencySelector';
-import { priceSelector } from 'redux/selectors/economicsSelector';
-import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
-import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
+} from '@redux/selectors/currencySelector';
+import { priceSelector } from '@redux/selectors/economicsSelector';
+import { currentMultisigContractSelector } from '@redux/selectors/multisigContractsSelectors';
+import { safeNameStoredSelector } from '@redux/selectors/safeNameSelector';
 import {
   setMultisigBalance,
   setOrganizationTokens,
-} from 'redux/slices/accountSlice';
-import { setValueInUsd } from 'redux/slices/currencySlice';
-import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
+} from '@redux/slices/accountSlice';
+import { setValueInUsd } from '@redux/slices/currencySlice';
+import { setProposeMultiselectSelectedOption } from '@redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import useCurrency from 'utils/useCurrency';
 import Divider from '@mui/material/Divider';
@@ -44,7 +44,11 @@ const TotalBalance = () => {
   } = useOrganizationInfoContext();
   const proxy = getNetworkProxy();
   const getTokenPrice = useCallback(
-    (tokenIdentifier: string) => tokenPrices.find((tokenWithPrice: TokenWithPrice) => tokenWithPrice.symbol == tokenIdentifier)?.price ?? egldPrice,
+    (tokenIdentifier: string) =>
+      tokenPrices.find(
+        (tokenWithPrice: TokenWithPrice) =>
+          tokenWithPrice.symbol == tokenIdentifier,
+      )?.price ?? egldPrice,
     [],
   );
   const fetchTokenPhotoUrl = useCallback(async (tokenIdentifier: string) => {
@@ -74,7 +78,8 @@ const TotalBalance = () => {
       );
 
       try {
-        const [{ balance: egldBalance }, { data: otherTokens }] = await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
+        const [{ balance: egldBalance }, { data: otherTokens }] =
+          await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
 
         if (!isMounted) return;
 
@@ -94,7 +99,8 @@ const TotalBalance = () => {
 
           let photoUrl = '';
 
-          if (token.identifier !== 'EGLD') photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
+          if (token.identifier !== 'EGLD')
+            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
 
           tokensWithPrices.push({
             ...tokenWithoutOwner,
@@ -121,7 +127,7 @@ const TotalBalance = () => {
       } catch (error) {
         console.log(error);
       }
-    }());
+    })();
   }, [currentContract]);
 
   const totalValue = () => {
@@ -172,11 +178,12 @@ const TotalBalance = () => {
 
   const currencyConverted = useSelector(currencyConvertedSelector);
 
-  const onAddBoardMember = () => dispatch(
-    setProposeMultiselectSelectedOption({
-      option: ProposalsTypes.multiselect_proposal_options,
-    }),
-  );
+  const onAddBoardMember = () =>
+    dispatch(
+      setProposeMultiselectSelectedOption({
+        option: ProposalsTypes.multiselect_proposal_options,
+      }),
+    );
 
   const getCurrency = useSelector(selectedCurrencySelector);
 
@@ -197,8 +204,7 @@ const TotalBalance = () => {
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
         <CenteredText>Total balance:</CenteredText>
         <CenteredText fontSize="16px" fontWeight="bold">
-          ≈
-          {currencyConverted?.toFixed(2)}
+          ≈{currencyConverted?.toFixed(2)}
           {getCurrency}
         </CenteredText>
       </Box>

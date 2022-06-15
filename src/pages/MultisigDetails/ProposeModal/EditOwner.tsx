@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { AddressBook } from 'pages/Organization/types';
-import { addressBookSelector } from 'redux/selectors/addressBookSelector';
-import { RootState } from 'redux/store';
+import { addressBookSelector } from '@redux/selectors/addressBookSelector';
+import { RootState } from '@redux/store';
 import { SelectedOptionType } from 'types/Proposals';
 
 type ProposeEditOwnerType = {
@@ -37,9 +37,7 @@ const EditOwner = ({
     initialValues: {
       name,
     },
-    onSubmit: () => {
-
-    },
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -63,10 +61,7 @@ const EditOwner = ({
       className="modal-controll-container"
       onSubmit={editOwnerForm.handleSubmit}
     >
-      <label htmlFor="name">
-        {t('Name')}
-        {' '}
-      </label>
+      <label htmlFor="name">{t('Name')} </label>
       <input
         id="name"
         name="name"
@@ -80,19 +75,12 @@ const EditOwner = ({
         className="h6 mb-spacer text-break remove-user"
         data-testid="delegateSubTitle"
       />
-      <label>
-        {t('Address')}
-        {' '}
-      </label>
+      <label>{t('Address')} </label>
       <div
         className="h6 mb-spacer text-break remove-user"
         data-testid="delegateSubTitle"
       >
-        <p className="address">
-          {' '}
-          {address}
-          {' '}
-        </p>
+        <p className="address"> {address} </p>
       </div>
     </form>
   );

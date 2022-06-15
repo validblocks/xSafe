@@ -4,7 +4,6 @@ import { dAppName } from 'config';
 import AssetsPage from 'pages/AssetsPage/AssetsPage';
 import Decisions from 'pages/Decisions';
 import NftPage from 'pages/NftPage';
-import Organization from 'pages/Organization';
 import CvorumContainer from 'pages/Organization/CvorumContainer';
 import OrganizationTokens from 'pages/Organization/OrganizationTokens';
 import TransactionsPage from 'pages/Transactions/TransactionsPage';
@@ -134,27 +133,30 @@ export const routeNames = {
 
 const routes: RouteType[] = [
   ...Object.keys(foregroundRoutes).map((route) => {
-    const {
-      path, title, authenticatedRoute, component,
-    } = foregroundRoutes[route as ForegroundRoutesType];
+    const { path, title, authenticatedRoute, component } =
+      foregroundRoutes[route as ForegroundRoutesType];
     return {
-      path, title, authenticatedRoute, component,
+      path,
+      title,
+      authenticatedRoute,
+      component,
     };
   }),
 ];
 
-const wrappedRoutes = () => routes.map((route) => {
-  const title = route.title
-    ? `${route.title} • Elrond ${dAppName}`
-    : `Elrond ${dAppName}`;
-  return {
-    path: route.path,
-    authenticatedRoute: Boolean(route.authenticatedRoute),
-    component: withPageTitle(
-      title,
-      route.component,
-    ) as any as React.ComponentClass<any, any>,
-  };
-});
+const wrappedRoutes = () =>
+  routes.map((route) => {
+    const title = route.title
+      ? `${route.title} • Elrond ${dAppName}`
+      : `Elrond ${dAppName}`;
+    return {
+      path: route.path,
+      authenticatedRoute: Boolean(route.authenticatedRoute),
+      component: withPageTitle(
+        title,
+        route.component,
+      ) as any as React.ComponentClass<any, any>,
+    };
+  });
 
 export default wrappedRoutes();

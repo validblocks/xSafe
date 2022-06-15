@@ -14,7 +14,7 @@ import {
   queryQuorumCount,
   queryUserRole,
 } from 'contracts/MultisigContract';
-import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
+import { currentMultisigContractSelector } from '@redux/selectors/multisigContractsSelectors';
 import useFetch from 'utils/useFetch';
 import { OrganizationInfoContextType, TokenWithPrice } from './types';
 
@@ -26,7 +26,8 @@ const OrganizationInfoContext = createContext<OrganizationInfoContextType>(
   {} as OrganizationInfoContextType,
 );
 
-export const useOrganizationInfoContext = () => useContext(OrganizationInfoContext);
+export const useOrganizationInfoContext = () =>
+  useContext(OrganizationInfoContext);
 
 const OrganizationInfoContextProvider = ({ children }: Props) => {
   const [membersCount, setMembersCount] = useState(0);
@@ -37,14 +38,19 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
 
   const { address } = useGetAccountInfo();
 
-  const { data: tokenPrices }: { data: TokenWithPrice[] | undefined } = useFetch('https://devnet-api.elrond.com/mex/tokens');
+  const { data: tokenPrices }: { data: TokenWithPrice[] | undefined } =
+    useFetch('https://devnet-api.elrond.com/mex/tokens');
 
   const currentContract = useSelector(currentMultisigContractSelector);
 
-  const allMemberAddresses = useMemo(() => [
-    ...boardMembers.map((item) => ({ role: 'Board Member', member: item })),
-    ...proposers.map((item) => ({ role: 'Proposer', member: item })),
-  ].map((item, idx) => ({ ...item, id: idx })), [boardMembers, proposers]);
+  const allMemberAddresses = useMemo(
+    () =>
+      [
+        ...boardMembers.map((item) => ({ role: 'Board Member', member: item })),
+        ...proposers.map((item) => ({ role: 'Proposer', member: item })),
+      ].map((item, idx) => ({ ...item, id: idx })),
+    [boardMembers, proposers],
+  );
 
   useEffect(() => {
     setMembersCount(allMemberAddresses.length);
@@ -60,8 +66,8 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
       };
     }
 
-    currentContract?.address
-      && Promise.all([
+    currentContract?.address &&
+      Promise.all([
         queryBoardMemberAddresses(),
         queryUserRole(new Address(address).hex()),
         queryProposerAddresses(),

@@ -1,9 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
-import {
-  InputLabel, MenuItem, Select, SelectChangeEvent,
-} from '@mui/material';
+import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -13,8 +11,8 @@ import * as Yup from 'yup';
 import { denomination } from 'config';
 import { FormikInputField } from 'helpers/formikFields';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
-import { organizationTokensSelector } from 'redux/selectors/accountSelector';
-import { selectedTokenToSendSelector } from 'redux/selectors/modalsSelector';
+import { organizationTokensSelector } from '@redux/selectors/accountSelector';
+import { selectedTokenToSendSelector } from '@redux/selectors/modalsSelector';
 import { MultisigSendToken } from 'types/MultisigSendToken';
 
 interface ProposeSendTokenType {
@@ -42,16 +40,17 @@ const ProposeSendToken = ({
   const organizationTokens = useSelector(organizationTokensSelector);
 
   const availableTokensWithBalances = useMemo(
-    () => organizationTokens.map((token) => ({
-      identifier: token.identifier,
-      balance: operations.denominate({
-        input: token?.balanceDetails?.amount as string,
-        denomination: token?.balanceDetails?.decimals as number,
-        decimals: token?.balanceDetails?.decimals as number,
-        showLastNonZeroDecimal: true,
-        addCommas: false,
-      }),
-    })),
+    () =>
+      organizationTokens.map((token) => ({
+        identifier: token.identifier,
+        balance: operations.denominate({
+          input: token?.balanceDetails?.amount as string,
+          denomination: token?.balanceDetails?.decimals as number,
+          decimals: token?.balanceDetails?.decimals as number,
+          showLastNonZeroDecimal: true,
+          addCommas: false,
+        }),
+      })),
     [],
   );
 
@@ -95,17 +94,18 @@ const ProposeSendToken = ({
   };
 
   const validationSchema = useMemo(
-    () => Yup.object().shape({
-      address: Yup.string()
-        .min(2, 'Too Short!')
-        .max(500, 'Too Long!')
-        .required('Required')
-        .test(validateRecipient),
-      amount: Yup.string()
-        .required('Required')
-        .transform((value) => value.replace(',', '.'))
-        .test(validateAmount),
-    }),
+    () =>
+      Yup.object().shape({
+        address: Yup.string()
+          .min(2, 'Too Short!')
+          .max(500, 'Too Long!')
+          .required('Required')
+          .test(validateRecipient),
+        amount: Yup.string()
+          .required('Required')
+          .transform((value) => value.replace(',', '.'))
+          .test(validateAmount),
+      }),
     [validateAmount, validateRecipient],
   );
 
@@ -114,9 +114,7 @@ const ProposeSendToken = ({
       address: '',
       amount: 0,
     },
-    onSubmit: () => {
-
-    },
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -154,9 +152,10 @@ const ProposeSendToken = ({
   };
 
   const selectedTokenBalance = useMemo(
-    () => availableTokensWithBalances.find(
-      (token) => token.identifier === identifier,
-    )?.balance as string,
+    () =>
+      availableTokensWithBalances.find(
+        (token) => token.identifier === identifier,
+      )?.balance as string,
     [identifier],
   );
 
@@ -204,8 +203,7 @@ const ProposeSendToken = ({
           ))}
         </Select>
         <div>
-          Balance:
-          {' '}
+          Balance:{' '}
           {Number(
             availableTokensWithBalances.find(
               (token) => token.identifier === identifier,
@@ -216,11 +214,7 @@ const ProposeSendToken = ({
 
       <div className="modal-control-container">
         <div className="input-wrapper">
-          <label>
-            {t('Amount')}
-            :
-            {' '}
-          </label>
+          <label>{t('Amount')}: </label>
           <Form.Control
             id="amount"
             name="amount"
