@@ -134,8 +134,7 @@ export class MultisigSmartContractCall extends MultisigAction {
     const identifier = this.args[0].valueOf().toString();
     const codec = new BinaryCodec();
 
-    return `${i18next.t('Identifier')}: ${identifier}
-    )}: ${identifier}`;
+    return `${i18next.t('Identifier')}: ${identifier}`;
   }
 
   getIssueTokenDescription(): string {

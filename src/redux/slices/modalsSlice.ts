@@ -29,10 +29,6 @@ interface PerformActionModal {
   selectedToken: any | null;
   selectedNft: any | null;
 }
-interface proposeNftModal {
-  selectedAction: SelectedActionToPerform | null;
-  selectedNft: any | null;
-}
 
 interface ProposeModal {
   selectedOption?: SelectedOptionType;
