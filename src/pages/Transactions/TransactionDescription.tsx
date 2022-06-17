@@ -42,28 +42,29 @@ const TransactionDescription = ({
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
   const useStyles: CallableFunction = useMemo(
-    () => makeStyles({
-      container: {
-        display: 'grid',
-        gridTemplateColumns: '2fr 1fr',
-      },
-      child1: {
-        gridRow: '1 / 2',
-        gridColumn: '1 / 2',
-        borderBottom: '2px solid #ddd',
-        minHeight: '12rem',
-      },
-      child2: {
-        gridRow: '1 / 3',
-        gridColumn: '2 / 3',
-        borderLeft: '2px solid #ddd',
-        padding: '1rem 2rem',
-      },
-      child3: {
-        gridRow: '2 / 3',
-        gridColumn: '1 / 2',
-      },
-    }),
+    () =>
+      makeStyles({
+        container: {
+          display: 'grid',
+          gridTemplateColumns: '2fr 1fr',
+        },
+        child1: {
+          gridRow: '1 / 2',
+          gridColumn: '1 / 2',
+          borderBottom: '2px solid #ddd',
+          minHeight: '12rem',
+        },
+        child2: {
+          gridRow: '1 / 3',
+          gridColumn: '2 / 3',
+          borderLeft: '2px solid #ddd',
+          padding: '1rem 2rem',
+        },
+        child3: {
+          gridRow: '2 / 3',
+          gridColumn: '1 / 2',
+        },
+      }),
     [isSmallScreen],
   );
 
@@ -111,6 +112,7 @@ const TransactionDescription = ({
                   <img
                     className="mr-3 rounded"
                     src="https://picsum.photos/30/30?random=1"
+                    alt="img"
                   />
                   <div>
                     <div>{truncateInTheMiddle(signer.bech32(), 10)}</div>
@@ -119,7 +121,6 @@ const TransactionDescription = ({
                 </div>
                 <Typography className="mt-2">
                   {idx + 1}
-                  {' '}
                   out of
                   {quorumCount}
                 </Typography>

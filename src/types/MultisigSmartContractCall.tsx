@@ -44,6 +44,7 @@ export class MultisigSmartContractCall extends MultisigAction {
     switch (this.functionName) {
       case multisigContractFunctionNames.issue:
         return this.getIssueTokenToolTip();
+      default:
     }
 
     return '';
@@ -54,6 +55,7 @@ export class MultisigSmartContractCall extends MultisigAction {
       case multisigContractFunctionNames.issue:
       case multisigContractFunctionNames.ESDTTransfer:
         return null;
+      default:
     }
     return `${this.functionName}${this.args.map(
       (arg) => `@${arg.valueOf().toString('hex')}`,
@@ -66,6 +68,7 @@ export class MultisigSmartContractCall extends MultisigAction {
         return i18next.t('Issue Token');
       case multisigContractFunctionNames.ESDTTransfer:
         return i18next.t('Send Token');
+      default:
     }
     return i18next.t('Smart contract call');
   }
@@ -76,6 +79,7 @@ export class MultisigSmartContractCall extends MultisigAction {
         return this.getIssueTokenDescription();
       case multisigContractFunctionNames.ESDTTransfer:
         return this.getSendTokenDescription();
+      default:
     }
     return (
       <div className="d-flex flex-wrap transaction">

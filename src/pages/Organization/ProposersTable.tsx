@@ -1,6 +1,4 @@
-import React, {
-  useCallback, useEffect, useMemo, useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -63,6 +61,7 @@ const ProposersTable = () => {
             <img
               className="mr-3 rounded w-100 h-100"
               src="https://picsum.photos/30/30?random=1"
+              alt="img"
             />
             <div>
               <div>
@@ -119,7 +118,8 @@ const ProposersTable = () => {
               icon={<DeleteIcon htmlColor="#9DABBD" />}
               label="Delete"
               onClick={() =>
-                onRemoveUser(new Address(params.row.valueHex).bech32())}
+                onRemoveUser(new Address(params.row.valueHex).bech32())
+              }
             />
           </div>,
         ],
@@ -139,7 +139,7 @@ const ProposersTable = () => {
         id: idx,
       }));
       setAllProposers(proposersWithIndexes as ProposerTableRow[]);
-    }());
+    })();
   }, []);
 
   return (

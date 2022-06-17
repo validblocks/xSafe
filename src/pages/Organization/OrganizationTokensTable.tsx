@@ -45,7 +45,8 @@ const OrganizationsTokensTable = () => {
     getAddresses().then((ownerAddresses) => {
       Promise.all(
         ownerAddresses.map((address) =>
-          getAccountData(new Address(address).bech32())),
+          getAccountData(new Address(address).bech32()),
+        ),
       ).then((accountsInformation) => {
         setAddresses(accountsInformation.map(addAddressBookEntry));
       });
@@ -53,15 +54,6 @@ const OrganizationsTokensTable = () => {
   }, []);
 
   const dispatch = useDispatch();
-
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
 
   const onRemoveUser = (address: Address) =>
     dispatch(
@@ -158,7 +150,8 @@ const OrganizationsTokensTable = () => {
                 addresses.find(
                   (address) => address.address === params.id,
                 ) as Owner,
-              )}
+              )
+            }
           />,
         ],
       },
