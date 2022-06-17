@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
-import { operations, Ui } from '@elrondnetwork/dapp-utils';
+import { operations } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
-import { Box, Typography, Button } from '@mui/material';
+import { Box } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainButton } from 'components/Theme/StyledComponents';
@@ -16,7 +16,6 @@ import {
 } from '@redux/selectors/currencySelector';
 import { priceSelector } from '@redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from '@redux/selectors/multisigContractsSelectors';
-import { safeNameStoredSelector } from '@redux/selectors/safeNameSelector';
 import {
   setMultisigBalance,
   setOrganizationTokens,
@@ -35,8 +34,6 @@ const TotalBalance = () => {
   const organizationTokens = useSelector(organizationTokensSelector);
   const egldPrice = useSelector(priceSelector);
 
-  const [selectedCurrency, setSelectedCurrency] = useState('');
-
   const currentContract = useSelector(currentMultisigContractSelector);
   const {
     tokenPrices,
@@ -47,7 +44,7 @@ const TotalBalance = () => {
     (tokenIdentifier: string) =>
       tokenPrices.find(
         (tokenWithPrice: TokenWithPrice) =>
-          tokenWithPrice.symbol == tokenIdentifier,
+          tokenWithPrice.symbol === tokenIdentifier,
       )?.price ?? egldPrice,
     [],
   );
@@ -99,7 +96,9 @@ const TotalBalance = () => {
 
           let photoUrl = '';
 
-          if (token.identifier !== 'EGLD') photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
+          if (token.identifier !== 'EGLD') {
+            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
+          }
 
           tokensWithPrices.push({
             ...tokenWithoutOwner,
@@ -126,7 +125,7 @@ const TotalBalance = () => {
       } catch (error) {
         console.log(error);
       }
-    }());
+    })();
   }, [currentContract]);
 
   const totalValue = () => {
@@ -161,10 +160,6 @@ const TotalBalance = () => {
         arrayOfUsdValues.reduce((x: number, y: number) => x + y),
       );
     }
-  };
-
-  const setCurrency = (data: string) => {
-    setSelectedCurrency(data);
   };
 
   useEffect(() => {
@@ -203,7 +198,7 @@ const TotalBalance = () => {
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
         <CenteredText>Total balance:</CenteredText>
         <CenteredText fontSize="16px" fontWeight="bold">
-          ≈
+          {'≈'}
           {currencyConverted?.toFixed(2)}
           {getCurrency}
         </CenteredText>

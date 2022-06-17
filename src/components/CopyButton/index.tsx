@@ -1,5 +1,4 @@
 import React from 'react';
-import { faCopy } from '@fortawesome/free-regular-svg-icons/faCopy';
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CopyAllIcon from '@mui/icons-material/CopyAll';

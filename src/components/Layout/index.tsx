@@ -11,7 +11,6 @@ import { Box } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { getAccountData } from 'apiCalls/accountCalls';
 import { getEconomicsData } from 'apiCalls/economicsCalls';
 import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
@@ -37,7 +36,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
     address,
     accessTokenServices?.maiarIdApi,
@@ -47,7 +45,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     open?: boolean;
   }
 
-  const loggedIn = loginMethod != '';
+  const loggedIn = loginMethod !== '';
+
+  async function fetchAccountData() {
+    const accountData = await getAccountData(address);
+    if (accountData !== null) {
+      dispatch(setAccountData(accountData));
+    }
+  }
+
   React.useEffect(() => {
     if (loggedIn) {
       refreshAccount();
@@ -55,14 +61,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
-
-  React.useEffect(() => {
-    fetchEconomics();
-  }, []);
-
-  useEffect(() => {
-    readMultisigContracts();
-  }, [address, isAuthenticated?.isAuthenticated]);
 
   async function readMultisigContracts() {
     if (uniqueContractAddress || storageApi == null) {
@@ -79,6 +77,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  useEffect(() => {
+    readMultisigContracts();
+  }, [address, isAuthenticated?.isAuthenticated]);
+
   async function fetchEconomics() {
     const economics = await getEconomicsData();
     if (economics !== null) {
@@ -86,12 +88,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  async function fetchAccountData() {
-    const accountData = await getAccountData(address);
-    if (accountData !== null) {
-      dispatch(setAccountData(accountData));
-    }
-  }
+  React.useEffect(() => {
+    fetchEconomics();
+  }, []);
+
   const width = useMediaQuery('(min-width:600px)');
 
   const AppBar = styled(MuiAppBar, {
