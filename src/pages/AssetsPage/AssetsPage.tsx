@@ -1,6 +1,4 @@
-import React, {
-  useCallback, useEffect, useMemo, useState,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
@@ -70,7 +68,7 @@ const AssetsPage = () => {
     (tokenIdentifier: string) =>
       tokenPrices.find(
         (tokenWithPrice: TokenWithPrice) =>
-          tokenWithPrice.symbol == tokenIdentifier,
+          tokenWithPrice.symbol === tokenIdentifier,
       )?.price ?? egldPrice,
     [],
   );
@@ -127,7 +125,9 @@ const AssetsPage = () => {
           const { owner, ...tokenWithoutOwner } = token;
 
           let photoUrl = '';
-          if (token.identifier !== 'EGLD') photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
+          if (token.identifier !== 'EGLD') {
+            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
+          }
 
           tokensWithPrices.push({
             ...tokenWithoutOwner,
@@ -154,7 +154,7 @@ const AssetsPage = () => {
       } catch (error) {
         console.log(error);
       }
-    }());
+    })();
   }, [currentContract]);
 
   const columns = useMemo(
@@ -205,9 +205,7 @@ const AssetsPage = () => {
                 }),
               ).toFixed(8),
             )}
-            {' '}
-            $
-            {params.value.identifier}
+            ${params.value.identifier}
           </h6>
         ),
       },
@@ -227,7 +225,6 @@ const AssetsPage = () => {
               })}
               usd={params.value.tokenPrice}
             />
-            {' '}
           </h5>
         ),
       },
@@ -242,7 +239,8 @@ const AssetsPage = () => {
               icon={<CallMadeIcon htmlColor="#9DABBD" />}
               label="Send"
               onClick={() =>
-                handleOptionSelected(ProposalsTypes.send_token, params.row)}
+                handleOptionSelected(ProposalsTypes.send_token, params.row)
+              }
             />
           </div>,
           <div key="1" className="shadow-sm p-2 rounded mr-2">

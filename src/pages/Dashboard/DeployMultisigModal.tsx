@@ -28,7 +28,8 @@ const DeployStepsModal = ({
 
   const [name, setName] = useState('');
 
-  const [pendingDeploymentContractData, setPendingDeploymentContractData] = useState<PendingDeploymentContractData | null>(null);
+  const [pendingDeploymentContractData, setPendingDeploymentContractData] =
+    useState<PendingDeploymentContractData | null>(null);
 
   transactionServices.useTrackTransactionStatus({
     transactionId: pendingDeploymentContractData?.transactionId || null,
@@ -69,12 +70,9 @@ const DeployStepsModal = ({
           </p>
 
           <div className="modal-control-container">
-            <label>
-              {t('Name')}
-              :
-              {' '}
-            </label>
+            <label htmlFor={name}>{t('Name')}: </label>
             <input
+              id={name}
               type="text"
               className="form-control"
               value={name}

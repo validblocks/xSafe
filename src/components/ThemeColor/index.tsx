@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
 const ThemeColor = () => {
   const themesList: string[] = ['Light', 'Dark'];
-  const [value, setValue] = useState<string | null>(themesList[0]);
+  const value = themesList[0];
 
   return (
     <Box>

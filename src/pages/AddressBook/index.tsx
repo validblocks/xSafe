@@ -24,6 +24,11 @@ import ImportModal from './ImportModal';
 import NewEntryModal from './NewEntryModal';
 
 const AddressBook = () => {
+  const dispatch = useDispatch();
+  const [actionType, setActionType] = useState<string | null>(null);
+  const [modalState, setModalState] = useState(false);
+  const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
+
   const onRemoveEntry = (address: string) => {
     dispatch(removeEntry({ address }));
   };
@@ -61,11 +66,6 @@ const AddressBook = () => {
       ],
     },
   ];
-
-  const [modalState, setModalState] = useState(false);
-  const [actionType, setActionType] = useState<string | null>(null);
-  const [selectedAddress, setSelectedAddress] = useState<string | null>(null);
-  const dispatch = useDispatch();
 
   const toolbar = () => (
     <GridToolbarContainer>

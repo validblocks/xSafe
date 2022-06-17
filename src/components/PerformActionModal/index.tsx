@@ -45,6 +45,21 @@ const PerformActionModal = ({
     dispatch(setSelectedPerformedAction(null));
   };
 
+  const validateGasLimit = () => {
+    if (selectedGasLimit < gasLimit) {
+      setError(`Gas limit must be greater or equal to ${gasLimit}`);
+      setSelectedGasLimit(gasLimit);
+      return false;
+    }
+    if (selectedGasLimit > maxGasLimit) {
+      setError(`Gas limit must be lower or equal to ${maxGasLimit}`);
+      setSelectedGasLimit(maxGasLimit);
+
+      return false;
+    }
+    return true;
+  };
+
   const onPerformAction = () => {
     const isGasLimitValid = validateGasLimit();
     if (isGasLimitValid) {
@@ -61,21 +76,6 @@ const PerformActionModal = ({
     }
     setError(null);
     setSelectedGasLimit(newValue);
-  };
-
-  const validateGasLimit = () => {
-    if (selectedGasLimit < gasLimit) {
-      setError(`Gas limit must be greater or equal to ${gasLimit}`);
-      setSelectedGasLimit(gasLimit);
-      return false;
-    }
-    if (selectedGasLimit > maxGasLimit) {
-      setError(`Gas limit must be lower or equal to ${maxGasLimit}`);
-      setSelectedGasLimit(maxGasLimit);
-
-      return false;
-    }
-    return true;
   };
 
   if (selectedAction == null) {

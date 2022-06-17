@@ -279,37 +279,6 @@ export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
   );
 }
 
-export function queryAllActions(): Promise<MultisigActionDetailed[]> {
-  return queryActionContainerArray(
-    multisigContractFunctionNames.getPendingActionFullInfo,
-  );
-}
-
-export function queryBoardMembersCount(): Promise<number> {
-  return queryNumber(multisigContractFunctionNames.getNumBoardMembers);
-}
-
-export function queryProposersCount(): Promise<number> {
-  return queryNumber(multisigContractFunctionNames.getNumProposers);
-}
-
-export function queryQuorumCount(): Promise<number> {
-  return queryNumber(multisigContractFunctionNames.getQuorum);
-}
-
-export function queryActionLastId(): Promise<number> {
-  return queryNumber(multisigContractFunctionNames.getActionLastIndex);
-}
-
-export function queryActionData(
-  actionId: number,
-): Promise<MultisigAction | null> {
-  return queryActionContainer(
-    multisigContractFunctionNames.getActionData,
-    new U32Value(actionId),
-  );
-}
-
 export function queryUserRole(userAddress: string): Promise<number> {
   return queryNumber(
     multisigContractFunctionNames.userRole,
@@ -332,6 +301,18 @@ export function queryActionSignerAddresses(
     multisigContractFunctionNames.getActionSigners,
     new U32Value(actionId),
   );
+}
+
+export function queryProposersCount(): Promise<number> {
+  return queryNumber(multisigContractFunctionNames.getNumProposers);
+}
+
+export function queryQuorumCount(): Promise<number> {
+  return queryNumber(multisigContractFunctionNames.getQuorum);
+}
+
+export function queryActionLastId(): Promise<number> {
+  return queryNumber(multisigContractFunctionNames.getActionLastIndex);
 }
 
 export function queryActionSignerCount(actionId: number): Promise<number> {
@@ -379,6 +360,10 @@ export async function queryNumber(
     .toNumber();
 }
 
+export function queryBoardMembersCount(): Promise<number> {
+  return queryNumber(multisigContractFunctionNames.getNumBoardMembers);
+}
+
 export async function queryBoolean(
   functionName: string,
   ...args: TypedValue[]
@@ -404,6 +389,15 @@ export async function queryActionContainer(
   return action;
 }
 
+export function queryActionData(
+  actionId: number,
+): Promise<MultisigAction | null> {
+  return queryActionContainer(
+    multisigContractFunctionNames.getActionData,
+    new U32Value(actionId),
+  );
+}
+
 export async function queryActionContainerArray(
   functionName: string,
   ...args: TypedValue[]
@@ -418,6 +412,12 @@ export async function queryActionContainerArray(
     }
   }
   return actions;
+}
+
+export function queryAllActions(): Promise<MultisigActionDetailed[]> {
+  return queryActionContainerArray(
+    multisigContractFunctionNames.getPendingActionFullInfo,
+  );
 }
 export async function queryAddressArray(
   functionName: string,
