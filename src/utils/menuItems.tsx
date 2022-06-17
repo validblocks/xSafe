@@ -6,7 +6,6 @@ import DiamondIcon from '@mui/icons-material/Diamond';
 import GridViewSharpIcon from '@mui/icons-material/GridViewSharp';
 import GroupsIcon from '@mui/icons-material/Groups';
 import HelpIcon from '@mui/icons-material/Help';
-import InfoIcon from '@mui/icons-material/Info';
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import PeopleIcon from '@mui/icons-material/People';

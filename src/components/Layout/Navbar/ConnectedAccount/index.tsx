@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import {
-  getIsLoggedIn,
-  logout,
-  useGetAccountInfo,
-} from '@elrondnetwork/dapp-core';
+import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Box, Typography, SimplePaletteColorOptions } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+import { Box, Typography } from '@mui/material';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Safe from 'assets/img/safe.png';
 import { theme } from 'components/Theme/createTheme';
 import addressShorthand from 'helpers/addressShorthand';
 import { uniqueContractAddress } from 'multisigConfig';
 import { logoutAction } from '@redux/commonActions';
-import { usernameSelector } from '@redux/selectors/accountSelector';
 import { routeNames } from 'routes';
 import { accessTokenServices } from 'services/accessTokenServices';
 
@@ -29,7 +24,6 @@ const ConnectedAccount = () => {
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const username = useSelector(usernameSelector);
   const { address } = useGetAccountInfo();
 
   const [walletAddress, setWalletAddress] = useState('');
@@ -57,7 +51,7 @@ const ConnectedAccount = () => {
         className="d-flex justify-content-center align-items-center"
       >
         <Box>
-          <img src={Safe} />
+          <img src={Safe} alt="safe" />
         </Box>
         <Box sx={{ ml: 2 }}>
           <ConnectItems className="d-flex" sx={{ p: 1 }}>

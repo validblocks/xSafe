@@ -4,7 +4,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Box, Typography } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Safe from 'assets/img/safe.png';
 import CopyButton from 'components/CopyButton';
 import ReceiveModal from 'components/ReceiveModal';
@@ -16,12 +16,10 @@ import { Anchor, ReadOnly, MembersBox } from '../navbar-style';
 import TotalBalance from '../TotalBalance';
 
 const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
-  const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
   const [showQr, setShowQr] = useState(false);
 
   const {
-    tokenPrices,
     membersCountState: [membersCount],
   } = useOrganizationInfoContext();
 
@@ -39,14 +37,13 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
     <Box>
       <Box sx={{ textAlign: 'center' }}>
         <Box>
-          <img src={Safe} width="91px" height="91px" />
+          <img src={Safe} width="91px" height="91px" alt="safe" />
         </Box>
         <Box>
           <MembersBox>
             <Typography>
               {membersCount}
-              {' '}
-              {membersCount == 1 ? 'Member' : 'Members'}
+              {membersCount === 1 ? 'Member' : 'Members'}
             </Typography>
           </MembersBox>
         </Box>

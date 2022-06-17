@@ -42,7 +42,7 @@ const MobileLayout = () => {
           sx={{ px: 2 }}
         >
           <Box>
-            <img src={Safe} width="50" height="50" />
+            <img src={Safe} width="50" height="50" alt="safe" />
           </Box>
           <Box className="d-flex">
             <Box>
@@ -95,7 +95,7 @@ const MobileLayout = () => {
           {menuItems.mobileBottomItems.map((el, index) => (
             <Box
               className={
-                locationString == el.link
+                locationString === el.link
                   ? 'active link-decoration py-4'
                   : 'link-decoration py-4'
               }
@@ -119,13 +119,13 @@ const MobileLayout = () => {
         </MobileMenu>
       </Box>
       <MobileSecondaryMenu>
-        {(locationString === 'assets'
-          || locationString === 'tokens'
-          || locationString === 'nft') && (
+        {(locationString === 'assets' ||
+          locationString === 'tokens' ||
+          locationString === 'nft') && (
           <Box>
             <Box
               className={
-                locationString == 'tokens' || locationString == 'assets'
+                locationString === 'tokens' || locationString === 'assets'
                   ? 'active-submenu assets-mobile-submenu py-3'
                   : 'assets-mobile-submenu py-3'
               }
@@ -136,7 +136,7 @@ const MobileLayout = () => {
             </Box>
             <Box
               className={
-                locationString == 'nft'
+                locationString === 'nft'
                   ? 'active-submenu assets-mobile-submenu py-3'
                   : 'assets-mobile-submenu py-3'
               }

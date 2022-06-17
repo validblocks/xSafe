@@ -1,16 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Box, Grid, Button, Typography,
-} from '@mui/material';
+import React from 'react';
+import { Box, Grid, Typography } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { MainButton } from 'components/Theme/StyledComponents';
 import { network } from 'config';
 import { uniqueContractAddress } from 'multisigConfig';
 import useFetch from 'utils/useFetch';
-import {
-  EmptyList, CollectionName, TextDivider, CardBox,
-} from './nft-style';
+import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
 
 const NftCompmonent = () => {
   const fetchNftList = useFetch(
@@ -20,7 +16,9 @@ const NftCompmonent = () => {
   const nftList: any = fetchNftList.data;
   console.log(nftList, 'nftList');
 
-  const nftListSorted = nftList.sort((a: any, b: any) => a.collection.localeCompare(b.collection));
+  const nftListSorted = nftList.sort((a: any, b: any) =>
+    a.collection.localeCompare(b.collection),
+  );
 
   return (
     <Box>
@@ -28,16 +26,16 @@ const NftCompmonent = () => {
         <Grid container spacing={2}>
           {nftListSorted.map((item: any, index: number) => (
             <>
-              {((index > 0
-                && item.collection !== nftListSorted[index - 1].collection)
-                || index === 0) && (
+              {((index > 0 &&
+                item.collection !== nftListSorted[index - 1].collection) ||
+                index === 0) && (
                 <CollectionName>
                   <TextDivider textAlign="left">
                     <Box sx={{ mt: 3, mb: 3 }}>{item.collection}</Box>
                   </TextDivider>
                 </CollectionName>
               )}
-              <Grid xs={12} sm={6} md={4} lg={3} item key={index}>
+              <Grid xs={12} sm={6} md={4} lg={3} item key={item.name}>
                 <CardBox>
                   <Box>
                     <CardMedia

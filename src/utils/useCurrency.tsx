@@ -5,8 +5,9 @@ import {
 
 const useCurrency = (val: number, currency: string, dispatch: any) => {
   if (val && currency) {
+    /* eslint wrap-iife: [1, "outside"] */
     (async function () {
-      if (currency != 'USD') {
+      if (currency !== 'USD') {
         await fetch(
           `https://api.frankfurter.app/latest?amount=${val}&from=USD&to=${currency}`,
         )
@@ -19,7 +20,7 @@ const useCurrency = (val: number, currency: string, dispatch: any) => {
         dispatch(setTotalValueConverted(val));
       }
       dispatch(setSelectedCurrency(currency));
-    }());
+    })();
   }
 };
 

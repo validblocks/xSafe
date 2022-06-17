@@ -20,7 +20,7 @@ const TimelineCard = () => {
   return (
     <Grid className="timeline-wrapper">
       <Timeline className="align-items-start mt-3">
-        {addresses.map((el: any, index: number) => (
+        {addresses.map((el: any) => (
           <TimelineItem key={el.valueHex}>
             <TimelineSeparator>
               <TimelineDot variant="outlined" />
@@ -28,7 +28,6 @@ const TimelineCard = () => {
             </TimelineSeparator>
             <TimelineContent>
               Board member
-              {' '}
               <a href={`https://explorer.elrond.com/search/${el.valueHex}`}>
                 {el.valueHex}
               </a>

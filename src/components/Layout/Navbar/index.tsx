@@ -1,32 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { getIsLoggedIn } from '@elrondnetwork/dapp-core';
-import CloseIcon from '@mui/icons-material/Close';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MenuIcon from '@mui/icons-material/Menu';
 import { List, Accordion } from '@mui/material';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import {
-  styled, useTheme, Theme, CSSObject,
-} from '@mui/material/styles';
+import { styled, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import addressShorthand from 'helpers/addressShorthand';
 import { uniqueContractAddress } from 'multisigConfig';
-import { routeNames } from 'routes';
 import menuItems from 'utils/menuItems';
 import AccountDetails from './NavbarAccountDetails';
 import './menu.scss';
 import {
-  TopHeader,
   TopMenu,
   ListItem,
-  BreadcrumbsWrapper,
   MenuAccordion,
   AccordionDetail,
   BottomMenu,
@@ -75,22 +66,10 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function MiniDrawer() {
-  const theme = useTheme();
   const location = useLocation();
   const locationString = location.pathname.substring(1);
 
-  const [open, setOpen] = React.useState(true);
-
-  const loggedIn = getIsLoggedIn();
-  const navigate = useNavigate();
-  const handleRedirectToHome = () => {
-    const route = uniqueContractAddress
-      ? `/multisig/${uniqueContractAddress}`
-      : routeNames.welcome;
-    navigate(route);
-  };
-
-  const isOnUnlockPage = window.location.pathname.includes(routeNames.unlock);
+  const open = true;
 
   const [walletAddress, setWalletAddress] = useState('');
 
@@ -99,9 +78,10 @@ export default function MiniDrawer() {
   }, []);
 
   const [expanded, setExpanded] = React.useState<string | false>(false);
-  const handleChange = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -157,10 +137,10 @@ export default function MiniDrawer() {
                       <Link
                         to={el.link}
                         className={
-                            locationString == el.link
-                              ? 'active link-decoration'
-                              : 'link-decoration'
-                          }
+                          locationString === el.link
+                            ? 'active link-decoration'
+                            : 'link-decoration'
+                        }
                       >
                         <ListItem
                           sx={{
@@ -192,7 +172,7 @@ export default function MiniDrawer() {
                 <Link
                   to={el.link}
                   className={
-                    locationString == el.link
+                    locationString === el.link
                       ? 'active link-decoration'
                       : 'link-decoration'
                   }
@@ -230,10 +210,10 @@ export default function MiniDrawer() {
               key={index}
               to={el.link}
               className={
-                  locationString == el.link
-                    ? 'active link-decoration'
-                    : 'link-decoration'
-                }
+                locationString === el.link
+                  ? 'active link-decoration'
+                  : 'link-decoration'
+              }
             >
               <ListItem
                 sx={{

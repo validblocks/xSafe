@@ -59,7 +59,7 @@ const DecisionsActionsCards = () => {
   ];
   return (
     <Grid container spacing={2}>
-      {actionCardsArray.map((item, index) => (
+      {actionCardsArray.map((item) => (
         <Grid key={item.id} item md={4} xs={12} className="action-cards">
           <Link to={item.link}>
             <Item sx={{ p: 5 }}>
@@ -78,13 +78,11 @@ const DecisionsActionsCards = () => {
                 </TypographyBold>
                 <Typography align="left" variant="inherit">
                   Due:
-                  {' '}
                   {item.date}
                 </Typography>
               </Box>
               <Typography align="left" variant="inherit">
                 Link:
-                {' '}
                 {item.url}
               </Typography>
               <Box sx={{ my: 4 }}>
