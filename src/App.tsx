@@ -15,11 +15,10 @@ import { germanTranslations } from 'i18n/de';
 import { englishTranslations } from 'i18n/en';
 import OrganizationInfoContextProvider from 'pages/Organization/OrganizationInfoContextProvider';
 import { theme } from 'components/Theme/createTheme';
-import { store, persistor } from './redux/store';
+import routes from 'routes';
+import { store, persistor } from '@redux/store';
 import Layout from './components/Layout';
 import PageNotFound from './components/PageNotFound';
-
-import routes from './routes';
 
 import '@elrondnetwork/dapp-core/build/index.css';
 

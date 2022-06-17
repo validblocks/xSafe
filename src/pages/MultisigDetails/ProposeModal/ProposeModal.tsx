@@ -138,8 +138,7 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
           <ReplaceOwner
             handleSetAddress={handleAddressParamChange}
             handleSetReplacementAddress={(value) =>
-              setSelectedReplacementAddressParam(value)
-            }
+              setSelectedReplacementAddressParam(value)}
             handleSetName={(value) => setSelectedNameParam(value)}
             selectedOption={selectedOption}
             selectedAddress={selectedAddressParam}

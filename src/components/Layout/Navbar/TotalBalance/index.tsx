@@ -35,10 +35,7 @@ const TotalBalance = () => {
   const egldPrice = useSelector(priceSelector);
 
   const currentContract = useSelector(currentMultisigContractSelector);
-  const {
-    tokenPrices,
-    membersCountState: [membersCount],
-  } = useOrganizationInfoContext();
+  const { tokenPrices } = useOrganizationInfoContext();
   const proxy = getNetworkProxy();
   const getTokenPrice = useCallback(
     (tokenIdentifier: string) =>
@@ -92,7 +89,7 @@ const TotalBalance = () => {
         for (const [idx, token] of Object.entries(allTokens)) {
           const priceOfCurrentToken = getTokenPrice(token.identifier ?? '');
 
-          const { owner, ...tokenWithoutOwner } = token;
+          const { _owner, ...tokenWithoutOwner } = token;
 
           let photoUrl = '';
 
@@ -125,7 +122,7 @@ const TotalBalance = () => {
       } catch (error) {
         console.log(error);
       }
-    })();
+    }());
   }, [currentContract]);
 
   const totalValue = () => {
@@ -198,7 +195,7 @@ const TotalBalance = () => {
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
         <CenteredText>Total balance:</CenteredText>
         <CenteredText fontSize="16px" fontWeight="bold">
-          {'≈'}
+          ≈
           {currencyConverted?.toFixed(2)}
           {getCurrency}
         </CenteredText>

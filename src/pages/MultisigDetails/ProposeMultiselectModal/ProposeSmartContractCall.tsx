@@ -74,7 +74,9 @@ const ProposeSmartContractCall = ({
   });
 
   const { touched, errors, values } = formik;
-  const { amount, receiver, functionName, args } = values;
+  const {
+    amount, receiver, functionName, args,
+  } = values;
 
   useEffect(() => {
     refreshProposal();
@@ -202,7 +204,10 @@ const ProposeSmartContractCall = ({
         handleBlur={formik.handleBlur}
       />
       <div className="modal-control-container">
-        <label>{t('Amount')} </label>
+        <label>
+          {t('Amount')}
+          {' '}
+        </label>
         <div className="input-wrapper">
           <Form.Control
             id="amount"
@@ -219,10 +224,16 @@ const ProposeSmartContractCall = ({
             </Form.Control.Feedback>
           )}
         </div>
-        <span>{`Balance: ${denominatedValue} EGLD`} </span>
+        <span>
+          {`Balance: ${denominatedValue} EGLD`}
+          {' '}
+        </span>
       </div>
       <div className="modal-control-container">
-        <label htmlFor={functionName}>{t('function name (optional)')} </label>
+        <label htmlFor={functionName}>
+          {t('function name (optional)')}
+          {' '}
+        </label>
         <div className="input-wrapper">
           <Form.Control
             id={functionName}

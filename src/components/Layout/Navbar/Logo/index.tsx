@@ -1,6 +1,6 @@
 import React from 'react';
 import { dAppName } from 'config';
-import { uniqueContractAddress } from 'multisigConfig';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import { useNavigate } from 'react-router-dom';
 import { routeNames } from 'routes';
 import { NavLogo, Logo, DappName } from '../navbar-style';

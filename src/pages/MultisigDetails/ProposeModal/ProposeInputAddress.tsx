@@ -36,7 +36,10 @@ const ProposeInputAddress = ({
 
   return (
     <div className="modal-control-container">
-      <label htmlFor={address}>{t('Address')} </label>
+      <label htmlFor={address}>
+        {t('Address')}
+        {' '}
+      </label>
       <input
         id={address}
         type="text"

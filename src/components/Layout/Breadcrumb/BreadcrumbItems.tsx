@@ -1,4 +1,4 @@
-import { uniqueContractAddress } from 'multisigConfig';
+import { uniqueContractAddress } from 'src/multisigConfig';
 
 const breadcrumbItems: any = {
   decisions: [

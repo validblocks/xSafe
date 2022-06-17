@@ -45,7 +45,11 @@ const ProposeChangeQuorum = ({
   return (
     <div className="d-flex flex-column modal-control-container">
       <div className="group-center">
-        <label>{t('Quorum Size')}: </label>
+        <label>
+          {t('Quorum Size')}
+          :
+          {' '}
+        </label>
         <input
           style={{ width: 250 }}
           className="form-control"

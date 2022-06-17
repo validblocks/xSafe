@@ -11,7 +11,7 @@ import { styled, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import addressShorthand from 'helpers/addressShorthand';
-import { uniqueContractAddress } from 'multisigConfig';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import menuItems from 'utils/menuItems';
 import AccountDetails from './NavbarAccountDetails';
 import './menu.scss';
@@ -96,8 +96,8 @@ export default function MiniDrawer() {
           <Divider />
         </List>
         <TopMenu>
-          {menuItems.topItems.map((el, index) => (
-            <div key={index}>
+          {menuItems.topItems.map((el) => (
+            <div key={el.id}>
               {el.submenu && (
                 <Accordion
                   expanded={expanded === `${el.id}`}
@@ -132,8 +132,8 @@ export default function MiniDrawer() {
                       />
                     </ListItem>
                   </MenuAccordion>
-                  {el.submenu?.map((el, index) => (
-                    <AccordionDetail key={index} sx={{ p: 0 }}>
+                  {el.submenu?.map((el) => (
+                    <AccordionDetail key={el.link} sx={{ p: 0 }}>
                       <Link
                         to={el.link}
                         className={
@@ -205,9 +205,9 @@ export default function MiniDrawer() {
         </TopMenu>
         <BottomMenu>
           <Divider sx={{ mt: 1 }} />
-          {menuItems.bottomItems.map((el, index) => (
+          {menuItems.bottomItems.map((el) => (
             <Link
-              key={index}
+              key={el.link}
               to={el.link}
               className={
                 locationString === el.link

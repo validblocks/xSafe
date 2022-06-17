@@ -50,7 +50,9 @@ const ProposeDeployContractFromSource = ({
   });
   const { touched, errors, values } = formik;
 
-  const { amount, source, args, upgradeable, payable, readable } = values;
+  const {
+    amount, source, args, upgradeable, payable, readable,
+  } = values;
 
   useEffect(() => {
     const hasErrors = Object.keys(errors).length > 0;
