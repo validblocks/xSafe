@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Button, CircularProgress, Typography } from '@mui/material';
 
 const WaitingActions = () => (

@@ -1,4 +1,3 @@
-import React from 'react';
 import BackupIcon from '@mui/icons-material/Backup';
 import { Button, Typography } from '@mui/material';
 import { CSVLink } from 'react-csv';
@@ -23,9 +22,7 @@ const ExportModal = ({ handleClose, addressBook }: ExportModalProps) => {
       <BackupIcon />
       <Typography id="modal-modal-title" variant="h6" component="h2">
         You are about to export a CSV file with
-        {' '}
         {Object.keys(addressBook).length}
-        {' '}
         address book entries.
       </Typography>
       <CSVLink data={csvData}>Download</CSVLink>

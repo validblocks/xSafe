@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box } from '@mui/material';
 import DecisionsActionsCards from 'components/DecisionsComponents/decisionsActionsCards';
 import DecisionsHeader from 'components/DecisionsComponents/DecisionsHeader';

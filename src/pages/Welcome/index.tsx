@@ -1,4 +1,3 @@
-import React from 'react';
 import { getIsLoggedIn } from '@elrondnetwork/dapp-core';
 import { Link, Navigate } from 'react-router-dom';
 import { ReactComponent as Hero } from 'assets/img/home-img-multisig.svg';
@@ -23,19 +22,16 @@ const Welcome = () => {
             <h2 className="mb-3" data-testid="title">
               Security designed to
               <br />
-              {' '}
               fit your needs.
             </h2>
             <p className="mb-3">
               Elrond Multisig is an ideal balance between security
               <br />
-              {' '}
               and accessibility.
             </p>
             <p className="mb-3">
               Enabling clients to move assets seamlessly
               <br />
-              {' '}
               and reliably, protected by multi-signature security.
             </p>
             <div className="connect-btns d-flex">

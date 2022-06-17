@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
@@ -8,7 +8,8 @@ import TransactionAdvancedDetails from './TransactionAdvancedDetails';
 type Props = any;
 
 const TransactionTechnicalDetails = ({ transaction }: Props) => {
-  const [isAdvancedDetailsVisibile, setIsAdvancedDetailsVisible] = useState(false);
+  const [isAdvancedDetailsVisibile, setIsAdvancedDetailsVisible] =
+    useState(false);
   const toggleAdvancedDetails = useCallback(
     () => setIsAdvancedDetailsVisible((currentState) => !currentState),
     [],
@@ -43,7 +44,6 @@ const TransactionTechnicalDetails = ({ transaction }: Props) => {
           }}
         >
           Function Name:
-          {' '}
         </Typography>
         {transaction?.function}
       </Typography>
@@ -58,7 +58,6 @@ const TransactionTechnicalDetails = ({ transaction }: Props) => {
           }}
         >
           Timestamp:
-          {' '}
         </Typography>
         {dayjs(getDate(transaction?.timestamp)).format('H:mm A')}
       </Typography>

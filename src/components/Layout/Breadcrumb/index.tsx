@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useLocation, Link } from 'react-router-dom';
 import { uniqueContractAddress } from 'multisigConfig';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 
@@ -17,14 +16,11 @@ const TransactionAdvancedDetails = ({ transaction }: Props) => (
         }}
       >
         Mini Block Hash:
-        {' '}
         {}
       </Typography>
       {transaction?.miniBlockHash.slice(0, 15)}
       ...
-      {transaction?.miniBlockHash.slice(
-        transaction?.miniBlockHash.length - 15,
-      )}
+      {transaction?.miniBlockHash.slice(transaction?.miniBlockHash.length - 15)}
     </Typography>
     <Typography component="div" className="my-1">
       <Typography
@@ -37,7 +33,6 @@ const TransactionAdvancedDetails = ({ transaction }: Props) => (
         }}
       >
         Nonce:
-        {' '}
       </Typography>
       {transaction?.nonce}
     </Typography>
@@ -52,7 +47,6 @@ const TransactionAdvancedDetails = ({ transaction }: Props) => (
         }}
       >
         Gas Price:
-        {' '}
       </Typography>
       {transaction?.gasPrice}
     </Typography>
@@ -67,7 +61,6 @@ const TransactionAdvancedDetails = ({ transaction }: Props) => (
         }}
       >
         Gas Used:
-        {' '}
       </Typography>
       {transaction?.gasUsed}
     </Typography>

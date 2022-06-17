@@ -1,4 +1,3 @@
-import React from 'react';
 import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
 import { CssBaseline } from '@mui/material';
 import dayjs from 'dayjs';

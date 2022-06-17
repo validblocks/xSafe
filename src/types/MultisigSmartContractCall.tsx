@@ -1,4 +1,3 @@
-import React from 'react';
 import { Ui } from '@elrondnetwork/dapp-utils';
 import { Address, BinaryCodec } from '@elrondnetwork/erdjs/out';
 import {

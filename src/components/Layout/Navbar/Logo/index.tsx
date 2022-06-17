@@ -1,4 +1,3 @@
-import React from 'react';
 import { dAppName } from 'config';
 import { uniqueContractAddress } from 'multisigConfig';
 import { useNavigate } from 'react-router-dom';

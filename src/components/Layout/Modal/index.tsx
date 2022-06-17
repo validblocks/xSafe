@@ -1,4 +1,3 @@
-import React from 'react';
 import { useSelector } from 'react-redux';
 import PerformActionModal from 'components/PerformActionModal';
 import ProposeModal from 'pages/MultisigDetails/ProposeModal/ProposeModal';

@@ -1,4 +1,3 @@
-import React from 'react';
 import { useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { accessTokenServices, maiarIdApi } from 'services/accessTokenServices';
 
