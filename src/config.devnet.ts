@@ -13,9 +13,11 @@ export const minGasLimit = 50_000;
 export const maxGasLimit = 1499999999;
 
 export const walletConnectBridge = 'https://bridge.walletconnect.org';
-export const walletConnectDeepLink = 'https://maiar.page.link/?apn=com.elrond.maiar.wallet&isi=1519405832&ibi=com.elrond.maiar.wallet.dev&link=https://maiar.com/';
+export const walletConnectDeepLink =
+  'https://maiar.page.link/?apn=com.elrond.maiar.wallet&isi=1519405832&ibi=com.elrond.maiar.wallet.dev&link=https://maiar.com/';
 
-export const issueTokenContractAddress = 'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u';
+export const issueTokenContractAddress =
+  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u';
 
 export const network: NetworkType = {
   id: 'devnet',

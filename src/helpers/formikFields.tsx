@@ -32,9 +32,8 @@ export const FormikInputField = ({
 }: FormikInputFieldPropsType) => (
   <div className="modal-control-container">
     <div className="input-wrapper">
-      <label className="form-label">
+      <label className="form-label" htmlFor={name}>
         {label}
-        {' '}
       </label>
       <Form.Control
         id={name}

@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import {
-  Box, Button, Grid, Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,8 +12,6 @@ import {
   currencyConvertedSelector,
   selectedCurrencySelector,
 } from '@redux/selectors/currencySelector';
-import { setProposeMultiselectSelectedOption } from '@redux/slices/modalsSlice';
-import { ProposalsTypes } from 'types/Proposals';
 import { useNavigate } from 'react-router-dom';
 import { uniqueContractAddress } from 'multisigConfig';
 import DeployStepsModal from 'pages/Dashboard/DeployMultisigModal';
@@ -38,13 +34,6 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
   useEffect(() => {
     setShortAddress(addressShorthand);
   }, [addressShorthand]);
-
-  const addSafe = () =>
-    dispatch(
-      setProposeMultiselectSelectedOption({
-        option: ProposalsTypes.add_proposer,
-      }),
-    );
 
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
 
@@ -78,14 +67,14 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
       <Button sx={{ p: 0, width: '100%' }} onClick={onEnterClicked}>
         <Box sx={{ p: 1, width: '100%' }} className="d-flex align-items-center">
           <Grid sm={3}>
-            <img src={Safe} width="60px" height="60px" />
+            <img src={Safe} width="60px" height="60px" alt="safe" />
           </Grid>
           <Grid sm={7}>
             <ActiveWallet sx={{ ml: 2 }}>
               <TypographyBold align="left">My Safe</TypographyBold>
               <Typography align="left">{shortAddress}</Typography>
               <TypographyBold align="left">
-                ≈
+                {'≈'}
                 {currencyConverted.toFixed(2)}
                 {getCurrency}
               </TypographyBold>
@@ -102,7 +91,7 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
       <Button sx={{ p: 0, width: '100%' }}>
         <Box sx={{ p: 1, width: '100%' }} className="d-flex align-items-center">
           <Grid sm={3}>
-            <img src={OtherSafe} width="60px" height="60px" />
+            <img src={OtherSafe} width="60px" height="60px" alt="safe" />
           </Grid>
           <Grid sm={7}>
             <InactiveWallet sx={{ ml: 2 }}>
