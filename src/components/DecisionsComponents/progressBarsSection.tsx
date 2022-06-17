@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';

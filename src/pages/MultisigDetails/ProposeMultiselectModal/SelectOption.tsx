@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Accordion, useAccordionToggle } from 'react-bootstrap';
@@ -68,9 +68,7 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
             onClick={decoratedOnClick}
             className="expand-icon advanced-options-toggle mb-2 mt-4"
           >
-            <div
-              className="d-flex justify-content-center align-items-center flex-fill"
-            >
+            <div className="d-flex justify-content-center align-items-center flex-fill">
               <span className="h6 mb-1 mr-2" data-testid="delegateTitle">
                 Advanced
               </span>

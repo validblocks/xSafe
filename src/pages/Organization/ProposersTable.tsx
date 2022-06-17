@@ -7,7 +7,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import { Box } from '@mui/material';
 import {
-  GridRowId,
+  // GridRowId,
   GridActionsCellItem,
   DataGrid,
   GridRenderCellParams,
@@ -30,26 +30,26 @@ const ProposersTable = () => {
       }),
     );
 
-  const toggleAdmin = useCallback(
-    (id: GridRowId) => () => {
-      // setRows((prevRows) =>
-      //   prevRows.map((row) =>
-      //     row.id === id ? { ...row, isAdmin: !row.isAdmin } : row
-      //   )
-      // );
-    },
-    [],
-  );
+  // const toggleAdmin = useCallback(
+  //   (id: GridRowId) => () => {
+  // setRows((prevRows) =>
+  //   prevRows.map((row) =>
+  //     row.id === id ? { ...row, isAdmin: !row.isAdmin } : row
+  //   )
+  // );
+  //   },
+  //   [],
+  // );
 
-  const duplicateUser = useCallback(
-    (id: GridRowId) => () => {
-      // setRows((prevRows) => {
-      //   const rowToDuplicate = prevRows.find((row) => row.id === id)!;
-      //   return [...prevRows, { ...rowToDuplicate, id: Date.now() }];
-      // });
-    },
-    [],
-  );
+  // const duplicateUser = useCallback(
+  //   (id: GridRowId) => () => {
+  // setRows((prevRows) => {
+  //   const rowToDuplicate = prevRows.find((row) => row.id === id)!;
+  //   return [...prevRows, { ...rowToDuplicate, id: Date.now() }];
+  // });
+  //   },
+  //   [],
+  // );
 
   const columns = useMemo(
     () => [

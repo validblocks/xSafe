@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box } from '@mui/material';
 import ActionBoxDetails from 'components/DecisionActionsComponents/ActionBoxDetails';
 import DecisionsActionsHeader from 'components/DecisionActionsComponents/decisionsActionsHeader';

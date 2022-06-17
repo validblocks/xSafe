@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -37,9 +37,8 @@ const TransactionQueue = () => {
     boardMembersState: [boardMembers],
   } = useOrganizationInfoContext();
 
-  const {
-    canUnsign, canPerformAction, canSign, canDiscardAction,
-  } = useTransactionPermissions();
+  const { canUnsign, canPerformAction, canSign, canDiscardAction } =
+    useTransactionPermissions();
 
   useEffect(() => {
     queryAllActions().then((resp) => {
@@ -101,7 +100,6 @@ const TransactionQueue = () => {
               >
                 <PeopleIcon color="secondary" className="mr-2" />
                 {transaction.signers.length}
-                {' '}
                 out of
                 {quorumCount}
               </Box>

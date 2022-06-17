@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   getNetworkProxy,
   useGetAccountInfo,
@@ -363,25 +363,17 @@ const MultisigDetailsPage = () => {
                 <div className="user-role">
                   <p className="icon">
                     <FontAwesomeIcon icon={faUser} />
-                    Role:
-                    {' '}
-                    <span className="text">{t(userRoleAsString)}</span>
+                    Role: <span className="text">{t(userRoleAsString)}</span>
                   </p>
                 </div>
                 <div className="wallet-name position-relative">
-                  <h3 className="text-center mb-0">
-                    {multisigName}
-                    {' '}
-                  </h3>
+                  <h3 className="text-center mb-0">{multisigName} </h3>
                 </div>
                 {deployedAt != null && (
                   <div className="created d-flex">
                     <p className="time">
-                      <FontAwesomeIcon icon={faCalendarAlt} className="icon" />
-                      {' '}
-                      Created:
-                      {' '}
-                      <span className="text">{deployedAt}</span>
+                      <FontAwesomeIcon icon={faCalendarAlt} className="icon" />{' '}
+                      Created: <span className="text">{deployedAt}</span>
                     </p>
                   </div>
                 )}
@@ -416,8 +408,7 @@ const MultisigDetailsPage = () => {
                     denomination,
                     decimals,
                     showLastNonZeroDecimal: true,
-                  })}
-                  {' '}
+                  })}{' '}
                   {egldLabel}
                 </h2>
                 <h5 className="ex-currency text-center">
@@ -430,8 +421,7 @@ const MultisigDetailsPage = () => {
                       addCommas: false,
                     })}
                     usd={egldPrice}
-                  />
-                  {' '}
+                  />{' '}
                   USD
                 </h5>
               </div>

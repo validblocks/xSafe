@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
@@ -35,7 +35,10 @@ const TotalBalance = () => {
   const egldPrice = useSelector(priceSelector);
 
   const currentContract = useSelector(currentMultisigContractSelector);
-  const { tokenPrices } = useOrganizationInfoContext();
+  const {
+    tokenPrices,
+    membersCountState: [],
+  } = useOrganizationInfoContext();
   const proxy = getNetworkProxy();
   const getTokenPrice = useCallback(
     (tokenIdentifier: string) =>

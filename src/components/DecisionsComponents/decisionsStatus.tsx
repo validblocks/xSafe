@@ -1,4 +1,3 @@
-import React from 'react';
 import Looks3OutlinedIcon from '@mui/icons-material/Looks3Outlined';
 import { Grid } from '@mui/material';
 import Paper from '@mui/material/Paper';
@@ -25,14 +24,12 @@ const DecisionsStatus = () => {
         <Grid md={6} xs={12}>
           <Item sx={{ p: 3 }}>
             Open decisions
-            {' '}
             <Looks3OutlinedIcon />
           </Item>
         </Grid>
         <Grid md={6} xs={12}>
           <Item sx={{ p: 3 }}>
             Closed decisions
-            {' '}
             <Looks3OutlinedIcon />
           </Item>
         </Grid>

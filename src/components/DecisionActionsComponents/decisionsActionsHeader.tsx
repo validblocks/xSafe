@@ -1,4 +1,3 @@
-import React from 'react';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import LanIcon from '@mui/icons-material/Lan';
 import { Grid, Box } from '@mui/material';
@@ -24,7 +23,6 @@ const DecisionsActionsHeader = () => (
       <Box>
         <button className="btn new-decision-btn address-btn flex-row align-items-center">
           <LanIcon />
-          {' '}
           Organization
         </button>
       </Box>

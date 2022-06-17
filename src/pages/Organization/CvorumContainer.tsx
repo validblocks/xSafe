@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, Box } from '@mui/material';
 import ProposersTable from './ProposersTable';
 

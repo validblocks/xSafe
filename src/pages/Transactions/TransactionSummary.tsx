@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import { truncateInTheMiddle } from 'utils/addressUtils';
