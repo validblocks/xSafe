@@ -30,8 +30,6 @@ import MobileLayout from './Navbar/mobileLayout';
 import Account from './Navbar/Account';
 import { TopHeader } from './Navbar/navbar-style';
 
-('');
-
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();

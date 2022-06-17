@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { logout } from '@elrondnetwork/dapp-core';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Typography } from '@mui/material';
@@ -21,16 +20,8 @@ import {
 } from '../navbar-style';
 
 const ConnectedAccount = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { address } = useGetAccountInfo();
-
-  const [walletAddress, setWalletAddress] = useState('');
-
-  useEffect(() => {
-    setWalletAddress(addressShorthand(address));
-  }, []);
 
   const logOut = async () => {
     document.cookie = '';
@@ -41,7 +32,6 @@ const ConnectedAccount = () => {
     logout(routeNames.unlock, (route) => navigate(route!));
   };
   const onDisconnectClick = () => {
-    setIsLoggedIn(false);
     logOut();
   };
   return (

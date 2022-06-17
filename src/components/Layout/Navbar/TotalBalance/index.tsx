@@ -37,7 +37,7 @@ const TotalBalance = () => {
   const currentContract = useSelector(currentMultisigContractSelector);
   const {
     tokenPrices,
-    membersCountState: [membersCount],
+    membersCountState: [],
   } = useOrganizationInfoContext();
   const proxy = getNetworkProxy();
   const getTokenPrice = useCallback(
