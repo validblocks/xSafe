@@ -36,12 +36,13 @@ const ProposeSmartContractCall = ({
   }, []);
 
   const denominatedValue = useMemo(
-    () => operations.denominate({
-      input: multisigBalance.toString(),
-      denomination,
-      decimals: 4,
-      showLastNonZeroDecimal: true,
-    }),
+    () =>
+      operations.denominate({
+        input: multisigBalance.toString(),
+        denomination,
+        decimals: 4,
+        showLastNonZeroDecimal: true,
+      }),
     [multisigBalance],
   );
 
@@ -66,18 +67,14 @@ const ProposeSmartContractCall = ({
       functionName: '',
       args: [],
     },
-    onSubmit: () => {
-
-    },
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
   });
 
   const { touched, errors, values } = formik;
-  const {
-    amount, receiver, functionName, args,
-  } = values;
+  const { amount, receiver, functionName, args } = values;
 
   useEffect(() => {
     refreshProposal();
@@ -189,10 +186,11 @@ const ProposeSmartContractCall = ({
 
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;
-  const argsError = Array.isArray(touched?.args)
-    && touched.args.length === args.length
-    && touched.args.every((arg) => arg)
-    && errors.args;
+  const argsError =
+    Array.isArray(touched?.args) &&
+    touched.args.length === args.length &&
+    touched.args.every((arg) => arg) &&
+    errors.args;
   return (
     <div>
       <FormikInputField
@@ -204,10 +202,7 @@ const ProposeSmartContractCall = ({
         handleBlur={formik.handleBlur}
       />
       <div className="modal-control-container">
-        <label>
-          {t('Amount')}
-          {' '}
-        </label>
+        <label>{t('Amount')} </label>
         <div className="input-wrapper">
           <Form.Control
             id="amount"
@@ -224,19 +219,13 @@ const ProposeSmartContractCall = ({
             </Form.Control.Feedback>
           )}
         </div>
-        <span>
-          {`Balance: ${denominatedValue} EGLD`}
-          {' '}
-        </span>
+        <span>{`Balance: ${denominatedValue} EGLD`} </span>
       </div>
       <div className="modal-control-container">
-        <label>
-          {t('function name (optional)')}
-          {' '}
-        </label>
+        <label htmlFor={functionName}>{t('function name (optional)')} </label>
         <div className="input-wrapper">
           <Form.Control
-            id="functionName"
+            id={functionName}
             name="functionName"
             type="functionName"
             onChange={formik.handleChange}
@@ -249,9 +238,8 @@ const ProposeSmartContractCall = ({
         <div className="d-flex flex-column ">
           {args.map((arg, idx) => (
             <div key={idx} className="modal-control-container mb-3">
-              <label>
+              <label htmlFor={`args[${idx}]`}>
                 {`${t('argument')} ${idx + 1}`}
-                {' '}
               </label>
               <div className="d-flex align-items-stretch my-0">
                 <Form.Control

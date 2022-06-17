@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Box } from '@mui/material';
 import DecisionsActionsCards from 'components/DecisionsComponents/decisionsActionsCards';
 import DecisionsHeader from 'components/DecisionsComponents/DecisionsHeader';
@@ -8,9 +8,7 @@ import './decisions.scss';
 
 const Decisions = () => (
   <div>
-    <Box
-      className="d-flex flex-fill justify-content-center align-items-center flex-column decisions-wrapper"
-    >
+    <Box className="d-flex flex-fill justify-content-center align-items-center flex-column decisions-wrapper">
       <DecisionsHeader />
       <ProgressBarsSection />
       <DecisionsStatus />

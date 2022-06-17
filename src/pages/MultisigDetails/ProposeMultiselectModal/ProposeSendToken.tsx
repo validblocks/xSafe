@@ -1,9 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
-import {
-  InputLabel, MenuItem, Select, SelectChangeEvent,
-} from '@mui/material';
+import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -12,7 +10,6 @@ import { TestContext } from 'yup';
 import * as Yup from 'yup';
 import { denomination } from 'config';
 import { FormikInputField } from 'helpers/formikFields';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { organizationTokensSelector } from '@redux/selectors/accountSelector';
 import { selectedTokenToSendSelector } from '@redux/selectors/modalsSelector';
 import { MultisigSendToken } from 'types/MultisigSendToken';
@@ -82,7 +79,7 @@ const ProposeSendToken = ({
       );
     }
 
-    if (newAmount == 0) {
+    if (newAmount === 0) {
       setSubmitDisabled(true);
       return (
         testContext?.createError({
@@ -206,7 +203,6 @@ const ProposeSendToken = ({
         </Select>
         <div>
           Balance:
-          {' '}
           {Number(
             availableTokensWithBalances.find(
               (token) => token.identifier === identifier,
@@ -217,13 +213,9 @@ const ProposeSendToken = ({
 
       <div className="modal-control-container">
         <div className="input-wrapper">
-          <label>
-            {t('Amount')}
-            :
-            {' '}
-          </label>
+          <label htmlFor={amount}>{t('Amount')}: </label>
           <Form.Control
-            id="amount"
+            id={amount}
             name="amount"
             isInvalid={amountError != null}
             onChange={formik.handleChange}

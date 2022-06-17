@@ -52,7 +52,7 @@ const EditOwner = ({
     handleSetName(editOwnerForm.values.name);
   }, [editOwnerForm.values.name]);
 
-  if (selectedOption == undefined) {
+  if (selectedOption === undefined) {
     return null;
   }
 
@@ -61,10 +61,7 @@ const EditOwner = ({
       className="modal-controll-container"
       onSubmit={editOwnerForm.handleSubmit}
     >
-      <label htmlFor="name">
-        {t('Name')}
-        {' '}
-      </label>
+      <label htmlFor="name">{t('Name')} </label>
       <input
         id="name"
         name="name"
@@ -78,19 +75,12 @@ const EditOwner = ({
         className="h6 mb-spacer text-break remove-user"
         data-testid="delegateSubTitle"
       />
-      <label>
-        {t('Address')}
-        {' '}
-      </label>
+      <label>{t('Address')} </label>
       <div
         className="h6 mb-spacer text-break remove-user"
         data-testid="delegateSubTitle"
       >
-        <p className="address">
-          {' '}
-          {address}
-          {' '}
-        </p>
+        <p className="address"> {address} </p>
       </div>
     </form>
   );
