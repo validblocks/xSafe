@@ -17,6 +17,21 @@ const ProposeIssueToken = ({
 }: ProposeIssueTokenType) => {
   const { t }: { t: any } = useTranslation();
 
+  function validateAmount(value?: string, testContext?: TestContext) {
+    const amountNumeric = Number(value);
+    if (isNaN(amountNumeric)) {
+      return false;
+    }
+    if (amountNumeric === 0) {
+      return (
+        testContext?.createError({
+          message: 'Amount cannot be 0',
+        }) ?? false
+      );
+    }
+    return true;
+  }
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Required'),
     identifier: Yup.string().required('Required'),
@@ -45,9 +60,7 @@ const ProposeIssueToken = ({
       canChangeOwner: true,
       canUpgrade: true,
     },
-    onSubmit: () => {
-
-    },
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -77,21 +90,6 @@ const ProposeIssueToken = ({
     const hasErrors = Object.keys(errors).length > 0;
     setSubmitDisabled(hasErrors);
   }, [errors]);
-
-  function validateAmount(value?: string, testContext?: TestContext) {
-    const amountNumeric = Number(value);
-    if (isNaN(amountNumeric)) {
-      return false;
-    }
-    if (amountNumeric === 0) {
-      return (
-        testContext?.createError({
-          message: 'Amount cannot be 0',
-        }) ?? false
-      );
-    }
-    return true;
-  }
 
   const getProposal = (): MultisigIssueToken | null => {
     const amountNumeric = Number(amount);

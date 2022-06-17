@@ -82,13 +82,12 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
         </p>
 
         <div className="modal-control-container">
-          <label>
+          <label htmlFor={formik.values.contractAddress}>
             {t('Contract address')}
-            {' '}
           </label>
           <div className="input-wrapper">
             <Form.Control
-              id="contractAddress"
+              id={formik.values.contractAddress}
               name="contractAddress"
               type="text"
               isInvalid={contractAddressError != null}

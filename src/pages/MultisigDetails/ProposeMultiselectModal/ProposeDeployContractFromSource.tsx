@@ -43,18 +43,14 @@ const ProposeDeployContractFromSource = ({
       payable: true,
       readable: true,
     },
-    onSubmit: () => {
-
-    },
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
   });
   const { touched, errors, values } = formik;
 
-  const {
-    amount, source, args, upgradeable, payable, readable,
-  } = values;
+  const { amount, source, args, upgradeable, payable, readable } = values;
 
   useEffect(() => {
     const hasErrors = Object.keys(errors).length > 0;
@@ -130,10 +126,11 @@ const ProposeDeployContractFromSource = ({
   const sourceError = touched.source && errors.source;
 
   const amountError = touched.amount && errors.amount;
-  const argsError = Array.isArray(touched?.args)
-    && touched.args.length === args.length
-    && touched.args.every((arg) => arg)
-    && errors.args;
+  const argsError =
+    Array.isArray(touched?.args) &&
+    touched.args.length === args.length &&
+    touched.args.every((arg) => arg) &&
+    errors.args;
 
   return (
     <div>
@@ -176,9 +173,8 @@ const ProposeDeployContractFromSource = ({
       <div className="d-flex flex-column">
         {args.map((arg, idx) => (
           <div key={idx} className="modal-control-container my-3">
-            <label>
+            <label htmlFor={`args[${idx}]`}>
               {`${t('argument')} ${idx + 1}`}
-              {' '}
             </label>
             <div className="d-flex align-items-stretch my-0">
               <Form.Control

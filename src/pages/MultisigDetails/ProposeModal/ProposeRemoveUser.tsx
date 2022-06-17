@@ -20,25 +20,18 @@ const ProposeRemoveUser = ({
       handleSetAddress(new Address(address));
     }
   }, []);
-  if (selectedOption == undefined) {
+  if (selectedOption === undefined) {
     return null;
   }
 
   return (
     <div className="modal-control-container">
-      <label>
-        {t('Address')}
-        {' '}
-      </label>
+      <label>{t('Address')} </label>
       <div
         className="h6 mb-spacer text-break remove-user"
         data-testid="delegateSubTitle"
       >
-        <p className="address">
-          {' '}
-          {address}
-          {' '}
-        </p>
+        <p className="address"> {address} </p>
       </div>
     </div>
   );
