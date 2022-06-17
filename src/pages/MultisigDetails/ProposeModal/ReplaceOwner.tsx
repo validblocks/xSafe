@@ -80,7 +80,10 @@ const ReplaceOwner = ({
       Adress:
       <span>{address as string}</span>
       <fieldset>
-        <label htmlFor="name">{t('Name')} </label>
+        <label htmlFor="name">
+          {t('Name')}
+          {' '}
+        </label>
         <input
           id="name"
           name="name"

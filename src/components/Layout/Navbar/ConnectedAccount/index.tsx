@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import Safe from 'assets/img/safe.png';
 import { theme } from 'components/Theme/createTheme';
 import addressShorthand from 'helpers/addressShorthand';
-import { uniqueContractAddress } from 'multisigConfig';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import { logoutAction } from '@redux/commonActions';
 import { routeNames } from 'routes';
 import { accessTokenServices } from 'services/accessTokenServices';
@@ -21,12 +21,12 @@ import {
 } from '../navbar-style';
 
 const ConnectedAccount = () => {
-  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>();
+  const [setIsLoggedIn] = React.useState<boolean>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { address } = useGetAccountInfo();
 
-  const [walletAddress, setWalletAddress] = useState('');
+  const [setWalletAddress] = useState('');
 
   useEffect(() => {
     setWalletAddress(addressShorthand(address));

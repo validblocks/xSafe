@@ -154,7 +154,10 @@ const ProposeSendEgld = ({
         handleBlur={formik.handleBlur}
       />
       <div className="modal-control-container">
-        <label htmlFor={amount}>{t('Amount')} </label>
+        <label htmlFor={amount}>
+          {t('Amount')}
+          {' '}
+        </label>
         <div className="input-wrapper">
           <Form.Control
             id={amount}
@@ -171,10 +174,16 @@ const ProposeSendEgld = ({
             </Form.Control.Feedback>
           )}
         </div>
-        <span>{`Balance: ${denominatedValue} EGLD`} </span>
+        <span>
+          {`Balance: ${denominatedValue} EGLD`}
+          {' '}
+        </span>
       </div>
       <div className="modal-control-container">
-        <label htmlFor={data}>{t('data (optional)')} </label>
+        <label htmlFor={data}>
+          {t('data (optional)')}
+          {' '}
+        </label>
         <Form.Control
           id={data}
           name="data"

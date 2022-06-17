@@ -12,11 +12,12 @@ module.exports = {
       config: path.resolve(__dirname, "src/config"),
       utils: path.resolve(__dirname, "src/utils"),
       assets: path.resolve(__dirname, "src/assets"),
-      routes: path.resolve(__dirname, "src/routes"),
       i18n: path.resolve(__dirname, "src/i18n"),
       context: path.resolve(__dirname, "src/context"),
       contracts: path.resolve(__dirname, "src/contracts"),
       '@redux': path.resolve(__dirname, "src/redux"),
+      apiCalls: path.resolve(__dirname, "src/apiCalls"),
+      routes: path.resolve(__dirname, "src/routes"),
     },
   },
 };

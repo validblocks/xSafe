@@ -9,7 +9,7 @@ import Safe from 'assets/img/safe.png';
 import SafeOptions from 'components/SafeOptions';
 import addressShorthand from 'helpers/addressShorthand';
 import menuItems from 'utils/menuItems';
-import { uniqueContractAddress } from 'multisigConfig';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import Divider from '@mui/material/Divider';
 import {
   LogoMenuWrapper,
@@ -92,14 +92,14 @@ const MobileLayout = () => {
       </TotalBalanceWrapper>
       <Box>
         <MobileMenu className="d-flex bg-white justify-content-around mobile-menu">
-          {menuItems.mobileBottomItems.map((el, index) => (
+          {menuItems.mobileBottomItems.map((el) => (
             <Box
               className={
                 locationString === el.link
                   ? 'active link-decoration py-4'
                   : 'link-decoration py-4'
               }
-              key={index}
+              key={el.link}
             >
               <ListItemIcon
                 sx={{

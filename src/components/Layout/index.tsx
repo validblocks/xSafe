@@ -14,7 +14,7 @@ import { useDispatch } from 'react-redux';
 import { getAccountData } from 'apiCalls/accountCalls';
 import { getEconomicsData } from 'apiCalls/economicsCalls';
 import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
-import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
+import { uniqueContractAddress, uniqueContractName } from 'src/multisigConfig';
 import { setAccountData } from '@redux/slices/accountSlice';
 import { setEconomics } from '@redux/slices/economicsSlice';
 import { setMultisigContracts } from '@redux/slices/multisigContractsSlice';

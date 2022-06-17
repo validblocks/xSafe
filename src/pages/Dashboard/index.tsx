@@ -16,7 +16,7 @@ import CreateWallet from 'assets/img/create-wallet.svg';
 import OpenWallet from 'assets/img/open-wallet.svg';
 import wawe from 'assets/img/wawe.svg';
 import { providerTypes } from 'helpers/constants';
-import { uniqueContractAddress } from 'multisigConfig';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import MultisigListItem from 'pages/Dashboard/MultisigListItem';
 import NewDashboard from 'pages/NewDashboard';
 import {

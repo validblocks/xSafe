@@ -5,12 +5,12 @@ module.exports = {
   },
   extends: [
     'eslint:recommended',
-    'plugin:react/recommended',
     'airbnb',
     'airbnb/hooks',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/typescript',
     'plugin:react/jsx-runtime',
+    'plugin:react/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
@@ -26,10 +26,7 @@ module.exports = {
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     'import/extensions': [1, 'never', { svg: 'always' }],
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': [
-      'error',
-      { argsIgnorePattern: '^_|^React$' },
-    ],
+    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     'react/jsx-boolean-value': 1,
     'react/jsx-props-no-spreading': 0,
     'react/jsx-curly-brace-presence': [1, 'never'],
@@ -65,7 +62,7 @@ module.exports = {
     'import/no-cycle': 'off',
   },
   // ignore the root js config files
-  ignorePatterns: ['/*.js'],
+  ignorePatterns: ['/*.js', 'src/services/accessTokenServices.ts'],
   settings: {
     react: {
       version: 'detect',
@@ -86,6 +83,8 @@ module.exports = {
           ['contracts', './src/contracts'],
           ['i18n', './src/i18n'],
           ['@redux', './src/redux'],
+          ['apiCalls', './src/apiCalls'],
+          ['routes', './src/routes'],
         ],
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
       },

@@ -70,7 +70,11 @@ const DeployStepsModal = ({
           </p>
 
           <div className="modal-control-container">
-            <label htmlFor={name}>{t('Name')}: </label>
+            <label htmlFor={name}>
+              {t('Name')}
+              :
+              {' '}
+            </label>
             <input
               id={name}
               type="text"

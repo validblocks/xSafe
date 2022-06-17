@@ -20,7 +20,7 @@ const useCurrency = (val: number, currency: string, dispatch: any) => {
         dispatch(setTotalValueConverted(val));
       }
       dispatch(setSelectedCurrency(currency));
-    })();
+    }());
   }
 };
 

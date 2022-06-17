@@ -15,7 +15,7 @@ import {
 import { ReactComponent as Wallet } from 'assets/img/wallet-logo.svg';
 import TrustedBadge from 'components/TrustedBadge';
 import { network } from 'config';
-import { uniqueContractAddress } from 'multisigConfig';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import {
   setMultisigContracts,
   updateMultisigContract,

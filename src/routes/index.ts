@@ -8,13 +8,13 @@ import CvorumContainer from 'pages/Organization/CvorumContainer';
 import OrganizationTokens from 'pages/Organization/OrganizationTokens';
 import TransactionsPage from 'pages/Transactions/TransactionsPage';
 import Unlock from 'pages/Unlock';
-import withPageTitle from './components/PageTitle';
-import AddressBook from './pages/AddressBook';
-import Dashboard from './pages/Dashboard';
-import DecisionActions from './pages/DecisionActions';
-import Welcome from './pages/Welcome';
-import MultisigDetailsPage from './pages/MultisigDetails/MultisigDetailsPage';
-import Settings from './pages/Settings';
+import withPageTitle from 'components/PageTitle';
+import AddressBook from 'pages/AddressBook';
+import Dashboard from 'pages/Dashboard';
+import DecisionActions from 'pages/DecisionActions';
+import Welcome from 'pages/Welcome';
+import MultisigDetailsPage from 'pages/MultisigDetails/MultisigDetailsPage';
+import Settings from 'pages/Settings';
 
 type RouteType = DappCoreRouteTypes & { title: string };
 

@@ -9,7 +9,7 @@ import Safe from 'assets/img/safe.png';
 import CopyButton from 'components/CopyButton';
 import ReceiveModal from 'components/ReceiveModal';
 import SafeOptions from 'components/SafeOptions';
-import { uniqueContractAddress } from 'multisigConfig';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { currentMultisigContractSelector } from '@redux/selectors/multisigContractsSelectors';
 import { Anchor, ReadOnly, MembersBox } from '../navbar-style';

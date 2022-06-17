@@ -45,8 +45,7 @@ const OrganizationsTokensTable = () => {
     getAddresses().then((ownerAddresses) => {
       Promise.all(
         ownerAddresses.map((address) =>
-          getAccountData(new Address(address).bech32()),
-        ),
+          getAccountData(new Address(address).bech32())),
       ).then((accountsInformation) => {
         setAddresses(accountsInformation.map(addAddressBookEntry));
       });
@@ -150,8 +149,7 @@ const OrganizationsTokensTable = () => {
                 addresses.find(
                   (address) => address.address === params.id,
                 ) as Owner,
-              )
-            }
+              )}
           />,
         ],
       },

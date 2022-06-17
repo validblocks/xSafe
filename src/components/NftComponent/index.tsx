@@ -4,9 +4,11 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { MainButton } from 'components/Theme/StyledComponents';
 import { network } from 'config';
-import { uniqueContractAddress } from 'multisigConfig';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import useFetch from 'utils/useFetch';
-import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
+import {
+  EmptyList, CollectionName, TextDivider, CardBox,
+} from './nft-style';
 
 const NftCompmonent = () => {
   const fetchNftList = useFetch(
@@ -16,9 +18,7 @@ const NftCompmonent = () => {
   const nftList: any = fetchNftList.data;
   console.log(nftList, 'nftList');
 
-  const nftListSorted = nftList.sort((a: any, b: any) =>
-    a.collection.localeCompare(b.collection),
-  );
+  const nftListSorted = nftList.sort((a: any, b: any) => a.collection.localeCompare(b.collection));
 
   return (
     <Box>
