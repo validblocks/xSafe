@@ -1,4 +1,6 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  createContext, useContext, useEffect, useMemo, useState,
+} from 'react';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useSelector } from 'react-redux';

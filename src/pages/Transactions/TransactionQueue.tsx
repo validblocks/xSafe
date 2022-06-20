@@ -37,7 +37,9 @@ const TransactionQueue = () => {
     boardMembersState: [boardMembers],
   } = useOrganizationInfoContext();
 
-  const { canUnsign, canPerformAction, canSign, canDiscardAction } =
+  const {
+    canUnsign, canPerformAction, canSign, canDiscardAction,
+  } =
     useTransactionPermissions();
 
   useEffect(() => {
