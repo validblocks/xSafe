@@ -31,6 +31,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 0,
     'react/jsx-curly-brace-presence': [1, 'never'],
     '@typescript-eslint/no-use-before-define': 2,
+    "react/react-in-jsx-scope": "off",
     '@typescript-eslint/type-annotation-spacing': 2,
     'react/no-unescaped-entities': ['error', { forbid: ['>', '}'] }],
     'react/function-component-definition': [
