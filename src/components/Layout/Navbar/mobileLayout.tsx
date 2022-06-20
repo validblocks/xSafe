@@ -22,7 +22,7 @@ import TotalBalance from './TotalBalance';
 import NavbarLogo from './Logo';
 
 const MobileLayout = () => {
-  const locationString = location.pathname.substring(1);
+  const locationString = window.location.pathname.substring(1);
   const [walletAddress, setWalletAddress] = useState('');
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
 

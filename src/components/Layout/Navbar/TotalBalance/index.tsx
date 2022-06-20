@@ -27,6 +27,8 @@ import useCurrency from 'utils/useCurrency';
 import Divider from '@mui/material/Divider';
 import { CenteredText } from '../navbar-style';
 
+type OrganizationToken = unknown;
+
 const TotalBalance = () => {
   const dispatch = useDispatch();
 
@@ -37,7 +39,6 @@ const TotalBalance = () => {
   const currentContract = useSelector(currentMultisigContractSelector);
   const {
     tokenPrices,
-    membersCountState: [],
   } = useOrganizationInfoContext();
   const proxy = getNetworkProxy();
   const getTokenPrice = useCallback(
@@ -97,7 +98,7 @@ const TotalBalance = () => {
           let photoUrl = '';
 
           if (token.identifier !== 'EGLD') {
-            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
+            photoUrl = fetchTokenPhotoUrl(token.identifier as string);
           }
 
           tokensWithPrices.push({
@@ -133,7 +134,7 @@ const TotalBalance = () => {
     let egldTokenPrice: any = 0;
     let egldTokensAmount = 0;
     if (organizationTokens) {
-      organizationTokens.map((el) => {
+      organizationTokens.forEach((el: OrganizationToken) => {
         if (el.valueUsd) {
           arrayOfUsdValues.push(el.valueUsd);
         }

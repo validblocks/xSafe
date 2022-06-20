@@ -38,7 +38,7 @@ const PageState = ({
     )}
     {title && <p className="h4 mt-spacer mb-3">{title}</p>}
     {description && <div className="mb-spacer">{description}</div>}
-    {action && <>{action}</>}
+    {action && <span>{action}</span>}
   </div>
 );
 
