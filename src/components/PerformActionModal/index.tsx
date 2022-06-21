@@ -97,8 +97,9 @@ const PerformActionModal = ({
           <div className="modal-control-container">
             <p className="h3 mb-spacer text-center">Perform</p>
             <div className="group-center ">
-              <label>Select gas limit:</label>
+              <label htmlFor="gasLimit">Select gas limit:</label>
               <Form.Control
+                id="gasLimit"
                 className="form-control"
                 value={selectedGasLimit}
                 autoComplete="off"

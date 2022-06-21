@@ -51,38 +51,36 @@ const TransactionHistory = () => {
   );
 
   return (
-    <>
-      {groupedTransactions &&
-        Object.entries(groupedTransactions).map(
-          ([transactionDate, transactionArray]: any) => (
-            <div key={transactionDate}>
-              <Typography variant="subtitle1" className="my-4">
-                <strong>{transactionDate}</strong>
-              </Typography>
-              {transactionArray.map((transaction: any) => (
-                <Accordion key={transaction.txHash}>
-                  <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                    aria-controls="panel1a-content"
-                    sx={{ borderBottom: '2px solid #ddd' }}
-                    className="pl-0 m-0 d-flex"
-                    classes={{
-                      content: classes.content,
-                      expanded: classes.expanded,
-                    }}
-                  >
-                    <TransactionSummary transaction={transaction} />
-                  </AccordionSummary>
+    groupedTransactions &&
+    Object.entries(groupedTransactions).map(
+      ([transactionDate, transactionArray]: any) => (
+        <div key={transactionDate}>
+          <Typography variant="subtitle1" className="my-4">
+            <strong>{transactionDate}</strong>
+          </Typography>
+          {transactionArray.map((transaction: any) => (
+            <Accordion key={transaction.txHash}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls="panel1a-content"
+                sx={{ borderBottom: '2px solid #ddd' }}
+                className="pl-0 m-0 d-flex"
+                classes={{
+                  content: classes.content,
+                  expanded: classes.expanded,
+                }}
+              >
+                <TransactionSummary transaction={transaction} />
+              </AccordionSummary>
 
-                  <AccordionDetails>
-                    <TransactionDescription transaction={transaction} />
-                  </AccordionDetails>
-                </Accordion>
-              ))}
-            </div>
-          ),
-        )}
-    </>
+              <AccordionDetails>
+                <TransactionDescription transaction={transaction} />
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </div>
+      ),
+    )
   );
 };
 

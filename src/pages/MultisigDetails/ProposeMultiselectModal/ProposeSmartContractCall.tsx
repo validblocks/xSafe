@@ -8,7 +8,7 @@ import {
 } from '@elrondnetwork/erdjs/out';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useFormik } from 'formik';
+import { useFormik, Form as FormikForm } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
@@ -22,6 +22,8 @@ interface ProposeSmartContractCallType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
   setSubmitDisabled: (value: boolean) => void;
 }
+
+let formik: FormikForm;
 
 function validateRecipient(value?: string) {
   try {
@@ -111,14 +113,13 @@ const ProposeSmartContractCall = ({
     args: Yup.array().test(validateArgument),
   });
 
-  const formik = useFormik({
+  formik = useFormik({
     initialValues: {
       receiver: '',
       amount: 0,
       functionName: '',
       args: [],
     },
-    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -126,28 +127,6 @@ const ProposeSmartContractCall = ({
 
   const { touched, errors, values } = formik;
   const { amount, receiver, functionName, args } = values;
-
-  useEffect(() => {
-    refreshProposal();
-  }, [formik.values, formik.errors]);
-
-  useEffect(() => {
-    const hasErrors = Object.keys(formik.errors).length > 0;
-    setSubmitDisabled(hasErrors);
-  }, [formik.errors]);
-
-  const addNewArgsField = () => {
-    const nextArgNumber = args.length;
-    formik.setFieldValue(`args[${nextArgNumber}]`, '');
-  };
-
-  const removeArg = (removeIdx: number) => {
-    formik.setFieldValue(
-      'args',
-      args.filter((_, index: number) => index !== removeIdx),
-    );
-  };
-
   const getProposal = (): MultisigSmartContractCall | null => {
     try {
       const addressParam = new Address(formik.values.receiver);
@@ -184,6 +163,27 @@ const ProposeSmartContractCall = ({
     }
   }
 
+  useEffect(() => {
+    refreshProposal();
+  }, [formik.values, formik.errors]);
+
+  useEffect(() => {
+    const hasErrors = Object.keys(formik.errors).length > 0;
+    setSubmitDisabled(hasErrors);
+  }, [formik.errors]);
+
+  const addNewArgsField = () => {
+    const nextArgNumber = args.length;
+    formik.setFieldValue(`args[${nextArgNumber}]`, '');
+  };
+
+  const removeArg = (removeIdx: number) => {
+    formik.setFieldValue(
+      'args',
+      args.filter((_, index: number) => index !== removeIdx),
+    );
+  };
+
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;
   const argsError =
@@ -202,7 +202,7 @@ const ProposeSmartContractCall = ({
         handleBlur={formik.handleBlur}
       />
       <div className="modal-control-container">
-        <label>{t('Amount')}</label>
+        <label htmlFor="amount">{t('Amount')}</label>
         <div className="input-wrapper">
           <Form.Control
             id="amount"
@@ -237,7 +237,7 @@ const ProposeSmartContractCall = ({
       {functionName?.length > 0 && (
         <div className="d-flex flex-column ">
           {args.map((arg, idx) => (
-            <div key={idx} className="modal-control-container mb-3">
+            <div key={arg} className="modal-control-container mb-3">
               <label htmlFor={`args[${idx}]`}>
                 {`${t('argument')} ${idx + 1}`}
               </label>

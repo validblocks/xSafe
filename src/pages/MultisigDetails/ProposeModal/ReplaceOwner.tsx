@@ -11,7 +11,6 @@ import { SelectedOptionType } from 'types/Proposals';
 
 type ProposeReplaceOwnerType = {
   selectedOption: SelectedOptionType;
-  selectedAddress: Address;
   handleSetAddress: (address: Address) => void;
   handleSetName: (name: string) => void;
 };

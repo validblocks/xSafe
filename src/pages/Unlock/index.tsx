@@ -17,17 +17,19 @@ declare global {
   }
 }
 
+const UnlockTitleTootlip = (props: Record<string, unknown>) => (
+  <Tooltip id="connect-to-wallet-tooltip" {...props}>
+    Connect securely using one of the provided options
+  </Tooltip>
+);
+
 const UnlockTitle = () => (
   <h5 className="unlock-title mb-spacer">
     Connect to a wallet
     <OverlayTrigger
       placement="top"
       delay={{ show: 250, hide: 400 }}
-      overlay={(props) => (
-        <Tooltip id="connect-to-wallet-tooltip" {...props}>
-          Connect securely using one of the provided options
-        </Tooltip>
-      )}
+      overlay={(props) => UnlockTitleTootlip(props)}
     >
       <a
         href="/#"

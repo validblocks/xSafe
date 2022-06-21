@@ -31,10 +31,6 @@ const DeployStepsModal = ({
   const [pendingDeploymentContractData, setPendingDeploymentContractData] =
     useState<PendingDeploymentContractData | null>(null);
 
-  transactionServices.useTrackTransactionStatus({
-    transactionId: pendingDeploymentContractData?.transactionId || null,
-    onSuccess: onAddMultisigFinished,
-  });
   async function onAddMultisigFinished() {
     const { multisigAddress } = pendingDeploymentContractData!;
     const newContracts = await addContractToMultisigContractsList({
@@ -44,6 +40,11 @@ const DeployStepsModal = ({
     setNewContracts(newContracts);
     handleClose();
   }
+
+  transactionServices.useTrackTransactionStatus({
+    transactionId: pendingDeploymentContractData?.transactionId || null,
+    onSuccess: onAddMultisigFinished,
+  });
 
   async function onDeploy() {
     const { multisigAddress, sessionId } = await deployMultisigContract();
@@ -73,7 +74,6 @@ const DeployStepsModal = ({
             <label htmlFor={name}>
               {t('Name')}
               :
-              {' '}
             </label>
             <input
               id={name}

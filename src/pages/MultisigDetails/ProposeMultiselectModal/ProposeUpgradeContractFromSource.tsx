@@ -191,8 +191,11 @@ const ProposeDeployContract = ({
       </div>
       <div className="d-flex flex-column">
         {args.map((arg, idx: number) => (
-          <div key={`args[${idx}]`} className="modal-control-container my-3">
-            <label>{`${t('argument')} ${idx + 1}`}</label>
+          <div key={arg} className="modal-control-container my-3">
+            <label htmlFor={`args[${idx}]`}>
+              {`${t('argument')} 
+              ${idx + 1}`}
+            </label>
             <div className="d-flex align-items-stretch my-0">
               <Form.Control
                 id={`args[${idx}]`}

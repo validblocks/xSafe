@@ -24,7 +24,7 @@ import { Owner, AccountInfo, AddressBook } from './types';
 const OrganizationsTokensTable = () => {
   const [addresses, setAddresses] = useState<Array<Owner>>([]);
 
-  const getAddresses = async () => await queryBoardMemberAddresses();
+  const getAddresses = () => queryBoardMemberAddresses();
 
   // Set the address book
   // Test the address book and herotag

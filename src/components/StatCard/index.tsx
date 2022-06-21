@@ -11,15 +11,21 @@ export interface StatCardType {
   title?: string;
   value?: string;
   valueUnit?: string;
-  svg?: string;
-  color?: string;
   percentage?: string;
   tooltipText?: string;
-  children?: any;
   onAddAction?: () => void;
   onRemoveAction?: () => void;
   onEditAction?: () => void;
 }
+
+const StatCardTooltip = (
+  tooltipText: string,
+  props: Record<string, unknown>,
+) => (
+  <Tooltip id="button-tooltip" {...props}>
+    {tooltipText}
+  </Tooltip>
+);
 
 const StatCard = ({
   title = '',
@@ -40,11 +46,7 @@ const StatCard = ({
         <OverlayTrigger
           placement="top"
           delay={{ show: 250, hide: 400 }}
-          overlay={(props) => (
-            <Tooltip id="button-tooltip" {...props}>
-              {tooltipText}
-            </Tooltip>
-          )}
+          overlay={(props) => StatCardTooltip(tooltipText, props)}
         >
           <FontAwesomeIcon icon={faInfoCircle} className="text-black ml-1" />
         </OverlayTrigger>

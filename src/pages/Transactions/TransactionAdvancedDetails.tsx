@@ -18,9 +18,11 @@ const TransactionAdvancedDetails = ({ transaction }: Props) => (
         Mini Block Hash:
         {}
       </Typography>
-      {transaction?.miniBlockHash.slice(0, 15)}
+      {transaction?.miniBlockHash?.slice(0, 15)}
       ...
-      {transaction?.miniBlockHash.slice(transaction?.miniBlockHash.length - 15)}
+      {transaction?.miniBlockHash?.slice(
+        transaction?.miniBlockHash.length - 15,
+      )}
     </Typography>
     <Typography component="div" className="my-1">
       <Typography
