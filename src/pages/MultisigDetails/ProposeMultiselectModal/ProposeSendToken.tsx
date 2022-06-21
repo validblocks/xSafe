@@ -1,9 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
-import {
-  InputLabel, MenuItem, Select, SelectChangeEvent,
-} from '@mui/material';
+import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -23,7 +21,7 @@ interface ProposeSendTokenType {
 
 function validateRecipient(value?: string) {
   try {
-    new Address(value);
+    const _address = new Address(value);
     return true;
   } catch (err) {
     return false;
@@ -35,6 +33,7 @@ const ProposeSendToken = ({
   setSubmitDisabled,
 }: ProposeSendTokenType) => {
   const { t }: { t: any } = useTranslation();
+  let formik: Form;
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
   const [identifier, setIdentifier] = useState(selectedToken.identifier);
@@ -53,6 +52,14 @@ const ProposeSendToken = ({
         }),
       })),
     [],
+  );
+
+  const selectedTokenBalance = useMemo(
+    () =>
+      availableTokensWithBalances.find(
+        (token) => token.identifier === identifier,
+      )?.balance as string,
+    [identifier],
   );
 
   const validateAmount = (value?: string, testContext?: TestContext) => {
@@ -110,12 +117,11 @@ const ProposeSendToken = ({
     [validateAmount, validateRecipient],
   );
 
-  const formik = useFormik({
+  formik = useFormik({
     initialValues: {
       address: '',
       amount: 0,
     },
-    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -131,7 +137,7 @@ const ProposeSendToken = ({
         denomination,
       );
       const amountNumeric = Number(nominatedAmount);
-      if (isNaN(amountNumeric)) {
+      if (Number.isNaN(amountNumeric)) {
         return null;
       }
       const parsedAddress = new Address(address);
@@ -151,14 +157,6 @@ const ProposeSendToken = ({
       }
     }, 100);
   };
-
-  const selectedTokenBalance = useMemo(
-    () =>
-      availableTokensWithBalances.find(
-        (token) => token.identifier === identifier,
-      )?.balance as string,
-    [identifier],
-  );
 
   const amountError = touched.amount && errors.amount;
   const addressError = touched.address && errors.address;
@@ -217,8 +215,7 @@ const ProposeSendToken = ({
         <div className="input-wrapper">
           <label htmlFor={amount}>
             {t('Amount')}
-            :
-            {' '}
+            {':'}
           </label>
           <Form.Control
             id={amount}

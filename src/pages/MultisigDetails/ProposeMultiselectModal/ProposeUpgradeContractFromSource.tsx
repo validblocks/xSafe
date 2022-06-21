@@ -26,7 +26,7 @@ interface ProposeDeployContractType {
 
 function validateAmount(value?: string) {
   const amountNumeric = Number(value);
-  return !isNaN(amountNumeric);
+  return !Number.isNaN(amountNumeric);
 }
 
 function validateArgument(value?: string[], testContext?: Yup.TestContext) {
@@ -74,7 +74,6 @@ const ProposeDeployContract = ({
       payable: true,
       readable: true,
     },
-    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -94,7 +93,7 @@ const ProposeDeployContract = ({
     if (Object.keys(errors).length > 0) {
       return null;
     }
-    if (isNaN(amountNumeric)) {
+    if (Number.isNaN(amountNumeric)) {
       return null;
     }
 
@@ -191,9 +190,9 @@ const ProposeDeployContract = ({
         />
       </div>
       <div className="d-flex flex-column">
-        {args.map((arg, idx) => (
-          <div key={idx} className="modal-control-container my-3">
-            <label>{`${t('argument')} ${idx + 1}`} </label>
+        {args.map((arg, idx: number) => (
+          <div key={`args[${idx}]`} className="modal-control-container my-3">
+            <label>{`${t('argument')} ${idx + 1}`}</label>
             <div className="d-flex align-items-stretch my-0">
               <Form.Control
                 id={`args[${idx}]`}

@@ -1,13 +1,10 @@
-import React, {
-  useCallback, useEffect, useMemo, useState,
-} from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import ToggleOnIcon from '@mui/icons-material/ToggleOn';
 import { Box } from '@mui/material';
 import {
-  // GridRowId,
   GridActionsCellItem,
   DataGrid,
   GridRenderCellParams,
@@ -120,7 +117,8 @@ const ProposersTable = () => {
               icon={<DeleteIcon htmlColor="#9DABBD" />}
               label="Delete"
               onClick={() =>
-                onRemoveUser(new Address(params.row.valueHex).bech32())}
+                onRemoveUser(new Address(params.row.valueHex).bech32())
+              }
             />
           </div>,
         ],
@@ -140,7 +138,7 @@ const ProposersTable = () => {
         id: idx,
       }));
       setAllProposers(proposersWithIndexes as ProposerTableRow[]);
-    }());
+    })();
   }, []);
 
   return (

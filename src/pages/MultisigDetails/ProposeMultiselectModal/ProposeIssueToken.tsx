@@ -60,7 +60,6 @@ const ProposeIssueToken = ({
       canChangeOwner: true,
       canUpgrade: true,
     },
-    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,

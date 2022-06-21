@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 
 import { Avatar } from '@mui/material';
@@ -45,7 +45,8 @@ const OrganizationsTokensTable = () => {
     getAddresses().then((ownerAddresses) => {
       Promise.all(
         ownerAddresses.map((address) =>
-          getAccountData(new Address(address).bech32())),
+          getAccountData(new Address(address).bech32()),
+        ),
       ).then((accountsInformation) => {
         setAddresses(accountsInformation.map(addAddressBookEntry));
       });
@@ -149,7 +150,8 @@ const OrganizationsTokensTable = () => {
                 addresses.find(
                   (address) => address.address === params.id,
                 ) as Owner,
-              )}
+              )
+            }
           />,
         ],
       },

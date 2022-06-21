@@ -25,7 +25,7 @@ interface ProposeSmartContractCallType {
 
 function validateRecipient(value?: string) {
   try {
-    new Address(value);
+    const _address = new Address(value);
     return true;
   } catch (err) {
     return false;
@@ -153,7 +153,7 @@ const ProposeSmartContractCall = ({
       const addressParam = new Address(formik.values.receiver);
 
       const amountNumeric = Number(formik.values.amount);
-      if (isNaN(amountNumeric)) {
+      if (Number.isNaN(amountNumeric)) {
         return null;
       }
 
@@ -202,7 +202,7 @@ const ProposeSmartContractCall = ({
         handleBlur={formik.handleBlur}
       />
       <div className="modal-control-container">
-        <label>{t('Amount')} </label>
+        <label>{t('Amount')}</label>
         <div className="input-wrapper">
           <Form.Control
             id="amount"
@@ -219,10 +219,10 @@ const ProposeSmartContractCall = ({
             </Form.Control.Feedback>
           )}
         </div>
-        <span>{`Balance: ${denominatedValue} EGLD`} </span>
+        <span>{`Balance: ${denominatedValue} EGLD`}</span>
       </div>
       <div className="modal-control-container">
-        <label htmlFor={functionName}>{t('function name (optional)')} </label>
+        <label htmlFor={functionName}>{t('function name (optional)')}</label>
         <div className="input-wrapper">
           <Form.Control
             id={functionName}
