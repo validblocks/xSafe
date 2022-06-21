@@ -100,7 +100,7 @@ const AvailableDashboardActions = () => {
       <Box className={classes.container}>
         {membersActionCards.map((item, idx) => (
           <Box
-            key={idx}
+            key={item.title}
             className={classes[idx]}
             sx={{ minHeight: '130px !important' }}
           >

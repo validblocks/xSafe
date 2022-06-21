@@ -4,25 +4,12 @@ import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoC
 import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
 
 export default function useTransactionPermissions() {
+  const { address } = useGetAccountInfo();
   const {
     quorumCountState: [quorumCount],
     userRole,
   } = useOrganizationInfoContext();
   const isBoardMember = userRole === 2;
-
-  const canUnsign = (action: MultisigActionDetailed) => isBoardMember && alreadySigned(action);
-
-  const canPerformAction = (action: MultisigActionDetailed) => (
-    isBoardMember
-      && alreadySigned(action)
-      && action.signers.length >= quorumCount
-  );
-
-  const canSign = (action: MultisigActionDetailed) => isBoardMember && !alreadySigned(action);
-
-  const canDiscardAction = (action: MultisigActionDetailed) => isBoardMember && action.signers.length === 0;
-
-  const { address } = useGetAccountInfo();
 
   const alreadySigned = (action: MultisigActionDetailed) => {
     if (!address) {
@@ -37,6 +24,20 @@ export default function useTransactionPermissions() {
 
     return false;
   };
+
+  const canUnsign = (action: MultisigActionDetailed) =>
+    isBoardMember && alreadySigned(action);
+
+  const canPerformAction = (action: MultisigActionDetailed) =>
+    isBoardMember &&
+    alreadySigned(action) &&
+    action.signers.length >= quorumCount;
+
+  const canSign = (action: MultisigActionDetailed) =>
+    isBoardMember && !alreadySigned(action);
+
+  const canDiscardAction = (action: MultisigActionDetailed) =>
+    isBoardMember && action.signers.length === 0;
 
   return {
     canUnsign,

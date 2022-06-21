@@ -22,6 +22,8 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
+    'no-bitwise': 'off',
+    'no-plusplus': 'off',
     'operator-linebreak': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     'import/extensions': [1, 'never', { svg: 'always' }],
@@ -30,11 +32,13 @@ module.exports = {
     'react/jsx-boolean-value': 1,
     'react/jsx-props-no-spreading': 0,
     'no-restricted-syntax': 0,
+    'object-curly-newline': 'off',
     'react/jsx-curly-brace-presence': [1, 'never'],
     '@typescript-eslint/no-use-before-define': 2,
-    "react/react-in-jsx-scope": "off",
+    'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/type-annotation-spacing': 2,
     'react/no-unescaped-entities': ['error', { forbid: ['>', '}'] }],
+    'react/display-name': 'off',
     'react/function-component-definition': [
       1,
       {

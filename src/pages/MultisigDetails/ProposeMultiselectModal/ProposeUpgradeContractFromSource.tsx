@@ -24,6 +24,27 @@ interface ProposeDeployContractType {
   setSubmitDisabled: (value: boolean) => void;
 }
 
+function validateAmount(value?: string) {
+  const amountNumeric = Number(value);
+  return !isNaN(amountNumeric);
+}
+
+function validateArgument(value?: string[], testContext?: Yup.TestContext) {
+  try {
+    if (value == null) {
+      return true;
+    }
+    value.map((arg) => BytesValue.fromHex(arg));
+    return true;
+  } catch (err) {
+    return (
+      testContext?.createError({
+        message: 'Invalid arguments',
+      }) ?? false
+    );
+  }
+}
+
 const ProposeDeployContract = ({
   handleChange,
   setSubmitDisabled,
@@ -60,36 +81,13 @@ const ProposeDeployContract = ({
   });
   const { touched, errors, values } = formik;
 
-  const {
-    address, amount, args, source, upgradeable, payable, readable,
-  } =
+  const { address, amount, args, source, upgradeable, payable, readable } =
     values;
 
   useEffect(() => {
     const hasErrors = Object.keys(errors).length > 0;
     setSubmitDisabled(hasErrors);
   }, [errors]);
-
-  function validateAmount(value?: string) {
-    const amountNumeric = Number(value);
-    return !isNaN(amountNumeric);
-  }
-
-  function validateArgument(value?: string[], testContext?: Yup.TestContext) {
-    try {
-      if (value == null) {
-        return true;
-      }
-      value.map((arg) => BytesValue.fromHex(arg));
-      return true;
-    } catch (err) {
-      return (
-        testContext?.createError({
-          message: 'Invalid arguments',
-        }) ?? false
-      );
-    }
-  }
 
   const getProposal = (): MultisigUpgradeContractFromSource | null => {
     const amountNumeric = Number(amount);
@@ -195,10 +193,7 @@ const ProposeDeployContract = ({
       <div className="d-flex flex-column">
         {args.map((arg, idx) => (
           <div key={idx} className="modal-control-container my-3">
-            <label>
-              {`${t('argument')} ${idx + 1}`}
-              {' '}
-            </label>
+            <label>{`${t('argument')} ${idx + 1}`} </label>
             <div className="d-flex align-items-stretch my-0">
               <Form.Control
                 id={`args[${idx}]`}

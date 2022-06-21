@@ -39,6 +39,56 @@ import { buildTransaction } from './transactionUtils';
 
 const proposeDeployGasLimit = 256_000_000;
 
+export async function query(functionName: string, ...args: TypedValue[]) {
+  const currentMultisigAddress = currentMultisigAddressSelector(
+    store.getState(),
+  );
+
+  const smartContract = new SmartContract({
+    address: currentMultisigAddress,
+  });
+  const newQuery = new Query({
+    address: smartContract.getAddress(),
+    func: new ContractFunction(functionName),
+    args,
+  });
+  const proxy = getNetworkProxy();
+  return proxy.queryContract(newQuery);
+}
+
+export async function queryNumber(
+  functionName: string,
+  ...args: TypedValue[]
+): Promise<number> {
+  const result = await query(functionName, ...args);
+
+  const codec = new NumericalBinaryCodec();
+  return codec
+    .decodeTopLevel(result.outputUntyped()[0], new U32Type())
+    .valueOf()
+    .toNumber();
+}
+
+export async function queryBoolean(
+  functionName: string,
+  ...args: TypedValue[]
+): Promise<boolean> {
+  const result = await query(functionName, ...args);
+
+  const codec = new BinaryCodec();
+  return codec
+    .decodeTopLevel<BooleanValue>(result.outputUntyped()[0], new BooleanType())
+    .valueOf();
+}
+
+export async function queryAddressArray(
+  functionName: string,
+  ...args: TypedValue[]
+): Promise<Address[]> {
+  const result = await query(functionName, ...args);
+  return result.outputUntyped().map((x: Buffer) => new Address(x));
+}
+
 export async function sendTransaction(
   functionName: multisigContractFunctionNames,
   transactionGasLimit = gasLimit,
@@ -347,33 +397,8 @@ export function queryActionIsSignedByAddress(
   );
 }
 
-export async function queryNumber(
-  functionName: string,
-  ...args: TypedValue[]
-): Promise<number> {
-  const result = await query(functionName, ...args);
-
-  const codec = new NumericalBinaryCodec();
-  return codec
-    .decodeTopLevel(result.outputUntyped()[0], new U32Type())
-    .valueOf()
-    .toNumber();
-}
-
 export function queryBoardMembersCount(): Promise<number> {
   return queryNumber(multisigContractFunctionNames.getNumBoardMembers);
-}
-
-export async function queryBoolean(
-  functionName: string,
-  ...args: TypedValue[]
-): Promise<boolean> {
-  const result = await query(functionName, ...args);
-
-  const codec = new BinaryCodec();
-  return codec
-    .decodeTopLevel<BooleanValue>(result.outputUntyped()[0], new BooleanType())
-    .valueOf();
 }
 
 export async function queryActionContainer(
@@ -418,28 +443,4 @@ export function queryAllActions(): Promise<MultisigActionDetailed[]> {
   return queryActionContainerArray(
     multisigContractFunctionNames.getPendingActionFullInfo,
   );
-}
-export async function queryAddressArray(
-  functionName: string,
-  ...args: TypedValue[]
-): Promise<Address[]> {
-  const result = await query(functionName, ...args);
-  return result.outputUntyped().map((x: Buffer) => new Address(x));
-}
-
-export async function query(functionName: string, ...args: TypedValue[]) {
-  const currentMultisigAddress = currentMultisigAddressSelector(
-    store.getState(),
-  );
-
-  const smartContract = new SmartContract({
-    address: currentMultisigAddress,
-  });
-  const newQuery = new Query({
-    address: smartContract.getAddress(),
-    func: new ContractFunction(functionName),
-    args,
-  });
-  const proxy = getNetworkProxy();
-  return await proxy.queryContract(newQuery);
 }

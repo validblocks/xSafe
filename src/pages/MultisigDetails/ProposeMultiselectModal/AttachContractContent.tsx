@@ -45,9 +45,9 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
         const transaction = buildBlockchainTransaction(
           0,
           providerType,
-          gasLimit,
           new Address(values.contractAddress),
           data,
+          gasLimit,
         );
         transactionServices.sendTransactions({ transactions: transaction });
         handleClose();

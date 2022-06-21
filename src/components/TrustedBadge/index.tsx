@@ -30,13 +30,11 @@ const TrustedBadge = ({
   }, [contractAddress]);
 
   return (
-    <>
-      {isTrusted && (
-        <span className="trust-badge">
-          <img src={TrustedBadgeIcon} alt="trusted-badge" />
-        </span>
-      )}
-    </>
+    isTrusted && (
+      <span className="trust-badge">
+        <img src={TrustedBadgeIcon} alt="trusted-badge" />
+      </span>
+    )
   );
 };
 

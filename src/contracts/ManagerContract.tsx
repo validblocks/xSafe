@@ -25,6 +25,28 @@ export const deployContractGasLimit = 400_000_000;
 export async function deployMultisigContract() {
   const address = await getAddress();
   const account = await getAccount(address);
+
+  function getDeployContractTransaction(
+    quorum: number,
+    boardMembers: AddressValue[],
+  ) {
+    NetworkConfig.getDefault().ChainID = getChainID();
+    const contract = new SmartContract({});
+    const code = Code.fromBuffer(Buffer.from(smartContractCode, 'hex'));
+    const codeMetadata = new CodeMetadata(false, true, true);
+    const quorumTyped = new U8Value(quorum);
+    const initArguments: TypedValue[] = [quorumTyped, ...boardMembers];
+    const value = Balance.Zero();
+    const deployArguments: DeployArguments = {
+      code,
+      codeMetadata,
+      initArguments,
+      value,
+      gasLimit: new GasLimit(deployContractGasLimit),
+    };
+    return contract.deploy(deployArguments);
+  }
+
   const multisigAddress = SmartContract.computeAddress(
     new Address(address),
     account.nonce as any,
@@ -38,25 +60,4 @@ export async function deployMultisigContract() {
     transactions,
   });
   return { sessionId, multisigAddress: multisigAddress.bech32() };
-}
-
-function getDeployContractTransaction(
-  quorum: number,
-  boardMembers: AddressValue[],
-) {
-  NetworkConfig.getDefault().ChainID = getChainID();
-  const contract = new SmartContract({});
-  const code = Code.fromBuffer(Buffer.from(smartContractCode, 'hex'));
-  const codeMetadata = new CodeMetadata(false, true, true);
-  const quorumTyped = new U8Value(quorum);
-  const initArguments: TypedValue[] = [quorumTyped, ...boardMembers];
-  const value = Balance.Zero();
-  const deployArguments: DeployArguments = {
-    code,
-    codeMetadata,
-    initArguments,
-    value,
-    gasLimit: new GasLimit(deployContractGasLimit),
-  };
-  return contract.deploy(deployArguments);
 }

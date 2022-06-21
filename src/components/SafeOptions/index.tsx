@@ -1,8 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import {
-  Box, Button, Grid, Typography,
-} from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,7 +25,7 @@ import {
   SafeOptionsWrapper,
 } from './safe-style';
 
-const SafeOptions = ({ closeSafeDropdown }: any) => {
+const SafeOptions = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [shortAddress, setShortAddress] = useState('');
@@ -60,7 +58,7 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
       </Typography>
       <Divider />
       <AddSafeWrapper sx={{ p: 2, pl: 0 }}>
-        <AddSafe onClick={onDeployClicked}>
+        <AddSafe onClick={() => onDeployClicked()}>
           <AddIcon sx={{ mr: 1 }} />
           Add a new safe
         </AddSafe>
@@ -102,15 +100,13 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
               <TypographyBold align="left">14,590 USD</TypographyBold>
             </InactiveWallet>
           </Grid>
-          <Grid sm={2}>
-            <></>
-          </Grid>
+          <Grid sm={2}>nbsp;</Grid>
         </Box>
       </Button>
       <DeployStepsModal
         show={showDeployMultisigModal}
         handleClose={() => setShowDeployMultisigModal(false)}
-        setNewContracts={updateMultisigContract}
+        setNewContracts={useCallback(updateMultisigContract)}
       />
     </SafeOptionsWrapper>
   );

@@ -1,6 +1,4 @@
-import {
-  createContext, useContext, useEffect, useMemo, useState,
-} from 'react';
+import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useSelector } from 'react-redux';
@@ -89,7 +87,7 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
 
   return (
     <OrganizationInfoContext.Provider
-      value={{
+      value={useMemo(() => ({
         membersCountState: [membersCount, setMembersCount],
         boardMembersState: [boardMembers, setBoardMembers],
         quorumCountState: [quorumCount, setQuorumCount],
@@ -97,7 +95,7 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
         userRole: userRole as number,
         tokenPrices: tokenPrices as unknown as TokenWithPrice[],
         allMemberAddresses,
-      }}
+      }))}
     >
       {children}
     </OrganizationInfoContext.Provider>

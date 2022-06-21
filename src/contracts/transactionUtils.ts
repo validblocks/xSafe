@@ -56,9 +56,9 @@ export function buildTransaction(
 export function buildBlockchainTransaction(
   value: number,
   providerType: string,
-  transactionGasLimit: number = gasLimit,
   receiver: Address,
   data: string,
+  transactionGasLimit: number = gasLimit,
 ) {
   const transactionPayload: TransactionPayloadType = {
     chainID: getChainID(),
