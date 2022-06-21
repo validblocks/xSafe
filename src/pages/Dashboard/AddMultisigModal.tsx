@@ -70,10 +70,7 @@ const AddMultisigModal = ({
             handleParamsChange={onAddressParamChange}
           />
           <div className="modal-control-container">
-            <label htmlFor={name}>
-              {t('Name (optional)')}
-              {' '}
-            </label>
+            <label htmlFor={name}>{t('Name (optional)')} </label>
             <input
               id={name}
               type="text"

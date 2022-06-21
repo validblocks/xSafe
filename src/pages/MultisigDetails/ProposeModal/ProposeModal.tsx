@@ -35,8 +35,11 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
     new Address(),
   );
   const [selectedNameParam, setSelectedNameParam] = useState('');
-  const [selectedReplacementAddressParam, setSelectedReplacementAddressParam] =
-    useState(new Address());
+  const [selectedReplacementAddressParam] = useState(new Address());
+
+  const handleClose = () => {
+    dispatch(setProposeModalSelectedOption(null));
+  };
 
   const onProposeClicked = () => {
     try {
@@ -81,7 +84,9 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
           break;
       }
       handleClose();
-    } catch (err) {}
+    } catch (err) {
+      handleClose();
+    }
   };
 
   const handleNumericParamChange = (value: number) => {
@@ -92,9 +97,6 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
     setSelectedAddressParam(value);
   };
 
-  const handleClose = () => {
-    dispatch(setProposeModalSelectedOption(null));
-  };
   if (selectedOption == null) {
     return null;
   }
