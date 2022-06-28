@@ -73,6 +73,7 @@ jobs:
         id: Build
         if: success()
         run: |
+          export NODE_OPTIONS="--max-old-space-size=2048"
           export CI=false
           npm run build
 
