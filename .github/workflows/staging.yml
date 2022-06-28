@@ -89,7 +89,7 @@ jobs:
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
           VERBOSE: true
-          ARGS: -carEzhvP --delete-before --exclude .git --exclude .github --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
+          ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
 
           TARGET: ~/staging.control.validblocks.com/
           SOURCE: ./build/
