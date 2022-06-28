@@ -1,10 +1,10 @@
-name: multisig-deploy-staging
+name: multisig-deploy-staging-non-docker
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - 'develop'
+      - 'feature/MultiSig-Staging-PRJ-6013'
 
 jobs:
   deploy-staging:
@@ -25,7 +25,21 @@ jobs:
         if: success()
 
       - name: Create .env
-        run: cat .env.staging > .env
+        run: |
+          awk -v EXTRAS_API_DEVNET="${{ secrets.EXTRAS_API_DEVNET }}" \
+              -v MAIAR_ID_API_DEVNET="${{ secrets.MAIAR_ID_API_DEVNET }}" \
+              -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
+              -v UNIQUE_CONTRACT_NAME="${{ secrets.UNIQUE_CONTRACT_NAME }}" \
+              -v NPM_AUTH_TOKEN="${{ secrets.NPMRC }}" \
+              '{ \
+                  sub(/XXX_EXTRAS_API_DEVNET_XXX/, EXTRAS_API_DEVNET); \
+                  sub(/XXX_MAIAR_ID_API_DEVNET_XXX/, MAIAR_ID_API_DEVNET); \
+                  sub(/XXX_UNIQUE_CONTRACT_ADDRESS_XXX/, UNIQUE_CONTRACT_ADDRESS); \
+                  sub(/XXX_UNIQUE_CONTRACT_NAME_XXX/, UNIQUE_CONTRACT_NAME); \
+                  sub(/XXX_NPM_AUTH_TOKEN_XXX/, NPM_AUTH_TOKEN); \
+                  print; \
+              }' \
+              .env.staging > .env
 
       - name: Config setup
         run: |
@@ -38,39 +52,57 @@ jobs:
           echo "export const uniqueContractName = '${{ secrets.UNIQUE_CONTRACT_NAME }}';" >> src/multisigConfig.ts
           echo "export const uniqueContractAddress = '${{ secrets.UNIQUE_CONTRACT_ADDRESS }}';" >> src/multisigConfig.ts
 
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}      
+      
+      - uses: actions/setup-node@v2-beta
+      - name: NPM Install
+        id: NPM-Install
+        if: success()
+        run: npm install
+
+      # - name: Lint
+      #   id: Lint
+      #   if: success()
+      #   run: |
+      #     npm run lint
+
+      - name: Build
+        id: Build
+        if: success()
+        run: |
+          npm run build
+
       - name: Deploy
         id: Deploy
         uses: up9cloud/action-rsync@v1.1
         if: success()
         env:
-          HOST: docker.graffino.net
-          USER: ec2-user
+          HOST: staging.control.validblocks.com
+          USER: graffino
           KEY: ${{secrets.DEPLOY_SSH_KEY}}
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
           VERBOSE: true
           ARGS: -carEzhvP --delete-before --exclude .git --exclude .github --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
 
-          TARGET: ~/docker/multisig.graffino.live
-          SOURCE: ./
+          TARGET: ~/staging.control.validblocks.com/
+          SOURCE: ./build/
 
           PRE_SCRIPT: |
             echo "Start at: " $(date -u)
-            mkdir -p ~/docker/multisig.graffino.live
-            cd ~/docker/multisig.graffino.live
-            sudo chown -R ec2-user:ec2-user ~/docker/multisig.graffino.live
+            cd ~/staging.control.validblocks.com
+            ls
 
           POST_SCRIPT: |
-            cd ~/docker/multisig.graffino.live
-            make staging
+            cd ~/staging.control.validblocks.com
+            ls
             echo "Stop at: " $(date -u)
 
       - uses: act10ns/slack@v1.2.2
         if: always()
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
-      - uses: act10ns/slack@v1.2.2
         with:
           status: ${{ job.status }}
           steps: ${{ toJson(steps) }}
