@@ -100,17 +100,6 @@ export function decodeActionIdFromTransactionData(transaction: any) {
     transaction.function = decodedSplittedFields[0];
   }
 
-  // if (transaction.function === multisigContractFunctionNames.proposeAsyncCall) {
-  //   console.log('AM GASIT PROPOSE ASYNC CALL');
-  //   console.log(transaction);
-  // }
-
-  // if (transaction.function === multisigContractFunctionNames.ESDTTransfer) {
-  //   console.log('AM GASIT ESDTTransfer');
-  //   console.log(transaction);
-  // }
-
-  //functii care contin id-ul direct in data (encoded)
   if (functionsWithActionIds.includes(transaction.function)) {
     return parseInt(
       decodedSplittedFields[decodedSplittedFields.length - 1],
@@ -119,28 +108,29 @@ export function decodeActionIdFromTransactionData(transaction: any) {
   }
 
   if (!transaction.results) {
-    // console.log('no results on Transaction', { transaction });
     return TransactionTypesWithoutSCInteraction.noSCRs;
   }
 
-  //functii pentur care luam action Id din SCR
   const [encodedResultWithActionId] = transaction.results;
 
   if (!encodedResultWithActionId) return;
 
   const decodedResultWithActionId = atob(encodedResultWithActionId.data);
-  // console.log({ decodedResultWithActionId });
   const splittedSCR = decodedResultWithActionId
     .split('@')
     .filter((item: string) => item.length > 0);
 
-  // console.log({ splittedSCR });
   const [, actionId] = splittedSCR;
-
-  // console.log('HEX ACTION ID: ', actionId);
-  // console.log('DEC ACTION ID: ', parseInt(actionId, 16).toString());
 
   return actionId
     ? parseInt(actionId, 16)
     : TransactionTypesWithoutSCInteraction.SCRsWithoutActionId;
 }
+
+export const isIterable = (input: any) => {
+  return (
+    input &&
+    typeof input !== 'undefined' &&
+    typeof input[Symbol.iterator] === 'function'
+  );
+};
