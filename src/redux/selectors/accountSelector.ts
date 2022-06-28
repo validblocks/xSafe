@@ -16,7 +16,6 @@ export const organizationTokensSelector = createDeepEqualSelector(
 export const multisigBalanceSelector = createDeepEqualSelector(
   accountSelector,
   (state) => {
-    console.log('balance: ', state.multisigBalance);
     return JSON.parse(state.multisigBalance);
   }
 );
