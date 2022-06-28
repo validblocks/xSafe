@@ -19,6 +19,7 @@
 .npmrc
 src/multisigExtrasConfig.ts
 .idea
+.vscode
 
 # dependencies
 npm-debug.log*
