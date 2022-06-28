@@ -12,15 +12,14 @@ import MembersActionCard from './MembersActionCard';
 import MembersCard from './MembersCard';
 import MembersTable from './MembersTable';
 
-const OrganizationContent = () => {
+function OrganizationContent() {
   const dispatch = useDispatch();
-  const onAddBoardMember = () => {
-    return dispatch(
+  const onAddBoardMember = () =>
+    dispatch(
       setProposeModalSelectedOption({
         option: ProposalsTypes.add_board_member
       })
     );
-  };
   const onAddProposers = () =>
     dispatch(
       setProposeModalSelectedOption({
@@ -137,6 +136,6 @@ const OrganizationContent = () => {
       </Grid>
     </>
   );
-};
+}
 
 export default OrganizationContent;

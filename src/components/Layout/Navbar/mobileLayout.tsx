@@ -3,12 +3,15 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, Typography } from '@mui/material';
+import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Link } from 'react-router-dom';
 import Safe from 'assets/img/safe.png';
 import SafeOptions from 'components/SafeOptions';
 import addressShorthand from 'helpers/addressShorthand';
+import { uniqueContractAddress } from 'multisigConfig';
 import menuItems from 'utils/menuItems';
+import NavbarLogo from './Logo';
 import {
   LogoMenuWrapper,
   MobileMenu,
@@ -17,11 +20,8 @@ import {
   TotalBalanceWrapper
 } from './navbar-style';
 import TotalBalance from './TotalBalance';
-import { uniqueContractAddress } from 'multisigConfig';
-import Divider from '@mui/material/Divider';
-import NavbarLogo from './Logo';
 
-const MobileLayout = () => {
+function MobileLayout() {
   const locationString = location.pathname.substring(1);
   const [walletAddress, setWalletAddress] = useState('');
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
@@ -72,7 +72,7 @@ const MobileLayout = () => {
               )}
             </Box>
           </Box>
-          <Box className='d-flex'></Box>
+          <Box className='d-flex' />
           <Box>
             <Link to='/settings'>
               <SettingsIcon
@@ -150,6 +150,6 @@ const MobileLayout = () => {
       </MobileSecondaryMenu>
     </Box>
   );
-};
+}
 
 export default MobileLayout;

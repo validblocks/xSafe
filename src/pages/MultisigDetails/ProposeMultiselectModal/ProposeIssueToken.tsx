@@ -11,10 +11,10 @@ interface ProposeIssueTokenType {
   setSubmitDisabled: (value: boolean) => void;
 }
 
-const ProposeIssueToken = ({
+function ProposeIssueToken({
   handleChange,
   setSubmitDisabled
-}: ProposeIssueTokenType) => {
+}: ProposeIssueTokenType) {
   const { t } = useTranslation();
 
   const validationSchema = Yup.object().shape({
@@ -45,9 +45,8 @@ const ProposeIssueToken = ({
       canChangeOwner: true,
       canUpgrade: true
     },
-    onSubmit: () => {
-      return;
-    },
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true
@@ -148,7 +147,7 @@ const ProposeIssueToken = ({
     <div>
       <FormikInputField
         label={t('Name')}
-        name={'name'}
+        name='name'
         value={name}
         error={nameError}
         handleChange={formik.handleChange}
@@ -157,7 +156,7 @@ const ProposeIssueToken = ({
 
       <FormikInputField
         label={t('Identifier')}
-        name={'identifier'}
+        name='identifier'
         value={identifier}
         error={identifierError}
         handleChange={formik.handleChange}
@@ -165,7 +164,7 @@ const ProposeIssueToken = ({
       />
       <FormikInputField
         label={t('Mint Amount')}
-        name={'amount'}
+        name='amount'
         value={amount}
         error={amountError}
         handleChange={formik.handleChange}
@@ -173,7 +172,7 @@ const ProposeIssueToken = ({
       />
       <FormikInputField
         label={t('Decimals')}
-        name={'decimals'}
+        name='decimals'
         value={decimals}
         error={decimalsError}
         handleChange={formik.handleChange}
@@ -181,51 +180,51 @@ const ProposeIssueToken = ({
       />
       <FormikCheckbox
         label={t('Can Freeze')}
-        name={'canFreeze'}
+        name='canFreeze'
         checked={canFreeze}
         handleChange={formik.handleChange}
       />
 
       <FormikCheckbox
         label={t('Can Wipe')}
-        name={'canWipe'}
+        name='canWipe'
         checked={canWipe}
         handleChange={formik.handleChange}
       />
 
       <FormikCheckbox
         label={t('Can Pause')}
-        name={'canPause'}
+        name='canPause'
         checked={canPause}
         handleChange={formik.handleChange}
       />
       <FormikCheckbox
         label={t('Can Mint')}
-        name={'canMint'}
+        name='canMint'
         checked={canMint}
         handleChange={formik.handleChange}
       />
 
       <FormikCheckbox
         label={t('Can Burn')}
-        name={'canBurn'}
+        name='canBurn'
         checked={canBurn}
         handleChange={formik.handleChange}
       />
       <FormikCheckbox
         label={t('Can Change Owner')}
-        name={'canChangeOwner'}
+        name='canChangeOwner'
         checked={canChangeOwner}
         handleChange={formik.handleChange}
       />
       <FormikCheckbox
         label={t('Can Upgrade')}
-        name={'canUpgrade'}
+        name='canUpgrade'
         checked={canUpgrade}
         handleChange={formik.handleChange}
       />
     </div>
   );
-};
+}
 
 export default ProposeIssueToken;

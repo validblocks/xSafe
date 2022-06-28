@@ -32,9 +32,7 @@ export const appConfigSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(logoutAction, () => {
-      return getInitialState();
-    });
+    builder.addCase(logoutAction, () => getInitialState());
   }
 });
 

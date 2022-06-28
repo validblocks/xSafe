@@ -6,11 +6,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
- 
-make: *** No rule to make target `all'.  Stop.
 
-
-# Make data base, printed on Tue Jun 14 15:04:26 2022
+# Make data base, printed on Sun Jun 19 22:39:37 2022
 
 # Variables
 
@@ -57,7 +54,7 @@ __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 INFOPATH = /opt/homebrew/share/info:
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/n8/cttdcj690n1f4b1nznxc8jj40000gn/T/vscode-ipc-f0cb2177-dd57-4867-9103-c0edf0b6ce83.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/n8/cttdcj690n1f4b1nznxc8jj40000gn/T/vscode-ipc-9ec75499-5f48-450d-9bec-bba97b10c8ee.sock
 # environment
 VSCODE_CWD = /
 # environment
@@ -68,8 +65,6 @@ TRAEFIK_PASSWORD = $$2y$$05$$vfax9V5Q9M.86ro6t7EATOd/VMn5TS7BZ2e1O8FcwIoacBaZcS6
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # makefile (from `Makefile', line 4)
 CONTAINER_NGINX = docker compose exec -T nginx sh -c
-# environment
-LaunchInstanceID = 0FC970A8-59FD-4B61-A8E5-1682119B2839
 # environment
 VSCODE_LOG_STACK = false
 # environment
@@ -107,7 +102,7 @@ HOME = /Users/Rares
 # default
 MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/Rares/Library/Application Support/Code/CachedData/4af164ea3a06f701fe3e89a2bcbb421d2026b68f
+VSCODE_CODE_CACHE_PATH = /Users/Rares/Library/Application Support/Code/CachedData/30d9c6cd9483b2cc586687151bcbcd635f373630
 # environment
 LOGNAME = Rares
 # environment
@@ -153,7 +148,7 @@ TMPDIR = /var/folders/n8/cttdcj690n1f4b1nznxc8jj40000gn/T/
 # makefile (from `.env', line 11)
 UNIQUE_CONTRACT_ADDRESS = erd1qqqqqqqqqqqqqpgqettaulcsh6afs9h4mhsv44lu28p0rezehdeqk7nttw
 # environment
-VSCODE_IPC_HOOK = /Users/Rares/Library/Application Support/Code/1.68.0-main.sock
+VSCODE_IPC_HOOK = /Users/Rares/Library/Application Support/Code/1.68.1-main.sock
 # makefile
 MAKEFLAGS = Rrqp
 # environment
@@ -161,7 +156,7 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.28780221.28780548
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.29369592.29369799
 # environment
 HOMEBREW_PREFIX = /opt/homebrew
 # automatic
@@ -188,8 +183,6 @@ EDITOR = vim
 PAGER = less
 # environment
 LC_ALL = C
-# environment
-SECURITYSESSIONID = 186b2
 # automatic
 ^F = $(notdir $^)
 # default
@@ -207,11 +200,11 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 647
+VSCODE_PID = 81489
 # makefile (from `.env', line 17)
 DOCKER_NGINX_EXPOSED_PORT = 8082
 # variable set hash-table stats:
-# Load=98/1024=10%, Rehash=0, Collisions=7/123=6%
+# Load=96/1024=9%, Rehash=0, Collisions=7/121=6%
 
 # Pattern-specific Variable Values
 
@@ -290,17 +283,19 @@ setup-dev:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-12 14:05:55
+#  Last modified 2022-06-14 15:11:17
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
+ 
+make: *** No rule to make target `all'.  Stop.
+
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 start:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
- 
 #  File has not been updated.
 #  commands to execute (from `Makefile', line 9):
 	docker compose up -d
@@ -466,6 +461,6 @@ setup-multi-wallet:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4082 / max = 4082 / min = 4082 / avg = 4082
 
-# Finished Make data base on Tue Jun 14 15:04:26 2022
+# Finished Make data base on Sun Jun 19 22:39:37 2022
 
  

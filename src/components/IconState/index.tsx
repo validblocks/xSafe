@@ -1,7 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const IconState = ({
+function IconState({
   icon,
   className = '',
   iconSize = '3x'
@@ -9,7 +9,7 @@ const IconState = ({
   icon: any;
   className?: string; // text-white
   iconSize?: '2x' | '3x' | '5x';
-}) => {
+}) {
   return (
     <span
       className={`icon-state mx-auto ${className} ${
@@ -23,6 +23,6 @@ const IconState = ({
       />
     </span>
   );
-};
+}
 
 export default IconState;

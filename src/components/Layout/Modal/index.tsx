@@ -9,7 +9,7 @@ import {
   selectedPerformedActionSelector
 } from 'redux/selectors/modalsSelector';
 
-const ModalLayer = () => {
+function ModalLayer() {
   const selectedAction = useSelector(selectedPerformedActionSelector);
   const selectedOption = useSelector(proposeModalSelectedOptionSelector);
   const selectedMultiselectOption = useSelector(
@@ -28,6 +28,6 @@ const ModalLayer = () => {
       )}
     </div>
   );
-};
+}
 
 export default ModalLayer;

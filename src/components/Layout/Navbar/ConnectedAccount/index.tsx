@@ -6,12 +6,12 @@ import {
 } from '@elrondnetwork/dapp-core';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Box, Typography } from '@mui/material';
-import { SimplePaletteColorOptions } from '@mui/material';
+import { Box, Typography, SimplePaletteColorOptions } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Safe from 'assets/img/safe.png';
 import { theme } from 'components/Theme/createTheme';
+import { network } from 'config';
 import addressShorthand from 'helpers/addressShorthand';
 import { uniqueContractAddress } from 'multisigConfig';
 import { logoutAction } from 'redux/commonActions';
@@ -26,7 +26,7 @@ import {
   DisconnectButton
 } from '../navbar-style';
 
-const ConnectedAccount = () => {
+function ConnectedAccount() {
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -70,7 +70,7 @@ const ConnectedAccount = () => {
             </Box>
             <Box sx={{ mr: 1 }}>
               <Anchor
-                href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
+                href={`${network.explorerAddress}/accounts/${uniqueContractAddress}`}
                 target='_blank'
                 rel='noreferrer'
                 color={theme.palette.secondary.main}
@@ -93,6 +93,6 @@ const ConnectedAccount = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default ConnectedAccount;

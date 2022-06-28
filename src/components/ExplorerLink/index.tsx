@@ -3,7 +3,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { network } from 'config';
 
-const ExplorerLink = ({
+function ExplorerLink({
   page,
   text,
   className
@@ -11,7 +11,7 @@ const ExplorerLink = ({
   page: string;
   text?: any;
   className?: string;
-}) => {
+}) {
   return (
     <a
       href={`${network.explorerAddress}/${page}`}
@@ -27,6 +27,6 @@ const ExplorerLink = ({
       )}
     </a>
   );
-};
+}
 
 export default ExplorerLink;

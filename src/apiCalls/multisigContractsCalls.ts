@@ -16,7 +16,7 @@ const contractsInfoStorageEndpoint = `${storageApi}/settings/multisig`;
 const multisigAxiosInstance = axios.create();
 
 multisigAxiosInstance.interceptors.request.use(
-  async function (config) {
+  async (config) => {
     try {
       if (accessTokenServices?.services != null) {
         const address = await getAddress();
@@ -32,9 +32,7 @@ multisigAxiosInstance.interceptors.request.use(
     }
     return config;
   },
-  function (error: any) {
-    return Promise.reject(error);
-  }
+  (error: any) => Promise.reject(error)
 );
 
 multisigAxiosInstance.interceptors.response.use(

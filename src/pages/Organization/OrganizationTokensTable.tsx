@@ -13,14 +13,13 @@ import { ProposalsTypes } from 'types/Proposals';
 
 const OrganizationsTokensTable = () => {
   const dispatch = useDispatch();
-  const onRemoveUser = (address: Address) => {
-    return dispatch(
+  const onRemoveUser = (address: Address) =>
+    dispatch(
       setProposeModalSelectedOption({
         option: ProposalsTypes.remove_user,
         address: address.bech32()
       })
     );
-  };
 
   const toggleAdmin = useCallback(
     (id: GridRowId) => () => {
@@ -69,9 +68,9 @@ const OrganizationsTokensTable = () => {
             />
             <div>
               <div>
-                {params.value.slice(0, 10) +
-                  '...' +
-                  params.value.slice(params.value.length - 10)}
+                {`${params.value.slice(0, 10)}...${params.value.slice(
+                  params.value.length - 10
+                )}`}
                 {/* <Ui.Trim text={params.value.valueHex} /> */}
               </div>
               <div>@herotag</div>

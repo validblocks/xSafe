@@ -6,8 +6,8 @@ import { useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { TestContext } from 'yup';
 import * as Yup from 'yup';
+import { TestContext } from 'yup';
 import { denomination } from 'config';
 import { FormikInputField } from 'helpers/formikFields';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
@@ -29,10 +29,10 @@ function validateRecipient(value?: string) {
   }
 }
 
-const ProposeSendToken = ({
+function ProposeSendToken({
   handleChange,
   setSubmitDisabled
-}: ProposeSendTokenType) => {
+}: ProposeSendTokenType) {
   const { t } = useTranslation();
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
@@ -114,9 +114,8 @@ const ProposeSendToken = ({
       address: '',
       amount: 0
     },
-    onSubmit: () => {
-      return;
-    },
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true
@@ -182,7 +181,7 @@ const ProposeSendToken = ({
       <div className='modal-control-container mb-4'>
         <FormikInputField
           label={t('Send to')}
-          name={'address'}
+          name='address'
           value={address}
           error={addressError}
           handleChange={formik.handleChange}
@@ -198,13 +197,11 @@ const ProposeSendToken = ({
           onChange={onIdentifierChanged}
           className='mb-2'
         >
-          {availableTokensWithBalances.map((token, idx) => {
-            return (
-              <MenuItem key={idx} value={token.identifier}>
-                {token.identifier?.split('-')[0]}
-              </MenuItem>
-            );
-          })}
+          {availableTokensWithBalances.map((token, idx) => (
+            <MenuItem key={idx} value={token.identifier}>
+              {token.identifier?.split('-')[0]}
+            </MenuItem>
+          ))}
         </Select>
         <div>
           Balance:{' '}
@@ -229,7 +226,7 @@ const ProposeSendToken = ({
           />
 
           {amountError != null && (
-            <Form.Control.Feedback type={'invalid'}>
+            <Form.Control.Feedback type='invalid'>
               {amountError}
             </Form.Control.Feedback>
           )}
@@ -237,6 +234,6 @@ const ProposeSendToken = ({
       </div>
     </div>
   );
-};
+}
 
 export default ProposeSendToken;

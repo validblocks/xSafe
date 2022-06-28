@@ -3,7 +3,7 @@ import { Box, Grid } from '@mui/material';
 import OrganizationContent from './OrganizationContent';
 import OrganizationHeader from './OrganizationHeader';
 
-const Organization = () => {
+function Organization() {
   return (
     <Box>
       <Grid
@@ -17,6 +17,6 @@ const Organization = () => {
       </Grid>
     </Box>
   );
-};
+}
 
 export default Organization;

@@ -6,7 +6,7 @@ import shield from 'assets/img/shield-icon.svg';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import { routeNames } from 'routes';
 
-const Welcome = () => {
+function Welcome() {
   const loggedIn = getIsLoggedIn();
   if (loggedIn) {
     return <Navigate to={routeNames.dashboard} />;
@@ -62,6 +62,6 @@ const Welcome = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Welcome;

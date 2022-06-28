@@ -9,13 +9,13 @@ interface ConfirmModalType {
   handleConfirm: () => void;
 }
 
-const ConfirmModal = ({
+function ConfirmModal({
   title,
   confirmButtonTitle,
   show,
   handleClose,
   handleConfirm
-}: ConfirmModalType) => {
+}: ConfirmModalType) {
   const onConfirmClicked = () => {
     handleConfirm();
   };
@@ -43,6 +43,6 @@ const ConfirmModal = ({
       </div>
     </Modal>
   );
-};
+}
 
 export default ConfirmModal;

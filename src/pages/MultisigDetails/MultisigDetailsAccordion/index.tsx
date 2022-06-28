@@ -34,10 +34,10 @@ interface MultisigDetailsAccordionPropsType {
   isProposer: boolean;
 }
 
-const MultisigDetailsAccordion = ({
+function MultisigDetailsAccordion({
   contractInfo,
   isProposer
-}: MultisigDetailsAccordionPropsType) => {
+}: MultisigDetailsAccordionPropsType) {
   const {
     totalBoardMembers,
     totalProposers,
@@ -107,13 +107,11 @@ const MultisigDetailsAccordion = ({
         placement='top'
         delay={{ show: 50, hide: 50 }}
         trigger='click'
-        overlay={(props) => {
-          return (
-            <Tooltip id={`remove-user-tooltip-${index}`} {...props}>
-              {t('Insufficient quorum size for removing a board member')}
-            </Tooltip>
-          );
-        }}
+        overlay={(props) => (
+          <Tooltip id={`remove-user-tooltip-${index}`} {...props}>
+            {t('Insufficient quorum size for removing a board member')}
+          </Tooltip>
+        )}
       >
         <div className='d-inline-block'>{removeButton}</div>
       </OverlayTrigger>
@@ -142,21 +140,21 @@ const MultisigDetailsAccordion = ({
   };
 
   const boardMembersContent = boardMembersAddresses != null && (
-    <div className={'actions-card boards-members-content'}>
+    <div className='actions-card boards-members-content'>
       <Card.Header>
         <span className='h5'>Board Members</span>
         {isProposer && (
           <div className='btns'>
             <button
               onClick={onAddBoardMember}
-              className={'btn action-add action unsign'}
+              className='btn action-add action unsign'
             >
               <FontAwesomeIcon icon={faPlus} />
               <span className='name'>Add member</span>
             </button>
             <button
               onClick={onChangeQuorum}
-              className={'btn action-add action unsign'}
+              className='btn action-add action unsign'
             >
               <FontAwesomeIcon icon={faPencilAlt} />
               <span className='name'>Edit quorum</span>
@@ -183,14 +181,14 @@ const MultisigDetailsAccordion = ({
   );
 
   const proposersContent = proposersAddresses != null && (
-    <div className={'actions-card proposals-content'}>
+    <div className='actions-card proposals-content'>
       <Card.Header>
         <span className='h5'>Proposers</span>
         {isProposer && (
           <div className='btns'>
             <button
               onClick={onAddProposers}
-              className={'action-add action unsign'}
+              className='action-add action unsign'
             >
               <FontAwesomeIcon icon={faPlus} />
               <span className='name'>Add proposer</span>
@@ -215,7 +213,7 @@ const MultisigDetailsAccordion = ({
     </div>
   );
   return (
-    <Accordion className={'multisig-details-accordion'}>
+    <Accordion className='multisig-details-accordion'>
       <Accordion.Toggle
         onClick={decoratedOnClick}
         as={Card}
@@ -245,9 +243,9 @@ const MultisigDetailsAccordion = ({
       </Accordion.Toggle>
 
       <Accordion.Toggle
-        eventKey={'0'}
+        eventKey='0'
         onClick={decoratedOnClick}
-        className={'expand-icon'}
+        className='expand-icon'
       >
         <FontAwesomeIcon
           icon={expanded ? faChevronCircleUp : faChevronCircleDown}
@@ -257,18 +255,18 @@ const MultisigDetailsAccordion = ({
         <Card>
           <Accordion.Collapse eventKey='0'>
             <div className='inset-shadow'>
-              <div className={'cards-collapse-content '}>
+              <div className='cards-collapse-content '>
                 {boardMembersContent}
               </div>
             </div>
           </Accordion.Collapse>
           <Accordion.Collapse eventKey='0'>
-            <div className={'cards-collapse-content'}>{proposersContent}</div>
+            <div className='cards-collapse-content'>{proposersContent}</div>
           </Accordion.Collapse>
         </Card>
       </div>
     </Accordion>
   );
-};
+}
 
 export default MultisigDetailsAccordion;

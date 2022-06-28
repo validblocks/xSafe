@@ -12,9 +12,9 @@ import Unlock from 'pages/Unlock';
 import withPageTitle from './components/PageTitle';
 import Dashboard from './pages/Dashboard';
 import DecisionActions from './pages/DecisionActions';
-import Welcome from './pages/Welcome';
 import MultisigDetailsPage from './pages/MultisigDetails/MultisigDetailsPage';
 import Settings from './pages/Settings';
+import Welcome from './pages/Welcome';
 
 type RouteType = DappCoreRouteTypes & { title: string };
 
@@ -135,7 +135,12 @@ const routes: RouteType[] = [
   ...Object.keys(foregroundRoutes).map((route) => {
     const { path, title, authenticatedRoute, component } =
       foregroundRoutes[route as ForegroundRoutesType];
-    return { path, title, authenticatedRoute, component };
+    return {
+      path,
+      title,
+      authenticatedRoute,
+      component
+    };
   })
 ];
 

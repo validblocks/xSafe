@@ -20,14 +20,13 @@ type ProposerTableRow = Address & { id: number; role: string };
 
 const ProposersTable = () => {
   const dispatch = useDispatch();
-  const onRemoveUser = (address: string) => {
-    return dispatch(
+  const onRemoveUser = (address: string) =>
+    dispatch(
       setProposeModalSelectedOption({
         option: ProposalsTypes.remove_user,
         address
       })
     );
-  };
 
   const toggleAdmin = useCallback(
     (id: GridRowId) => () => {

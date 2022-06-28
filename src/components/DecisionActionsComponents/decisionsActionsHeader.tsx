@@ -4,7 +4,7 @@ import LanIcon from '@mui/icons-material/Lan';
 import { Grid, Box } from '@mui/material';
 import { Link, Navigate } from 'react-router-dom';
 
-const DecisionsActionsHeader = () => {
+function DecisionsActionsHeader() {
   return (
     <Grid container>
       <Grid
@@ -15,7 +15,7 @@ const DecisionsActionsHeader = () => {
         justifyContent='space-between'
       >
         <Box className='d-flex'>
-          <Link to={'/decisions'}>
+          <Link to='/decisions'>
             <button className='btn'>
               <ArrowBackIcon />
             </button>
@@ -30,6 +30,6 @@ const DecisionsActionsHeader = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
 export default DecisionsActionsHeader;

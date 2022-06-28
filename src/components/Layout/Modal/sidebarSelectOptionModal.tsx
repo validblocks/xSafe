@@ -18,7 +18,7 @@ const style = {
   p: 4
 };
 
-const SidebarSelectOptionModal = () => {
+function SidebarSelectOptionModal() {
   const [open, setOpen] = React.useState(false);
   const handleClose = () => setOpen(false);
   const dispatch = useDispatch();
@@ -74,6 +74,6 @@ const SidebarSelectOptionModal = () => {
       </Modal>
     </div>
   );
-};
+}
 
 export default SidebarSelectOptionModal;

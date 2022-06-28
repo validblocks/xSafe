@@ -9,15 +9,13 @@ import {
   AddressValue,
   SmartContract,
   TypedValue,
-  U8Value
-} from '@elrondnetwork/erdjs';
-import {
+  U8Value,
   Balance,
   CodeMetadata,
   DeployArguments,
   GasLimit,
   NetworkConfig
-} from '@elrondnetwork/erdjs/out';
+} from '@elrondnetwork/erdjs';
 import { Code } from '@elrondnetwork/erdjs/out/smartcontracts/code';
 
 import { smartContractCode } from 'helpers/constants';

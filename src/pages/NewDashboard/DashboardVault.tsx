@@ -4,7 +4,7 @@ import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import { Box, useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-const DashboardVault = () => {
+function DashboardVault() {
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
   const useStyles: CallableFunction = useMemo(
@@ -81,6 +81,6 @@ const DashboardVault = () => {
       </Box>
     </div>
   );
-};
+}
 
 export default DashboardVault;

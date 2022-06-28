@@ -19,11 +19,11 @@ interface PendingDeploymentContractData {
   transactionId: string | null;
 }
 
-const DeployStepsModal = ({
+function DeployStepsModal({
   show,
   handleClose,
   setNewContracts
-}: DeployStepsModalType) => {
+}: DeployStepsModalType) {
   const { t } = useTranslation();
 
   const [name, setName] = useState('');
@@ -96,6 +96,6 @@ const DeployStepsModal = ({
       </div>
     </Modal>
   );
-};
+}
 
 export default DeployStepsModal;

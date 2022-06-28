@@ -10,25 +10,19 @@ export default function useTransactionPermissions() {
   } = useOrganizationInfoContext();
   const isBoardMember = userRole === 2;
 
-  const canUnsign = (action: MultisigActionDetailed) => {
-    return isBoardMember && alreadySigned(action);
-  };
+  const canUnsign = (action: MultisigActionDetailed) =>
+    isBoardMember && alreadySigned(action);
 
-  const canPerformAction = (action: MultisigActionDetailed) => {
-    return (
-      isBoardMember &&
-      alreadySigned(action) &&
-      action.signers.length >= quorumCount
-    );
-  };
+  const canPerformAction = (action: MultisigActionDetailed) =>
+    isBoardMember &&
+    alreadySigned(action) &&
+    action.signers.length >= quorumCount;
 
-  const canSign = (action: MultisigActionDetailed) => {
-    return isBoardMember && !alreadySigned(action);
-  };
+  const canSign = (action: MultisigActionDetailed) =>
+    isBoardMember && !alreadySigned(action);
 
-  const canDiscardAction = (action: MultisigActionDetailed) => {
-    return isBoardMember && action.signers.length === 0;
-  };
+  const canDiscardAction = (action: MultisigActionDetailed) =>
+    isBoardMember && action.signers.length === 0;
 
   const { address } = useGetAccountInfo();
 

@@ -9,19 +9,18 @@ import Safe from 'assets/img/safe.png';
 import CopyButton from 'components/CopyButton';
 import ReceiveModal from 'components/ReceiveModal';
 import SafeOptions from 'components/SafeOptions';
+import { network } from 'config';
 import { uniqueContractAddress } from 'multisigConfig';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import { Anchor, ReadOnly, MembersBox } from '../navbar-style';
 import TotalBalance from '../TotalBalance';
 
-const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
-  const dispatch = useDispatch();
+function NavbarAccountDetails({ uniqueAddress }: { uniqueAddress: string }) {
   const currentContract = useSelector(currentMultisigContractSelector);
   const [showQr, setShowQr] = useState(false);
 
   const {
-    tokenPrices,
     membersCountState: [membersCount]
   } = useOrganizationInfoContext();
 
@@ -83,7 +82,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
         </Box>
         <Box sx={{ mx: 1 }}>
           <Anchor
-            href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
+            href={`${network.explorerAddress}/accounts/${uniqueContractAddress}`}
             target='_blank'
             rel='noreferrer'
             color='#6c757d'
@@ -103,6 +102,6 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
       <TotalBalance />
     </Box>
   );
-};
+}
 
 export default NavbarAccountDetails;

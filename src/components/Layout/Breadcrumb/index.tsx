@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { useLocation } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { uniqueContractAddress } from 'multisigConfig';
 import breadcrumbItems from './BreadcrumbItems';
 
-const PageBreadcrumbs = () => {
+function PageBreadcrumbs() {
   const [breadcrumb, setBreadcrumb] = useState([]);
   //   const [breadcrumbLink, setbreadcrumbLink] = useState('');
 
@@ -30,6 +29,6 @@ const PageBreadcrumbs = () => {
       </Breadcrumbs>
     </div>
   );
-};
+}
 
 export default PageBreadcrumbs;

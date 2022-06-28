@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import NftCompmonent from 'components/NftComponent';
 
-const NftPage = () => {
+function NftPage() {
   return (
     <Box
       sx={{
@@ -12,6 +12,6 @@ const NftPage = () => {
       <NftCompmonent />
     </Box>
   );
-};
+}
 
 export default NftPage;

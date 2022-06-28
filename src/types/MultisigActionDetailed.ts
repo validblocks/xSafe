@@ -3,7 +3,9 @@ import { MultisigAction } from './MultisigAction';
 
 export class MultisigActionDetailed {
   actionId: number;
+
   signers: Address[];
+
   action: MultisigAction;
 
   constructor(action: MultisigAction, actionId: number, signers: Address[]) {

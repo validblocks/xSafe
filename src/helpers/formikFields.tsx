@@ -20,7 +20,7 @@ interface FormikCheckboxPropsType {
   footer?: React.ReactElement;
 }
 
-export const FormikInputField = ({
+export function FormikInputField({
   label,
   name,
   value,
@@ -29,47 +29,51 @@ export const FormikInputField = ({
   handleBlur,
   footer,
   as = 'input'
-}: FormikInputFieldPropsType) => (
-  <div className='modal-control-container'>
-    <div className={'input-wrapper'}>
-      <label className={'form-label'}>{label} </label>
-      <Form.Control
-        id={name}
-        name={name}
-        type='text'
-        as={as}
-        isInvalid={error != null}
-        onChange={handleChange}
-        onBlur={handleBlur}
-        value={value}
-      />
-      {error && (
-        <Form.Control.Feedback type={'invalid'}>{error}</Form.Control.Feedback>
-      )}
+}: FormikInputFieldPropsType) {
+  return (
+    <div className='modal-control-container'>
+      <div className='input-wrapper'>
+        <label className='form-label'>{label} </label>
+        <Form.Control
+          id={name}
+          name={name}
+          type='text'
+          as={as}
+          isInvalid={error != null}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={value}
+        />
+        {error && (
+          <Form.Control.Feedback type='invalid'>{error}</Form.Control.Feedback>
+        )}
+      </div>
+      {footer != null && footer}
     </div>
-    {footer != null && footer}
-  </div>
-);
+  );
+}
 
-export const FormikCheckbox = ({
+export function FormikCheckbox({
   label,
   name,
   checked,
   handleChange
-}: FormikCheckboxPropsType) => (
-  <div className='modal-control-container my-2'>
-    <div className='form-check form-check-inline'>
-      <input
-        className='form-check-input'
-        type='checkbox'
-        id={name}
-        name={name}
-        checked={checked}
-        onChange={handleChange}
-      />
-      <label className='form-check-label' htmlFor='upgradeableCheckBox'>
-        {label}
-      </label>
+}: FormikCheckboxPropsType) {
+  return (
+    <div className='modal-control-container my-2'>
+      <div className='form-check form-check-inline'>
+        <input
+          className='form-check-input'
+          type='checkbox'
+          id={name}
+          name={name}
+          checked={checked}
+          onChange={handleChange}
+        />
+        <label className='form-check-label' htmlFor='upgradeableCheckBox'>
+          {label}
+        </label>
+      </div>
     </div>
-  </div>
-);
+  );
+}

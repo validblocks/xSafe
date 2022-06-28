@@ -8,10 +8,15 @@ import { MultisigActionType } from './MultisigActionType';
 
 export class MultisigDeployContractFromSource extends MultisigAction {
   amount: BigUIntValue;
+
   source: Address;
+
   upgradeable: boolean;
+
   payable: boolean;
+
   readable: boolean;
+
   args: BytesValue[];
 
   constructor(
@@ -40,8 +45,9 @@ export class MultisigDeployContractFromSource extends MultisigAction {
       this.args.length > 1 && this.args[0].valueOf().toString().length > 0;
     return `Deploy from ${this.source.bech32()}  ${
       hasArgs
-        ? '/ arguments: ' +
-          this.args.map((arg) => arg.valueOf().toString('hex'))
+        ? `/ arguments: ${this.args.map((arg) =>
+            arg.valueOf().toString('hex')
+          )}`
         : ''
     }`;
   }
@@ -49,12 +55,13 @@ export class MultisigDeployContractFromSource extends MultisigAction {
   description() {
     const denominatedAmount = operations.denominate({
       input: this.amount.valueOf().toString(),
-      denomination: denomination,
+      denomination,
       decimals: 4,
       showLastNonZeroDecimal: true
     });
     return `${i18next.t('Amount')}: ${denominatedAmount}`;
   }
+
   tooltip(): string {
     return ` upgradeable: ${this.upgradeable}
  payable: ${this.payable} 

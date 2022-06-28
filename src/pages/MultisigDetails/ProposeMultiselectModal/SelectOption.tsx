@@ -64,15 +64,11 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
       <div className='card select-options-list'>
         <Accordion>
           <Accordion.Toggle
-            eventKey={'0'}
+            eventKey='0'
             onClick={decoratedOnClick}
-            className={'expand-icon advanced-options-toggle mb-2 mt-4'}
+            className='expand-icon advanced-options-toggle mb-2 mt-4'
           >
-            <div
-              className={
-                'd-flex justify-content-center align-items-center flex-fill'
-              }
-            >
+            <div className='d-flex justify-content-center align-items-center flex-fill'>
               <span className='h6 mb-1 mr-2' data-testid='delegateTitle'>
                 Advanced
               </span>
@@ -80,7 +76,7 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
             </div>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey='0'>
-            <div className={'d-flex flex-column'}>
+            <div className='d-flex flex-column'>
               {othersAvailableOptions.map((option) => (
                 <button
                   key={option.type}

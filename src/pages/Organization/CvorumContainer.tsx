@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Box } from '@mui/material';
 import ProposersTable from './ProposersTable';
 
-const CvorumContainer = () => {
+function CvorumContainer() {
   return (
     <Box
       sx={{
@@ -17,6 +17,6 @@ const CvorumContainer = () => {
       </Card>
     </Box>
   );
-};
+}
 
 export default CvorumContainer;

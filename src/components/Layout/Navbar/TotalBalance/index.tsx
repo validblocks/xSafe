@@ -3,6 +3,7 @@ import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { Box, Typography, Button } from '@mui/material';
+import Divider from '@mui/material/Divider';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainButton } from 'components/Theme/StyledComponents';
@@ -16,7 +17,6 @@ import {
 } from 'redux/selectors/currencySelector';
 import { priceSelector } from 'redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
-import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
 import {
   setMultisigBalance,
   setOrganizationTokens
@@ -26,9 +26,8 @@ import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import useCurrency from 'utils/useCurrency';
 import { CenteredText } from '../navbar-style';
-import Divider from '@mui/material/Divider';
 
-const TotalBalance = () => {
+function TotalBalance() {
   const dispatch = useDispatch();
 
   const [totalUsdValue, setTotalUsdValue] = useState(0);
@@ -45,9 +44,10 @@ const TotalBalance = () => {
   const proxy = getNetworkProxy();
   const getTokenPrice = useCallback(
     (tokenIdentifier: string) =>
-      tokenPrices.find((tokenWithPrice: TokenWithPrice) => {
-        return tokenWithPrice.symbol == tokenIdentifier;
-      })?.price ?? egldPrice,
+      tokenPrices.find(
+        (tokenWithPrice: TokenWithPrice) =>
+          tokenWithPrice.symbol == tokenIdentifier
+      )?.price ?? egldPrice,
     []
   );
   const fetchTokenPhotoUrl = useCallback(async (tokenIdentifier: string) => {
@@ -62,10 +62,11 @@ const TotalBalance = () => {
     (async function getTokens() {
       let isMounted = true;
 
-      if (!currentContract?.address)
+      if (!currentContract?.address) {
         return () => {
           isMounted = false;
         };
+      }
 
       const getEgldBalancePromise = currentContract?.address
         ? proxy.getAccount(new Address(currentContract?.address))
@@ -217,5 +218,5 @@ const TotalBalance = () => {
       </Box>
     </Box>
   );
-};
+}
 export default TotalBalance;

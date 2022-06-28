@@ -7,7 +7,7 @@ import { Box, useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import MembersActionCard from 'pages/Organization/MembersActionCard';
 
-const AvailableDashboardActions = () => {
+function AvailableDashboardActions() {
   const isSmallScreen = useMediaQuery('(max-width:920px)');
 
   const useStyles: CallableFunction = useMemo(
@@ -110,13 +110,13 @@ const AvailableDashboardActions = () => {
               description={item.description}
               title={item.title}
               onClickHandler={item.onClickHandler}
-              hoverColor={item.hoverColor + '!important'}
+              hoverColor={`${item.hoverColor}!important`}
             />
           </Box>
         ))}
       </Box>
     </>
   );
-};
+}
 
 export default AvailableDashboardActions;

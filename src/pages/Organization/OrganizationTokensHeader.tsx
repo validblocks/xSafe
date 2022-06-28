@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 
-const OrganizationTokensHeader = () => {
+function OrganizationTokensHeader() {
   const dispatch = useDispatch();
   const onIssueToken = () =>
     dispatch(
@@ -35,6 +35,6 @@ const OrganizationTokensHeader = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
 export default OrganizationTokensHeader;

@@ -14,7 +14,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import addressShorthand from 'helpers/addressShorthand';
 import { uniqueContractAddress } from 'multisigConfig';
@@ -23,7 +23,6 @@ import menuItems from 'utils/menuItems';
 import AccountDetails from './NavbarAccountDetails';
 import Network from './Network';
 import './menu.scss';
-import { useLocation } from 'react-router-dom';
 import PageBreadcrumbs from '../Breadcrumb';
 import {
   TopHeader,
@@ -88,7 +87,7 @@ export default function MiniDrawer() {
   const navigate = useNavigate();
   const handleRedirectToHome = () => {
     const route = uniqueContractAddress
-      ? '/multisig/' + uniqueContractAddress
+      ? `/multisig/${uniqueContractAddress}`
       : routeNames.welcome;
     navigate(route);
   };
@@ -156,42 +155,40 @@ export default function MiniDrawer() {
                       />
                     </ListItem>
                   </MenuAccordion>
-                  {el.submenu?.map((el, index) => {
-                    return (
-                      <AccordionDetail key={index} sx={{ p: 0 }}>
-                        <Link
-                          to={el.link}
-                          className={
-                            locationString == el.link
-                              ? 'active link-decoration'
-                              : 'link-decoration'
-                          }
+                  {el.submenu?.map((el, index) => (
+                    <AccordionDetail key={index} sx={{ p: 0 }}>
+                      <Link
+                        to={el.link}
+                        className={
+                          locationString == el.link
+                            ? 'active link-decoration'
+                            : 'link-decoration'
+                        }
+                      >
+                        <ListItem
+                          sx={{
+                            minHeight: 48,
+                            justifyContent: open ? 'initial' : 'center',
+                            px: 2.5,
+                            ml: 0,
+                            pl: 5
+                          }}
                         >
-                          <ListItem
+                          <ListItemIcon
                             sx={{
-                              minHeight: 48,
-                              justifyContent: open ? 'initial' : 'center',
-                              px: 2.5,
-                              ml: 0,
-                              pl: 5
+                              minWidth: 0,
+                              mr: open ? 3 : 'auto',
+                              justifyContent: 'center'
                             }}
-                          >
-                            <ListItemIcon
-                              sx={{
-                                minWidth: 0,
-                                mr: open ? 3 : 'auto',
-                                justifyContent: 'center'
-                              }}
-                            ></ListItemIcon>
-                            <ListItemText
-                              primary={el.name}
-                              sx={{ opacity: open ? 1 : 0 }}
-                            />
-                          </ListItem>
-                        </Link>
-                      </AccordionDetail>
-                    );
-                  })}
+                          ></ListItemIcon>
+                          <ListItemText
+                            primary={el.name}
+                            sx={{ opacity: open ? 1 : 0 }}
+                          />
+                        </ListItem>
+                      </Link>
+                    </AccordionDetail>
+                  ))}
                 </Accordion>
               )}
               {!el.submenu && (
@@ -231,41 +228,39 @@ export default function MiniDrawer() {
         </TopMenu>
         <BottomMenu>
           <Divider sx={{ mt: 1 }} />
-          {menuItems.bottomItems.map((el, index) => {
-            return (
-              <Link
-                key={index}
-                to={el.link}
-                className={
-                  locationString == el.link
-                    ? 'active link-decoration'
-                    : 'link-decoration'
-                }
+          {menuItems.bottomItems.map((el, index) => (
+            <Link
+              key={index}
+              to={el.link}
+              className={
+                locationString == el.link
+                  ? 'active link-decoration'
+                  : 'link-decoration'
+              }
+            >
+              <ListItem
+                sx={{
+                  minHeight: 48,
+                  justifyContent: open ? 'initial' : 'center',
+                  px: 2.5
+                }}
               >
-                <ListItem
+                <ListItemIcon
                   sx={{
-                    minHeight: 48,
-                    justifyContent: open ? 'initial' : 'center',
-                    px: 2.5
+                    minWidth: 0,
+                    mr: open ? 3 : 'auto',
+                    justifyContent: 'center'
                   }}
                 >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : 'auto',
-                      justifyContent: 'center'
-                    }}
-                  >
-                    {el.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={el.name}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                </ListItem>
-              </Link>
-            );
-          })}
+                  {el.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={el.name}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItem>
+            </Link>
+          ))}
         </BottomMenu>
       </Drawer>
     </Box>

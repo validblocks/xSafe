@@ -6,8 +6,7 @@ import {
   BigUIntValue,
   BytesValue
 } from '@elrondnetwork/erdjs/out';
-import { faMinus } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
@@ -24,10 +23,10 @@ interface ProposeSmartContractCallType {
   setSubmitDisabled: (value: boolean) => void;
 }
 
-const ProposeSmartContractCall = ({
+function ProposeSmartContractCall({
   handleChange,
   setSubmitDisabled
-}: ProposeSmartContractCallType) => {
+}: ProposeSmartContractCallType) {
   const { multisigBalance } = React.useContext(MultisigDetailsContext);
 
   const { t } = useTranslation();
@@ -40,7 +39,7 @@ const ProposeSmartContractCall = ({
     () =>
       operations.denominate({
         input: multisigBalance.toString(),
-        denomination: denomination,
+        denomination,
         decimals: 4,
         showLastNonZeroDecimal: true
       }),
@@ -68,9 +67,8 @@ const ProposeSmartContractCall = ({
       functionName: '',
       args: []
     },
-    onSubmit: () => {
-      return;
-    },
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true
@@ -198,7 +196,7 @@ const ProposeSmartContractCall = ({
     <div>
       <FormikInputField
         label={t('Send to')}
-        name={'receiver'}
+        name='receiver'
         value={receiver}
         error={receiverError}
         handleChange={formik.handleChange}
@@ -217,7 +215,7 @@ const ProposeSmartContractCall = ({
           />
 
           {amountError != null && (
-            <Form.Control.Feedback type={'invalid'}>
+            <Form.Control.Feedback type='invalid'>
               {amountError}
             </Form.Control.Feedback>
           )}
@@ -238,15 +236,15 @@ const ProposeSmartContractCall = ({
         </div>
       </div>
       {functionName?.length > 0 && (
-        <div className={'d-flex flex-column '}>
+        <div className='d-flex flex-column '>
           {args.map((arg, idx) => (
             <div key={idx} className='modal-control-container mb-3'>
               <label>{`${t('argument')} ${idx + 1}`} </label>
-              <div className={'d-flex align-items-stretch my-0'}>
+              <div className='d-flex align-items-stretch my-0'>
                 <Form.Control
                   id={`args[${idx}]`}
                   name={`args[${idx}]`}
-                  className={'my-0 mr-3'}
+                  className='my-0 mr-3'
                   type='text'
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -255,17 +253,17 @@ const ProposeSmartContractCall = ({
 
                 <button
                   onClick={() => removeArg(idx)}
-                  className={'action-remove action remove'}
+                  className='action-remove action remove'
                 >
-                  <FontAwesomeIcon className={'mx-2'} icon={faMinus} />
+                  <FontAwesomeIcon className='mx-2' icon={faMinus} />
                 </button>
               </div>
             </div>
           ))}
           {argsError && <small className='text-danger'>{argsError}</small>}
-          <div className={'modal-action-btns'}>
-            <button onClick={addNewArgsField} className={'btn btn-primary '}>
-              <FontAwesomeIcon className={'mx-2'} icon={faPlus} />
+          <div className='modal-action-btns'>
+            <button onClick={addNewArgsField} className='btn btn-primary '>
+              <FontAwesomeIcon className='mx-2' icon={faPlus} />
               <span className='name'>Add argument</span>
             </button>
           </div>
@@ -273,6 +271,6 @@ const ProposeSmartContractCall = ({
       )}
     </div>
   );
-};
+}
 
 export default ProposeSmartContractCall;

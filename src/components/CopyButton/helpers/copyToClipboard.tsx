@@ -27,10 +27,8 @@ export default async function copyTextToClipboard(text: string) {
     success = fallbackCopyTextToClipboard(text);
   } else {
     success = await navigator.clipboard.writeText(text).then(
-      function done() {
-        return true;
-      },
-      function error(err) {
+      () => true,
+      (err) => {
         console.error('Async: Could not copy text: ', err);
         return false;
       }

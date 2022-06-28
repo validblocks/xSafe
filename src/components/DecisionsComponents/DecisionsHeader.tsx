@@ -3,7 +3,7 @@ import AddIcon from '@mui/icons-material/Add';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Box, Grid } from '@mui/material';
 
-const DecisionsHeader = () => {
+function DecisionsHeader() {
   return (
     <Grid container>
       <Grid
@@ -27,6 +27,6 @@ const DecisionsHeader = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
 export default DecisionsHeader;

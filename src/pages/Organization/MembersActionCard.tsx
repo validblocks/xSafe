@@ -10,14 +10,14 @@ type Props = {
   hoverColor?: string;
 };
 
-const MembersActionCard = ({
+function MembersActionCard({
   icon,
   title,
   description,
   buttonBackground,
   onClickHandler,
   hoverColor
-}: Props) => {
+}: Props) {
   return (
     <Card
       sx={[
@@ -78,6 +78,6 @@ const MembersActionCard = ({
       </div>
     </Card>
   );
-};
+}
 
 export default MembersActionCard;

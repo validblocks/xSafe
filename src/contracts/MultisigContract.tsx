@@ -8,10 +8,10 @@ import {
   Balance,
   Address,
   SmartContract,
-  BinaryCodec
+  BinaryCodec,
+  CodeMetadata
 } from '@elrondnetwork/erdjs';
 
-import { CodeMetadata } from '@elrondnetwork/erdjs/out';
 import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
 import { Query } from '@elrondnetwork/erdjs/out/smartcontracts/query';
 import {
@@ -233,7 +233,7 @@ export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
   const args = [];
   args.push(BytesValue.fromUTF8(proposal.name));
   args.push(BytesValue.fromUTF8(proposal.identifier));
-  args.push(new U32Value(proposal.amount * Math.pow(10, proposal.decimals)));
+  args.push(new U32Value(proposal.amount * 10 ** proposal.decimals));
   args.push(new U32Value(proposal.decimals));
 
   if (proposal.canFreeze) {
@@ -440,10 +440,11 @@ export async function query(functionName: string, ...args: TypedValue[]) {
   const smartContract = new SmartContract({
     address: currentMultisigAddress
   });
+
   const newQuery = new Query({
     address: smartContract.getAddress(),
     func: new ContractFunction(functionName),
-    args: args
+    args
   });
   const proxy = getNetworkProxy();
   return await proxy.queryContract(newQuery);

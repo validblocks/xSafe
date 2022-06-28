@@ -10,7 +10,7 @@ import { TypographyBold } from 'components/Theme/StyledComponents';
 import DecisionApproved from './decisionApproved';
 import TimelineCard from './timeline';
 
-const ActionBoxDetails = () => {
+function ActionBoxDetails() {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -43,7 +43,7 @@ const ActionBoxDetails = () => {
         <Item sx={{ p: 4 }}>
           <Box className='d-flex justify-content-between align-items-center'>
             <Typography>Add board member to organization</Typography>
-            <Button disabled={true} sx={{ backgroundColor: '#f3fdfa' }}>
+            <Button disabled sx={{ backgroundColor: '#f3fdfa' }}>
               Active
             </Button>
           </Box>
@@ -145,6 +145,6 @@ const ActionBoxDetails = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
 export default ActionBoxDetails;

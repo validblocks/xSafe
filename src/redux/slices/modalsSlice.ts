@@ -107,9 +107,7 @@ export const modalsSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    builder.addCase(logoutAction, () => {
-      return initialState;
-    });
+    builder.addCase(logoutAction, () => initialState);
   }
 });
 

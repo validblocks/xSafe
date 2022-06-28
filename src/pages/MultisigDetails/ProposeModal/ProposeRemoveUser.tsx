@@ -8,10 +8,10 @@ interface ProposeRemoveUserType {
   handleSetAddress: (address: Address) => void;
 }
 
-const ProposeRemoveUser = ({
+function ProposeRemoveUser({
   selectedOption,
   handleSetAddress
-}: ProposeRemoveUserType) => {
+}: ProposeRemoveUserType) {
   const { t } = useTranslation();
   const address = 'address' in selectedOption! ? selectedOption?.address : '';
 
@@ -35,6 +35,6 @@ const ProposeRemoveUser = ({
       </div>
     </div>
   );
-};
+}
 
 export default ProposeRemoveUser;

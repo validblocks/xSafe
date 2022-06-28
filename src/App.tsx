@@ -1,16 +1,18 @@
 import React from 'react';
 import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
-// import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline } from '@mui/material';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import updateLocale from 'dayjs/plugin/updateLocale';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider as ReduxProvider } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from 'styled-components';
+import { theme } from 'components/Theme/createTheme';
 import { germanTranslations } from 'i18n/de';
 import { englishTranslations } from 'i18n/en';
 import OrganizationInfoContextProvider from 'pages/Organization/OrganizationInfoContextProvider';
@@ -21,9 +23,6 @@ import PageNotFound from './components/PageNotFound';
 import routes from './routes';
 
 import '@elrondnetwork/dapp-core/build/index.css';
-// import { theme } from 'components/StyledComponents/createTheme';
-import { createTheme, CssBaseline } from '@mui/material';
-import { theme } from 'components/Theme/createTheme';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -64,34 +63,38 @@ i18n.use(initReactI18next).init({
   }
 });
 
+const queryClient = new QueryClient();
+
 export default function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ReduxProvider store={store}>
-        <DappProvider environment={'devnet'}>
+        <DappProvider environment='devnet'>
           <OrganizationInfoContextProvider>
-            <>
-              <DappUI.SignTransactionsModals />
-              <DappUI.TransactionsToastList />
-              <DappUI.NotificationModal />
-              <Router basename={process.env.PUBLIC_URL}>
-                <PersistGate loading={null} persistor={persistor}>
-                  <Layout>
-                    <Routes>
-                      {routes.map((route, i) => (
-                        <Route
-                          path={route.path}
-                          key={route.path + i}
-                          element={<route.component />}
-                        />
-                      ))}
-                      <Route element={PageNotFound} />
-                    </Routes>
-                  </Layout>
-                </PersistGate>
-              </Router>
-            </>
+            <QueryClientProvider client={queryClient}>
+              <>
+                <DappUI.SignTransactionsModals />
+                <DappUI.TransactionsToastList />
+                <DappUI.NotificationModal />
+                <Router basename={process.env.PUBLIC_URL}>
+                  <PersistGate loading={null} persistor={persistor}>
+                    <Layout>
+                      <Routes>
+                        {routes.map((route, i) => (
+                          <Route
+                            path={route.path}
+                            key={route.path + i}
+                            element={<route.component />}
+                          />
+                        ))}
+                        <Route element={PageNotFound} />
+                      </Routes>
+                    </Layout>
+                  </PersistGate>
+                </Router>
+              </>
+            </QueryClientProvider>
           </OrganizationInfoContextProvider>
         </DappProvider>
       </ReduxProvider>

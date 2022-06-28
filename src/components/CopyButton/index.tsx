@@ -10,7 +10,7 @@ interface CopyButtonType {
   className?: string;
 }
 
-const CopyButton = ({ text, className = '' }: CopyButtonType) => {
+function CopyButton({ text, className = '' }: CopyButtonType) {
   const [copyResult, setCopyResut] = React.useState({
     default: true,
     success: false
@@ -47,6 +47,6 @@ const CopyButton = ({ text, className = '' }: CopyButtonType) => {
       )}
     </a>
   );
-};
+}
 
 export default CopyButton;

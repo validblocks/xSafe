@@ -1,5 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs';
-import { TransactionStatus } from '@elrondnetwork/erdjs/out';
+import { Address, TransactionStatus } from '@elrondnetwork/erdjs';
 import { PlainMultisigAddressType } from '../types/multisigContracts';
 
 export function PlainAddress(address: Address): PlainMultisigAddressType {

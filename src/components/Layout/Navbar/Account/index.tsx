@@ -15,7 +15,7 @@ import Unlock from 'pages/Unlock';
 import { routeNames } from 'routes';
 import { ConnectDropdown } from '../navbar-style';
 
-const Account = () => {
+function Account() {
   const { address } = useGetAccountInfo();
   const loggedIn = getIsLoggedIn();
   const isOnUnlockPage = window.location.pathname.includes(routeNames.unlock);
@@ -89,6 +89,6 @@ const Account = () => {
       </ConnectDropdown>
     </div>
   );
-};
+}
 
 export default Account;

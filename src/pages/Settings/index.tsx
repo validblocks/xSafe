@@ -3,7 +3,7 @@ import { Box, Typography } from '@mui/material';
 import SafeSettings from './SafeSettings';
 import { SettingsWrapper } from './settings-style';
 
-const Settings = () => {
+function Settings() {
   interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -53,6 +53,6 @@ const Settings = () => {
       </SettingsWrapper>
     </Box>
   );
-};
+}
 
 export default Settings;

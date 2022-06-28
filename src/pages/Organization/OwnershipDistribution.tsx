@@ -1,7 +1,7 @@
 import React from 'react';
 import MultiColorProgressBar from './MultiColorProgressBar';
 
-const OwnershipDistribution = () => {
+function OwnershipDistribution() {
   const readings = [
     {
       name: 'Owner1',
@@ -32,6 +32,6 @@ const OwnershipDistribution = () => {
       <MultiColorProgressBar readings={readings} />
     </div>
   );
-};
+}
 
 export default OwnershipDistribution;

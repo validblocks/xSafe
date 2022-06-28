@@ -17,10 +17,10 @@ interface ProposeSendEgldType {
   setSubmitDisabled: (value: boolean) => void;
 }
 
-const ProposeSendEgld = ({
+function ProposeSendEgld({
   handleChange,
   setSubmitDisabled
-}: ProposeSendEgldType) => {
+}: ProposeSendEgldType) {
   const multisigBalance = useSelector(multisigBalanceSelector);
 
   const { t } = useTranslation();
@@ -33,7 +33,7 @@ const ProposeSendEgld = ({
     () =>
       operations.denominate({
         input: multisigBalance.asString,
-        denomination: denomination,
+        denomination,
         decimals: 4,
         showLastNonZeroDecimal: true
       }),
@@ -59,9 +59,8 @@ const ProposeSendEgld = ({
       amount: 0,
       data: ''
     },
-    onSubmit: () => {
-      return;
-    },
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true
@@ -149,7 +148,7 @@ const ProposeSendEgld = ({
     <div>
       <FormikInputField
         label={t('Send to')}
-        name={'receiver'}
+        name='receiver'
         value={receiver}
         error={receiverError}
         handleChange={formik.handleChange}
@@ -168,7 +167,7 @@ const ProposeSendEgld = ({
           />
 
           {amountError != null && (
-            <Form.Control.Feedback type={'invalid'}>
+            <Form.Control.Feedback type='invalid'>
               {amountError}
             </Form.Control.Feedback>
           )}
@@ -188,6 +187,6 @@ const ProposeSendEgld = ({
       </div>
     </div>
   );
-};
+}
 
 export default ProposeSendEgld;

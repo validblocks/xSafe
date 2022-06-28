@@ -2,13 +2,13 @@ import React from 'react';
 import { faCircleNotch } from '@fortawesome/free-solid-svg-icons';
 import PageState from '../PageState';
 
-const Loader = ({
+function Loader({
   dataTestId = 'loader',
   noText = false
 }: {
   dataTestId?: string;
   noText?: boolean;
-}) => {
+}) {
   return (
     <PageState
       title={noText ? '' : 'Loading...'}
@@ -17,5 +17,5 @@ const Loader = ({
       icon={faCircleNotch}
     />
   );
-};
+}
 export default Loader;

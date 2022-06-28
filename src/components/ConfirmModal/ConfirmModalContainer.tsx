@@ -2,7 +2,7 @@ import React from 'react';
 import ConfirmModal from './ConfirmModal';
 import { useConfirmModal } from './ConfirmModalPayload';
 
-const ConfirmModalContainer = () => {
+function ConfirmModalContainer() {
   const useModal = useConfirmModal();
 
   const [title, setTitle] = React.useState('');
@@ -36,6 +36,6 @@ const ConfirmModalContainer = () => {
       handleConfirm={onConfirmClicked}
     />
   );
-};
+}
 
 export default ConfirmModalContainer;

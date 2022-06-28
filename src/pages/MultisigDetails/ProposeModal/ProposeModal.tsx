@@ -14,15 +14,15 @@ import {
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes, SelectedOptionType } from 'types/Proposals';
 import { titles } from '../constants';
-import ProposeChangeQuorum from '../ProposeModal/ProposeChangeQuorum';
-import ProposeInputAddress from '../ProposeModal/ProposeInputAddress';
-import ProposeRemoveUser from '../ProposeModal/ProposeRemoveUser';
+import ProposeChangeQuorum from './ProposeChangeQuorum';
+import ProposeInputAddress from './ProposeInputAddress';
+import ProposeRemoveUser from './ProposeRemoveUser';
 
 interface ProposeModalPropsType {
   selectedOption: SelectedOptionType;
 }
 
-const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
+function ProposeModal({ selectedOption }: ProposeModalPropsType) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -139,6 +139,6 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
       </div>
     </Modal>
   );
-};
+}
 
 export default ProposeModal;

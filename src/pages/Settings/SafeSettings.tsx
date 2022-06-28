@@ -9,7 +9,7 @@ import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
 import { setSafeName } from 'redux/slices/safeNameSlice';
 import { NoteSpan, Span } from './settings-style';
 
-const SafeSettings = () => {
+function SafeSettings() {
   const safeName = useSelector(safeNameStoredSelector);
   useEffect(() => {
     setName(safeName);
@@ -36,8 +36,9 @@ const SafeSettings = () => {
       </Typography>
       <Typography sx={{ mb: 3 }}>
         <NoteSpan>
-          <Span>Note:</Span>This name is only stored locally. (You&apos;re the
-          only one who&apos;s seeing it)
+          <Span>Note:</Span>
+          This name is only stored locally. (You&apos;re the only one who&apos;s
+          seeing it)
         </NoteSpan>
       </Typography>
       <TextField
@@ -75,6 +76,6 @@ const SafeSettings = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default SafeSettings;

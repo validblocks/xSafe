@@ -79,7 +79,7 @@ export interface ContractInfo {
   boardMembersAddresses?: Address[];
   proposersAddresses?: Address[];
 }
-const MultisigDetailsPage = () => {
+function MultisigDetailsPage() {
   const [contractInfo, setContractInfo] = useState<ContractInfo>({
     totalBoardMembers: 0,
     totalProposers: 0,
@@ -244,25 +244,19 @@ const MultisigDetailsPage = () => {
     return false;
   };
 
-  const canSign = (action: MultisigActionDetailed) => {
-    return isBoardMember && !alreadySigned(action);
-  };
+  const canSign = (action: MultisigActionDetailed) =>
+    isBoardMember && !alreadySigned(action);
 
-  const canUnsign = (action: MultisigActionDetailed) => {
-    return isBoardMember && alreadySigned(action);
-  };
+  const canUnsign = (action: MultisigActionDetailed) =>
+    isBoardMember && alreadySigned(action);
 
-  const canPerformAction = (action: MultisigActionDetailed) => {
-    return (
-      isBoardMember &&
-      alreadySigned(action) &&
-      action.signers.length >= quorumSize
-    );
-  };
+  const canPerformAction = (action: MultisigActionDetailed) =>
+    isBoardMember &&
+    alreadySigned(action) &&
+    action.signers.length >= quorumSize;
 
-  const canDiscardAction = (action: MultisigActionDetailed) => {
-    return isBoardMember && action.signers.length === 0;
-  };
+  const canDiscardAction = (action: MultisigActionDetailed) =>
+    isBoardMember && action.signers.length === 0;
 
   const tryParseUrlParams = async () => {
     const parameters = await tryParseTransactionParameter(apiAddress);
@@ -353,7 +347,12 @@ const MultisigDetailsPage = () => {
 
   return (
     <MultisigDetailsContext.Provider
-      value={{ quorumSize, totalBoardMembers, isProposer, multisigBalance }}
+      value={{
+        quorumSize,
+        totalBoardMembers,
+        isProposer,
+        multisigBalance
+      }}
     >
       <div className='dashboard w-100'>
         <div className='card shadow-lg border-0'>
@@ -380,9 +379,9 @@ const MultisigDetailsPage = () => {
                 )}
               </div>
               {currentContract && (
-                <div className={'d-flex flex-column align-items-center'}>
+                <div className='d-flex flex-column align-items-center'>
                   {currentContract.name && (
-                    <p className={'h3 mb-2'}>{currentContract.name}</p>
+                    <p className='h3 mb-2'>{currentContract.name}</p>
                   )}
                   <div className='address text-center d-flex align-items-center'>
                     <div className='trust-badge'>
@@ -460,25 +459,23 @@ const MultisigDetailsPage = () => {
                       </p>
                     </div>
                   ) : (
-                    allActions.map((action) => {
-                      return (
-                        <MultisigProposalCard
-                          boardMembers={contractInfo.boardMembersAddresses}
-                          key={action.actionId}
-                          type={action.typeNumber()}
-                          actionId={action.actionId}
-                          title={action.title()}
-                          tooltip={action.tooltip()}
-                          value={action.description()}
-                          data={action.getData()}
-                          canSign={canSign(action)}
-                          canUnsign={canUnsign(action)}
-                          canPerformAction={canPerformAction(action)}
-                          canDiscardAction={canDiscardAction(action)}
-                          signers={action.signers}
-                        />
-                      );
-                    })
+                    allActions.map((action) => (
+                      <MultisigProposalCard
+                        boardMembers={contractInfo.boardMembersAddresses}
+                        key={action.actionId}
+                        type={action.typeNumber()}
+                        actionId={action.actionId}
+                        title={action.title()}
+                        tooltip={action.tooltip()}
+                        value={action.description()}
+                        data={action.getData()}
+                        canSign={canSign(action)}
+                        canUnsign={canUnsign(action)}
+                        canPerformAction={canPerformAction(action)}
+                        canDiscardAction={canDiscardAction(action)}
+                        signers={action.signers}
+                      />
+                    ))
                   )}
                 </div>
               </div>
@@ -486,7 +483,7 @@ const MultisigDetailsPage = () => {
           </div>
         </div>
       </div>
-      {/*this will make sure to wipe out the whole state when the modal closes*/}
+      {/* this will make sure to wipe out the whole state when the modal closes */}
       {selectedMultiselectOption != null && (
         <ProposeMultiselectModal selectedOption={selectedMultiselectOption} />
       )}
@@ -498,6 +495,6 @@ const MultisigDetailsPage = () => {
       )}
     </MultisigDetailsContext.Provider>
   );
-};
+}
 
 export default MultisigDetailsPage;

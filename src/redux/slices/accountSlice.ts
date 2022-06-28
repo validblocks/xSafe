@@ -1,5 +1,4 @@
-import { Balance as BalanceType } from '@elrondnetwork/erdjs';
-import { Balance } from '@elrondnetwork/erdjs/out';
+import { Balance as BalanceType, Balance } from '@elrondnetwork/erdjs';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TokenTableRowItem } from 'pages/Organization/types';
 import { logoutAction } from '../commonActions';
@@ -52,9 +51,7 @@ export const accountSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
-    builder.addCase(logoutAction, () => {
-      return initialState;
-    });
+    builder.addCase(logoutAction, () => initialState);
   }
 });
 

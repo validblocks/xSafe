@@ -11,12 +11,12 @@ interface EditContractNameModalPropsType {
   onCancel: (e: any) => void;
 }
 
-const EditContractNameModal = ({
+function EditContractNameModal({
   show,
   contractName,
   onConfirm,
   onCancel
-}: EditContractNameModalPropsType) => {
+}: EditContractNameModalPropsType) {
   const { t } = useTranslation();
 
   const [name, setName] = useState(contractName);
@@ -76,6 +76,6 @@ const EditContractNameModal = ({
       </div>
     </Modal>
   );
-};
+}
 
 export default EditContractNameModal;

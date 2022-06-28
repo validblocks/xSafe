@@ -30,7 +30,7 @@ export interface TransactionActionsCardType {
   boardMembers?: Address[];
 }
 
-const TransactionActionsCard = ({
+function TransactionActionsCard({
   type = 0,
   actionId = 0,
   canSign = false,
@@ -38,7 +38,7 @@ const TransactionActionsCard = ({
   canPerformAction = false,
   canDiscardAction = false,
   value
-}: TransactionActionsCardType) => {
+}: TransactionActionsCardType) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -100,6 +100,6 @@ const TransactionActionsCard = ({
       </div>
     </div>
   );
-};
+}
 
 export default TransactionActionsCard;

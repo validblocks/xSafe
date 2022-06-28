@@ -17,35 +17,37 @@ declare global {
   }
 }
 
-const UnlockTitle = () => (
-  <h5 className='unlock-title mb-spacer'>
-    Connect to a wallet
-    <OverlayTrigger
-      placement='top'
-      delay={{ show: 250, hide: 400 }}
-      overlay={(props) => (
-        <Tooltip id='connect-to-wallet-tooltip' {...props}>
-          Connect securely using one of the provided options
-        </Tooltip>
-      )}
-    >
-      <a
-        href='/#'
-        onClick={(e) => {
-          e.preventDefault();
-        }}
-        data-testid='infoConnect'
+function UnlockTitle() {
+  return (
+    <h5 className='unlock-title mb-spacer'>
+      Connect to a wallet
+      <OverlayTrigger
+        placement='top'
+        delay={{ show: 250, hide: 400 }}
+        overlay={(props) => (
+          <Tooltip id='connect-to-wallet-tooltip' {...props}>
+            Connect securely using one of the provided options
+          </Tooltip>
+        )}
       >
-        <FontAwesomeIcon
-          icon={faInfoCircle}
-          className='i-icon text-secondary'
-        />
-      </a>
-    </OverlayTrigger>
-  </h5>
-);
+        <a
+          href='/#'
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+          data-testid='infoConnect'
+        >
+          <FontAwesomeIcon
+            icon={faInfoCircle}
+            className='i-icon text-secondary'
+          />
+        </a>
+      </OverlayTrigger>
+    </h5>
+  );
+}
 
-const Unlock = () => {
+function Unlock() {
   const [token, setToken] = useState('');
   const { loginMethod } = useGetLoginInfo();
 
@@ -109,7 +111,7 @@ const Unlock = () => {
           </div>
         </DappUI.WalletConnectLoginButton>
 
-        <DappUI.LedgerLoginButton loginButtonText={''} {...loginParams}>
+        <DappUI.LedgerLoginButton loginButtonText='' {...loginParams}>
           <div className='d-flex justify-content-between align-items-center'>
             <div className='d-flex flex-row method'>
               <IconLedger />
@@ -145,6 +147,6 @@ const Unlock = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Unlock;

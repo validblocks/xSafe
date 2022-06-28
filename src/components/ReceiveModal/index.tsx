@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import QrCode from 'qrcode.react';
 import { Modal } from 'react-bootstrap';
 import CopyButton from '../CopyButton';
-const ReceiveModal = ({
+
+function ReceiveModal({
   showQrFromSidebar,
   address,
   handleQr
@@ -12,7 +13,7 @@ const ReceiveModal = ({
   showQrFromSidebar?: boolean;
   address?: string;
   handleQr?: () => void;
-}) => {
+}) {
   const [showModal, setShowModal] = React.useState<boolean | undefined>(false);
 
   const handleOpenModal = () => setShowModal(true);
@@ -56,7 +57,7 @@ const ReceiveModal = ({
               data-testid='delegateSubTitle'
             >
               <textarea readOnly value={address} className='address' />
-              <span className={'copy-btn'}>
+              <span className='copy-btn'>
                 <CopyButton text={address} />
               </span>
             </div>
@@ -73,6 +74,6 @@ const ReceiveModal = ({
       </Modal>
     </>
   );
-};
+}
 
 export default ReceiveModal;

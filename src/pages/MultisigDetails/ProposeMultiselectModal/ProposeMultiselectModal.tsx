@@ -43,9 +43,9 @@ interface ProposeMultiselectModalPropsType {
   selectedOption: SelectedOptionType;
 }
 
-const ProposeMultiselectModal = ({
+function ProposeMultiselectModal({
   selectedOption
-}: ProposeMultiselectModalPropsType) => {
+}: ProposeMultiselectModalPropsType) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [selectedProposal, setSelectedProposal] =
@@ -217,7 +217,7 @@ const ProposeMultiselectModal = ({
 
   return (
     <Modal
-      backdrop={'static'}
+      backdrop='static'
       show
       size='lg'
       onHide={handleClose}
@@ -228,6 +228,6 @@ const ProposeMultiselectModal = ({
       {modalContent}
     </Modal>
   );
-};
+}
 
 export default ProposeMultiselectModal;

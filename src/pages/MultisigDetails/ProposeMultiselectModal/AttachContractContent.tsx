@@ -22,7 +22,7 @@ const gasLimit = 10_000_000;
 interface AttachContractContentProps {
   handleClose: () => void;
 }
-const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
+function AttachContractContent({ handleClose }: AttachContractContentProps) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -94,7 +94,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
               value={formik.values.contractAddress}
             />
             {contractAddressError != null && (
-              <Form.Control.Feedback type={'invalid'}>
+              <Form.Control.Feedback type='invalid'>
                 {contractAddressError}
               </Form.Control.Feedback>
             )}
@@ -120,6 +120,6 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
       </div>
     </div>
   );
-};
+}
 
 export default AttachContractContent;

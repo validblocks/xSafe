@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Ui } from '@elrondnetwork/dapp-utils';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import { faExternalLinkAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPencilAlt,
+  faExternalLinkAlt,
+  faTimes
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +24,7 @@ import { MultisigContractInfoType } from 'types/multisigContracts';
 import ConfirmUnregisterModal from './ConfirmUnregisterModal';
 import EditContractNameModal from './EditContractNameModal';
 
-const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
+function MultisigCard({ contract }: { contract: MultisigContractInfoType }) {
   const [confirmDeleteContract, setConfirmDeleteContract] = useState(false);
   const [showEditNameModal, setShowEditNameModal] = useState(false);
   const navigate = useNavigate();
@@ -70,7 +73,7 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
   }
 
   const onEnterClicked = () => {
-    navigate('/multisig/' + contract.address);
+    navigate(`/multisig/${contract.address}`);
   };
 
   const onUnregisterContract = async (e: any) => {
@@ -87,7 +90,7 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
       {!uniqueContractAddress && (
         <div
           onClick={handleOpenUnregisterModal}
-          className={'position-absolute unregister-icon'}
+          className='position-absolute unregister-icon'
         >
           <FontAwesomeIcon
             icon={faTimes}
@@ -102,10 +105,10 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
       <div className='align-items-center justify-content-between mb-2'>
         <div className='wallet-details'>
           {contract.name && (
-            <div className={'d-flex justify-content-center'}>
+            <div className='d-flex justify-content-center'>
               <h5 onClick={handleOpenEditNameModal} className='name mb-20'>
                 {contract.name}
-                <FontAwesomeIcon className={'edit-icon'} icon={faPencilAlt} />
+                <FontAwesomeIcon className='edit-icon' icon={faPencilAlt} />
               </h5>
             </div>
           )}
@@ -143,6 +146,6 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
       </div>
     </button>
   );
-};
+}
 
 export default MultisigCard;

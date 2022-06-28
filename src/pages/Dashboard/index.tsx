@@ -7,9 +7,9 @@ import {
   faArrowRight
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { validateMultisigAddress } from 'apiCalls/multisigContractsCalls';
 import CreateWallet from 'assets/img/create-wallet.svg';
@@ -29,7 +29,7 @@ import { MultisigContractInfoType } from 'types/multisigContracts';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 
-const Dashboard = () => {
+function Dashboard() {
   const multisigContracts = useSelector(multisigContractsSelector);
   const multisigContractsFetched = useSelector(
     multisigContractsFetchedSelector
@@ -92,13 +92,11 @@ const Dashboard = () => {
     <OverlayTrigger
       placement='top'
       delay={{ show: 250, hide: 400 }}
-      overlay={(props) => {
-        return (
-          <Tooltip id='deploy-button-tooltip' {...props}>
-            {t('Please use another login method to deploy a contract')}
-          </Tooltip>
-        );
-      }}
+      overlay={(props) => (
+        <Tooltip id='deploy-button-tooltip' {...props}>
+          {t('Please use another login method to deploy a contract')}
+        </Tooltip>
+      )}
     >
       <span className='d-inline-block'>{deployButton}</span>
     </OverlayTrigger>
@@ -121,13 +119,11 @@ const Dashboard = () => {
     <OverlayTrigger
       placement='top'
       delay={{ show: 250, hide: 400 }}
-      overlay={(props) => {
-        return (
-          <Tooltip id='deploy-button-tooltip' {...props}>
-            {t('Please use another login method to deploy a contract')}
-          </Tooltip>
-        );
-      }}
+      overlay={(props) => (
+        <Tooltip id='deploy-button-tooltip' {...props}>
+          {t('Please use another login method to deploy a contract')}
+        </Tooltip>
+      )}
     >
       <span className='d-inline-block'>{deployButtonSecondary}</span>
     </OverlayTrigger>
@@ -140,17 +136,13 @@ const Dashboard = () => {
   }
   if (invalidMultisigContract) {
     return (
-      <div
-        className={
-          'd-flex flex-fill justify-content-center align-items-center flex-column'
-        }
-      >
-        <p className={'h2'}>
+      <div className='d-flex flex-fill justify-content-center align-items-center flex-column'>
+        <p className='h2'>
           {t(
             'The address you provided does not belong to a valid Multisig contract'
           )}
         </p>
-        <p className={'h3 mt-5'}>
+        <p className='h3 mt-5'>
           {t(
             'Please check project configuration in multisigConfig and try again'
           )}
@@ -160,28 +152,26 @@ const Dashboard = () => {
   }
 
   return (
-    <>
-      <div className='owner w-100 d-flex justify-content-center align-items-center flex-column'>
-        <NewDashboard />
-        <AddMultisigModal
-          show={showAddMultisigModal}
-          handleClose={() => {
-            setShowAddMultisigModal(false);
-          }}
-          setNewContracts={updateMultisigContract}
-        />
-        <DeployStepsModal
-          show={showDeployMultisigModal}
-          handleClose={() => setShowDeployMultisigModal(false)}
-          setNewContracts={updateMultisigContract}
-        />
-        <p className='info-msg'>
-          New to Multisig?&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href=''>Learn more</a>
-        </p>
-      </div>
-    </>
+    <div className='owner w-100 d-flex justify-content-center align-items-center flex-column'>
+      <NewDashboard />
+      <AddMultisigModal
+        show={showAddMultisigModal}
+        handleClose={() => {
+          setShowAddMultisigModal(false);
+        }}
+        setNewContracts={updateMultisigContract}
+      />
+      <DeployStepsModal
+        show={showDeployMultisigModal}
+        handleClose={() => setShowDeployMultisigModal(false)}
+        setNewContracts={updateMultisigContract}
+      />
+      <p className='info-msg'>
+        New to Multisig?&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href=''>Learn more</a>
+      </p>
+    </div>
   );
-};
+}
 
 export default Dashboard;

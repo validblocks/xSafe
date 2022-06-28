@@ -13,12 +13,12 @@ interface ConfirmUnregisterModalPropsType {
   address: string;
 }
 
-const ConfirmUnregisterModal = ({
+function ConfirmUnregisterModal({
   show,
   handleClose,
   onConfirmed,
   address
-}: ConfirmUnregisterModalPropsType) => {
+}: ConfirmUnregisterModalPropsType) {
   const { t } = useTranslation();
 
   return (
@@ -63,6 +63,6 @@ const ConfirmUnregisterModal = ({
       </div>
     </Modal>
   );
-};
+}
 
 export default ConfirmUnregisterModal;

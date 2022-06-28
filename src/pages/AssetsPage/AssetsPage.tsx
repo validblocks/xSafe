@@ -66,9 +66,10 @@ const AssetsPage = () => {
 
   const getTokenPrice = useCallback(
     (tokenIdentifier: string) =>
-      tokenPrices.find((tokenWithPrice: TokenWithPrice) => {
-        return tokenWithPrice.symbol == tokenIdentifier;
-      })?.price ?? egldPrice,
+      tokenPrices.find(
+        (tokenWithPrice: TokenWithPrice) =>
+          tokenWithPrice.symbol == tokenIdentifier
+      )?.price ?? egldPrice,
     []
   );
 
@@ -238,14 +239,14 @@ const AssetsPage = () => {
               onClick={() =>
                 handleOptionSelected(ProposalsTypes.send_token, params.row)
               }
-            ></GridActionsCellItem>
+            />
           </div>,
           <div key='1' className='shadow-sm p-2 rounded mr-2'>
             <GridActionsCellItem
               icon={<CallReceivedIcon htmlColor='#9DABBD' />}
               label='Receive'
               onClick={handleQrModal}
-            ></GridActionsCellItem>
+            />
           </div>
         ]
       }

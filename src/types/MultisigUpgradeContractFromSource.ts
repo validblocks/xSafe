@@ -9,11 +9,17 @@ import { MultisigActionType } from './MultisigActionType';
 
 export class MultisigUpgradeContractFromSource extends MultisigAction {
   address: Address;
+
   amount: BigUIntValue;
+
   source: Address;
+
   upgradeable: boolean;
+
   payable: boolean;
+
   readable: boolean;
+
   args: BytesValue[];
 
   constructor(
@@ -48,12 +54,13 @@ export class MultisigUpgradeContractFromSource extends MultisigAction {
   description() {
     const denominatedAmount = operations.denominate({
       input: this.amount.valueOf().toString(),
-      denomination: denomination,
+      denomination,
       decimals: 4,
       showLastNonZeroDecimal: true
     });
     return `${i18next.t('Amount')}: ${denominatedAmount}`;
   }
+
   tooltip(): string {
     return ` upgradeable: ${this.upgradeable}
  payable: ${this.payable} 

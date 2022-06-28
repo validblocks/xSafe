@@ -4,8 +4,7 @@ import {
   BigUIntValue,
   BytesValue
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
-import { faMinus } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
@@ -25,10 +24,10 @@ interface ProposeDeployContractType {
   setSubmitDisabled: (value: boolean) => void;
 }
 
-const ProposeDeployContract = ({
+function ProposeDeployContract({
   handleChange,
   setSubmitDisabled
-}: ProposeDeployContractType) => {
+}: ProposeDeployContractType) {
   const { t } = useTranslation();
   const currentMultisigAddress = useSelector(currentMultisigAddressSelector);
 
@@ -54,9 +53,8 @@ const ProposeDeployContract = ({
       payable: true,
       readable: true
     },
-    onSubmit: () => {
-      return;
-    },
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true
@@ -151,7 +149,7 @@ const ProposeDeployContract = ({
     <div>
       <FormikInputField
         label={t('Address')}
-        name={'address'}
+        name='address'
         value={address}
         error={addressError}
         handleChange={formik.handleChange}
@@ -159,7 +157,7 @@ const ProposeDeployContract = ({
       />
       <FormikInputField
         label={t('Amount')}
-        name={'amount'}
+        name='amount'
         value={amount}
         error={amountError}
         handleChange={formik.handleChange}
@@ -167,41 +165,41 @@ const ProposeDeployContract = ({
       />
       <FormikInputField
         label={t('Source')}
-        name={'source'}
+        name='source'
         value={source}
         error={sourceError}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
-      <div className={'mt-4'}>
+      <div className='mt-4'>
         <FormikCheckbox
           label={t('Upgradeable')}
-          name={'upgradeable'}
+          name='upgradeable'
           checked={upgradeable}
           handleChange={formik.handleChange}
         />
         <FormikCheckbox
           label={t('Payable')}
-          name={'payable'}
+          name='payable'
           checked={payable}
           handleChange={formik.handleChange}
         />
         <FormikCheckbox
           label={t('Readable')}
-          name={'readable'}
+          name='readable'
           checked={readable}
           handleChange={formik.handleChange}
         />
       </div>
-      <div className={'d-flex flex-column'}>
+      <div className='d-flex flex-column'>
         {args.map((arg, idx) => (
           <div key={idx} className='modal-control-container my-3'>
             <label>{`${t('argument')} ${idx + 1}`} </label>
-            <div className={'d-flex align-items-stretch my-0'}>
+            <div className='d-flex align-items-stretch my-0'>
               <Form.Control
                 id={`args[${idx}]`}
                 name={`args[${idx}]`}
-                className={'my-0 mr-3'}
+                className='my-0 mr-3'
                 type='text'
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -210,23 +208,23 @@ const ProposeDeployContract = ({
 
               <button
                 onClick={() => removeArg(idx)}
-                className={'action-remove action remove'}
+                className='action-remove action remove'
               >
-                <FontAwesomeIcon className={'mx-2'} icon={faMinus} />
+                <FontAwesomeIcon className='mx-2' icon={faMinus} />
               </button>
             </div>
           </div>
         ))}
         {argsError && <small className='text-danger'>{argsError}</small>}
-        <div className={'modal-action-btns'}>
-          <button onClick={addNewArgsField} className={'btn btn-primary '}>
-            <FontAwesomeIcon className={'mx-2'} icon={faPlus} />
+        <div className='modal-action-btns'>
+          <button onClick={addNewArgsField} className='btn btn-primary '>
+            <FontAwesomeIcon className='mx-2' icon={faPlus} />
             <span className='name'>Add argument</span>
           </button>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default ProposeDeployContract;

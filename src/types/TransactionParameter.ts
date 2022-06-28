@@ -2,9 +2,13 @@ import { Address } from '@elrondnetwork/erdjs/out';
 
 export default class TransactionParameter {
   sender: Address;
+
   receiver: Address;
+
   functionName: string;
+
   inputParameters: string[];
+
   outputParameters: string[];
 
   constructor(

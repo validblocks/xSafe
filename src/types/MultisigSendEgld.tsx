@@ -15,8 +15,11 @@ import { MultisigActionType } from './MultisigActionType';
 
 export class MultisigSendEgld extends MultisigAction {
   address: Address;
+
   amount: BigUIntValue;
+
   functionName: string;
+
   args: BytesValue[];
 
   constructor(
@@ -46,26 +49,24 @@ export class MultisigSendEgld extends MultisigAction {
 
   description() {
     return (
-      <>
-        <div className='d-flex flex-wrap transaction'>
-          <span className='mr-1 text-body'>
-            <Ui.Denominate
-              value={this.amount.valueOf().toString()}
-              showLastNonZeroDecimal
-              showLabel
-            />
-          </span>
-          <span className='mr-1'>{i18next.t('to')}</span>
-          <div className='address'>
-            <Ui.Trim text={this.address.bech32()} />
-            <ExplorerLink
-              page={`accounts/${this.address.bech32()}`}
-              text={<FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />}
-              className='link-second-style'
-            />
-          </div>
+      <div className='d-flex flex-wrap transaction'>
+        <span className='mr-1 text-body'>
+          <Ui.Denominate
+            value={this.amount.valueOf().toString()}
+            showLastNonZeroDecimal
+            showLabel
+          />
+        </span>
+        <span className='mr-1'>{i18next.t('to')}</span>
+        <div className='address'>
+          <Ui.Trim text={this.address.bech32()} />
+          <ExplorerLink
+            page={`accounts/${this.address.bech32()}`}
+            text={<FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />}
+            className='link-second-style'
+          />
         </div>
-      </>
+      </div>
     );
   }
 }

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
 import { multisigOriginSelector } from 'redux/selectors/appConfigSelector';
 
-const ModalContainer = ({
+function ModalContainer({
   children,
   noSpacer,
   className,
@@ -16,7 +16,7 @@ const ModalContainer = ({
   noSpacer?: boolean;
   className?: string;
   title: React.ReactNode;
-}) => {
+}) {
   const multisigOrigin = useSelector(multisigOriginSelector);
   const [close, setClose] = React.useState(false);
 
@@ -24,11 +24,12 @@ const ModalContainer = ({
     setClose(true);
   };
 
-  React.useEffect(() => {
-    return () => {
+  React.useEffect(
+    () => () => {
       setClose(false);
-    };
-  }, []);
+    },
+    []
+  );
 
   return close ? (
     <Navigate
@@ -42,7 +43,7 @@ const ModalContainer = ({
       show
       backdrop='static'
       onHide={handleClose}
-      className={`modal-container ${className ? className : ''}`}
+      className={`modal-container ${className || ''}`}
       animation={false}
       centered
     >
@@ -70,6 +71,6 @@ const ModalContainer = ({
       </div>
     </Modal>
   );
-};
+}
 
 export default ModalContainer;

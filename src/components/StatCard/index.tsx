@@ -22,7 +22,7 @@ export interface StatCardType {
   onEditAction?: () => void;
 }
 
-const StatCard = ({
+function StatCard({
   title = '',
   value = '0',
   valueUnit = '',
@@ -31,9 +31,9 @@ const StatCard = ({
   onAddAction,
   onRemoveAction,
   onEditAction
-}: StatCardType) => {
+}: StatCardType) {
   return (
-    <div className={'statcard text-black'}>
+    <div className='statcard text-black'>
       <span className='h5 title'>{title}</span>
 
       <small className='opacity-5'>
@@ -52,15 +52,12 @@ const StatCard = ({
           </OverlayTrigger>
         )}
       </small>
-      <div className={'d-flex justify-content-center actions'}>
+      <div className='d-flex justify-content-center actions'>
         <p className='h5 mb-0 order-2 centering value'>
           {value} {valueUnit}
         </p>
         {onEditAction != null && (
-          <button
-            onClick={onEditAction}
-            className={'action-edit m-lg-2 order-2'}
-          >
+          <button onClick={onEditAction} className='action-edit m-lg-2 order-2'>
             <FontAwesomeIcon icon={faPencilAlt} />
           </button>
         )}
@@ -68,19 +65,19 @@ const StatCard = ({
         {onRemoveAction != null && (
           <button
             onClick={onRemoveAction}
-            className={'action-remove m-lg-1 order-1'}
+            className='action-remove m-lg-1 order-1'
           >
             <FontAwesomeIcon icon={faMinus} />
           </button>
         )}
         {onAddAction != null && (
-          <button onClick={onAddAction} className={'action-add m-lg-1 order-3'}>
+          <button onClick={onAddAction} className='action-add m-lg-1 order-3'>
             <FontAwesomeIcon icon={faPlus} />
           </button>
         )}
       </div>
     </div>
   );
-};
+}
 
 export default StatCard;

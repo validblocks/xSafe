@@ -29,7 +29,7 @@ const NotificationModal = () => {
       {showModal && notificationModal && (
         <Modal
           show={showModal}
-          backdrop={true}
+          backdrop
           onHide={toggleModal(false)}
           className='modal-container'
           animation={false}

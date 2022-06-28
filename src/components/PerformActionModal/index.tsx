@@ -27,9 +27,7 @@ interface PerformActionModalPropsType {
   selectedAction: SelectedActionToPerform;
 }
 
-const PerformActionModal = ({
-  selectedAction
-}: PerformActionModalPropsType) => {
+function PerformActionModal({ selectedAction }: PerformActionModalPropsType) {
   const gasLimit =
     selectedAction?.actionType != null
       ? gasLimits[selectedAction.actionType] ?? defaultGasLimit
@@ -105,7 +103,7 @@ const PerformActionModal = ({
                 onChange={handleChangeGasLimit}
               />
               {error != null && (
-                <Form.Control.Feedback type={'invalid'}>
+                <Form.Control.Feedback type='invalid'>
                   {error}
                 </Form.Control.Feedback>
               )}
@@ -135,6 +133,6 @@ const PerformActionModal = ({
       </div>
     </Modal>
   );
-};
+}
 
 export default PerformActionModal;

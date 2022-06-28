@@ -3,7 +3,7 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation } from 'react-router-dom';
 
-const PageNotFound = () => {
+function PageNotFound() {
   const { pathname } = useLocation();
   return (
     <div className='d-flex flex-fill align-items-center container'>
@@ -25,6 +25,6 @@ const PageNotFound = () => {
       </div>
     </div>
   );
-};
+}
 
 export default PageNotFound;

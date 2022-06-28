@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import CircularStatic from 'components/ProgressBar/progressCircle';
 import LinearWithValueLabel from 'components/ProgressBar/progressLinear';
 
-const ProgressBarsSection = () => {
+function ProgressBarsSection() {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -60,6 +60,6 @@ const ProgressBarsSection = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
 export default ProgressBarsSection;

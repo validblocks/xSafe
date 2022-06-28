@@ -1,5 +1,5 @@
-import React from 'react';
-import { Ui } from '@elrondnetwork/dapp-utils';
+import React, { ReactElement } from 'react';
+import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import { Address, BinaryCodec } from '@elrondnetwork/erdjs/out';
 import {
   BigUIntType,
@@ -10,18 +10,32 @@ import {
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Box, Typography } from '@mui/material';
+import { withStyles } from '@mui/styles';
 import i18next from 'i18next';
 import startCase from 'lodash/startCase';
 import ExplorerLink from 'components/ExplorerLink';
+import { denomination } from 'config';
+import MemberPresentationWithPhoto from 'pages/Organization/MemberPresentationWithPhoto';
 import { MultisigAction } from './MultisigAction';
 
 import { MultisigActionType } from './MultisigActionType';
 import { multisigContractFunctionNames } from './multisigFunctionNames';
 
+const StyledTypography = withStyles({
+  root: {
+    color: 'rgb(93, 109, 116)',
+    letterSpacing: 0.5
+  }
+})(Typography);
+
 export class MultisigSmartContractCall extends MultisigAction {
   address: Address;
+
   amount: BigUIntValue;
+
   functionName: string;
+
   args: BytesValue[];
 
   constructor(
@@ -75,26 +89,24 @@ export class MultisigSmartContractCall extends MultisigAction {
         return this.getSendTokenDescription();
     }
     return (
-      <>
-        <div className='d-flex flex-wrap transaction'>
-          <span className='mr-1 text-body'>
-            <Ui.Denominate
-              value={this.amount.valueOf().toString()}
-              showLastNonZeroDecimal
-              showLabel
-            />
-          </span>
-          <span className='mr-1'>{i18next.t('to')}</span>
-          <div className='address'>
-            <Ui.Trim text={this.address.bech32()} />
-            <ExplorerLink
-              page={`accounts/${this.address.bech32()}`}
-              text={<FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />}
-              className='link-second-style'
-            />
-          </div>
+      <div className='d-flex flex-wrap transaction'>
+        <span className='mr-1 text-body'>
+          <Ui.Denominate
+            value={this.amount.valueOf().toString()}
+            showLastNonZeroDecimal
+            showLabel
+          />
+        </span>
+        <span className='mr-1'>{i18next.t('to')}</span>
+        <div className='address'>
+          <Ui.Trim text={this.address.bech32()} />
+          <ExplorerLink
+            page={`accounts/${this.address.bech32()}`}
+            text={<FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />}
+            className='link-second-style'
+          />
         </div>
-      </>
+      </div>
     );
   }
 
@@ -113,16 +125,53 @@ export class MultisigSmartContractCall extends MultisigAction {
       .join('\n');
   }
 
-  getSendTokenDescription(): string {
+  getSendTokenDescription(): ReactElement {
     const identifier = this.args[0].valueOf().toString();
     const codec = new BinaryCodec();
     const amount = codec
       .decodeTopLevel<BigUIntValue>(this.args[1].valueOf(), new BigUIntType())
       .valueOf();
 
-    return `${i18next.t('Identifier')}: ${identifier}, ${i18next.t(
-      'Amount'
-    )}: ${amount}`;
+    return (
+      <Box>
+        <h4>
+          <strong>Send Token</strong>
+        </h4>
+        <Box>
+          <StyledTypography variant='subtitle1' sx={{ marginRight: '0.75rem' }}>
+            <strong className='mr-3'>{i18next.t('Identifier')}:</strong>
+            {identifier}{' '}
+          </StyledTypography>
+        </Box>
+        <Box>
+          <StyledTypography
+            sx={{
+              color: 'rgb(93, 109, 116)',
+              letterSpacing: 0.5,
+              marginRight: '0.75rem'
+            }}
+            variant='subtitle1'
+          >
+            <strong className='mr-3'>{i18next.t('Amount')}:</strong>
+            {operations.denominate({
+              input: amount.toString(),
+              denomination,
+              decimals: 4,
+              showLastNonZeroDecimal: true
+            })}{' '}
+          </StyledTypography>
+        </Box>
+        <Box sx={{ display: 'flex' }}>
+          <StyledTypography variant='subtitle1' sx={{ marginRight: '0.75rem' }}>
+            <strong>To: </strong>
+          </StyledTypography>
+          <MemberPresentationWithPhoto
+            memberAddress={this.address}
+            charactersLeftAfterTruncation={20}
+          />
+        </Box>
+      </Box>
+    );
   }
 
   getIssueTokenDescription(): string {

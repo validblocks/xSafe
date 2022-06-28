@@ -6,7 +6,7 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { Grid, IconButton } from '@mui/material';
 import './styles/style.css';
 
-const OrganizationHeader = () => {
+function OrganizationHeader() {
   const { address } = useGetAccountInfo();
 
   return (
@@ -56,6 +56,6 @@ const OrganizationHeader = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
 export default OrganizationHeader;

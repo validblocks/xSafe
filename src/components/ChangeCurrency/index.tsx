@@ -1,16 +1,17 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import './ChangeCurrency.scss';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
-import { useDispatch } from 'react-redux';
-import { selectedCurrencySelector } from 'redux/selectors/currencySelector';
-import { valueInUsdSelector } from 'redux/selectors/currencySelector';
+import {
+  selectedCurrencySelector,
+  valueInUsdSelector
+} from 'redux/selectors/currencySelector';
 import useCurrency from 'utils/useCurrency';
 
-const ChangeCurrency = () => {
+function ChangeCurrency() {
   interface CountryType {
     code: string;
     label: string;
@@ -73,6 +74,6 @@ const ChangeCurrency = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default ChangeCurrency;

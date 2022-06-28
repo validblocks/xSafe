@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 
-const WaitingActions = () => {
+function WaitingActions() {
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
   const useStyles: CallableFunction = useMemo(
@@ -74,17 +74,15 @@ const WaitingActions = () => {
                 justifyContent: 'center'
               }}
             >
-              <Typography
-                variant='h4'
-                component='div'
-                color='text.secondary'
-              >{`${Math.round(75)}%`}</Typography>
+              <Typography variant='h4' component='div' color='text.secondary'>
+                {`${Math.round(75)}%`}
+              </Typography>
             </Box>
           </Box>
         </div>
       </div>
     </div>
   );
-};
+}
 
 export default WaitingActions;

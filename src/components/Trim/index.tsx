@@ -1,5 +1,4 @@
-import React from 'react';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import debounce from 'lodash/debounce';
 
 interface TrimType {
@@ -7,7 +6,7 @@ interface TrimType {
   dataTestId?: string;
 }
 
-const Trim = ({ text, dataTestId = '' }: TrimType) => {
+function Trim({ text, dataTestId = '' }: TrimType) {
   const [overflow, setOverflow] = React.useState(false);
   const trimRef = React.useRef(document.createElement('span'));
   const hiddenTextRef = React.useRef(document.createElement('span'));
@@ -64,6 +63,6 @@ const Trim = ({ text, dataTestId = '' }: TrimType) => {
       )}
     </span>
   );
-};
+}
 
 export default Trim;

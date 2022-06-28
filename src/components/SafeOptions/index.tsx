@@ -4,15 +4,20 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import OtherSafe from 'assets/img/other-safe.png';
 import Safe from 'assets/img/safe.png';
 import { TypographyBold } from 'components/Theme/StyledComponents';
 import addressShorthand from 'helpers/addressShorthand';
+import { uniqueContractAddress } from 'multisigConfig';
+import DeployStepsModal from 'pages/Dashboard/DeployMultisigModal';
 import {
   currencyConvertedSelector,
   selectedCurrencySelector
 } from 'redux/selectors/currencySelector';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
+import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
+import { MultisigContractInfoType } from 'types/multisigContracts';
 import { ProposalsTypes } from 'types/Proposals';
 import {
   ActiveWallet,
@@ -21,13 +26,8 @@ import {
   InactiveWallet,
   SafeOptionsWrapper
 } from './safe-style';
-import { useNavigate } from 'react-router-dom';
-import { uniqueContractAddress } from 'multisigConfig';
-import DeployStepsModal from 'pages/Dashboard/DeployMultisigModal';
-import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
-import { MultisigContractInfoType } from 'types/multisigContracts';
 
-const SafeOptions = ({ closeSafeDropdown }: any) => {
+function SafeOptions({ closeSafeDropdown }: any) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [shortAddress, setShortAddress] = useState('');
@@ -53,7 +53,7 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
   const currencyConverted = useSelector(currencyConvertedSelector);
   const getCurrency = useSelector(selectedCurrencySelector);
   const onEnterClicked = () => {
-    navigate('/multisig/' + uniqueContractAddress);
+    navigate(`/multisig/${uniqueContractAddress}`);
   };
   async function updateMultisigContract(
     newContracts: MultisigContractInfoType[]
@@ -61,11 +61,7 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
     dispatch(setMultisigContracts(newContracts));
   }
   return (
-    <SafeOptionsWrapper
-    // onBlur={() => {
-    //   closeSafeDropdown(false);
-    // }}
-    >
+    <SafeOptionsWrapper>
       <Typography sx={{ p: 2 }} align='left'>
         Safe Options
       </Typography>
@@ -124,6 +120,6 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
       />
     </SafeOptionsWrapper>
   );
-};
+}
 
 export default SafeOptions;

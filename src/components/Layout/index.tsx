@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import {
   AuthenticatedRoutesWrapper,
   refreshAccount,
@@ -9,32 +8,33 @@ import {
 } from '@elrondnetwork/dapp-core';
 import { Box } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getAccountData } from 'apiCalls/accountCalls';
-import PageBreadcrumbs from './Breadcrumb';
 import { getEconomicsData } from 'apiCalls/economicsCalls';
 import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
+import { theme } from 'components/Theme/createTheme';
+import { Main } from 'components/Theme/StyledComponents';
 import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
 import ProposersTable from 'pages/Organization/ProposersTable';
 import { setAccountData } from 'redux/slices/accountSlice';
 import { setEconomics } from 'redux/slices/economicsSlice';
 import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
 import routes, { routeNames } from 'routes';
-('');
 import { accessTokenServices, storageApi } from 'services/accessTokenServices';
 import { TokenWrapper } from '../TokenWrapper';
+import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
 import Navbar from './Navbar';
-import MobileLayout from './Navbar/mobileLayout';
 import Account from './Navbar/Account';
-import { Main } from 'components/Theme/StyledComponents';
-import { theme } from 'components/Theme/createTheme';
+import MobileLayout from './Navbar/mobileLayout';
 import { TopHeader } from './Navbar/navbar-style';
+('');
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+function Layout({ children }: { children: React.ReactNode }) {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
@@ -145,6 +145,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </Main>
     </div>
   );
-};
+}
 
 export default Layout;

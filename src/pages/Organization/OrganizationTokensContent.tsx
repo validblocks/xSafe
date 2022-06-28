@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import OrganizationsTokensTable from './OrganizationTokensTable';
 import OwnershipDistribution from './OwnershipDistribution';
 
-const OrganizationTokensContent = () => {
+function OrganizationTokensContent() {
   return (
     <Box className='d-flex flex-wrap pt-5'>
       <Box className='col-12 col-md-8 p-0 pr-md-4'>
@@ -21,6 +21,6 @@ const OrganizationTokensContent = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default OrganizationTokensContent;

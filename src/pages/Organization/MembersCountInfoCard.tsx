@@ -6,11 +6,7 @@ type Props = {
   memberCount: string;
 };
 
-const MembersCountInfoCard = ({
-  icon,
-  memberTypeTitle,
-  memberCount
-}: Props) => {
+function MembersCountInfoCard({ icon, memberTypeTitle, memberCount }: Props) {
   return (
     <>
       <div className='d-flex align-items-center justify-content-between'>
@@ -22,6 +18,6 @@ const MembersCountInfoCard = ({
       </div>
     </>
   );
-};
+}
 
 export default MembersCountInfoCard;

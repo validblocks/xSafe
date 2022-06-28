@@ -29,7 +29,7 @@ const OrganizationInfoContext = createContext<OrganizationInfoContextType>(
 export const useOrganizationInfoContext = () =>
   useContext(OrganizationInfoContext);
 
-const OrganizationInfoContextProvider = ({ children }: Props) => {
+function OrganizationInfoContextProvider({ children }: Props) {
   const [membersCount, setMembersCount] = useState(0);
   const [quorumCount, setQuorumCount] = useState(0);
 
@@ -43,12 +43,14 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
 
   const currentContract = useSelector(currentMultisigContractSelector);
 
-  const allMemberAddresses = useMemo(() => {
-    return [
-      ...boardMembers.map((item) => ({ role: 'Board Member', member: item })),
-      ...proposers.map((item) => ({ role: 'Proposer', member: item }))
-    ].map((item, idx) => ({ ...item, id: idx }));
-  }, [boardMembers, proposers]);
+  const allMemberAddresses = useMemo(
+    () =>
+      [
+        ...boardMembers.map((item) => ({ role: 'Board Member', member: item })),
+        ...proposers.map((item) => ({ role: 'Proposer', member: item }))
+      ].map((item, idx) => ({ ...item, id: idx })),
+    [boardMembers, proposers]
+  );
 
   useEffect(() => {
     setMembersCount(allMemberAddresses.length);
@@ -58,10 +60,11 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     let isMounted = true;
-    if (!currentContract?.address && address)
+    if (!currentContract?.address && address) {
       return () => {
         isMounted = false;
       };
+    }
 
     currentContract?.address &&
       address &&
@@ -104,6 +107,6 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
       {children}
     </OrganizationInfoContext.Provider>
   );
-};
+}
 
 export default OrganizationInfoContextProvider;
