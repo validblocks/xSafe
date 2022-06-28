@@ -3,6 +3,7 @@ import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { Box, Typography, Button } from '@mui/material';
+import Divider from '@mui/material/Divider';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainButton } from 'components/Theme/StyledComponents';
@@ -26,7 +27,6 @@ import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 import useCurrency from 'utils/useCurrency';
 import { CenteredText } from '../navbar-style';
-import Divider from '@mui/material/Divider';
 
 const TotalBalance = () => {
   const dispatch = useDispatch();

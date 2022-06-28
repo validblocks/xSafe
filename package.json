@@ -7,7 +7,7 @@
   "repository": "@elrondnetwork/multisig",
   "dependencies": {
     "@elrondnetwork/dapp-core": "1.0.12",
-    "@elrondnetwork/dapp-core-internal": "^0.1.11",
+    "@elrondnetwork/dapp-core-internal": "^0.1.14",
     "@elrondnetwork/dapp-utils": "0.1.3",
     "@elrondnetwork/erdjs": "9.0.3",
     "@emotion/react": "^11.9.0",

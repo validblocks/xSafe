@@ -14,6 +14,7 @@ import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoC
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import { Anchor, ReadOnly, MembersBox } from '../navbar-style';
 import TotalBalance from '../TotalBalance';
+import styles from './NavbarAccountDetails.module.css';
 
 const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   const dispatch = useDispatch();
@@ -37,69 +38,84 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
 
   return (
     <Box>
-      <Box sx={{ textAlign: 'center' }}>
-        <Box>
-          <img src={Safe} width='91px' height='91px' />
+      <Box className={styles.navbarAccountDetails}>
+        <Box sx={{ textAlign: 'center' }} className={styles.safeNmembers}>
+          <Box>
+            <img src={Safe} width='70px' height='70px' />
+          </Box>
+          <Box className={styles.membersBox}>
+            <MembersBox>
+              <Typography>{membersCount}</Typography>
+            </MembersBox>
+          </Box>
         </Box>
-        <Box>
-          <MembersBox>
-            <Typography>
-              {membersCount} {membersCount == 1 ? 'Member' : 'Members'}
-            </Typography>
-          </MembersBox>
-        </Box>
-        <Box
-          sx={{ pt: 1 }}
-          className='d-flex justify-content-center align-items-center'
-        >
-          <Typography align='center'>{uniqueAddress}</Typography>
-          {openedSafeSelect === true && (
-            <Box>
-              <ArrowDropUpIcon
-                onClick={() => {
-                  setOpenedSafeSelect(false);
-                }}
-              />
-              <SafeOptions closeSafeDropdown={closeSafeDropdown} />
-            </Box>
-          )}
-          {openedSafeSelect === false && (
-            <Box>
-              <ArrowDropDownIcon
-                onClick={() => {
-                  setOpenedSafeSelect(true);
-                }}
-              />
-            </Box>
-          )}
-        </Box>
-      </Box>
-      <Box className='d-flex justify-content-center' sx={{ pt: 1 }}>
-        <Box onClick={handleQrModal} sx={{ mx: 1, cursor: 'pointer' }}>
-          <QrCode2Icon />
-        </Box>
-        <Box sx={{ mx: 1 }}>
-          <CopyButton text={uniqueContractAddress} />
-        </Box>
-        <Box sx={{ mx: 1 }}>
-          <Anchor
-            href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
-            target='_blank'
-            rel='noreferrer'
-            color='#6c757d'
+        <Box className={styles.uniqueAddressNicons} sx={{ pt: 1, pl: 1 }}>
+          <Box
+            sx={{ pt: 1 }}
+            className='d-flex justify-content-center align-items-center'
           >
-            <ContentPasteSearchIcon />
-          </Anchor>
+            <Typography align='center'>{uniqueAddress}</Typography>
+            {openedSafeSelect === true && (
+              <Box>
+                <ArrowDropUpIcon
+                  onClick={() => {
+                    setOpenedSafeSelect(false);
+                  }}
+                />
+                <SafeOptions closeSafeDropdown={closeSafeDropdown} />
+              </Box>
+            )}
+            {openedSafeSelect === false && (
+              <Box>
+                <ArrowDropDownIcon
+                  onClick={() => {
+                    setOpenedSafeSelect(true);
+                  }}
+                />
+              </Box>
+            )}
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center'
+            }}
+          >
+            <Box
+              onClick={handleQrModal}
+              sx={{
+                mx: 1,
+                cursor: 'pointer'
+              }}
+            >
+              <QrCode2Icon />
+            </Box>
+            <Box sx={{ mx: 1 }}>
+              <CopyButton text={uniqueContractAddress} />
+            </Box>
+            <Box sx={{ mx: 1 }}>
+              <Anchor
+                href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
+                target='_blank'
+                rel='noreferrer'
+                color='#6c757d'
+              >
+                <ContentPasteSearchIcon />
+              </Anchor>
+            </Box>
+          </Box>
+          <ReceiveModal
+            showQrFromSidebar={showQr}
+            address={currentContract?.address}
+            handleQr={handleQrModal}
+          />
         </Box>
-        <ReceiveModal
-          showQrFromSidebar={showQr}
-          address={currentContract?.address}
-          handleQr={handleQrModal}
-        />
+        <Box sx={{ mt: 2 }} className={styles.readOnly}>
+          <ReadOnly sx={{ px: 2 }}>Read-only</ReadOnly>
+        </Box>
       </Box>
-      <Box sx={{ mt: 2 }} className='d-flex justify-content-center'>
-        <ReadOnly sx={{ px: 2 }}>Read-only</ReadOnly>
-      </Box>
+      <hr />
       <TotalBalance />
     </Box>
   );
