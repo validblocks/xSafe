@@ -1,5 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
+import AddIcon from '@mui/icons-material/Add';
+import DoneIcon from '@mui/icons-material/Done';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import {
   Timeline,
   TimelineConnector,
@@ -11,13 +15,14 @@ import {
 } from '@mui/lab';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { makeStyles, withStyles } from '@mui/styles';
+import MemberPresentationWithPhoto from 'pages/Organization/MemberPresentationWithPhoto';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
-import { truncateInTheMiddle } from 'utils/addressUtils';
 import TransactionTechnicalDetails from './TransactionTechnicalDetails';
 
 type Props = Partial<{
   description: React.ReactNode;
   transaction: any;
+  action: any;
   boardMembers: Address[];
   signers: Address[];
 }>;
@@ -31,14 +36,10 @@ const StyledDot = withStyles({ root: { backgroundColor: '#4c2ffc' } })(
 );
 
 const StyledStatusText = withStyles({
-  root: { color: '#4c2ffc', marginTop: '2px' }
+  root: { color: '#4c2ffc', marginTop: '10px' }
 })(Typography);
 
-const TransactionDescription = ({
-  description,
-  transaction,
-  signers = []
-}: Props) => {
+function TransactionDescription({ transaction, action, signers = [] }: Props) {
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
   const useStyles: CallableFunction = useMemo(
@@ -52,13 +53,15 @@ const TransactionDescription = ({
           gridRow: '1 / 2',
           gridColumn: '1 / 2',
           borderBottom: '2px solid #ddd',
-          minHeight: '12rem'
+          minHeight: '12rem',
+          minWidth: '90%'
         },
         child2: {
           gridRow: '1 / 3',
           gridColumn: '2 / 3',
           borderLeft: '2px solid #ddd',
-          padding: '1rem 2rem'
+          padding: '1rem 2rem',
+          minWidth: '33%'
         },
         child3: {
           gridRow: '2 / 3',
@@ -68,64 +71,104 @@ const TransactionDescription = ({
     [isSmallScreen]
   );
 
+  const classes = useStyles();
+  const dotIconStyles = { width: '15px', height: '15px' };
+
+  const [areAllSignersVisible, setShowAllSigners] = useState(false);
+
   const {
     quorumCountState: [quorumCount]
   } = useOrganizationInfoContext();
 
-  const [allSigners, setAllSigners] = useState([] as Address[]);
+  const toggleSignerVisibilityButtonText = useMemo(() => {
+    return areAllSignersVisible ? 'Hide all' : 'Show all';
+  }, [areAllSignersVisible]);
 
-  useEffect(() => {
-    const newSigners = [...signers];
-    if (transaction) newSigners.push(new Address(transaction.sender));
-    setAllSigners(newSigners);
-  }, []);
+  const toggleShowAllSigners = useCallback(() => {
+    setShowAllSigners((areVisible) => !areVisible);
+  }, [areAllSignersVisible]);
 
-  const classes = useStyles();
   return (
     <Box className={classes.container}>
-      <Box sx={{ padding: '2rem' }} className={classes.child1}>
-        {description ?? 'Child1'}
+      <Box
+        sx={{ padding: '2rem', minHeight: '230px !important' }}
+        className={classes.child1}
+      >
+        {action?.description() ?? 'Action description missing'}
       </Box>
       <Box className={classes.child2}>
         <Timeline position='right'>
           <TimelineItem>
             <TimelineOppositeContent sx={{ display: 'none' }} />
             <TimelineSeparator>
-              <StyledDot />
+              <StyledDot>
+                <AddIcon sx={dotIconStyles} />{' '}
+              </StyledDot>
               <StyledConnector />
             </TimelineSeparator>
             <TimelineContent>
               <StyledStatusText>Created</StyledStatusText>
             </TimelineContent>
           </TimelineItem>
-
-          {allSigners.map((signer: Address, idx: number) => {
-            return (
-              <TimelineItem key={signer.hex()}>
+          <TimelineItem>
+            <TimelineOppositeContent sx={{ display: 'none' }} />
+            <TimelineSeparator>
+              <StyledDot>
+                <DoneIcon sx={dotIconStyles} />{' '}
+              </StyledDot>
+              <StyledConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <StyledStatusText>
+                {' '}
+                Confirmations{' '}
+                <span
+                  style={{
+                    color: 'rgb(93, 109, 116)',
+                    marginLeft: '3px'
+                  }}
+                >
+                  ({`${signers.length}/${quorumCount}`})
+                </span>
+              </StyledStatusText>
+            </TimelineContent>
+          </TimelineItem>
+          {areAllSignersVisible &&
+            signers.map((signer: Address) => (
+              <TimelineItem key={signer.bech32().toString()}>
                 <TimelineOppositeContent sx={{ display: 'none' }} />
                 <TimelineSeparator>
-                  <StyledDot />
+                  <StyledDot>
+                    <DoneIcon style={dotIconStyles} />
+                  </StyledDot>
                   <StyledConnector />
                 </TimelineSeparator>
                 <TimelineContent>
-                  <StyledStatusText>Signed by:</StyledStatusText>
-                  <div className='d-flex align-items-center'>
-                    <img
-                      className='mr-3 rounded'
-                      src='https://picsum.photos/30/30?random=1'
-                    />
-                    <div>
-                      <div>{truncateInTheMiddle(signer.bech32(), 10)}</div>
-                      <div>@herotag</div>
-                    </div>
-                  </div>
-                  <Typography className='mt-2'>
-                    {idx + 1} out of {quorumCount}
-                  </Typography>
+                  <MemberPresentationWithPhoto memberAddress={signer} />
                 </TimelineContent>
               </TimelineItem>
-            );
-          })}
+            ))}
+          <TimelineItem>
+            <TimelineOppositeContent sx={{ display: 'none' }} />
+            <TimelineSeparator>
+              <StyledDot>
+                {!areAllSignersVisible ? (
+                  <ExpandMoreIcon sx={dotIconStyles} />
+                ) : (
+                  <ExpandLessIcon sx={dotIconStyles} />
+                )}{' '}
+              </StyledDot>
+              <StyledConnector />
+            </TimelineSeparator>
+            <TimelineContent>
+              <StyledStatusText
+                onClick={toggleShowAllSigners}
+                sx={{ cursor: 'pointer' }}
+              >
+                {toggleSignerVisibilityButtonText}
+              </StyledStatusText>
+            </TimelineContent>
+          </TimelineItem>
 
           <TimelineItem>
             <TimelineOppositeContent sx={{ display: 'none' }} />
@@ -138,10 +181,16 @@ const TransactionDescription = ({
                 variant={
                   transaction?.status === 'success' ? 'filled' : 'outlined'
                 }
-              />
+              >
+                {' '}
+                <DoneIcon sx={dotIconStyles} />{' '}
+              </TimelineDot>
             </TimelineSeparator>
             <TimelineContent>
-              <StyledStatusText>Executed</StyledStatusText>
+              <StyledStatusText sx={{ marginBottom: '5px' }}>
+                Executed
+              </StyledStatusText>
+              <MemberPresentationWithPhoto memberAddress={signers[0]} />
             </TimelineContent>
           </TimelineItem>
         </Timeline>
@@ -152,6 +201,6 @@ const TransactionDescription = ({
       </Box>
     </Box>
   );
-};
+}
 
 export default TransactionDescription;

@@ -1,14 +1,15 @@
 import React from 'react';
+import { Ui } from '@elrondnetwork/dapp-utils';
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import { truncateInTheMiddle } from 'utils/addressUtils';
 import { getDate } from 'utils/transactionUtils';
+import { PairOfTransactionAndDecodedAction } from './TransactionHistory';
 
-type Props = {
-  transaction: any;
-};
-
-const TransactionSummary = ({ transaction }: Props) => {
+function TransactionSummary({
+  transaction,
+  action
+}: PairOfTransactionAndDecodedAction) {
   return (
     <>
       <Box className='d-flex'>
@@ -16,10 +17,11 @@ const TransactionSummary = ({ transaction }: Props) => {
           className='d-flex align-items-center justify-content-center w-100'
           sx={{
             borderRight: '2px solid #dddddd',
-            padding: '1rem'
+            padding: '1rem',
+            minWidth: '60px'
           }}
         >
-          {transaction.nonce}
+          {action?.actionId}
         </Box>
 
         <Box
@@ -31,7 +33,7 @@ const TransactionSummary = ({ transaction }: Props) => {
             minWidth: '230px'
           }}
         >
-          {transaction?.function}
+          {action?.title()}
         </Box>
 
         <Box
@@ -67,7 +69,8 @@ const TransactionSummary = ({ transaction }: Props) => {
               className='mr-2 rounded'
               src='https://picsum.photos/20/20?random=1'
             />
-            {truncateInTheMiddle(transaction.sender, 10)}
+            {/* {truncateInTheMiddle(transaction.sender, 10)} */}
+            <Ui.Trim text={transaction.sender} />
           </div>
         </Box>
       </Box>
@@ -95,6 +98,6 @@ const TransactionSummary = ({ transaction }: Props) => {
       </Box>
     </>
   );
-};
+}
 
 export default TransactionSummary;

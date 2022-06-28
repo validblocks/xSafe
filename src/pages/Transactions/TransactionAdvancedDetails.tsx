@@ -4,7 +4,7 @@ import { Box } from '@mui/system';
 
 type Props = any;
 
-const TransactionAdvancedDetails = ({ transaction }: Props) => {
+function TransactionAdvancedDetails({ transaction }: Props) {
   return (
     <Box>
       <Typography component='div' variant='body1' className='my-1'>
@@ -19,11 +19,13 @@ const TransactionAdvancedDetails = ({ transaction }: Props) => {
         >
           Mini Block Hash: {}
         </Typography>
-        {transaction?.miniBlockHash.slice(0, 15)}...
+        {transaction?.miniBlockHash.slice(0, 15)}
+        ...
         {transaction?.miniBlockHash.slice(
           transaction?.miniBlockHash.length - 15
         )}
       </Typography>
+
       <Typography component='div' className='my-1'>
         <Typography
           component='span'
@@ -34,9 +36,9 @@ const TransactionAdvancedDetails = ({ transaction }: Props) => {
             letterSpacing: 0.5
           }}
         >
-          Nonce:{' '}
+          Function Name:{' '}
         </Typography>
-        {transaction?.nonce}
+        {transaction?.function}
       </Typography>
       <Typography component='div' className='my-1'>
         <Typography
@@ -68,6 +70,6 @@ const TransactionAdvancedDetails = ({ transaction }: Props) => {
       </Typography>
     </Box>
   );
-};
+}
 
 export default TransactionAdvancedDetails;

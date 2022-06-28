@@ -1,13 +1,17 @@
 import React, { useCallback, useState } from 'react';
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
+import CopyButton from 'components/CopyButton';
+import { Anchor } from 'components/Layout/Navbar/navbar-style';
+import { network } from 'config';
 import { getDate } from 'utils/transactionUtils';
 import TransactionAdvancedDetails from './TransactionAdvancedDetails';
 
 type Props = any;
 
-const TransactionTechnicalDetails = ({ transaction }: Props) => {
+function TransactionTechnicalDetails({ transaction }: Props) {
   const [isAdvancedDetailsVisibile, setIsAdvancedDetailsVisible] =
     useState(false);
   const toggleAdvancedDetails = useCallback(
@@ -27,11 +31,23 @@ const TransactionTechnicalDetails = ({ transaction }: Props) => {
             letterSpacing: 0.5
           }}
         >
-          Transaction Hash:
+          <strong>Transaction Hash:</strong>
         </Typography>
-        {transaction?.txHash.slice(0, 15)}...
+        {transaction?.txHash.slice(0, 15)}
+        ...
         {transaction?.txHash.slice(transaction?.txHash.length - 15)}
+        <Anchor
+          href={`${network.explorerAddress}/transactions/${transaction?.txHash}`}
+          target='_blank'
+          rel='noreferrer'
+          color='#6c757d'
+          className='ml-2'
+        >
+          <ContentPasteSearchIcon />
+        </Anchor>
+        <CopyButton text={transaction?.txHash} />
       </Typography>
+
       <Typography component='div' className='my-1'>
         <Typography
           component='span'
@@ -42,23 +58,23 @@ const TransactionTechnicalDetails = ({ transaction }: Props) => {
             letterSpacing: 0.5
           }}
         >
-          Function Name:{' '}
-        </Typography>
-        {transaction?.function}
-      </Typography>
-      <Typography component='div' className='my-1'>
-        <Typography
-          component='span'
-          className='mr-2'
-          variant='body1'
-          sx={{
-            color: 'rgb(93, 109, 116)',
-            letterSpacing: 0.5
-          }}
-        >
-          Timestamp:{' '}
+          <strong>Timestamp: </strong>
         </Typography>
         {dayjs(getDate(transaction?.timestamp)).format('H:mm A')}
+      </Typography>
+      <Typography component='div' className='my-1'>
+        <Typography
+          component='span'
+          className='mr-2'
+          variant='body1'
+          sx={{
+            color: 'rgb(93, 109, 116)',
+            letterSpacing: 0.5
+          }}
+        >
+          <strong>Nonce: </strong>
+        </Typography>
+        {transaction?.nonce}
       </Typography>
       <Button
         variant='text'
@@ -81,6 +97,6 @@ const TransactionTechnicalDetails = ({ transaction }: Props) => {
       )}
     </Box>
   );
-};
+}
 
 export default TransactionTechnicalDetails;
