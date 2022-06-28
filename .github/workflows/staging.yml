@@ -7,7 +7,7 @@ on:
       - 'feature/MultiSig-Staging-PRJ-6013'
 
 jobs:
-  deploy-staging:
+  deploy-staging-non-docker:
     runs-on: [self-hosted]
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -73,6 +73,7 @@ jobs:
         id: Build
         if: success()
         run: |
+          export CI=false
           npm run build
 
       - name: Deploy
