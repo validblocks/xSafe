@@ -55,19 +55,19 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}      
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}      
       
       - uses: actions/setup-node@v2-beta
-      - name: NPM Install
-        id: NPM-Install
+      - name: YARN Install
+        id: YARN-Install
         if: success()
-        run: npm install
+        run: yarn install
 
       # - name: Lint
       #   id: Lint
       #   if: success()
       #   run: |
-      #     npm run lint
+      #     yarn lint
 
       - name: Build
         id: Build
@@ -75,7 +75,7 @@ jobs:
         run: |
           export NODE_OPTIONS="--max-old-space-size=2048"
           export CI=false
-          npm run build
+          yarn build
 
       - name: Deploy
         id: Deploy
