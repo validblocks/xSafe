@@ -1,17 +1,14 @@
 import { RootState } from '../store';
 import { createDeepEqualSelector } from './helpers';
 
-const transactionsSelector = (state: RootState) => {
-  console.log({ state });
-  return state.transactions;
-};
+const transactionsSelector = (state: RootState) => state.transactions;
 
-export const intervalEndTimestamp = createDeepEqualSelector(
+export const intervalEndTimestampSelector = createDeepEqualSelector(
   transactionsSelector,
-  (state) => state.beforeTimestamp
+  (state) => state.intervalEndTimestamp
 );
 
-export const intervalStartTimestamp = createDeepEqualSelector(
+export const intervalStartTimestampSelector = createDeepEqualSelector(
   transactionsSelector,
-  (state) => state.afterTimestamp
+  (state) => state.intervalStartTimestamp
 );
