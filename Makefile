@@ -32,6 +32,7 @@ setup-wallet:
 ifeq "$(SINGLE_WALLET)" "true"
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
+endif
 
 .PHONY: setup-single-wallet
 setup-single-wallet:
