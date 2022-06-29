@@ -1,10 +1,9 @@
 name: multisig-deploy-staging-non-docker
 
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - 'feature/MultiSig-Staging-PRJ-6013'
+workflow_dispatch:
+push:
+  branches:
+    - 'feature/MultiSig-Staging-PRJ-6013'
 
 jobs:
   deploy-staging-non-docker:
