@@ -211,7 +211,11 @@ const TotalBalance = () => {
         className='d-flex justify-content-center'
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
       >
-        <MainButton variant='outlined' onClick={onAddBoardMember}>
+        <MainButton
+          sx={{ textTransform: 'capitalize', fontSize: '15px', pb: 0.3, px: 3 }}
+          variant='outlined'
+          onClick={onAddBoardMember}
+        >
           New Transaction
         </MainButton>
       </Box>
