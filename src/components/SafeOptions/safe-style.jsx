@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 export const SafeOptionsWrapper = styled(Box)`
   position: absolute;
-  margin-left: -150px;
+  margin-left: -185px;
   background: ${(props) => {
     return props.theme.palette.background.white;
   }};
