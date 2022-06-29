@@ -1,9 +1,10 @@
 name: multisig-deploy-staging
 
-workflow_dispatch:
-push:
-  branches:
-    - 'feature/MultiSig-Staging-PRJ-6013'
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'feature/MultiSig-Staging-PRJ-6013'
 
 jobs:
   deploy-staging:
