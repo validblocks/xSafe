@@ -107,6 +107,7 @@ const TransactionQueue = () => {
           <AccordionDetails sx={{ padding: '0' }}>
             <TransactionDescription
               boardMembers={boardMembers}
+              action={action}
               signers={action.signers}
               description={action.description()}
               child3={
