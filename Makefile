@@ -29,9 +29,12 @@ setup-wallet:
 
 	rm -f ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
 
-ifeq "$(SINGLE_WALLET)" "true"
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
+
+ifeq "$(SINGLE_WALLET)" "true"
+	echo "export const uniqueContractAddress = '$(UNIQUE_CONTRACT_ADDRESS)';" >> ./src/multisigConfig.ts
+	echo "export const uniqueContractName = '$(UNIQUE_CONTRACT_NAME)';" >> ./src/multisigConfig.ts
 endif
 
 .PHONY: setup-single-wallet
