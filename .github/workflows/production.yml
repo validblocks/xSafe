@@ -1,13 +1,13 @@
-name: multisig-deploy-staging
+name: multisig-deploy-production
 
 on:
   workflow_dispatch:
   push:
     branches:
-      - 'develop'
+      - 'master'
 
 jobs:
-  deploy-staging:
+  deploy-production:
     runs-on: [self-hosted]
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -21,7 +21,7 @@ jobs:
         id: Checkout
         uses: actions/checkout@master
         with:
-          ref: 'develop'
+          ref: 'master'
         if: success()
 
       - name: Create .env
@@ -39,7 +39,7 @@ jobs:
                   sub(/XXX_NPM_AUTH_TOKEN_XXX/, NPM_AUTH_TOKEN); \
                   print; \
               }' \
-              .env.staging > .env
+              .env.prod > .env
 
       - name: Config setup
         run: |
@@ -48,7 +48,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}      
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
       
       - uses: actions/setup-node@v2-beta
       - name: YARN Install
@@ -76,7 +76,7 @@ jobs:
         uses: up9cloud/action-rsync@v1.1
         if: success()
         env:
-          HOST: staging.control.validblocks.com
+          HOST: control.validblocks.com
           USER: graffino
           KEY: ${{secrets.DEPLOY_SSH_KEY}}
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
@@ -84,17 +84,13 @@ jobs:
           VERBOSE: true
           ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
 
-          TARGET: ~/staging.control.validblocks.com/
+          TARGET: ~/control.validblocks.com/
           SOURCE: ./build/
 
           PRE_SCRIPT: |
             echo "Start at: " $(date -u)
-            cd ~/staging.control.validblocks.com
-            ls
 
           POST_SCRIPT: |
-            cd ~/staging.control.validblocks.com
-            ls
             echo "Stop at: " $(date -u)
 
       - uses: act10ns/slack@v1.2.2
