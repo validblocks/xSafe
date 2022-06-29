@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'feature/MultiSig-Staging-PRJ-6013'
+      - 'master'
 
 jobs:
   deploy-production:
