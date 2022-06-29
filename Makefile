@@ -18,9 +18,24 @@ setup:
 	docker network create proxy || true
 	docker compose up --build -d
 
+.PHONY: setup-wallet
+setup-wallet:
+	rm .npmrc && touch .npmrc
+	echo $(NPMRC) >> .npmrc
+
+	rm ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
+
+	cp -p ./src/config.devnet.ts ./src/config.ts
+
+	rm ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
+
+ifeq "$(SINGLE_WALLET)" "true"
+	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
+	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
+
 .PHONY: setup-single-wallet
 setup-single-wallet:
-	make setup-dev
+	# make setup-dev
 	rm .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
 
