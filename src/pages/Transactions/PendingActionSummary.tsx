@@ -1,15 +1,18 @@
 import React from 'react';
 import { Ui } from '@elrondnetwork/dapp-utils';
-import { Box } from '@mui/material';
-import dayjs from 'dayjs';
-import { truncateInTheMiddle } from 'utils/addressUtils';
-import { getDate } from 'utils/transactionUtils';
-import { PairOfTransactionAndDecodedAction } from './TransactionHistory';
+import PeopleIcon from '@mui/icons-material/People';
+import { Box } from '@mui/system';
+import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
+import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
 
-function TransactionSummary({
-  transaction,
-  action
-}: PairOfTransactionAndDecodedAction) {
+type Props = {
+  action: MultisigActionDetailed;
+};
+
+const PendingActionSummary = ({ action }: Props) => {
+  const {
+    quorumCountState: [quorumCount]
+  } = useOrganizationInfoContext();
   return (
     <>
       <Box className='d-flex'>
@@ -42,16 +45,12 @@ function TransactionSummary({
             padding: '1rem',
             fontSize: '0.85rem',
             display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'center',
+            alignItems: 'center',
             minWidth: '150px'
           }}
         >
-          <div>
-            <strong>Execution Time:</strong>
-          </div>
-          {dayjs(getDate(transaction.timestamp)).format('H:mm A')}
+          <PeopleIcon color='primary' className='mr-2' />
+          {action.signers.length} out of {quorumCount}
         </Box>
 
         <Box
@@ -62,14 +61,14 @@ function TransactionSummary({
           }}
         >
           <div>
-            <strong>Executed by:</strong>
+            <strong>Created by:</strong>
           </div>
           <div className='d-flex align-items-center mt-1'>
             <img
               className='mr-2 rounded'
               src='https://picsum.photos/20/20?random=1'
             />
-            <Ui.Trim text={transaction.sender} />
+            <Ui.Trim text={action.signers[0].bech32()} />
           </div>
         </Box>
       </Box>
@@ -84,19 +83,19 @@ function TransactionSummary({
         <div className='mx-3 d-flex align-items-center justify-content-end'>
           <Box
             sx={{
-              backgroundColor: '#3BE292',
+              backgroundColor: '#f8c651',
               color: '#fff',
               borderRadius: '4px',
               padding: '0.5rem 0.675rem',
               fontWeight: 'bold'
             }}
           >
-            {transaction.status}
+            Pending
           </Box>
         </div>
       </Box>
     </>
   );
-}
+};
 
-export default TransactionSummary;
+export default PendingActionSummary;

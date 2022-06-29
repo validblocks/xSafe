@@ -7,12 +7,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from 'react-query';
 import { useDispatch } from 'react-redux';
 import {
   mutateSign,
   mutateUnsign,
   mutateDiscardAction
 } from 'contracts/MultisigContract';
+import { QueryKeys } from 'react-query/queryKeys';
 import { setSelectedPerformedAction } from 'redux/slices/modalsSlice';
 
 export interface TransactionActionsCardType {
@@ -36,11 +38,11 @@ function TransactionActionsCard({
   canSign = false,
   canUnsign = false,
   canPerformAction = false,
-  canDiscardAction = false,
-  value
+  canDiscardAction = false
 }: TransactionActionsCardType) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const queryClient = useQueryClient();
 
   const sign = () => {
     mutateSign(actionId);
@@ -51,6 +53,8 @@ function TransactionActionsCard({
   };
 
   const performAction = () => {
+    console.log('performAction');
+    queryClient.invalidateQueries(QueryKeys.ALL_PENDING_ACTIONS);
     dispatch(setSelectedPerformedAction({ id: actionId, actionType: type }));
   };
 
