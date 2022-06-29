@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'master'
+      - 'develop'
 
 jobs:
   deploy-production:
@@ -21,7 +21,7 @@ jobs:
         id: Checkout
         uses: actions/checkout@master
         with:
-          ref: 'master'
+          ref: 'develop'
         if: success()
 
       - name: Create .env
@@ -39,11 +39,12 @@ jobs:
                   sub(/XXX_NPM_AUTH_TOKEN_XXX/, NPM_AUTH_TOKEN); \
                   print; \
               }' \
-              .env.prod > .env
+              .env.staging > .env
 
       - name: Config setup
         run: |
           make setup-wallet
+          cat .npmrc
 
       - uses: actions/cache@v2
         with:
