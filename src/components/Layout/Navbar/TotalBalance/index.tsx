@@ -202,8 +202,7 @@ const TotalBalance = () => {
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
         <CenteredText fontSize='12px'>Your Total Balance:</CenteredText>
         <CenteredText fontSize='16px' fontWeight='bold'>
-          {currencyConverted?.toFixed(2)}
-          {getCurrency}
+          {currencyConverted?.toFixed(2)} {getCurrency}
         </CenteredText>
       </Box>
       <Divider orientation='vertical' flexItem />
