@@ -20,14 +20,14 @@ setup:
 
 .PHONY: setup-wallet
 setup-wallet:
-	rm .npmrc && touch .npmrc
+	rm -f .npmrc  && touch .npmrc
 	echo $(NPMRC) >> .npmrc
 
-	rm ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
+	rm -f ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
 
 	cp -p ./src/config.devnet.ts ./src/config.ts
 
-	rm ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
+	rm -f ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
 
 ifeq "$(SINGLE_WALLET)" "true"
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
