@@ -20,7 +20,7 @@ setup:
 
 .PHONY: setup-wallet
 setup-wallet:
-	rm -f .npmrc  && touch .npmrc
+	rm -f .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
 
 	rm -f ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts

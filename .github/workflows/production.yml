@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'master'
+      - 'develop'
 
 jobs:
   deploy-production:
@@ -21,7 +21,7 @@ jobs:
         id: Checkout
         uses: actions/checkout@master
         with:
-          ref: 'master'
+          ref: 'develop'
         if: success()
 
       - name: Create .env
@@ -76,7 +76,7 @@ jobs:
         uses: up9cloud/action-rsync@v1.1
         if: success()
         env:
-          HOST: control.validblocks.com
+          HOST: connect.validblocks.com
           USER: graffino
           KEY: ${{secrets.DEPLOY_SSH_KEY}}
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
