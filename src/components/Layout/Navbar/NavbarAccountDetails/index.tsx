@@ -49,7 +49,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             </MembersBox>
           </Box>
         </Box>
-        <Box className={styles.uniqueAddressNicons} sx={{ pt: 1, pl: 1 }}>
+        <Box className={styles.uniqueAddressNicons} sx={{ pt: 1, ml: 0.7 }}>
           <Box
             sx={{ pt: 1 }}
             className='d-flex justify-content-center align-items-center'
@@ -78,23 +78,23 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'center'
+              flexDirection: 'row'
             }}
           >
             <Box
               onClick={handleQrModal}
               sx={{
-                mx: 1,
+                mr: 1.3,
+                ml: 0.7,
                 cursor: 'pointer'
               }}
             >
               <QrCode2Icon />
             </Box>
-            <Box sx={{ mx: 1 }}>
+            <Box sx={{ mr: 1.3 }}>
               <CopyButton text={uniqueContractAddress} />
             </Box>
-            <Box sx={{ mx: 1 }}>
+            <Box>
               <Anchor
                 href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
                 target='_blank'
@@ -112,7 +112,9 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
           />
         </Box>
         <Box sx={{ mt: 2 }} className={styles.readOnly}>
-          <ReadOnly sx={{ px: 2 }}>Read-only</ReadOnly>
+          <ReadOnly borderRadius='.4rem !important' sx={{ px: 2 }}>
+            Read-only
+          </ReadOnly>
         </Box>
       </Box>
       <hr />
