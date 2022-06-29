@@ -1,4 +1,4 @@
-name: multisig-deploy-staging-non-docker
+name: multisig-deploy-staging
 
 workflow_dispatch:
 push:
@@ -6,7 +6,7 @@ push:
     - 'feature/MultiSig-Staging-PRJ-6013'
 
 jobs:
-  deploy-staging-non-docker:
+  deploy-staging:
     runs-on: [self-hosted]
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
