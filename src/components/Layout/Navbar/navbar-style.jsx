@@ -65,9 +65,9 @@ export const Anchor = styled.a`
 `;
 
 export const MembersBox = styled(Box)`
-  width: 91px;
+  width: 17px;
   margin: auto;
-  background-color: #f0f1fd;
+  background-color: #e4dfff;
   border-radius: ${(props) => {
     return props.theme.shape.radius;
   }};
@@ -75,7 +75,6 @@ export const MembersBox = styled(Box)`
   color: ${(props) => {
     return props.theme.palette.primary.main;
   }};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 export const CenteredText = styled(Typography)`

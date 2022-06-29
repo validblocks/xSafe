@@ -193,14 +193,14 @@ const TotalBalance = () => {
   return (
     <Box
       sx={{
-        py: 1,
+        py: 2,
         px: 2,
         display: { sm: 'block', xs: 'flex' },
         justifyContent: { sm: 'center', xs: 'space-around' }
       }}
     >
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
-        <CenteredText>Your Total Balance:</CenteredText>
+        <CenteredText fontSize='12px'>Your Total Balance:</CenteredText>
         <CenteredText fontSize='16px' fontWeight='bold'>
           {currencyConverted?.toFixed(2)}
           {getCurrency}

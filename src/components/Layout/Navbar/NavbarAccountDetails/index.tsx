@@ -41,19 +41,16 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
       <Box className={styles.navbarAccountDetails}>
         <Box sx={{ textAlign: 'center' }} className={styles.safeNmembers}>
           <Box>
-            <img src={Safe} width='70px' height='70px' />
+            <img src={Safe} width='60px' height='60px' />
           </Box>
           <Box className={styles.membersBox}>
-            <MembersBox>
+            <MembersBox borderRadius='.2rem !important'>
               <Typography>{membersCount}</Typography>
             </MembersBox>
           </Box>
         </Box>
-        <Box className={styles.uniqueAddressNicons} sx={{ pt: 1, ml: 0.7 }}>
-          <Box
-            sx={{ pt: 1 }}
-            className='d-flex justify-content-center align-items-center'
-          >
+        <Box className={styles.uniqueAddressNicons} sx={{ ml: 1 }}>
+          <Box className='d-flex justify-content-center align-items-center'>
             <Typography align='center'>{uniqueAddress}</Typography>
             {openedSafeSelect === true && (
               <Box>
@@ -84,14 +81,14 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             <Box
               onClick={handleQrModal}
               sx={{
-                mr: 1.3,
+                mr: 1.4,
                 ml: 0.7,
                 cursor: 'pointer'
               }}
             >
               <QrCode2Icon />
             </Box>
-            <Box sx={{ mr: 1.3 }}>
+            <Box sx={{ mr: 1.4 }}>
               <CopyButton text={uniqueContractAddress} />
             </Box>
             <Box>
@@ -111,13 +108,13 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             handleQr={handleQrModal}
           />
         </Box>
-        <Box sx={{ mt: 2 }} className={styles.readOnly}>
+        <Box sx={{ mt: 1.2, mb: 2 }} className={styles.readOnly}>
           <ReadOnly borderRadius='.4rem !important' sx={{ px: 2 }}>
             Read-only
           </ReadOnly>
         </Box>
       </Box>
-      <hr />
+      <hr className={styles.horizontalRule} />
       <TotalBalance />
     </Box>
   );
