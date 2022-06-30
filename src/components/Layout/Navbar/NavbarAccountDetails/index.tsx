@@ -3,7 +3,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, Grid, Paper } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import Safe from 'assets/img/safe.png';
 import CopyButton from 'components/CopyButton';
@@ -14,7 +15,6 @@ import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoC
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import { Anchor, ReadOnly, MembersBox } from '../navbar-style';
 import TotalBalance from '../TotalBalance';
-import styles from './NavbarAccountDetails.module.css';
 
 const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   const dispatch = useDispatch();
@@ -38,19 +38,30 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
 
   return (
     <Box>
-      <Box className={styles.navbarAccountDetails}>
-        <Box sx={{ textAlign: 'center' }} className={styles.safeNmembers}>
-          <Box>
+      <Grid
+        container
+        spacing={1}
+        sx={{ mt: 1 }}
+        justifyContent='center'
+        alignItems='center'
+        padding='0px'
+        textAlign='center'
+      >
+        <Grid position='relative' sm={3}>
+          <Box display='table'>
             <img src={Safe} width='60px' height='60px' />
           </Box>
-          <Box className={styles.membersBox}>
+          <Box position='absolute' top='-1.4rem' left='-.5rem'>
             <MembersBox borderRadius='.2rem !important'>
               <Typography>{membersCount}</Typography>
             </MembersBox>
           </Box>
-        </Box>
-        <Box className={styles.uniqueAddressNicons} sx={{ ml: 1 }}>
-          <Box className='d-flex justify-content-center align-items-center'>
+        </Grid>
+        <Grid sx={{ pl: 0 }}>
+          <Box
+            sx={{ ml: 0.5 }}
+            className='d-flex justify-content-center align-items-center'
+          >
             <Typography align='center'>{uniqueAddress}</Typography>
             {openedSafeSelect === true && (
               <Box>
@@ -82,7 +93,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
               onClick={handleQrModal}
               sx={{
                 mr: 1.4,
-                ml: 0.7,
+                ml: 0.2,
                 cursor: 'pointer'
               }}
             >
@@ -107,14 +118,14 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             address={currentContract?.address}
             handleQr={handleQrModal}
           />
-        </Box>
-        <Box sx={{ mt: 1.2, mb: 2 }} className={styles.readOnly}>
+        </Grid>
+        <Grid sx={{ mt: 1.2, mb: 1.1 }} sm={8}>
           <ReadOnly borderRadius='.4rem !important' sx={{ px: 2 }}>
             Read-only
           </ReadOnly>
-        </Box>
-      </Box>
-      <hr className={styles.horizontalRule} />
+        </Grid>
+      </Grid>
+      <hr />
       <TotalBalance />
     </Box>
   );
