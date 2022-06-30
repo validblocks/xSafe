@@ -1,11 +1,6 @@
 import React from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography
-} from '@mui/material';
+import { AccordionDetails, AccordionSummary, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { TransactionAccordion } from 'components/StyledComponents/transactions';
 import TransactionDescription from './TransactionDescription';
