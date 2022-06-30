@@ -39,7 +39,7 @@ endif
 
 .PHONY: setup-single-wallet
 setup-single-wallet:
-	# make setup-dev
+	make setup-dev
 	rm .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
 

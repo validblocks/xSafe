@@ -39,7 +39,7 @@ jobs:
                   sub(/XXX_NPM_AUTH_TOKEN_XXX/, NPM_AUTH_TOKEN); \
                   print; \
               }' \
-              .env.staging > .env
+              .env.prod > .env
 
       - name: Config setup
         run: |
