@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
@@ -9,20 +9,10 @@ export default function useTransactionPermissions(
 ) {
   const {
     quorumCountState: [quorumCount],
-    boardMembersState: [boardMembers],
     isBoardMemberState: [isBoardMember],
     userRole
   } = useOrganizationInfoContext();
   const { address } = useGetAccountInfo();
-
-  // useEffect(() => {
-  //   console.log('search for ', address, ' in ', boardMembers);
-  //   setIsBoardMember(
-  //     boardMembers
-  //       .map((memberAddress) => memberAddress.hex())
-  //       .includes(new Address(address).hex())
-  //   );
-  // }, [address]);
 
   const [canSign, setCanSign] = useState(false);
   const [canPerformAction, setCanPerformAction] = useState(false);

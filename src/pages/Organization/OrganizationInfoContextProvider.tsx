@@ -95,22 +95,24 @@ function OrganizationInfoContextProvider({ children }: Props) {
   }, [currentContract, currentContract?.address]);
 
   useEffect(() => {
-    if (!address) return;
+    let isMounted = true;
+    if (!address)
+      return () => {
+        isMounted = false;
+      };
+
     const boardMembersAddressHex = boardMembers.map((memberAddress) =>
       memberAddress.hex()
     );
 
-    boardMembers.forEach((a) => console.log(a.bech32()));
-    console.log(
-      'search for ',
-      new Address(address).hex(),
-      ' in ',
-      boardMembersAddressHex
-    );
+    isMounted &&
+      setIsBoardMember(
+        boardMembersAddressHex.includes(new Address(address).hex())
+      );
 
-    setIsBoardMember(
-      boardMembersAddressHex.includes(new Address(address).hex())
-    );
+    return () => {
+      isMounted = false;
+    };
   }, [address, boardMembers]);
 
   return (

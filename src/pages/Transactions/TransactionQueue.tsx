@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -37,6 +37,7 @@ const TransactionQueue = () => {
   const [actionsForCurrentPage, setActionsForCurrentPage] = useState<
     MultisigActionDetailed[]
   >([]);
+  const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const {
     boardMembersState: [boardMembers]
@@ -46,15 +47,23 @@ const TransactionQueue = () => {
     data: allPendingActions,
     isLoading,
     isFetching,
-    isError,
-    refetch
+    isError
   } = useQuery(
     QueryKeys.ALL_PENDING_ACTIONS,
     () => queryAllActions().then((resp) => resp),
     {
-      // ...USE_QUERY_DEFAULT_CONFIG,
+      ...USE_QUERY_DEFAULT_CONFIG
     }
   );
+
+  const reversedActions = useMemo(() => {
+    return actionsForCurrentPage.slice().reverse();
+  }, [actionsForCurrentPage]);
+
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
 
   if (isLoading || isFetching) {
     return <LoadingDataIndicator dataName='action' />;
@@ -66,12 +75,14 @@ const TransactionQueue = () => {
 
   return (
     <>
-      {actionsForCurrentPage.reverse().map((action) => (
+      {reversedActions.map((action) => (
         <TransactionAccordion
           key={action.actionId}
           sx={{
             overflow: 'scroll'
           }}
+          onChange={handleChange(action.actionId.toString())}
+          expanded={expanded === action.actionId.toString()}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}

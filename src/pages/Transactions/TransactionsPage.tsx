@@ -54,7 +54,6 @@ function a11yProps(index: number) {
 
 export default function TransactionsPage() {
   const [value, setValue] = React.useState(0);
-  const globalIntervalEndTimestamp = useSelector(intervalEndTimestampSelector);
   const globalIntervalStartTimestamp = useSelector(
     intervalStartTimestampSelector
   );

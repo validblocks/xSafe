@@ -130,6 +130,7 @@ function TotalBalance() {
   }, [currentContract]);
 
   const totalValue = () => {
+    let isMounted = true;
     const arrayOfUsdValues: Array<number> = [];
     let egldTokenPrice: any = 0;
     let egldTokensAmount = 0;
@@ -146,7 +147,7 @@ function TotalBalance() {
           const egldTotalPrice = egldTokenPrice * egldTokensAmount;
 
           const denominatedEgldPrice = operations.denominate({
-            input: egldTotalPrice.toString(),
+            input: egldTotalPrice.toString() ?? '0',
             denomination: 18,
             decimals: 4,
             showLastNonZeroDecimal: true
@@ -156,15 +157,16 @@ function TotalBalance() {
       });
     }
 
-    if (arrayOfUsdValues.length > 0) {
-      setTotalUsdValue(
-        arrayOfUsdValues.reduce((x: number, y: number) => x + y)
-      );
+    if (arrayOfUsdValues && arrayOfUsdValues.length > 0) {
+      isMounted &&
+        setTotalUsdValue(
+          arrayOfUsdValues.reduce((x: number, y: number) => x + y)
+        );
     }
-  };
 
-  const setCurrency = (data: string) => {
-    setSelectedCurrency(data);
+    return () => {
+      isMounted = false;
+    };
   };
 
   useEffect(() => {

@@ -79,7 +79,8 @@ function TransactionDescription({
         },
         child3: {
           gridRow: '2 / 3',
-          gridColumn: '1 / 2'
+          gridColumn: '1 / 2',
+          padding: '1rem 2rem'
         }
       }),
     [isSmallScreen]
