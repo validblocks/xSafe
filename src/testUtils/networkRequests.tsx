@@ -1,7 +1,7 @@
 import * as rawData from './rawData';
 
 export interface MockImplementationType {
-  networkRequests?: { [key: string]: () => Promise<any> };
+  networkRequests?: { [key: string]: () => Promise<unknown> };
 }
 
 const mockImplementation = ({ networkRequests }: MockImplementationType) => {
@@ -12,7 +12,7 @@ const mockImplementation = ({ networkRequests }: MockImplementationType) => {
     ...networkRequests,
   };
 
-  return (url: string): any => {
+  return (url: string) => {
     switch (true) {
       case url.includes('/address/'):
         return requests.accountBalance();
@@ -20,6 +20,7 @@ const mockImplementation = ({ networkRequests }: MockImplementationType) => {
         return requests.transactions();
       case url.includes('/network/config'):
         return requests.networkConfig();
+      default: return Promise.reject(new Error('Not implemented'));
     }
   };
 };

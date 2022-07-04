@@ -1,5 +1,8 @@
+/* eslint-disable react/jsx-no-bind */
+// eslint-disable-next-line no-use-before-define
 import React, { useState } from 'react';
 import { Ui } from '@elrondnetwork/dapp-utils';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import {
   faPencilAlt,
   faExternalLinkAlt,
@@ -15,12 +18,10 @@ import {
 import { ReactComponent as Wallet } from 'assets/img/wallet-logo.svg';
 import TrustedBadge from 'components/TrustedBadge';
 import { network } from 'config';
-import { uniqueContractAddress } from 'src/multisigConfig';
-import {
-  setMultisigContracts,
-  updateMultisigContract,
-} from '@redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'types/multisigContracts';
+import { Box } from '@mui/material';
+import { uniqueContractAddress } from 'multisigConfig';
+import { setMultisigContracts, updateMultisigContract } from '../../redux/slices/multisigContractsSlice';
 import ConfirmUnregisterModal from './ConfirmUnregisterModal';
 import EditContractNameModal from './EditContractNameModal';
 
@@ -76,7 +77,7 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
     navigate(`/multisig/${contract.address}`);
   };
 
-  const onUnregisterContract = async (e: any) => {
+  const onUnregisterContract = async (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
     const newContracts = await removeContractFromMultisigContractsList(
@@ -88,16 +89,16 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
   return (
     <button onClick={onEnterClicked} className="bg-white">
       {!uniqueContractAddress && (
-        <div
-          onClick={handleOpenUnregisterModal}
+        <Box
+          onClick={(e: React.MouseEvent) => handleOpenUnregisterModal(e)}
           className="position-absolute unregister-icon"
         >
           <FontAwesomeIcon
-            icon={faTimes}
+            icon={faTimes as IconProp}
             size="lg"
             className="link-second-style"
           />
-        </div>
+        </Box>
       )}
       <div className="d-flex icon">
         <Wallet className="logo" />
@@ -106,10 +107,10 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
         <div className="wallet-details">
           {contract.name && (
             <div className="d-flex justify-content-center">
-              <h5 onClick={handleOpenEditNameModal} className="name mb-20">
+              <button onClick={handleOpenEditNameModal} className="name mb-20">
                 {contract.name}
-                <FontAwesomeIcon className="edit-icon" icon={faPencilAlt} />
-              </h5>
+                <FontAwesomeIcon className="edit-icon" icon={faPencilAlt as IconProp} />
+              </button>
             </div>
           )}
 
@@ -127,7 +128,7 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
               rel="noreferrer"
               className="link-second-style ml-2"
             >
-              <FontAwesomeIcon icon={faExternalLinkAlt} size="lg" />
+              <FontAwesomeIcon icon={faExternalLinkAlt as IconProp} size="lg" />
             </a>
           </div>
           <ConfirmUnregisterModal

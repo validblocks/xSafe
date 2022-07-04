@@ -12,19 +12,11 @@ export const minGasLimit = 50_000;
 export const maxGasLimit = 1499999999;
 
 export const walletConnectBridge = 'https://bridge.walletconnect.org';
-export const walletConnectDeepLink = 'https://maiar.page.link/?apn=com.elrond.maiar.wallet&isi=1519405832&ibi=com.elrond.maiar.wallet.dev&link=https://maiar.com/';
+export const walletConnectDeepLink =
+  'https://maiar.page.link/?apn=com.elrond.maiar.wallet&isi=1519405832&ibi=com.elrond.maiar.wallet.dev&link=https://maiar.com/';
 
-export const issueTokenContractAddress = 'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u';
-
-export const network: NetworkType = {
-  id: 'testnet',
-  name: 'Testnet',
-  egldLabel: 'xEGLD',
-  walletAddress: 'https://testnet-wallet.elrond.com/dapp/init',
-  apiAddress: 'https://testnet-api.elrond.com',
-  gatewayAddress: 'https://testnet-gateway.elrond.com',
-  explorerAddress: 'http://testnet-explorer.elrond.com',
-};
+export const issueTokenContractAddress =
+  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u';
 
 const networkSchema = object({
   id: string().defined().required(),
@@ -37,6 +29,16 @@ const networkSchema = object({
 }).required();
 
 export type NetworkType = InferType<typeof networkSchema>;
+
+export const network: NetworkType = {
+  id: 'testnet',
+  name: 'Testnet',
+  egldLabel: 'xEGLD',
+  walletAddress: 'https://testnet-wallet.elrond.com/dapp/init',
+  apiAddress: 'https://testnet-api.elrond.com',
+  gatewayAddress: 'https://testnet-gateway.elrond.com',
+  explorerAddress: 'http://testnet-explorer.elrond.com',
+};
 
 networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
   console.error(`Config invalid format for ${network.id}`, errors);

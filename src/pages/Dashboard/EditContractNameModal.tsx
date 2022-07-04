@@ -49,7 +49,7 @@ const EditContractNameModal = ({
           </p>
 
           <div className="modal-control-container">
-            <label>
+            <label htmlFor="name">
               {t('Name')}
               :
               {' '}

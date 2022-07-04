@@ -1,10 +1,10 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import PageState from 'components/PageState';
-import { notificationModalSelector } from '@redux/selectors/modalsSelector';
-import { clearNotificationModal } from '@redux/slices/modalsSlice';
+import { notificationModalSelector } from '../../redux/selectors/modalsSelector';
+import { clearNotificationModal } from '../../redux/slices/modalsSlice';
 
 const NotificationModal = () => {
   const notificationModal = useSelector(notificationModalSelector);
@@ -25,7 +25,7 @@ const NotificationModal = () => {
   };
 
   return (
-    <>
+    <div>
       {showModal && notificationModal && (
         <Modal
           show={showModal}
@@ -37,12 +37,13 @@ const NotificationModal = () => {
         >
           <div className="card w-100 notification-modal">
             <PageState
-              icon={notificationModal.icon}
+              icon={notificationModal.icon as IconProp}
               iconClass={notificationModal.iconClassName}
               iconBgClass="p-4 rounded-bg-circle"
               iconSize="3x"
               title={notificationModal.title}
               description={notificationModal.description}
+              // eslint-disable-next-line react/jsx-curly-brace-presence
               action={(
                 <button
                   className="btn btn-primary"
@@ -52,12 +53,12 @@ const NotificationModal = () => {
                 >
                   Done
                 </button>
-              )}
+)}
             />
           </div>
         </Modal>
       )}
-    </>
+    </div>
   );
 };
 

@@ -3,13 +3,14 @@ import { getAddress } from '@elrondnetwork/dapp-core';
 import axios, { AxiosError } from 'axios';
 import uniqBy from 'lodash/uniqBy';
 import { network } from 'config';
-import { verifiedContractsHashes } from 'helpers/constants';
+// import { verifiedContractsHashes } from 'helpers/constants';
 import {
   accessTokenServices,
   maiarIdApi,
   storageApi,
 } from 'services/accessTokenServices';
 import { MultisigContractInfoType } from 'types/multisigContracts';
+import { verifiedContractsHashes } from 'helpers/constants';
 
 const contractsInfoStorageEndpoint = `${storageApi}/settings/multisig`;
 
@@ -47,7 +48,7 @@ multisigAxiosInstance.interceptors.response.use(
 );
 export async function getUserMultisigContractsList(): Promise<
   MultisigContractInfoType[]
-  > {
+> {
   try {
     const response = await multisigAxiosInstance.get(
       contractsInfoStorageEndpoint,

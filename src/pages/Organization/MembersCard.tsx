@@ -15,7 +15,7 @@ const MembersCard = () => {
     boardMembersState: [boardMembers],
   } = useOrganizationInfoContext();
 
-  const { t }: { t: any } = useTranslation();
+  const { t } = useTranslation();
 
   const memberTypes = [
     {
@@ -46,17 +46,19 @@ const MembersCard = () => {
             item
             xs={6}
           >
-            <h1 className="mr-4 mb-0 d-flex align-items-center justify-content-center">
-              {membersCount}
-            </h1>
-            <h3 className="mb-0 d-flex justify-content-center align-items-center">
-              {t('Total members')}
-            </h3>
+            <div>
+              <h1 className="mr-4 mb-0 d-flex align-items-center justify-content-center">
+                {membersCount}
+              </h1>
+              <h3 className="mb-0 d-flex justify-content-center align-items-center">
+                ${t('Total members')}
+              </h3>
+            </div>
           </Grid>
           <Grid item className="d-flex justify-content-center" xs={6}>
             <img
               src="https://picsum.photos/150/150?random=1"
-              alt="Total members image"
+              alt="Total members"
               className="rounded"
             />
           </Grid>
@@ -64,8 +66,8 @@ const MembersCard = () => {
       </div>
       <div className="px-5 py-5">
         <Grid container direction="column">
-          {memberTypes.map((item, idx) => (
-            <Grid key={idx} className="d-flex justify-content-between p-2" item>
+          {memberTypes.map((item) => (
+            <Grid key={item.memberCount + item.memberTypeTitle} className="d-flex justify-content-between p-2" item>
               <MembersCountInfoCard
                 icon={item.icon}
                 memberCount={item.memberCount}

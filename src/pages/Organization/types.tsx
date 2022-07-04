@@ -1,4 +1,4 @@
-import { Address, Balance } from '@elrondnetwork/erdjs/out';
+import { Address } from '@elrondnetwork/erdjs/out';
 
 export type MemberAddressTableRow = {
   id: number;

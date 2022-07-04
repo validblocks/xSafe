@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+// eslint-disable-next-line no-use-before-define
+import React, { useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import './network.scss';
 import MenuItem from '@mui/material/MenuItem';

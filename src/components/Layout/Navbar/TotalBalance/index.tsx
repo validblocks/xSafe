@@ -169,7 +169,7 @@ const TotalBalance = () => {
 
   useEffect(() => {
     dispatch(setValueInUsd(totalUsdValue));
-  }, [totalUsdValue]);
+  }, [dispatch, totalUsdValue]);
 
   const currencyConverted = useSelector(currencyConvertedSelector);
 

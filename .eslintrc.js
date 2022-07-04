@@ -90,6 +90,12 @@ module.exports = {
     'react/button-has-type': 'off',
     'implicit-arrow-linebreak': 'off',
     'import/no-cycle': 'off',
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: ['**/setupTests.ts'],
+      },
+    ],
   },
   // ignore the root js config files
   ignorePatterns: ['/*.js', 'src/services/accessTokenServices.ts'],
@@ -115,6 +121,7 @@ module.exports = {
           ['@redux', './src/redux'],
           ['apiCalls', './src/apiCalls'],
           ['routes', './src/routes'],
+          ['multisigConfig', './src/multisigConfig'],
         ],
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
       },

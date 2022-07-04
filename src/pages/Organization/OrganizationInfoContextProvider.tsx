@@ -8,8 +8,8 @@ import {
   queryQuorumCount,
   queryUserRole,
 } from 'contracts/MultisigContract';
-import { currentMultisigContractSelector } from '@redux/selectors/multisigContractsSelectors';
 import useFetch from 'utils/useFetch';
+import { currentMultisigContractSelector } from '../../redux/selectors/multisigContractsSelectors';
 import { OrganizationInfoContextType, TokenWithPrice } from './types';
 
 type Props = {
@@ -54,7 +54,7 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     let isMounted = true;
-    if (!currentContract?.address) {
+    if (!address || !currentContract?.address) {
       return () => {
         isMounted = false;
       };
@@ -96,7 +96,7 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
         userRole: userRole as number,
         tokenPrices: tokenPrices as unknown as TokenWithPrice[],
         allMemberAddresses,
-      }))}
+      }), [membersCount, boardMembers, quorumCount, proposers, userRole, tokenPrices, allMemberAddresses])}
     >
       {children}
     </OrganizationInfoContext.Provider>
