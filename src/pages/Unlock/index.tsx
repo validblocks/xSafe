@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { DappUI, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { faArrowRight, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { style } from '@mui/system';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
 import { ReactComponent as IconElrond } from 'assets/img/icon-elrond.svg';
@@ -57,6 +58,19 @@ const Unlock = () => {
       });
   }, []);
 
+  const [bgColor, setBgColor] = useState('');
+  const [textColor, setTextColor] = useState('');
+
+  const hoverOn = () => {
+    setBgColor('#4C2FFC');
+    setTextColor('#FFFF');
+  };
+
+  const hoverOff = () => {
+    setBgColor('#FFFF');
+    setTextColor('black');
+  };
+
   const loginParams = {
     callbackRoute: routeNames.dashboard,
     token,
@@ -67,6 +81,7 @@ const Unlock = () => {
   if (loginMethod != '') {
     return <Navigate to={routeNames.dashboard} />;
   }
+
   return (
     <div className='unlock-page m-auto'>
       <div className='card unlock text-center'>
@@ -77,10 +92,14 @@ const Unlock = () => {
             href='https://chrome.google.com/webstore/detail/dngmlblcodfobpdpecaadgfbcggfjfnm?authuser=0&hl=en'
             target='_blank'
             className='btn btn-unlock btn-block'
+            style={{ backgroundColor: `${bgColor}` }}
+            onMouseEnter={() => hoverOn()}
+            onMouseLeave={() => hoverOff()}
           >
             <div className='d-flex justify-content-between align-items-center'>
-              <div className='title'>Maiar DeFi Wallet</div>
-              <FontAwesomeIcon icon={faArrowRight} />
+              <div className='title' style={{ color: `${textColor}` }}>
+                Maiar DeFi Wallet
+              </div>
             </div>
           </a>
         )}

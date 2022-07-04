@@ -29,3 +29,9 @@ export const Main = styled.main`
     return props.theme.palette.background.default;
   }};
 `;
+
+export const AccountButton = styled.div`
+  &:hover ${Button} {
+    background-color: red;
+  }
+`;
