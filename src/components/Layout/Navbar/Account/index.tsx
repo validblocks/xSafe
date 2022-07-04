@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getIsLoggedIn, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { Box, Button } from '@mui/material';
@@ -49,22 +49,46 @@ const Account = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setIsMainButtonActive(true);
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setIsMainButtonActive(false);
   };
+  const [isMainButtonActive, setIsMainButtonActive] = useState(false);
+
+  const MAIN_BUTTON_DEFAULT_STYLE = useMemo(
+    () => ({
+      pr: 1.7,
+      pl: 1,
+      py: 1.2
+    }),
+    []
+  );
+  const MAIN_BUTTON_VARIABLE_STYLE = useMemo(
+    () => ({
+      backgroundColor: isMainButtonActive ? '#4C2FFC !important' : '',
+      color: isMainButtonActive ? '#FFFF !important' : ''
+    }),
+    [isMainButtonActive]
+  );
   return (
     <div className='mr-2'>
       <Box>
-        <MainButton variant='outlined' onClick={handleClick} size='large'>
+        <MainButton
+          variant='outlined'
+          onClick={handleClick}
+          size='large'
+          sx={{ ...MAIN_BUTTON_DEFAULT_STYLE, ...MAIN_BUTTON_VARIABLE_STYLE }}
+        >
           {loggedIn ? (
             <Box className='d-flex'>
               <BoltIcon />
               <Typography>{walletAddress}</Typography>
             </Box>
           ) : (
-            <Box className='d-flex'>
+            <Box className='d-flex' sx={{ textTransform: 'capitalize' }}>
               <BoltIcon />
               <Typography>Connect</Typography>
             </Box>
