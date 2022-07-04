@@ -121,16 +121,6 @@ export const TopMenu = styled(Box)`
   overflow-y: scroll;
   height: 100%;
   z-index: 0;
-  &:after {
-    content: '';
-    box-shadow: 0px -26px 31px 0px rgba(100, 100, 111, 0.3);
-    width: 100%;
-    height: 40px;
-    display: block;
-    position: absolute;
-    bottom: 75px;
-    z-index: 9;
-  }
 `;
 
 export const ListItem = styled(ListItemButton)`

@@ -1,16 +1,16 @@
 import React from 'react';
 import AdjustOutlinedIcon from '@mui/icons-material/AdjustOutlined';
+import AppsIcon from '@mui/icons-material/Apps';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined';
 import DiamondIcon from '@mui/icons-material/Diamond';
-import GridViewSharpIcon from '@mui/icons-material/GridViewSharp';
 import GroupsIcon from '@mui/icons-material/Groups';
 import HelpIcon from '@mui/icons-material/Help';
 import InfoIcon from '@mui/icons-material/Info';
-import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MapsHomeWorkRoundedIcon from '@mui/icons-material/MapsHomeWorkRounded';
+import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import PeopleIcon from '@mui/icons-material/People';
-import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 const topItems = [
   {
@@ -34,22 +34,22 @@ const topItems = [
   {
     name: 'Transactions',
     link: 'transactions',
-    icon: <CompareArrowsOutlinedIcon />
+    icon: <CompareArrowsOutlinedIcon sx={{ transform: 'rotate(90deg)' }} />
   },
   {
     name: 'Address Book',
     link: 'address-book',
-    icon: <MenuBookIcon />
+    icon: <MenuBookRoundedIcon />
   },
   {
     name: 'Apps',
     link: 'apps',
-    icon: <GridViewSharpIcon />
+    icon: <AppsIcon />
   },
   {
     name: 'Organization',
     link: 'organization',
-    icon: <MapsHomeWorkIcon />,
+    icon: <MapsHomeWorkRoundedIcon />,
     id: 'panel2',
     submenu: [
       {
@@ -75,7 +75,7 @@ const bottomItems = [
   {
     name: 'Settings',
     link: 'settings',
-    icon: <SettingsApplicationsIcon />
+    icon: <SettingsIcon />
   },
   { name: 'Help Center', link: 'help-center', icon: <HelpIcon /> }
 ];
@@ -106,12 +106,12 @@ const mobileBottomItems = [
   {
     name: 'Apps',
     link: 'apps',
-    icon: <GridViewSharpIcon />
+    icon: <AppsIcon />
   },
   {
     name: 'Address Book',
     link: 'address-book',
-    icon: <MenuBookIcon />
+    icon: <MenuBookRoundedIcon />
   }
 ];
 

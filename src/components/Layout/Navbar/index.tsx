@@ -138,13 +138,14 @@ export default function MiniDrawer() {
                       sx={{
                         minHeight: 48,
                         justifyContent: open ? 'initial' : 'center',
-                        px: 2.5
+                        px: 2.5,
+                        color: '#08041D'
                       }}
                     >
                       <ListItemIcon
                         sx={{
                           minWidth: 0,
-                          mr: open ? 3 : 'auto',
+                          mr: open ? 1 : 'auto',
                           justifyContent: 'center'
                         }}
                       >
@@ -152,7 +153,10 @@ export default function MiniDrawer() {
                       </ListItemIcon>
                       <ListItemText
                         primary={el.name}
-                        sx={{ opacity: open ? 1 : 0 }}
+                        sx={{
+                          opacity: open ? 1 : 0,
+                          color: '#08041D'
+                        }}
                       />
                     </ListItem>
                   </MenuAccordion>
@@ -207,13 +211,14 @@ export default function MiniDrawer() {
                     sx={{
                       minHeight: 48,
                       justifyContent: open ? 'initial' : 'center',
-                      px: 2.5
+                      px: 2.5,
+                      color: '#08041D'
                     }}
                   >
                     <ListItemIcon
                       sx={{
                         minWidth: 0,
-                        mr: open ? 3 : 'auto',
+                        mr: open ? 1 : 'auto',
                         justifyContent: 'center'
                       }}
                     >
@@ -246,13 +251,14 @@ export default function MiniDrawer() {
                   sx={{
                     minHeight: 48,
                     justifyContent: open ? 'initial' : 'center',
-                    px: 2.5
+                    px: 2.5,
+                    color: '#08041D'
                   }}
                 >
                   <ListItemIcon
                     sx={{
                       minWidth: 0,
-                      mr: open ? 3 : 'auto',
+                      mr: open ? 1 : 'auto',
                       justifyContent: 'center'
                     }}
                   >
