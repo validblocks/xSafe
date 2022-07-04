@@ -1,5 +1,7 @@
 import React from 'react';
 import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
+// import { theme } from 'components/StyledComponents/createTheme';
+import { createTheme, CssBaseline } from '@mui/material';
 // import { ThemeProvider } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
@@ -11,6 +13,7 @@ import { Provider as ReduxProvider } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ThemeProvider } from 'styled-components';
+import { theme } from 'components/Theme/createTheme';
 import { germanTranslations } from 'i18n/de';
 import { englishTranslations } from 'i18n/en';
 import OrganizationInfoContextProvider from 'pages/Organization/OrganizationInfoContextProvider';
@@ -21,9 +24,6 @@ import PageNotFound from './components/PageNotFound';
 import routes from './routes';
 
 import '@elrondnetwork/dapp-core/build/index.css';
-// import { theme } from 'components/StyledComponents/createTheme';
-import { createTheme, CssBaseline } from '@mui/material';
-import { theme } from 'components/Theme/createTheme';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);

@@ -58,7 +58,7 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     let isMounted = true;
-    if (!currentContract?.address)
+    if (!address || !currentContract?.address)
       return () => {
         isMounted = false;
       };
