@@ -2,8 +2,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 import {
   Timeline,
@@ -30,10 +28,6 @@ type Props = Partial<{
   child2?: React.ReactElement;
   child3?: React.ReactElement;
 }>;
-
-const StyledConnector = withStyles({ root: { backgroundColor: '#4c2ffc' } })(
-  TimelineConnector
-);
 
 const StyledDot = withStyles({ root: { backgroundColor: '#4c2ffc' } })(
   TimelineDot
@@ -63,24 +57,17 @@ function TransactionDescription({
         child1: {
           gridRow: '1 / 2',
           gridColumn: '1 / 2',
-          borderBottom: '2px solid #ddd',
-          borderTop: '2px solid #ddd',
-          minHeight: '12rem',
+          borderTop: '1px solid #D6DAF1',
           minWidth: '90%',
           padding: '2rem'
         },
         child2: {
           gridRow: '1 / 3',
           gridColumn: '2 / 3',
-          borderLeft: '2px solid #ddd',
-          borderTop: '2px solid #ddd',
+          borderLeft: '1px solid #D6DAF1',
+          borderTop: '1px solid #D6DAF1',
           padding: '1rem 2rem',
           minWidth: '33%'
-        },
-        child3: {
-          gridRow: '2 / 3',
-          gridColumn: '1 / 2',
-          padding: '1rem 2rem'
         }
       }),
     [isSmallScreen]
@@ -105,8 +92,13 @@ function TransactionDescription({
 
   return (
     <Box className={classes.container}>
-      <Box sx={{ minHeight: '230px !important' }} className={classes.child1}>
-        {(child1 || action?.description()) ?? 'Action description missing'}
+      <Box className={classes.child1}>
+        <Box sx={{ marginBottom: '2rem' }}>
+          {(child1 || action?.description()) ?? 'Action description missing'}
+        </Box>
+        <Box>
+          {child3 || <TransactionTechnicalDetails transaction={transaction} />}
+        </Box>
       </Box>
       <Box className={classes.child2}>
         {child2 || (
@@ -117,7 +109,7 @@ function TransactionDescription({
                 <StyledDot>
                   <AddIcon sx={dotIconStyles} />{' '}
                 </StyledDot>
-                <StyledConnector />
+                <TimelineConnector />
               </TimelineSeparator>
               <TimelineContent>
                 <StyledStatusText>Created</StyledStatusText>
@@ -129,7 +121,7 @@ function TransactionDescription({
                 <StyledDot>
                   <DoneIcon sx={dotIconStyles} />{' '}
                 </StyledDot>
-                <StyledConnector />
+                <TimelineConnector />
               </TimelineSeparator>
               <TimelineContent>
                 <StyledStatusText>
@@ -151,10 +143,8 @@ function TransactionDescription({
                 <TimelineItem key={signer.bech32().toString()}>
                   <TimelineOppositeContent sx={{ display: 'none' }} />
                   <TimelineSeparator>
-                    <StyledDot>
-                      <DoneIcon style={dotIconStyles} />
-                    </StyledDot>
-                    <StyledConnector />
+                    <TimelineDot sx={{ marginLeft: '7px' }}></TimelineDot>
+                    <TimelineConnector sx={{ marginLeft: '7px' }} />
                   </TimelineSeparator>
                   <TimelineContent>
                     <MemberPresentationWithPhoto memberAddress={signer} />
@@ -164,22 +154,16 @@ function TransactionDescription({
             <TimelineItem>
               <TimelineOppositeContent sx={{ display: 'none' }} />
               <TimelineSeparator>
-                <StyledDot>
-                  {!areAllSignersVisible ? (
-                    <ExpandMoreIcon sx={dotIconStyles} />
-                  ) : (
-                    <ExpandLessIcon sx={dotIconStyles} />
-                  )}{' '}
-                </StyledDot>
-                <StyledConnector />
+                <TimelineDot sx={{ marginLeft: '7px' }}></TimelineDot>
+                <TimelineConnector sx={{ marginLeft: '7px' }} />
               </TimelineSeparator>
               <TimelineContent>
-                <StyledStatusText
+                <Typography
                   onClick={toggleShowAllSigners}
-                  sx={{ cursor: 'pointer' }}
+                  sx={{ cursor: 'pointer', marginTop: '2px' }}
                 >
                   {toggleSignerVisibilityButtonText}
-                </StyledStatusText>
+                </Typography>
               </TimelineContent>
             </TimelineItem>
 
@@ -199,7 +183,9 @@ function TransactionDescription({
                   {transaction?.status === 'success' ? (
                     <DoneIcon sx={dotIconStyles} />
                   ) : (
-                    <HourglassTopIcon sx={dotIconStyles} />
+                    <HourglassTopIcon
+                      sx={{ ...dotIconStyles, color: 'grey' }}
+                    />
                   )}{' '}
                 </TimelineDot>
               </TimelineSeparator>
@@ -214,10 +200,6 @@ function TransactionDescription({
             </TimelineItem>
           </Timeline>
         )}
-      </Box>
-
-      <Box sx={{ width: '100%' }} className={classes.child3}>
-        {child3 || <TransactionTechnicalDetails transaction={transaction} />}
       </Box>
     </Box>
   );
