@@ -22,13 +22,34 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
+    'function-paren-newline': 'off',
     'no-bitwise': 'off',
+    'react/jsx-one-expression-per-line': 'off',
+    'jsx-a11y/label-has-associated-control': [
+      'error',
+      {
+        required: {
+          some: ['nesting', 'id'],
+        },
+      },
+    ],
+    'jsx-a11y/label-has-for': [
+      'error',
+      {
+        required: {
+          some: ['nesting', 'id'],
+        },
+      },
+    ],
     'no-plusplus': 'off',
     'operator-linebreak': 'off',
     'react/jsx-filename-extension': [1, { extensions: ['.jsx', '.tsx'] }],
     'import/extensions': [1, 'never', { svg: 'always' }],
     'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
+    ],
     'react/jsx-boolean-value': 1,
     'react/jsx-props-no-spreading': 0,
     'no-restricted-syntax': 0,
@@ -61,6 +82,8 @@ module.exports = {
     'class-methods-use-this': ['off'],
     'react-hooks/exhaustive-deps': 'warn',
     camelcase: 'off',
+    'no-underscore-dangle': 'off',
+    'no-unsafe-optional-chaining': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/no-named-as-default': 'off',
     '@typescript-eslint/no-shadow': 'off',

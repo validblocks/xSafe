@@ -33,6 +33,11 @@ interface MultisigDetailsAccordionPropsType {
   contractInfo: ContractInfo;
   isProposer: boolean;
 }
+const AccordionTooltip = (index: number, props: Record<string, unknown>) => (
+  <Tooltip id={`remove-user-tooltip-${index}`} {...props}>
+    {t('Insufficient quorum size for removing a board member')}
+  </Tooltip>
+);
 
 const MultisigDetailsAccordion = ({
   contractInfo,
@@ -107,11 +112,7 @@ const MultisigDetailsAccordion = ({
         placement="top"
         delay={{ show: 50, hide: 50 }}
         trigger="click"
-        overlay={(props) => (
-          <Tooltip id={`remove-user-tooltip-${index}`} {...props}>
-            {t('Insufficient quorum size for removing a board member')}
-          </Tooltip>
-        )}
+        overlay={(props) => AccordionTooltip(index, props)}
       >
         <div className="d-inline-block">{removeButton}</div>
       </OverlayTrigger>
@@ -166,7 +167,8 @@ const MultisigDetailsAccordion = ({
       {Object.keys(boardMembersAddresses).length > 0 ? (
         <Card.Body>
           {boardMembersAddresses.map((address, index) =>
-            renderAddress(address, index, true))}
+            renderAddress(address, index, true),
+          )}
         </Card.Body>
       ) : (
         <div className=" w-100 no-active-proposals">
@@ -198,7 +200,8 @@ const MultisigDetailsAccordion = ({
       {Object.keys(proposersAddresses).length > 0 ? (
         <Card.Body>
           {proposersAddresses.map((address, index) =>
-            renderAddress(address, index))}
+            renderAddress(address, index),
+          )}
         </Card.Body>
       ) : (
         <div className=" w-100 no-active-proposals">

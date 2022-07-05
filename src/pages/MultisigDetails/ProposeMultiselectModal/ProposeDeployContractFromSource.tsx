@@ -63,7 +63,6 @@ const ProposeDeployContractFromSource = ({
       payable: true,
       readable: true,
     },
-    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -171,7 +170,7 @@ const ProposeDeployContractFromSource = ({
       </div>
       <div className="d-flex flex-column">
         {args.map((arg, idx) => (
-          <div key={idx} className="modal-control-container my-3">
+          <div key={arg} className="modal-control-container my-3">
             <label htmlFor={`args[${idx}]`}>
               {`${t('argument')} ${idx + 1}`}
             </label>

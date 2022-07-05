@@ -26,19 +26,13 @@ const ProposeRemoveUser = ({
 
   return (
     <div className="modal-control-container">
-      <label>
-        {t('Address')}
-        {' '}
-      </label>
+      <label htmlFor="delegateSubTitle">{t('Address')}</label>
       <div
+        id="delegateSubTitle"
         className="h6 mb-spacer text-break remove-user"
         data-testid="delegateSubTitle"
       >
-        <p className="address">
-          {' '}
-          {address}
-          {' '}
-        </p>
+        <p className="address">{address}</p>
       </div>
     </div>
   );

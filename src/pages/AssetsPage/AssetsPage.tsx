@@ -25,7 +25,6 @@ import {
   setOrganizationTokens,
 } from '@redux/slices/accountSlice';
 import {
-  setProposeModalSelectedOption,
   setProposeMultiselectSelectedOption,
   setSelectedTokenToSend,
 } from '@redux/slices/modalsSlice';
@@ -37,6 +36,7 @@ const AssetsPage = () => {
   const egldPrice = useSelector(priceSelector);
   const dispatch = useDispatch();
   const [showQr, setShowQr] = useState(false);
+  const { tokenPrices } = useOrganizationInfoContext();
 
   const handleQrModal = useCallback(() => {
     setShowQr((showQr: boolean) => !showQr);
@@ -79,6 +79,7 @@ const AssetsPage = () => {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line consistent-return, wrap-iife
     (async function getTokens() {
       let isMounted = true;
 
@@ -99,7 +100,7 @@ const AssetsPage = () => {
       try {
         const [{ balance: egldBalance }, { data: otherTokens }] =
           await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
-
+        // eslint-disable-next-line consistent-return
         if (!isMounted) return;
 
         dispatch(setMultisigBalance(JSON.stringify(egldBalance)));
@@ -114,11 +115,11 @@ const AssetsPage = () => {
         for (const [idx, token] of Object.entries(allTokens)) {
           const priceOfCurrentToken = getTokenPrice(token.identifier ?? '');
 
-          const { owner, ...tokenWithoutOwner } = token;
+          const { _owner, ...tokenWithoutOwner } = token;
 
           let photoUrl = '';
           if (token.identifier !== 'EGLD') {
-            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
+            photoUrl = fetchTokenPhotoUrl(token.identifier as string);
           }
 
           tokensWithPrices.push({
@@ -163,7 +164,9 @@ const AssetsPage = () => {
                 width={squareImageWidth}
                 height={squareImageWidth}
                 src={params.value.photoUrl}
-                alt="Token image"
+                alt={params.value.tokenIdentifier}
+                en
+                image
                 className="mr-3"
               />
             )}
@@ -247,8 +250,6 @@ const AssetsPage = () => {
     ],
     [],
   );
-
-  const { tokenPrices } = useOrganizationInfoContext();
 
   return (
     <Box>

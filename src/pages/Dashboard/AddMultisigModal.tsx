@@ -39,15 +39,16 @@ const AddMultisigModal = ({
   async function onAddClicked() {
     const contractAddress = address.bech32();
     const isAddressValid = await validateMultisigAddress(contractAddress);
-    if (!isAddressValid) {
-      return setInvalidMultisigAddress(true);
+    if (isAddressValid) {
+      const newContracts = await addContractToMultisigContractsList({
+        address: contractAddress,
+        name,
+      });
+      setNewContracts(newContracts);
+      handleClose();
+    } else {
+      setInvalidMultisigAddress(true);
     }
-    const newContracts = await addContractToMultisigContractsList({
-      address: contractAddress,
-      name,
-    });
-    setNewContracts(newContracts);
-    handleClose();
   }
 
   return (
@@ -67,10 +68,12 @@ const AddMultisigModal = ({
           <ProposeInputAddress
             invalidAddress={invalidMultisigAddress}
             setSubmitDisabled={setSubmitDisabled}
-            handleParamsChange={onAddressParamChange}
+            handleParamsChange={(newAddress) =>
+              onAddressParamChange(newAddress)
+            }
           />
           <div className="modal-control-container">
-            <label htmlFor={name}>{t('Name (optional)')} </label>
+            <label htmlFor={name}>{t('Name (optional)')}</label>
             <input
               id={name}
               type="text"

@@ -60,7 +60,8 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
       };
     }
 
-    currentContract?.address &&
+    (() =>
+      currentContract?.address &&
       Promise.all([
         queryBoardMemberAddresses(),
         queryUserRole(new Address(address).hex()),
@@ -79,7 +80,7 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
           setQuorumCount(quorumCountResponse);
           setUserRole(userRoleResponse);
         },
-      );
+      ))();
     return () => {
       isMounted = false;
     };

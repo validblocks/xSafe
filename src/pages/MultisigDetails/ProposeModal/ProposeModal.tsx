@@ -100,7 +100,7 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
   if (selectedOption == null) {
     return null;
   }
-
+  // eslint-disable-next-line consistent-return
   const getModalContent = () => {
     switch (selectedOption?.option) {
       case ProposalsTypes.change_quorum: {
@@ -132,7 +132,6 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
             handleSetAddress={handleAddressParamChange}
             handleSetName={(value) => setSelectedNameParam(value)}
             selectedOption={selectedOption}
-            selectedAddress={selectedAddressParam}
           />
         );
       case ProposalsTypes.replace_owner:
@@ -141,7 +140,6 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
             handleSetAddress={handleAddressParamChange}
             handleSetName={(value) => setSelectedNameParam(value)}
             selectedOption={selectedOption}
-            selectedAddress={selectedAddressParam}
           />
         );
       default:

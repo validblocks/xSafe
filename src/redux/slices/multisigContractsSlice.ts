@@ -69,24 +69,24 @@ export const multisigContractsSlice = createSlice({
       action: PayloadAction<Partial<MultisigContractInfoType>>,
     ) => {
       const { address } = action.payload;
-      if (address == null) {
-        return state;
+      if (address !== null) {
+        state.multisigContracts = state.multisigContracts.map((contract) => {
+          if (contract.address === address) {
+            return {
+              ...contract,
+              ...action.payload,
+            };
+          }
+          if (state?.currentMultisigContract?.address === address) {
+            state.currentMultisigContract = {
+              ...state.currentMultisigContract,
+              ...action.payload,
+            };
+          }
+          return contract;
+        });
       }
-      state.multisigContracts = state.multisigContracts.map((contract) => {
-        if (contract.address === address) {
-          return {
-            ...contract,
-            ...action.payload,
-          };
-        }
-        if (state?.currentMultisigContract?.address === address) {
-          state.currentMultisigContract = {
-            ...state.currentMultisigContract,
-            ...action.payload,
-          };
-        }
-        return contract;
-      });
+      return state;
     },
   },
   extraReducers: (builder) => {

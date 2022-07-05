@@ -11,7 +11,6 @@ import { SelectedOptionType } from 'types/Proposals';
 
 type ProposeEditOwnerType = {
   selectedOption: SelectedOptionType;
-  selectedAddress: Address;
   handleSetAddress: (address: Address) => void;
   handleSetName: (name: string) => void;
 };
@@ -37,7 +36,6 @@ const EditOwner = ({
     initialValues: {
       name,
     },
-    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -61,10 +59,7 @@ const EditOwner = ({
       className="modal-controll-container"
       onSubmit={editOwnerForm.handleSubmit}
     >
-      <label htmlFor="name">
-        {t('Name')}
-        {' '}
-      </label>
+      <label htmlFor="name">{t('Name')}</label>
       <input
         id="name"
         name="name"
@@ -78,19 +73,12 @@ const EditOwner = ({
         className="h6 mb-spacer text-break remove-user"
         data-testid="delegateSubTitle"
       />
-      <label>
-        {t('Address')}
-        {' '}
-      </label>
+      <div>{t('Address')}</div>
       <div
         className="h6 mb-spacer text-break remove-user"
         data-testid="delegateSubTitle"
       >
-        <p className="address">
-          {' '}
-          {address}
-          {' '}
-        </p>
+        <p className="address">{address}</p>
       </div>
     </form>
   );

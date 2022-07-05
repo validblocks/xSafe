@@ -37,9 +37,7 @@ const TotalBalance = () => {
   const egldPrice = useSelector(priceSelector);
 
   const currentContract = useSelector(currentMultisigContractSelector);
-  const {
-    tokenPrices,
-  } = useOrganizationInfoContext();
+  const { tokenPrices } = useOrganizationInfoContext();
   const proxy = getNetworkProxy();
   const getTokenPrice = useCallback(
     (tokenIdentifier: string) =>
@@ -58,6 +56,7 @@ const TotalBalance = () => {
   }, []);
 
   useEffect(() => {
+    // eslint-disable-next-line consistent-return, wrap-iife
     (async function getTokens() {
       let isMounted = true;
 
@@ -79,6 +78,7 @@ const TotalBalance = () => {
         const [{ balance: egldBalance }, { data: otherTokens }] =
           await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
 
+        // eslint-disable-next-line consistent-return
         if (!isMounted) return;
 
         dispatch(setMultisigBalance(JSON.stringify(egldBalance)));
@@ -93,7 +93,7 @@ const TotalBalance = () => {
         for (const [idx, token] of Object.entries(allTokens)) {
           const priceOfCurrentToken = getTokenPrice(token.identifier ?? '');
 
-          const { owner, ...tokenWithoutOwner } = token;
+          const { _owner, ...tokenWithoutOwner } = token;
 
           let photoUrl = '';
 
@@ -199,8 +199,7 @@ const TotalBalance = () => {
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
         <CenteredText>Total balance:</CenteredText>
         <CenteredText fontSize="16px" fontWeight="bold">
-          {'≈'}
-          {currencyConverted?.toFixed(2)}
+          ≈{currencyConverted?.toFixed(2)}
           {getCurrency}
         </CenteredText>
       </Box>

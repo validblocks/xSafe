@@ -195,8 +195,8 @@ const ProposeSendToken = ({
           onChange={onIdentifierChanged}
           className="mb-2"
         >
-          {availableTokensWithBalances.map((token, idx) => (
-            <MenuItem key={idx} value={token.identifier}>
+          {availableTokensWithBalances.map((token) => (
+            <MenuItem key={token.identifier} value={token.identifier}>
               {token.identifier?.split('-')[0]}
             </MenuItem>
           ))}
@@ -215,7 +215,7 @@ const ProposeSendToken = ({
         <div className="input-wrapper">
           <label htmlFor={amount}>
             {t('Amount')}
-            {':'}
+            :
           </label>
           <Form.Control
             id={amount}

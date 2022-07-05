@@ -138,7 +138,7 @@ const ProposersTable = () => {
         id: idx,
       }));
       setAllProposers(proposersWithIndexes as ProposerTableRow[]);
-    })();
+    }());
   }, []);
 
   return (

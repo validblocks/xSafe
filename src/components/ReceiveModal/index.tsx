@@ -20,7 +20,7 @@ const ReceiveModal = ({
   const handleCloseModal = () => setShowModal(false);
 
   useEffect(() => {
-    showQrFromSidebar !== undefined ? setShowModal(showQrFromSidebar) : '';
+    if (showQrFromSidebar !== undefined) setShowModal(showQrFromSidebar);
   }, [showQrFromSidebar]);
 
   if (!address) {
