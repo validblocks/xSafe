@@ -17,7 +17,6 @@ interface FormikCheckboxPropsType {
   name: string;
   checked: boolean;
   handleChange?: (e: any) => void;
-  footer?: React.ReactElement;
 }
 
 export const FormikInputField = ({

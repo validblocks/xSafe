@@ -23,6 +23,31 @@ interface ProposeSmartContractCallType {
   setSubmitDisabled: (value: boolean) => void;
 }
 
+function validateRecipient(value?: string) {
+  try {
+    new Address(value);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+function validateArgument(value?: string[], testContext?: TestContext) {
+  try {
+    if (value == null) {
+      return true;
+    }
+    value.map((arg) => BytesValue.fromHex(arg));
+    return true;
+  } catch (err) {
+    return (
+      testContext?.createError({
+        message: 'Invalid arguments',
+      }) ?? false
+    );
+  }
+}
+
 const ProposeSmartContractCall = ({
   handleChange,
   setSubmitDisabled,
@@ -30,6 +55,32 @@ const ProposeSmartContractCall = ({
   const { multisigBalance } = React.useContext(MultisigDetailsContext);
 
   const { t }: { t: any } = useTranslation();
+
+  function validateAmount(value?: string, testContext?: TestContext) {
+    if (value == null) {
+      return true;
+    }
+    const validatedAmount = Number(value);
+    if (Number.isNaN(validatedAmount)) {
+      return (
+        testContext?.createError({
+          message: 'Invalid amount',
+        }) ?? false
+      );
+    }
+    if (validatedAmount < 0) {
+      formik.setFieldValue('amount', 0);
+    }
+    if (validatedAmount > Number(multisigBalance.toDenominated())) {
+      return (
+        testContext?.createError({
+          message:
+            'There are not enough money in the organization for this transaction',
+        }) ?? false
+      );
+    }
+    return true;
+  }
 
   React.useEffect(() => {
     setSubmitDisabled(true);
@@ -74,9 +125,7 @@ const ProposeSmartContractCall = ({
   });
 
   const { touched, errors, values } = formik;
-  const {
-    amount, receiver, functionName, args,
-  } = values;
+  const { amount, receiver, functionName, args } = values;
 
   useEffect(() => {
     refreshProposal();
@@ -135,57 +184,6 @@ const ProposeSmartContractCall = ({
     }
   }
 
-  function validateRecipient(value?: string) {
-    try {
-      new Address(value);
-      return true;
-    } catch (err) {
-      return false;
-    }
-  }
-
-  function validateArgument(value?: string[], testContext?: TestContext) {
-    try {
-      if (value == null) {
-        return true;
-      }
-      value.map((arg) => BytesValue.fromHex(arg));
-      return true;
-    } catch (err) {
-      return (
-        testContext?.createError({
-          message: 'Invalid arguments',
-        }) ?? false
-      );
-    }
-  }
-
-  function validateAmount(value?: string, testContext?: TestContext) {
-    if (value == null) {
-      return true;
-    }
-    const validatedAmount = Number(value);
-    if (Number.isNaN(validatedAmount)) {
-      return (
-        testContext?.createError({
-          message: 'Invalid amount',
-        }) ?? false
-      );
-    }
-    if (validatedAmount < 0) {
-      formik.setFieldValue('amount', 0);
-    }
-    if (validatedAmount > Number(multisigBalance.toDenominated())) {
-      return (
-        testContext?.createError({
-          message:
-            'There are not enough money in the organization for this transaction',
-        }) ?? false
-      );
-    }
-    return true;
-  }
-
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;
   const argsError =
@@ -204,10 +202,7 @@ const ProposeSmartContractCall = ({
         handleBlur={formik.handleBlur}
       />
       <div className="modal-control-container">
-        <label>
-          {t('Amount')}
-          {' '}
-        </label>
+        <label>{t('Amount')} </label>
         <div className="input-wrapper">
           <Form.Control
             id="amount"
@@ -224,16 +219,10 @@ const ProposeSmartContractCall = ({
             </Form.Control.Feedback>
           )}
         </div>
-        <span>
-          {`Balance: ${denominatedValue} EGLD`}
-          {' '}
-        </span>
+        <span>{`Balance: ${denominatedValue} EGLD`} </span>
       </div>
       <div className="modal-control-container">
-        <label htmlFor={functionName}>
-          {t('function name (optional)')}
-          {' '}
-        </label>
+        <label htmlFor={functionName}>{t('function name (optional)')} </label>
         <div className="input-wrapper">
           <Form.Control
             id={functionName}

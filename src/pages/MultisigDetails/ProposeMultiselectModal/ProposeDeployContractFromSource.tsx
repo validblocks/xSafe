@@ -18,6 +18,26 @@ interface ProposeDeployContractFromSourceType {
   handleChange: (proposal: MultisigDeployContractFromSource) => void;
   setSubmitDisabled: (value: boolean) => void;
 }
+function validateAmount(value?: string) {
+  const amountNumeric = Number(value);
+  return !Number.isNaN(amountNumeric);
+}
+
+function validateArgument(value?: string[], testContext?: Yup.TestContext) {
+  try {
+    if (value == null) {
+      return true;
+    }
+    value.map((arg) => BytesValue.fromHex(arg));
+    return true;
+  } catch (err) {
+    return (
+      testContext?.createError({
+        message: 'Invalid arguments',
+      }) ?? false
+    );
+  }
+}
 
 const ProposeDeployContractFromSource = ({
   handleChange,
@@ -50,42 +70,19 @@ const ProposeDeployContractFromSource = ({
   });
   const { touched, errors, values } = formik;
 
-  const {
-    amount, source, args, upgradeable, payable, readable,
-  } = values;
+  const { amount, source, args, upgradeable, payable, readable } = values;
 
   useEffect(() => {
     const hasErrors = Object.keys(errors).length > 0;
     setSubmitDisabled(hasErrors);
   }, [errors]);
 
-  function validateAmount(value?: string) {
-    const amountNumeric = Number(value);
-    return !isNaN(amountNumeric);
-  }
-
-  function validateArgument(value?: string[], testContext?: Yup.TestContext) {
-    try {
-      if (value == null) {
-        return true;
-      }
-      value.map((arg) => BytesValue.fromHex(arg));
-      return true;
-    } catch (err) {
-      return (
-        testContext?.createError({
-          message: 'Invalid arguments',
-        }) ?? false
-      );
-    }
-  }
-
   const getProposal = (): MultisigDeployContractFromSource | null => {
     const amountNumeric = Number(amount);
     if (Object.keys(errors).length > 0) {
       return null;
     }
-    if (isNaN(amountNumeric)) {
+    if (Number.isNaN(amountNumeric)) {
       return null;
     }
 

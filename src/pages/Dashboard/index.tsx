@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@mui/material';
 import { validateMultisigAddress } from 'apiCalls/multisigContractsCalls';
 import { uniqueContractAddress } from 'multisigConfig';
 import NewDashboard from 'pages/NewDashboard';
@@ -20,11 +21,6 @@ const Dashboard = () => {
   const [showAddMultisigModal, setShowAddMultisigModal] = useState(false);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const [invalidMultisigContract, setInvalidMultisigContract] = useState(false);
-
-  useEffect(() => {
-    checkSingleContractValidity();
-  }, []);
-
   async function checkSingleContractValidity() {
     if (uniqueContractAddress || !storageApi) {
       const isValidMultisigContract = await validateMultisigAddress(
@@ -35,6 +31,10 @@ const Dashboard = () => {
       }
     }
   }
+
+  useEffect(() => {
+    checkSingleContractValidity();
+  }, []);
 
   async function updateMultisigContract(
     newContracts: MultisigContractInfoType[],
@@ -70,16 +70,16 @@ const Dashboard = () => {
         handleClose={() => {
           setShowAddMultisigModal(false);
         }}
-        setNewContracts={updateMultisigContract}
+        setNewContracts={(newContracts) => updateMultisigContract(newContracts)}
       />
       <DeployStepsModal
         show={showDeployMultisigModal}
         handleClose={() => setShowDeployMultisigModal(false)}
-        setNewContracts={updateMultisigContract}
+        setNewContracts={(newContracts) => updateMultisigContract(newContracts)}
       />
       <p className="info-msg">
         New to Multisig?&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="">Learn more</a>
+        <Button variant="text">Learn more</Button>
       </p>
     </div>
   );

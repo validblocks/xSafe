@@ -48,6 +48,10 @@ const ProposeMultiselectModal = ({
     React.useState<MultisigAction | null>(null);
   const [submitDisabled, setSubmitDisabled] = React.useState(true);
 
+  const handleClose = () => {
+    dispatch(setProposeMultiselectSelectedOption(null));
+  };
+
   const onProposeClicked = () => {
     try {
       if (selectedProposal instanceof MultisigSendEgld) {
@@ -91,7 +95,9 @@ const ProposeMultiselectModal = ({
         );
       }
       handleClose();
-    } catch (err) {}
+    } catch (err) {
+      handleClose();
+    }
   };
   const handleProposalChange = (proposal: MultisigAction) => {
     setSelectedProposal(proposal);
@@ -101,9 +107,6 @@ const ProposeMultiselectModal = ({
     dispatch(setProposeMultiselectSelectedOption({ option }));
   };
 
-  const handleClose = () => {
-    dispatch(setProposeMultiselectSelectedOption(null));
-  };
   const getContent = () => {
     switch (selectedOption?.option) {
       case ProposalsTypes.send_egld:

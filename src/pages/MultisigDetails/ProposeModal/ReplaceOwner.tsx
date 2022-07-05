@@ -13,14 +13,12 @@ type ProposeReplaceOwnerType = {
   selectedOption: SelectedOptionType;
   selectedAddress: Address;
   handleSetAddress: (address: Address) => void;
-  handleSetReplacementAddress: (address: Address) => void;
   handleSetName: (name: string) => void;
 };
 
 const ReplaceOwner = ({
   selectedOption,
   handleSetAddress,
-  handleSetReplacementAddress,
   handleSetName,
 }: ProposeReplaceOwnerType) => {
   const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
@@ -46,7 +44,6 @@ const ReplaceOwner = ({
       name: '',
       replacementAddress: '',
     },
-    onSubmit: () => {},
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
@@ -60,9 +57,6 @@ const ReplaceOwner = ({
 
   React.useEffect(() => {
     handleSetName(replaceOwnerForm.values.name);
-    // handleSetReplacementAddress(
-    //   new Address(replaceOwnerForm.values.replacementAddress)
-    // );
   }, [replaceOwnerForm.values]);
 
   if (selectedOption === undefined) {
@@ -80,10 +74,7 @@ const ReplaceOwner = ({
       Adress:
       <span>{address as string}</span>
       <fieldset>
-        <label htmlFor="name">
-          {t('Name')}
-          {' '}
-        </label>
+        <label htmlFor="name">{t('Name')}</label>
         <input
           id="name"
           name="name"

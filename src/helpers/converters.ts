@@ -7,6 +7,7 @@ import {
   U64Value,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
 import BigNumber from 'bignumber.js';
+import * as createKeccakHash from 'keccak';
 import { MultisigAction } from 'types/MultisigAction';
 import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
 import { MultisigActionType } from 'types/MultisigActionType';
@@ -20,32 +21,13 @@ import { MultisigSendEgld } from 'types/MultisigSendEgld';
 import { MultisigUpgradeContractFromSource } from 'types/MultisigUpgradeContractFromSource';
 import { MultisigSmartContractCall } from '../types/MultisigSmartContractCall';
 
-const createKeccakHash = require('keccak');
-
-export function parseAction(buffer: Buffer): [MultisigAction | null, Buffer] {
-  const actionTypeByte = buffer.slice(0, 1)[0];
-  const remainingBytes = buffer.slice(1);
-  switch (actionTypeByte) {
-    case MultisigActionType.AddBoardMember:
-      return parseAddBoardMember(remainingBytes);
-    case MultisigActionType.AddProposer:
-      return parseAddProposer(remainingBytes);
-    case MultisigActionType.RemoveUser:
-      return parseRemoveUser(remainingBytes);
-    case MultisigActionType.ChangeQuorum:
-      return parseChangeQuorum(remainingBytes);
-    case MultisigActionType.SendTransferExecute:
-      return parseSendEgld(remainingBytes);
-    case MultisigActionType.SendAsyncCall:
-      return parseSmartContractCall(remainingBytes);
-    case MultisigActionType.SCDeployFromSource:
-      return parseSmartContractDeployFromSource(remainingBytes);
-    case MultisigActionType.SCUpgradeFromSource:
-      return parseSmartContractUpgradeFromSource(remainingBytes);
-    default:
-      console.error(`Unrecognized action ${actionTypeByte}`);
-      return [null, remainingBytes];
-  }
+export function getIntValueFromBytes(buffer: Buffer) {
+  return (
+    buffer[buffer.length - 1] |
+    (buffer[buffer.length - 2] << 8) |
+    (buffer[buffer.length - 3] << 16) |
+    (buffer[buffer.length - 4] << 24)
+  );
 }
 
 function parseAddBoardMember(
@@ -280,33 +262,6 @@ function parseSmartContractUpgradeFromSource(
   return [action, remainingBytes];
 }
 
-export function parseActionDetailed(
-  buffer: Buffer,
-): MultisigActionDetailed | null {
-  const actionId = getIntValueFromBytes(buffer.slice(0, 4));
-  const actionBytes = buffer.slice(4);
-
-  // eslint-disable-next-line prefer-const
-  let [action, remainingBytes] = parseAction(actionBytes);
-  if (action === null) {
-    return null;
-  }
-
-  const signerCount = getIntValueFromBytes(remainingBytes.slice(0, 4));
-  remainingBytes = remainingBytes.slice(4);
-
-  const signers = [];
-  for (let i = 0; i < signerCount; i++) {
-    const addressBytes = remainingBytes.slice(0, 32);
-    const address = new Address(addressBytes);
-    remainingBytes = remainingBytes.slice(32);
-
-    signers.push(address);
-  }
-
-  return new MultisigActionDetailed(action, actionId, signers);
-}
-
 export function parseContractInfo(
   buffer: Buffer,
 ): MultisigContractInfoType | null {
@@ -323,15 +278,6 @@ export function parseContractInfo(
   const name = nameBytes.toString();
 
   return { address: address.bech32(), name };
-}
-
-export function getIntValueFromBytes(buffer: Buffer) {
-  return (
-    buffer[buffer.length - 1]
-    | (buffer[buffer.length - 2] << 8)
-    | (buffer[buffer.length - 3] << 16)
-    | (buffer[buffer.length - 4] << 24)
-  );
 }
 
 export function getBytesFromHexString(hex: string) {
@@ -436,4 +382,57 @@ export function addressToPlainAddress(address: Address) {
     bech32: address.bech32(),
     pubKey: address.pubkey(),
   };
+}
+
+export function parseAction(buffer: Buffer): [MultisigAction | null, Buffer] {
+  const actionTypeByte = buffer.slice(0, 1)[0];
+  const remainingBytes = buffer.slice(1);
+
+  switch (actionTypeByte) {
+    case MultisigActionType.AddBoardMember:
+      return parseAddBoardMember(remainingBytes);
+    case MultisigActionType.AddProposer:
+      return parseAddProposer(remainingBytes);
+    case MultisigActionType.RemoveUser:
+      return parseRemoveUser(remainingBytes);
+    case MultisigActionType.ChangeQuorum:
+      return parseChangeQuorum(remainingBytes);
+    case MultisigActionType.SendTransferExecute:
+      return parseSendEgld(remainingBytes);
+    case MultisigActionType.SendAsyncCall:
+      return parseSmartContractCall(remainingBytes);
+    case MultisigActionType.SCDeployFromSource:
+      return parseSmartContractDeployFromSource(remainingBytes);
+    case MultisigActionType.SCUpgradeFromSource:
+      return parseSmartContractUpgradeFromSource(remainingBytes);
+    default:
+      console.error(`Unrecognized action ${actionTypeByte}`);
+      return [null, remainingBytes];
+  }
+}
+export function parseActionDetailed(
+  buffer: Buffer,
+): MultisigActionDetailed | null {
+  const actionId = getIntValueFromBytes(buffer.slice(0, 4));
+  const actionBytes = buffer.slice(4);
+
+  // eslint-disable-next-line prefer-const
+  let [action, remainingBytes] = parseAction(actionBytes);
+  if (action === null) {
+    return null;
+  }
+
+  const signerCount = getIntValueFromBytes(remainingBytes.slice(0, 4));
+  remainingBytes = remainingBytes.slice(4);
+
+  const signers = [];
+  for (let i = 0; i < signerCount; i++) {
+    const addressBytes = remainingBytes.slice(0, 32);
+    const address = new Address(addressBytes);
+    remainingBytes = remainingBytes.slice(32);
+
+    signers.push(address);
+  }
+
+  return new MultisigActionDetailed(action, actionId, signers);
 }

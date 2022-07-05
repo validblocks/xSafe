@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
@@ -39,15 +39,7 @@ const AssetsPage = () => {
   const [showQr, setShowQr] = useState(false);
 
   const handleQrModal = useCallback(() => {
-    setShowQr((showQr) => !showQr);
-  }, []);
-
-  const openProposeSendTokenForm = useCallback(() => {
-    dispatch(
-      setProposeModalSelectedOption({
-        option: ProposalsTypes.send_token,
-      }),
-    );
+    setShowQr((showQr: boolean) => !showQr);
   }, []);
 
   const handleOptionSelected = (

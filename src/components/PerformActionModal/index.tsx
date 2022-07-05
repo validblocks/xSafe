@@ -68,7 +68,7 @@ const PerformActionModal = ({
     }
   };
 
-  const handleChangeGasLimit = (e: any) => {
+  const handleChangeGasLimit = (e: any): boolean => {
     const newValue = Number(e.target.value);
     if (Number.isNaN(newValue)) {
       setError('Invalid number');
@@ -76,6 +76,7 @@ const PerformActionModal = ({
     }
     setError(null);
     setSelectedGasLimit(newValue);
+    return true;
   };
 
   if (selectedAction == null) {

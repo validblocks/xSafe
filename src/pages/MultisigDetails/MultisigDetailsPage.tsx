@@ -140,11 +140,135 @@ const MultisigDetailsPage = () => {
   }, [isLoggedIn]);
 
   useEffect(() => {
+    const onSignOrPropose = async (actionId: number) => {
+      const validSignerCount = await queryActionValidSignerCount(actionId);
+      const realQuorumSize = await queryQuorumCount();
+      const realUserRole = await queryUserRole(new Address(address).hex());
+
+      if (validSignerCount >= realQuorumSize && realUserRole === 2) {
+        const success = await confirmModal.show(
+          t('Confirm Perform Action'),
+          t('Perform Action'),
+        );
+        if (success) {
+          dispatch(setSelectedPerformedAction({ id: actionId }));
+        }
+      }
+    };
+    const onUnsign = async (actionId: number) => {
+      const validSignerCount = await queryActionValidSignerCount(actionId);
+      const realUserRole = await queryUserRole(new Address(address).hex());
+
+      if (validSignerCount === 0 && realUserRole === 2) {
+        const success = await confirmModal.show(
+          t('Confirm Discard Action'),
+          t('Discard Action'),
+        );
+        if (success) {
+          await mutateDiscardAction(actionId);
+        }
+      }
+    };
+
+    const tryParseUrlParams = async () => {
+      const parameters = await tryParseTransactionParameter(apiAddress);
+      if (parameters === null) {
+        return;
+      }
+
+      if (parameters.receiver.bech32() === currentContract?.address) {
+        if (parameters.functionName.startsWith('propose')) {
+          if (
+            parameters.outputParameters.length === 2 &&
+            hexToString(parameters.outputParameters[0]) === 'ok'
+          ) {
+            const actionId = hexToNumber(parameters.outputParameters[1]);
+            if (actionId !== null) {
+              onSignOrPropose(actionId);
+            }
+          }
+        } else if (parameters.functionName === 'sign') {
+          if (
+            parameters.outputParameters.length === 1 &&
+            hexToString(parameters.outputParameters[0]) === 'ok'
+          ) {
+            const actionId = hexToNumber(parameters.inputParameters[0]);
+            if (actionId !== null) {
+              onSignOrPropose(actionId);
+            }
+          }
+        } else if (parameters.functionName === 'unsign') {
+          if (
+            parameters.outputParameters.length === 1 &&
+            hexToString(parameters.outputParameters[0]) === 'ok'
+          ) {
+            const actionId = hexToNumber(parameters.inputParameters[0]);
+            if (actionId !== null) {
+              onUnsign(actionId);
+            }
+          }
+        }
+      }
+    };
+
     tryParseUrlParams();
+    const parseMultisigAddress = (): Address | null => {
+      try {
+        return new Address(multisigAddressParam);
+      } catch {
+        return null;
+      }
+    };
 
     const newMultisigAddressParam = parseMultisigAddress();
     if (newMultisigAddressParam === null) {
       return;
+    }
+
+    async function getDashboardInfo() {
+      if (currentContract == null) {
+        return;
+      }
+      const proxy = getNetworkProxy();
+      try {
+        const [
+          newTotalBoardMembers,
+          newTotalProposers,
+          newQuorumSize,
+          newUserRole,
+          newAllActions,
+          account,
+          boardMembersAddresses,
+          proposersAddresses,
+        ] = await Promise.all([
+          queryBoardMembersCount(),
+          queryProposersCount(),
+          queryQuorumCount(),
+          queryUserRole(new Address(address).hex()),
+          queryAllActions(),
+          proxy.getAccount(new Address(currentContract.address)),
+          queryBoardMemberAddresses(),
+          queryProposerAddresses(),
+        ]);
+        const accountInfo = await getAccountData(currentContract.address);
+        const newContractInfo: ContractInfo = {
+          totalBoardMembers: newTotalBoardMembers,
+          totalProposers: newTotalProposers,
+          quorumSize: newQuorumSize,
+          userRole: newUserRole,
+          deployedAt: moment.unix(accountInfo.deployedAt).format('DD MMM YYYY'),
+          allActions: newAllActions,
+          multisigBalance: account.balance,
+          boardMembersAddresses,
+          proposersAddresses,
+        };
+
+        setContractInfo(newContractInfo);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setDataFetched(true);
+      }
     }
 
     const isCurrentMultisigAddressNotSet = currentContract == null;
@@ -162,60 +286,6 @@ const MultisigDetailsPage = () => {
       getDashboardInfo();
     }
   }, [currentContract?.address, currentMultisigTransactionId, address]);
-
-  const parseMultisigAddress = (): Address | null => {
-    try {
-      return new Address(multisigAddressParam);
-    } catch {
-      return null;
-    }
-  };
-
-  async function getDashboardInfo() {
-    if (currentContract == null) {
-      return;
-    }
-    const proxy = getNetworkProxy();
-    try {
-      const [
-        newTotalBoardMembers,
-        newTotalProposers,
-        newQuorumSize,
-        newUserRole,
-        newAllActions,
-        account,
-        boardMembersAddresses,
-        proposersAddresses,
-      ] = await Promise.all([
-        queryBoardMembersCount(),
-        queryProposersCount(),
-        queryQuorumCount(),
-        queryUserRole(new Address(address).hex()),
-        queryAllActions(),
-        proxy.getAccount(new Address(currentContract.address)),
-        queryBoardMemberAddresses(),
-        queryProposerAddresses(),
-      ]);
-      const accountInfo = await getAccountData(currentContract.address);
-      const newContractInfo: ContractInfo = {
-        totalBoardMembers: newTotalBoardMembers,
-        totalProposers: newTotalProposers,
-        quorumSize: newQuorumSize,
-        userRole: newUserRole,
-        deployedAt: moment.unix(accountInfo.deployedAt).format('DD MMM YYYY'),
-        allActions: newAllActions,
-        multisigBalance: account.balance,
-        boardMembersAddresses,
-        proposersAddresses,
-      };
-
-      setContractInfo(newContractInfo);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setDataFetched(true);
-    }
-  }
 
   const userRoleAsString = useMemo(() => {
     switch (userRole) {
@@ -258,77 +328,15 @@ const MultisigDetailsPage = () => {
   const canDiscardAction = (action: MultisigActionDetailed) =>
     isBoardMember && action.signers.length === 0;
 
-  const tryParseUrlParams = async () => {
-    const parameters = await tryParseTransactionParameter(apiAddress);
-    if (parameters === null) {
-      return;
-    }
-
-    if (parameters.receiver.bech32() === currentContract?.address) {
-      if (parameters.functionName.startsWith('propose')) {
-        if (
-          parameters.outputParameters.length === 2 &&
-          hexToString(parameters.outputParameters[0]) === 'ok'
-        ) {
-          const actionId = hexToNumber(parameters.outputParameters[1]);
-          if (actionId !== null) {
-            onSignOrPropose(actionId);
-          }
-        }
-      } else if (parameters.functionName === 'sign') {
-        if (
-          parameters.outputParameters.length === 1 &&
-          hexToString(parameters.outputParameters[0]) === 'ok'
-        ) {
-          const actionId = hexToNumber(parameters.inputParameters[0]);
-          if (actionId !== null) {
-            onSignOrPropose(actionId);
-          }
-        }
-      } else if (parameters.functionName === 'unsign') {
-        if (
-          parameters.outputParameters.length === 1 &&
-          hexToString(parameters.outputParameters[0]) === 'ok'
-        ) {
-          const actionId = hexToNumber(parameters.inputParameters[0]);
-          if (actionId !== null) {
-            onUnsign(actionId);
-          }
-        }
-      }
-    }
-  };
-
-  const onSignOrPropose = async (actionId: number) => {
-    const validSignerCount = await queryActionValidSignerCount(actionId);
-    const realQuorumSize = await queryQuorumCount();
-    const realUserRole = await queryUserRole(new Address(address).hex());
-
-    if (validSignerCount >= realQuorumSize && realUserRole === 2) {
-      const success = await confirmModal.show(
-        t('Confirm Perform Action'),
-        t('Perform Action'),
-      );
-      if (success) {
-        dispatch(setSelectedPerformedAction({ id: actionId }));
-      }
-    }
-  };
-
-  const onUnsign = async (actionId: number) => {
-    const validSignerCount = await queryActionValidSignerCount(actionId);
-    const realUserRole = await queryUserRole(new Address(address).hex());
-
-    if (validSignerCount === 0 && realUserRole === 2) {
-      const success = await confirmModal.show(
-        t('Confirm Discard Action'),
-        t('Discard Action'),
-      );
-      if (success) {
-        await mutateDiscardAction(actionId);
-      }
-    }
-  };
+  const providerPayload = useMemo(
+    () => ({
+      quorumSize,
+      totalBoardMembers,
+      isProposer,
+      multisigBalance,
+    }),
+    [],
+  );
 
   const onSendEgld = () =>
     dispatch(
@@ -346,14 +354,7 @@ const MultisigDetailsPage = () => {
   }
 
   return (
-    <MultisigDetailsContext.Provider
-      value={{
-        quorumSize,
-        totalBoardMembers,
-        isProposer,
-        multisigBalance,
-      }}
-    >
+    <MultisigDetailsContext.Provider value={providerPayload}>
       <div className="dashboard w-100">
         <div className="card shadow-lg border-0">
           <div className="flex-column d-flex align-items-center">

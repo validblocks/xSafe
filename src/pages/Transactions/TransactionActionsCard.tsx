@@ -36,6 +36,7 @@ const TransactionActionsCard = ({
   canUnsign = false,
   canPerformAction = false,
   canDiscardAction = false,
+  ..._rest
 }: TransactionActionsCardType) => {
   const { t }: { t: any } = useTranslation();
   const dispatch = useDispatch();
@@ -62,10 +63,7 @@ const TransactionActionsCard = ({
           {canSign && (
             <button onClick={sign} className="btn action sign btn--approve">
               <FontAwesomeIcon icon={faThumbsUp} />
-              <span>
-                {t('Approve')}
-                {' '}
-              </span>
+              <span>{t('Approve')}</span>
             </button>
           )}
           {canUnsign && (
