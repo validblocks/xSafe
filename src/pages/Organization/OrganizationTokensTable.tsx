@@ -1,26 +1,64 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
-import styled from '@emotion/styled';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
+import { Avatar } from '@mui/material';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { GridRowId, DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
-import { useDispatch } from 'react-redux';
+import { toSvg } from 'jdenticon';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAccountData } from 'apiCalls/accountCalls';
 import { queryBoardMemberAddresses } from 'contracts/MultisigContract';
+import { addressBookSelector } from 'redux/selectors/addressBookSelector';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
+import { RootState } from 'redux/store';
 import { ProposalsTypes } from 'types/Proposals';
 
 const OrganizationsTokensTable = () => {
-  const [addresses, setAddresses] = useState<Array<Address>>([]);
+  const [addresses, setAddresses] = useState<Array<OwnerRow>>([]);
 
   const getAddresses = async () => await queryBoardMemberAddresses();
 
+  type OwnerRow = {
+    address: Address;
+    herotag?: string;
+    name?: string;
+  };
+
+  type AddressBook = Record<string, string>;
+  type AccountInfo = Record<string, any>;
+
+  // Set the address book
+  // Test the address book and herotag
+  const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
+
+  const addAddressBookEntry = (accountInformation: AccountInfo): OwnerRow => {
+    return {
+      address: accountInformation.address,
+      ...(!!accountInformation.username && {
+        herotag: accountInformation.username
+      }),
+      ...(!!addressBook[accountInformation.address] && {
+        name: addressBook[accountInformation.address]
+      })
+    };
+  };
   useEffect(() => {
-    getAddresses().then(setAddresses);
+    // get hero tag
+    // get addressbook names
+    getAddresses().then((ownerAddresses) => {
+      Promise.all(
+        ownerAddresses.map((address) =>
+          getAccountData(new Address(address).bech32())
+        )
+      ).then((accountsInformation) => {
+        setAddresses(accountsInformation.map(addAddressBookEntry));
+      });
+    });
   }, []);
 
   const dispatch = useDispatch();
@@ -67,13 +105,16 @@ const OrganizationsTokensTable = () => {
   const columns = useMemo(
     () => [
       {
-        field: 'name',
+        field: 'owner',
         headerName: 'Name',
-        type: 'string',
+        type: 'object',
         renderCell: (params: GridRenderCellParams<any>) => {
           return (
             <div className='d-flex flex-column justify-content-center'>
-              <strong className='mb-0'>{params.value}</strong>
+              <strong className='mb-0'>{params.value.name}</strong>
+              <strong>
+                <div>{params.value.herotag}</div>
+              </strong>
             </div>
           );
         }
@@ -82,21 +123,25 @@ const OrganizationsTokensTable = () => {
         field: 'address',
         headerName: 'Address',
         width: 250,
-        type: 'string',
+        type: 'object',
+        /**
+         *
+         * @todo: add style component for avatar
+         */
         renderCell: (params: any) => (
           <div className='d-flex align-items-center'>
-            <img
-              className='mr-3 rounded w-100 h-100'
-              src='https://picsum.photos/30/30?random=1'
-            />
             <div>
+              <Avatar>
+                <div
+                  dangerouslySetInnerHTML={{ __html: params.value.identicon }}
+                ></div>
+              </Avatar>
               <div>
-                {params.value.slice(0, 10) +
+                {params.value.address.slice(0, 10) +
                   '...' +
-                  params.value.slice(params.value.length - 10)}
+                  params.value.address.slice(params.value.length - 10)}
                 {/* <Ui.Trim text={params.value.valueHex} /> */}
               </div>
-              <div>@herotag</div>
             </div>
           </div>
         )
@@ -147,12 +192,14 @@ const OrganizationsTokensTable = () => {
     [onRemoveUser, toggleAdmin, duplicateUser]
   );
 
-  const rows = addresses.map((address: Address) => ({
-    id: 1,
-    name: 'Nick',
-    address: address.hex()
-  }));
-  console.log(getAddresses());
+  const rows = addresses.map((owner: OwnerRow) => {
+    return {
+      id: owner.address,
+      owner: { name: owner.name, herotag: owner.herotag },
+      address: { address: owner.address, identicon: toSvg(owner.address, 100) }
+    };
+  });
+
   return <DataGrid autoHeight rowHeight={65} rows={rows} columns={columns} />;
 };
 

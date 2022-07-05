@@ -12,7 +12,8 @@ const persistConfig = {
     'multisigContracts',
     'economics',
     'currency',
-    'safeName'
+    'safeName',
+    'addressBook'
   ]
 };
 
