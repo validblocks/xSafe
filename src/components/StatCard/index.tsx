@@ -52,7 +52,8 @@ const StatCard = ({
     </small>
     <div className="d-flex justify-content-center actions">
       <p className="h5 mb-0 order-2 centering value">
-        {value} {valueUnit}
+        {value}
+        {valueUnit}
       </p>
       {onEditAction != null && (
         <button onClick={onEditAction} className="action-edit m-lg-2 order-2">
