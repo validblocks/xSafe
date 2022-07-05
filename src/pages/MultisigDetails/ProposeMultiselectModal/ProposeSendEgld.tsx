@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
-import { useFormik } from 'formik';
+import { useFormik, Form as FormikForm } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -22,6 +22,7 @@ const ProposeSendEgld = ({
   setSubmitDisabled,
 }: ProposeSendEgldType) => {
   const multisigBalance = useSelector(multisigBalanceSelector);
+  let formik: FormikForm;
 
   const { t }: { t: any } = useTranslation();
 
@@ -39,76 +40,9 @@ const ProposeSendEgld = ({
       }),
     [multisigBalance],
   );
-
-  const validationSchema = Yup.object().shape({
-    receiver: Yup.string()
-      .min(2, 'Too Short!')
-      .max(500, 'Too Long!')
-      .required('Required')
-      .test(validateRecipient),
-    amount: Yup.string()
-      .required('Required')
-      .transform((value) => value.replace(',', '.'))
-      .test(validateAmount),
-    data: Yup.string(),
-  });
-
-  const formik = useFormik({
-    initialValues: {
-      receiver: '',
-      amount: 0,
-      data: '',
-    },
-    onSubmit: () => {},
-    validationSchema,
-    validateOnChange: true,
-    validateOnMount: true,
-  });
-
-  const { touched, errors, values } = formik;
-  const { amount, receiver, data } = values;
-
-  useEffect(() => {
-    refreshProposal();
-  }, [formik.values, formik.errors]);
-
-  useEffect(() => {
-    const hasErrors = Object.keys(formik.errors).length > 0;
-    setSubmitDisabled(hasErrors);
-  }, [formik.errors]);
-
-  const getProposal = (): MultisigSendEgld | null => {
-    try {
-      const addressParam = new Address(formik.values.receiver);
-
-      const amountNumeric = Number(formik.values.amount);
-      if (isNaN(amountNumeric)) {
-        return null;
-      }
-
-      const amountParam = new BigUIntValue(
-        Balance.egld(amountNumeric).valueOf(),
-      );
-
-      return new MultisigSendEgld(addressParam, amountParam, data);
-    } catch (err) {
-      return null;
-    }
-  };
-
-  function refreshProposal() {
-    if (Object.keys(formik.errors).length > 0) {
-      return;
-    }
-    const proposal = getProposal();
-    if (proposal !== null) {
-      handleChange(proposal);
-    }
-  }
-
   function validateRecipient(value?: string) {
     try {
-      new Address(value);
+      const _address = new Address(value);
       return true;
     } catch (err) {
       return false;
@@ -141,6 +75,70 @@ const ProposeSendEgld = ({
     return true;
   }
 
+  const validationSchema = Yup.object().shape({
+    receiver: Yup.string()
+      .min(2, 'Too Short!')
+      .max(500, 'Too Long!')
+      .required('Required')
+      .test(validateRecipient),
+    amount: Yup.string()
+      .required('Required')
+      .transform((value) => value.replace(',', '.'))
+      .test(validateAmount),
+    data: Yup.string(),
+  });
+
+  formik = useFormik({
+    initialValues: {
+      receiver: '',
+      amount: 0,
+      data: '',
+    },
+    validationSchema,
+    validateOnChange: true,
+    validateOnMount: true,
+  });
+
+  const { touched, errors, values } = formik;
+  const { amount, receiver, data } = values;
+  const getProposal = (): MultisigSendEgld | null => {
+    try {
+      const addressParam = new Address(formik.values.receiver);
+
+      const amountNumeric = Number(formik.values.amount);
+      if (Number.isNaN(amountNumeric)) {
+        return null;
+      }
+
+      const amountParam = new BigUIntValue(
+        Balance.egld(amountNumeric).valueOf(),
+      );
+
+      return new MultisigSendEgld(addressParam, amountParam, data);
+    } catch (err) {
+      return null;
+    }
+  };
+
+  function refreshProposal() {
+    if (Object.keys(formik.errors).length > 0) {
+      return;
+    }
+    const proposal = getProposal();
+    if (proposal !== null) {
+      handleChange(proposal);
+    }
+  }
+
+  useEffect(() => {
+    refreshProposal();
+  }, [formik.values, formik.errors]);
+
+  useEffect(() => {
+    const hasErrors = Object.keys(formik.errors).length > 0;
+    setSubmitDisabled(hasErrors);
+  }, [formik.errors]);
+
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;
   return (
@@ -154,10 +152,7 @@ const ProposeSendEgld = ({
         handleBlur={formik.handleBlur}
       />
       <div className="modal-control-container">
-        <label htmlFor={amount}>
-          {t('Amount')}
-          {' '}
-        </label>
+        <label htmlFor={amount}>{t('Amount')}</label>
         <div className="input-wrapper">
           <Form.Control
             id={amount}
@@ -174,16 +169,10 @@ const ProposeSendEgld = ({
             </Form.Control.Feedback>
           )}
         </div>
-        <span>
-          {`Balance: ${denominatedValue} EGLD`}
-          {' '}
-        </span>
+        <span>{`Balance: ${denominatedValue} EGLD`}</span>
       </div>
       <div className="modal-control-container">
-        <label htmlFor={data}>
-          {t('data (optional)')}
-          {' '}
-        </label>
+        <label htmlFor={data}>{t('data (optional)')}</label>
         <Form.Control
           id={data}
           name="data"

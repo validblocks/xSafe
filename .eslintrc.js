@@ -39,6 +39,7 @@ module.exports = {
     '@typescript-eslint/type-annotation-spacing': 2,
     'react/no-unescaped-entities': ['error', { forbid: ['>', '}'] }],
     'react/display-name': 'off',
+    'react/jsx-curly-newline': 'off',
     'react/function-component-definition': [
       1,
       {
