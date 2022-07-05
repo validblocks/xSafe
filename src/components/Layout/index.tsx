@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { styled } from '@mui/material/styles';
 import {
@@ -11,16 +11,17 @@ import { Box } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
-import { getAccountData } from 'apiCalls/accountCalls';
-import { getEconomicsData } from 'apiCalls/economicsCalls';
-import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
+import { getAccountData } from 'src/apiCalls/accountCalls';
+import { getEconomicsData } from 'src/apiCalls/economicsCalls';
+import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import { uniqueContractAddress, uniqueContractName } from 'src/multisigConfig';
-import { setAccountData } from '@redux/slices/accountSlice';
-import { setEconomics } from '@redux/slices/economicsSlice';
-import { setMultisigContracts } from '@redux/slices/multisigContractsSlice';
-import routes, { routeNames } from 'routes';
-import { accessTokenServices, storageApi } from 'services/accessTokenServices';
-import { Main } from 'components/Theme/StyledComponents';
+import { setAccountData } from 'src/redux/slices/accountSlice';
+import { setEconomics } from 'src/redux/slices/economicsSlice';
+import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
+import routes from 'src/routes';
+import { accessTokenServices, storageApi } from 'src/services/accessTokenServices';
+import { Main } from 'src/components/Theme/StyledComponents';
+import routeNames from 'src/routes/routeNames';
 import { TokenWrapper } from '../TokenWrapper';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
@@ -52,7 +53,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (loggedIn) {
       refreshAccount();
       fetchAccountData();
@@ -86,7 +87,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetchEconomics();
   }, []);
 

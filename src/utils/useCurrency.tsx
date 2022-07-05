@@ -1,7 +1,4 @@
-import {
-  setTotalValueConverted,
-  setSelectedCurrency,
-} from '@redux/slices/currencySlice';
+import { setSelectedCurrency, setTotalValueConverted } from 'src/redux/slices/currencySlice';
 
 const useCurrency = (val: number, currency: string, dispatch: any) => {
   if (val && currency) {

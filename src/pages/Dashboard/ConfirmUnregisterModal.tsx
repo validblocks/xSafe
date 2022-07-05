@@ -1,4 +1,3 @@
-import React from 'react';
 import { Ui } from '@elrondnetwork/dapp-utils';
 import { faExternalLinkAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

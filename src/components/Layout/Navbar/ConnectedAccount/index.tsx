@@ -4,13 +4,13 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import Safe from 'assets/img/safe.png';
-import { theme } from 'components/Theme/createTheme';
-import addressShorthand from 'helpers/addressShorthand';
-import { uniqueContractAddress } from 'multisigConfig';
-import { logoutAction } from '@redux/commonActions';
-import { routeNames } from 'routes';
-import { accessTokenServices } from 'services/accessTokenServices';
+import { theme } from 'src/components/Theme/createTheme';
+import { uniqueContractAddress } from 'src/multisigConfig';
+import { logoutAction } from 'src/redux/commonActions';
+import addressShorthand from 'src/helpers/addressShorthand';
+import Safe from 'src/assets/img/safe.png';
+import { accessTokenServices } from 'src/services/accessTokenServices';
+import routeNames from 'src/routes/routeNames';
 
 import {
   ConnectItems,

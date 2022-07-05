@@ -7,9 +7,9 @@ import {
   queryProposerAddresses,
   queryQuorumCount,
   queryUserRole,
-} from 'contracts/MultisigContract';
-import useFetch from 'utils/useFetch';
-import { currentMultisigContractSelector } from '../../redux/selectors/multisigContractsSelectors';
+} from 'src/contracts/MultisigContract';
+import useFetch from 'src/utils/useFetch';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { OrganizationInfoContextType, TokenWithPrice } from './types';
 
 type Props = {

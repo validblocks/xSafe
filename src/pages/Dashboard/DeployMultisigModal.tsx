@@ -4,9 +4,9 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { addContractToMultisigContractsList } from 'apiCalls/multisigContractsCalls';
-import { deployMultisigContract } from 'contracts/ManagerContract';
-import { MultisigContractInfoType } from 'types/multisigContracts';
+import { addContractToMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
+import { deployMultisigContract } from 'src/contracts/ManagerContract';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
 
 interface DeployStepsModalType {
   show: boolean;

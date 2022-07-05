@@ -1,5 +1,5 @@
-import { RootState } from '../store';
 import { createDeepEqualSelector } from './helpers';
+import { RootState } from '../store';
 
 export const modalsSliceSelector = (state: RootState) => state.modals;
 
@@ -28,10 +28,11 @@ export const proposeModalSelectedOptionSelector = createDeepEqualSelector(
   (state) => state.selectedOption,
 );
 
-export const proposeMultiselectModalSelectedOptionSelector = createDeepEqualSelector(
-  proposeMultiselectModalSelector,
-  (state) => state.selectedOption,
-);
+export const proposeMultiselectModalSelectedOptionSelector =
+  createDeepEqualSelector(
+    proposeMultiselectModalSelector,
+    (state) => state.selectedOption,
+  );
 
 export const performActionModalSelector = createDeepEqualSelector(
   modalsSliceSelector,

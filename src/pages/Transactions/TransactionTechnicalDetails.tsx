@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
-import { getDate } from 'utils/transactionUtils';
+import { getDate } from 'src/utils/transactionUtils';
 import TransactionAdvancedDetails from './TransactionAdvancedDetails';
 
 type Props = any;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { faQrcode } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import QrCode from 'qrcode.react';
@@ -14,7 +14,7 @@ const ReceiveModal = ({
   address?: string;
   handleQr?: () => void;
 }) => {
-  const [showModal, setShowModal] = React.useState<boolean | undefined>(false);
+  const [showModal, setShowModal] = useState<boolean | undefined>(false);
 
   const handleOpenModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);

@@ -6,19 +6,19 @@ import {
   U32Value,
   U64Value,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
-import BigNumber from 'bignumber.js';
-import * as createKeccakHash from 'keccak';
-import { MultisigAction } from 'types/MultisigAction';
-import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
-import { MultisigActionType } from 'types/MultisigActionType';
-import { MultisigAddBoardMember } from 'types/MultisigAddBoardMember';
-import { MultisigAddProposer } from 'types/MultisigAddProposer';
-import { MultisigChangeQuorum } from 'types/MultisigChangeQuorum';
-import { MultisigContractInfoType } from 'types/multisigContracts';
-import { MultisigDeployContractFromSource } from 'types/MultisigDeployContractFromSource';
-import { MultisigRemoveUser } from 'types/MultisigRemoveUser';
-import { MultisigSendEgld } from 'types/MultisigSendEgld';
-import { MultisigUpgradeContractFromSource } from 'types/MultisigUpgradeContractFromSource';
+import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
+import createKeccakHash from 'keccak';
+import { MultisigAction } from 'src/types/MultisigAction';
+import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import { MultisigActionType } from 'src/types/MultisigActionType';
+import { MultisigAddBoardMember } from 'src/types/MultisigAddBoardMember';
+import { MultisigAddProposer } from 'src/types/MultisigAddProposer';
+import { MultisigChangeQuorum } from 'src/types/MultisigChangeQuorum';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { MultisigDeployContractFromSource } from 'src/types/MultisigDeployContractFromSource';
+import { MultisigRemoveUser } from 'src/types/MultisigRemoveUser';
+import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
+import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeContractFromSource';
 import { MultisigSmartContractCall } from '../types/MultisigSmartContractCall';
 
 export function getIntValueFromBytes(buffer: Buffer) {

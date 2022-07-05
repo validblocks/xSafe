@@ -1,11 +1,11 @@
-import * as React from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
 import Typography from '@mui/material/Typography';
+import { ReactNode, SyntheticEvent, useState } from 'react';
 import TransactionHistory from './TransactionHistory';
 import TransactionQueue from './TransactionQueue';
 
 interface TabPanelProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   index: number;
   value: number;
 }
@@ -39,10 +39,10 @@ function a11yProps(index: number) {
   };
 }
 
-export default function TransactionsPage() {
-  const [value, setValue] = React.useState(0);
+export default () => {
+  const [value, setValue] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
@@ -67,4 +67,4 @@ export default function TransactionsPage() {
       </Box>
     </Box>
   );
-}
+};

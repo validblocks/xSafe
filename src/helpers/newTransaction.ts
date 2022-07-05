@@ -10,7 +10,7 @@ import {
   Nonce,
   TransactionOptions,
 } from '@elrondnetwork/erdjs';
-import { RawTransactionType } from 'helpers/types';
+import { RawTransactionType } from 'src/helpers/types';
 
 export default function newTransaction(rawTransaction: RawTransactionType) {
   return new Transaction({

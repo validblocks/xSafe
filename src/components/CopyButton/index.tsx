@@ -1,7 +1,7 @@
-import React from 'react';
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
+import { MouseEvent, useState } from 'react';
 import copyTextToClipboard from './helpers/copyToClipboard';
 
 interface CopyButtonType {
@@ -10,12 +10,12 @@ interface CopyButtonType {
 }
 
 const CopyButton = ({ text, className = '' }: CopyButtonType) => {
-  const [copyResult, setCopyResut] = React.useState({
+  const [copyResult, setCopyResut] = useState({
     default: true,
     success: false,
   });
 
-  const handleCopyToClipboard = async (e: React.MouseEvent) => {
+  const handleCopyToClipboard = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 

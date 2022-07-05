@@ -1,4 +1,3 @@
-import React from 'react';
 import { Card, IconButton } from '@mui/material';
 
 type Props = {

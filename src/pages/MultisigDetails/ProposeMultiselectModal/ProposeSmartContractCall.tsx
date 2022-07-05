@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import {
   Address,
@@ -8,22 +8,21 @@ import {
 } from '@elrondnetwork/erdjs/out';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useFormik, Form as FormikForm } from 'formik';
+import { FormikProps, useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
-import { denomination } from 'config';
-import MultisigDetailsContext from 'context/MultisigDetailsContext';
-import { FormikInputField } from 'helpers/formikFields';
-import { MultisigSmartContractCall } from 'types/MultisigSmartContractCall';
+import MultisigDetailsContext from 'src/context/MultisigDetailsContext';
+import { FormikInputField } from 'src/helpers/formikFields';
+import { denomination } from 'src/config';
+import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 interface ProposeSmartContractCallType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
   setSubmitDisabled: (value: boolean) => void;
 }
-
-let formik: FormikForm;
 
 function validateRecipient(value?: string) {
   try {
@@ -50,13 +49,22 @@ function validateArgument(value?: string[], testContext?: TestContext) {
   }
 }
 
+interface IFormValues {
+  receiver: string,
+  amount: number,
+  functionName: string,
+  args: string[],
+}
+
 const ProposeSmartContractCall = ({
   handleChange,
   setSubmitDisabled,
 }: ProposeSmartContractCallType) => {
-  const { multisigBalance } = React.useContext(MultisigDetailsContext);
+  const { multisigBalance } = useContext(MultisigDetailsContext);
 
-  const { t }: { t: any } = useTranslation();
+  const { t } = useTranslation();
+
+  let formik: FormikProps<IFormValues>;
 
   function validateAmount(value?: string, testContext?: TestContext) {
     if (value == null) {
@@ -84,21 +92,6 @@ const ProposeSmartContractCall = ({
     return true;
   }
 
-  React.useEffect(() => {
-    setSubmitDisabled(true);
-  }, []);
-
-  const denominatedValue = useMemo(
-    () =>
-      operations.denominate({
-        input: multisigBalance.toString(),
-        denomination,
-        decimals: 4,
-        showLastNonZeroDecimal: true,
-      }),
-    [multisigBalance],
-  );
-
   const validationSchema = Yup.object().shape({
     receiver: Yup.string()
       .min(2, 'Too Short!')
@@ -113,7 +106,7 @@ const ProposeSmartContractCall = ({
     args: Yup.array().test(validateArgument),
   });
 
-  formik = useFormik({
+  formik = useFormik<IFormValues>({
     initialValues: {
       receiver: '',
       amount: 0,
@@ -123,7 +116,22 @@ const ProposeSmartContractCall = ({
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
-  });
+  } as any);
+
+  useEffect(() => {
+    setSubmitDisabled(true);
+  }, []);
+
+  const denominatedValue = useMemo(
+    () =>
+      operations.denominate({
+        input: multisigBalance.toString(),
+        denomination,
+        decimals: 4,
+        showLastNonZeroDecimal: true,
+      }),
+    [multisigBalance],
+  );
 
   const { touched, errors, values } = formik;
   const { amount, receiver, functionName, args } = values;
@@ -202,7 +210,7 @@ const ProposeSmartContractCall = ({
         handleBlur={formik.handleBlur}
       />
       <div className="modal-control-container">
-        <label htmlFor="amount">{t('Amount')}</label>
+        <label htmlFor="amount">{t('Amount') as string}</label>
         <div className="input-wrapper">
           <Form.Control
             id="amount"
@@ -222,7 +230,7 @@ const ProposeSmartContractCall = ({
         <span>{`Balance: ${denominatedValue} EGLD`}</span>
       </div>
       <div className="modal-control-container">
-        <label htmlFor={functionName}>{t('function name (optional)')}</label>
+        <label htmlFor={functionName}>{t('function name (optional)') as string}</label>
         <div className="input-wrapper">
           <Form.Control
             id={functionName}
@@ -256,7 +264,7 @@ const ProposeSmartContractCall = ({
                   onClick={() => removeArg(idx)}
                   className="action-remove action remove"
                 >
-                  <FontAwesomeIcon className="mx-2" icon={faMinus} />
+                  <FontAwesomeIcon className="mx-2" icon={faMinus as IconProp} />
                 </button>
               </div>
             </div>
@@ -264,7 +272,7 @@ const ProposeSmartContractCall = ({
           {argsError && <small className="text-danger">{argsError}</small>}
           <div className="modal-action-btns">
             <button onClick={addNewArgsField} className="btn btn-primary ">
-              <FontAwesomeIcon className="mx-2" icon={faPlus} />
+              <FontAwesomeIcon className="mx-2" icon={faPlus as IconProp} />
               <span className="name">Add argument</span>
             </button>
           </div>

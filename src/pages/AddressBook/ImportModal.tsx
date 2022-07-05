@@ -2,7 +2,7 @@ import { Button, Typography } from '@mui/material';
 import { Importer, ImporterField } from 'react-csv-importer';
 import 'react-csv-importer/dist/index.css';
 import { useDispatch } from 'react-redux';
-import { addEntry } from '@redux/slices/addressBookSlice';
+import { addEntry } from 'src/redux/slices/addressBookSlice';
 
 type ImportModalProps = {
   handleClose: () => void;

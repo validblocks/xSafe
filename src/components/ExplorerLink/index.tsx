@@ -1,6 +1,6 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { network } from 'config';
+import { network } from 'src/config';
 
 const ExplorerLink = ({
   page,

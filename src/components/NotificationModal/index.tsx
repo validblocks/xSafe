@@ -1,17 +1,17 @@
-import React from 'react';
 import { Modal } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import PageState from 'components/PageState';
-import { notificationModalSelector } from '../../redux/selectors/modalsSelector';
-import { clearNotificationModal } from '../../redux/slices/modalsSlice';
+import PageState from 'src/components/PageState';
+import { notificationModalSelector } from 'src/redux/selectors/modalsSelector';
+import { clearNotificationModal } from 'src/redux/slices/modalsSlice';
+import { useEffect, useState } from 'react';
 
 const NotificationModal = () => {
   const notificationModal = useSelector(notificationModalSelector);
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = React.useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setShowModal(Boolean(notificationModal));
   }, [notificationModal]);
 

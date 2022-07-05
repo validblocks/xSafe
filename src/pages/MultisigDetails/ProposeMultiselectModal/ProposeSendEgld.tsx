@@ -1,16 +1,16 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
-import { useFormik, Form as FormikForm } from 'formik';
+import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
-import { denomination } from 'config';
-import { FormikInputField } from 'helpers/formikFields';
-import { multisigBalanceSelector } from '@redux/selectors/accountSelector';
-import { MultisigSendEgld } from 'types/MultisigSendEgld';
+import { multisigBalanceSelector } from 'src/redux/selectors/accountSelector';
+import { FormikInputField } from 'src/helpers/formikFields';
+import { denomination } from 'src/config';
+import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 
 interface ProposeSendEgldType {
   handleChange: (proposal: MultisigSendEgld) => void;
@@ -22,11 +22,11 @@ const ProposeSendEgld = ({
   setSubmitDisabled,
 }: ProposeSendEgldType) => {
   const multisigBalance = useSelector(multisigBalanceSelector);
-  let formik: FormikForm;
+  let formik: any;
 
   const { t }: { t: any } = useTranslation();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setSubmitDisabled(true);
   }, []);
 
@@ -97,7 +97,7 @@ const ProposeSendEgld = ({
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
-  });
+  } as any);
 
   const { touched, errors, values } = formik;
   const { amount, receiver, data } = values;

@@ -1,5 +1,5 @@
+import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import { RootState } from '../store';
-import { createDeepEqualSelector } from './helpers';
 
 export const appConfigSelector = (state: RootState) => state.appConfig;
 

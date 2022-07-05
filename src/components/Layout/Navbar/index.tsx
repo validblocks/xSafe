@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { List, Accordion } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -10,9 +10,9 @@ import ListItemText from '@mui/material/ListItemText';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-import addressShorthand from 'helpers/addressShorthand';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import menuItems from 'utils/menuItems';
+import menuItems from 'src/utils/menuItems';
+import addressShorthand from 'src/helpers/addressShorthand';
 import AccountDetails from './NavbarAccountDetails';
 import './menu.scss';
 import {
@@ -77,7 +77,7 @@ export default function MiniDrawer() {
     setWalletAddress(addressShorthand(uniqueContractAddress));
   }, []);
 
-  const [expanded, setExpanded] = React.useState<string | false>(false);
+  const [expanded, setExpanded] = useState<string | false>(false);
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);

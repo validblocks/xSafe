@@ -10,10 +10,10 @@ import {
   mutateProposeAddProposer,
   mutateProposeAddBoardMember,
   mutateProposeRemoveUser,
-} from 'contracts/MultisigContract';
-import { addEntry } from '@redux/slices/addressBookSlice';
-import { setProposeModalSelectedOption } from '@redux/slices/modalsSlice';
-import { ProposalsTypes, SelectedOptionType } from 'types/Proposals';
+} from 'src/contracts/MultisigContract';
+import { addEntry } from 'src/redux/slices/addressBookSlice';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import { titles } from '../constants';
 import EditOwner from './EditOwner';
 import ProposeChangeQuorum from './ProposeChangeQuorum';

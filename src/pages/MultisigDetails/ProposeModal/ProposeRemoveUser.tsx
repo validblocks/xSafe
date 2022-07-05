@@ -1,7 +1,7 @@
-import React from 'react';
 import { Address } from '@elrondnetwork/erdjs';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SelectedOptionType } from 'types/Proposals';
+import { SelectedOptionType } from 'src/types/Proposals';
 
 interface ProposeRemoveUserType {
   selectedOption: SelectedOptionType;
@@ -15,7 +15,7 @@ const ProposeRemoveUser = ({
   const { t }: { t: any } = useTranslation();
   const address = 'address' in selectedOption! ? selectedOption?.address : '';
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (address != null) {
       handleSetAddress(new Address(address));
     }

@@ -1,12 +1,12 @@
 import { useSelector } from 'react-redux';
-import PerformActionModal from 'components/PerformActionModal';
-import ProposeModal from 'pages/MultisigDetails/ProposeModal/ProposeModal';
-import ProposeMultiselectModal from 'pages/MultisigDetails/ProposeMultiselectModal/ProposeMultiselectModal';
+import PerformActionModal from 'src/components/PerformActionModal';
+import ProposeModal from 'src/pages/MultisigDetails/ProposeModal/ProposeModal';
+import ProposeMultiselectModal from 'src/pages/MultisigDetails/ProposeMultiselectModal/ProposeMultiselectModal';
 import {
   proposeModalSelectedOptionSelector,
   proposeMultiselectModalSelectedOptionSelector,
   selectedPerformedActionSelector,
-} from '@redux/selectors/modalsSelector';
+} from 'src/redux/selectors/modalsSelector';
 
 const ModalLayer = () => {
   const selectedAction = useSelector(selectedPerformedActionSelector);

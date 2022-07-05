@@ -15,10 +15,10 @@ import { Modal } from 'react-bootstrap';
 
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import { AddressBook as AddressBookType } from 'pages/Organization/types';
-import { addressBookSelector } from '@redux/selectors/addressBookSelector';
-import { addEntry, removeEntry } from '@redux/slices/addressBookSlice';
-import { RootState } from '@redux/store';
+import { AddressBook as AddressBookType } from 'src/pages/Organization/types';
+import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
+import { addEntry, removeEntry } from 'src/redux/slices/addressBookSlice';
+import { RootState } from 'src/redux/store';
 import ExportModal from './ExportModal';
 import ImportModal from './ImportModal';
 import NewEntryModal from './NewEntryModal';

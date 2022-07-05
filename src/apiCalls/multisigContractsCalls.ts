@@ -1,16 +1,15 @@
+import {
+  maiarIdApi,
+  accessTokenServices,
+  storageApi,
+} from 'src/services/accessTokenServices';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { getAddress } from '@elrondnetwork/dapp-core';
 import axios, { AxiosError } from 'axios';
 import uniqBy from 'lodash/uniqBy';
-import { network } from 'config';
-// import { verifiedContractsHashes } from 'helpers/constants';
-import {
-  accessTokenServices,
-  maiarIdApi,
-  storageApi,
-} from 'services/accessTokenServices';
-import { MultisigContractInfoType } from 'types/multisigContracts';
-import { verifiedContractsHashes } from 'helpers/constants';
+import { verifiedContractsHashes } from 'src/helpers/constants';
+import { network } from 'src/config';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
 
 const contractsInfoStorageEndpoint = `${storageApi}/settings/multisig`;
 
@@ -33,7 +32,7 @@ multisigAxiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error: any) => Promise.reject(error),
+  (error) => Promise.reject(error),
 );
 
 multisigAxiosInstance.interceptors.response.use(
@@ -46,9 +45,7 @@ multisigAxiosInstance.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-export async function getUserMultisigContractsList(): Promise<
-  MultisigContractInfoType[]
-> {
+export async function getUserMultisigContractsList() {
   try {
     const response = await multisigAxiosInstance.get(
       contractsInfoStorageEndpoint,
@@ -119,12 +116,14 @@ export async function updateMultisigContractOnServer(
   newContract: MultisigContractInfoType,
 ): Promise<MultisigContractInfoType[]> {
   const currentContracts = await getUserMultisigContractsList();
-  const newContracts = currentContracts.map((contract) => {
-    if (contract.address === newContract.address) {
-      return { ...contract, ...newContract };
-    }
-    return contract;
-  });
+  const newContracts = currentContracts.map(
+    (contract: MultisigContractInfoType) => {
+      if (contract.address === newContract.address) {
+        return { ...contract, ...newContract };
+      }
+      return contract;
+    },
+  );
   await multisigAxiosInstance.post(contractsInfoStorageEndpoint, newContracts);
   return newContracts;
 }
@@ -134,7 +133,8 @@ export async function removeContractFromMultisigContractsList(
 ): Promise<MultisigContractInfoType[]> {
   const currentContracts = await getUserMultisigContractsList();
   const newContracts = currentContracts.filter(
-    (contract) => contract.address !== deletedContractAddress,
+    (contract: MultisigContractInfoType) =>
+      contract.address !== deletedContractAddress,
   );
   await multisigAxiosInstance.post(contractsInfoStorageEndpoint, newContracts);
   return newContracts;

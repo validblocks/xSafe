@@ -6,7 +6,7 @@ import TimelineDot from '@mui/lab/TimelineDot';
 import TimelineItem from '@mui/lab/TimelineItem';
 import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import { Grid } from '@mui/material';
-import { queryBoardMemberAddresses } from 'contracts/MultisigContract';
+import { queryBoardMemberAddresses } from 'src/contracts/MultisigContract';
 
 const TimelineCard = () => {
   const [addresses, setAddresses]: any = useState([]);

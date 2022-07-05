@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next';
 import {
   addContractToMultisigContractsList,
   validateMultisigAddress,
-} from 'apiCalls/multisigContractsCalls';
-import { MultisigContractInfoType } from 'types/multisigContracts';
+} from 'src/apiCalls/multisigContractsCalls';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import ProposeInputAddress from '../MultisigDetails/ProposeModal/ProposeInputAddress';
 
 interface AddMultisigModalType {

@@ -1,5 +1,4 @@
-import React from 'react';
-import { ReactComponent as HeartIcon } from 'assets/img/heart.svg';
+import { ReactComponent as HeartIcon } from 'src/assets/img/heart.svg';
 
 const Footer = () => (
   <footer className="text-center mt-2 mb-3">

@@ -1,9 +1,9 @@
 import { Address } from '@elrondnetwork/erdjs/out';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ExplorerLink from 'src/components/ExplorerLink';
 import i18next from 'i18next';
-import ExplorerLink from 'components/ExplorerLink';
-import { truncateInTheMiddle } from 'utils/addressUtils';
+import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
 

@@ -1,6 +1,6 @@
 export interface MultisigContractInfoType {
   address: string;
-  name: string;
+  name?: string;
   isTrusted?: boolean;
 }
 

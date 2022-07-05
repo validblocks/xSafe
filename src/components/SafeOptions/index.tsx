@@ -4,19 +4,19 @@ import { Box, Button, Grid, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { useDispatch, useSelector } from 'react-redux';
-import OtherSafe from 'assets/img/other-safe.png';
-import Safe from 'assets/img/safe.png';
-import { TypographyBold } from 'components/Theme/StyledComponents';
-import addressShorthand from 'helpers/addressShorthand';
+import OtherSafe from 'src/assets/img/other-safe.png';
+import Safe from 'src/assets/img/safe.png';
+import { TypographyBold } from 'src/components/Theme/StyledComponents';
 import {
   currencyConvertedSelector,
   selectedCurrencySelector,
-} from '@redux/selectors/currencySelector';
+} from 'src/redux/selectors/currencySelector';
 import { useNavigate } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import DeployStepsModal from 'pages/Dashboard/DeployMultisigModal';
-import { setMultisigContracts } from '@redux/slices/multisigContractsSlice';
-import { MultisigContractInfoType } from 'types/multisigContracts';
+import DeployStepsModal from 'src/pages/Dashboard/DeployMultisigModal';
+import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
+import addressShorthand from 'src/helpers/addressShorthand';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import {
   ActiveWallet,
   AddSafe,
@@ -106,7 +106,7 @@ const SafeOptions = () => {
       <DeployStepsModal
         show={showDeployMultisigModal}
         handleClose={() => setShowDeployMultisigModal(false)}
-        setNewContracts={useCallback(updateMultisigContract)}
+        setNewContracts={useCallback(updateMultisigContract, [dispatch])}
       />
     </SafeOptionsWrapper>
   );

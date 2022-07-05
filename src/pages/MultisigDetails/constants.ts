@@ -1,4 +1,4 @@
-import { ProposalsTypes } from 'types/Proposals';
+import { ProposalsTypes } from 'src/types/Proposals';
 
 export const titles = {
   [ProposalsTypes.add_proposer]: 'add proposer',

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import {
   Timeline,
@@ -11,8 +11,8 @@ import {
 } from '@mui/lab';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { makeStyles, withStyles } from '@mui/styles';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
-import { truncateInTheMiddle } from 'utils/addressUtils';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import TransactionTechnicalDetails from './TransactionTechnicalDetails';
 
 type Props = Partial<{

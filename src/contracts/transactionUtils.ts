@@ -12,8 +12,8 @@ import {
   TransactionVersion,
   Address,
 } from '@elrondnetwork/erdjs';
-import { gasLimit } from 'config';
-import { providerTypes } from 'helpers/constants';
+import { providerTypes } from 'src/helpers/constants';
+import { gasLimit } from 'src/config';
 import { multisigContractFunctionNames } from '../types/multisigFunctionNames';
 
 interface TransactionPayloadType {

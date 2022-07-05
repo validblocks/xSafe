@@ -1,15 +1,15 @@
-import React from 'react';
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal, Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { gasLimit as defaultGasLimit, maxGasLimit } from 'config';
-import { mutatePerformAction } from 'contracts/MultisigContract';
+import { mutatePerformAction } from 'src/contracts/MultisigContract';
 import {
   SelectedActionToPerform,
   setSelectedPerformedAction,
-} from '@redux/slices/modalsSlice';
-import { MultisigActionType } from 'types/MultisigActionType';
+} from 'src/redux/slices/modalsSlice';
+import { gasLimit as defaultGasLimit, maxGasLimit } from 'src/config';
+import { MultisigActionType } from 'src/types/MultisigActionType';
+import { useState } from 'react';
 
 const gasLimits = {
   [MultisigActionType.Nothing]: 10_000_000,
@@ -34,8 +34,8 @@ const PerformActionModal = ({
     selectedAction?.actionType != null
       ? gasLimits[selectedAction.actionType] ?? defaultGasLimit
       : defaultGasLimit;
-  const [selectedGasLimit, setSelectedGasLimit] = React.useState(gasLimit);
-  const [error, setError] = React.useState<string | null>(null);
+  const [selectedGasLimit, setSelectedGasLimit] = useState(gasLimit);
+  const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
   if (selectedAction == null) {
     return null;

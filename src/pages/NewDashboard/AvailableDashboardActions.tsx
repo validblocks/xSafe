@@ -5,7 +5,7 @@ import FactCheckIcon from '@mui/icons-material/FactCheck';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import { Box, useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import MembersActionCard from 'pages/Organization/MembersActionCard';
+import MembersActionCard from 'src/pages/Organization/MembersActionCard';
 
 const AvailableDashboardActions = () => {
   const isSmallScreen = useMediaQuery('(max-width:920px)');

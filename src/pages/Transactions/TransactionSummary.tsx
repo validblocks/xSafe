@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
-import { truncateInTheMiddle } from 'utils/addressUtils';
-import { getDate } from 'utils/transactionUtils';
+import { truncateInTheMiddle } from 'src/utils/addressUtils';
+import { getDate } from 'src/utils/transactionUtils';
 
 type Props = {
   transaction: any;

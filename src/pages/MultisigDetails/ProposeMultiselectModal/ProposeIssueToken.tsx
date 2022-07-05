@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { isNaN, useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
-import { FormikCheckbox, FormikInputField } from 'helpers/formikFields';
-import { MultisigIssueToken } from 'types/MultisigIssueToken';
+import { FormikCheckbox, FormikInputField } from 'src/helpers/formikFields';
+import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
 
 interface ProposeIssueTokenType {
   handleChange: (proposal: MultisigIssueToken) => void;
@@ -63,7 +63,7 @@ const ProposeIssueToken = ({
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
-  });
+  } as any);
   const { touched, errors, values } = formik;
 
   const {
@@ -125,7 +125,7 @@ const ProposeIssueToken = ({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     refreshProposal();
   }, [
     name,
@@ -147,7 +147,7 @@ const ProposeIssueToken = ({
         label={t('Name')}
         name="name"
         value={name}
-        error={nameError}
+        error={nameError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
@@ -156,7 +156,7 @@ const ProposeIssueToken = ({
         label={t('Identifier')}
         name="identifier"
         value={identifier}
-        error={identifierError}
+        error={identifierError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
@@ -164,7 +164,7 @@ const ProposeIssueToken = ({
         label={t('Mint Amount')}
         name="amount"
         value={amount}
-        error={amountError}
+        error={amountError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
@@ -172,7 +172,7 @@ const ProposeIssueToken = ({
         label={t('Decimals')}
         name="decimals"
         value={decimals}
-        error={decimalsError}
+        error={decimalsError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />

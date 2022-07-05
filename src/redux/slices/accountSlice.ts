@@ -1,6 +1,6 @@
 import { Balance as BalanceType, Balance } from '@elrondnetwork/erdjs';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TokenTableRowItem } from 'pages/Organization/types';
+import { TokenTableRowItem } from 'src/pages/Organization/types';
 import { logoutAction } from '../commonActions';
 
 export interface StateType {
@@ -55,6 +55,7 @@ export const accountSlice = createSlice({
   },
 });
 
-export const { setAccountData, setOrganizationTokens, setMultisigBalance } = accountSlice.actions;
+export const { setAccountData, setOrganizationTokens, setMultisigBalance } =
+  accountSlice.actions;
 
 export default accountSlice.reducer;

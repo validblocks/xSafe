@@ -1,10 +1,10 @@
 import { Box, Grid, Typography } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { MainButton } from 'components/Theme/StyledComponents';
-import { network } from 'config';
+import { MainButton } from 'src/components/Theme/StyledComponents';
+import { network } from 'src/config';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import useFetch from 'utils/useFetch';
+import useFetch from 'src/utils/useFetch';
 import {
   EmptyList, CollectionName, TextDivider, CardBox,
 } from './nft-style';

@@ -1,8 +1,8 @@
 import { Box, Grid, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
-import CircularStatic from 'components/ProgressBar/progressCircle';
-import LinearWithValueLabel from 'components/ProgressBar/progressLinear';
+import CircularStatic from 'src/components/ProgressBar/progressCircle';
+import LinearWithValueLabel from 'src/components/ProgressBar/progressLinear';
 
 const ProgressBarsSection = () => {
   const Item = styled(Paper)(({ theme }) => ({

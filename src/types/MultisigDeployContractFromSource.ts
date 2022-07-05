@@ -41,11 +41,12 @@ export class MultisigDeployContractFromSource extends MultisigAction {
   }
 
   getData() {
-    const hasArgs = this.args.length > 1 && this.args[0].valueOf().toString().length > 0;
+    const hasArgs =
+      this.args.length > 1 && this.args[0].valueOf().toString().length > 0;
     return `Deploy from ${this.source.bech32()}  ${
       hasArgs
-        ? `/ arguments: ${
-          this.args.map((arg) => arg.valueOf().toString('hex'))}`
+        ? `/ arguments: ${this.args.map((arg) => arg.valueOf().toString('hex'),
+        )}`
         : ''
     }`;
   }

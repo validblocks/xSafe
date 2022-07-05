@@ -11,8 +11,8 @@ import {
   mutateSign,
   mutateUnsign,
   mutateDiscardAction,
-} from 'contracts/MultisigContract';
-import { setSelectedPerformedAction } from '@redux/slices/modalsSlice';
+} from 'src/contracts/MultisigContract';
+import { setSelectedPerformedAction } from 'src/redux/slices/modalsSlice';
 
 export interface TransactionActionsCardType {
   type: number;

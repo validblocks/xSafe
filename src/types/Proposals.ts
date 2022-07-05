@@ -1,4 +1,4 @@
-import { Owner } from 'pages/Organization/types';
+import { Owner } from 'src/pages/Organization/types';
 
 export enum ProposalsTypes {
   'change_quorum' = 'change_quorum',
@@ -16,7 +16,7 @@ export enum ProposalsTypes {
   'deploy_contract_from_source' = 'deploy_contract_from_source',
   'upgrade_contract' = 'upgrade_contract',
   'upgrade_contract_from_source' = 'upgrade_contract_from_source',
-  'attach_contract' = 'attach_contract'
+  'attach_contract' = 'attach_contract',
 }
 
 export interface RemoveUserOptionType {

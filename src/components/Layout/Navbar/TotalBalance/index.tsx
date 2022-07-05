@@ -1,33 +1,32 @@
 import { useState, useEffect, useCallback } from 'react';
-import { getNetworkProxy } from '@elrondnetwork/dapp-core';
+import { getNetworkProxy, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { Box } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { MainButton } from 'components/Theme/StyledComponents';
-import { network } from 'config';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
-import { TokenWithPrice } from 'pages/Organization/types';
-import { organizationTokensSelector } from '@redux/selectors/accountSelector';
+import { MainButton } from 'src/components/Theme/StyledComponents';
+import { network } from 'src/config';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { TokenWithPrice } from 'src/pages/Organization/types';
+import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
 import {
   currencyConvertedSelector,
   selectedCurrencySelector,
-} from '@redux/selectors/currencySelector';
-import { priceSelector } from '@redux/selectors/economicsSelector';
-import { currentMultisigContractSelector } from '@redux/selectors/multisigContractsSelectors';
+} from 'src/redux/selectors/currencySelector';
+import { priceSelector } from 'src/redux/selectors/economicsSelector';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import {
   setMultisigBalance,
-  setOrganizationTokens,
-} from '@redux/slices/accountSlice';
-import { setValueInUsd } from '@redux/slices/currencySlice';
-import { setProposeMultiselectSelectedOption } from '@redux/slices/modalsSlice';
-import { ProposalsTypes } from 'types/Proposals';
-import useCurrency from 'utils/useCurrency';
+} from 'src/redux/slices/accountSlice';
+import { setValueInUsd } from 'src/redux/slices/currencySlice';
+import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
+import { ProposalsTypes } from 'src/types/Proposals';
+import useCurrency from 'src/utils/useCurrency';
 import Divider from '@mui/material/Divider';
 import { CenteredText } from '../navbar-style';
 
-type OrganizationToken = unknown;
+type OrganizationToken = any;
 
 const TotalBalance = () => {
   const dispatch = useDispatch();
@@ -38,6 +37,7 @@ const TotalBalance = () => {
 
   const currentContract = useSelector(currentMultisigContractSelector);
   const { tokenPrices } = useOrganizationInfoContext();
+  const { address } = useGetAccountInfo();
   const proxy = getNetworkProxy();
   const getTokenPrice = useCallback(
     (tokenIdentifier: string) =>
@@ -56,6 +56,7 @@ const TotalBalance = () => {
   }, []);
 
   useEffect(() => {
+    if (!address || !currentContract?.address) return;
     // eslint-disable-next-line consistent-return, wrap-iife
     (async function getTokens() {
       let isMounted = true;
@@ -98,7 +99,8 @@ const TotalBalance = () => {
           let photoUrl = '';
 
           if (token.identifier !== 'EGLD') {
-            photoUrl = fetchTokenPhotoUrl(token.identifier as string);
+            // eslint-disable-next-line no-await-in-loop
+            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
           }
 
           tokensWithPrices.push({
@@ -122,12 +124,12 @@ const TotalBalance = () => {
           });
         }
 
-        dispatch(setOrganizationTokens(tokensWithPrices));
+        // dispatch(setOrganizationTokens(tokensWithPrices));
       } catch (error) {
         console.log(error);
       }
     })();
-  }, [currentContract]);
+  }, [currentContract, address, currentContract.address]);
 
   const totalValue = () => {
     const arrayOfUsdValues: Array<number> = [];

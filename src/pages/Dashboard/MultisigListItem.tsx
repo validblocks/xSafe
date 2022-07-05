@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-bind */
 // eslint-disable-next-line no-use-before-define
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Ui } from '@elrondnetwork/dapp-utils';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import {
@@ -14,14 +14,14 @@ import { useNavigate } from 'react-router-dom';
 import {
   removeContractFromMultisigContractsList,
   updateMultisigContractOnServer,
-} from 'apiCalls/multisigContractsCalls';
-import { ReactComponent as Wallet } from 'assets/img/wallet-logo.svg';
-import TrustedBadge from 'components/TrustedBadge';
-import { network } from 'config';
-import { MultisigContractInfoType } from 'types/multisigContracts';
+} from 'src/apiCalls/multisigContractsCalls';
+import TrustedBadge from 'src/components/TrustedBadge';
 import { Box } from '@mui/material';
-import { uniqueContractAddress } from 'multisigConfig';
-import { setMultisigContracts, updateMultisigContract } from '../../redux/slices/multisigContractsSlice';
+import { uniqueContractAddress } from 'src/multisigConfig';
+import { setMultisigContracts, updateMultisigContract } from 'src/redux/slices/multisigContractsSlice';
+import { ReactComponent as Wallet } from 'src/assets/img/wallet-logo.svg';
+import { network } from 'src/config';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import ConfirmUnregisterModal from './ConfirmUnregisterModal';
 import EditContractNameModal from './EditContractNameModal';
 
@@ -139,7 +139,7 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
           />
           <EditContractNameModal
             show={showEditNameModal}
-            contractName={contract.name}
+            contractName={contract.name ?? 'Unknown contract'}
             onCancel={handleCloseEditNameModal}
             onConfirm={handleUpdateContractName}
           />

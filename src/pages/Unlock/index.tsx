@@ -4,12 +4,12 @@ import { faArrowRight, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
-import { ReactComponent as IconElrond } from 'assets/img/icon-elrond.svg';
-import { ReactComponent as IconLedger } from 'assets/img/icon-ledger.svg';
-import { ReactComponent as IconMaiar } from 'assets/img/icon-maiar.svg';
-import { network } from 'config';
-import { routeNames } from 'routes';
-import { accessTokenServices, maiarIdApi } from 'services/accessTokenServices';
+import routeNames from 'src/routes/routeNames';
+import { ReactComponent as IconElrond } from 'src/assets/img/icon-elrond.svg';
+import { ReactComponent as IconLedger } from 'src/assets/img/icon-ledger.svg';
+import { ReactComponent as IconMaiar } from 'src/assets/img/icon-maiar.svg';
+import { network } from 'src/config';
+import { accessTokenServices, maiarIdApi } from 'src/services/accessTokenServices';
 
 declare global {
   interface Window {

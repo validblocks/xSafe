@@ -15,16 +15,12 @@ const topItems = [
     name: 'Assets',
     link: 'assets',
     icon: <AttachMoneyIcon />,
-    id: 'panel1',
+    id: 'assets-menu-item',
     submenu: [
       {
         name: 'Coins',
         link: 'tokens',
-        icon: <AdjustOutlinedIcon />,
-      },
-      {
-        name: 'NFTs',
-        link: 'nft',
+        id: 'tokens-menu-item',
         icon: <DiamondIcon />,
       },
     ],
@@ -32,32 +28,37 @@ const topItems = [
   {
     name: 'Transactions',
     link: 'transactions',
+    id: 'transactions-menu-item',
     icon: <CompareArrowsOutlinedIcon />,
   },
   {
     name: 'Address Book',
     link: 'address-book',
+    id: 'address-book-menu-item',
     icon: <MenuBookIcon />,
   },
   {
     name: 'Apps',
     link: 'apps',
+    id: 'apps-menu-item',
     icon: <GridViewSharpIcon />,
   },
   {
     name: 'Organization',
     link: 'organization',
+    id: 'organization-menu-item',
     icon: <MapsHomeWorkIcon />,
-    id: 'panel2',
     submenu: [
       {
         name: 'Owners',
         link: 'owners',
+        id: 'owners-menu-item',
         icon: <GroupsIcon />,
       },
       {
         name: 'Cvorum',
         link: 'cvorum',
+        id: 'cvorum-menu-item',
         icon: <PeopleIcon />,
       },
     ],
@@ -67,26 +68,36 @@ const topItems = [
 const bottomItems = [
   {
     name: 'Settings',
+    id: 'settings-menu-item',
     link: 'settings',
     icon: <SettingsApplicationsIcon />,
   },
-  { name: 'Help Center', link: 'help-center', icon: <HelpIcon /> },
+  { name: 'Help Center',
+    id: 'help-center-menu-item',
+    link: 'help-center',
+    icon: <HelpIcon /> },
 ];
 
 const mobileBottomItems = [
   {
     name: 'Assets',
     link: 'assets',
+    id: 'assets-mobile-menu-item',
+
     icon: <AttachMoneyIcon />,
     submenu: [
       {
         name: 'Coins',
         link: 'tokens',
+        id: 'tokens-mobile-menu-item',
+
         icon: <AdjustOutlinedIcon />,
       },
       {
         name: 'NFTs',
         link: 'nft',
+        id: 'nft-mobile-menu-item',
+
         icon: <DiamondIcon />,
       },
     ],
@@ -94,16 +105,22 @@ const mobileBottomItems = [
   {
     name: 'Transactions',
     link: 'transactions',
+    id: 'transactions-mobile-menu-item',
+
     icon: <CompareArrowsOutlinedIcon />,
   },
   {
     name: 'Apps',
     link: 'apps',
+    id: 'apps-mobile-menu-item',
+
     icon: <GridViewSharpIcon />,
   },
   {
     name: 'Address Book',
     link: 'address-book',
+    id: 'address-book-mobile-menu-item',
+
     icon: <MenuBookIcon />,
   },
 ];

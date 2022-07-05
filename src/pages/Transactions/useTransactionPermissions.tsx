@@ -1,7 +1,7 @@
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
-import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 
 export default function useTransactionPermissions() {
   const { address } = useGetAccountInfo();

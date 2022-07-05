@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import ActionBoxDetails from 'components/DecisionActionsComponents/ActionBoxDetails';
-import DecisionsActionsHeader from 'components/DecisionActionsComponents/decisionsActionsHeader';
+import ActionBoxDetails from 'src/components/DecisionActionsComponents/ActionBoxDetails';
+import DecisionsActionsHeader from 'src/components/DecisionActionsComponents/decisionsActionsHeader';
 import './decision-actions.scss';
 
 const DecisionActions = () => (

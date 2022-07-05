@@ -1,6 +1,6 @@
 import { Address } from '@elrondnetwork/erdjs/out';
-import { RootState } from '../store';
 import { createDeepEqualSelector } from './helpers';
+import { RootState } from '../store';
 
 const mainSelector = (state: RootState) => state.multisigContracts;
 

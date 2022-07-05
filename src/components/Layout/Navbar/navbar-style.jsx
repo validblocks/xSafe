@@ -10,8 +10,8 @@ import {
 } from '@mui/material';
 import { Navbar as NavItem } from 'react-bootstrap';
 import styled from 'styled-components';
-import { ReactComponent as ElrondLogo } from 'assets/img/elrond.svg';
-import CopyButton from 'components/CopyButton';
+import { ReactComponent as ElrondLogo } from 'src/assets/img/elrond.svg';
+import CopyButton from 'src/components/CopyButton';
 
 export const ConnectDropdown = styled(Menu)`
   top: 20px;

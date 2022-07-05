@@ -20,17 +20,14 @@ import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { getAccountData } from 'apiCalls/accountCalls';
-import { ReactComponent as WalletLogo } from 'assets/img/elrond-wallet-icon.svg';
-import { ReactComponent as NoPoposalsIcon } from 'assets/img/no-proposals-icon.svg';
-import { useConfirmModal } from 'components/ConfirmModal/ConfirmModalPayload';
-import Loader from 'components/Loader';
-import PerformActionModal from 'components/PerformActionModal';
-import ReceiveModal from 'components/ReceiveModal';
-import State from 'components/State';
-import TrustedBadge from 'components/TrustedBadge';
-import { denomination, decimals } from 'config';
-import MultisigDetailsContext from 'context/MultisigDetailsContext';
+import { getAccountData } from 'src/apiCalls/accountCalls';
+import { useConfirmModal } from 'src/components/ConfirmModal/ConfirmModalPayload';
+import Loader from 'src/components/Loader';
+import PerformActionModal from 'src/components/PerformActionModal';
+import ReceiveModal from 'src/components/ReceiveModal';
+import State from 'src/components/State';
+import TrustedBadge from 'src/components/TrustedBadge';
+import MultisigDetailsContext from 'src/context/MultisigDetailsContext';
 import {
   queryBoardMembersCount,
   queryProposersCount,
@@ -41,28 +38,31 @@ import {
   mutateDiscardAction,
   queryBoardMemberAddresses,
   queryProposerAddresses,
-} from 'contracts/MultisigContract';
-import { hexToNumber, hexToString } from 'helpers/converters';
-import { tryParseTransactionParameter } from 'helpers/urlparameters';
-import MultisigProposalCard from 'pages/MultisigDetails/MultisigProposalCard';
-import { priceSelector } from '@redux/selectors/economicsSelector';
+} from 'src/contracts/MultisigContract';
+import MultisigProposalCard from 'src/pages/MultisigDetails/MultisigProposalCard';
+import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import {
   proposeModalSelectedOptionSelector,
   proposeMultiselectModalSelectedOptionSelector,
   selectedPerformedActionSelector,
-} from '@redux/selectors/modalsSelector';
+} from 'src/redux/selectors/modalsSelector';
 import {
   currentMultisigContractSelector,
   currentMultisigTransactionIdSelector,
-} from '@redux/selectors/multisigContractsSelectors';
+} from 'src/redux/selectors/multisigContractsSelectors';
 import {
   setProposeMultiselectSelectedOption,
   setSelectedPerformedAction,
-} from '@redux/slices/modalsSlice';
-import { setCurrentMultisigContract } from '@redux/slices/multisigContractsSlice';
-import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
-import { ProposalsTypes } from 'types/Proposals';
-import { routeNames } from '../../routes';
+} from 'src/redux/slices/modalsSlice';
+import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
+import { ReactComponent as NoPoposalsIcon } from 'src/assets/img/no-proposals-icon.svg';
+import { ReactComponent as WalletLogo } from 'src/assets/img/elrond-wallet-icon.svg';
+import { tryParseTransactionParameter } from 'src/helpers/urlparameters';
+import { hexToNumber, hexToString } from 'src/helpers/converters';
+import { denomination, decimals } from 'src/config';
+import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import { ProposalsTypes } from 'src/types/Proposals';
+import routeNames from 'src/routes/routeNames';
 import MultisigDetailsAccordion from './MultisigDetailsAccordion';
 import ProposeModal from './ProposeModal/ProposeModal';
 import ProposeMultiselectModal from './ProposeMultiselectModal/ProposeMultiselectModal';
@@ -127,6 +127,52 @@ const MultisigDetailsPage = () => {
   const { t }: { t: any } = useTranslation();
   const isProposer = userRole !== 0;
   const isBoardMember = userRole === 2;
+
+  async function getDashboardInfo() {
+    if (currentContract == null) {
+      return;
+    }
+    const proxy = getNetworkProxy();
+    try {
+      const [
+        newTotalBoardMembers,
+        newTotalProposers,
+        newQuorumSize,
+        newUserRole,
+        newAllActions,
+        account,
+        boardMembersAddresses,
+        proposersAddresses,
+      ] = await Promise.all([
+        queryBoardMembersCount(),
+        queryProposersCount(),
+        queryQuorumCount(),
+        queryUserRole(new Address(address).hex()),
+        queryAllActions(),
+        proxy.getAccount(new Address(currentContract.address)),
+        queryBoardMemberAddresses(),
+        queryProposerAddresses(),
+      ]);
+      const accountInfo = await getAccountData(currentContract.address);
+      const newContractInfo: ContractInfo = {
+        totalBoardMembers: newTotalBoardMembers,
+        totalProposers: newTotalProposers,
+        quorumSize: newQuorumSize,
+        userRole: newUserRole,
+        deployedAt: moment.unix(accountInfo.deployedAt).format('DD MMM YYYY'),
+        allActions: newAllActions,
+        multisigBalance: account.balance,
+        boardMembersAddresses,
+        proposersAddresses,
+      };
+
+      setContractInfo(newContractInfo);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setDataFetched(true);
+    }
+  }
 
   transactionServices.useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
@@ -225,52 +271,6 @@ const MultisigDetailsPage = () => {
       return;
     }
 
-    async function getDashboardInfo() {
-      if (currentContract == null) {
-        return;
-      }
-      const proxy = getNetworkProxy();
-      try {
-        const [
-          newTotalBoardMembers,
-          newTotalProposers,
-          newQuorumSize,
-          newUserRole,
-          newAllActions,
-          account,
-          boardMembersAddresses,
-          proposersAddresses,
-        ] = await Promise.all([
-          queryBoardMembersCount(),
-          queryProposersCount(),
-          queryQuorumCount(),
-          queryUserRole(new Address(address).hex()),
-          queryAllActions(),
-          proxy.getAccount(new Address(currentContract.address)),
-          queryBoardMemberAddresses(),
-          queryProposerAddresses(),
-        ]);
-        const accountInfo = await getAccountData(currentContract.address);
-        const newContractInfo: ContractInfo = {
-          totalBoardMembers: newTotalBoardMembers,
-          totalProposers: newTotalProposers,
-          quorumSize: newQuorumSize,
-          userRole: newUserRole,
-          deployedAt: moment.unix(accountInfo.deployedAt).format('DD MMM YYYY'),
-          allActions: newAllActions,
-          multisigBalance: account.balance,
-          boardMembersAddresses,
-          proposersAddresses,
-        };
-
-        setContractInfo(newContractInfo);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setDataFetched(true);
-      }
-    }
-
     const isCurrentMultisigAddressNotSet = currentContract == null;
     const isCurrentMultisigAddressDiferentThanParam =
       newMultisigAddressParam != null &&
@@ -337,6 +337,14 @@ const MultisigDetailsPage = () => {
     }),
     [],
   );
+
+  const parseMultisigAddress = (): Address | null => {
+    try {
+      return new Address(multisigAddressParam);
+    } catch {
+      return null;
+    }
+  };
 
   const onSendEgld = () =>
     dispatch(

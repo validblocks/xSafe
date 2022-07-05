@@ -7,10 +7,10 @@ import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
-import { network } from 'config';
-import { currentMultisigContractSelector } from '@redux/selectors/multisigContractsSelectors';
-import { getDate } from 'utils/transactionUtils';
-import useFetch from 'utils/useFetch';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { getDate } from 'src/utils/transactionUtils';
+import useFetch from 'src/utils/useFetch';
+import { network } from 'src/config';
 import TransactionDescription from './TransactionDescription';
 import TransactionSummary from './TransactionSummary';
 

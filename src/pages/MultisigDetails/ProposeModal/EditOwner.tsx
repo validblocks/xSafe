@@ -1,13 +1,13 @@
-import React from 'react';
 import { Address } from '@elrondnetwork/erdjs';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import { AddressBook } from 'pages/Organization/types';
-import { addressBookSelector } from '@redux/selectors/addressBookSelector';
-import { RootState } from '@redux/store';
-import { SelectedOptionType } from 'types/Proposals';
+import { AddressBook } from 'src/pages/Organization/types';
+import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
+import { RootState } from 'src/redux/store';
+import { SelectedOptionType } from 'src/types/Proposals';
+import { useEffect } from 'react';
 
 type ProposeEditOwnerType = {
   selectedOption: SelectedOptionType;
@@ -39,14 +39,14 @@ const EditOwner = ({
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
-  });
+  } as any);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (address != null) {
       handleSetAddress(new Address(address));
     }
   }, []);
-  React.useEffect(() => {
+  useEffect(() => {
     handleSetName(editOwnerForm.values.name);
   }, [editOwnerForm.values.name]);
 

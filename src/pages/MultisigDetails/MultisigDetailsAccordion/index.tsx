@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { Ui } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs';
 import {
@@ -19,11 +19,11 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { ReactComponent as EmptyStateIcon } from 'assets/img/empty-state-icon.svg';
-import StatCard from 'components/StatCard';
-import { network } from 'config';
-import { setProposeModalSelectedOption } from '@redux/slices/modalsSlice';
-import { ProposalsTypes } from 'types/Proposals';
+import StatCard from 'src/components/StatCard';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+import { ReactComponent as EmptyStateIcon } from 'src/assets/img/empty-state-icon.svg';
+import { network } from 'src/config';
+import { ProposalsTypes } from 'src/types/Proposals';
 
 import { ContractInfo } from '../MultisigDetailsPage';
 
@@ -33,11 +33,16 @@ interface MultisigDetailsAccordionPropsType {
   contractInfo: ContractInfo;
   isProposer: boolean;
 }
-const AccordionTooltip = (index: number, props: Record<string, unknown>) => (
-  <Tooltip id={`remove-user-tooltip-${index}`} {...props}>
-    {t('Insufficient quorum size for removing a board member')}
-  </Tooltip>
-);
+const AccordionTooltip = (index: number, props: Record<string, unknown>) => {
+  const { t } = useTranslation();
+  return (
+    <Tooltip
+      defaultValue={t('Insufficient quorum size for removing a board member') as string ?? ''}
+      id={`remove-user-tooltip-${index}`}
+      {...props}
+    />
+  );
+};
 
 const MultisigDetailsAccordion = ({
   contractInfo,
@@ -51,7 +56,7 @@ const MultisigDetailsAccordion = ({
     proposersAddresses,
   } = contractInfo;
 
-  const [expanded, setExpanded] = React.useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const handleToggleExpanded = () => setExpanded((prev) => !prev);
   const { t }: { t: any } = useTranslation();
@@ -224,22 +229,14 @@ const MultisigDetailsAccordion = ({
         <StatCard
           title={t('Board Members')}
           value={totalBoardMembers.toString()}
-          color="orange"
-          svg=""
         />
         <StatCard
           title={t('Proposers')}
           value={totalProposers.toString()}
-          valueUnit=""
-          color="orange"
-          svg="clipboard-list.svg"
         />
         <StatCard
           title={t('Quorum Size')}
           value={`${quorumSize.toString()}/${totalBoardMembers} `}
-          valueUnit=""
-          color="orange"
-          svg="quorum.svg"
         />
       </Accordion.Toggle>
 

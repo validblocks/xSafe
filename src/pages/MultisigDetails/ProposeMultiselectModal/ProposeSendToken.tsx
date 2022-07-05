@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
@@ -8,11 +8,12 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { TestContext } from 'yup';
 import * as Yup from 'yup';
-import { denomination } from 'config';
-import { FormikInputField } from 'helpers/formikFields';
-import { organizationTokensSelector } from '@redux/selectors/accountSelector';
-import { selectedTokenToSendSelector } from '@redux/selectors/modalsSelector';
-import { MultisigSendToken } from 'types/MultisigSendToken';
+import { FormikInputField } from 'src/helpers/formikFields';
+import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
+import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
+import { denomination } from 'src/config';
+import { MultisigSendToken } from 'src/types/MultisigSendToken';
+import { TokenTableRowItem } from 'src/pages/Organization/types';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -32,8 +33,8 @@ const ProposeSendToken = ({
   handleChange,
   setSubmitDisabled,
 }: ProposeSendTokenType) => {
-  const { t }: { t: any } = useTranslation();
-  let formik: Form;
+  const { t } = useTranslation();
+  let formik: any;
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
   const [identifier, setIdentifier] = useState(selectedToken.identifier);
@@ -41,7 +42,7 @@ const ProposeSendToken = ({
 
   const availableTokensWithBalances = useMemo(
     () =>
-      organizationTokens.map((token) => ({
+      organizationTokens.map((token: TokenTableRowItem) => ({
         identifier: token.identifier,
         balance: operations.denominate({
           input: token?.balanceDetails?.amount as string,
@@ -57,7 +58,7 @@ const ProposeSendToken = ({
   const selectedTokenBalance = useMemo(
     () =>
       availableTokensWithBalances.find(
-        (token) => token.identifier === identifier,
+        (token: TokenTableRowItem) => token.identifier === identifier,
       )?.balance as string,
     [identifier],
   );
@@ -125,7 +126,7 @@ const ProposeSendToken = ({
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
-  });
+  } as any);
 
   const { touched, errors, values } = formik;
   const { amount, address } = values;
@@ -170,7 +171,7 @@ const ProposeSendToken = ({
     setSubmitDisabled(!(formik.isValid && formik.dirty));
   }, [amount, address]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     refreshProposal();
   }, [address, identifier, amount]);
 
@@ -195,7 +196,7 @@ const ProposeSendToken = ({
           onChange={onIdentifierChanged}
           className="mb-2"
         >
-          {availableTokensWithBalances.map((token) => (
+          {availableTokensWithBalances.map((token: TokenTableRowItem) => (
             <MenuItem key={token.identifier} value={token.identifier}>
               {token.identifier?.split('-')[0]}
             </MenuItem>
@@ -205,7 +206,7 @@ const ProposeSendToken = ({
           Balance:
           {Number(
             availableTokensWithBalances.find(
-              (token) => token.identifier === identifier,
+              (token: TokenTableRowItem) => token.identifier === identifier,
             )?.balance,
           ).toFixed(5)}
         </div>
@@ -214,8 +215,7 @@ const ProposeSendToken = ({
       <div className="modal-control-container">
         <div className="input-wrapper">
           <label htmlFor={amount}>
-            {t('Amount')}
-            :
+            {`${t('Amount')}:`}
           </label>
           <Form.Control
             id={amount}

@@ -1,7 +1,7 @@
-import { dAppName } from 'config';
+import { dAppName } from 'src/config';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { useNavigate } from 'react-router-dom';
-import { routeNames } from 'routes';
+import routeNames from 'src/routes/routeNames';
 import { NavLogo, Logo, DappName } from '../navbar-style';
 
 const NavbarLogo = () => {

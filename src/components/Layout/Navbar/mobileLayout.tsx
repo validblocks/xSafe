@@ -5,12 +5,12 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, Typography } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Link } from 'react-router-dom';
-import Safe from 'assets/img/safe.png';
-import SafeOptions from 'components/SafeOptions';
-import addressShorthand from 'helpers/addressShorthand';
-import menuItems from 'utils/menuItems';
+import Safe from 'src/assets/img/safe.png';
+import SafeOptions from 'src/components/SafeOptions';
+import menuItems from 'src/utils/menuItems';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import Divider from '@mui/material/Divider';
+import addressShorthand from 'src/helpers/addressShorthand';
 import {
   LogoMenuWrapper,
   MobileMenu,
@@ -26,9 +26,6 @@ const MobileLayout = () => {
   const [walletAddress, setWalletAddress] = useState('');
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
 
-  const closeSafeDropdown = (data: boolean) => {
-    setOpenedSafeSelect(data);
-  };
   useEffect(() => {
     setWalletAddress(addressShorthand(uniqueContractAddress));
   }, [addressShorthand]);
@@ -58,7 +55,7 @@ const MobileLayout = () => {
                       setOpenedSafeSelect(false);
                     }}
                   />
-                  <SafeOptions closeSafeDropdown={closeSafeDropdown} />
+                  <SafeOptions />
                 </Box>
               )}
               {openedSafeSelect === false && (

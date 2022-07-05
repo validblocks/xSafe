@@ -1,5 +1,5 @@
 import { useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
-import { accessTokenServices, maiarIdApi } from 'services/accessTokenServices';
+import { accessTokenServices, maiarIdApi } from 'src/services/accessTokenServices';
 
 export const TokenWrapper = () => {
   const { isLoggedIn, loginMethod, tokenLogin } = useGetLoginInfo();

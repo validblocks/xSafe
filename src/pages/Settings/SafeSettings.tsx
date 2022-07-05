@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
-import ChangeCurrency from 'components/ChangeCurrency';
-import { MainButton, TypographyBold } from 'components/Theme/StyledComponents';
-import ThemeColor from 'components/ThemeColor';
-import { safeNameStoredSelector } from '@redux/selectors/safeNameSelector';
-import { setSafeName } from '@redux/slices/safeNameSlice';
+import ChangeCurrency from 'src/components/ChangeCurrency';
+import { MainButton, TypographyBold } from 'src/components/Theme/StyledComponents';
+import ThemeColor from 'src/components/ThemeColor';
+import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
+import { setSafeName } from 'src/redux/slices/safeNameSlice';
 import { NoteSpan, Span } from './settings-style';
 
 const SafeSettings = () => {
   const safeName = useSelector(safeNameStoredSelector);
-  const [name, setName] = React.useState('');
+  const [name, setName] = useState('');
 
   useEffect(() => {
     setName(safeName);

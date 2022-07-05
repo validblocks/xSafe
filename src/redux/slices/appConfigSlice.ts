@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { routeNames } from 'routes';
+import routeNames from 'src/routes/routeNames';
 import { logoutAction } from '../commonActions';
 
 export interface MultisigOriginType {
@@ -14,7 +14,7 @@ export interface AppConfigStateType {
 function getInitialState(): AppConfigStateType {
   return {
     multisigOrigin: {
-      pathname: routeNames.welcome,
+      pathname: routeNames?.welcome,
       search: '',
     },
   };

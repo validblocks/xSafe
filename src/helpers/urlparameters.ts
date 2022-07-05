@@ -1,5 +1,5 @@
 import { Address } from '@elrondnetwork/erdjs/out';
-import TransactionParameter from 'types/TransactionParameter';
+import TransactionParameter from 'src/types/TransactionParameter';
 
 export async function tryParseTransactionParameter(
   apiEndpoint: string,

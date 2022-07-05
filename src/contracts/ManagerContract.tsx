@@ -18,7 +18,7 @@ import {
 } from '@elrondnetwork/erdjs';
 import { Code } from '@elrondnetwork/erdjs/out/smartcontracts/code';
 
-import { smartContractCode } from 'helpers/constants';
+import { smartContractCode } from 'src/helpers/constants';
 
 export const deployContractGasLimit = 400_000_000;
 

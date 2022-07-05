@@ -1,10 +1,10 @@
-import React from 'react';
 import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ReactNode, useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router-dom';
-import { multisigOriginSelector } from '@redux/selectors/appConfigSelector';
+import { multisigOriginSelector } from 'src/redux/selectors/appConfigSelector';
 
 const ModalContainer = ({
   children,
@@ -12,19 +12,19 @@ const ModalContainer = ({
   className,
   title,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   noSpacer?: boolean;
   className?: string;
-  title: React.ReactNode;
+  title: ReactNode;
 }) => {
   const multisigOrigin = useSelector(multisigOriginSelector);
-  const [close, setClose] = React.useState(false);
+  const [close, setClose] = useState(false);
 
   const handleClose = () => {
     setClose(true);
   };
 
-  React.useEffect(
+  useEffect(
     () => () => {
       setClose(false);
     },

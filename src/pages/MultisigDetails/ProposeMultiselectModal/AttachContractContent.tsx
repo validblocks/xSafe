@@ -10,11 +10,11 @@ import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import { buildBlockchainTransaction } from 'contracts/transactionUtils';
-import { validateContractAddressOwner } from 'helpers/validation';
-import { currentMultisigAddressSelector } from '@redux/selectors/multisigContractsSelectors';
-import { setProposeMultiselectSelectedOption } from '@redux/slices/modalsSlice';
-import { ProposalsTypes } from 'types/Proposals';
+import { buildBlockchainTransaction } from 'src/contracts/transactionUtils';
+import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
+import { validateContractAddressOwner } from 'src/helpers/validation';
+import { ProposalsTypes } from 'src/types/Proposals';
 
 const gasLimit = 10_000_000;
 

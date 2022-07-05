@@ -1,4 +1,3 @@
-import React from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import {
   faInfoCircle,
@@ -7,19 +6,20 @@ import {
   faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useContext, useMemo } from 'react';
 import {
   CircularProgressbarWithChildren,
   buildStyles,
 } from 'react-circular-progressbar';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import MultisigDetailsContext from 'context/MultisigDetailsContext';
+import MultisigDetailsContext from 'src/context/MultisigDetailsContext';
 import {
   mutateSign,
   mutateUnsign,
   mutateDiscardAction,
-} from 'contracts/MultisigContract';
-import { setSelectedPerformedAction } from '@redux/slices/modalsSlice';
+} from 'src/contracts/MultisigContract';
+import { setSelectedPerformedAction } from 'src/redux/slices/modalsSlice';
 
 export interface MultisigProposalCardType {
   type: number;
@@ -50,11 +50,11 @@ const MultisigProposalCard = ({
   boardMembers,
   signers = [],
 }: MultisigProposalCardType) => {
-  const { quorumSize } = React.useContext(MultisigDetailsContext);
-  const { t }: { t: any } = useTranslation();
+  const { quorumSize } = useContext(MultisigDetailsContext);
+  const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const validatedSigners = React.useMemo(() => {
+  const validatedSigners = useMemo(() => {
     if (boardMembers == null) {
       return signers;
     }
@@ -111,15 +111,14 @@ const MultisigProposalCard = ({
             <button onClick={sign} className="btn action sign btn--approve">
               <FontAwesomeIcon icon={faThumbsUp} />
               <span>
-                {t('Approve')}
-                {' '}
+                {t('Approve') as string}
               </span>
             </button>
           )}
           {canUnsign && (
             <button onClick={unsign} className="btn action unsign btn--discard">
               <FontAwesomeIcon icon={faTimes} />
-              <span>{t('Withdraw')}</span>
+              <span>{t('Withdraw') as string}</span>
             </button>
           )}
           {canPerformAction && (
@@ -129,7 +128,7 @@ const MultisigProposalCard = ({
               className="btn action perform btn--approve"
             >
               <FontAwesomeIcon icon={faCheck} />
-              {t('Perform')}
+              {t('Perform') as string}
             </button>
           )}
           {canDiscardAction && (
@@ -139,7 +138,7 @@ const MultisigProposalCard = ({
               className="btn action remove btn--discard"
             >
               <FontAwesomeIcon icon={faTimes} />
-              {t('Discard')}
+              {t('Discard') as string}
             </button>
           )}
         </div>

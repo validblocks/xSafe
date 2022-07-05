@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { MultisigContractInfoType } from 'types/multisigContracts';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { logoutAction } from '../commonActions';
 
 interface StateType {
@@ -66,7 +66,7 @@ export const multisigContractsSlice = createSlice({
     },
     updateMultisigContract: (
       state: StateType,
-      action: PayloadAction<Partial<MultisigContractInfoType>>,
+      action: PayloadAction<MultisigContractInfoType>,
     ) => {
       const { address } = action.payload;
       if (address !== null) {

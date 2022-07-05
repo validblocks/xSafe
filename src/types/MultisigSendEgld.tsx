@@ -7,7 +7,7 @@ import {
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import i18next from 'i18next';
-import ExplorerLink from 'components/ExplorerLink';
+import ExplorerLink from 'src/components/ExplorerLink';
 import { MultisigAction } from './MultisigAction';
 
 import { MultisigActionType } from './MultisigActionType';

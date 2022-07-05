@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import { faHandPaper, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
@@ -11,17 +11,17 @@ import {
   mutateUpgradeContractFromSource,
   mutateEsdtIssueToken,
   mutateEsdtSendToken,
-} from 'contracts/MultisigContract';
-import { setProposeMultiselectSelectedOption } from '@redux/slices/modalsSlice';
-import { MultisigAction } from 'types/MultisigAction';
-import { MultisigDeployContractFromSource } from 'types/MultisigDeployContractFromSource';
-import { MultisigIssueToken } from 'types/MultisigIssueToken';
-import { MultisigSendEgld } from 'types/MultisigSendEgld';
-import { MultisigSendToken } from 'types/MultisigSendToken';
+} from 'src/contracts/MultisigContract';
+import * as modalsSlice from 'src/redux/slices/modalsSlice';
+import { MultisigAction } from 'src/types/MultisigAction';
+import { MultisigDeployContractFromSource } from 'src/types/MultisigDeployContractFromSource';
+import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
+import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
+import { MultisigSendToken } from 'src/types/MultisigSendToken';
 
-import { MultisigSmartContractCall } from 'types/MultisigSmartContractCall';
-import { MultisigUpgradeContractFromSource } from 'types/MultisigUpgradeContractFromSource';
-import { ProposalsTypes, SelectedOptionType } from 'types/Proposals';
+import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
+import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeContractFromSource';
+import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import { titles } from '../constants';
 import AttachContractContent from './AttachContractContent';
 import ProposeDeployContractFromSource from './ProposeDeployContractFromSource';
@@ -45,11 +45,11 @@ const ProposeMultiselectModal = ({
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
   const [selectedProposal, setSelectedProposal] =
-    React.useState<MultisigAction | null>(null);
-  const [submitDisabled, setSubmitDisabled] = React.useState(true);
+    useState<MultisigAction | null>(null);
+  const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const handleClose = () => {
-    dispatch(setProposeMultiselectSelectedOption(null));
+    dispatch(modalsSlice.setProposeMultiselectSelectedOption(null));
   };
 
   const onProposeClicked = () => {
@@ -104,7 +104,7 @@ const ProposeMultiselectModal = ({
   };
 
   const handleOptionSelected = (option: ProposalsTypes) => {
-    dispatch(setProposeMultiselectSelectedOption({ option }));
+    dispatch(modalsSlice.setProposeMultiselectSelectedOption({ option }));
   };
 
   const getContent = () => {

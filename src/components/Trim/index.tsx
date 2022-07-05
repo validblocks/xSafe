@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import debounce from 'lodash/debounce';
 
 interface TrimType {
@@ -7,9 +7,9 @@ interface TrimType {
 }
 
 const Trim = ({ text, dataTestId = '' }: TrimType) => {
-  const [overflow, setOverflow] = React.useState(false);
-  const trimRef = React.useRef(document.createElement('span'));
-  const hiddenTextRef = React.useRef(document.createElement('span'));
+  const [overflow, setOverflow] = useState(false);
+  const trimRef = useRef(document.createElement('span'));
+  const hiddenTextRef = useRef(document.createElement('span'));
 
   const listener = useCallback(
     debounce(() => {
@@ -29,9 +29,9 @@ const Trim = ({ text, dataTestId = '' }: TrimType) => {
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  React.useEffect(addWindowResizeListener);
+  useEffect(addWindowResizeListener);
 
-  React.useEffect(() => {
+  useEffect(() => {
     listener();
   }, []);
 

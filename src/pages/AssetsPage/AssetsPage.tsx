@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
@@ -12,25 +12,33 @@ import {
 } from '@mui/x-data-grid';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { ReactComponent as ElrondLogo } from 'assets/img/logo.svg';
-import ReceiveModal from 'components/ReceiveModal';
-import { network } from 'config';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
-import { TokenTableRowItem, TokenWithPrice } from 'pages/Organization/types';
-import { organizationTokensSelector } from '@redux/selectors/accountSelector';
-import { priceSelector } from '@redux/selectors/economicsSelector';
-import { currentMultisigContractSelector } from '@redux/selectors/multisigContractsSelectors';
+import ReceiveModal from 'src/components/ReceiveModal';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { TokenTableRowItem, TokenWithPrice } from 'src/pages/Organization/types';
+import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
+import { priceSelector } from 'src/redux/selectors/economicsSelector';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import {
   setMultisigBalance,
   setOrganizationTokens,
-} from '@redux/slices/accountSlice';
+} from 'src/redux/slices/accountSlice';
 import {
   setProposeMultiselectSelectedOption,
   setSelectedTokenToSend,
-} from '@redux/slices/modalsSlice';
-import { ProposalsTypes } from 'types/Proposals';
+} from 'src/redux/slices/modalsSlice';
+import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
+import { network } from 'src/config';
+import { ProposalsTypes } from 'src/types/Proposals';
 
 const squareImageWidth = 30;
+
+const fetchTokenPhotoUrl = async (tokenIdentifier: string) => {
+  const { data } = await axios.get(
+    `${network.apiAddress}/tokens/${tokenIdentifier}`,
+  );
+
+  return data.assets.pngUrl;
+};
 
 const AssetsPage = () => {
   const egldPrice = useSelector(priceSelector);
@@ -69,14 +77,6 @@ const AssetsPage = () => {
   const proxy = getNetworkProxy();
 
   const organizationTokens = useSelector(organizationTokensSelector);
-
-  const fetchTokenPhotoUrl = useCallback(async (tokenIdentifier: string) => {
-    const { data } = await axios.get(
-      `${network.apiAddress}/tokens/${tokenIdentifier}`,
-    );
-
-    return data.assets.pngUrl;
-  }, []);
 
   useEffect(() => {
     // eslint-disable-next-line consistent-return, wrap-iife
@@ -119,7 +119,8 @@ const AssetsPage = () => {
 
           let photoUrl = '';
           if (token.identifier !== 'EGLD') {
-            photoUrl = fetchTokenPhotoUrl(token.identifier as string);
+            // eslint-disable-next-line no-await-in-loop
+            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
           }
 
           tokensWithPrices.push({
@@ -165,8 +166,6 @@ const AssetsPage = () => {
                 height={squareImageWidth}
                 src={params.value.photoUrl}
                 alt={params.value.tokenIdentifier}
-                en
-                image
                 className="mr-3"
               />
             )}
@@ -252,11 +251,11 @@ const AssetsPage = () => {
   );
 
   return (
-    <Box>
-      sx=
-      {{
+    <Box
+      sx={{
         width: '100%',
       }}
+    >
       <h1 className="mb-5">Assets</h1>
       <DataGrid
         autoHeight

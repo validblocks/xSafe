@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Address, Balance } from '@elrondnetwork/erdjs/out';
 import {
   BigUIntValue,
@@ -10,9 +10,9 @@ import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import { FormikCheckbox, FormikInputField } from 'helpers/formikFields';
-import { validateAddressIsContract } from 'helpers/validation';
-import { MultisigDeployContractFromSource } from 'types/MultisigDeployContractFromSource';
+import { FormikCheckbox, FormikInputField } from 'src/helpers/formikFields';
+import { validateAddressIsContract } from 'src/helpers/validation';
+import { MultisigDeployContractFromSource } from 'src/types/MultisigDeployContractFromSource';
 
 interface ProposeDeployContractFromSourceType {
   handleChange: (proposal: MultisigDeployContractFromSource) => void;
@@ -66,7 +66,7 @@ const ProposeDeployContractFromSource = ({
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
-  });
+  } as any);
   const { touched, errors, values } = formik;
 
   const { amount, source, args, upgradeable, payable, readable } = values;
@@ -86,7 +86,7 @@ const ProposeDeployContractFromSource = ({
     }
 
     const amountParam = new BigUIntValue(Balance.egld(amountNumeric).valueOf());
-    const argsParams = args.map((arg) => BytesValue.fromHex(arg));
+    const argsParams = args.map((arg: string) => BytesValue.fromHex(arg));
 
     return new MultisigDeployContractFromSource(
       amountParam,
@@ -113,11 +113,11 @@ const ProposeDeployContractFromSource = ({
   const removeArg = (removeIdx: number) => {
     formik.setFieldValue(
       'args',
-      args.filter((_, index: number) => index !== removeIdx),
+      args.filter((_: string, index: number) => index !== removeIdx),
     );
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     refreshProposal();
   }, [amount, source, args, upgradeable, payable, readable, errors]);
 
@@ -136,7 +136,7 @@ const ProposeDeployContractFromSource = ({
         label={t('Source')}
         name="source"
         value={source}
-        error={sourceError}
+        error={sourceError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
@@ -144,7 +144,7 @@ const ProposeDeployContractFromSource = ({
         label={t('Amount')}
         name="amount"
         value={amount}
-        error={amountError}
+        error={amountError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
@@ -169,7 +169,7 @@ const ProposeDeployContractFromSource = ({
         />
       </div>
       <div className="d-flex flex-column">
-        {args.map((arg, idx) => (
+        {args.map((arg: string, idx: number) => (
           <div key={arg} className="modal-control-container my-3">
             <label htmlFor={`args[${idx}]`}>
               {`${t('argument')} ${idx + 1}`}
@@ -194,7 +194,7 @@ const ProposeDeployContractFromSource = ({
             </div>
           </div>
         ))}
-        {argsError && <small className="text-danger">{argsError}</small>}
+        {argsError && <small className="text-danger">{argsError as string}</small>}
         <div className="modal-action-btns">
           <button onClick={addNewArgsField} className="btn btn-primary ">
             <FontAwesomeIcon className="mx-2" icon={faPlus} />

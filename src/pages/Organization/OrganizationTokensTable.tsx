@@ -13,13 +13,13 @@ import {
 } from '@mui/x-data-grid';
 import { toSvg } from 'jdenticon';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAccountData } from 'apiCalls/accountCalls';
-import { queryBoardMemberAddresses } from 'contracts/MultisigContract';
-import { addressBookSelector } from '@redux/selectors/addressBookSelector';
-import { setProposeModalSelectedOption } from '@redux/slices/modalsSlice';
-import { RootState } from '@redux/store';
-import { ProposalsTypes } from 'types/Proposals';
-import { Owner, AccountInfo, AddressBook } from './types';
+import { queryBoardMemberAddresses } from 'src/contracts/MultisigContract';
+import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+import { ProposalsTypes } from 'src/types/Proposals';
+import { RootState } from 'src/redux/store';
+import { getAccountData } from 'src/apiCalls/accountCalls';
+import { AccountInfo, AddressBook, Owner } from './types';
 
 const OrganizationsTokensTable = () => {
   const [addresses, setAddresses] = useState<Array<Owner>>([]);

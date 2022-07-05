@@ -1,4 +1,3 @@
-import React from 'react';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import GroupsIcon from '@mui/icons-material/Groups';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
@@ -51,7 +50,7 @@ const MembersCard = () => {
                 {membersCount}
               </h1>
               <h3 className="mb-0 d-flex justify-content-center align-items-center">
-                ${t('Total members')}
+                {`$${t('Total members')}`}
               </h3>
             </div>
           </Grid>

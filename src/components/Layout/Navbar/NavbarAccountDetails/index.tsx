@@ -5,13 +5,13 @@ import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import Safe from 'assets/img/safe.png';
-import CopyButton from 'components/CopyButton';
-import ReceiveModal from 'components/ReceiveModal';
-import SafeOptions from 'components/SafeOptions';
+import Safe from 'src/assets/img/safe.png';
+import CopyButton from 'src/components/CopyButton';
+import ReceiveModal from 'src/components/ReceiveModal';
+import SafeOptions from 'src/components/SafeOptions';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
-import { currentMultisigContractSelector } from '@redux/selectors/multisigContractsSelectors';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { Anchor, ReadOnly, MembersBox } from '../navbar-style';
 import TotalBalance from '../TotalBalance';
 
@@ -27,10 +27,6 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
 
   const handleQrModal = () => {
     setShowQr(!showQr);
-  };
-
-  const closeSafeDropdown = (data: boolean) => {
-    setOpenedSafeSelect(data);
   };
 
   return (
@@ -59,7 +55,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
                   setOpenedSafeSelect(false);
                 }}
               />
-              <SafeOptions closeSafeDropdown={closeSafeDropdown} />
+              <SafeOptions />
             </Box>
           )}
           {openedSafeSelect === false && (

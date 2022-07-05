@@ -7,8 +7,8 @@ import {
 } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
-import LinearWithValueLabel from 'components/ProgressBar/progressLinear';
-import { TypographyBold } from 'components/Theme/StyledComponents';
+import LinearWithValueLabel from 'src/components/ProgressBar/progressLinear';
+import { TypographyBold } from 'src/components/Theme/StyledComponents';
 import DecisionApproved from './decisionApproved';
 import TimelineCard from './timeline';
 

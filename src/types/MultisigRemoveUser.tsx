@@ -1,7 +1,7 @@
 import { Ui } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
 import i18next from 'i18next';
-import ExplorerLink from 'components/ExplorerLink';
+import ExplorerLink from 'src/components/ExplorerLink';
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
 
