@@ -12,10 +12,10 @@ export const addressBookSlice = createSlice({
   name: 'addressBookSlice',
   initialState,
   reducers: {
-    addEntry(state: StateType, action: any) {
+    addEntry(state: StateType, { payload: { address, name } }: any) {
       return {
         ...state,
-        addressBook: action.payload
+        addressBook: { ...state.addressBook, [address]: name }
       };
     }
   }

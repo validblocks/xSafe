@@ -21,9 +21,11 @@ import routes, { routeNames } from 'routes';
 ('');
 import { accessTokenServices, storageApi } from 'services/accessTokenServices';
 import { TokenWrapper } from '../TokenWrapper';
+import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
 import Navbar from './Navbar';
+import Account from './Navbar/Account';
 import MobileLayout from './Navbar/mobileLayout';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -92,15 +94,29 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       {width ? <Navbar /> : <MobileLayout />}
 
       <main className=' flex-row flex-fill position-relative justify-center'>
-        <AuthenticatedRoutesWrapper
-          routes={routes}
-          unlockRoute={routeNames.unlock}
-        >
-          {children}
-        </AuthenticatedRoutesWrapper>
-        <TokenWrapper />
-        <ModalLayer />
-        <SidebarSelectOptionModal />
+        <div>
+          <Box
+            className='d-flex justify-content-between px-4 py-3 align-items-center'
+            sx={{ width: '100%', zIndex: '9' }}
+          >
+            <Box className='breadcrumbs-header'>
+              <PageBreadcrumbs />
+            </Box>
+            <Account />
+            {/* <Network /> */}
+          </Box>
+        </div>
+        <div>
+          <AuthenticatedRoutesWrapper
+            routes={routes}
+            unlockRoute={routeNames.unlock}
+          >
+            {children}
+          </AuthenticatedRoutesWrapper>
+          <TokenWrapper />
+          <ModalLayer />
+          <SidebarSelectOptionModal />
+        </div>
       </main>
     </div>
   );
