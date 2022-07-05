@@ -257,6 +257,10 @@ const AssetsPage = () => {
 
   return (
     <Box>
+      sx=
+      {{
+        width: '100%'
+      }}
       <h1 className='mb-5'>Assets</h1>
       <DataGrid
         autoHeight

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
