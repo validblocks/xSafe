@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { NavLogo, Logo, DappName } from '../navbar-style';
+import { useNavigate } from 'react-router-dom';
 import { dAppName } from 'config';
 import { uniqueContractAddress } from 'multisigConfig';
-import { useNavigate } from 'react-router-dom';
 import { routeNames } from 'routes';
+import { NavLogo, Logo, DappName } from '../navbar-style';
 
 const NavbarLogo = () => {
   const handleRedirectToHome = () => {

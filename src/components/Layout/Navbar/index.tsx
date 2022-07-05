@@ -110,7 +110,7 @@ export default function MiniDrawer() {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <Drawer variant='permanent' open={open} className='drawer-wrapper'>
-        <BsNavbar className='px-4 py-3'>
+        <BsNavbar className='p-0 px-4'>
           <NavbarLogo />
           <Nav className='ml-auto align-items-center'></Nav>
         </BsNavbar>
