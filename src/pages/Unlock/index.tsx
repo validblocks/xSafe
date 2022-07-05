@@ -5,9 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { style } from '@mui/system';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
-import { ReactComponent as IconElrond } from 'assets/img/icon-elrond.svg';
-import { ReactComponent as IconLedger } from 'assets/img/icon-ledger.svg';
-import { ReactComponent as IconMaiar } from 'assets/img/icon-maiar.svg';
+import { ReactComponent as IconElrond } from 'assets/img/elrond-web-wallet.svg';
+import { ReactComponent as IconLedger } from 'assets/img/ledger.svg';
+import { ReactComponent as IconMaiar } from 'assets/img/maiar-app.svg';
+import { ReactComponent as IconMaiarWallet } from 'assets/img/maiar-defi-wallet.svg';
 import { network } from 'config';
 import { routeNames } from 'routes';
 import { accessTokenServices, maiarIdApi } from 'services/accessTokenServices';
@@ -79,7 +80,10 @@ const Unlock = () => {
             className='btn btn-unlock btn-block'
           >
             <div className='d-flex justify-content-between align-items-center'>
-              <div className='title'>Maiar DeFi Wallet</div>
+              <div className='d-flex flex-row method'>
+                <IconMaiarWallet />
+                <div className='title'>Maiar DeFi Wallet</div>
+              </div>
             </div>
           </a>
         )}
@@ -88,7 +92,7 @@ const Unlock = () => {
           <DappUI.ExtensionLoginButton {...loginParams}>
             <div className='d-flex justify-content-between align-items-center'>
               <div className='d-flex flex-row method'>
-                <IconMaiar />
+                <IconMaiarWallet />
                 <div className='title'>Maiar DeFi Wallet</div>
               </div>
 
@@ -103,8 +107,6 @@ const Unlock = () => {
               <IconMaiar />
               <div className='title'>Maiar App</div>
             </div>
-
-            <FontAwesomeIcon icon={faArrowRight} className='arrow' />
           </div>
         </DappUI.WalletConnectLoginButton>
 
@@ -114,8 +116,6 @@ const Unlock = () => {
               <IconLedger />
               <div className='title'>Ledger</div>
             </div>
-
-            <FontAwesomeIcon icon={faArrowRight} className='arrow' />
           </div>
         </DappUI.LedgerLoginButton>
 
@@ -125,7 +125,6 @@ const Unlock = () => {
               <IconElrond />
               <div className='title'>Elrond Web Wallet</div>
             </div>
-            <FontAwesomeIcon icon={faArrowRight} className='arrow' />
           </div>
         </DappUI.WebWalletLoginButton>
       </div>

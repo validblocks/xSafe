@@ -100,7 +100,6 @@ const Account = () => {
         open={open}
         onClose={handleClose}
         onClick={handleClose}
-        sx={{ borderRadius: '30px' }}
       >
         {loggedIn ? (
           <Box sx={{ width: '350px' }}>
