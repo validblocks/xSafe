@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { queryAllActions } from 'contracts/MultisigContract';
 import TransactionHistory from './TransactionHistory';
 import TransactionQueue from './TransactionQueue';
 
@@ -12,9 +11,7 @@ interface TabPanelProps {
 }
 
 const TabPanel = (props: TabPanelProps) => {
-  const {
-    children, value, index, ...other
-  } = props;
+  const { children, value, index, ...other } = props;
 
   return (
     <div

@@ -64,7 +64,7 @@ const Unlock = () => {
     buttonClassName: 'btn btn-unlock btn-block',
   };
 
-  if (loginMethod != '') {
+  if (loginMethod !== '') {
     return <Navigate to={routeNames.dashboard} />;
   }
   return (

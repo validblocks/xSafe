@@ -65,6 +65,7 @@ const TransactionSummary = ({ transaction }: Props) => (
           <img
             className="mr-2 rounded"
             src="https://picsum.photos/20/20?random=1"
+            alt="img"
           />
           {truncateInTheMiddle(transaction.sender, 10)}
         </div>

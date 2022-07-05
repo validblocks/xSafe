@@ -11,12 +11,12 @@ import { NoteSpan, Span } from './settings-style';
 
 const SafeSettings = () => {
   const safeName = useSelector(safeNameStoredSelector);
+  const [name, setName] = React.useState('');
+
   useEffect(() => {
     setName(safeName);
   }, [safeName]);
   const dispatch = useDispatch();
-
-  const [name, setName] = React.useState('');
 
   const changeSafeName = (event: any) => {
     setName(event.target.value);
