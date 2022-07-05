@@ -7,8 +7,10 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 
 # This program built for i386-apple-darwin11.3.0
  
+make: *** No rule to make target `all'.  Stop.
 
-# Make data base, printed on Mon Jul  4 15:36:55 2022
+
+# Make data base, printed on Tue Jul  5 16:36:40 2022
 
 # Variables
 
@@ -30,6 +32,7 @@ TRAEFIK_DOMAIN = ${DOCKER_DOMAIN}
 @D = $(patsubst %/,%,$(dir $@))
 # automatic
 @F = $(notdir $@)
+ 
 # environment
 ZNT_REPO_DIR = /Users/Rares/.oh-my-zsh/plugins/zsh-navigation-tools
 # makefile
@@ -57,7 +60,7 @@ __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 INFOPATH = /opt/homebrew/share/info:
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/n8/cttdcj690n1f4b1nznxc8jj40000gn/T/vscode-ipc-353cc87f-7af4-4c18-8d66-a4f11881f254.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/n8/cttdcj690n1f4b1nznxc8jj40000gn/T/vscode-ipc-40f29781-3bb8-495a-85c9-17365ee734da.sock
 # environment
 VSCODE_CWD = /Users/Rares/Sites/Graffino/Multisig/Multisig
 # environment
@@ -66,6 +69,7 @@ PATH = /Users/Rares/elrondsdk:node_modules/.bin:/Users/Rares/.n/bin:/opt/homebre
 TRAEFIK_PASSWORD = $$2y$$05$$vfax9V5Q9M.86ro6t7EATOd/VMn5TS7BZ2e1O8FcwIoacBaZcS6Km
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
+ 
 # makefile (from `Makefile', line 4)
 CONTAINER_NGINX = docker compose exec -T nginx sh -c
 # environment
@@ -161,6 +165,7 @@ UNIQUE_CONTRACT_ADDRESS = erd1qqqqqqqqqqqqqpgqettaulcsh6afs9h4mhsv44lu28p0rezehd
 # environment
 VSCODE_IPC_HOOK = /Users/Rares/Library/Application Support/Code/1.68.1-main.sock
 # makefile
+ 
 MAKEFLAGS = Rrqp
 # environment
 MFLAGS = -Rrqp
@@ -169,7 +174,7 @@ MFLAGS = -Rrqp
 # environment
 TERM_PROGRAM_VERSION = 445
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.29369592.29369799.63D9A7E1-60EC-468E-9237-BED4F182B5B6
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.29369592.29369799.59183E47-9EE5-4E79-9A00-3ABFE3F8AB02
 # environment
 HOMEBREW_PREFIX = /opt/homebrew
 # automatic
@@ -196,9 +201,6 @@ EDITOR = vim
 PAGER = less
 # environment
 LC_ALL = C
- 
-make: *** No rule to make target `all'.  Stop.
-
 # environment
 SECURITYSESSIONID = 186b2
 # automatic
@@ -218,11 +220,11 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 67162
+VSCODE_PID = 77100
 # makefile (from `.env', line 17)
 DOCKER_NGINX_EXPOSED_PORT = 8082
 # variable set hash-table stats:
-# Load=103/1024=10%, Rehash=0, Collisions=7/128=5%
+# Load=103/1024=10%, Rehash=0, Collisions=7/129=5%
 
 # Pattern-specific Variable Values
 
@@ -230,11 +232,12 @@ DOCKER_NGINX_EXPOSED_PORT = 8082
 
 # Directories
 
-# . (device 16777234, inode 23382553): 31 files, no impossibilities.
+# . (device 16777234, inode 23382553): 32 files, no impossibilities.
 
-# 31 files, no impossibilities in 1 directories.
+# 32 files, no impossibilities in 1 directories.
 
 # Implicit Rules
+ 
 
 # No implicit rules.
 
@@ -265,7 +268,7 @@ rebuild-nginx:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 122):
+#  commands to execute (from `Makefile', line 141):
 	docker compose up -d --no-deps --force-recreate --build nginx
 	
 
@@ -275,10 +278,11 @@ all:
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has not been updated.
+ 
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
-.PHONY: start stop setup setup-single-wallet setup-multi-wallet setup-dev dev staging production permissions reset clean clean-force ssh-nginx rebuild-nginx
+.PHONY: start stop setup setup-wallet setup-single-wallet setup-multi-wallet setup-dev dev staging production permissions reset clean clean-force ssh-nginx rebuild-nginx
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -288,7 +292,7 @@ setup-dev:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 60):
+#  commands to execute (from `Makefile', line 79):
 	docker-compose -f docker-compose.dev.yml up -d
 	
 
@@ -301,7 +305,7 @@ setup-dev:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-04 11:52:40
+#  Last modified 2022-07-05 16:23:54
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -309,6 +313,7 @@ Makefile:
 
 start:
 #  Phony target (prerequisite of .PHONY).
+ 
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
@@ -330,7 +335,7 @@ staging:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 71):
+#  commands to execute (from `Makefile', line 90):
 	make production
 	
 
@@ -339,7 +344,7 @@ ssh-nginx:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 118):
+#  commands to execute (from `Makefile', line 137):
 	docker exec -it ${COMPOSE_PROJECT_NAME}-nginx /bin/sh
 	
 
@@ -348,7 +353,7 @@ dev:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 64):
+#  commands to execute (from `Makefile', line 83):
 	$(CONTAINER_DEV) 'npm start'
 	
 
@@ -357,7 +362,7 @@ permissions:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 89):
+#  commands to execute (from `Makefile', line 108):
 	mkdir -p .docker/logs/nginx/
 	chmod -R 777 .docker/logs/
 	
@@ -372,8 +377,9 @@ reset:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
+ 
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 95):
+#  commands to execute (from `Makefile', line 114):
 	make stop
 	docker system prune --force
 	rm -rf ./.docker/logs/nginx/*
@@ -388,7 +394,7 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 105):
+#  commands to execute (from `Makefile', line 124):
 	make stop
 	docker system prune --all --volumes --force
 	rm -rf ./.docker/logs/nginx/*
@@ -402,7 +408,7 @@ setup-single-wallet:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 23):
+#  commands to execute (from `Makefile', line 42):
 	make setup-dev
 	rm .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
@@ -413,9 +419,25 @@ setup-single-wallet:
 	rm ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
 	echo "export const uniqueContractAddress = '$(UNIQUE_CONTRACT_ADDRESS)';" >> ./src/multisigConfig.ts
 	echo "export const uniqueContractName = '$(UNIQUE_CONTRACT_NAME)';" >> ./src/multisigConfig.ts
+ 
 	$(CONTAINER_DEV) 'npx prettier --write ./src/multisigConfig.ts'
 	$(CONTAINER_DEV) 'npm install'
 	$(CONTAINER_DEV) 'npm install @elrondnetwork/dapp-core-internal'
+	
+
+setup-wallet:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 23):
+	rm -f .npmrc && touch .npmrc
+	echo $(NPMRC) >> .npmrc
+	rm -f ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
+	cp -p ./src/config.devnet.ts ./src/config.ts
+	rm -f ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
+	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
+	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 	
 
 production:
@@ -423,7 +445,7 @@ production:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 75):
+#  commands to execute (from `Makefile', line 94):
 	make permissions
 	docker compose up -d
 	$(CONTAINER_NGINX) 'npm install'
@@ -441,7 +463,7 @@ clean-force:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 114):
+#  commands to execute (from `Makefile', line 133):
 	sudo make clean
 	
 
@@ -450,7 +472,7 @@ setup-multi-wallet:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 43):
+#  commands to execute (from `Makefile', line 62):
 	make setup-dev
 	rm .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
@@ -464,7 +486,7 @@ setup-multi-wallet:
 	
 
 # files hash-table stats:
-# Load=21/1024=2%, Rehash=0, Collisions=0/63=0%
+# Load=22/1024=2%, Rehash=0, Collisions=0/66=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -476,6 +498,6 @@ setup-multi-wallet:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4082 / max = 4082 / min = 4082 / avg = 4082
 
-# Finished Make data base on Mon Jul  4 15:36:55 2022
+# Finished Make data base on Tue Jul  5 16:36:40 2022
 
  
