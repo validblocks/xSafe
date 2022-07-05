@@ -1,4 +1,3 @@
-import React from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import AddReactionIcon from '@mui/icons-material/AddReaction';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import FactCheckIcon from '@mui/icons-material/FactCheck';
@@ -11,39 +11,40 @@ const AvailableDashboardActions = () => {
   const isSmallScreen = useMediaQuery('(max-width:920px)');
 
   const useStyles: CallableFunction = useMemo(
-    () => makeStyles({
-      container: {
-        width: '100%',
-        display: 'grid',
-        gridTemplateColumns: isSmallScreen ? '1fr' : '1fr 1fr 1fr',
-        gridGap: isSmallScreen ? '1.8rem' : '2.5rem 4rem',
-        margin: '40px 0',
-      },
-      child1: {
-        gridRow: '1 / 2',
-        gridColumn: '1 / 2',
-      },
-      child2: {
-        gridRow: isSmallScreen ? '2 / 3' : '1 / 2',
-        gridColumn: isSmallScreen ? '1 / 2' : '2 / 3',
-      },
-      child3: {
-        gridRow: isSmallScreen ? '3 / 4' : '1 / 2',
-        gridColumn: isSmallScreen ? '1 / 2' : '3 / 4',
-      },
-      child4: {
-        gridRow: isSmallScreen ? '4 / 5' : '2 / 3',
-        gridColumn: '1 / 2',
-      },
-      child5: {
-        gridRow: isSmallScreen ? '5 / 6' : '2 / 3',
-        gridColumn: isSmallScreen ? '1 / 2' : '2 / 3',
-      },
-      child6: {
-        gridRow: isSmallScreen ? '6 / 7' : '2 / 3',
-        gridColumn: isSmallScreen ? '1 / 2' : '3 / 4',
-      },
-    }),
+    () =>
+      makeStyles({
+        container: {
+          width: '100%',
+          display: 'grid',
+          gridTemplateColumns: isSmallScreen ? '1fr' : '1fr 1fr 1fr',
+          gridGap: isSmallScreen ? '1.8rem' : '2.5rem 4rem',
+          margin: '40px 0',
+        },
+        child1: {
+          gridRow: '1 / 2',
+          gridColumn: '1 / 2',
+        },
+        child2: {
+          gridRow: isSmallScreen ? '2 / 3' : '1 / 2',
+          gridColumn: isSmallScreen ? '1 / 2' : '2 / 3',
+        },
+        child3: {
+          gridRow: isSmallScreen ? '3 / 4' : '1 / 2',
+          gridColumn: isSmallScreen ? '1 / 2' : '3 / 4',
+        },
+        child4: {
+          gridRow: isSmallScreen ? '4 / 5' : '2 / 3',
+          gridColumn: '1 / 2',
+        },
+        child5: {
+          gridRow: isSmallScreen ? '5 / 6' : '2 / 3',
+          gridColumn: isSmallScreen ? '1 / 2' : '2 / 3',
+        },
+        child6: {
+          gridRow: isSmallScreen ? '6 / 7' : '2 / 3',
+          gridColumn: isSmallScreen ? '1 / 2' : '3 / 4',
+        },
+      }),
     [isSmallScreen],
   );
 

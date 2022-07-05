@@ -1,4 +1,3 @@
-import React from 'react';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import { Typography, Box } from '@mui/material';
 

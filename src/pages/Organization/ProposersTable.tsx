@@ -1,6 +1,4 @@
-import React, {
-  useCallback, useEffect, useMemo, useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -120,7 +118,8 @@ const ProposersTable = () => {
               icon={<DeleteIcon htmlColor="#9DABBD" />}
               label="Delete"
               onClick={() =>
-                onRemoveUser(new Address(params.row.valueHex).bech32())}
+                onRemoveUser(new Address(params.row.valueHex).bech32())
+              }
             />
           </div>,
         ],
@@ -140,7 +139,7 @@ const ProposersTable = () => {
         id: idx,
       }));
       setAllProposers(proposersWithIndexes as ProposerTableRow[]);
-    }());
+    })();
   }, []);
 
   return (

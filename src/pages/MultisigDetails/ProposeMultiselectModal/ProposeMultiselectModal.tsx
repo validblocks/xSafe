@@ -1,9 +1,5 @@
 import React from 'react';
-import {
-  faArrowLeft,
-  faHandPaper,
-  faTimes,
-} from '@fortawesome/free-solid-svg-icons';
+import { faHandPaper, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';

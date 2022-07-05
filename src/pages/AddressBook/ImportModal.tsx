@@ -1,4 +1,3 @@
-import React from 'react';
 import { Button, Typography } from '@mui/material';
 import { Importer, ImporterField } from 'react-csv-importer';
 import 'react-csv-importer/dist/index.css';

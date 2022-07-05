@@ -1,4 +1,3 @@
-import React from 'react';
 import { Typography } from '@mui/material';
 
 type NewEntryModalProps = {
@@ -34,10 +33,10 @@ const NewEntryModal = ({
         type="text"
         onChange={form.handleChange}
         placeholder={
-            !!selectedAddress && addressBook[selectedAddress]
-              ? addressBook[selectedAddress]
-              : 'Enter name'
-          }
+          !!selectedAddress && addressBook[selectedAddress]
+            ? addressBook[selectedAddress]
+            : 'Enter name'
+        }
         value={form.values.name}
       />
       <button type="submit">Submit</button>

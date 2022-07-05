@@ -1,4 +1,3 @@
-import React from 'react';
 import AdjustOutlinedIcon from '@mui/icons-material/AdjustOutlined';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined';

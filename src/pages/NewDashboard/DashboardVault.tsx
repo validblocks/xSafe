@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import CalendarMonthRoundedIcon from '@mui/icons-material/CalendarMonthRounded';
 import PersonAddAltRoundedIcon from '@mui/icons-material/PersonAddAltRounded';
 import { Box, useMediaQuery } from '@mui/material';
@@ -8,34 +8,35 @@ const DashboardVault = () => {
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
   const useStyles: CallableFunction = useMemo(
-    () => makeStyles({
-      container: {
-        height: '100%',
-        width: '100%',
-        display: 'grid',
-        gridTemplateColumns: '2fr 1fr',
-        gridTemplateRows: '1fr 1fr',
-        gridGap: '1rem',
-      },
-      child1: {
-        gridRow: '1 / 3',
-        gridColumn: '1 / 2',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        height: '100%',
-        position: 'relative',
-      },
-      child2: {
-        gridRow: '1 / 2',
-        gridColumn: '2 / 3',
-        minHeight: '5.5rem',
-      },
-      child3: {
-        gridRow: '2 / 3',
-        gridColumn: '2 / 3',
-      },
-    }),
+    () =>
+      makeStyles({
+        container: {
+          height: '100%',
+          width: '100%',
+          display: 'grid',
+          gridTemplateColumns: '2fr 1fr',
+          gridTemplateRows: '1fr 1fr',
+          gridGap: '1rem',
+        },
+        child1: {
+          gridRow: '1 / 3',
+          gridColumn: '1 / 2',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          height: '100%',
+          position: 'relative',
+        },
+        child2: {
+          gridRow: '1 / 2',
+          gridColumn: '2 / 3',
+          minHeight: '5.5rem',
+        },
+        child3: {
+          gridRow: '2 / 3',
+          gridColumn: '2 / 3',
+        },
+      }),
     [isSmallScreen],
   );
 
