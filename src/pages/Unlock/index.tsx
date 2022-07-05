@@ -18,33 +18,32 @@ declare global {
   }
 }
 
-const UnlockTitle = () => (
-  <h5 className='unlock-title mb-spacer'>
-    Connect to a wallet
-    <OverlayTrigger
-      placement='top'
-      delay={{ show: 250, hide: 400 }}
-      overlay={(props) => (
-        <Tooltip id='connect-to-wallet-tooltip' {...props}>
-          Connect securely using one of the provided options
-        </Tooltip>
-      )}
-    >
-      <a
-        href='/#'
-        onClick={(e) => {
-          e.preventDefault();
-        }}
-        data-testid='infoConnect'
-      >
-        <FontAwesomeIcon
-          icon={faInfoCircle}
-          className='i-icon text-secondary'
-        />
-      </a>
-    </OverlayTrigger>
-  </h5>
-);
+// const UnlockTitle = () => (
+//   <h5 className='unlock-title mb-spacer'>
+//     <OverlayTrigger
+//       placement='top'
+//       delay={{ show: 250, hide: 400 }}
+//       overlay={(props) => (
+//         <Tooltip id='connect-to-wallet-tooltip' {...props}>
+//           Connect securely using one of the provided options
+//         </Tooltip>
+//       )}
+//     >
+//       <a
+//         href='/#'
+//         onClick={(e) => {
+//           e.preventDefault();
+//         }}
+//         data-testid='infoConnect'
+//       >
+//         <FontAwesomeIcon
+//           icon={faInfoCircle}
+//           className='i-icon text-secondary'
+//         />
+//       </a>
+//     </OverlayTrigger>
+//   </h5>
+// );
 
 const Unlock = () => {
   const [token, setToken] = useState('');
@@ -58,19 +57,6 @@ const Unlock = () => {
       });
   }, []);
 
-  const [bgColor, setBgColor] = useState('');
-  const [textColor, setTextColor] = useState('');
-
-  const hoverOn = () => {
-    setBgColor('#4C2FFC');
-    setTextColor('#FFFF');
-  };
-
-  const hoverOff = () => {
-    setBgColor('#FFFF');
-    setTextColor('black');
-  };
-
   const loginParams = {
     callbackRoute: routeNames.dashboard,
     token,
@@ -83,23 +69,17 @@ const Unlock = () => {
   }
 
   return (
-    <div className='unlock-page m-auto'>
-      <div className='card unlock text-center'>
-        <UnlockTitle />
+    <div className='unlock-block'>
+      <div className='unlock text-center'>
         {!window.elrondWallet && (
           <a
             rel='noreferrer'
             href='https://chrome.google.com/webstore/detail/dngmlblcodfobpdpecaadgfbcggfjfnm?authuser=0&hl=en'
             target='_blank'
             className='btn btn-unlock btn-block'
-            style={{ backgroundColor: `${bgColor}` }}
-            onMouseEnter={() => hoverOn()}
-            onMouseLeave={() => hoverOff()}
           >
             <div className='d-flex justify-content-between align-items-center'>
-              <div className='title' style={{ color: `${textColor}` }}>
-                Maiar DeFi Wallet
-              </div>
+              <div className='title'>Maiar DeFi Wallet</div>
             </div>
           </a>
         )}
@@ -148,19 +128,21 @@ const Unlock = () => {
             <FontAwesomeIcon icon={faArrowRight} className='arrow' />
           </div>
         </DappUI.WebWalletLoginButton>
+      </div>
 
-        <div className='mt-spacer'>
-          <span className='text'>New to Elrond?</span>
-        </div>
-        <div className='mt-1'>
-          <a
-            className='link-style'
-            href={`${network.walletAddress}/create`}
-            {...{ target: '_blank' }}
-          >
-            Learn How to setup a wallet
-          </a>
-        </div>
+      <hr />
+
+      <div className='mt-3'>
+        <span>New to Elrond?</span>
+      </div>
+      <div className='mt-1'>
+        <a
+          className='link-style'
+          href={`${network.walletAddress}/create`}
+          {...{ target: '_blank' }}
+        >
+          Learn how to setup a wallet
+        </a>
       </div>
     </div>
   );
