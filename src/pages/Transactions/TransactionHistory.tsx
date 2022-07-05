@@ -25,67 +25,59 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
 
     '&$expanded': {
-      margin: 0
-    }
-  }
+      margin: 0,
+    },
+  },
 }));
 
 const TransactionHistory = () => {
   const classes = useStyles();
   const currentContract = useSelector(currentMultisigContractSelector);
   const { data: allTransactions = [] } = useFetch(
-    `${network.apiAddress}/transactions?receiver=${currentContract?.address}`
+    `${network.apiAddress}/transactions?receiver=${currentContract?.address}`,
   );
-  const groupedTransactions = useMemo(() => {
-    return allTransactions?.reduce((acc: any, transaction: any) => {
-      const dateOfTransaction = dayjs(getDate(transaction.timestamp)).format(
-        dateFormat
-      );
+  const groupedTransactions = useMemo(() => allTransactions?.reduce((acc: any, transaction: any) => {
+    const dateOfTransaction = dayjs(getDate(transaction.timestamp)).format(
+      dateFormat,
+    );
 
-      if (!acc[dateOfTransaction]) acc[dateOfTransaction] = [];
-      acc[dateOfTransaction].push(transaction);
+    if (!acc[dateOfTransaction]) acc[dateOfTransaction] = [];
+    acc[dateOfTransaction].push(transaction);
 
-      return acc;
-    }, {});
-  }, [allTransactions]);
+    return acc;
+  }, {}), [allTransactions]);
 
   return (
     <>
-      {groupedTransactions &&
-        Object.entries(groupedTransactions).map(
-          ([transactionDate, transactionArray]: any) => {
-            return (
-              <div key={transactionDate}>
-                {
-                  <Typography variant='subtitle1' className='my-4'>
-                    <strong>{transactionDate}</strong>
-                  </Typography>
-                }
-                {transactionArray.map((transaction: any) => {
-                  return (
-                    <Accordion key={transaction.txHash}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls='panel1a-content'
-                        sx={{ borderBottom: '2px solid #ddd' }}
-                        className='pl-0 m-0 d-flex'
-                        classes={{
-                          content: classes.content,
-                          expanded: classes.expanded
-                        }}
-                      >
-                        <TransactionSummary transaction={transaction} />
-                      </AccordionSummary>
+      {groupedTransactions
+        && Object.entries(groupedTransactions).map(
+          ([transactionDate, transactionArray]: any) => (
+            <div key={transactionDate}>
+              <Typography variant="subtitle1" className="my-4">
+                <strong>{transactionDate}</strong>
+              </Typography>
+              {transactionArray.map((transaction: any) => (
+                <Accordion key={transaction.txHash}>
+                  <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls="panel1a-content"
+                    sx={{ borderBottom: '2px solid #ddd' }}
+                    className="pl-0 m-0 d-flex"
+                    classes={{
+                      content: classes.content,
+                      expanded: classes.expanded,
+                    }}
+                  >
+                    <TransactionSummary transaction={transaction} />
+                  </AccordionSummary>
 
-                      <AccordionDetails>
-                        <TransactionDescription transaction={transaction} />
-                      </AccordionDetails>
-                    </Accordion>
-                  );
-                })}
-              </div>
-            );
-          }
+                  <AccordionDetails>
+                    <TransactionDescription transaction={transaction} />
+                  </AccordionDetails>
+                </Accordion>
+              ))}
+            </div>
+          ),
         )}
     </>
   );

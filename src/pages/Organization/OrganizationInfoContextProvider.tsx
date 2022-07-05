@@ -3,7 +3,7 @@ import React, {
   useContext,
   useEffect,
   useMemo,
-  useState
+  useState,
 } from 'react';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
@@ -12,7 +12,7 @@ import {
   queryBoardMemberAddresses,
   queryProposerAddresses,
   queryQuorumCount,
-  queryUserRole
+  queryUserRole,
 } from 'contracts/MultisigContract';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import useFetch from 'utils/useFetch';
@@ -23,11 +23,10 @@ type Props = {
 };
 
 const OrganizationInfoContext = createContext<OrganizationInfoContextType>(
-  {} as OrganizationInfoContextType
+  {} as OrganizationInfoContextType,
 );
 
-export const useOrganizationInfoContext = () =>
-  useContext(OrganizationInfoContext);
+export const useOrganizationInfoContext = () => useContext(OrganizationInfoContext);
 
 const OrganizationInfoContextProvider = ({ children }: Props) => {
   const [membersCount, setMembersCount] = useState(0);
@@ -38,17 +37,14 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
 
   const { address } = useGetAccountInfo();
 
-  const { data: tokenPrices }: { data: TokenWithPrice[] | undefined } =
-    useFetch('https://devnet-api.elrond.com/mex/tokens');
+  const { data: tokenPrices }: { data: TokenWithPrice[] | undefined } = useFetch('https://devnet-api.elrond.com/mex/tokens');
 
   const currentContract = useSelector(currentMultisigContractSelector);
 
-  const allMemberAddresses = useMemo(() => {
-    return [
-      ...boardMembers.map((item) => ({ role: 'Board Member', member: item })),
-      ...proposers.map((item) => ({ role: 'Proposer', member: item }))
-    ].map((item, idx) => ({ ...item, id: idx }));
-  }, [boardMembers, proposers]);
+  const allMemberAddresses = useMemo(() => [
+    ...boardMembers.map((item) => ({ role: 'Board Member', member: item })),
+    ...proposers.map((item) => ({ role: 'Proposer', member: item })),
+  ].map((item, idx) => ({ ...item, id: idx })), [boardMembers, proposers]);
 
   useEffect(() => {
     setMembersCount(allMemberAddresses.length);
@@ -58,30 +54,31 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
 
   useEffect(() => {
     let isMounted = true;
-    if (!currentContract?.address)
+    if (!currentContract?.address) {
       return () => {
         isMounted = false;
       };
+    }
 
-    currentContract?.address &&
-      Promise.all([
+    currentContract?.address
+      && Promise.all([
         queryBoardMemberAddresses(),
         queryUserRole(new Address(address).hex()),
         queryProposerAddresses(),
-        queryQuorumCount()
+        queryQuorumCount(),
       ]).then(
         ([
           boardMembersAddresses,
           userRoleResponse,
           proposersAddresses,
-          quorumCountResponse
+          quorumCountResponse,
         ]) => {
           if (!isMounted) return;
           setBoardMembers(boardMembersAddresses);
           setProposers(proposersAddresses);
           setQuorumCount(quorumCountResponse);
           setUserRole(userRoleResponse);
-        }
+        },
       );
     return () => {
       isMounted = false;
@@ -97,7 +94,7 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
         proposersState: [proposers, setProposers],
         userRole: userRole as number,
         tokenPrices: tokenPrices as unknown as TokenWithPrice[],
-        allMemberAddresses
+        allMemberAddresses,
       }}
     >
       {children}

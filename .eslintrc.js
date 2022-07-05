@@ -1,7 +1,7 @@
 module.exports = {
   env: {
     browser: true,
-    es2021: true
+    es2021: true,
   },
   extends: [
     'eslint:recommended',
@@ -10,15 +10,15 @@ module.exports = {
     'airbnb/hooks',
     'plugin:@typescript-eslint/recommended',
     'plugin:import/typescript',
-    'plugin:react/jsx-runtime'
+    'plugin:react/jsx-runtime',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
-      jsx: true
+      jsx: true,
     },
     ecmaVersion: 13,
-    sourceType: 'module'
+    sourceType: 'module',
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
@@ -34,8 +34,8 @@ module.exports = {
       1,
       {
         namedComponents: 'arrow-function',
-        unnamedComponents: 'arrow-function'
-      }
+        unnamedComponents: 'arrow-function',
+      },
     ],
     // Typescript and will take care of this
     'react/prop-types': 'off',
@@ -53,23 +53,23 @@ module.exports = {
     camelcase: 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     'import/no-named-as-default': 'off',
-    '@typescript-eslint/no-shadow': 'off'
+    '@typescript-eslint/no-shadow': 'off',
   },
   // ignore the root js config files
   ignorePatterns: ['/*.js'],
   settings: {
     react: {
-      version: 'detect'
+      version: 'detect',
     },
     'import/resolver': {
       alias: {
         map: [
           ['src', './src'],
           ['components', './src/components'],
-          ['pages', './src/pages']
+          ['pages', './src/pages'],
         ],
-        extensions: ['.ts', '.tsx', '.js', '.jsx']
-      }
-    }
-  }
+        extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      },
+    },
+  },
 };

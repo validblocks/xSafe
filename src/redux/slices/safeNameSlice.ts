@@ -5,7 +5,7 @@ export interface StateType {
 }
 
 const initialState: StateType = {
-  safeNameStored: ''
+  safeNameStored: '',
 };
 
 export const safeNameSlice = createSlice({
@@ -15,10 +15,10 @@ export const safeNameSlice = createSlice({
     setSafeName(state: StateType, action: any) {
       return {
         ...state,
-        safeNameStored: action.payload
+        safeNameStored: action.payload,
       };
-    }
-  }
+    },
+  },
 });
 
 export const { setSafeName } = safeNameSlice.actions;

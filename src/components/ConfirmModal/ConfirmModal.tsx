@@ -14,7 +14,7 @@ const ConfirmModal = ({
   confirmButtonTitle,
   show,
   handleClose,
-  handleConfirm
+  handleConfirm,
 }: ConfirmModalType) => {
   const onConfirmClicked = () => {
     handleConfirm();
@@ -24,18 +24,18 @@ const ConfirmModal = ({
     <Modal
       show={show}
       onHide={handleClose}
-      className='modal-container'
+      className="modal-container"
       animation={false}
       centered
     >
-      <div className='card'>
-        <div className='card-body p-spacer text-center'>
-          <p className='h6 mb-spacer' data-testid='delegateTitle'>
+      <div className="card">
+        <div className="card-body p-spacer text-center">
+          <p className="h6 mb-spacer" data-testid="delegateTitle">
             {title}
           </p>
 
           <div>
-            <button onClick={onConfirmClicked} className='btn btn-primary mb-3'>
+            <button onClick={onConfirmClicked} className="btn btn-primary mb-3">
               {confirmButtonTitle}
             </button>
           </div>

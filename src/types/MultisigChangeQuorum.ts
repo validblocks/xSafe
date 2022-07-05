@@ -15,7 +15,7 @@ export class MultisigChangeQuorum extends MultisigAction {
   }
 
   description() {
-    return i18next.t('New Quorum Size') + ': ' + this.newSize.toString();
+    return `${i18next.t('New Quorum Size')}: ${this.newSize.toString()}`;
   }
 
   tooltip() {

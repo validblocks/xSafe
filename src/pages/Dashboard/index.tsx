@@ -4,7 +4,7 @@ import { getIsProviderEqualTo } from '@elrondnetwork/dapp-core';
 import {
   faWallet,
   faPlus,
-  faArrowRight
+  faArrowRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
@@ -21,7 +21,7 @@ import MultisigListItem from 'pages/Dashboard/MultisigListItem';
 import NewDashboard from 'pages/NewDashboard';
 import {
   multisigContractsFetchedSelector,
-  multisigContractsSelector
+  multisigContractsSelector,
 } from 'redux/selectors/multisigContractsSelectors';
 import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
 import { storageApi } from 'services/accessTokenServices';
@@ -32,7 +32,7 @@ import DeployStepsModal from './DeployMultisigModal';
 const Dashboard = () => {
   const multisigContracts = useSelector(multisigContractsSelector);
   const multisigContractsFetched = useSelector(
-    multisigContractsFetchedSelector
+    multisigContractsFetchedSelector,
   );
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
@@ -48,7 +48,7 @@ const Dashboard = () => {
   async function checkSingleContractValidity() {
     if (uniqueContractAddress || !storageApi) {
       const isValidMultisigContract = await validateMultisigAddress(
-        uniqueContractAddress
+        uniqueContractAddress,
       );
       if (!isValidMultisigContract) {
         setInvalidMultisigContract(true);
@@ -65,7 +65,7 @@ const Dashboard = () => {
   }
 
   async function updateMultisigContract(
-    newContracts: MultisigContractInfoType[]
+    newContracts: MultisigContractInfoType[],
   ) {
     dispatch(setMultisigContracts(newContracts));
   }
@@ -74,33 +74,31 @@ const Dashboard = () => {
     <button
       disabled={isWalletProvider}
       onClick={onDeployClicked}
-      className='shadow-sm'
+      className="shadow-sm"
       style={{ pointerEvents: isWalletProvider ? 'none' : 'auto' }}
     >
       <figure>
-        <img src={CreateWallet} alt='create-wallet-icon' />
+        <img src={CreateWallet} alt="create-wallet-icon" />
       </figure>
-      <p className='action'>
+      <p className="action">
         {t('Create wallet')}
         <FontAwesomeIcon icon={faArrowRight} />
       </p>
-      <p className='info-text'>Create an organization</p>
+      <p className="info-text">Create an organization</p>
     </button>
   );
 
   const deployButtonContainer = isWalletProvider ? (
     <OverlayTrigger
-      placement='top'
+      placement="top"
       delay={{ show: 250, hide: 400 }}
-      overlay={(props) => {
-        return (
-          <Tooltip id='deploy-button-tooltip' {...props}>
-            {t('Please use another login method to deploy a contract')}
-          </Tooltip>
-        );
-      }}
+      overlay={(props) => (
+        <Tooltip id="deploy-button-tooltip" {...props}>
+          {t('Please use another login method to deploy a contract')}
+        </Tooltip>
+      )}
     >
-      <span className='d-inline-block'>{deployButton}</span>
+      <span className="d-inline-block">{deployButton}</span>
     </OverlayTrigger>
   ) : (
     deployButton
@@ -108,28 +106,26 @@ const Dashboard = () => {
 
   const deployButtonSecondary = (
     <button
-      className='btn btn-light d-flex flex-row align-items-center'
+      className="btn btn-light d-flex flex-row align-items-center"
       onClick={onDeployClicked}
       disabled={isWalletProvider}
     >
-      <FontAwesomeIcon icon={faPlus} size='lg' />
-      <div className='navbar-address  d-lg-block'>Create</div>
+      <FontAwesomeIcon icon={faPlus} size="lg" />
+      <div className="navbar-address  d-lg-block">Create</div>
     </button>
   );
 
   const deployButtonSecondaryContainer = isWalletProvider ? (
     <OverlayTrigger
-      placement='top'
+      placement="top"
       delay={{ show: 250, hide: 400 }}
-      overlay={(props) => {
-        return (
-          <Tooltip id='deploy-button-tooltip' {...props}>
-            {t('Please use another login method to deploy a contract')}
-          </Tooltip>
-        );
-      }}
+      overlay={(props) => (
+        <Tooltip id="deploy-button-tooltip" {...props}>
+          {t('Please use another login method to deploy a contract')}
+        </Tooltip>
+      )}
     >
-      <span className='d-inline-block'>{deployButtonSecondary}</span>
+      <span className="d-inline-block">{deployButtonSecondary}</span>
     </OverlayTrigger>
   ) : (
     deployButtonSecondary
@@ -141,18 +137,16 @@ const Dashboard = () => {
   if (invalidMultisigContract) {
     return (
       <div
-        className={
-          'd-flex flex-fill justify-content-center align-items-center flex-column'
-        }
+        className="d-flex flex-fill justify-content-center align-items-center flex-column"
       >
-        <p className={'h2'}>
+        <p className="h2">
           {t(
-            'The address you provided does not belong to a valid Multisig contract'
+            'The address you provided does not belong to a valid Multisig contract',
           )}
         </p>
-        <p className={'h3 mt-5'}>
+        <p className="h3 mt-5">
           {t(
-            'Please check project configuration in multisigConfig and try again'
+            'Please check project configuration in multisigConfig and try again',
           )}
         </p>
       </div>
@@ -160,27 +154,25 @@ const Dashboard = () => {
   }
 
   return (
-    <>
-      <div className='owner w-100 d-flex justify-content-center align-items-center flex-column'>
-        <NewDashboard />
-        <AddMultisigModal
-          show={showAddMultisigModal}
-          handleClose={() => {
-            setShowAddMultisigModal(false);
-          }}
-          setNewContracts={updateMultisigContract}
-        />
-        <DeployStepsModal
-          show={showDeployMultisigModal}
-          handleClose={() => setShowDeployMultisigModal(false)}
-          setNewContracts={updateMultisigContract}
-        />
-        <p className='info-msg'>
-          New to Multisig?&nbsp;&nbsp;&nbsp;&nbsp;
-          <a href=''>Learn more</a>
-        </p>
-      </div>
-    </>
+    <div className="owner w-100 d-flex justify-content-center align-items-center flex-column">
+      <NewDashboard />
+      <AddMultisigModal
+        show={showAddMultisigModal}
+        handleClose={() => {
+          setShowAddMultisigModal(false);
+        }}
+        setNewContracts={updateMultisigContract}
+      />
+      <DeployStepsModal
+        show={showDeployMultisigModal}
+        handleClose={() => setShowDeployMultisigModal(false)}
+        setNewContracts={updateMultisigContract}
+      />
+      <p className="info-msg">
+        New to Multisig?&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="">Learn more</a>
+      </p>
+    </div>
   );
 };
 

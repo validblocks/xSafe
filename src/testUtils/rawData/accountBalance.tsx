@@ -7,9 +7,9 @@ export const accountBalance = {
       username: '',
       code: '',
       codeHash: null,
-      rootHash: '2rRCxfZcet7eYyL9NLIr+qxuqRBzaEhc9rstJ4axZU0='
-    }
+      rootHash: '2rRCxfZcet7eYyL9NLIr+qxuqRBzaEhc9rstJ4axZU0=',
+    },
   },
   error: '',
-  code: 'successful'
+  code: 'successful',
 };

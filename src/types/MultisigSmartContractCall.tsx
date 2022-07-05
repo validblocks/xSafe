@@ -6,7 +6,7 @@ import {
   BigUIntValue,
   BytesValue,
   U32Type,
-  U32Value
+  U32Value,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,15 +20,18 @@ import { multisigContractFunctionNames } from './multisigFunctionNames';
 
 export class MultisigSmartContractCall extends MultisigAction {
   address: Address;
+
   amount: BigUIntValue;
+
   functionName: string;
+
   args: BytesValue[];
 
   constructor(
     address: Address,
     amount: BigUIntValue,
     functionName: string,
-    args: BytesValue[] = []
+    args: BytesValue[] = [],
   ) {
     super(MultisigActionType.SendTransferExecute);
     this.address = address;
@@ -53,7 +56,7 @@ export class MultisigSmartContractCall extends MultisigAction {
         return null;
     }
     return `${this.functionName}${this.args.map(
-      (arg) => `@${arg.valueOf().toString('hex')}`
+      (arg) => `@${arg.valueOf().toString('hex')}`,
     )}`;
   }
 
@@ -75,26 +78,24 @@ export class MultisigSmartContractCall extends MultisigAction {
         return this.getSendTokenDescription();
     }
     return (
-      <>
-        <div className='d-flex flex-wrap transaction'>
-          <span className='mr-1 text-body'>
-            <Ui.Denominate
-              value={this.amount.valueOf().toString()}
-              showLastNonZeroDecimal
-              showLabel
-            />
-          </span>
-          <span className='mr-1'>{i18next.t<string>('to')}</span>
-          <div className='address'>
-            <Ui.Trim text={this.address.bech32()} />
-            <ExplorerLink
-              page={`accounts/${this.address.bech32()}`}
-              text={<FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />}
-              className='link-second-style'
-            />
-          </div>
+      <div className="d-flex flex-wrap transaction">
+        <span className="mr-1 text-body">
+          <Ui.Denominate
+            value={this.amount.valueOf().toString()}
+            showLastNonZeroDecimal
+            showLabel
+          />
+        </span>
+        <span className="mr-1">{i18next.t<string>('to')}</span>
+        <div className="address">
+          <Ui.Trim text={this.address.bech32()} />
+          <ExplorerLink
+            page={`accounts/${this.address.bech32()}`}
+            text={<FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />}
+            className="link-second-style"
+          />
         </div>
-      </>
+      </div>
     );
   }
 
@@ -121,7 +122,7 @@ export class MultisigSmartContractCall extends MultisigAction {
       .valueOf();
 
     return `${i18next.t('Identifier')}: ${identifier}, ${i18next.t(
-      'Amount'
+      'Amount',
     )}: ${amount}`;
   }
 
@@ -143,9 +144,9 @@ export class MultisigSmartContractCall extends MultisigAction {
       .slice(0, amount.toString().length - decimals);
 
     return `${i18next.t('Name')}: ${name}, ${i18next.t(
-      'Identifier'
+      'Identifier',
     )}: ${identifier}, ${i18next.t('Amount')}: ${amountString}, ${i18next.t(
-      'Decimals'
+      'Decimals',
     )}: ${decimals}`;
   }
 }

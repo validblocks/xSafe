@@ -13,11 +13,9 @@ export const minGasLimit = 50_000;
 export const maxGasLimit = 1499999999;
 
 export const walletConnectBridge = 'https://bridge.walletconnect.org';
-export const walletConnectDeepLink =
-  'https://maiar.page.link/?apn=com.elrond.maiar.wallet&isi=1519405832&ibi=com.elrond.maiar.wallet.dev&link=https://maiar.com/';
+export const walletConnectDeepLink = 'https://maiar.page.link/?apn=com.elrond.maiar.wallet&isi=1519405832&ibi=com.elrond.maiar.wallet.dev&link=https://maiar.com/';
 
-export const issueTokenContractAddress =
-  'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u';
+export const issueTokenContractAddress = 'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u';
 
 export const network: NetworkType = {
   id: 'devnet',
@@ -26,7 +24,7 @@ export const network: NetworkType = {
   walletAddress: 'https://devnet-wallet.elrond.com',
   apiAddress: 'https://devnet-api.elrond.com',
   gatewayAddress: 'https://devnet-gateway.elrond.com',
-  explorerAddress: 'http://devnet-explorer.elrond.com'
+  explorerAddress: 'http://devnet-explorer.elrond.com',
 };
 
 const networkSchema = object({
@@ -36,7 +34,7 @@ const networkSchema = object({
   walletAddress: string(),
   apiAddress: string(),
   gatewayAddress: string(),
-  explorerAddress: string().required()
+  explorerAddress: string().required(),
 }).required();
 
 export type NetworkType = InferType<typeof networkSchema>;

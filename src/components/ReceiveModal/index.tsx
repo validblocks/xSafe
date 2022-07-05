@@ -4,10 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import QrCode from 'qrcode.react';
 import { Modal } from 'react-bootstrap';
 import CopyButton from '../CopyButton';
+
 const ReceiveModal = ({
   showQrFromSidebar,
   address,
-  handleQr
+  handleQr,
 }: {
   showQrFromSidebar?: boolean;
   address?: string;
@@ -29,41 +30,41 @@ const ReceiveModal = ({
   return (
     <>
       {showQrFromSidebar === undefined && (
-        <button onClick={handleOpenModal} className='btn btn-primary'>
-          <span className='icon'>
+        <button onClick={handleOpenModal} className="btn btn-primary">
+          <span className="icon">
             <FontAwesomeIcon icon={faQrcode} />
           </span>
-          <span className='name'>Deposit</span>
+          <span className="name">Deposit</span>
         </button>
       )}
       <Modal
         show={showModal}
-        size='lg'
+        size="lg"
         onHide={handleQr === undefined ? handleCloseModal : handleQr}
-        className='modal-container'
+        className="modal-container"
         animation={false}
         centered
       >
-        <div className='card'>
-          <div className='card-body text-center receive'>
-            <p className='h3 mb-spacer title' data-testid='delegateTitle'>
+        <div className="card">
+          <div className="card-body text-center receive">
+            <p className="h3 mb-spacer title" data-testid="delegateTitle">
               Deposit
             </p>
 
             <QrCode value={address} size={256} />
             <div
-              className='h6 mb-spacer copy-address'
-              data-testid='delegateSubTitle'
+              className="h6 mb-spacer copy-address"
+              data-testid="delegateSubTitle"
             >
-              <textarea readOnly value={address} className='address' />
-              <span className={'copy-btn'}>
+              <textarea readOnly value={address} className="address" />
+              <span className="copy-btn">
                 <CopyButton text={address} />
               </span>
             </div>
-            <div className='modal-action-btns'>
+            <div className="modal-action-btns">
               <button
                 onClick={handleQr === undefined ? handleCloseModal : handleQr}
-                className='btn btn-primary'
+                className="btn btn-primary"
               >
                 Done
               </button>

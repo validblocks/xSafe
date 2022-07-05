@@ -11,10 +11,10 @@ const ThemeColor = () => {
     <Box>
       <Autocomplete
         value={value}
-        id='themes-states-demo'
+        id="themes-states-demo"
         options={themesList}
         sx={{ width: 250 }}
-        renderInput={(params) => <TextField {...params} label='Theme' />}
+        renderInput={(params) => <TextField {...params} label="Theme" />}
       />
     </Box>
   );

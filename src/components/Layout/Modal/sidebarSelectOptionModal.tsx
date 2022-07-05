@@ -1,7 +1,9 @@
 import React from 'react';
 import DiamondIcon from '@mui/icons-material/Diamond';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
-import { Box, Button, Modal, Grid } from '@mui/material';
+import {
+  Box, Button, Modal, Grid,
+} from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
@@ -15,7 +17,7 @@ const style = {
   bgcolor: 'background.paper',
   borderRadius: '0.25rem',
   boxShadow: 24,
-  p: 4
+  p: 4,
 };
 
 const SidebarSelectOptionModal = () => {
@@ -26,8 +28,8 @@ const SidebarSelectOptionModal = () => {
   const sendFunds = () => {
     dispatch(
       setProposeModalSelectedOption({
-        option: ProposalsTypes.send_token
-      })
+        option: ProposalsTypes.send_token,
+      }),
     );
     setOpen(false);
   };
@@ -41,28 +43,28 @@ const SidebarSelectOptionModal = () => {
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <p className='h3 mb-spacer' data-testid='delegateTitle'>
+          <p className="h3 mb-spacer" data-testid="delegateTitle">
             Send
           </p>
           <Grid sx={{ textAlign: 'center' }}>
-            <Box className='card select-options-list modal-action-btns'>
+            <Box className="card select-options-list modal-action-btns">
               <Button
-                variant='contained'
-                className='selectable-option btn btn-primary btn-light'
+                variant="contained"
+                className="selectable-option btn btn-primary btn-light"
                 onClick={sendFunds}
               >
                 <PaidOutlinedIcon sx={{ pr: 1 }} />
                 Send Funds
               </Button>
             </Box>
-            <Box className='card select-options-list modal-action-btns'>
+            <Box className="card select-options-list modal-action-btns">
               <Button
-                variant='contained'
-                className='selectable-option btn btn-primary btn-light'
+                variant="contained"
+                className="selectable-option btn btn-primary btn-light"
                 onClick={sendNft}
               >
                 <DiamondIcon sx={{ pr: 1 }} />

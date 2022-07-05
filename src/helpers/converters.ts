@@ -4,7 +4,7 @@ import {
   BigUIntType,
   BytesValue,
   U32Value,
-  U64Value
+  U64Value,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
 import BigNumber from 'bignumber.js';
 import { MultisigAction } from 'types/MultisigAction';
@@ -49,10 +49,10 @@ export function parseAction(buffer: Buffer): [MultisigAction | null, Buffer] {
 }
 
 function parseAddBoardMember(
-  remainingBytes: Buffer
+  remainingBytes: Buffer,
 ): [MultisigAction | null, Buffer] {
   const action = new MultisigAddBoardMember(
-    new Address(remainingBytes.slice(0, 32))
+    new Address(remainingBytes.slice(0, 32)),
   );
   remainingBytes = remainingBytes.slice(32);
 
@@ -60,10 +60,10 @@ function parseAddBoardMember(
 }
 
 function parseAddProposer(
-  remainingBytes: Buffer
+  remainingBytes: Buffer,
 ): [MultisigAction | null, Buffer] {
   const action = new MultisigAddProposer(
-    new Address(remainingBytes.slice(0, 32))
+    new Address(remainingBytes.slice(0, 32)),
   );
   remainingBytes = remainingBytes.slice(32);
 
@@ -71,10 +71,10 @@ function parseAddProposer(
 }
 
 function parseRemoveUser(
-  remainingBytes: Buffer
+  remainingBytes: Buffer,
 ): [MultisigAction | null, Buffer] {
   const action = new MultisigRemoveUser(
-    new Address(remainingBytes.slice(0, 32))
+    new Address(remainingBytes.slice(0, 32)),
   );
   remainingBytes = remainingBytes.slice(32);
 
@@ -82,10 +82,10 @@ function parseRemoveUser(
 }
 
 function parseChangeQuorum(
-  remainingBytes: Buffer
+  remainingBytes: Buffer,
 ): [MultisigAction | null, Buffer] {
   const action = new MultisigChangeQuorum(
-    getIntValueFromBytes(remainingBytes.slice(0, 4))
+    getIntValueFromBytes(remainingBytes.slice(0, 4)),
   );
   remainingBytes = remainingBytes.slice(4);
 
@@ -93,7 +93,7 @@ function parseChangeQuorum(
 }
 
 function parseSendEgld(
-  remainingBytes: Buffer
+  remainingBytes: Buffer,
 ): [MultisigAction | null, Buffer] {
   const targetAddress = new Address(remainingBytes.slice(0, 32));
   remainingBytes = remainingBytes.slice(32);
@@ -133,14 +133,14 @@ function parseSendEgld(
     targetAddress,
     amount,
     functionName,
-    args
+    args,
   );
 
   return [action, remainingBytes];
 }
 
 function parseSmartContractCall(
-  remainingBytes: Buffer
+  remainingBytes: Buffer,
 ): [MultisigAction | null, Buffer] {
   const targetAddress = new Address(remainingBytes.slice(0, 32));
   remainingBytes = remainingBytes.slice(32);
@@ -180,13 +180,13 @@ function parseSmartContractCall(
     targetAddress,
     amount,
     functionName,
-    args
+    args,
   );
 
   return [action, remainingBytes];
 }
 function parseSmartContractDeployFromSource(
-  remainingBytes: Buffer
+  remainingBytes: Buffer,
 ): [MultisigAction | null, Buffer] {
   const amountSize = getIntValueFromBytes(remainingBytes.slice(0, 4));
   remainingBytes = remainingBytes.slice(4);
@@ -225,14 +225,14 @@ function parseSmartContractDeployFromSource(
     upgradeable,
     payable,
     readable,
-    args
+    args,
   );
 
   return [action, remainingBytes];
 }
 
 function parseSmartContractUpgradeFromSource(
-  remainingBytes: Buffer
+  remainingBytes: Buffer,
 ): [MultisigAction | null, Buffer] {
   const address = new Address(remainingBytes.slice(0, 32));
   remainingBytes = remainingBytes.slice(32);
@@ -274,14 +274,14 @@ function parseSmartContractUpgradeFromSource(
     upgradeable,
     payable,
     readable,
-    args
+    args,
   );
 
   return [action, remainingBytes];
 }
 
 export function parseActionDetailed(
-  buffer: Buffer
+  buffer: Buffer,
 ): MultisigActionDetailed | null {
   const actionId = getIntValueFromBytes(buffer.slice(0, 4));
   const actionBytes = buffer.slice(4);
@@ -308,7 +308,7 @@ export function parseActionDetailed(
 }
 
 export function parseContractInfo(
-  buffer: Buffer
+  buffer: Buffer,
 ): MultisigContractInfoType | null {
   let remainingBytes = buffer;
 
@@ -327,10 +327,10 @@ export function parseContractInfo(
 
 export function getIntValueFromBytes(buffer: Buffer) {
   return (
-    buffer[buffer.length - 1] |
-    (buffer[buffer.length - 2] << 8) |
-    (buffer[buffer.length - 3] << 16) |
-    (buffer[buffer.length - 4] << 24)
+    buffer[buffer.length - 1]
+    | (buffer[buffer.length - 2] << 8)
+    | (buffer[buffer.length - 3] << 16)
+    | (buffer[buffer.length - 4] << 24)
   );
 }
 
@@ -365,7 +365,7 @@ export function get64BitBufferFromBigIntLE(value: BigInt) {
   const encodedValue = new U64Value(new BigNumber(value.toString())).valueOf();
 
   const encodedBuffer = getBytesFromHexString(
-    encodedValue.toString()
+    encodedValue.toString(),
   ).reverse();
   const concatenatedBuffer = Buffer.concat([encodedBuffer, paddedBuffer]);
   return concatenatedBuffer.slice(0, 8);
@@ -383,7 +383,7 @@ export function computeSmartContractAddress(owner: Address, nonce: Nonce) {
     initialPadding,
     vmTypeBytes,
     hash.slice(10, 30),
-    shardSelector
+    shardSelector,
   ]);
   return new Address(addressBytes);
 }
@@ -434,6 +434,6 @@ export function addressToPlainAddress(address: Address) {
   return {
     hex: address.hex(),
     bech32: address.bech32(),
-    pubKey: address.pubkey()
+    pubKey: address.pubkey(),
   };
 }

@@ -5,5 +5,5 @@ export const appConfigSelector = (state: RootState) => state.appConfig;
 
 export const multisigOriginSelector = createDeepEqualSelector(
   appConfigSelector,
-  (state) => state.multisigOrigin
+  (state) => state.multisigOrigin,
 );

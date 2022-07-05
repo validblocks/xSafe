@@ -17,7 +17,7 @@ export default function useFetch(url: string) {
       } finally {
         setLoading(false);
       }
-    })();
+    }());
   }, [url]);
 
   return { data, error, loading };

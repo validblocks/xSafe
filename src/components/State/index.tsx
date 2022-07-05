@@ -6,7 +6,7 @@ const State = ({
   iconClass,
   title,
   description,
-  action
+  action,
 }: {
   icon?: any;
   iconClass?: string;
@@ -14,16 +14,16 @@ const State = ({
   description?: string | React.ReactNode;
   action?: React.ReactNode;
 }) => (
-  <div className='state m-auto p-spacer text-center'>
+  <div className="state m-auto p-spacer text-center">
     {icon && (
       <FontAwesomeIcon
         icon={icon}
-        className={iconClass ? iconClass : ''}
-        size='5x'
+        className={iconClass || ''}
+        size="5x"
       />
     )}
-    {title && <p className='h4 mt-2 mb-1'>{title}</p>}
-    {description && <div className='mb-3'>{description}</div>}
+    {title && <p className="h4 mt-2 mb-1">{title}</p>}
+    {description && <div className="mb-3">{description}</div>}
     {action && <>{action}</>}
   </div>
 );

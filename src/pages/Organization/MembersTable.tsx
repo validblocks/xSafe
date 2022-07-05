@@ -7,7 +7,7 @@ import {
   GridRowId,
   GridActionsCellItem,
   DataGrid,
-  GridRenderCellParams
+  GridRenderCellParams,
 } from '@mui/x-data-grid';
 import { useDispatch } from 'react-redux';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
@@ -16,14 +16,12 @@ import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
 const MembersTable = () => {
   const dispatch = useDispatch();
-  const onRemoveUser = (address: Address) => {
-    return dispatch(
-      setProposeModalSelectedOption({
-        option: ProposalsTypes.remove_user,
-        address: address.bech32()
-      })
-    );
-  };
+  const onRemoveUser = (address: Address) => dispatch(
+    setProposeModalSelectedOption({
+      option: ProposalsTypes.remove_user,
+      address: address.bech32(),
+    }),
+  );
 
   const toggleAdmin = useCallback(
     (id: GridRowId) => () => {
@@ -33,7 +31,7 @@ const MembersTable = () => {
       //   )
       // );
     },
-    []
+    [],
   );
 
   const duplicateUser = useCallback(
@@ -43,7 +41,7 @@ const MembersTable = () => {
       //   return [...prevRows, { ...rowToDuplicate, id: Date.now() }];
       // });
     },
-    []
+    [],
   );
 
   const columns = useMemo(
@@ -54,24 +52,24 @@ const MembersTable = () => {
         type: 'string',
         width: 350,
         renderCell: (params: GridRenderCellParams<any>) => (
-          <div className='d-flex align-items-center'>
+          <div className="d-flex align-items-center">
             <img
-              className='mr-3 rounded w-100 h-100'
-              src='https://picsum.photos/30/30?random=1'
+              className="mr-3 rounded w-100 h-100"
+              src="https://picsum.photos/30/30?random=1"
             />
             <div>
               <div>
-                {params.value.valueHex.slice(0, 10) +
-                  '...' +
+                {`${params.value.valueHex.slice(0, 10)
+                }...${
                   params.value.valueHex.slice(
-                    params.value.valueHex.length - 10
-                  )}
+                    params.value.valueHex.length - 10,
+                  )}`}
                 {/* <Ui.Trim text={params.value.valueHex} /> */}
               </div>
               <div>@herotag</div>
             </div>
           </div>
-        )
+        ),
       },
       {
         field: 'role',
@@ -80,7 +78,7 @@ const MembersTable = () => {
         width: 200,
         renderCell: (params: GridRenderCellParams<any>) => (
           <div
-            className='p-2 rounded'
+            className="p-2 rounded"
             style={
               params.value === 'Board Member'
                 ? { background: 'rgba(255,0,0, 0.1)', color: 'red' }
@@ -89,7 +87,7 @@ const MembersTable = () => {
           >
             {params.value}
           </div>
-        )
+        ),
       },
       {
         field: 'actions',
@@ -98,33 +96,33 @@ const MembersTable = () => {
         headerName: 'Quick Actions',
         getActions: (params: any) => [
           // eslint-disable-next-line react/jsx-key
-          <div className='shadow-sm p-2 rounded mr-2'>
+          <div className="shadow-sm p-2 rounded mr-2">
             <GridActionsCellItem
-              icon={<ToggleOnIcon htmlColor='#9DABBD' />}
-              label='Toggle Admin'
+              icon={<ToggleOnIcon htmlColor="#9DABBD" />}
+              label="Toggle Admin"
               onClick={toggleAdmin(params.id)}
             />
           </div>,
           // eslint-disable-next-line react/jsx-key
-          <div className='shadow-sm p-2 rounded mr-2'>
+          <div className="shadow-sm p-2 rounded mr-2">
             <GridActionsCellItem
-              icon={<EditIcon htmlColor='#9DABBD' />}
-              label='Disable User'
+              icon={<EditIcon htmlColor="#9DABBD" />}
+              label="Disable User"
               onClick={duplicateUser(params.id)}
             />
           </div>,
           // eslint-disable-next-line react/jsx-key
-          <div className='shadow-sm p-2 rounded mr-2'>
+          <div className="shadow-sm p-2 rounded mr-2">
             <GridActionsCellItem
-              icon={<DeleteIcon htmlColor='#9DABBD' />}
-              label='Delete'
+              icon={<DeleteIcon htmlColor="#9DABBD" />}
+              label="Delete"
               onClick={() => onRemoveUser(params.row.member)}
             />
-          </div>
-        ]
-      }
+          </div>,
+        ],
+      },
     ],
-    [onRemoveUser, toggleAdmin, duplicateUser]
+    [onRemoveUser, toggleAdmin, duplicateUser],
   );
 
   const { allMemberAddresses } = useOrganizationInfoContext();

@@ -1,17 +1,17 @@
 import {
   getAccountProviderType,
   getNetworkProxy,
-  transactionServices
+  transactionServices,
 } from '@elrondnetwork/dapp-core';
 import {
   ContractFunction,
   Balance,
   Address,
   SmartContract,
-  BinaryCodec
+  BinaryCodec,
+  CodeMetadata,
 } from '@elrondnetwork/erdjs';
 
-import { CodeMetadata } from '@elrondnetwork/erdjs/out';
 import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
 import { Query } from '@elrondnetwork/erdjs/out/smartcontracts/query';
 import {
@@ -22,7 +22,7 @@ import {
   BytesValue,
   TypedValue,
   U32Type,
-  U32Value
+  U32Value,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
 import BigNumber from 'bignumber.js';
 import { gasLimit, minGasLimit, issueTokenContractAddress } from 'config';
@@ -45,11 +45,11 @@ export async function sendTransaction(
   ...args: TypedValue[]
 ) {
   const currentMultisigAddress = currentMultisigAddressSelector(
-    store.getState()
+    store.getState(),
   );
 
   const smartContract = new SmartContract({
-    address: currentMultisigAddress
+    address: currentMultisigAddress,
   });
   const providerType = getAccountProviderType();
   const transaction = buildTransaction(
@@ -58,11 +58,11 @@ export async function sendTransaction(
     providerType,
     smartContract,
     transactionGasLimit,
-    ...args
+    ...args,
   );
   const { sessionId } = await transactionServices.sendTransactions({
     transactions: transaction,
-    minGasLimit
+    minGasLimit,
   });
   store.dispatch(setCurrentMultisigTransactionId(sessionId));
   return sessionId;
@@ -72,7 +72,7 @@ export function mutateSign(actionId: number) {
   return sendTransaction(
     multisigContractFunctionNames.sign,
     gasLimit,
-    new U32Value(actionId)
+    new U32Value(actionId),
   );
 }
 
@@ -80,18 +80,18 @@ export function mutateUnsign(actionId: number) {
   return sendTransaction(
     multisigContractFunctionNames.unsign,
     gasLimit,
-    new U32Value(actionId)
+    new U32Value(actionId),
   );
 }
 
 export function mutatePerformAction(
   actionId: number,
-  transactionGasLimit: number
+  transactionGasLimit: number,
 ) {
   return sendTransaction(
     multisigContractFunctionNames.performAction,
     transactionGasLimit,
-    new U32Value(actionId)
+    new U32Value(actionId),
   );
 }
 
@@ -99,7 +99,7 @@ export function mutateDiscardAction(actionId: number) {
   return sendTransaction(
     multisigContractFunctionNames.discardAction,
     gasLimit,
-    new U32Value(actionId)
+    new U32Value(actionId),
   );
 }
 
@@ -107,7 +107,7 @@ export function mutateProposeChangeQuorum(quorumSize: number) {
   return sendTransaction(
     multisigContractFunctionNames.proposeChangeQuorum,
     gasLimit,
-    new U32Value(quorumSize)
+    new U32Value(quorumSize),
   );
 }
 
@@ -115,7 +115,7 @@ export function mutateProposeAddProposer(address: Address) {
   return sendTransaction(
     multisigContractFunctionNames.proposeAddProposer,
     gasLimit,
-    new AddressValue(address)
+    new AddressValue(address),
   );
 }
 
@@ -123,7 +123,7 @@ export function mutateProposeAddBoardMember(address: Address) {
   return sendTransaction(
     multisigContractFunctionNames.proposeAddBoardMember,
     gasLimit,
-    new AddressValue(address)
+    new AddressValue(address),
   );
 }
 
@@ -131,7 +131,7 @@ export function mutateProposeRemoveUser(address: Address) {
   return sendTransaction(
     multisigContractFunctionNames.proposeRemoveUser,
     gasLimit,
-    new AddressValue(address)
+    new AddressValue(address),
   );
 }
 
@@ -147,7 +147,7 @@ export function mutateSendEgld(
     new AddressValue(address),
     amount,
     BytesValue.fromUTF8(functionName),
-    ...args
+    ...args,
   );
 }
 
@@ -161,13 +161,13 @@ export function mutateSmartContractCall(
     new AddressValue(address),
     amount,
     BytesValue.fromUTF8(endpointName),
-    ...args
+    ...args,
   ];
 
   return sendTransaction(
     multisigContractFunctionNames.proposeAsyncCall,
     gasLimit,
-    ...allArgs
+    ...allArgs,
   );
 }
 
@@ -186,7 +186,7 @@ export function mutateDeployContractFromSource(
   return sendTransaction(
     multisigContractFunctionNames.proposeSCDeployFromSource,
     gasLimit,
-    ...allArgs
+    ...allArgs,
   );
 }
 
@@ -206,13 +206,13 @@ export function mutateUpgradeContractFromSource(
     amount,
     new AddressValue(address),
     contractMetadata,
-    ...args
+    ...args,
   ];
 
   return sendTransaction(
     multisigContractFunctionNames.proposeSCUpgradeFromSource,
     proposeDeployGasLimit,
-    ...allArgs
+    ...allArgs,
   );
 }
 
@@ -222,7 +222,7 @@ export function mutateEsdtSendToken(proposal: MultisigSendToken) {
     new BigUIntValue(new BigNumber(0)),
     multisigContractFunctionNames.ESDTTransfer,
     BytesValue.fromUTF8(proposal.identifier),
-    new U32Value(proposal.amount)
+    new U32Value(proposal.amount),
   );
 }
 
@@ -233,7 +233,7 @@ export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
   const args = [];
   args.push(BytesValue.fromUTF8(proposal.name));
   args.push(BytesValue.fromUTF8(proposal.identifier));
-  args.push(new U32Value(proposal.amount * Math.pow(10, proposal.decimals)));
+  args.push(new U32Value(proposal.amount * 10 ** proposal.decimals));
   args.push(new U32Value(proposal.decimals));
 
   if (proposal.canFreeze) {
@@ -275,13 +275,13 @@ export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
     esdtAddress,
     esdtAmount,
     multisigContractFunctionNames.issue,
-    ...args
+    ...args,
   );
 }
 
 export function queryAllActions(): Promise<MultisigActionDetailed[]> {
   return queryActionContainerArray(
-    multisigContractFunctionNames.getPendingActionFullInfo
+    multisigContractFunctionNames.getPendingActionFullInfo,
   );
 }
 
@@ -302,18 +302,18 @@ export function queryActionLastId(): Promise<number> {
 }
 
 export function queryActionData(
-  actionId: number
+  actionId: number,
 ): Promise<MultisigAction | null> {
   return queryActionContainer(
     multisigContractFunctionNames.getActionData,
-    new U32Value(actionId)
+    new U32Value(actionId),
   );
 }
 
 export function queryUserRole(userAddress: string): Promise<number> {
   return queryNumber(
     multisigContractFunctionNames.userRole,
-    new AddressValue(new Address(userAddress))
+    new AddressValue(new Address(userAddress)),
   );
 }
 
@@ -326,43 +326,43 @@ export function queryProposerAddresses(): Promise<Address[]> {
 }
 
 export function queryActionSignerAddresses(
-  actionId: number
+  actionId: number,
 ): Promise<Address[]> {
   return queryAddressArray(
     multisigContractFunctionNames.getActionSigners,
-    new U32Value(actionId)
+    new U32Value(actionId),
   );
 }
 
 export function queryActionSignerCount(actionId: number): Promise<number> {
   return queryNumber(
     multisigContractFunctionNames.getActionSignerCount,
-    new U32Value(actionId)
+    new U32Value(actionId),
   );
 }
 
 export function queryActionValidSignerCount(actionId: number): Promise<number> {
   return queryNumber(
     multisigContractFunctionNames.getActionValidSignerCount,
-    new U32Value(actionId)
+    new U32Value(actionId),
   );
 }
 
 export function queryActionIsQuorumReached(actionId: number): Promise<boolean> {
   return queryBoolean(
     multisigContractFunctionNames.quorumReached,
-    new U32Value(actionId)
+    new U32Value(actionId),
   );
 }
 
 export function queryActionIsSignedByAddress(
   userAddress: Address,
-  actionId: number
+  actionId: number,
 ): Promise<boolean> {
   return queryBoolean(
     multisigContractFunctionNames.signed,
     new AddressValue(userAddress),
-    new U32Value(actionId)
+    new U32Value(actionId),
   );
 }
 
@@ -429,16 +429,16 @@ export async function queryAddressArray(
 
 export async function query(functionName: string, ...args: TypedValue[]) {
   const currentMultisigAddress = currentMultisigAddressSelector(
-    store.getState()
+    store.getState(),
   );
 
   const smartContract = new SmartContract({
-    address: currentMultisigAddress
+    address: currentMultisigAddress,
   });
   const newQuery = new Query({
     address: smartContract.getAddress(),
     func: new ContractFunction(functionName),
-    args: args
+    args,
   });
   const proxy = getNetworkProxy();
   return await proxy.queryContract(newQuery);

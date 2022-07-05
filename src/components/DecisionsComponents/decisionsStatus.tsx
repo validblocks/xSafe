@@ -11,7 +11,7 @@ const DecisionsStatus = () => {
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    boxShadow: 'unset'
+    boxShadow: 'unset',
   }));
 
   return (
@@ -19,17 +19,21 @@ const DecisionsStatus = () => {
       container
       spacing={0}
       sx={{ mb: 2 }}
-      className='align-items-center justify-content-center'
+      className="align-items-center justify-content-center"
     >
-      <Grid item md={5} xs={12} className='d-flex' sx={{ p: 3, mt: 2 }}>
+      <Grid item md={5} xs={12} className="d-flex" sx={{ p: 3, mt: 2 }}>
         <Grid md={6} xs={12}>
           <Item sx={{ p: 3 }}>
-            Open decisions <Looks3OutlinedIcon />
+            Open decisions
+            {' '}
+            <Looks3OutlinedIcon />
           </Item>
         </Grid>
         <Grid md={6} xs={12}>
           <Item sx={{ p: 3 }}>
-            Closed decisions <Looks3OutlinedIcon />
+            Closed decisions
+            {' '}
+            <Looks3OutlinedIcon />
           </Item>
         </Grid>
       </Grid>

@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { Ui } from '@elrondnetwork/dapp-utils';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
-import { faExternalLinkAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faExternalLinkAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
   removeContractFromMultisigContractsList,
-  updateMultisigContractOnServer
+  updateMultisigContractOnServer,
 } from 'apiCalls/multisigContractsCalls';
 import { ReactComponent as Wallet } from 'assets/img/wallet-logo.svg';
 import TrustedBadge from 'components/TrustedBadge';
@@ -15,7 +14,7 @@ import { network } from 'config';
 import { uniqueContractAddress } from 'multisigConfig';
 import {
   setMultisigContracts,
-  updateMultisigContract
+  updateMultisigContract,
 } from 'redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'types/multisigContracts';
 import ConfirmUnregisterModal from './ConfirmUnregisterModal';
@@ -30,7 +29,7 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
   function handleUpdateContractName(name: string) {
     const newContract = {
       ...contract,
-      name
+      name,
     };
     updateMultisigContractOnServer(newContract);
     dispatch(updateMultisigContract(newContract));
@@ -64,53 +63,53 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
     dispatch(
       updateMultisigContract({
         address: contract.address,
-        isTrusted: isContractTrusted
-      })
+        isTrusted: isContractTrusted,
+      }),
     );
   }
 
   const onEnterClicked = () => {
-    navigate('/multisig/' + contract.address);
+    navigate(`/multisig/${contract.address}`);
   };
 
   const onUnregisterContract = async (e: any) => {
     e.stopPropagation();
     e.preventDefault();
     const newContracts = await removeContractFromMultisigContractsList(
-      contract.address
+      contract.address,
     );
     dispatch(setMultisigContracts(newContracts));
   };
 
   return (
-    <button onClick={onEnterClicked} className='bg-white'>
+    <button onClick={onEnterClicked} className="bg-white">
       {!uniqueContractAddress && (
         <div
           onClick={handleOpenUnregisterModal}
-          className={'position-absolute unregister-icon'}
+          className="position-absolute unregister-icon"
         >
           <FontAwesomeIcon
             icon={faTimes}
-            size='lg'
-            className='link-second-style'
+            size="lg"
+            className="link-second-style"
           />
         </div>
       )}
-      <div className='d-flex icon'>
-        <Wallet className='logo' />
+      <div className="d-flex icon">
+        <Wallet className="logo" />
       </div>
-      <div className='align-items-center justify-content-between mb-2'>
-        <div className='wallet-details'>
+      <div className="align-items-center justify-content-between mb-2">
+        <div className="wallet-details">
           {contract.name && (
-            <div className={'d-flex justify-content-center'}>
-              <h5 onClick={handleOpenEditNameModal} className='name mb-20'>
+            <div className="d-flex justify-content-center">
+              <h5 onClick={handleOpenEditNameModal} className="name mb-20">
                 {contract.name}
-                <FontAwesomeIcon className={'edit-icon'} icon={faPencilAlt} />
+                <FontAwesomeIcon className="edit-icon" icon={faPencilAlt} />
               </h5>
             </div>
           )}
 
-          <div className='d-flex wallet-address'>
+          <div className="d-flex wallet-address">
             <TrustedBadge
               contractAddress={contract.address}
               onVerificationComplete={ontTrustVerificationComplete}
@@ -119,12 +118,12 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
             <Ui.Trim text={contract.address} />
             <a
               href={`${network.explorerAddress}/accounts/${contract.address}`}
-              target='_blank'
+              target="_blank"
               onClick={(e) => e.stopPropagation()}
-              rel='noreferrer'
-              className='link-second-style ml-2'
+              rel="noreferrer"
+              className="link-second-style ml-2"
             >
-              <FontAwesomeIcon icon={faExternalLinkAlt} size='lg' />
+              <FontAwesomeIcon icon={faExternalLinkAlt} size="lg" />
             </a>
           </div>
           <ConfirmUnregisterModal

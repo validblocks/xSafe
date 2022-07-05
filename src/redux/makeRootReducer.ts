@@ -17,6 +17,6 @@ export default function makeRootReducer() {
     appConfig,
     currency,
     safeName,
-    addressBook
+    addressBook,
   });
 }

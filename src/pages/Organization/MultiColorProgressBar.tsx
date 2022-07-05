@@ -8,11 +8,14 @@ const MultiColorProgressBar = (props: any) => {
     if (item.value > 0) {
       return (
         <div
-          className='value'
-          style={{ color: item.color, width: item.value + '%' }}
+          className="value"
+          style={{ color: item.color, width: `${item.value}%` }}
           key={i}
         >
-          <span>{item.value}%</span>
+          <span>
+            {item.value}
+            %
+          </span>
         </div>
       );
     }
@@ -22,8 +25,8 @@ const MultiColorProgressBar = (props: any) => {
     if (item.value > 0) {
       return (
         <div
-          className='graduation'
-          style={{ color: item.color, width: item.value + '%' }}
+          className="graduation"
+          style={{ color: item.color, width: `${item.value}%` }}
           key={i}
         >
           <span>|</span>
@@ -36,10 +39,10 @@ const MultiColorProgressBar = (props: any) => {
     if (item.value > 0) {
       return (
         <div
-          className='bar'
-          style={{ backgroundColor: item.color, width: item.value + '%' }}
+          className="bar"
+          style={{ backgroundColor: item.color, width: `${item.value}%` }}
           key={i}
-        ></div>
+        />
       );
     }
   }, this);
@@ -48,31 +51,32 @@ const MultiColorProgressBar = (props: any) => {
     if (item.value > 0) {
       return (
         <div
-          className='legend d-flex align-items-center justify-content-between w-100'
+          className="legend d-flex align-items-center justify-content-between w-100"
           key={i}
         >
-          <div className='d-flex'>
-            <div className='dot mr-2' style={{ color: item.color }}>
+          <div className="d-flex">
+            <div className="dot mr-2" style={{ color: item.color }}>
               ●
             </div>
-            <div className='label d-flex align-items-center mr-2'>
+            <div className="label d-flex align-items-center mr-2">
               {item.name}
             </div>
           </div>
-          <div className='percent'>{item.value}%</div>
+          <div className="percent">
+            {item.value}
+            %
+          </div>
         </div>
       );
     }
   }, this);
 
   return (
-    <>
-      <div className='multicolor-bar d-flex flex-column'>
-        {/* <div className='values'>{values == '' ? '' : values}</div> */}
-        <div className='bars mb-4'>{bars == '' ? '' : bars}</div>
-        <div className='legends w-100'>{legends == '' ? '' : legends}</div>
-      </div>
-    </>
+    <div className="multicolor-bar d-flex flex-column">
+      {/* <div className='values'>{values == '' ? '' : values}</div> */}
+      <div className="bars mb-4">{bars == '' ? '' : bars}</div>
+      <div className="legends w-100">{legends == '' ? '' : legends}</div>
+    </div>
   );
 };
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import {
+  Box, Button, Grid, Typography,
+} from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,22 +12,22 @@ import { TypographyBold } from 'components/Theme/StyledComponents';
 import addressShorthand from 'helpers/addressShorthand';
 import {
   currencyConvertedSelector,
-  selectedCurrencySelector
+  selectedCurrencySelector,
 } from 'redux/selectors/currencySelector';
 import { setProposeMultiselectSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
-import {
-  ActiveWallet,
-  AddSafe,
-  AddSafeWrapper,
-  InactiveWallet,
-  SafeOptionsWrapper
-} from './safe-style';
 import { useNavigate } from 'react-router-dom';
 import { uniqueContractAddress } from 'multisigConfig';
 import DeployStepsModal from 'pages/Dashboard/DeployMultisigModal';
 import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'types/multisigContracts';
+import {
+  ActiveWallet,
+  AddSafe,
+  AddSafeWrapper,
+  InactiveWallet,
+  SafeOptionsWrapper,
+} from './safe-style';
 
 const SafeOptions = ({ closeSafeDropdown }: any) => {
   const dispatch = useDispatch();
@@ -37,12 +39,11 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
     setShortAddress(addressShorthand);
   }, [addressShorthand]);
 
-  const addSafe = () =>
-    dispatch(
-      setProposeMultiselectSelectedOption({
-        option: ProposalsTypes.add_proposer
-      })
-    );
+  const addSafe = () => dispatch(
+    setProposeMultiselectSelectedOption({
+      option: ProposalsTypes.add_proposer,
+    }),
+  );
 
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
 
@@ -53,20 +54,16 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
   const currencyConverted = useSelector(currencyConvertedSelector);
   const getCurrency = useSelector(selectedCurrencySelector);
   const onEnterClicked = () => {
-    navigate('/multisig/' + uniqueContractAddress);
+    navigate(`/multisig/${uniqueContractAddress}`);
   };
   async function updateMultisigContract(
-    newContracts: MultisigContractInfoType[]
+    newContracts: MultisigContractInfoType[],
   ) {
     dispatch(setMultisigContracts(newContracts));
   }
   return (
-    <SafeOptionsWrapper
-    // onBlur={() => {
-    //   closeSafeDropdown(false);
-    // }}
-    >
-      <Typography sx={{ p: 2 }} align='left'>
+    <SafeOptionsWrapper>
+      <Typography sx={{ p: 2 }} align="left">
         Safe Options
       </Typography>
       <Divider />
@@ -78,16 +75,17 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
       </AddSafeWrapper>
       <Divider />
       <Button sx={{ p: 0, width: '100%' }} onClick={onEnterClicked}>
-        <Box sx={{ p: 1, width: '100%' }} className='d-flex align-items-center'>
+        <Box sx={{ p: 1, width: '100%' }} className="d-flex align-items-center">
           <Grid sm={3}>
-            <img src={Safe} width='60px' height='60px' />
+            <img src={Safe} width="60px" height="60px" />
           </Grid>
           <Grid sm={7}>
             <ActiveWallet sx={{ ml: 2 }}>
-              <TypographyBold align='left'>My Safe</TypographyBold>
-              <Typography align='left'>{shortAddress}</Typography>
-              <TypographyBold align='left'>
-                ≈{currencyConverted.toFixed(2)}
+              <TypographyBold align="left">My Safe</TypographyBold>
+              <Typography align="left">{shortAddress}</Typography>
+              <TypographyBold align="left">
+                ≈
+                {currencyConverted.toFixed(2)}
                 {getCurrency}
               </TypographyBold>
             </ActiveWallet>
@@ -101,15 +99,15 @@ const SafeOptions = ({ closeSafeDropdown }: any) => {
       </Button>
       <Divider />
       <Button sx={{ p: 0, width: '100%' }}>
-        <Box sx={{ p: 1, width: '100%' }} className='d-flex align-items-center'>
+        <Box sx={{ p: 1, width: '100%' }} className="d-flex align-items-center">
           <Grid sm={3}>
-            <img src={OtherSafe} width='60px' height='60px' />
+            <img src={OtherSafe} width="60px" height="60px" />
           </Grid>
           <Grid sm={7}>
             <InactiveWallet sx={{ ml: 2 }}>
-              <TypographyBold align='left'>My Other Safe</TypographyBold>
-              <Typography align='left'>{shortAddress}</Typography>
-              <TypographyBold align='left'>14,590 USD</TypographyBold>
+              <TypographyBold align="left">My Other Safe</TypographyBold>
+              <Typography align="left">{shortAddress}</Typography>
+              <TypographyBold align="left">14,590 USD</TypographyBold>
             </InactiveWallet>
           </Grid>
           <Grid sm={2}>

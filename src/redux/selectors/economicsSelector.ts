@@ -5,5 +5,5 @@ const economicsSelector = (state: RootState) => state.economics;
 
 export const priceSelector = createDeepEqualSelector(
   economicsSelector,
-  (state) => state.price
+  (state) => state.price,
 );

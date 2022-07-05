@@ -5,7 +5,7 @@ export interface StateType {
 }
 
 const initialState: StateType = {
-  addressBook: {}
+  addressBook: {},
 };
 
 export const addressBookSlice = createSlice({
@@ -15,15 +15,15 @@ export const addressBookSlice = createSlice({
     addEntry(state: StateType, { payload: { address, name } }: any) {
       return {
         ...state,
-        addressBook: { ...state.addressBook, [address]: name }
+        addressBook: { ...state.addressBook, [address]: name },
       };
     },
     removeEntry(state: StateType, { payload: { address } }: any) {
       console.log(address);
       delete state.addressBook[address];
       return state;
-    }
-  }
+    },
+  },
 });
 
 export const { addEntry, removeEntry } = addressBookSlice.actions;

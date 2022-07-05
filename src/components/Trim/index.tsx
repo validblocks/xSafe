@@ -1,5 +1,4 @@
-import React from 'react';
-import { useCallback } from 'react';
+import React, { useCallback } from 'react';
 import debounce from 'lodash/debounce';
 
 interface TrimType {
@@ -15,12 +14,11 @@ const Trim = ({ text, dataTestId = '' }: TrimType) => {
   const listener = useCallback(
     debounce(() => {
       if (trimRef.current && hiddenTextRef.current) {
-        const diff =
-          hiddenTextRef.current.offsetWidth - trimRef.current.offsetWidth;
+        const diff = hiddenTextRef.current.offsetWidth - trimRef.current.offsetWidth;
         setOverflow(diff > 1);
       }
     }, 300),
-    []
+    [],
   );
 
   const addWindowResizeListener = () => {
@@ -43,19 +41,19 @@ const Trim = ({ text, dataTestId = '' }: TrimType) => {
       className={`trim ${overflow ? 'overflow' : ''}`}
       data-testid={dataTestId}
     >
-      <span ref={hiddenTextRef} className='hidden-text-ref'>
+      <span ref={hiddenTextRef} className="hidden-text-ref">
         {text}
       </span>
 
       {overflow ? (
         <>
-          <span className='left'>
+          <span className="left">
             <span>
               {String(text).substring(0, Math.floor(text.length / 2))}
             </span>
           </span>
-          <span className='ellipsis'>...</span>
-          <span className='right'>
+          <span className="ellipsis">...</span>
+          <span className="right">
             <span>{String(text).substring(Math.ceil(text.length / 2))}</span>
           </span>
         </>

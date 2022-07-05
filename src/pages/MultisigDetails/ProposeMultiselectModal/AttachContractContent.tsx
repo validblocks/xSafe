@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   getAccountProviderType,
-  transactionServices
+  transactionServices,
 } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs';
 import { faArrowLeft, faLink } from '@fortawesome/free-solid-svg-icons';
@@ -32,12 +32,12 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
   const validationSchema = Yup.object().shape({
     contractAddress: Yup.string()
       .required('Required')
-      .test(validateContractAddressOwner(currentMultisigAddress))
+      .test(validateContractAddressOwner(currentMultisigAddress)),
   });
 
   const formik = useFormik({
     initialValues: {
-      contractAddress: ''
+      contractAddress: '',
     },
     onSubmit: (values: any) => {
       try {
@@ -48,7 +48,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
           providerType,
           gasLimit,
           new Address(values.contractAddress),
-          data
+          data,
         );
         transactionServices.sendTransactions({ transactions: transaction });
         handleClose();
@@ -58,7 +58,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
     },
     validationSchema,
     validateOnChange: true,
-    validateOnMount: true
+    validateOnMount: true,
   });
 
   const { touched, errors } = formik;
@@ -66,45 +66,47 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
   const onGoBackClicked = () => {
     dispatch(
       setProposeMultiselectSelectedOption({
-        option: ProposalsTypes.multiselect_proposal_options
-      })
+        option: ProposalsTypes.multiselect_proposal_options,
+      }),
     );
   };
 
-  const contractAddressError =
-    touched.contractAddress && errors.contractAddress;
+  const contractAddressError = touched.contractAddress && errors.contractAddress;
 
   return (
-    <div className='card attach-contract-content'>
-      <div className='card-body'>
-        <p className='h3 mb-spacer text-center' data-testid='delegateTitle'>
+    <div className="card attach-contract-content">
+      <div className="card-body">
+        <p className="h3 mb-spacer text-center" data-testid="delegateTitle">
           {t('Attach smart contract')}
         </p>
 
-        <div className='modal-control-container'>
-          <label>{t('Contract address')} </label>
-          <div className='input-wrapper'>
+        <div className="modal-control-container">
+          <label>
+            {t('Contract address')}
+            {' '}
+          </label>
+          <div className="input-wrapper">
             <Form.Control
-              id='contractAddress'
-              name='contractAddress'
-              type='text'
+              id="contractAddress"
+              name="contractAddress"
+              type="text"
               isInvalid={contractAddressError != null}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.contractAddress}
             />
             {contractAddressError != null && (
-              <Form.Control.Feedback type={'invalid'}>
+              <Form.Control.Feedback type="invalid">
                 {contractAddressError}
               </Form.Control.Feedback>
             )}
           </div>
         </div>
       </div>
-      <div className='modal-action-btns'>
+      <div className="modal-action-btns">
         <button
           onClick={onGoBackClicked}
-          className='btn btn-primary btn-light '
+          className="btn btn-primary btn-light "
         >
           <FontAwesomeIcon icon={faArrowLeft} />
           {t('Back')}
@@ -112,7 +114,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
         <button
           disabled={contractAddressError != null}
           onClick={() => formik.handleSubmit()}
-          className='btn btn-primary '
+          className="btn btn-primary "
         >
           <FontAwesomeIcon icon={faLink} />
           {t('Attach')}

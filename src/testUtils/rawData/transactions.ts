@@ -28,8 +28,8 @@ const transactions = [
         relayedValue: '<nil>',
         sender:
           'erd1qqqqqqqqqqqqqpgqp699jngundfqw07d8jzkepucvpzush6k3wvqyc44rx',
-        value: '387137540000000'
-      }
+        value: '387137540000000',
+      },
     ],
     sender: 'erd1x5vaatpqp27v32ku9xk8rdkxxlnvp2nrltngq22z8ll30l894jwqhdzng8',
     senderShard: 0,
@@ -38,7 +38,7 @@ const transactions = [
     status: 'success',
     timestamp: 1620808866,
     txHash: 'f958dcf2a5e15a57d18ef5dd043713df1940ed15936736b69e368805cfc67345',
-    value: '10000000000000000000'
+    value: '10000000000000000000',
   },
   {
     data: 'c3Rha2U=',
@@ -69,8 +69,8 @@ const transactions = [
         relayedValue: '<nil>',
         sender:
           'erd1qqqqqqqqqqqqqpgqp699jngundfqw07d8jzkepucvpzush6k3wvqyc44rx',
-        value: '387106870000000'
-      }
+        value: '387106870000000',
+      },
     ],
     sender: 'erd1x5vaatpqp27v32ku9xk8rdkxxlnvp2nrltngq22z8ll30l894jwqhdzng8',
     senderShard: 0,
@@ -79,7 +79,7 @@ const transactions = [
     status: 'success',
     timestamp: 1620808206,
     txHash: '4b5b27f8f125f2d3eaaa09f6aa6395e5821424b9cf7a9858c228d56340aedc2e',
-    value: '10000000000000000000'
+    value: '10000000000000000000',
   },
   {
     data: 'Y2xhaW1SZXdhcmRz',
@@ -110,8 +110,8 @@ const transactions = [
         relayedValue: '<nil>',
         sender:
           'erd1qqqqqqqqqqqqqpgqp699jngundfqw07d8jzkepucvpzush6k3wvqyc44rx',
-        value: '2247826410000000'
-      }
+        value: '2247826410000000',
+      },
     ],
     sender: 'erd1x5vaatpqp27v32ku9xk8rdkxxlnvp2nrltngq22z8ll30l894jwqhdzng8',
     senderShard: 0,
@@ -120,7 +120,7 @@ const transactions = [
     status: 'success',
     timestamp: 1620805740,
     txHash: 'e20a1968f6a6435f46a91e8d02058a3e1b3e3b405865a0ca0325e692a0946927',
-    value: '0'
+    value: '0',
   },
   {
     data: 'c3Rha2U=',
@@ -151,8 +151,8 @@ const transactions = [
         relayedValue: '<nil>',
         sender:
           'erd1qqqqqqqqqqqqqpgqp699jngundfqw07d8jzkepucvpzush6k3wvqyc44rx',
-        value: '2186623220000000'
-      }
+        value: '2186623220000000',
+      },
     ],
     sender: 'erd1x5vaatpqp27v32ku9xk8rdkxxlnvp2nrltngq22z8ll30l894jwqhdzng8',
     senderShard: 0,
@@ -161,7 +161,7 @@ const transactions = [
     status: 'success',
     timestamp: 1620742068,
     txHash: 'd6d3b7eddd541545c6481d886389cd8fb70dcb2cd97a7337afcd35fb4ee2c1ff',
-    value: '10000000000000000000'
+    value: '10000000000000000000',
   },
   {
     data: 'Y2xhaW1SZXdhcmRz',
@@ -192,8 +192,8 @@ const transactions = [
         relayedValue: '<nil>',
         sender:
           'erd1qqqqqqqqqqqqqpgqp699jngundfqw07d8jzkepucvpzush6k3wvqyc44rx',
-        value: '2242483520000000'
-      }
+        value: '2242483520000000',
+      },
     ],
     sender: 'erd1x5vaatpqp27v32ku9xk8rdkxxlnvp2nrltngq22z8ll30l894jwqhdzng8',
     senderShard: 0,
@@ -202,7 +202,7 @@ const transactions = [
     status: 'success',
     timestamp: 1620739422,
     txHash: '0f70c766cbc30ea7fde77ef937491473c9225640ec410ffa733ab1bacff6af8e',
-    value: '0'
+    value: '0',
   },
   {
     data: 'dW5TdGFrZQ==',
@@ -234,8 +234,8 @@ const transactions = [
         returnMessage: 'not enough gas',
         sender:
           'erd1qqqqqqqqqqqqqpgqp699jngundfqw07d8jzkepucvpzush6k3wvqyc44rx',
-        value: '0'
-      }
+        value: '0',
+      },
     ],
     sender: 'erd1x5vaatpqp27v32ku9xk8rdkxxlnvp2nrltngq22z8ll30l894jwqhdzng8',
     senderShard: 0,
@@ -244,7 +244,7 @@ const transactions = [
     status: 'fail',
     timestamp: 1620739254,
     txHash: '0e7161f15dab932ab7f6899cad70e54f2810a8bb1c2ef3587d992aadacc1cdc6',
-    value: '0'
-  }
+    value: '0',
+  },
 ];
 export default transactions;

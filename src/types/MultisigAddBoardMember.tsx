@@ -24,12 +24,12 @@ export class MultisigAddBoardMember extends MultisigAction {
     return (
       <>
         <h2>{this.title()}</h2>
-        <div className='address'>
+        <div className="address">
           {truncateInTheMiddle(this.address.bech32(), 15)}
           <ExplorerLink
             page={`accounts/${this.address.bech32()}`}
-            text={<FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />}
-            className='link-second-style ml-2'
+            text={<FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />}
+            className="link-second-style ml-2"
           />
         </div>
       </>

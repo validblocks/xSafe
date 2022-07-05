@@ -14,20 +14,20 @@ const Network = () => {
   return (
     <FormControl
       sx={{ m: 1, minWidth: 120 }}
-      size='small'
-      className='network-wrapper'
+      size="small"
+      className="network-wrapper"
     >
       <Select
-        labelId='demo-select-small'
-        id='demo-select-small'
+        labelId="demo-select-small"
+        id="demo-select-small"
         value={age}
         defaultValue={age}
         label={age}
         onChange={handleChange}
       >
-        <MenuItem value={'mainnet'}>Mainnet</MenuItem>
-        <MenuItem value={'devnet'}>Devnet</MenuItem>
-        <MenuItem value={'testnet'}>Testnet</MenuItem>
+        <MenuItem value="mainnet">Mainnet</MenuItem>
+        <MenuItem value="devnet">Devnet</MenuItem>
+        <MenuItem value="testnet">Testnet</MenuItem>
       </Select>
     </FormControl>
   );

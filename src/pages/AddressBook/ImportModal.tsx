@@ -13,7 +13,7 @@ const ImportModal = ({ handleClose }: ImportModalProps) => {
   const dispatch = useDispatch();
   return (
     <>
-      <Typography id='modal-modal-title' variant='h6' component='h2'>
+      <Typography id="modal-modal-title" variant="h6" component="h2">
         Text in a modal
       </Typography>
       <Importer
@@ -25,8 +25,8 @@ const ImportModal = ({ handleClose }: ImportModalProps) => {
           });
         }}
       >
-        <ImporterField name='name' label='Name' />
-        <ImporterField name='address' label='Address' />
+        <ImporterField name="name" label="Name" />
+        <ImporterField name="address" label="Address" />
       </Importer>
       <Button onClick={handleClose}>Cancel</Button>
     </>

@@ -15,7 +15,7 @@ const EditContractNameModal = ({
   show,
   contractName,
   onConfirm,
-  onCancel
+  onCancel,
 }: EditContractNameModalPropsType) => {
   const { t }: { t: any } = useTranslation();
 
@@ -38,37 +38,41 @@ const EditContractNameModal = ({
     <Modal
       show={show}
       onHide={onCancel}
-      className='modal-container'
+      className="modal-container"
       animation={false}
       centered
     >
-      <div className='card'>
-        <div className='card-body p-spacer '>
-          <p className='h3 text-center' data-testid='delegateTitle'>
+      <div className="card">
+        <div className="card-body p-spacer ">
+          <p className="h3 text-center" data-testid="delegateTitle">
             {t('Edit contract name')}
           </p>
 
-          <div className='modal-control-container'>
-            <label>{t('Name')}: </label>
+          <div className="modal-control-container">
+            <label>
+              {t('Name')}
+              :
+              {' '}
+            </label>
             <input
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
               }}
-              type='text'
-              className='form-control'
+              type="text"
+              className="form-control"
               value={name}
-              autoComplete='off'
+              autoComplete="off"
               onChange={handleChangeName}
             />
           </div>
 
-          <div className='modal-action-btns'>
-            <button onClick={onCancel} className='btn btn-primary btn-light '>
+          <div className="modal-action-btns">
+            <button onClick={onCancel} className="btn btn-primary btn-light ">
               <FontAwesomeIcon icon={faTimes} />
               {t('Cancel')}
             </button>
-            <button onClick={handleConfirm} className='btn btn-primary mb-3'>
+            <button onClick={handleConfirm} className="btn btn-primary mb-3">
               {t('Confirm')}
             </button>
           </div>
