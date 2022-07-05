@@ -39,7 +39,7 @@ const TransactionActionsCard = ({
   canDiscardAction = false,
   value
 }: TransactionActionsCardType) => {
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
   const dispatch = useDispatch();
 
   const sign = () => {

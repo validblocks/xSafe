@@ -29,7 +29,7 @@ const ProposeDeployContract = ({
   handleChange,
   setSubmitDisabled
 }: ProposeDeployContractType) => {
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
   const currentMultisigAddress = useSelector(currentMultisigAddressSelector);
 
   const validationSchema = Yup.object().shape({

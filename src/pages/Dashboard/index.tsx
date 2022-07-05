@@ -35,7 +35,7 @@ const Dashboard = () => {
     multisigContractsFetchedSelector
   );
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
   const [showAddMultisigModal, setShowAddMultisigModal] = useState(false);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const [invalidMultisigContract, setInvalidMultisigContract] = useState(false);

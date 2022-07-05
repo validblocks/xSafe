@@ -22,7 +22,7 @@ const AddMultisigModal = ({
   handleClose,
   setNewContracts
 }: AddMultisigModalType) => {
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   const [address, setAddress] = useState(Address.Zero());
   const [submitDisabled, setSubmitDisabled] = useState(false);

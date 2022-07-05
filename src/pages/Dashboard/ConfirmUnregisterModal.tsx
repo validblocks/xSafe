@@ -19,7 +19,7 @@ const ConfirmUnregisterModal = ({
   onConfirmed,
   address
 }: ConfirmUnregisterModalPropsType) => {
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   return (
     <Modal

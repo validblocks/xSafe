@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
+import Divider from '@mui/material/Divider';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
 import SafeSettings from './SafeSettings';
-import { SettingsWrapper } from './settings-style';
+import './settings.scss';
 
 const Settings = () => {
   interface TabPanelProps {
@@ -43,14 +46,10 @@ const Settings = () => {
   };
 
   return (
-    <Box
-      sx={{
-        width: '100%'
-      }}
-    >
-      <SettingsWrapper sx={{ p: 3 }}>
+    <Box>
+      <Box className='settings-wrapper' sx={{ p: 3, width: '55%' }}>
         <SafeSettings />
-      </SettingsWrapper>
+      </Box>
     </Box>
   );
 };

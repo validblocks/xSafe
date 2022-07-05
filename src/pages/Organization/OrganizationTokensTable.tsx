@@ -1,18 +1,34 @@
 import React, { useCallback, useMemo } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import {
-  GridRowId,
-  GridActionsCellItem,
-  DataGrid,
-  GridRenderCellParams
-} from '@mui/x-data-grid';
+import styled from '@emotion/styled';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, SpeedDial, SpeedDialAction, SpeedDialIcon } from '@mui/material';
+import { GridRowId, DataGrid, GridRenderCellParams } from '@mui/x-data-grid';
 import { useDispatch } from 'react-redux';
 import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
 import { ProposalsTypes } from 'types/Proposals';
 
 const OrganizationsTokensTable = () => {
   const dispatch = useDispatch();
+
+  const StyledSpeedDial = styled(SpeedDial)(({ theme }) => ({
+    position: 'absolute',
+    '&.MuiSpeedDial-directionUp, &.MuiSpeedDial-directionLeft': {
+      // bottom: theme.spacing(2),
+      // right: theme.spacing(2)
+    },
+    '&.MuiSpeedDial-directionDown, &.MuiSpeedDial-directionRight': {
+      // top: theme.spacing(2),
+      // left: theme.spacing(2)
+    }
+  }));
+
+  const actions = [
+    { icon: <DeleteIcon />, name: 'Edit Owner' },
+    { icon: <DeleteIcon />, name: 'Replace Owner' },
+    { icon: <DeleteIcon />, name: 'RemoveOwner' }
+  ];
+
   const onRemoveUser = (address: Address) => {
     return dispatch(
       setProposeModalSelectedOption({
@@ -46,19 +62,20 @@ const OrganizationsTokensTable = () => {
   const columns = useMemo(
     () => [
       {
-        field: 'tokenName',
-        headerName: 'Token Name',
+        field: 'name',
+        headerName: 'Name',
         type: 'string',
-        renderCell: (params: GridRenderCellParams<any>) => (
-          <div className='d-flex flex-column justify-content-center'>
-            <strong>SOMA</strong>
-            <p className='mb-0'>{params.value}</p>
-          </div>
-        )
+        renderCell: (params: GridRenderCellParams<any>) => {
+          return (
+            <div className='d-flex flex-column justify-content-center'>
+              <strong className='mb-0'>{params.value}</strong>
+            </div>
+          );
+        }
       },
       {
-        field: 'holder',
-        headerName: 'Holder',
+        field: 'address',
+        headerName: 'Address',
         width: 250,
         type: 'string',
         renderCell: (params: any) => (
@@ -80,28 +97,33 @@ const OrganizationsTokensTable = () => {
         )
       },
       {
-        field: 'amount',
-        headerName: 'Amount',
-        type: 'string',
-        renderCell: (params: any) => (
-          <div className='d-flex flex-column justify-content-center'>
-            <strong>{params.value}</strong>
-            <p className='mb-0'>${params.value}</p>
-          </div>
-        )
-      },
-      {
         field: 'actions',
         type: 'actions',
         headerName: 'Action',
         getActions: (params: any) => [
           // eslint-disable-next-line react/jsx-key
           <div className='shadow-sm p-2 rounded mr-2'>
-            <GridActionsCellItem
+            <Box sx={{ position: 'relative', mt: 3, height: 320 }}>
+              <StyledSpeedDial
+                ariaLabel='Owner actions'
+                icon={<SpeedDialIcon />}
+                direction='right'
+              >
+                {actions.map((action) => (
+                  <SpeedDialAction
+                    key={action.name}
+                    icon={action.icon}
+                    tooltipTitle={action.name}
+                  />
+                ))}
+              </StyledSpeedDial>
+            </Box>
+
+            {/* <GridActionsCellItem
               icon={<MoreHorizIcon htmlColor='#9DABBD' />}
               label='Toggle Admin'
               onClick={toggleAdmin(params.id)}
-            />
+            /> */}
           </div>
         ]
       }
@@ -112,27 +134,8 @@ const OrganizationsTokensTable = () => {
   const rows = [
     {
       id: 1,
-      tokenName: 'EGLD',
-      holder: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a',
-      amount: '100'
-    },
-    {
-      id: 2,
-      tokenName: 'EGLD',
-      holder: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a',
-      amount: '100'
-    },
-    {
-      id: 3,
-      tokenName: 'EGLD',
-      holder: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a',
-      amount: '100'
-    },
-    {
-      id: 4,
-      tokenName: 'EGLD',
-      holder: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a',
-      amount: '100'
+      name: 'Nick',
+      address: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a'
     }
   ];
 

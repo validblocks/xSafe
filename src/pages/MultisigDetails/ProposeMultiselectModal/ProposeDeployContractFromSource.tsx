@@ -24,7 +24,7 @@ const ProposeDeployContractFromSource = ({
   handleChange,
   setSubmitDisabled
 }: ProposeDeployContractFromSourceType) => {
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   const validationSchema = Yup.object().shape({
     amount: Yup.string().required('Required').test(validateAmount),

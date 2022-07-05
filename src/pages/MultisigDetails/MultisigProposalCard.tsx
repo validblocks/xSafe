@@ -51,7 +51,7 @@ const MultisigProposalCard = ({
   signers = []
 }: MultisigProposalCardType) => {
   const { quorumSize } = React.useContext(MultisigDetailsContext);
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
   const dispatch = useDispatch();
 
   const validatedSigners = React.useMemo(() => {

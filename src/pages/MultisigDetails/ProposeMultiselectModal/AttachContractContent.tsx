@@ -23,7 +23,7 @@ interface AttachContractContentProps {
   handleClose: () => void;
 }
 const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
   const dispatch = useDispatch();
 
   const providerType = getAccountProviderType();

@@ -17,7 +17,7 @@ const ProposeChangeQuorum = ({
   setSubmitDisabled
 }: ProposeChangeQuorumType) => {
   const { quorumSize, totalBoardMembers } = useContext(MultisigDetailsContext);
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   const [newQuorumSize, setNewQuorumSize] = useState(1);
   const [error, setError] = useState<string | null>(null);

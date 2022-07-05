@@ -46,11 +46,7 @@ export default function TransactionsPage() {
   };
 
   return (
-    <Box
-      sx={{
-        width: '100%'
-      }}
-    >
+    <Box>
       <h2 className='mb-5'>Transactions</h2>
       <Box sx={{ width: '100%' }}>
         <Tabs
