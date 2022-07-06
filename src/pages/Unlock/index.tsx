@@ -134,9 +134,9 @@ const Unlock = () => {
       <div className='mt-3'>
         <span>New to Elrond?</span>
       </div>
-      <div className='mt-1'>
+      <div className='mt-1 mb-1'>
         <a
-          className='link-style'
+          className='link-third-style'
           href={`${network.walletAddress}/create`}
           {...{ target: '_blank' }}
         >

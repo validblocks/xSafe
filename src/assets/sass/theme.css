@@ -11284,6 +11284,11 @@ a,
   color: #1392ff !important;
 }
 
+.link-third-style {
+  color: #1392ff !important;
+  text-decoration: underline !important;
+}
+
 .wrapper {
   min-height: 100vh;
 }
