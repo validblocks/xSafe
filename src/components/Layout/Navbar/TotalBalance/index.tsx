@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainButton } from 'src/components/Theme/StyledComponents';
-import { network } from 'src/config';
+import { network, denomination, decimals } from 'src/config';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { TokenWithPrice } from 'src/pages/Organization/types';
 import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
@@ -16,38 +16,43 @@ import {
 } from 'src/redux/selectors/currencySelector';
 import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import {
-  setMultisigBalance,
-} from 'src/redux/slices/accountSlice';
 import { setValueInUsd } from 'src/redux/slices/currencySlice';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
 import useCurrency from 'src/utils/useCurrency';
 import Divider from '@mui/material/Divider';
+import { setMultisigBalance, setOrganizationTokens } from 'src/redux/slices/accountSlice';
 import { CenteredText } from '../navbar-style';
 
 type OrganizationToken = any;
 
+const identifierWithoutUniqueHash = (identifier: string) => identifier.split('-')[0] ?? '';
+
 const TotalBalance = () => {
   const dispatch = useDispatch();
-
+  const proxy = getNetworkProxy();
+  const { address } = useGetAccountInfo();
+  const egldPrice = useSelector(priceSelector);
+  const { tokenPrices } = useOrganizationInfoContext();
   const [totalUsdValue, setTotalUsdValue] = useState(0);
   const organizationTokens = useSelector(organizationTokensSelector);
-  const egldPrice = useSelector(priceSelector);
-
   const currentContract = useSelector(currentMultisigContractSelector);
-  const { tokenPrices } = useOrganizationInfoContext();
-  const { address } = useGetAccountInfo();
-  const proxy = getNetworkProxy();
+
   const getTokenPrice = useCallback(
-    (tokenIdentifier: string) =>
-      tokenPrices.find(
+    (tokenIdentifier: string) => {
+      if (!tokenIdentifier) return 0;
+
+      console.log('searching for token price', tokenIdentifier);
+      return tokenPrices.find(
         (tokenWithPrice: TokenWithPrice) =>
-          tokenWithPrice.symbol === tokenIdentifier,
-      )?.price ?? egldPrice,
-    [],
+          tokenWithPrice.id === tokenIdentifier,
+      )?.price ?? egldPrice;
+    },
+    [egldPrice, tokenPrices],
   );
   const fetchTokenPhotoUrl = useCallback(async (tokenIdentifier: string) => {
+    if (tokenIdentifier === 'EGLD') return '';
+
     const { data } = await axios.get(
       `${network.apiAddress}/tokens/${tokenIdentifier}`,
     );
@@ -55,119 +60,127 @@ const TotalBalance = () => {
     return data.assets.pngUrl;
   }, []);
 
+  const getBalances = useCallback(async () => {
+    const getEgldBalancePromise = proxy.getAccount(new Address(currentContract?.address));
+    const getAllOtherTokensPromise = axios.get(
+      `${network.apiAddress}/accounts/${currentContract?.address}/tokens`,
+    );
+
+    const [{ balance: egldBalance }, { data: otherTokens }] =
+      await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
+
+    return {
+      egldBalance,
+      otherTokens,
+    };
+  }, [currentContract, proxy]);
+
+  const getAllTokensAndEgldBalance = useCallback(async () => {
+    const { egldBalance, otherTokens } = await getBalances();
+    // eslint-disable-next-line consistent-return
+    const allTokens = [
+      { ...egldBalance.token, balance: egldBalance.value.toString() },
+      ...otherTokens,
+    ];
+
+    return { allTokens, egldBalance };
+  }, [getBalances]);
+
+  const getTokensWithPrices = useCallback(async (allTokens: any[]) => {
+    const tokensWithPrices = [];
+
+    for (const [idx, token] of Object.entries(allTokens)) {
+      const currentTokenPrice = getTokenPrice(token.identifier);
+
+      delete token.owner;
+
+      // eslint-disable-next-line no-await-in-loop
+      const photoUrl = await fetchTokenPhotoUrl(token.identifier);
+
+      tokensWithPrices.push({
+        ...token,
+        id: idx,
+        presentation: {
+          tokenIdentifier: token.identifier,
+          photoUrl,
+        },
+        balanceDetails: {
+          photoUrl,
+          identifier: identifierWithoutUniqueHash(token.identifier),
+          amount: token.balance as string,
+          decimals: token.decimals as number,
+        },
+        value: {
+          tokenPrice: currentTokenPrice,
+          decimals: token.decimals as number,
+          amount: token.balance as string,
+        },
+      });
+    }
+    return tokensWithPrices;
+  }, [fetchTokenPhotoUrl, getTokenPrice]);
+
   useEffect(() => {
-    if (!address || !currentContract?.address) return;
-    // eslint-disable-next-line consistent-return, wrap-iife
+    let isMounted = true;
+    if (!address || !currentContract?.address) {
+      return () => {
+        isMounted = false;
+      };
+    }
     (async function getTokens() {
-      let isMounted = true;
-
-      if (!currentContract?.address) {
-        return () => {
-          isMounted = false;
-        };
-      }
-
-      const getEgldBalancePromise = currentContract?.address
-        ? proxy.getAccount(new Address(currentContract?.address))
-        : {};
-
-      const getAllOtherTokensPromise = axios.get(
-        `${network.apiAddress}/accounts/${currentContract?.address}/tokens`,
-      );
-
       try {
-        const [{ balance: egldBalance }, { data: otherTokens }] =
-          await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
-
-        // eslint-disable-next-line consistent-return
+        const { egldBalance, allTokens } = await getAllTokensAndEgldBalance();
+        const tokensWithPrices = await getTokensWithPrices(allTokens);
         if (!isMounted) return;
 
+        console.log({ tokensWithPrices });
         dispatch(setMultisigBalance(JSON.stringify(egldBalance)));
-
-        const allTokens = [
-          { ...egldBalance.token, balance: egldBalance.value.toString() },
-          ...otherTokens,
-        ];
-
-        const tokensWithPrices = [];
-
-        for (const [idx, token] of Object.entries(allTokens)) {
-          const priceOfCurrentToken = getTokenPrice(token.identifier ?? '');
-
-          const { _owner, ...tokenWithoutOwner } = token;
-
-          let photoUrl = '';
-
-          if (token.identifier !== 'EGLD') {
-            // eslint-disable-next-line no-await-in-loop
-            photoUrl = await fetchTokenPhotoUrl(token.identifier as string);
-          }
-
-          tokensWithPrices.push({
-            ...tokenWithoutOwner,
-            presentation: {
-              tokenIdentifier: token.identifier,
-              photoUrl,
-            },
-            id: idx,
-            balanceDetails: {
-              photoUrl,
-              identifier: token.identifier?.split('-')[0] ?? '',
-              amount: token.balance as string,
-              decimals: token.decimals as number,
-            },
-            value: {
-              tokenPrice: priceOfCurrentToken,
-              decimals: token.decimals as number,
-              amount: token.balance as string,
-            },
-          });
-        }
-
-        // dispatch(setOrganizationTokens(tokensWithPrices));
+        dispatch(setOrganizationTokens(tokensWithPrices));
       } catch (error) {
         console.log(error);
       }
-    })();
-  }, [currentContract, address, currentContract.address]);
+    }());
 
-  const totalValue = () => {
-    const arrayOfUsdValues: Array<number> = [];
-    let egldTokenPrice: any = 0;
+    return () => { isMounted = false; };
+  }, [currentContract?.address, address, getAllTokensAndEgldBalance, getTokensWithPrices, dispatch]);
+
+  const totalValue = useCallback(() => {
+    const arrayOfUsdValues: number[] = [];
+    let egldTokenPrice = 0;
     let egldTokensAmount = 0;
-    if (organizationTokens) {
-      organizationTokens.forEach((el: OrganizationToken) => {
-        if (el.valueUsd) {
-          arrayOfUsdValues.push(el.valueUsd);
-        }
+    if (!organizationTokens) return;
+    organizationTokens.forEach((organizationToken: OrganizationToken) => {
+      if (organizationToken.valueUsd) {
+        arrayOfUsdValues.push(organizationToken.valueUsd);
+      }
 
-        if (el.identifier === 'EGLD') {
-          egldTokenPrice = el.value?.tokenPrice ? el.value?.tokenPrice : 0;
-          egldTokensAmount = el.value?.amount ? Number(el.value?.amount) : 0;
+      if (organizationToken.identifier === 'EGLD') {
+        egldTokenPrice = organizationToken.value?.tokenPrice ?? 0;
+        egldTokensAmount = Number(organizationToken.value?.amount) ?? 0;
 
-          const egldTotalPrice = egldTokenPrice * egldTokensAmount;
+        const egldTotalPrice = egldTokenPrice * egldTokensAmount;
+        console.log({ egldTotalPrice });
 
-          const denominatedEgldPrice = operations.denominate({
-            input: egldTotalPrice.toString(),
-            denomination: 18,
-            decimals: 4,
-            showLastNonZeroDecimal: true,
-          });
-          arrayOfUsdValues.push(Number(denominatedEgldPrice));
-        }
-      });
-    }
+        const denominatedEgldPrice = parseFloat(operations.denominate({
+          input: egldTokensAmount.toString(),
+          denomination,
+          decimals,
+          showLastNonZeroDecimal: true,
+        })) * egldTokenPrice;
+        arrayOfUsdValues.push(Number(denominatedEgldPrice));
+      }
+    });
 
     if (arrayOfUsdValues.length > 0) {
       setTotalUsdValue(
         arrayOfUsdValues.reduce((x: number, y: number) => x + y),
       );
     }
-  };
+  }, [organizationTokens]);
 
   useEffect(() => {
     totalValue();
-  }, []);
+  }, [organizationTokens, totalValue]);
 
   useEffect(() => {
     dispatch(setValueInUsd(totalUsdValue));

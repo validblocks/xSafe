@@ -41,6 +41,7 @@ export type BalanceDetails = {
   amount: string;
   decimals: number;
   tokenPrice: string | number;
+  photoUrl: string;
 };
 
 export type TokenTableRowItem = Partial<
@@ -49,10 +50,15 @@ export type TokenTableRowItem = Partial<
     balanceDetails: BalanceDetails;
     value: BalanceDetails;
     valueUsd?: number;
+    presentation: {
+      tokenIdentifier: string;
+      photoUrl: string;
+    }
   }
 >;
 
 export type TokenWithPrice = {
+  id: string;
   symbol: string;
   name: string;
   price: number;
