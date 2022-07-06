@@ -7,9 +7,10 @@ import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import { makeStyles } from '@mui/styles';
-import { queryAllActions } from 'src/contracts/MultisigContract';
-import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import { useQuery } from 'react-query';
+import { queryAllActions } from 'contracts/MultisigContract';
+import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
+import { QueryKeys } from 'react-query/queryKeys';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
 import useTransactionPermissions from './useTransactionPermissions';
@@ -29,9 +30,6 @@ const useStyles = makeStyles(() => ({
 
 const TransactionQueue = () => {
   const classes = useStyles();
-  const [allPendingTransactions, setAllPendingTransactions] = useState(
-    [] as MultisigActionDetailed[],
-  );
   const {
     quorumCountState: [quorumCount],
     boardMembersState: [boardMembers],
@@ -42,16 +40,18 @@ const TransactionQueue = () => {
   } =
     useTransactionPermissions();
 
-  useEffect(() => {
-    queryAllActions().then((resp) => {
-      setAllPendingTransactions(resp);
-    });
-  }, []);
+  const { data: allPendingTransactions } = useQuery(
+    QueryKeys.ALL_PENDING_ACTIONS,
+    () => queryAllActions().then((resp) => resp)
+  );
 
   return (
     <>
-      {allPendingTransactions.reverse().map((transaction) => (
-        <Accordion key={transaction.actionId} sx={{ overflow: 'scroll' }}>
+      {allPendingTransactions?.reverse().map((transaction) => (
+        <Accordion
+          key={transaction.actionId}
+          sx={{ overflow: 'scroll', padding: '0' }}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel1a-content"
@@ -100,10 +100,8 @@ const TransactionQueue = () => {
                   alignItems: 'center',
                 }}
               >
-                <PeopleIcon color="secondary" className="mr-2" />
-                {transaction.signers.length}
-                out of
-                {quorumCount}
+                <PeopleIcon color='secondary' className='mr-2' />
+                {transaction.signers.length} out of{quorumCount}
               </Box>
             </div>
           </AccordionSummary>
