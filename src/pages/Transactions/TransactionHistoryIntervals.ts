@@ -1,5 +1,5 @@
 export type HistoryInterval = {
-  afterTimestamp: number;
+  intervalStartTimestamp: number;
   label: string;
 };
 
@@ -12,6 +12,16 @@ interface ITimeShiftable {
 export const SECOND_TO_MILLISECOND_SCALAR = 1000;
 
 const dateNow = new Date();
+
+const lastXDays: ITimeShiftable = {
+  getTimestamp: (daysFromNow: number): number => {
+    const daysAgo = new Date();
+    daysAgo.setDate(daysAgo.getDate() - daysFromNow);
+    return Math.floor(daysAgo.getTime() / SECOND_TO_MILLISECOND_SCALAR);
+  },
+  quantities: [1, 3],
+  label: 'day'
+};
 
 const lastXWeeks: ITimeShiftable = {
   getTimestamp: (weeksFromNow: number): number => {
@@ -33,7 +43,7 @@ const lastXMonths: ITimeShiftable = {
   label: 'month'
 };
 
-const lastXIntervals: ITimeShiftable[] = [lastXWeeks, lastXMonths];
+const lastXIntervals: ITimeShiftable[] = [lastXDays, lastXWeeks, lastXMonths];
 
 export const HISTORY_INTERVALS = (function createIntervals() {
   const historyIntervals: HistoryInterval[] = [];
@@ -41,7 +51,7 @@ export const HISTORY_INTERVALS = (function createIntervals() {
   lastXIntervals.forEach((timeShiftable: ITimeShiftable) => {
     timeShiftable.quantities.forEach((quantity: number) => {
       historyIntervals.push({
-        afterTimestamp: timeShiftable.getTimestamp(quantity),
+        intervalStartTimestamp: timeShiftable.getTimestamp(quantity),
         label: `Last ${quantity > 1 ? quantity : ''} ${timeShiftable.label}${
           quantity > 1 ? 's' : ''
         }`

@@ -2,7 +2,16 @@ import React, { ReactNode, useState } from 'react';
 import { Box, MenuItem, SelectChangeEvent, Tab, Tabs } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { MainSelect } from 'components/Theme/StyledComponents';
+import {
+  intervalEndTimestampSelector,
+  intervalStartTimestampSelector
+} from 'redux/selectors/transactionsSelector';
+import {
+  enlargeInterval,
+  dwindleInterval
+} from 'redux/slices/transactionsSlice';
 import TransactionHistory from './TransactionHistory';
 import {
   HistoryInterval,
@@ -47,17 +56,54 @@ function a11yProps(index: number) {
 
 export default function TransactionsPage() {
   const [value, setValue] = React.useState(0);
-  const [periodLabel, setIntervalLabel] = useState(HISTORY_INTERVALS[0].label);
+  const globalIntervalEndTimestamp = useSelector(intervalEndTimestampSelector);
+  const globalIntervalStartTimestamp = useSelector(
+    intervalStartTimestampSelector
+  );
+
+  const [intervalLabel, setIntervalLabel] = useState(() => {
+    return (
+      HISTORY_INTERVALS.find(
+        (interval) =>
+          interval.intervalStartTimestamp === globalIntervalStartTimestamp
+      )?.label ?? 'HAHA'
+    );
+  });
 
   const { t } = useTranslation();
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    console.log(newValue);
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
+  const dispatch = useDispatch();
+
   const handleChangeOnHistoryInterval = (event: SelectChangeEvent) => {
-    setIntervalLabel(event.target.value);
+    const newLabelSelected = event.target.value;
+    setIntervalLabel(newLabelSelected);
+
+    const { intervalStartTimestamp: oldIntervalStartTimestamp } =
+      HISTORY_INTERVALS.find((interval) => interval.label === intervalLabel) ??
+      {};
+
+    if (!oldIntervalStartTimestamp) return;
+
+    const { intervalStartTimestamp: newIntervalStartTimestamp } =
+      HISTORY_INTERVALS.find(
+        (interval) => interval.label === newLabelSelected
+      ) ?? {};
+
+    if (!newIntervalStartTimestamp) return;
+
+    //current: last week ==> new: last month
+    if (newIntervalStartTimestamp < oldIntervalStartTimestamp) {
+      dispatch(enlargeInterval(newIntervalStartTimestamp));
+    }
+
+    //current: last month ==> new: last week
+    if (newIntervalStartTimestamp > oldIntervalStartTimestamp) {
+      dispatch(dwindleInterval(newIntervalStartTimestamp));
+    }
   };
 
   return (
@@ -89,15 +135,15 @@ export default function TransactionsPage() {
             <Box>
               <MainSelect
                 id='demo-simple-select'
-                value={periodLabel}
+                value={intervalLabel}
                 sx={{ minWidth: '155px' }}
                 size='small'
                 variant='standard'
                 onChange={handleChangeOnHistoryInterval as any}
               >
                 {HISTORY_INTERVALS.map(
-                  ({ afterTimestamp, label }: HistoryInterval) => (
-                    <MenuItem key={afterTimestamp} value={label}>
+                  ({ intervalStartTimestamp, label }: HistoryInterval) => (
+                    <MenuItem key={intervalStartTimestamp} value={label}>
                       {label}
                     </MenuItem>
                   )

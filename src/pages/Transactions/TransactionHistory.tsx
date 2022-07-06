@@ -7,20 +7,28 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
-import { Box, Pagination } from '@mui/material';
+import { Box, FormControl, MenuItem, OutlinedInput, Pagination, Select, SelectChangeEvent } from '@mui/material';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
 import { useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { getDate } from 'src/utils/transactionUtils';
 import useFetch from 'src/utils/useFetch';
 import { network } from 'src/config';
 import TransactionDescription from './TransactionDescription';
 import TransactionSummary from './TransactionSummary';
 import { parseActionDetailed } from 'src/helpers/converters';
 import { RawTransactionType } from 'src/helpers/types';
+import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import {
+  intervalStartTimestampSelector,
+  intervalEndTimestampSelector
+} from 'src/redux/selectors/transactionsSelector';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import { getDate } from 'src/utils/transactionUtils';
+import TransactionHistoryPresentation from './TransactionHistoryPresentation';
 
 const dateFormat = 'MMM D, YYYY';
 
@@ -43,8 +51,12 @@ const TransactionHistory = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
-  const globalIntervalEndTimestamp = useSelector(intervalEndTimestamp);
-  const globalIntervalStartTimestamp = useSelector(intervalStartTimestamp);
+  const globalIntervalEndTimestamp = useSelector(intervalEndTimestampSelector);
+  const globalIntervalStartTimestamp = useSelector(
+    intervalStartTimestampSelector
+  );
+
+  const { t } = useTranslation();
 
   const fetchTransactions = (cursorPointer = 0) => {
     const urlParams = new URLSearchParams({
@@ -67,20 +79,24 @@ const TransactionHistory = () => {
     data: fetchedTransactionsFromSelectedInterval,
     isFetching: isFetchingInterval,
     isLoading: isLoadingInterval,
-    isError: isErrorOnFetchInterval,
-    isSuccess: isSuccessOnFetchInterval
+    isError: isErrorOnFetchInterval
   } = useQuery(
-    [QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED, cursor],
+    [
+      QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
+      cursor,
+      globalIntervalStartTimestamp,
+      globalIntervalEndTimestamp
+    ],
     () => fetchTransactions(cursor),
     {
-      ...USE_QUERY_DEFAULT_CONFIG
+      ...USE_QUERY_DEFAULT_CONFIG,
+      keepPreviousData: true
     }
   );
 
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    console.log({ fetchedTransactionsFromSelectedInterval });
     if (
       fetchedTransactionsFromSelectedInterval &&
       fetchedTransactionsFromSelectedInterval.length === API_RESPONSE_MAX_SIZE
@@ -95,15 +111,13 @@ const TransactionHistory = () => {
       .filter(
         (cachedTransaction) =>
           cachedTransaction.queryKey[0] ===
-          QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED
+            QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED &&
+          (cachedTransaction.queryKey[2] as any) >= globalIntervalStartTimestamp
       )
       .map((cachedTransaction) => cachedTransaction.state.data)
       .flat() as RawTransactionType[];
 
     const result: PairOfTransactionAndDecodedAction[] = [];
-    console.log(
-      'Fetched new transaction chunk! Builduing new TransActionPairs...'
-    );
 
     if (!cachedTransactions) return;
 
@@ -133,7 +147,6 @@ const TransactionHistory = () => {
       }
     }
 
-    console.log({ result });
     setActionAccumulator(result);
   }, [fetchedTransactionsFromSelectedInterval]);
 
@@ -151,7 +164,6 @@ const TransactionHistory = () => {
       lastIndexOfCurrentPage
     );
 
-    console.log({ currentActions });
     setActionsForCurrentPage(currentActions);
   }, [actionAccumulator, currentPage, actionsPerPage]);
 
@@ -186,12 +198,17 @@ const TransactionHistory = () => {
     setCurrentPage(value);
   };
 
+  const handleChangeOnActionsPerPage = (event: SelectChangeEvent) => {
+    setCurrentPage(1);
+    setActionsPerPage(Number(event.target.value));
+  };
+
   if (isFetchingInterval || isLoadingInterval) {
-    return <div>Loading Actions...</div>;
+    return <div>{t('Loading Actions')}...</div>;
   }
 
   if (isErrorOnFetchInterval) {
-    return <div>An error occured while fetching transactions...</div>;
+    return <div>{t('An error occured while fetching actions')}...</div>;
   }
 
   return (
@@ -200,14 +217,39 @@ const TransactionHistory = () => {
         page={currentPage}
         fullHistoryWithDateGrouping={fullHistoryWithDateGrouping}
       />
-      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Pagination
-          sx={{ marginTop: '1.5rem' }}
-          onChange={handleChange}
-          count={totalPages}
-          shape='rounded'
-        />
-      </Box>
+      <CenteredBox
+        sx={{
+          padding: '1rem 0',
+          justifyContent: 'start !important',
+          gap: '2rem'
+        }}
+      >
+        <CenteredBox>
+          <Pagination
+            onChange={handleChange}
+            count={totalPages}
+            shape='rounded'
+          />
+        </CenteredBox>
+        <CenteredBox sx={{ display: 'flex' }}>
+          <Box>{t('Actions per page')}</Box>
+          <FormControl sx={{ m: 1, minWidth: 50 }}>
+            <Select
+              value={actionsPerPage.toString()}
+              size='small'
+              onChange={handleChangeOnActionsPerPage}
+              displayEmpty
+              inputProps={{ 'aria-label': 'Without label' }}
+              input={<OutlinedInput />}
+            >
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={15}>15</MenuItem>
+              <MenuItem value={20}>20</MenuItem>
+              <MenuItem value={25}>25</MenuItem>
+            </Select>
+          </FormControl>
+        </CenteredBox>
+      </CenteredBox>
     </>
   );
 };
