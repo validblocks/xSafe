@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { borderRadius } from 'react-select/src/theme';
 import { ReactComponent as Union } from 'assets/img/Union.svg';
 import ConnectedAccount from 'components/Layout/Navbar/ConnectedAccount';
 import { MainButton } from 'components/Theme/StyledComponents';
@@ -97,6 +98,12 @@ const Account = () => {
       </Box>
       <ConnectDropdown
         anchorEl={anchorEl}
+        PaperProps={{
+          sx: {
+            borderRadius: '10px',
+            boxShadow: '0px 8px 24px rgba(76, 47, 252, 0.13)'
+          }
+        }}
         open={open}
         onClose={handleClose}
         onClick={handleClose}
