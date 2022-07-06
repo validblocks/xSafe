@@ -1,4 +1,6 @@
-import { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { Transaction } from '@elrondnetwork/erdjs/out';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -15,6 +17,22 @@ import TransactionDescription from './TransactionDescription';
 import TransactionSummary from './TransactionSummary';
 
 const dateFormat = 'MMM D, YYYY';
+
+type SmartContractResult = {
+  callType: string;
+  data: string;
+  gasLimit: number;
+  gasPrice: number;
+  hash: string;
+  miniBlockHash: string;
+  nonce: number;
+  originalTxHash: string;
+  prevTxHash: string;
+  receiver: string;
+  sender: string;
+  timestamp: number;
+  value: string;
+};
 
 const useStyles = makeStyles(() => ({
   expanded: { margin: 0 },

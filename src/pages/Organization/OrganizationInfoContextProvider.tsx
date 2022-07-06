@@ -62,6 +62,8 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
 
     (() =>
       currentContract?.address &&
+    currentContract?.address &&
+      address &&
       Promise.all([
         queryBoardMemberAddresses(),
         queryUserRole(new Address(address).hex()),
