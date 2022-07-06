@@ -17,6 +17,8 @@ export async function tryParseTransactionParameter(
     return null;
   }
 
+  if (!inputData) return null;
+
   const inputDecoded = atob(inputData);
   const inputParameters = inputDecoded.split('@');
   if (inputParameters.length === 0) {
@@ -34,6 +36,8 @@ export async function tryParseTransactionParameter(
   const receiver = new Address(json.receiver);
 
   const outputData = scResults[0].data;
+
+  if (!outputData) return null;
   const outputDecoded = atob(outputData);
 
   const outputParameters = outputDecoded.split('@').slice(1);

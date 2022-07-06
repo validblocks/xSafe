@@ -82,9 +82,17 @@ export const functionsWithActionIds = [
   multisigContractFunctionNames.performAction,
   multisigContractFunctionNames.discardAction,
   multisigContractFunctionNames.ESDTNFTTransfer,
+  multisigContractFunctionNames.quorumReached,
 ];
 
+export enum TransactionTypesWithoutSCInteraction {
+  SCRsWithoutActionId = 'SCRsWithoutActionId',
+  noSCRs = 'noSCRs',
+}
+
 export function decodeActionIdFromTransactionData(transaction: any) {
+  if (!transaction.data) return;
+
   const decodedData = atob(transaction.data);
   const decodedSplittedFields = decodedData
     .split('@')
@@ -94,35 +102,47 @@ export function decodeActionIdFromTransactionData(transaction: any) {
     transaction.function = decodedSplittedFields[0];
   }
 
-  console.log('extracting for ', transaction.function);
-  // console.log('splitted fields ', decodedSplittedFields);
+  // if (transaction.function === multisigContractFunctionNames.proposeAsyncCall) {
+  //   console.log('AM GASIT PROPOSE ASYNC CALL');
+  //   console.log(transaction);
+  // }
+
+  // if (transaction.function === multisigContractFunctionNames.ESDTTransfer) {
+  //   console.log('AM GASIT ESDTTransfer');
+  //   console.log(transaction);
+  // }
 
   //functii care contin id-ul direct in data (encoded)
   if (functionsWithActionIds.includes(transaction.function)) {
-    console.log('has ID ');
-    switch (transaction.function) {
-      case multisigContractFunctionNames.ESDTNFTTransfer: {
-        console.log(transaction.function, 'RETURNING NFT TRANS');
-        return decodedSplittedFields[2];
-      }
-      default:
-        return decodedSplittedFields[decodedSplittedFields.length - 1];
-    }
+    return parseInt(
+      decodedSplittedFields[decodedSplittedFields.length - 1],
+      16,
+    );
   }
-  // console.log('IN UTIL FCT:', { decodedSplittedFields });
+
+  if (!transaction.results) {
+    // console.log('no results on Transaction', { transaction });
+    return TransactionTypesWithoutSCInteraction.noSCRs;
+  }
 
   //functii pentur care luam action Id din SCR
-  transaction.results.map((result: SmartContractResultItem) => {
-    console.log('SCR', atob(result.data));
-  });
-
   const [encodedResultWithActionId] = transaction.results;
+
+  if (!encodedResultWithActionId) return;
+
   const decodedResultWithActionId = atob(encodedResultWithActionId.data);
-  console.log({ decodedResultWithActionId });
+  // console.log({ decodedResultWithActionId });
   const splittedSCR = decodedResultWithActionId
     .split('@')
     .filter((item: string) => item.length > 0);
+
+  // console.log({ splittedSCR });
   const [, actionId] = splittedSCR;
 
-  return actionId;
+  // console.log('HEX ACTION ID: ', actionId);
+  // console.log('DEC ACTION ID: ', parseInt(actionId, 16).toString());
+
+  return actionId
+    ? parseInt(actionId, 16)
+    : TransactionTypesWithoutSCInteraction.SCRsWithoutActionId;
 }

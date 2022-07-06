@@ -50,8 +50,8 @@ const useStyles = makeStyles(() => ({
 const TransactionHistory = () => {
   const classes = useStyles();
   const currentContract = useSelector(currentMultisigContractSelector);
-  const { data: allTransactions = [] } = useFetch(
-    `${network.apiAddress}/transactions?receiver=${currentContract?.address}`,
+  const { data: allTransactions = [] as any[] } = useFetch(
+    `${network.apiAddress}/transactions?receiver=${currentContract?.address}&withScResults=true&size=50`
   );
   const groupedTransactions = useMemo(
     () =>
