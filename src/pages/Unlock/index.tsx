@@ -47,7 +47,7 @@ const UnlockTitle = () => (
   </h5>
 );
 
-const Unlock = () => {
+function Unlock() {
   const [token, setToken] = useState('');
   const { loginMethod } = useGetLoginInfo();
 
@@ -147,6 +147,6 @@ const Unlock = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Unlock;

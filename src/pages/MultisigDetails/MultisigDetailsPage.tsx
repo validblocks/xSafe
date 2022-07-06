@@ -79,7 +79,7 @@ export interface ContractInfo {
   boardMembersAddresses?: Address[];
   proposersAddresses?: Address[];
 }
-const MultisigDetailsPage = () => {
+function MultisigDetailsPage() {
   const [contractInfo, setContractInfo] = useState<ContractInfo>({
     totalBoardMembers: 0,
     totalProposers: 0,
@@ -514,6 +514,6 @@ const MultisigDetailsPage = () => {
       )}
     </MultisigDetailsContext.Provider>
   );
-};
+}
 
 export default MultisigDetailsPage;

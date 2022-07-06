@@ -5,7 +5,7 @@ import './network.scss';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-const Network = () => {
+function Network() {
   const [age, setAge] = useState('mainnet');
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -32,6 +32,6 @@ const Network = () => {
       </Select>
     </FormControl>
   );
-};
+}
 
 export default Network;

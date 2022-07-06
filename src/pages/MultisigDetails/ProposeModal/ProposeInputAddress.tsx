@@ -9,12 +9,12 @@ interface ProposeInputAddressType {
   disabled?: boolean;
 }
 
-const ProposeInputAddress = ({
+function ProposeInputAddress({
   handleParamsChange,
   setSubmitDisabled,
   invalidAddress,
-  disabled,
-}: ProposeInputAddressType) => {
+  disabled
+}: ProposeInputAddressType) {
   const [address, setAddress] = useState('');
   const [error, setError] = useState(false);
   const { t }: { t: any } = useTranslation();
@@ -57,6 +57,6 @@ const ProposeInputAddress = ({
       )}
     </div>
   );
-};
+}
 
 export default ProposeInputAddress;

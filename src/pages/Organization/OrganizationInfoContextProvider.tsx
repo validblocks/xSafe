@@ -23,7 +23,7 @@ const OrganizationInfoContext = createContext<OrganizationInfoContextType>(
 export const useOrganizationInfoContext = () =>
   useContext(OrganizationInfoContext);
 
-const OrganizationInfoContextProvider = ({ children }: Props) => {
+function OrganizationInfoContextProvider({ children }: Props) {
   const [membersCount, setMembersCount] = useState(0);
   const [quorumCount, setQuorumCount] = useState(0);
 
@@ -103,6 +103,6 @@ const OrganizationInfoContextProvider = ({ children }: Props) => {
       {children}
     </OrganizationInfoContext.Provider>
   );
-};
+}
 
 export default OrganizationInfoContextProvider;

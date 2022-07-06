@@ -9,7 +9,7 @@ import {
   EmptyList, CollectionName, TextDivider, CardBox,
 } from './nft-style';
 
-const NftCompmonent = () => {
+function NftCompmonent() {
   const fetchNftList = useFetch(
     `${network.apiAddress}/accounts/${uniqueContractAddress}/nfts`,
   );
@@ -71,6 +71,6 @@ const NftCompmonent = () => {
       )}
     </Box>
   );
-};
+}
 
 export default NftCompmonent;

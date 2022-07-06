@@ -24,7 +24,7 @@ const initialState: StateType = {
   username: '',
   shard: 0,
   organizationTokens: [],
-  multisigBalance: Balance.Zero() as BalanceType,
+  multisigBalance: Balance.Zero() as BalanceType
 };
 
 export const accountSlice = createSlice({
@@ -36,23 +36,23 @@ export const accountSlice = createSlice({
     },
     setOrganizationTokens(
       state: StateType,
-      action: PayloadAction<TokenTableRowItem[]>,
+      action: PayloadAction<TokenTableRowItem[]>
     ) {
       return {
         ...state,
-        organizationTokens: action.payload,
+        organizationTokens: action.payload
       };
     },
     setMultisigBalance(state: StateType, action: PayloadAction<string>) {
       return {
         ...state,
-        multisigBalance: action.payload,
+        multisigBalance: action.payload
       };
-    },
+    }
   },
   extraReducers: (builder) => {
     builder.addCase(logoutAction, () => initialState);
-  },
+  }
 });
 
 export const { setAccountData, setOrganizationTokens, setMultisigBalance } =

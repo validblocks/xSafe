@@ -25,7 +25,7 @@ import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import ConfirmUnregisterModal from './ConfirmUnregisterModal';
 import EditContractNameModal from './EditContractNameModal';
 
-const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
+function MultisigCard({ contract }: { contract: MultisigContractInfoType }) {
   const [confirmDeleteContract, setConfirmDeleteContract] = useState(false);
   const [showEditNameModal, setShowEditNameModal] = useState(false);
   const navigate = useNavigate();
@@ -147,6 +147,6 @@ const MultisigCard = ({ contract }: { contract: MultisigContractInfoType }) => {
       </div>
     </button>
   );
-};
+}
 
 export default MultisigCard;

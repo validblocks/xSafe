@@ -12,10 +12,10 @@ const errors = {
   tooBig: 'Quorum cannot be bigger than the number of board members',
 };
 
-const ProposeChangeQuorum = ({
+function ProposeChangeQuorum({
   handleParamsChange,
-  setSubmitDisabled,
-}: ProposeChangeQuorumType) => {
+  setSubmitDisabled
+}: ProposeChangeQuorumType) {
   const { quorumSize, totalBoardMembers } = useContext(MultisigDetailsContext);
   const { t }: { t: any } = useTranslation();
 
@@ -58,6 +58,6 @@ const ProposeChangeQuorum = ({
       </div>
     </div>
   );
-};
+}
 
 export default ProposeChangeQuorum;

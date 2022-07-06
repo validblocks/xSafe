@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import MembersCountInfoCard from './MembersCountInfoCard';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
-const MembersCard = () => {
+function MembersCard() {
   const {
     membersCountState: [membersCount],
     quorumCountState: [quorumCount],
@@ -78,6 +78,6 @@ const MembersCard = () => {
       </div>
     </div>
   );
-};
+}
 
 export default MembersCard;

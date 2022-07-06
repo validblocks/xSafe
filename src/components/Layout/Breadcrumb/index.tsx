@@ -4,7 +4,7 @@ import { useLocation, Link } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import breadcrumbItems from './BreadcrumbItems';
 
-const PageBreadcrumbs = () => {
+function PageBreadcrumbs() {
   const [breadcrumb, setBreadcrumb] = useState([]);
   //   const [breadcrumbLink, setbreadcrumbLink] = useState('');
 
@@ -29,6 +29,6 @@ const PageBreadcrumbs = () => {
       </Breadcrumbs>
     </div>
   );
-};
+}
 
 export default PageBreadcrumbs;

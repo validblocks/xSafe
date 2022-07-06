@@ -7,7 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { selectedCurrencySelector, valueInUsdSelector } from 'src/redux/selectors/currencySelector';
 import useCurrency from 'src/utils/useCurrency';
 
-const ChangeCurrency = () => {
+function ChangeCurrency() {
   interface CountryType {
     code: string;
     label: string;
@@ -70,6 +70,6 @@ const ChangeCurrency = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default ChangeCurrency;

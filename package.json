@@ -49,6 +49,7 @@
     "react-dom": "17.0.2",
     "react-i18next": "11.11.4",
     "react-inlinesvg": "2.3.0",
+    "react-query": "^3.39.1",
     "react-redux": "7.2.5",
     "react-router-dom": "6.2.1",
     "react-scripts": "4.0.3",
@@ -94,6 +95,7 @@
     ]
   },
   "devDependencies": {
+    "@elrondnetwork/transaction-decoder": "^0.1.0",
     "@testing-library/jest-dom": "5.11.4",
     "@testing-library/react": "11.1.0",
     "@testing-library/user-event": "12.1.10",

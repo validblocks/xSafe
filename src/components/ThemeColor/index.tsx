@@ -2,7 +2,7 @@ import { Box } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 
-const ThemeColor = () => {
+function ThemeColor() {
   const themesList: string[] = ['Light', 'Dark'];
   const value = themesList[0];
 
@@ -17,6 +17,6 @@ const ThemeColor = () => {
       />
     </Box>
   );
-};
+}
 
 export default ThemeColor;

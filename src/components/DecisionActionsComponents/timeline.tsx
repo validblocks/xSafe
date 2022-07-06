@@ -8,7 +8,7 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import { Grid } from '@mui/material';
 import { queryBoardMemberAddresses } from 'src/contracts/MultisigContract';
 
-const TimelineCard = () => {
+function TimelineCard() {
   const [addresses, setAddresses]: any = useState([]);
 
   useEffect(() => {
@@ -37,6 +37,6 @@ const TimelineCard = () => {
       </Timeline>
     </Grid>
   );
-};
+}
 
 export default TimelineCard;

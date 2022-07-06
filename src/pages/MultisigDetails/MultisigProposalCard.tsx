@@ -36,7 +36,7 @@ export interface MultisigProposalCardType {
   boardMembers?: Address[];
 }
 
-const MultisigProposalCard = ({
+function MultisigProposalCard({
   type = 0,
   actionId = 0,
   data,
@@ -48,8 +48,8 @@ const MultisigProposalCard = ({
   canPerformAction = false,
   canDiscardAction = false,
   boardMembers,
-  signers = [],
-}: MultisigProposalCardType) => {
+  signers = []
+}: MultisigProposalCardType) {
   const { quorumSize } = useContext(MultisigDetailsContext);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -61,6 +61,7 @@ const MultisigProposalCard = ({
     return signers.filter((signer) =>
       boardMembers.some((boardMember) => boardMember.equals(signer)));
   }, [signers, boardMembers]);
+
   const sign = () => {
     mutateSign(actionId);
   };
@@ -160,6 +161,6 @@ const MultisigProposalCard = ({
       </div>
     </div>
   );
-};
+}
 
 export default MultisigProposalCard;

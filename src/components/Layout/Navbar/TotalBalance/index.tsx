@@ -28,7 +28,7 @@ type OrganizationToken = any;
 
 const identifierWithoutUniqueHash = (identifier: string) => identifier.split('-')[0] ?? '';
 
-const TotalBalance = () => {
+function TotalBalance() {
   const dispatch = useDispatch();
   const proxy = getNetworkProxy();
   const { address } = useGetAccountInfo();
@@ -229,5 +229,5 @@ const TotalBalance = () => {
       </Box>
     </Box>
   );
-};
+}
 export default TotalBalance;

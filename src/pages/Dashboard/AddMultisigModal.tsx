@@ -17,12 +17,12 @@ interface AddMultisigModalType {
   setNewContracts: (contracts: MultisigContractInfoType[]) => void;
 }
 
-const AddMultisigModal = ({
+function AddMultisigModal({
   show,
   handleClose,
-  setNewContracts,
-}: AddMultisigModalType) => {
-  const { t }: { t: any } = useTranslation();
+  setNewContracts
+}: AddMultisigModalType) {
+  const { t } = useTranslation();
 
   const [address, setAddress] = useState(Address.Zero());
   const [submitDisabled, setSubmitDisabled] = useState(false);
@@ -103,6 +103,6 @@ const AddMultisigModal = ({
       </div>
     </Modal>
   );
-};
+}
 
 export default AddMultisigModal;

@@ -64,4 +64,5 @@ export const germanTranslations = {
   'No Multisig Wallet Yet': 'Sie haben noch keine Multisig-Brieftasche',
   'Welcome to our platform!': 'Willkommen zu unserer Plattform!',
   Balance: 'Saldo',
+  Transactions: 'Transaktionen'
 };

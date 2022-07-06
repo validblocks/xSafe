@@ -54,7 +54,6 @@ const OrganizationsTokensTable = () => {
   }, []);
 
   const dispatch = useDispatch();
-
   const onRemoveUser = (address: Address) =>
     dispatch(
       setProposeModalSelectedOption({

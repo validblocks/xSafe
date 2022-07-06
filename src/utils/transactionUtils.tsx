@@ -5,6 +5,7 @@ export const getDate = (unix_timestamp: number) => {
   return new Date(milliseconds);
 };
 
-export const humanizedDurationFromTimestamp = (timestamp: number) => dayjs
-  .duration(dayjs(getDate(timestamp)).diff(Date.now()), 'milliseconds')
-  .humanize(true);
+export const humanizedDurationFromTimestamp = (timestamp: number) =>
+  dayjs
+    .duration(dayjs(getDate(timestamp)).diff(Date.now()), 'milliseconds')
+    .humanize(true);

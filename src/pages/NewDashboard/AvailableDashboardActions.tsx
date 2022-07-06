@@ -7,7 +7,7 @@ import { Box, useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import MembersActionCard from 'src/pages/Organization/MembersActionCard';
 
-const AvailableDashboardActions = () => {
+function AvailableDashboardActions() {
   const isSmallScreen = useMediaQuery('(max-width:920px)');
 
   const useStyles: CallableFunction = useMemo(
@@ -117,6 +117,6 @@ const AvailableDashboardActions = () => {
       </Box>
     </>
   );
-};
+}
 
 export default AvailableDashboardActions;

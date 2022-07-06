@@ -9,7 +9,7 @@ import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
 import { setSafeName } from 'src/redux/slices/safeNameSlice';
 import { NoteSpan, Span } from './settings-style';
 
-const SafeSettings = () => {
+function SafeSettings() {
   const safeName = useSelector(safeNameStoredSelector);
   const [name, setName] = useState('');
 
@@ -76,6 +76,6 @@ const SafeSettings = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default SafeSettings;

@@ -25,7 +25,7 @@ interface ProposeModalPropsType {
   selectedOption: SelectedOptionType;
 }
 
-const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
+function ProposeModal({ selectedOption }: ProposeModalPropsType) {
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
 
@@ -187,6 +187,6 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
       </div>
     </Modal>
   );
-};
+}
 
 export default ProposeModal;

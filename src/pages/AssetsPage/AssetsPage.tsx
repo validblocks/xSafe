@@ -139,9 +139,9 @@ const AssetsPage = () => {
               label="Receive"
               onClick={handleQrModal}
             />
-          </div>,
-        ],
-      },
+          </div>
+        ]
+      }
     ],
     [],
   );

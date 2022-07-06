@@ -12,7 +12,7 @@ import { TypographyBold } from 'src/components/Theme/StyledComponents';
 import DecisionApproved from './decisionApproved';
 import TimelineCard from './timeline';
 
-const ActionBoxDetails = () => {
+function ActionBoxDetails() {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -147,6 +147,6 @@ const ActionBoxDetails = () => {
       </Grid>
     </Grid>
   );
-};
+}
 
 export default ActionBoxDetails;

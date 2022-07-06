@@ -5,7 +5,7 @@ import AvailableDashboardActions from './AvailableDashboardActions';
 import DashboardVault from './DashboardVault';
 import WaitingActions from './WaitingActions';
 
-const NewDashboard = () => {
+function NewDashboard() {
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
   const useStyles: CallableFunction = useMemo(
@@ -49,6 +49,6 @@ const NewDashboard = () => {
       <AvailableDashboardActions />
     </Box>
   );
-};
+}
 
 export default NewDashboard;

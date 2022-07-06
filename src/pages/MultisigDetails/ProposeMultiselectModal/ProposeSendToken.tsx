@@ -6,7 +6,6 @@ import { useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { TestContext } from 'yup';
 import * as Yup from 'yup';
 import { FormikInputField } from 'src/helpers/formikFields';
 import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
@@ -15,6 +14,8 @@ import { denomination } from 'src/config';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { TokenTableRowItem } from 'src/pages/Organization/types';
 import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
+import { TestContext } from 'yup';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -321,6 +322,6 @@ const ProposeSendToken = ({
       </div>
     </div>
   );
-};
+}
 
 export default ProposeSendToken;

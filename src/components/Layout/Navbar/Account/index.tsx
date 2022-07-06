@@ -10,7 +10,7 @@ import Unlock from 'src/pages/Unlock';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { ConnectDropdown } from '../navbar-style';
 
-const Account = () => {
+function Account() {
   const { address } = useGetAccountInfo();
   const loggedIn = getIsLoggedIn();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
@@ -81,6 +81,6 @@ const Account = () => {
       </ConnectDropdown>
     </div>
   );
-};
+}
 
 export default Account;
