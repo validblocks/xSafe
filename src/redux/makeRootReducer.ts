@@ -7,6 +7,7 @@ import economics from './slices/economicsSlice';
 import modals from './slices/modalsSlice';
 import multisigContracts from './slices/multisigContractsSlice';
 import safeName from './slices/safeNameSlice';
+import transactions from './slices/transactionsSlice';
 
 export default function makeRootReducer() {
   return combineReducers({
@@ -18,5 +19,6 @@ export default function makeRootReducer() {
     currency,
     safeName,
     addressBook,
+    transactions,
   });
 }

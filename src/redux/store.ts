@@ -15,6 +15,7 @@ const persistConfig = {
     'currency',
     'safeName',
     'addressBook',
+    'transactions',
   ],
 };
 
