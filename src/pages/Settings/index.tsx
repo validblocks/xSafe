@@ -1,4 +1,5 @@
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { useState } from 'react';
 import SafeSettings from './SafeSettings';
 import { SettingsWrapper } from './settings-style';
 
@@ -36,7 +37,7 @@ function Settings() {
     };
   }
 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
