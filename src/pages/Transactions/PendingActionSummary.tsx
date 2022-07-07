@@ -68,7 +68,7 @@ const PendingActionSummary = ({ action }: Props) => {
               className='mr-2 rounded'
               src='https://picsum.photos/20/20?random=1'
             />
-            <Ui.Trim text={action.signers[0].bech32()} />
+            <Ui.Trim text={action.signers[0]?.bech32() ?? 'Unknown'} />
           </div>
         </Box>
       </Box>
