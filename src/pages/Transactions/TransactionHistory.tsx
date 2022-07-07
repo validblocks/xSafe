@@ -1,25 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  Box,
-  CircularProgress,
-  OutlinedInput,
-  Pagination
-} from '@mui/material';
-import FormControl from '@mui/material/FormControl';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import useFetch from 'src/utils/useFetch';
+import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
+import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItemsPerPage';
 import { network } from 'src/config';
 import { parseActionDetailed } from 'src/helpers/converters';
 import { RawTransactionType } from 'src/helpers/types';
-import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import {
   intervalStartTimestampSelector,
   intervalEndTimestampSelector
@@ -119,7 +110,9 @@ const TransactionHistory = () => {
 
     if (!cachedTransactions) return;
 
-    cachedTransactions = cachedTransactions.filter((t) => t);
+    cachedTransactions = cachedTransactions.filter(
+      (cachedTransaction) => !!cachedTransaction
+    );
 
     for (const transaction of cachedTransactions) {
       const logEvents = transaction.logs?.events;
@@ -152,24 +145,6 @@ const TransactionHistory = () => {
     PairOfTransactionAndDecodedAction[]
   >([]);
 
-  useEffect(() => {
-    if (!actionAccumulator) return;
-
-    const lastIndexOfCurrentPage = currentPage * actionsPerPage;
-    const firstIndexOfCurrentpage = lastIndexOfCurrentPage - actionsPerPage;
-    const currentActions = actionAccumulator.slice(
-      firstIndexOfCurrentpage,
-      lastIndexOfCurrentPage
-    );
-
-    setActionsForCurrentPage(currentActions);
-  }, [actionAccumulator, currentPage, actionsPerPage]);
-
-  useEffect(() => {
-    if (!actionAccumulator) return;
-    return setTotalPages(Math.ceil(actionAccumulator.length / actionsPerPage));
-  }, [actionAccumulator, actionsPerPage]);
-
   const fullActionHistoryGroupedByDate = useMemo(
     () =>
       actionsForCurrentPage?.reduce(
@@ -192,24 +167,8 @@ const TransactionHistory = () => {
     [actionsForCurrentPage]
   );
 
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
-    setCurrentPage(value);
-  };
-
-  const handleChangeOnActionsPerPage = (event: SelectChangeEvent) => {
-    setCurrentPage(1);
-    setActionsPerPage(Number(event.target.value));
-  };
-
   if (isFetchingInterval || isLoadingInterval) {
-    return (
-      <CenteredBox
-        sx={{ justifyContent: 'start !important', marginTop: '1.5rem' }}
-      >
-        <CircularProgress />
-        <Box sx={{ marginLeft: '10px' }}>{t('Loading Actions')}...</Box>
-      </CenteredBox>
-    );
+    return <LoadingDataIndicator dataName='action' />;
   }
 
   if (isErrorOnFetchInterval) {
@@ -219,42 +178,18 @@ const TransactionHistory = () => {
   return (
     <>
       <TransactionHistoryPresentation
-        page={currentPage}
         fullActionHistoryGroupedByDate={fullActionHistoryGroupedByDate}
       />
-      <CenteredBox
-        sx={{
-          padding: '1rem 0',
-          justifyContent: 'start !important',
-          gap: '2rem'
-        }}
-      >
-        <CenteredBox>
-          <Pagination
-            onChange={handleChange}
-            count={totalPages}
-            shape='rounded'
-          />
-        </CenteredBox>
-        <CenteredBox sx={{ display: 'flex' }}>
-          <Box>{t('Actions per page')}</Box>
-          <FormControl sx={{ m: 1, minWidth: 50 }}>
-            <Select
-              value={actionsPerPage.toString()}
-              size='small'
-              onChange={handleChangeOnActionsPerPage}
-              displayEmpty
-              inputProps={{ 'aria-label': 'Without label' }}
-              input={<OutlinedInput />}
-            >
-              <MenuItem value={10}>10</MenuItem>
-              <MenuItem value={15}>15</MenuItem>
-              <MenuItem value={20}>20</MenuItem>
-              <MenuItem value={25}>25</MenuItem>
-            </Select>
-          </FormControl>
-        </CenteredBox>
-      </CenteredBox>
+      <PaginationWithItemsPerPage
+        data={actionAccumulator}
+        setParentCurrentPage={setCurrentPage}
+        setParentItemsPerPage={setActionsPerPage}
+        setParentDataForCurrentPage={setActionsForCurrentPage}
+        setParentTotalPages={setTotalPages}
+        currentPage={currentPage}
+        itemsPerPage={actionsPerPage}
+        totalPages={totalPages}
+      />
     </>
   );
 };
