@@ -128,6 +128,22 @@ function TotalBalance() {
       };
     }
     (async function getTokens() {
+      let isMounted = true;
+
+      if (!currentContract?.address) {
+        return () => {
+          isMounted = false;
+        };
+      }
+
+      const getEgldBalancePromise = currentContract?.address
+        ? proxy.getAccount(new Address(currentContract?.address))
+        : {};
+
+      const getAllOtherTokensPromise = axios.get(
+        `${network.apiAddress}/accounts/${currentContract?.address}/tokens`
+      );
+
       try {
         const { egldBalance, allTokens } = await getAllTokensAndEgldBalance();
         const tokensWithPrices = await getTokensWithPrices(allTokens);

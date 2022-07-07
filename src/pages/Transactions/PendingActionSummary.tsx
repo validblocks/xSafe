@@ -50,7 +50,9 @@ const PendingActionSummary = ({ action }: Props) => {
           }}
         >
           <PeopleIcon color='primary' className='mr-2' />
-          {action.signers.length} out of {quorumCount}
+          <strong>
+            {action.signers.length} out of {quorumCount}
+          </strong>
         </Box>
 
         <Box
