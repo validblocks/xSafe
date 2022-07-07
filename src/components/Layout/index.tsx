@@ -9,7 +9,6 @@ import {
 } from '@elrondnetwork/dapp-core';
 import { Box } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
 import { getAccountData } from 'src/apiCalls/accountCalls';
@@ -27,11 +26,10 @@ import { TokenWrapper } from '../TokenWrapper';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
-import Navbar from './Navbar';
 import Account from './Navbar/Account';
 import { TopHeader } from './Navbar/navbar-style';
 import MobileLayout from './Navbar/mobileLayout';
-('');
+import Navbar from './Navbar/index';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();

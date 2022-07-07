@@ -25,7 +25,7 @@ export class MultisigRemoveUser extends MultisigAction {
           <div className="address">
             <Ui.Trim text={this.address.bech32()} />
           </div>
-        )}
+)}
       />
     );
   }

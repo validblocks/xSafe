@@ -124,6 +124,7 @@ function TotalBalance() {
     let isMounted = true;
     if (!address || !currentContract?.address) {
       return () => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         isMounted = false;
       };
     }
@@ -136,18 +137,14 @@ function TotalBalance() {
         };
       }
 
-      const getEgldBalancePromise = currentContract?.address
-        ? proxy.getAccount(new Address(currentContract?.address))
-        : {};
-
-      const getAllOtherTokensPromise = axios.get(
-        `${network.apiAddress}/accounts/${currentContract?.address}/tokens`
-      );
-
       try {
         const { egldBalance, allTokens } = await getAllTokensAndEgldBalance();
         const tokensWithPrices = await getTokensWithPrices(allTokens);
-        if (!isMounted) return;
+        if (!isMounted) {
+          return () => {
+            isMounted = false;
+          };
+        }
 
         console.log({ tokensWithPrices });
         dispatch(setMultisigBalance(JSON.stringify(egldBalance)));
@@ -155,8 +152,11 @@ function TotalBalance() {
       } catch (error) {
         console.log(error);
       }
+
+      return true;
     }());
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return () => { isMounted = false; };
   }, [currentContract?.address, address, getAllTokensAndEgldBalance, getTokensWithPrices, dispatch]);
 

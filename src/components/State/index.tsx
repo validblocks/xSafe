@@ -14,13 +14,13 @@ function State({
   action?: React.ReactNode;
 }) {
   return (
-    <div className='state m-auto p-spacer text-center'>
+    <div className="state m-auto p-spacer text-center">
       {icon && (
-        <FontAwesomeIcon icon={icon} className={iconClass || ''} size='5x' />
+        <FontAwesomeIcon icon={icon} className={iconClass || ''} size="5x" />
       )}
-      {title && <p className='h4 mt-2 mb-1'>{title}</p>}
-      {description && <div className='mb-3'>{description}</div>}
-      {action && <>{action}</>}
+      {title && <p className="h4 mt-2 mb-1">{title}</p>}
+      {description && <div className="mb-3">{description}</div>}
+      {action && <div>{action}</div>}
     </div>
   );
 }

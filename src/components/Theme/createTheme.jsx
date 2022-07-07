@@ -33,8 +33,8 @@ export const theme = createTheme({
   },
   typography: {
     fontFamily:
-      ['"IBM Plex sans"', 'Arial', 'sans-serif'].join(',') + ' !important',
-    bold: '600'
+      `${['"IBM Plex sans"', 'Arial', 'sans-serif'].join(',')} !important`,
+    bold: '600',
   },
   breakpoints: {
     values: {

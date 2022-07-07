@@ -15,15 +15,13 @@ function ExplorerLink({
     <a
       href={`${network.explorerAddress}/${page}`}
       {...{
-        target: '_blank'
+        target: '_blank',
       }}
       className={`link-style ${className}`}
     >
-      {text ? (
-        <>{text}</>
-      ) : (
-        <FontAwesomeIcon icon={faSearch} className='text-secondary' />
-      )}
+      {
+        text ?? <FontAwesomeIcon icon={faSearch} className="text-secondary" />
+      }
     </a>
   );
 }

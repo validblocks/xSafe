@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
@@ -21,13 +21,13 @@ function TransactionTechnicalDetails({ transaction }: Props) {
 
   return (
     <Box>
-      <Typography component='div' variant='body1' className='my-1'>
+      <Typography component="div" variant="body1" className="my-1">
         <Typography
           component="span"
           className="mr-2"
           variant="body1"
           sx={{
-            color: 'rgb(93, 109, 116)'
+            color: 'rgb(93, 109, 116)',
           }}
         >
           <strong>Transaction Hash:</strong>
@@ -35,64 +35,64 @@ function TransactionTechnicalDetails({ transaction }: Props) {
         {transaction?.txHash.slice(0, 15)}
         ...
         {transaction?.txHash.slice(transaction?.txHash.length - 15)}
-        <CopyButton className='ml-2' text={transaction?.txHash} />
+        <CopyButton className="ml-2" text={transaction?.txHash} />
         <Anchor
           href={`${network.explorerAddress}/transactions/${transaction?.txHash}`}
-          target='_blank'
-          rel='noreferrer'
-          color='#6c757d'
-          className='ml-2'
+          target="_blank"
+          rel="noreferrer"
+          color="#6c757d"
+          className="ml-2"
         >
           <ContentPasteSearchIcon />
         </Anchor>
       </Typography>
 
-      <Typography component='div' className='my-1'>
+      <Typography component="div" className="my-1">
         <Typography
           component="span"
           className="mr-2"
           variant="body1"
           sx={{
-            color: 'rgb(93, 109, 116)'
+            color: 'rgb(93, 109, 116)',
           }}
         >
           <strong>Timestamp: </strong>
         </Typography>
         {dayjs(getDate(transaction?.timestamp)).format('H:mm A')}
       </Typography>
-      <Typography component='div' className='my-1'>
+      <Typography component="div" className="my-1">
         <Typography
-          component='span'
-          className='mr-2'
-          variant='body1'
+          component="span"
+          className="mr-2"
+          variant="body1"
           sx={{
-            color: 'rgb(93, 109, 116)'
+            color: 'rgb(93, 109, 116)',
           }}
         >
           <strong>Nonce: </strong>
         </Typography>
         {transaction?.nonce}
       </Typography>
-      <Typography component='div' className='my-1'>
+      <Typography component="div" className="my-1">
         <Typography
-          component='span'
-          className='mr-2'
-          variant='body1'
+          component="span"
+          className="mr-2"
+          variant="body1"
           sx={{
-            color: 'rgb(93, 109, 116)'
+            color: 'rgb(93, 109, 116)',
           }}
         >
           <strong>Sender shard: </strong>
         </Typography>
         {transaction.senderShard}
       </Typography>
-      <Typography component='div' className='my-1'>
+      <Typography component="div" className="my-1">
         <Typography
-          component='span'
-          className='mr-2'
-          variant='body1'
+          component="span"
+          className="mr-2"
+          variant="body1"
           sx={{
-            color: 'rgb(93, 109, 116)'
+            color: 'rgb(93, 109, 116)',
           }}
         >
           <strong>Receiver shard: </strong>

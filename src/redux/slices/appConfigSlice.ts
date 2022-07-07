@@ -15,8 +15,8 @@ function getInitialState(): AppConfigStateType {
   return {
     multisigOrigin: {
       pathname: routeNames?.welcome,
-      search: ''
-    }
+      search: '',
+    },
   };
 }
 
@@ -26,14 +26,14 @@ export const appConfigSlice = createSlice({
   reducers: {
     setMultisigOrigin: (
       state: AppConfigStateType,
-      action: PayloadAction<MultisigOriginType>
+      action: PayloadAction<MultisigOriginType>,
     ) => {
       state.multisigOrigin = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(logoutAction, () => getInitialState());
-  }
+  },
 });
 
 export const { setMultisigOrigin } = appConfigSlice.actions;

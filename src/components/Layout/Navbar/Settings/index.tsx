@@ -19,7 +19,7 @@ const Settings = () => (
           </div>
         </Popover.Content>
       </Popover>
-      )}
+)}
   >
     <button className="btn btn-light mr-2">
       <FontAwesomeIcon icon={faCog} size="lg" />

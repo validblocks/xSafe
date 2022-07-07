@@ -19,7 +19,7 @@ const Notifications = () => (
           </div>
         </Popover.Content>
       </Popover>
-      )}
+)}
   >
     <button className="btn btn-light mr-2">
       <FontAwesomeIcon icon={faBell} size="lg" />

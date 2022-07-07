@@ -5,32 +5,14 @@ import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationI
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 
 export default function useTransactionPermissions(
-  action: MultisigActionDetailed
+  action: MultisigActionDetailed,
 ) {
   const {
     quorumCountState: [quorumCount],
     isBoardMemberState: [isBoardMember],
-    userRole
+    userRole,
   } = useOrganizationInfoContext();
   const { address } = useGetAccountInfo();
-
-  const [canSign, setCanSign] = useState(false);
-  const [canPerformAction, setCanPerformAction] = useState(false);
-  const [canUnsign, setCanUnsign] = useState(false);
-  const [canDiscardAction, setCanDiscardAction] = useState(false);
-
-  useEffect(() => {
-    setCanUnsign(isBoardMember && !!alreadySigned(action));
-
-    setCanPerformAction(
-      isBoardMember &&
-        !!alreadySigned(action) &&
-        action.signers.length >= quorumCount
-    );
-    setCanSign(isBoardMember && !alreadySigned(action));
-
-    setCanDiscardAction(isBoardMember && action.signers.length === 0);
-  }, [isBoardMember, userRole, quorumCount]);
 
   const alreadySigned = (multisigAction: MultisigActionDetailed) => {
     if (!address) {
@@ -45,6 +27,24 @@ export default function useTransactionPermissions(
 
     return false;
   };
+
+  const [canSign, setCanSign] = useState(false);
+  const [canPerformAction, setCanPerformAction] = useState(false);
+  const [canUnsign, setCanUnsign] = useState(false);
+  const [canDiscardAction, setCanDiscardAction] = useState(false);
+
+  useEffect(() => {
+    setCanUnsign(isBoardMember && !!alreadySigned(action));
+
+    setCanPerformAction(
+      isBoardMember &&
+        !!alreadySigned(action) &&
+        action.signers.length >= quorumCount,
+    );
+    setCanSign(isBoardMember && !alreadySigned(action));
+
+    setCanDiscardAction(isBoardMember && action.signers.length === 0);
+  }, [isBoardMember, userRole, quorumCount]);
 
   return {
     canUnsign,

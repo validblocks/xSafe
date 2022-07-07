@@ -11,9 +11,9 @@ const switchTrue = (object: SwitchTrueType): any => {
   const result = Object.keys(obj).reduce(
     (acc, cur) => ({
       ...acc,
-      [cur === 'default' ? 'true' : cur]: (obj as any)[cur as ReturnKeys]
+      [cur === 'default' ? 'true' : cur]: (obj as any)[cur as ReturnKeys],
     }),
-    {} as Record<ReturnKeys, any>
+    {} as Record<ReturnKeys, any>,
   );
   return result.true;
 };

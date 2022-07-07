@@ -16,7 +16,7 @@ function ConfirmUnregisterModal({
   show,
   handleClose,
   onConfirmed,
-  address
+  address,
 }: ConfirmUnregisterModalPropsType) {
   const { t } = useTranslation();
 
@@ -32,7 +32,7 @@ function ConfirmUnregisterModal({
       <div className="card">
         <div className="card-body ">
           <p className="h4 text-center" data-testid="confirmDeleteTitle">
-            {t('Are you sure you want to unregister this contract?')}
+            {t('Are you sure you want to unregister this contract?') as string}
           </p>
           <div className="mt-5 d-flex wallet-address">
             <Ui.Trim text={address} />
@@ -52,10 +52,10 @@ function ConfirmUnregisterModal({
               className="btn btn-primary btn-light "
             >
               <FontAwesomeIcon icon={faTimes} />
-              {t('Cancel')}
+              {t('Cancel') as string}
             </button>
             <button onClick={onConfirmed} className="btn btn-primary mb-3">
-              {t('Confirm')}
+              {t('Confirm') as string}
             </button>
           </div>
         </div>

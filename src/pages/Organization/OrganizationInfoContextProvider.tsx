@@ -92,19 +92,21 @@ function OrganizationInfoContextProvider({ children }: Props) {
 
   useEffect(() => {
     let isMounted = true;
-    if (!address)
+    if (!address) {
       return () => {
         isMounted = false;
       };
+    }
 
     const boardMembersAddressHex = boardMembers.map((memberAddress) =>
-      memberAddress.hex()
+      memberAddress.hex(),
     );
 
-    isMounted &&
+    if (isMounted) {
       setIsBoardMember(
-        boardMembersAddressHex.includes(new Address(address).hex())
+        boardMembersAddressHex.includes(new Address(address).hex()),
       );
+    }
 
     return () => {
       isMounted = false;
@@ -121,8 +123,8 @@ function OrganizationInfoContextProvider({ children }: Props) {
         userRole: userRole as number,
         tokenPrices: tokenPrices as unknown as TokenWithPrice[],
         allMemberAddresses,
-        isBoardMemberState: [isBoardMember, setIsBoardMember]
-      }), [membersCount,boardMembers, quorumCount, proposers, userRole, tokenPrices, allMemberAddresses, isBoardMember])}
+        isBoardMemberState: [isBoardMember, setIsBoardMember],
+      }), [membersCount, boardMembers, quorumCount, proposers, userRole, tokenPrices, allMemberAddresses, isBoardMember])}
     >
       {children}
     </OrganizationInfoContext.Provider>

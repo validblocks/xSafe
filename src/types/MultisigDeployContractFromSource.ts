@@ -25,7 +25,7 @@ export class MultisigDeployContractFromSource extends MultisigAction {
     upgradeable = false,
     payable = false,
     readable = false,
-    args: BytesValue[] = []
+    args: BytesValue[] = [],
   ) {
     super(MultisigActionType.SCDeployFromSource);
     this.amount = amount;
@@ -46,8 +46,8 @@ export class MultisigDeployContractFromSource extends MultisigAction {
     return `Deploy from ${this.source.bech32()}  ${
       hasArgs
         ? `/ arguments: ${this.args.map((arg) =>
-            arg.valueOf().toString('hex')
-          )}`
+          arg.valueOf().toString('hex'),
+        )}`
         : ''
     }`;
   }
@@ -57,7 +57,7 @@ export class MultisigDeployContractFromSource extends MultisigAction {
       input: this.amount.valueOf().toString(),
       denomination,
       decimals: 4,
-      showLastNonZeroDecimal: true
+      showLastNonZeroDecimal: true,
     });
     return `${i18next.t('Amount')}: ${denominatedAmount}`;
   }

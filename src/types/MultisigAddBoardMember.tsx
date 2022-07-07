@@ -18,9 +18,7 @@ export class MultisigAddBoardMember extends MultisigAction {
 
   description() {
     return (
-      <>
-        <ActionOnAddress title={this.title()} address={this.address} />
-      </>
+      <ActionOnAddress title={this.title()} address={this.address} />
     );
   }
 

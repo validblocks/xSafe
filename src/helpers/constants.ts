@@ -17,5 +17,5 @@ export const smartContractCode =
 
 export const verifiedContractsHashes = [
   'wn1ekMME1HiG2upX3AUnP+78TuOBTImXUtN3Z2975DM=',
-  'OFuNGNyeOfaCy5JAdyEmF5/6YMWjFpkUk/Ak4KcDRb8='
+  'OFuNGNyeOfaCy5JAdyEmF5/6YMWjFpkUk/Ak4KcDRb8=',
 ];

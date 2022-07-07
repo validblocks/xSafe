@@ -61,33 +61,37 @@ i18next.use(initReactI18next).init({
   },
 });
 
+const queryClient = new QueryClient();
+
 export const App = () => (
   <ThemeProvider theme={theme}>
     <CssBaseline />
     <ReduxProvider store={store}>
       <DappProvider environment="devnet">
         <OrganizationInfoContextProvider>
-          <>
-            <DappUI.SignTransactionsModals />
-            <DappUI.TransactionsToastList />
-            <DappUI.NotificationModal />
-            <Router basename={process.env.PUBLIC_URL}>
-              <PersistGate loading={null} persistor={persistor}>
-                <Layout>
-                  <Routes>
-                    {routes.map((route) => (
-                      <Route
-                        path={route.path}
-                        key={route.path}
-                        element={<route.component />}
-                      />
-                    ))}
-                    <Route element={PageNotFound()} />
-                  </Routes>
-                </Layout>
-              </PersistGate>
-            </Router>
-          </>
+          <QueryClientProvider client={queryClient}>
+            <>
+              <DappUI.SignTransactionsModals />
+              <DappUI.TransactionsToastList />
+              <DappUI.NotificationModal />
+              <Router basename={process.env.PUBLIC_URL}>
+                <PersistGate loading={null} persistor={persistor}>
+                  <Layout>
+                    <Routes>
+                      {routes.map((route) => (
+                        <Route
+                          path={route.path}
+                          key={route.path}
+                          element={<route.component />}
+                        />
+                      ))}
+                      <Route element={PageNotFound()} />
+                    </Routes>
+                  </Layout>
+                </PersistGate>
+              </Router>
+            </>
+          </QueryClientProvider>
         </OrganizationInfoContextProvider>
       </DappProvider>
     </ReduxProvider>

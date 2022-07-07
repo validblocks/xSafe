@@ -133,6 +133,7 @@ const OrganizationsTokensTable = () => {
         field: 'actions',
         type: 'actions',
         headerName: 'Action',
+        // eslint-disable-next-line react/no-unstable-nested-components
         getActions: (params: any) => [
           <GridActionsCellItem
             key={params.id}

@@ -1,21 +1,19 @@
-import React, { ReactNode, useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { Box, MenuItem, SelectChangeEvent, Tab, Tabs } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { MainSelect } from 'components/Theme/StyledComponents';
+import { MainSelect } from 'src/components/Theme/StyledComponents';
 import {
-  intervalEndTimestampSelector,
-  intervalStartTimestampSelector
-} from 'redux/selectors/transactionsSelector';
+  intervalStartTimestampSelector,
+} from 'src/redux/selectors/transactionsSelector';
 import {
   enlargeInterval,
-  dwindleInterval
-} from 'redux/slices/transactionsSlice';
+  dwindleInterval,
+} from 'src/redux/slices/transactionsSlice';
 import TransactionHistory from './TransactionHistory';
 import {
   HistoryInterval,
-  HISTORY_INTERVALS
+  HISTORY_INTERVALS,
 } from './TransactionHistoryIntervals';
 import TransactionQueue from './TransactionQueue';
 
@@ -40,7 +38,7 @@ const TabPanel = (props: TabPanelProps) => {
     >
       {value === index && (
         <Box sx={{ p: '0.35rem 0' }}>
-          <Typography component='span'>{children}</Typography>
+          <Typography component="span">{children}</Typography>
         </Box>
       )}
     </div>
@@ -55,21 +53,17 @@ function a11yProps(index: number) {
 }
 
 export default function TransactionsPage() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const globalIntervalStartTimestamp = useSelector(
-    intervalStartTimestampSelector
+    intervalStartTimestampSelector,
   );
 
-  const [intervalLabel, setIntervalLabel] = useState(() => {
-    return (
-      HISTORY_INTERVALS.find(
-        (interval) =>
-          interval.intervalStartTimestamp === globalIntervalStartTimestamp
-      )?.label ?? 'HAHA'
-    );
-  });
-
-  const { t } = useTranslation();
+  const [intervalLabel, setIntervalLabel] = useState(() => (
+    HISTORY_INTERVALS.find(
+      (interval) =>
+        interval.intervalStartTimestamp === globalIntervalStartTimestamp,
+    )?.label ?? 'HAHA'
+  ));
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -89,17 +83,17 @@ export default function TransactionsPage() {
 
     const { intervalStartTimestamp: newIntervalStartTimestamp } =
       HISTORY_INTERVALS.find(
-        (interval) => interval.label === newLabelSelected
+        (interval) => interval.label === newLabelSelected,
       ) ?? {};
 
     if (!newIntervalStartTimestamp) return;
 
-    //current: last week ==> new: last month
+    // current: last week ==> new: last month
     if (newIntervalStartTimestamp < oldIntervalStartTimestamp) {
       dispatch(enlargeInterval(newIntervalStartTimestamp));
     }
 
-    //current: last month ==> new: last week
+    // current: last month ==> new: last week
     if (newIntervalStartTimestamp > oldIntervalStartTimestamp) {
       dispatch(dwindleInterval(newIntervalStartTimestamp));
     }
@@ -109,7 +103,7 @@ export default function TransactionsPage() {
     <Box
       sx={{
         width: '100%',
-        padding: '2rem'
+        padding: '2rem',
       }}
     >
       <Box>
@@ -118,25 +112,25 @@ export default function TransactionsPage() {
             display: 'flex',
             width: '100%',
             justifyContent: 'space-between',
-            alignItems: 'center'
+            alignItems: 'center',
           }}
         >
           <Tabs
             value={value}
             onChange={handleChange}
-            aria-label='basic tabs example'
+            aria-label="basic tabs example"
           >
-            <Tab label='QUEUE' {...a11yProps(0)} />
-            <Tab label='HISTORY' {...a11yProps(1)} />
+            <Tab label="QUEUE" {...a11yProps(0)} />
+            <Tab label="HISTORY" {...a11yProps(1)} />
           </Tabs>
           {value === 1 && (
             <Box>
               <MainSelect
-                id='demo-simple-select'
+                id="demo-simple-select"
                 value={intervalLabel}
                 sx={{ minWidth: '155px' }}
-                size='small'
-                variant='standard'
+                size="small"
+                variant="standard"
                 onChange={handleChangeOnHistoryInterval as any}
               >
                 {HISTORY_INTERVALS.map(
@@ -144,7 +138,7 @@ export default function TransactionsPage() {
                     <MenuItem key={intervalStartTimestamp} value={label}>
                       {label}
                     </MenuItem>
-                  )
+                  ),
                 )}
               </MainSelect>
             </Box>
@@ -159,4 +153,4 @@ export default function TransactionsPage() {
       </Box>
     </Box>
   );
-};
+}

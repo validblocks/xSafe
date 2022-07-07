@@ -14,7 +14,7 @@ const errors = {
 
 function ProposeChangeQuorum({
   handleParamsChange,
-  setSubmitDisabled
+  setSubmitDisabled,
 }: ProposeChangeQuorumType) {
   const { quorumSize, totalBoardMembers } = useContext(MultisigDetailsContext);
   const { t }: { t: any } = useTranslation();

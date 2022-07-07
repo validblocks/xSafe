@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   Box,
   FormControl,
@@ -6,10 +6,10 @@ import {
   OutlinedInput,
   Pagination,
   Select,
-  SelectChangeEvent
+  SelectChangeEvent,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { CenteredBox } from 'components/StyledComponents/StyledComponents';
+import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
 
 type Props = {
   data: any;
@@ -30,7 +30,7 @@ const PaginationWithItemsPerPage = ({
   setParentTotalPages,
   currentPage,
   itemsPerPage,
-  totalPages
+  totalPages,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -41,7 +41,7 @@ const PaginationWithItemsPerPage = ({
     const firstIndexOfCurrentpage = lastIndexOfCurrentPage - itemsPerPage;
     const currentData = data.slice(
       firstIndexOfCurrentpage,
-      lastIndexOfCurrentPage
+      lastIndexOfCurrentPage,
     );
 
     setParentDataForCurrentPage(currentData);
@@ -49,7 +49,7 @@ const PaginationWithItemsPerPage = ({
 
   useEffect(() => {
     if (!data) return;
-    return setParentTotalPages(Math.ceil(data.length / itemsPerPage));
+    setParentTotalPages(Math.ceil(data.length / itemsPerPage));
   }, [data, itemsPerPage]);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
@@ -65,25 +65,26 @@ const PaginationWithItemsPerPage = ({
       sx={{
         padding: '1rem 0',
         justifyContent: 'start !important',
-        gap: '2rem'
+        gap: '2rem',
       }}
     >
       <CenteredBox>
         <Pagination
           onChange={handleChange}
           count={totalPages}
-          shape='rounded'
+          shape="rounded"
         />
       </CenteredBox>
       <CenteredBox sx={{ display: 'flex' }}>
-        <Box>{t('Actions per page')}</Box>
+        <Box>{t('Actions per page') as string}</Box>
         <FormControl sx={{ m: 1, minWidth: 50 }}>
           <Select
             value={itemsPerPage.toString()}
-            size='small'
+            size="small"
             onChange={handleChangeOnActionsPerPage}
             displayEmpty
             inputProps={{ 'aria-label': 'Without label' }}
+            // eslint-disable-next-line react/jsx-curly-brace-presence
             input={<OutlinedInput />}
           >
             <MenuItem value={10}>10</MenuItem>

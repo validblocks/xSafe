@@ -1,10 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import { makeStyles } from '@mui/styles';
 import { useQuery } from 'react-query';
-import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
 import { TransactionAccordion } from 'src/components/StyledComponents/transactions';
 import { queryAllActions } from 'src/contracts/MultisigContract';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
@@ -17,7 +16,6 @@ import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
-import useTransactionPermissions from './useTransactionPermissions';
 
 const useStyles = makeStyles(() => ({
   expanded: { margin: 0 },
@@ -43,25 +41,23 @@ const TransactionQueue = () => {
   const [expanded, setExpanded] = useState<string | false>(false);
 
   const {
-    boardMembersState: [boardMembers]
+    boardMembersState: [boardMembers],
   } = useOrganizationInfoContext();
 
   const {
     data: allPendingActions,
     isLoading,
     isFetching,
-    isError
+    isError,
   } = useQuery(
     QueryKeys.ALL_PENDING_ACTIONS,
     () => queryAllActions().then((resp) => resp),
     {
-      ...USE_QUERY_DEFAULT_CONFIG
-    }
+      ...USE_QUERY_DEFAULT_CONFIG,
+    },
   );
 
-  const reversedActions = useMemo(() => {
-    return actionsForCurrentPage.slice().reverse();
-  }, [actionsForCurrentPage]);
+  const reversedActions = useMemo(() => actionsForCurrentPage.slice().reverse(), [actionsForCurrentPage]);
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -69,7 +65,7 @@ const TransactionQueue = () => {
     };
 
   if (isLoading || isFetching) {
-    return <LoadingDataIndicator dataName='action' />;
+    return <LoadingDataIndicator dataName="action" />;
   }
 
   if (isError || !allPendingActions) {
@@ -82,20 +78,20 @@ const TransactionQueue = () => {
         <TransactionAccordion
           key={action.actionId}
           sx={{
-            overflow: 'scroll'
+            overflow: 'scroll',
           }}
           onChange={handleChange(action.actionId.toString())}
           expanded={expanded === action.actionId.toString()}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
+            aria-controls="panel1a-content"
             sx={{
               borderRadius: '10px',
               border: 'none !important',
-              outline: 'none !important'
+              outline: 'none !important',
             }}
-            className='pl-0 m-0 d-flex'
+            className="pl-0 m-0 d-flex"
             classes={{
               content: classes.content,
               expanded: classes.expanded,
@@ -110,20 +106,14 @@ const TransactionQueue = () => {
               action={action}
               signers={action.signers}
               description={action.description()}
-              child3={
+              child3={(
                 <TransactionActionsCard
-                  boardMembers={boardMembers}
                   key={action.actionId}
                   type={action.typeNumber()}
                   actionId={action.actionId}
-                  title={action.title()}
-                  tooltip={action.tooltip()}
-                  value={action.description()}
-                  data={action.getData()}
                   action={action}
-                  signers={action.signers}
                 />
-              }
+              )}
             />
           </AccordionDetails>
         </TransactionAccordion>

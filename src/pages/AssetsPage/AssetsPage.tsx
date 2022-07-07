@@ -123,6 +123,7 @@ const AssetsPage = () => {
         type: 'actions',
         width: 300,
         headerName: 'Quick Actions',
+        // eslint-disable-next-line react/no-unstable-nested-components
         getActions: (params: GridRenderCellParams) => [
           <div key="0" className="shadow-sm p-2 rounded mr-2">
             <GridActionsCellItem
@@ -139,9 +140,9 @@ const AssetsPage = () => {
               label="Receive"
               onClick={handleQrModal}
             />
-          </div>
-        ]
-      }
+          </div>,
+        ],
+      },
     ],
     [],
   );

@@ -68,5 +68,6 @@ export const germanTranslations = {
   'Loading actions': 'Aktionen werden geladen',
   'An error occured while fetching actions':
     'Beim Laden der Aktionen ist ein Fehler aufgetreten',
+  // eslint-disable-next-line comma-dangle
   'Actions per page': 'Aktionen pro Seite'
 };

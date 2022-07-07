@@ -1,4 +1,3 @@
-import React from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import i18next from 'i18next';
 import ActionOnAddress from 'src/components/Actions/ActionOnAddress';

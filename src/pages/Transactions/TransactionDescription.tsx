@@ -1,4 +1,4 @@
-import React, { useCallback,useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
@@ -15,7 +15,6 @@ import {
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { makeStyles, withStyles } from '@mui/styles';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import TransactionTechnicalDetails from 'src/pages/Transactions/TransactionTechnicalDetails';
 import MemberPresentationWithPhoto from '../Organization/MemberPresentationWithPhoto';
 
@@ -35,7 +34,7 @@ const StyledDot = withStyles({ root: { backgroundColor: '#4c2ffc' } })(
 );
 
 const StyledStatusText = withStyles({
-  root: { color: '#4c2ffc', marginTop: '10px' }
+  root: { color: '#4c2ffc', marginTop: '10px' },
 })(Typography);
 
 function TransactionDescription({
@@ -44,7 +43,7 @@ function TransactionDescription({
   signers = [],
   child1,
   child2,
-  child3
+  child3,
 }: Props) {
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
@@ -60,7 +59,7 @@ function TransactionDescription({
           gridColumn: '1 / 2',
           borderTop: '1px solid #D6DAF1',
           minWidth: '90%',
-          padding: '2rem'
+          padding: '2rem',
         },
         child2: {
           gridRow: '1 / 3',
@@ -68,8 +67,8 @@ function TransactionDescription({
           borderLeft: '1px solid #D6DAF1',
           borderTop: '1px solid #D6DAF1',
           padding: '1rem 2rem',
-          minWidth: '33%'
-        }
+          minWidth: '33%',
+        },
       }),
     [isSmallScreen],
   );
@@ -83,9 +82,7 @@ function TransactionDescription({
     quorumCountState: [quorumCount],
   } = useOrganizationInfoContext();
 
-  const toggleSignerVisibilityButtonText = useMemo(() => {
-    return areAllSignersVisible ? 'Hide all' : 'Show all';
-  }, [areAllSignersVisible]);
+  const toggleSignerVisibilityButtonText = useMemo(() => (areAllSignersVisible ? 'Hide all' : 'Show all'), [areAllSignersVisible]);
 
   const toggleShowAllSigners = useCallback(() => {
     setShowAllSigners((areVisible) => !areVisible);
@@ -103,7 +100,7 @@ function TransactionDescription({
       </Box>
       <Box className={classes.child2}>
         {child2 || (
-          <Timeline position='right'>
+          <Timeline position="right">
             <TimelineItem>
               <TimelineOppositeContent sx={{ display: 'none' }} />
               <TimelineSeparator>
@@ -131,7 +128,7 @@ function TransactionDescription({
                   <span
                     style={{
                       color: 'rgb(93, 109, 116)',
-                      marginLeft: '3px'
+                      marginLeft: '3px',
                     }}
                   >
                     ({`${signers.length}/${quorumCount}`})
@@ -144,7 +141,7 @@ function TransactionDescription({
                 <TimelineItem key={signer.bech32().toString()}>
                   <TimelineOppositeContent sx={{ display: 'none' }} />
                   <TimelineSeparator>
-                    <TimelineDot sx={{ marginLeft: '7px' }}></TimelineDot>
+                    <TimelineDot sx={{ marginLeft: '7px' }} />
                     <TimelineConnector sx={{ marginLeft: '7px' }} />
                   </TimelineSeparator>
                   <TimelineContent>
@@ -155,7 +152,7 @@ function TransactionDescription({
             <TimelineItem>
               <TimelineOppositeContent sx={{ display: 'none' }} />
               <TimelineSeparator>
-                <TimelineDot sx={{ marginLeft: '7px' }}></TimelineDot>
+                <TimelineDot sx={{ marginLeft: '7px' }} />
                 <TimelineConnector sx={{ marginLeft: '7px' }} />
               </TimelineSeparator>
               <TimelineContent>
@@ -174,7 +171,7 @@ function TransactionDescription({
                 <TimelineDot
                   sx={{
                     backgroundColor:
-                      transaction?.status === 'success' ? '#4c2ffc' : 'grey'
+                      transaction?.status === 'success' ? '#4c2ffc' : 'grey',
                   }}
                   variant={
                     transaction?.status === 'success' ? 'filled' : 'outlined'

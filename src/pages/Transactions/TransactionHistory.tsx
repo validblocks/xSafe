@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useQuery, useQueryClient } from 'react-query';
@@ -13,7 +13,7 @@ import { QueryKeys } from 'src/react-query/queryKeys';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import {
   intervalStartTimestampSelector,
-  intervalEndTimestampSelector
+  intervalEndTimestampSelector,
 } from 'src/redux/selectors/transactionsSelector';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { getDate } from 'src/utils/transactionUtils';
@@ -42,7 +42,7 @@ const TransactionHistory = () => {
 
   const globalIntervalEndTimestamp = useSelector(intervalEndTimestampSelector);
   const globalIntervalStartTimestamp = useSelector(
-    intervalStartTimestampSelector
+    intervalStartTimestampSelector,
   );
 
   const { t } = useTranslation();
@@ -54,7 +54,7 @@ const TransactionHistory = () => {
       size: API_RESPONSE_MAX_SIZE.toString(),
       after: globalIntervalStartTimestamp.toString(),
       before: globalIntervalEndTimestamp.toString(),
-      from: cursorPointer.toString()
+      from: cursorPointer.toString(),
     });
 
     const API_URL = `${network.apiAddress}/accounts/${
@@ -68,19 +68,19 @@ const TransactionHistory = () => {
     data: fetchedTransactionsFromSelectedInterval,
     isFetching: isFetchingInterval,
     isLoading: isLoadingInterval,
-    isError: isErrorOnFetchInterval
+    isError: isErrorOnFetchInterval,
   } = useQuery(
     [
       QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
       cursor,
       globalIntervalStartTimestamp,
-      globalIntervalEndTimestamp
+      globalIntervalEndTimestamp,
     ],
     () => fetchTransactions(cursor),
     {
       ...USE_QUERY_DEFAULT_CONFIG,
-      keepPreviousData: true
-    }
+      keepPreviousData: true,
+    },
   );
 
   const queryClient = useQueryClient();
@@ -101,7 +101,7 @@ const TransactionHistory = () => {
         (cachedTransaction) =>
           cachedTransaction.queryKey[0] ===
             QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED &&
-          (cachedTransaction.queryKey[2] as any) >= globalIntervalStartTimestamp
+          (cachedTransaction.queryKey[2] as any) >= globalIntervalStartTimestamp,
       )
       .map((cachedTransaction) => cachedTransaction.state.data)
       .flat() as RawTransactionType[];
@@ -111,35 +111,35 @@ const TransactionHistory = () => {
     if (!cachedTransactions) return;
 
     cachedTransactions = cachedTransactions.filter(
-      (cachedTransaction) => !!cachedTransaction
+      (cachedTransaction) => !!cachedTransaction,
     );
 
     for (const transaction of cachedTransactions) {
       const logEvents = transaction.logs?.events;
 
-      if (!logEvents) continue;
+      if (logEvents) {
+        for (const event of logEvents) {
+          const decodedEventTopics = event.topics.map((topic: string) =>
+            atob(topic),
+          );
 
-      for (const event of logEvents) {
-        const decodedEventTopics = event.topics.map((topic: string) =>
-          atob(topic)
-        );
-
-        if (!decodedEventTopics.includes('actionPerformed')) continue;
-
-        try {
-          const buffer = Buffer.from(event.data || '', 'base64');
-          result.push({
-            action: parseActionDetailed(buffer) as MultisigActionDetailed,
-            transaction
-          });
-        } catch (error) {
-          console.error('Error while parsing action buffer: ', error);
+          if (!decodedEventTopics.includes('actionPerformed')) {
+            try {
+              const buffer = Buffer.from(event.data || '', 'base64');
+              result.push({
+                action: parseActionDetailed(buffer) as MultisigActionDetailed,
+                transaction,
+              });
+            } catch (error) {
+              console.error('Error while parsing action buffer: ', error);
+            }
+          }
         }
       }
     }
 
     setActionAccumulator(result);
-  }, [fetchedTransactionsFromSelectedInterval]);
+  }, [fetchedTransactionsFromSelectedInterval, globalIntervalStartTimestamp, queryClient]);
 
   const [actionsForCurrentPage, setActionsForCurrentPage] = useState<
     PairOfTransactionAndDecodedAction[]
@@ -150,29 +150,28 @@ const TransactionHistory = () => {
       actionsForCurrentPage?.reduce(
         (
           mapActionsToDate: Record<string, PairOfTransactionAndDecodedAction[]>,
-          transactionWithActionData: PairOfTransactionAndDecodedAction
+          transactionWithActionData: PairOfTransactionAndDecodedAction,
         ) => {
           const dateOfTransaction = dayjs(
-            getDate(transactionWithActionData.transaction.timestamp)
+            getDate(transactionWithActionData.transaction.timestamp),
           ).format(dateFormat);
 
-          if (!mapActionsToDate[dateOfTransaction])
-            mapActionsToDate[dateOfTransaction] = [];
+          if (!mapActionsToDate[dateOfTransaction]) mapActionsToDate[dateOfTransaction] = [];
           mapActionsToDate[dateOfTransaction].push(transactionWithActionData);
 
           return mapActionsToDate;
         },
-        {}
+        {},
       ) ?? {},
-    [actionsForCurrentPage]
+    [actionsForCurrentPage],
   );
 
   if (isFetchingInterval || isLoadingInterval) {
-    return <LoadingDataIndicator dataName='action' />;
+    return <LoadingDataIndicator dataName="action" />;
   }
 
   if (isErrorOnFetchInterval) {
-    return <div>{t('An error occured while fetching actions')}...</div>;
+    return <div>{t('An error occured while fetching actions') as string}...</div>;
   }
 
   return (

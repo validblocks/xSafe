@@ -15,7 +15,7 @@ function EditContractNameModal({
   show,
   contractName,
   onConfirm,
-  onCancel
+  onCancel,
 }: EditContractNameModalPropsType) {
   const { t } = useTranslation();
 
@@ -45,12 +45,12 @@ function EditContractNameModal({
       <div className="card">
         <div className="card-body p-spacer ">
           <p className="h3 text-center" data-testid="delegateTitle">
-            {t('Edit contract name')}
+            {t('Edit contract name') as string}
           </p>
 
           <div className="modal-control-container">
             <label htmlFor="name">
-              {t('Name')}
+              {t('Name') as string}
               :
               {' '}
             </label>
@@ -70,10 +70,10 @@ function EditContractNameModal({
           <div className="modal-action-btns">
             <button onClick={onCancel} className="btn btn-primary btn-light ">
               <FontAwesomeIcon icon={faTimes} />
-              {t('Cancel')}
+              {t('Cancel') as string}
             </button>
             <button onClick={handleConfirm} className="btn btn-primary mb-3">
-              {t('Confirm')}
+              {t('Confirm') as string}
             </button>
           </div>
         </div>

@@ -20,7 +20,7 @@ interface AddMultisigModalType {
 function AddMultisigModal({
   show,
   handleClose,
-  setNewContracts
+  setNewContracts,
 }: AddMultisigModalType) {
   const { t } = useTranslation();
 
@@ -63,7 +63,7 @@ function AddMultisigModal({
       <div className="card">
         <div className="card-body ">
           <p className="h3 text-center" data-testid="delegateTitle">
-            {t('Add Multisig')}
+            {t('Add Multisig') as string}
           </p>
           <ProposeInputAddress
             invalidAddress={invalidMultisigAddress}
@@ -73,7 +73,7 @@ function AddMultisigModal({
             }
           />
           <div className="modal-control-container">
-            <label htmlFor={name}>{t('Name (optional)')}</label>
+            <label htmlFor={name}>{t('Name (optional)') as string}</label>
             <input
               id={name}
               type="text"
@@ -89,14 +89,14 @@ function AddMultisigModal({
               className="btn btn-primary btn-light "
             >
               <FontAwesomeIcon icon={faTimes} />
-              {t('Cancel')}
+              {t('Cancel') as string}
             </button>
             <button
               disabled={submitDisabled}
               onClick={onAddClicked}
               className="btn btn-primary mb-3"
             >
-              {t('Add')}
+              {t('Add') as string}
             </button>
           </div>
         </div>

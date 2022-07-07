@@ -5,10 +5,10 @@ const transactionsSelector = (state: RootState) => state.transactions;
 
 export const intervalEndTimestampSelector = createDeepEqualSelector(
   transactionsSelector,
-  (state) => state.intervalEndTimestamp
+  (state) => state.intervalEndTimestamp,
 );
 
 export const intervalStartTimestampSelector = createDeepEqualSelector(
   transactionsSelector,
-  (state) => state.intervalStartTimestamp
+  (state) => state.intervalStartTimestamp,
 );

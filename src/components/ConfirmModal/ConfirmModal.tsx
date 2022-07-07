@@ -13,7 +13,7 @@ function ConfirmModal({
   confirmButtonTitle,
   show,
   handleClose,
-  handleConfirm
+  handleConfirm,
 }: ConfirmModalType) {
   const onConfirmClicked = () => {
     handleConfirm();

@@ -10,7 +10,7 @@ interface ProposeRemoveUserType {
 
 function ProposeRemoveUser({
   selectedOption,
-  handleSetAddress
+  handleSetAddress,
 }: ProposeRemoveUserType) {
   const { t } = useTranslation();
   const address = 'address' in selectedOption! ? selectedOption?.address : '';
@@ -26,7 +26,7 @@ function ProposeRemoveUser({
 
   return (
     <div className="modal-control-container">
-      <label htmlFor="delegateSubTitle">{t('Address')}</label>
+      <label htmlFor="delegateSubTitle">{t('Address') as string}</label>
       <div
         id="delegateSubTitle"
         className="h6 mb-spacer text-break remove-user"

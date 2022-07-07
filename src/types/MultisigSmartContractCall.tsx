@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
 import { Address, BinaryCodec } from '@elrondnetwork/erdjs/out';
 import {
@@ -25,8 +25,8 @@ import { multisigContractFunctionNames } from './multisigFunctionNames';
 const StyledTypography = withStyles({
   root: {
     color: 'rgb(93, 109, 116)',
-    letterSpacing: 0.5
-  }
+    letterSpacing: 0.5,
+  },
 })(Typography);
 
 export class MultisigSmartContractCall extends MultisigAction {
@@ -93,21 +93,21 @@ export class MultisigSmartContractCall extends MultisigAction {
       default:
     }
     return (
-      <div className='d-flex flex-wrap transaction'>
-        <span className='mr-1 text-body'>
+      <div className="d-flex flex-wrap transaction">
+        <span className="mr-1 text-body">
           <Ui.Denominate
             value={this.amount.valueOf().toString()}
             showLastNonZeroDecimal
             showLabel
           />
         </span>
-        <span className='mr-1'>{i18next.t('to')}</span>
-        <div className='address'>
+        <span className="mr-1">{i18next.t('to') as string}</span>
+        <div className="address">
           <Ui.Trim text={this.address.bech32()} />
           <ExplorerLink
             page={`accounts/${this.address.bech32()}`}
-            text={<FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />}
-            className='link-second-style'
+            text={<FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />}
+            className="link-second-style"
           />
         </div>
       </div>
@@ -142,8 +142,8 @@ export class MultisigSmartContractCall extends MultisigAction {
           <strong>Send Token</strong>
         </h4>
         <Box>
-          <StyledTypography variant='subtitle1' sx={{ marginRight: '0.75rem' }}>
-            <strong className='mr-3'>{i18next.t('Identifier')}:</strong>
+          <StyledTypography variant="subtitle1" sx={{ marginRight: '0.75rem' }}>
+            <strong className="mr-3">{i18next.t('Identifier') as string}:</strong>
             {identifier}{' '}
           </StyledTypography>
         </Box>
@@ -152,21 +152,21 @@ export class MultisigSmartContractCall extends MultisigAction {
             sx={{
               color: 'rgb(93, 109, 116)',
               letterSpacing: 0.5,
-              marginRight: '0.75rem'
+              marginRight: '0.75rem',
             }}
-            variant='subtitle1'
+            variant="subtitle1"
           >
-            <strong className='mr-3'>{i18next.t('Amount')}:</strong>
+            <strong className="mr-3">{i18next.t('Amount') as string}:</strong>
             {operations.denominate({
               input: amount.toString(),
               denomination,
               decimals: 4,
-              showLastNonZeroDecimal: true
+              showLastNonZeroDecimal: true,
             })}{' '}
           </StyledTypography>
         </Box>
         <Box sx={{ display: 'flex' }}>
-          <StyledTypography variant='subtitle1' sx={{ marginRight: '0.75rem' }}>
+          <StyledTypography variant="subtitle1" sx={{ marginRight: '0.75rem' }}>
             <strong>To: </strong>
           </StyledTypography>
           <MemberPresentationWithPhoto

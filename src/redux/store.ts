@@ -15,8 +15,8 @@ const persistConfig = {
     'currency',
     'safeName',
     'addressBook',
-    'transactions'
-  ]
+    'transactions',
+  ],
 };
 
 const persistedReducer = persistReducer(persistConfig, makeRootReducer());
@@ -26,8 +26,8 @@ export const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false
-    })
+      serializableCheck: false,
+    }),
 });
 
 export const persistor = persistStore(store);

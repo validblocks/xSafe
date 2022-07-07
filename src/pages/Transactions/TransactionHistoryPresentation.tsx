@@ -1,8 +1,8 @@
-import React from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AccordionDetails, AccordionSummary, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { TransactionAccordion } from 'components/StyledComponents/transactions';
+import { useState } from 'react';
+import { TransactionAccordion } from 'src/components/StyledComponents/transactions';
 import TransactionDescription from './TransactionDescription';
 import { PairOfTransactionAndDecodedAction } from './TransactionHistory';
 import TransactionSummary from './TransactionSummary';
@@ -15,15 +15,15 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
 
     '&$expanded': {
-      margin: 0
-    }
-  }
+      margin: 0,
+    },
+  },
 }));
 
 const TransactionHistoryPresentation = ({
-  fullActionHistoryGroupedByDate
+  fullActionHistoryGroupedByDate,
 }: any) => {
-  const [expanded, setExpanded] = React.useState<string | false>(false);
+  const [expanded, setExpanded] = useState<string | false>(false);
   const classes = useStyles();
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -31,18 +31,19 @@ const TransactionHistoryPresentation = ({
     };
 
   return (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {fullActionHistoryGroupedByDate &&
         Object.entries(fullActionHistoryGroupedByDate).map(
           ([transactionDate, transactionArray]: any) => (
             <div key={transactionDate}>
-              <Typography variant='subtitle1' className='my-4'>
+              <Typography variant="subtitle1" className="my-4">
                 <strong>{transactionDate}</strong>
               </Typography>
               {transactionArray.map(
                 ({
                   transaction,
-                  action
+                  action,
                 }: PairOfTransactionAndDecodedAction) => (
                   <TransactionAccordion
                     sx={{
@@ -50,24 +51,25 @@ const TransactionHistoryPresentation = ({
                       border: 'none !important',
                       outline: 'none !important',
                       boxShadow: '0px 14px 24px 0px #4C2FFC08',
-                      borderRadius: '10px'
+                      borderRadius: '10px',
                     }}
                     key={transaction.txHash}
                     expanded={expanded === transaction.txHash}
                     onChange={handleChange(transaction.txHash)}
                   >
                     <AccordionSummary
+                      // eslint-disable-next-line react/jsx-curly-brace-presence
                       expandIcon={<ExpandMoreIcon />}
-                      aria-controls='panel1a-content'
+                      aria-controls="panel1a-content"
                       sx={{
                         borderRadius: '10px',
                         border: 'none !important',
-                        outline: 'none !important'
+                        outline: 'none !important',
                       }}
-                      className='pl-0 m-0 d-flex'
+                      className="pl-0 m-0 d-flex"
                       classes={{
                         content: classes.content,
-                        expanded: classes.expanded
+                        expanded: classes.expanded,
                       }}
                     >
                       <TransactionSummary
@@ -86,10 +88,10 @@ const TransactionHistoryPresentation = ({
                       />
                     </AccordionDetails>
                   </TransactionAccordion>
-                )
+                ),
               )}
             </div>
-          )
+          ),
         )}
     </>
   );

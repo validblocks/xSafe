@@ -1,19 +1,17 @@
-import { Address } from '@elrondnetwork/erdjs/out';
 import {
   faTimes,
   faThumbsUp,
   faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import {
   mutateSign,
   mutateUnsign,
-  mutateDiscardAction
+  mutateDiscardAction,
 } from 'src/contracts/MultisigContract';
-import { QueryKeys } from 'src/react-query/queryKeys';
 import { setSelectedPerformedAction } from 'src/redux/slices/modalsSlice';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import useTransactionPermissions from './useTransactionPermissions';
@@ -21,28 +19,14 @@ import useTransactionPermissions from './useTransactionPermissions';
 export interface TransactionActionsCardType {
   type: number;
   actionId?: number;
-  tooltip?: string;
-  title?: string;
-  value?: string;
-  canSign?: boolean;
-  canUnsign?: boolean;
-  canPerformAction?: boolean;
-  canDiscardAction?: boolean;
-  data?: string;
-  signers: Address[];
-  boardMembers?: Address[];
   action: MultisigActionDetailed;
 }
 
 function TransactionActionsCard({
   type = 0,
   actionId = 0,
-  action
-}: // canSign = false,
-// canUnsign = false,
-// canPerformAction = false,
-// canDiscardAction = false
-TransactionActionsCardType) {
+  action,
+}: TransactionActionsCardType) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { canUnsign, canPerformAction, canSign, canDiscardAction } =
@@ -69,45 +53,45 @@ TransactionActionsCardType) {
   }
   return (
     <>
-      <Typography variant='h6' color='black'>
+      <Typography variant="h6" color="black">
         <strong>Available Actions</strong>
       </Typography>
-      <div className='text-black py-3'>
-        <div className='d-flex'>
-          <div className='d-flex btns action-btns'>
+      <div className="text-black py-3">
+        <div className="d-flex">
+          <div className="d-flex btns action-btns">
             {canSign && (
-              <button onClick={sign} className='btn action sign btn--approve'>
+              <button onClick={sign} className="btn action sign btn--approve">
                 <FontAwesomeIcon icon={faThumbsUp} />
-                <span>{t('Approve')} </span>
+                <span>{t('Approve') as string} </span>
               </button>
             )}
             {canUnsign && (
               <button
                 onClick={unsign}
-                className='btn  action unsign btn--discard'
+                className="btn  action unsign btn--discard"
               >
                 <FontAwesomeIcon icon={faTimes} />
-                <span>{t('Withdraw')}</span>
+                <span>{t('Withdraw') as string}</span>
               </button>
             )}
             {canPerformAction && (
               <button
                 style={{ whiteSpace: 'nowrap' }}
                 onClick={performAction}
-                className='btn action perform btn--approve'
+                className="btn action perform btn--approve"
               >
                 <FontAwesomeIcon icon={faCheck} />
-                {t('Perform')}
+                {t('Perform') as string}
               </button>
             )}
             {canDiscardAction && (
               <button
                 style={{ whiteSpace: 'nowrap' }}
                 onClick={discardAction}
-                className='btn action remove btn--discard'
+                className="btn action remove btn--discard"
               >
                 <FontAwesomeIcon icon={faTimes} />
-                {t('Discard')}
+                {t('Discard') as string}
               </button>
             )}
           </div>

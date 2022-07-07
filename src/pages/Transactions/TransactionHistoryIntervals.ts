@@ -20,7 +20,7 @@ const lastXDays: ITimeShiftable = {
     return Math.floor(daysAgo.getTime() / SECOND_TO_MILLISECOND_SCALAR);
   },
   quantities: [1, 3],
-  label: 'day'
+  label: 'day',
 };
 
 const lastXWeeks: ITimeShiftable = {
@@ -30,7 +30,7 @@ const lastXWeeks: ITimeShiftable = {
     return Math.floor(weekAgo.getTime() / SECOND_TO_MILLISECOND_SCALAR);
   },
   quantities: [1, 2],
-  label: 'week'
+  label: 'week',
 };
 
 const lastXMonths: ITimeShiftable = {
@@ -40,7 +40,7 @@ const lastXMonths: ITimeShiftable = {
     return Math.floor(date.getTime() / SECOND_TO_MILLISECOND_SCALAR);
   },
   quantities: [1, 2, 3, 6],
-  label: 'month'
+  label: 'month',
 };
 
 const lastXIntervals: ITimeShiftable[] = [lastXDays, lastXWeeks, lastXMonths];
@@ -54,10 +54,10 @@ export const HISTORY_INTERVALS = (function createIntervals() {
         intervalStartTimestamp: timeShiftable.getTimestamp(quantity),
         label: `Last ${quantity > 1 ? quantity : ''} ${timeShiftable.label}${
           quantity > 1 ? 's' : ''
-        }`
+        }`,
       });
     });
   });
 
   return historyIntervals;
-})();
+}());

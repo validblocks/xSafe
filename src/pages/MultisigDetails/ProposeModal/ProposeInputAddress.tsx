@@ -13,7 +13,7 @@ function ProposeInputAddress({
   handleParamsChange,
   setSubmitDisabled,
   invalidAddress,
-  disabled
+  disabled,
 }: ProposeInputAddressType) {
   const [address, setAddress] = useState('');
   const [error, setError] = useState(false);

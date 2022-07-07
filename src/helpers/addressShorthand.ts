@@ -1,10 +1,10 @@
 const addressShorthand = (uniqueContractAddress: string) => {
   const walletAddressFirstElements = `${uniqueContractAddress.substring(
     0,
-    5
+    5,
   )}...${uniqueContractAddress.substring(
     uniqueContractAddress.length - 5,
-    uniqueContractAddress.length
+    uniqueContractAddress.length,
   )}`;
   return walletAddressFirstElements;
 };

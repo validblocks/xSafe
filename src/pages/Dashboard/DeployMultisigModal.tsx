@@ -22,7 +22,7 @@ interface PendingDeploymentContractData {
 function DeployStepsModal({
   show,
   handleClose,
-  setNewContracts
+  setNewContracts,
 }: DeployStepsModalType) {
   const { t } = useTranslation();
 
@@ -67,12 +67,12 @@ function DeployStepsModal({
       <div className="card">
         <div className="card-body p-spacer ">
           <p className="h3 text-center" data-testid="delegateTitle">
-            {t('Multisig Deployment')}
+            {t('Multisig Deployment') as string}
           </p>
 
           <div className="modal-control-container">
             <label htmlFor={name}>
-              {t('Name')}
+              {t('Name') as string}
               :
             </label>
             <input
@@ -91,7 +91,7 @@ function DeployStepsModal({
               className="btn btn-primary btn-light "
             >
               <FontAwesomeIcon icon={faTimes} />
-              {t('Cancel')}
+              {t('Cancel') as string}
             </button>
             <button onClick={onDeploy} className="btn btn-primary mb-3">
               Sign and Deploy

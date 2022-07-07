@@ -1,21 +1,12 @@
 import { useEffect, useState } from 'react';
 
-import { getIsProviderEqualTo } from '@elrondnetwork/dapp-core';
-import {
-  faWallet,
-  faPlus,
-  faArrowRight
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import { validateMultisigAddress } from 'src/apiCalls/multisigContractsCalls';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import NewDashboard from 'src/pages/NewDashboard';
-import { multisigContractsFetchedSelector, multisigContractsSelector, multisigContractsSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { multisigContractsFetchedSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { storageApi } from 'src/services/accessTokenServices';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
@@ -23,7 +14,6 @@ import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 
 function Dashboard() {
-  const multisigContracts = useSelector(multisigContractsSelector);
   const multisigContractsFetched = useSelector(
     multisigContractsFetchedSelector,
   );

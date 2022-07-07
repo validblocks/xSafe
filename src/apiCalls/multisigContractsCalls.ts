@@ -1,7 +1,7 @@
 import {
   maiarIdApi,
   accessTokenServices,
-  storageApi
+  storageApi,
 } from 'src/services/accessTokenServices';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { getAddress } from '@elrondnetwork/dapp-core';
@@ -23,7 +23,7 @@ multisigAxiosInstance.interceptors.request.use(
         const token =
           await accessTokenServices?.services?.maiarId?.getAccessToken({
             address,
-            maiarIdApi
+            maiarIdApi,
           });
         config.headers.Authorization = `Bearer ${token.accessToken}`;
       }
@@ -32,7 +32,7 @@ multisigAxiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 multisigAxiosInstance.interceptors.response.use(
@@ -43,12 +43,12 @@ multisigAxiosInstance.interceptors.response.use(
       // logout(routeNames.unlock);
     }
     return Promise.reject(error);
-  }
+  },
 );
 export async function getUserMultisigContractsList() {
   try {
     const response = await multisigAxiosInstance.get(
-      contractsInfoStorageEndpoint
+      contractsInfoStorageEndpoint,
     );
     const { data } = response;
     if (data != null) {
@@ -61,11 +61,11 @@ export async function getUserMultisigContractsList() {
   }
 }
 export async function validateMultisigAddress(
-  address: string
+  address: string,
 ): Promise<boolean> {
   try {
     const response = await axios.get(
-      `${network.apiAddress}/accounts/${address}`
+      `${network.apiAddress}/accounts/${address}`,
     );
     const { data } = response;
     if (data != null) {
@@ -84,12 +84,12 @@ export async function getIsContractTrusted(address?: string) {
       return false;
     }
     const response = await axios.get(
-      `${network.apiAddress}/address/${address}`
+      `${network.apiAddress}/address/${address}`,
     );
     const { data, code } = response.data;
     if (code === 'successful') {
       const {
-        account: { codeHash }
+        account: { codeHash },
       } = data;
       return codeHash != null && verifiedContractsHashes.includes(codeHash);
     }
@@ -101,19 +101,19 @@ export async function getIsContractTrusted(address?: string) {
 }
 
 export async function addContractToMultisigContractsList(
-  newContract: MultisigContractInfoType
+  newContract: MultisigContractInfoType,
 ): Promise<MultisigContractInfoType[]> {
   const currentContracts = await getUserMultisigContractsList();
   const newContracts = uniqBy(
     [...currentContracts, newContract],
-    (contract) => contract.address
+    (contract) => contract.address,
   );
   await multisigAxiosInstance.post(contractsInfoStorageEndpoint, newContracts);
   return newContracts;
 }
 
 export async function updateMultisigContractOnServer(
-  newContract: MultisigContractInfoType
+  newContract: MultisigContractInfoType,
 ): Promise<MultisigContractInfoType[]> {
   const currentContracts = await getUserMultisigContractsList();
   const newContracts = currentContracts.map(
@@ -122,19 +122,19 @@ export async function updateMultisigContractOnServer(
         return { ...contract, ...newContract };
       }
       return contract;
-    }
+    },
   );
   await multisigAxiosInstance.post(contractsInfoStorageEndpoint, newContracts);
   return newContracts;
 }
 
 export async function removeContractFromMultisigContractsList(
-  deletedContractAddress: string
+  deletedContractAddress: string,
 ): Promise<MultisigContractInfoType[]> {
   const currentContracts = await getUserMultisigContractsList();
   const newContracts = currentContracts.filter(
     (contract: MultisigContractInfoType) =>
-      contract.address !== deletedContractAddress
+      contract.address !== deletedContractAddress,
   );
   await multisigAxiosInstance.post(contractsInfoStorageEndpoint, newContracts);
   return newContracts;

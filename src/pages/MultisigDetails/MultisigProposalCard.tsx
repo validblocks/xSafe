@@ -48,7 +48,7 @@ function MultisigProposalCard({
   canPerformAction = false,
   canDiscardAction = false,
   boardMembers,
-  signers = []
+  signers = [],
 }: MultisigProposalCardType) {
   const { quorumSize } = useContext(MultisigDetailsContext);
   const { t } = useTranslation();

@@ -11,7 +11,7 @@ function Loader({
   return (
     <PageState
       title={noText ? '' : 'Loading...'}
-      iconClass='text-primary fa-spin'
+      iconClass="text-primary fa-spin"
       dataTestId={dataTestId}
       icon={faCircleNotch}
     />

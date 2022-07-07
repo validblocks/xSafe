@@ -137,6 +137,6 @@ const PerformActionModal = ({
       </div>
     </Modal>
   );
-}
+};
 
 export default PerformActionModal;

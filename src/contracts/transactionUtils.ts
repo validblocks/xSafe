@@ -11,7 +11,6 @@ import {
   TransactionOptions,
   TransactionVersion,
   Address,
-  SmartContractResultItem,
 } from '@elrondnetwork/erdjs';
 import { providerTypes } from 'src/helpers/constants';
 import { gasLimit } from 'src/config';
@@ -59,7 +58,8 @@ export function buildBlockchainTransaction(
   providerType: string,
   receiver: Address,
   data: string,
-  transactionGasLimit: number = gasLimit,
+  // eslint-disable-next-line comma-dangle
+  transactionGasLimit: number = gasLimit
 ) {
   const transactionPayload: TransactionPayloadType = {
     chainID: getChainID(),
@@ -90,49 +90,7 @@ export enum TransactionTypesWithoutSCInteraction {
   noSCRs = 'noSCRs',
 }
 
-export function decodeActionIdFromTransactionData(transaction: any) {
-  if (!transaction.data) return;
-
-  const decodedData = atob(transaction.data);
-  const decodedSplittedFields = decodedData
-    .split('@')
-    .filter((i) => i.length > 0);
-
-  if (!transaction.function) {
-    transaction.function = decodedSplittedFields[0];
-  }
-
-  if (functionsWithActionIds.includes(transaction.function)) {
-    return parseInt(
-      decodedSplittedFields[decodedSplittedFields.length - 1],
-      16,
-    );
-  }
-
-  if (!transaction.results) {
-    return TransactionTypesWithoutSCInteraction.noSCRs;
-  }
-
-  const [encodedResultWithActionId] = transaction.results;
-
-  if (!encodedResultWithActionId) return;
-
-  const decodedResultWithActionId = atob(encodedResultWithActionId.data);
-  const splittedSCR = decodedResultWithActionId
-    .split('@')
-    .filter((item: string) => item.length > 0);
-
-  const [, actionId] = splittedSCR;
-
-  return actionId
-    ? parseInt(actionId, 16)
-    : TransactionTypesWithoutSCInteraction.SCRsWithoutActionId;
-}
-
-export const isIterable = (input: any) => {
-  return (
-    input &&
-    typeof input !== 'undefined' &&
-    typeof input[Symbol.iterator] === 'function'
-  );
-};
+export const isIterable = (input: any) =>
+  input &&
+  typeof input !== 'undefined' &&
+  typeof input[Symbol.iterator] === 'function';

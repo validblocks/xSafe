@@ -15,7 +15,6 @@ import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { TokenTableRowItem } from 'src/pages/Organization/types';
 import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
 import { TestContext } from 'yup';
-import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -322,6 +321,6 @@ const ProposeSendToken = ({
       </div>
     </div>
   );
-}
+};
 
 export default ProposeSendToken;
