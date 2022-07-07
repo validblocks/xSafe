@@ -15,6 +15,8 @@ import {
 } from 'src/contracts/MultisigContract';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { setSelectedPerformedAction } from 'src/redux/slices/modalsSlice';
+import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import useTransactionPermissions from './useTransactionPermissions';
 
 export interface TransactionActionsCardType {
   type: number;
@@ -29,19 +31,23 @@ export interface TransactionActionsCardType {
   data?: string;
   signers: Address[];
   boardMembers?: Address[];
+  action: MultisigActionDetailed;
 }
 
 function TransactionActionsCard({
   type = 0,
   actionId = 0,
-  canSign = false,
-  canUnsign = false,
-  canPerformAction = false,
-  canDiscardAction = false
-}: TransactionActionsCardType) {
+  action
+}: // canSign = false,
+// canUnsign = false,
+// canPerformAction = false,
+// canDiscardAction = false
+TransactionActionsCardType) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
+  const { canUnsign, canPerformAction, canSign, canDiscardAction } =
+    useTransactionPermissions(action);
 
   const sign = () => {
     mutateSign(actionId);
@@ -52,14 +58,16 @@ function TransactionActionsCard({
   };
 
   const performAction = () => {
-    console.log('performAction');
-    queryClient.invalidateQueries(QueryKeys.ALL_PENDING_ACTIONS);
     dispatch(setSelectedPerformedAction({ id: actionId, actionType: type }));
   };
 
   const discardAction = () => {
     mutateDiscardAction(actionId);
   };
+
+  if (!canSign && !canUnsign && !canPerformAction && !canDiscardAction) {
+    return <div>You are not allowed to make changes on this action.</div>;
+  }
   return (
     <div className="text-black py-3">
       <div className="d-flex">
