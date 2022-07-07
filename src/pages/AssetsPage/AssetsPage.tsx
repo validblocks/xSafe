@@ -52,7 +52,7 @@ const AssetsPage = () => {
       {
         field: 'presentation',
         headerName: 'ASSET',
-        width: 150,
+        flex: 1.2,
         type: 'string',
         renderCell: (params: GridRenderCellParams<any>) => (
           <div className="d-flex justify-content-center align-items-center">
@@ -81,7 +81,7 @@ const AssetsPage = () => {
       {
         field: 'balanceDetails',
         headerName: 'BALANCE',
-        width: 200,
+        flex: 1.2,
         type: 'string',
         renderCell: (params: GridRenderCellParams<any>) => (
           <h6 className="text-center mb-0">
@@ -102,7 +102,7 @@ const AssetsPage = () => {
       {
         field: 'value',
         headerName: 'VALUE',
-        width: 250,
+        flex: 1.2,
         renderCell: (params: GridRenderCellParams<any>) => (
           <h5 className="ex-currency text-center mb-0">
             <Ui.UsdValue
@@ -121,12 +121,13 @@ const AssetsPage = () => {
       {
         field: 'actions',
         type: 'actions',
-        width: 300,
-        headerName: 'Quick Actions',
+        width: 150,
+        headerName: '',
         getActions: (params: GridRenderCellParams) => [
           <div key="0" className="shadow-sm p-2 rounded mr-2">
             <GridActionsCellItem
-              icon={<CallMadeIcon htmlColor="#9DABBD" />}
+              // eslint-disable-next-line react/jsx-curly-brace-presence
+              icon={CallMadeIcon as any}
               label="Send"
               onClick={() =>
                 handleOptionSelected(ProposalsTypes.send_token, params.row)
@@ -135,7 +136,8 @@ const AssetsPage = () => {
           </div>,
           <div key="1" className="shadow-sm p-2 rounded mr-2">
             <GridActionsCellItem
-              icon={<CallReceivedIcon htmlColor="#9DABBD" />}
+              // eslint-disable-next-line react/jsx-curly-brace-presence
+              icon={CallReceivedIcon as any}
               label="Receive"
               onClick={handleQrModal}
             />
@@ -158,6 +160,34 @@ const AssetsPage = () => {
         rowHeight={65}
         rows={organizationTokens ?? []}
         columns={columns}
+        sx={{
+          borderRadius: '10px',
+          boxShadow: '0px 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
+          backgroundColor: '#ffff',
+          '& .MuiDataGrid-columnSeparator': {
+            display: 'none',
+          },
+          '& .MuiDataGrid-columnHeader': {
+            padding: '5px 0 0 20px',
+          },
+          '& p': {
+            margin: 0,
+            color: 'rgba(0, 0, 0, 0.6)',
+          },
+          '& .MuiTablePagination-select': {
+            paddingTop: 0,
+            paddingBottom: 0,
+          },
+          '& .MuiInputBase-root': {
+            margin: '0 8px',
+          },
+          '& .MuiTablePagination-actions': {
+            marginLeft: '15px',
+            '& button svg': {
+              color: 'rgba(76, 47, 252, 0.54)',
+            },
+          },
+        }}
       />
       <ReceiveModal
         showQrFromSidebar={showQr}

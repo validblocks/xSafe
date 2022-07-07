@@ -54,7 +54,7 @@ module.exports = {
     'react/jsx-props-no-spreading': 0,
     'no-restricted-syntax': 0,
     'object-curly-newline': 'off',
-    'react/jsx-curly-brace-presence': [1, 'never'],
+    'react/jsx-curly-brace-presence': [1, 'ignore'],
     '@typescript-eslint/no-use-before-define': 2,
     'react/react-in-jsx-scope': 'off',
     '@typescript-eslint/type-annotation-spacing': 2,
