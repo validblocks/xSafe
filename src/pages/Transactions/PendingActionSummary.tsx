@@ -19,7 +19,7 @@ const PendingActionSummary = ({ action }: Props) => {
         <Box
           className='d-flex align-items-center justify-content-center w-100'
           sx={{
-            borderRight: '2px solid #dddddd',
+            borderRight: '1px solid #D6DAF1',
             padding: '1rem',
             minWidth: '60px'
           }}
@@ -30,7 +30,7 @@ const PendingActionSummary = ({ action }: Props) => {
         <Box
           className='d-flex align-items-center justify-content-start'
           sx={{
-            borderRight: '2px solid #ddd',
+            borderRight: '1px solid #D6DAF1',
             padding: '1rem',
             fontWeight: 'bold',
             minWidth: '230px'
@@ -41,7 +41,7 @@ const PendingActionSummary = ({ action }: Props) => {
 
         <Box
           sx={{
-            borderRight: '2px solid #ddd',
+            borderRight: '1px solid #D6DAF1',
             padding: '1rem',
             fontSize: '0.85rem',
             display: 'flex',
@@ -77,7 +77,7 @@ const PendingActionSummary = ({ action }: Props) => {
       <Box
         className='d-flex'
         sx={{
-          borderLeft: '2px solid #ddd',
+          borderLeft: '1px solid #D6DAF1',
           padding: '1rem',
           fontSize: '0.85rem'
         }}

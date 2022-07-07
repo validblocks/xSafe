@@ -2,7 +2,7 @@ import React from 'react';
 import { Ui } from '@elrondnetwork/dapp-utils';
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
-import { truncateInTheMiddle } from 'src/utils/addressUtils';
+import { capitalizeString } from 'src/utils/stringUtils';
 import { getDate } from 'src/utils/transactionUtils';
 import { PairOfTransactionAndDecodedAction } from './TransactionHistory';
 
@@ -16,7 +16,7 @@ function TransactionSummary({
         <Box
           className='d-flex align-items-center justify-content-center w-100'
           sx={{
-            borderRight: '2px solid #dddddd',
+            borderRight: '1px solid #D6DAF1',
             padding: '1rem',
             minWidth: '60px'
           }}
@@ -27,7 +27,7 @@ function TransactionSummary({
         <Box
           className='d-flex align-items-center justify-content-start'
           sx={{
-            borderRight: '2px solid #ddd',
+            borderRight: '1px solid #D6DAF1',
             padding: '1rem',
             fontWeight: 'bold',
             minWidth: '230px'
@@ -38,7 +38,7 @@ function TransactionSummary({
 
         <Box
           sx={{
-            borderRight: '2px solid #ddd',
+            borderRight: '1px solid #D6DAF1',
             padding: '1rem',
             fontSize: '0.85rem',
             display: 'flex',
@@ -76,7 +76,7 @@ function TransactionSummary({
       <Box
         className="d-flex align-items-center justify-content-center w-100"
         sx={{
-          borderRight: '2px solid #dddddd',
+          borderLeft: '1px solid #D6DAF1',
           padding: '1rem',
         }}
       >
@@ -90,7 +90,7 @@ function TransactionSummary({
               fontWeight: 'bold'
             }}
           >
-            {transaction.status}
+            {capitalizeString(transaction.status)}
           </Box>
         </div>
       </Box>

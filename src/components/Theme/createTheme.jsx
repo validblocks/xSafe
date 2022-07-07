@@ -32,7 +32,9 @@ export const theme = createTheme({
     secondary: '#4c2ffc36',
   },
   typography: {
-    bold: '600',
+    fontFamily:
+      ['"IBM Plex sans"', 'Arial', 'sans-serif'].join(',') + ' !important',
+    bold: '600'
   },
   breakpoints: {
     values: {

@@ -34,6 +34,7 @@ const MemberPresentationWithPhoto = ({
               charactersLeftAfterTruncation
             )}{' '}
           </div>
+          <CopyButton className='ml-2' text={memberAddress.toString()} />
           <Anchor
             href={`${
               network.explorerAddress
@@ -45,7 +46,6 @@ const MemberPresentationWithPhoto = ({
           >
             <ContentPasteSearchIcon />
           </Anchor>
-          <CopyButton text={memberAddress.toString()} />
         </Box>
       </Box>
     </div>
