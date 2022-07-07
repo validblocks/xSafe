@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useSelector } from 'react-redux';
+import { network } from 'src/config';
 import {
   queryBoardMemberAddresses,
   queryProposerAddresses,
@@ -29,11 +30,12 @@ function OrganizationInfoContextProvider({ children }: Props) {
 
   const [boardMembers, setBoardMembers] = useState([] as Address[]);
   const [proposers, setProposers] = useState([] as Address[]);
+  const [isBoardMember, setIsBoardMember] = useState(false);
 
   const { address } = useGetAccountInfo();
 
   const { data: tokenPrices }: { data: TokenWithPrice[] | undefined } =
-    useFetch('https://devnet-api.elrond.com/mex/tokens');
+    useFetch(`${network.apiAddress}/mex/tokens`);
 
   const currentContract = useSelector(currentMultisigContractSelector);
 
@@ -86,7 +88,26 @@ function OrganizationInfoContextProvider({ children }: Props) {
     return () => {
       isMounted = false;
     };
-  }, []);
+  }, [currentContract, currentContract?.address]);
+
+  useEffect(() => {
+    if (!address) return;
+    const boardMembersAddressHex = boardMembers.map((memberAddress) =>
+      memberAddress.hex()
+    );
+
+    boardMembers.forEach((a) => console.log(a.bech32()));
+    console.log(
+      'search for ',
+      new Address(address).hex(),
+      ' in ',
+      boardMembersAddressHex
+    );
+
+    setIsBoardMember(
+      boardMembersAddressHex.includes(new Address(address).hex())
+    );
+  }, [address, boardMembers]);
 
   return (
     <OrganizationInfoContext.Provider
@@ -98,7 +119,8 @@ function OrganizationInfoContextProvider({ children }: Props) {
         userRole: userRole as number,
         tokenPrices: tokenPrices as unknown as TokenWithPrice[],
         allMemberAddresses,
-      }), [membersCount, boardMembers, quorumCount, proposers, userRole, tokenPrices, allMemberAddresses])}
+        isBoardMemberState: [isBoardMember, setIsBoardMember]
+      }), [membersCount,boardMembers, quorumCount, proposers, userRole, tokenPrices, allMemberAddresses, isBoardMember])}
     >
       {children}
     </OrganizationInfoContext.Provider>

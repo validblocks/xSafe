@@ -72,6 +72,7 @@ export type OrganizationInfoContextType = {
   tokenPrices: TokenWithPrice[];
   userRole: number;
   allMemberAddresses: MemberAddressTableRow[];
+  isBoardMemberState: CustomStateType<boolean>;
 };
 
 export type AddressBook = Record<string, string>;
