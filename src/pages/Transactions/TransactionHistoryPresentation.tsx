@@ -31,8 +31,7 @@ const TransactionHistoryPresentation = ({
     };
 
   return (
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    <>
+    <div>
       {fullActionHistoryGroupedByDate &&
         Object.entries(fullActionHistoryGroupedByDate).map(
           ([transactionDate, transactionArray]: any) => (
@@ -58,7 +57,6 @@ const TransactionHistoryPresentation = ({
                     onChange={handleChange(transaction.txHash)}
                   >
                     <AccordionSummary
-                      // eslint-disable-next-line react/jsx-curly-brace-presence
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls="panel1a-content"
                       sx={{
@@ -93,7 +91,7 @@ const TransactionHistoryPresentation = ({
             </div>
           ),
         )}
-    </>
+    </div>
   );
 };
 
