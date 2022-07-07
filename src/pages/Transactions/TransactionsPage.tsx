@@ -112,8 +112,7 @@ export default function TransactionsPage() {
         padding: '2rem'
       }}
     >
-      <h2 className='mb-3'>{t('Transactions')}</h2>
-      <Box sx={{ width: '100%' }}>
+      <Box>
         <Box
           sx={{
             display: 'flex',
