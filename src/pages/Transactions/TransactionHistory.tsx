@@ -1,12 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
-import { Transaction } from '@elrondnetwork/erdjs/out';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles';
 import {
   Box,
   CircularProgress,
@@ -23,8 +15,6 @@ import { useSelector } from 'react-redux';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import useFetch from 'src/utils/useFetch';
 import { network } from 'src/config';
-import TransactionDescription from './TransactionDescription';
-import TransactionSummary from './TransactionSummary';
 import { parseActionDetailed } from 'src/helpers/converters';
 import { RawTransactionType } from 'src/helpers/types';
 import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
