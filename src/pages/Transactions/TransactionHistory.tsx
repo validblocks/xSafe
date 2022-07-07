@@ -7,7 +7,15 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
-import { Box, FormControl, MenuItem, OutlinedInput, Pagination, Select, SelectChangeEvent } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  OutlinedInput,
+  Pagination
+} from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import MenuItem from '@mui/material/MenuItem';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
 import { useQuery, useQueryClient } from 'react-query';
@@ -169,10 +177,10 @@ const TransactionHistory = () => {
 
   useEffect(() => {
     if (!actionAccumulator) return;
-    setTotalPages(Math.ceil(actionAccumulator.length / actionsPerPage));
+    return setTotalPages(Math.ceil(actionAccumulator.length / actionsPerPage));
   }, [actionAccumulator, actionsPerPage]);
 
-  const fullHistoryWithDateGrouping = useMemo(
+  const fullActionHistoryGroupedByDate = useMemo(
     () =>
       actionsForCurrentPage?.reduce(
         (
@@ -204,7 +212,14 @@ const TransactionHistory = () => {
   };
 
   if (isFetchingInterval || isLoadingInterval) {
-    return <div>{t('Loading Actions')}...</div>;
+    return (
+      <CenteredBox
+        sx={{ justifyContent: 'start !important', marginTop: '1.5rem' }}
+      >
+        <CircularProgress />
+        <Box sx={{ marginLeft: '10px' }}>{t('Loading Actions')}...</Box>
+      </CenteredBox>
+    );
   }
 
   if (isErrorOnFetchInterval) {
@@ -215,7 +230,7 @@ const TransactionHistory = () => {
     <>
       <TransactionHistoryPresentation
         page={currentPage}
-        fullHistoryWithDateGrouping={fullHistoryWithDateGrouping}
+        fullActionHistoryGroupedByDate={fullActionHistoryGroupedByDate}
       />
       <CenteredBox
         sx={{

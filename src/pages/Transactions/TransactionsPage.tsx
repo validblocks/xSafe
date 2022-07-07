@@ -39,7 +39,7 @@ const TabPanel = (props: TabPanelProps) => {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: '3rem 0' }}>
+        <Box sx={{ p: '0.35rem 0' }}>
           <Typography component='span'>{children}</Typography>
         </Box>
       )}

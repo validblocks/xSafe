@@ -2,15 +2,18 @@ import { useEffect, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Box } from '@mui/material';
-import Accordion from '@mui/material/Accordion';
+import { Box, CircularProgress } from '@mui/material';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import { makeStyles } from '@mui/styles';
+import { useTranslation } from 'react-i18next';
 import { useQuery } from 'react-query';
-import { queryAllActions } from 'contracts/MultisigContract';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
-import { QueryKeys } from 'react-query/queryKeys';
+import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
+import { TransactionAccordion } from 'src/components/StyledComponents/transactions';
+import { queryAllActions } from 'src/contracts/MultisigContract';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
 import useTransactionPermissions from './useTransactionPermissions';
@@ -30,6 +33,8 @@ const useStyles = makeStyles(() => ({
 
 const TransactionQueue = () => {
   const classes = useStyles();
+  const { t } = useTranslation();
+
   const {
     quorumCountState: [quorumCount],
     boardMembersState: [boardMembers],
@@ -40,94 +45,92 @@ const TransactionQueue = () => {
   } =
     useTransactionPermissions();
 
-  const { data: allPendingTransactions } = useQuery(
+  const {
+    data: allPendingActions,
+    isLoading,
+    isFetching,
+    isError,
+    isSuccess
+  } = useQuery(
     QueryKeys.ALL_PENDING_ACTIONS,
-    () => queryAllActions().then((resp) => resp)
+    () => queryAllActions().then((resp) => resp),
+    {
+      refetchOnWindowFocus: true,
+      onSuccess(data) {
+        // console.log({ data });
+        data.map((a) => {
+          console.log(a.description());
+        });
+      }
+    }
   );
+
+  if (isLoading || isFetching) {
+    return (
+      <CenteredBox
+        sx={{ justifyContent: 'start !important', marginTop: '1.5rem' }}
+      >
+        <CircularProgress />
+        <Box sx={{ marginLeft: '10px' }}>{t('Loading Actions')}...</Box>
+      </CenteredBox>
+    );
+  }
+
+  if (isError || !allPendingActions) {
+    return <div>Error while retrieving pending actions!</div>;
+  }
 
   return (
     <>
-      {allPendingTransactions?.reverse().map((transaction) => (
-        <Accordion
-          key={transaction.actionId}
-          sx={{ overflow: 'scroll', padding: '0' }}
+      {allPendingActions.reverse().map((action) => (
+        <TransactionAccordion
+          key={action.actionId}
+          sx={{
+            overflow: 'scroll'
+          }}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1a-content"
-            sx={{ borderBottom: '2px solid #ddd' }}
-            className="pl-0"
+            aria-controls='panel1a-content'
+            sx={{
+              borderRadius: '10px',
+              border: 'none !important',
+              outline: 'none !important'
+            }}
+            className='pl-0 m-0 d-flex'
             classes={{
               content: classes.content,
               expanded: classes.expanded,
             }}
             id="panel1a-header"
           >
-            <div className="d-flex w-100">
-              <Box
-                sx={{
-                  borderRight: '2px solid #ddd',
-                  padding: '1rem',
-                  fontSize: '0.85rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                }}
-                component="span"
-              >
-                <strong>ID: </strong>
-                {transaction.actionId}
-              </Box>
-              <Box
-                sx={{
-                  borderRight: '2px solid #ddd',
-                  padding: '1rem',
-                  fontSize: '0.85rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  minWidth: '230px',
-                }}
-              >
-                <SettingsIcon className="mr-2" color="info" />
-                {transaction.title()}
-              </Box>
-              <Box
-                sx={{
-                  borderRight: '2px solid #ddd',
-                  padding: '1rem',
-                  fontSize: '0.85rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-              >
-                <PeopleIcon color='secondary' className='mr-2' />
-                {transaction.signers.length} out of{quorumCount}
-              </Box>
-            </div>
+            <PendingActionSummary action={action} />
           </AccordionSummary>
-          <AccordionDetails>
+          <AccordionDetails sx={{ padding: '0' }}>
             <TransactionDescription
               boardMembers={boardMembers}
-              signers={transaction.signers}
-              description={transaction.description()}
-            />
-            <TransactionActionsCard
-              boardMembers={boardMembers}
-              key={transaction.actionId}
-              type={transaction.typeNumber()}
-              actionId={transaction.actionId}
-              title={transaction.title()}
-              tooltip={transaction.tooltip()}
-              value={transaction.description()}
-              data={transaction.getData()}
-              canSign={canSign(transaction)}
-              canUnsign={canUnsign(transaction)}
-              canPerformAction={canPerformAction(transaction)}
-              canDiscardAction={canDiscardAction(transaction)}
-              signers={transaction.signers}
+              signers={action.signers}
+              description={action.description()}
+              child3={
+                <TransactionActionsCard
+                  boardMembers={boardMembers}
+                  key={action.actionId}
+                  type={action.typeNumber()}
+                  actionId={action.actionId}
+                  title={action.title()}
+                  tooltip={action.tooltip()}
+                  value={action.description()}
+                  data={action.getData()}
+                  canSign={canSign(action)}
+                  canUnsign={canUnsign(action)}
+                  canPerformAction={canPerformAction(action)}
+                  canDiscardAction={canDiscardAction(action)}
+                  signers={action.signers}
+                />
+              }
             />
           </AccordionDetails>
-        </Accordion>
+        </TransactionAccordion>
       ))}
     </>
   );

@@ -25,8 +25,6 @@ export class MultisigSendToken extends MultisigAction {
   }
 
   description() {
-    // return `${this.amount} (${this.description})`;
-    console.log('description called for send token');
     return (
       <Box>
         From:

@@ -7,6 +7,7 @@ import {
   Typography
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { TransactionAccordion } from 'components/StyledComponents/transactions';
 import TransactionDescription from './TransactionDescription';
 import { PairOfTransactionAndDecodedAction } from './TransactionHistory';
 import TransactionSummary from './TransactionSummary';
@@ -25,8 +26,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const TransactionHistoryPresentation = ({
-  fullHistoryWithDateGrouping,
-  page
+  fullActionHistoryGroupedByDate
 }: any) => {
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const classes = useStyles();
@@ -37,9 +37,8 @@ const TransactionHistoryPresentation = ({
 
   return (
     <>
-      Page: {page}
-      {fullHistoryWithDateGrouping &&
-        Object.entries(fullHistoryWithDateGrouping).map(
+      {fullActionHistoryGroupedByDate &&
+        Object.entries(fullActionHistoryGroupedByDate).map(
           ([transactionDate, transactionArray]: any) => (
             <div key={transactionDate}>
               <Typography variant='subtitle1' className='my-4'>
@@ -50,7 +49,14 @@ const TransactionHistoryPresentation = ({
                   transaction,
                   action
                 }: PairOfTransactionAndDecodedAction) => (
-                  <Accordion
+                  <TransactionAccordion
+                    sx={{
+                      margin: '10px 0',
+                      border: 'none !important',
+                      outline: 'none !important',
+                      boxShadow: '0px 14px 24px 0px #4C2FFC08',
+                      borderRadius: '10px'
+                    }}
                     key={transaction.txHash}
                     expanded={expanded === transaction.txHash}
                     onChange={handleChange(transaction.txHash)}
@@ -58,7 +64,11 @@ const TransactionHistoryPresentation = ({
                     <AccordionSummary
                       expandIcon={<ExpandMoreIcon />}
                       aria-controls='panel1a-content'
-                      sx={{ borderBottom: '2px solid #ddd' }}
+                      sx={{
+                        borderRadius: '10px',
+                        border: 'none !important',
+                        outline: 'none !important'
+                      }}
                       className='pl-0 m-0 d-flex'
                       classes={{
                         content: classes.content,
@@ -71,14 +81,16 @@ const TransactionHistoryPresentation = ({
                       />
                     </AccordionSummary>
 
-                    <AccordionDetails sx={{ padding: '0' }}>
+                    <AccordionDetails
+                      sx={{ padding: '0', border: 'none !important' }}
+                    >
                       <TransactionDescription
                         transaction={transaction}
                         action={action}
                         signers={action.signers}
                       />
                     </AccordionDetails>
-                  </Accordion>
+                  </TransactionAccordion>
                 )
               )}
             </div>
