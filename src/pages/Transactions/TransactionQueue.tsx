@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -107,10 +107,16 @@ const TransactionQueue = () => {
               description={action.description()}
               child3={(
                 <TransactionActionsCard
+                  boardMembers={boardMembers}
                   key={action.actionId}
                   type={action.typeNumber()}
                   actionId={action.actionId}
+                  title={action.title()}
+                  tooltip={action.tooltip()}
+                  value={action.description()}
+                  data={action.getData()}
                   action={action}
+                  signers={action.signers}
                 />
               )}
             />
