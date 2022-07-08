@@ -18,7 +18,8 @@ export const MainButton = styled(Button)`
 
 export const AssetActionButton = styled(MainButton)`
   padding: 1px ${(props) => props.theme.padding.value.lg} 0 0;
-  transform: scale(0);
+  opacity: 0;
+  transition: all .3s;
 `;
 
 export const TypographyBold = styled(Typography)`
