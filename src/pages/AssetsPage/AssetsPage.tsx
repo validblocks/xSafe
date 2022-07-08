@@ -1,11 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
 import { operations, Ui } from '@elrondnetwork/dapp-utils';
-import CallMadeIcon from '@mui/icons-material/CallMade';
-import CallReceivedIcon from '@mui/icons-material/CallReceived';
 import { Box } from '@mui/material';
 import {
   DataGrid,
-  GridActionsCellItem,
   GridRenderCellParams,
 } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,7 +15,9 @@ import {
   setSelectedTokenToSend,
 } from 'src/redux/slices/modalsSlice';
 import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
+import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
 import { ProposalsTypes } from 'src/types/Proposals';
+import { AssetActionButton, AssetValue } from 'src/components/Theme/StyledComponents';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 
@@ -51,11 +50,11 @@ const AssetsPage = () => {
     () => [
       {
         field: 'presentation',
-        headerName: 'ASSET',
+        headerName: 'Asset',
         flex: 1.2,
         type: 'string',
         renderCell: (params: GridRenderCellParams<any>) => (
-          <div className="d-flex justify-content-center align-items-center">
+          <div className="d-flex justify-content-center align-items-center font-weight-normal">
             {params.value.tokenIdentifier !== 'EGLD' && (
               <img
                 width={SQUARE_IMAGE_WIDTH}
@@ -80,11 +79,11 @@ const AssetsPage = () => {
       },
       {
         field: 'balanceDetails',
-        headerName: 'BALANCE',
+        headerName: 'Balance',
         flex: 1.2,
         type: 'string',
         renderCell: (params: GridRenderCellParams<any>) => (
-          <h6 className="text-center mb-0">
+          <h6 className="text-center mb-0 font-weight-normal">
             {Number(
               Number(
                 operations.denominate({
@@ -94,54 +93,53 @@ const AssetsPage = () => {
                   showLastNonZeroDecimal: true,
                 }),
               ).toFixed(8),
-            )}
-            ${params.value.identifier}
+            )} ${params.value.identifier}
           </h6>
         ),
       },
       {
         field: 'value',
-        headerName: 'VALUE',
-        flex: 1.2,
+        headerName: 'Value',
+        flex: 0.8,
         renderCell: (params: GridRenderCellParams<any>) => (
-          <h5 className="ex-currency text-center mb-0">
-            <Ui.UsdValue
-              amount={operations.denominate({
-                input: params.value.amount,
-                denomination: params.value.decimals,
-                decimals: params.value.decimals,
-                showLastNonZeroDecimal: true,
-                addCommas: false,
-              })}
-              usd={params.value.tokenPrice}
-            />
+          <h5 className="text-center mb-0 font-weight-normal">
+            <AssetValue>
+              <Ui.UsdValue
+                amount={operations.denominate({
+                  input: params.value.amount,
+                  denomination: params.value.decimals,
+                  decimals: params.value.decimals,
+                  showLastNonZeroDecimal: true,
+                  addCommas: false,
+                })}
+                usd={params.value.tokenPrice}
+              />
+            </AssetValue>
           </h5>
         ),
       },
       {
         field: 'actions',
         type: 'actions',
-        width: 150,
+        width: 210,
         headerName: '',
         getActions: (params: GridRenderCellParams) => [
-          <div key="0" className="shadow-sm p-2 rounded mr-2">
-            <GridActionsCellItem
-              // eslint-disable-next-line react/jsx-curly-brace-presence
-              icon={CallMadeIcon as any}
-              label="Send"
-              onClick={() =>
-                handleOptionSelected(ProposalsTypes.send_token, params.row)
+          <AssetActionButton
+            key="0"
+            variant="outlined"
+            className="shadow-sm rounded mr-2"
+            onClick={() =>
+              handleOptionSelected(ProposalsTypes.send_token, params.row)
               }
-            />
-          </div>,
-          <div key="1" className="shadow-sm p-2 rounded mr-2">
-            <GridActionsCellItem
-              // eslint-disable-next-line react/jsx-curly-brace-presence
-              icon={CallReceivedIcon as any}
-              label="Receive"
-              onClick={handleQrModal}
-            />
-          </div>,
+          >
+            <AssetActionIcon width="30px" height="30px" /> Send
+          </AssetActionButton>,
+          <AssetActionButton
+            key="1"
+            onClick={handleQrModal}
+          >
+            <AssetActionIcon width="30px" height="30px" /> Deposit
+          </AssetActionButton>,
         ],
       },
     ],
@@ -164,11 +162,18 @@ const AssetsPage = () => {
           borderRadius: '10px',
           boxShadow: '0px 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
           backgroundColor: '#ffff',
+          border: 'none',
           '& .MuiDataGrid-columnSeparator': {
             display: 'none',
           },
           '& .MuiDataGrid-columnHeader': {
             padding: '5px 0 0 20px',
+          },
+          '& .MuiDataGrid-row:hover': {
+            backgroundColor: '#F5F7FF',
+            '& .MuiButton-root': {
+              transform: 'scale(1)',
+            },
           },
           '& p': {
             margin: 0,
