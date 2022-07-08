@@ -1,20 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
-import { Box, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
+import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { FormikInputField } from 'src/helpers/formikFields';
-import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
+import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { denomination } from 'src/config';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { TokenTableRowItem } from 'src/pages/Organization/types';
-import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
 import { TestContext } from 'yup';
+import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -30,8 +30,11 @@ function validateRecipient(value?: string) {
   }
 }
 
-const SQUARE_IMAGE_WIDTH = 30;
 const DECIMAL_POINTS = 3;
+
+export type TokenPresentationProps = {
+    identifier: string;
+  };
 
 const ProposeSendToken = ({
   handleChange,
@@ -42,45 +45,11 @@ const ProposeSendToken = ({
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
   const [identifier, setIdentifier] = useState(selectedToken.identifier);
-  const organizationTokens = useSelector(organizationTokensSelector);
-
-  type TokenPresentationProps = {
-    photoUrl: string;
-    prettyIdentifier: string;
-    tokenPrice: string;
-    tokenAmount: string;
-    tokenValue: string;
-  };
-
-  const availableTokens: TokenPresentationProps[] = useMemo(
-    () =>
-      organizationTokens.map((token: TokenTableRowItem) => ({
-        photoUrl: token.balanceDetails?.photoUrl ?? '',
-        prettyIdentifier: token.identifier,
-        tokenPrice: `$${parseFloat(Number(token.value?.tokenPrice as string).toFixed(DECIMAL_POINTS))}`,
-        tokenAmount: `${parseFloat(
-          Number(operations.denominate({
-            input: token.value?.amount as string,
-            denomination: token.balanceDetails?.decimals as number,
-            decimals: token.balanceDetails?.decimals as number,
-            showLastNonZeroDecimal: true,
-          })).toFixed(DECIMAL_POINTS),
-        )}`,
-        tokenValue: `$${parseFloat(
-          Number(Number(operations.denominate({
-            input: token.value?.amount as string,
-            denomination: token.balanceDetails?.decimals as number,
-            decimals: token.balanceDetails?.decimals as number,
-            showLastNonZeroDecimal: true,
-          })) * (token.value?.tokenPrice as number)).toFixed(DECIMAL_POINTS),
-        )}`,
-      })),
-    [organizationTokens],
-  );
+  const tokenTableRows = useSelector(tokenTableRowsSelector);
 
   const availableTokensWithBalances = useMemo(
     () =>
-      organizationTokens.map((token: TokenTableRowItem) => ({
+      tokenTableRows.map((token: TokenTableRowItem) => ({
         identifier: token.identifier,
         balance: operations.denominate({
           input: token?.balanceDetails?.amount as string,
@@ -90,7 +59,7 @@ const ProposeSendToken = ({
           addCommas: false,
         }),
       })),
-    [organizationTokens],
+    [tokenTableRows],
   );
 
   const selectedTokenBalance = useMemo(
@@ -98,7 +67,7 @@ const ProposeSendToken = ({
       availableTokensWithBalances.find(
         (token: TokenTableRowItem) => token.identifier === identifier,
       )?.balance as string,
-    [identifier],
+    [availableTokensWithBalances, identifier],
   );
 
   const validateAmount = (value?: string, testContext?: TestContext) => {
@@ -213,8 +182,6 @@ const ProposeSendToken = ({
     refreshProposal();
   }, [address, identifier, amount]);
 
-  console.log({ here: organizationTokens });
-
   return (
     <div>
       <div className="modal-control-container mb-4">
@@ -237,54 +204,14 @@ const ProposeSendToken = ({
           onChange={onIdentifierChanged}
           className="mb-2"
         >
-          {availableTokens.map((token: TokenPresentationProps) => (
+          {tokenTableRows.map((token: TokenPresentationProps) => (
             <MenuItem
-              key={token.prettyIdentifier}
-              value={token.prettyIdentifier}
+              key={token.identifier?.split('-')[0]}
+              value={token.identifier?.split('-')[0]}
             >
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                  <Box>
-                    {token.prettyIdentifier !== 'EGLD' && (
-                    <img
-                      width={SQUARE_IMAGE_WIDTH}
-                      height={SQUARE_IMAGE_WIDTH}
-                      src={token.photoUrl}
-                      alt={token.prettyIdentifier}
-                      className="mr-3"
-                    />
-                    )}
-                    {token.prettyIdentifier === 'EGLD' && (
-                    <ElrondLogo
-                      width={SQUARE_IMAGE_WIDTH}
-                      height={SQUARE_IMAGE_WIDTH}
-                      className="mr-3"
-                    />
-                    )}
-                  </Box>
-                  <Box sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                  }}
-                  >
-                    <Box>
-                      {token.prettyIdentifier?.split('-')[0]}
-                    </Box>
-                    <Typography variant="subtitle2">
-                      {token.tokenPrice}
-                    </Typography>
-                  </Box>
-                </Box>
-                <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                  <Box>
-                    {token.tokenAmount}
-                  </Box>
-                  <Box>
-                    {token.tokenValue}
-                  </Box>
-                </Box>
-              </Box>
+              <TokenPresentationWithPrice
+                identifier={token.identifier}
+              />
             </MenuItem>
           ))}
         </Select>

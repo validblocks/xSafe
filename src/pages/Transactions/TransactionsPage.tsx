@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import React, { useState } from 'react';
 import { Box, MenuItem, SelectChangeEvent, Tab, Tabs } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,15 +18,13 @@ import {
 import TransactionQueue from './TransactionQueue';
 
 interface TabPanelProps {
-  children?: ReactNode;
+  children?: React.ReactNode;
   index: number;
   value: number;
 }
 
-const TabPanel = (props: TabPanelProps) => {
-  const {
-    children, value, index, ...other
-  } = props;
+function TabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props;
 
   return (
     <div
@@ -43,7 +41,7 @@ const TabPanel = (props: TabPanelProps) => {
       )}
     </div>
   );
-};
+}
 
 function a11yProps(index: number) {
   return {
@@ -53,7 +51,7 @@ function a11yProps(index: number) {
 }
 
 export default function TransactionsPage() {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = React.useState(0);
   const globalIntervalStartTimestamp = useSelector(
     intervalStartTimestampSelector,
   );
@@ -62,8 +60,10 @@ export default function TransactionsPage() {
     HISTORY_INTERVALS.find(
       (interval) =>
         interval.intervalStartTimestamp === globalIntervalStartTimestamp,
-    )?.label ?? 'HAHA'
+    )?.label ?? 'Last day'
   ));
+
+  console.log({ intervalLabel });
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

@@ -1,17 +1,16 @@
-import { useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import { makeStyles } from '@mui/styles';
 import { useQuery } from 'react-query';
 import { TransactionAccordion } from 'src/components/StyledComponents/transactions';
-import { queryAllActions } from 'src/contracts/MultisigContract';
-import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { QueryKeys } from 'src/react-query/queryKeys';
 import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
 import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItemsPerPage';
-
+import { queryAllActions } from 'src/contracts/MultisigContract';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import { QueryKeys } from 'src/react-query/queryKeys';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
@@ -38,7 +37,7 @@ const TransactionQueue = () => {
   const [actionsForCurrentPage, setActionsForCurrentPage] = useState<
     MultisigActionDetailed[]
   >([]);
-  const [expanded, setExpanded] = useState<string | false>(false);
+  const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const {
     boardMembersState: [boardMembers],
@@ -108,10 +107,16 @@ const TransactionQueue = () => {
               description={action.description()}
               child3={(
                 <TransactionActionsCard
+                  boardMembers={boardMembers}
                   key={action.actionId}
                   type={action.typeNumber()}
                   actionId={action.actionId}
+                  title={action.title()}
+                  tooltip={action.tooltip()}
+                  value={action.description()}
+                  data={action.getData()}
                   action={action}
+                  signers={action.signers}
                 />
               )}
             />

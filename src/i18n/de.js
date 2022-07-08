@@ -69,5 +69,7 @@ export const germanTranslations = {
   'An error occured while fetching actions':
     'Beim Laden der Aktionen ist ein Fehler aufgetreten',
   // eslint-disable-next-line comma-dangle
-  'Actions per page': 'Aktionen pro Seite'
+  'Actions per page': 'Aktionen pro Seite',
+  'No transactions found for this period':
+    'Keine Transaktionen für diesen Zeitraum gefunden',
 };

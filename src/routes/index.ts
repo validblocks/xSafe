@@ -26,7 +26,7 @@ export type ForegroundRoutesType =
   | 'decisionActions'
   | 'multisig'
   | 'multisigAddress'
-  | 'organizationTokens'
+  | 'tokenTableRows'
   | 'assets'
   | 'nft'
   | 'cvorum'
@@ -77,7 +77,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     title: 'Unlock',
     component: Unlock,
   },
-  organizationTokens: {
+  tokenTableRows: {
     path: '/tokens',
     title: 'Organization Tokens',
     component: AssetsPage,

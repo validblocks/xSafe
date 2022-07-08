@@ -1,5 +1,5 @@
 import { logout } from '@elrondnetwork/dapp-core';
-import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
+import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
@@ -58,7 +58,7 @@ const ConnectedAccount = () => {
                 rel="noreferrer"
                 color={theme.palette.secondary.main}
               >
-                <ContentPasteSearchIcon />
+                <ContentPasteGoIcon />
               </Anchor>
             </Box>
           </ConnectItems>

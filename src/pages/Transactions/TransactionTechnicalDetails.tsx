@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
+import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
@@ -43,7 +43,7 @@ function TransactionTechnicalDetails({ transaction }: Props) {
           color="#6c757d"
           className="ml-2"
         >
-          <ContentPasteSearchIcon />
+          <ContentPasteGoIcon />
         </Anchor>
       </Typography>
 

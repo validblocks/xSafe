@@ -11,7 +11,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import ReceiveModal from 'src/components/ReceiveModal';
 import { TokenTableRowItem } from 'src/pages/Organization/types';
-import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
+import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import {
   setProposeMultiselectSelectedOption,
@@ -45,7 +45,7 @@ const AssetsPage = () => {
   };
 
   const currentContract = useSelector(currentMultisigContractSelector);
-  const organizationTokens = useSelector(organizationTokensSelector);
+  const tokenTableRows = useSelector(tokenTableRowsSelector);
 
   const columns = useMemo(
     () => [
@@ -157,7 +157,7 @@ const AssetsPage = () => {
       <DataGrid
         autoHeight
         rowHeight={65}
-        rows={organizationTokens ?? []}
+        rows={tokenTableRows ?? []}
         columns={columns}
       />
       <ReceiveModal

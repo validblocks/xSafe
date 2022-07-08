@@ -14,7 +14,7 @@ export default {
 
   unlock: '/unlock',
 
-  organizationTokens: '/tokens',
+  tokenTableRows: '/tokens',
 
   assets: '/assets',
 

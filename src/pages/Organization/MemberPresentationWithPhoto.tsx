@@ -1,5 +1,5 @@
 import { Address } from '@elrondnetwork/erdjs/out';
-import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
+import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import { Box } from '@mui/material';
 import CopyButton from 'src/components/CopyButton';
 import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
@@ -16,7 +16,7 @@ const MemberPresentationWithPhoto = ({
   charactersLeftAfterTruncation = 5,
 }: Props) => (
   <div
-    key={memberAddress.bech32().toString()}
+    key={memberAddress?.bech32()?.toString()}
     className="d-flex align-items-center"
   >
     <img
@@ -29,21 +29,21 @@ const MemberPresentationWithPhoto = ({
       <Box sx={{ display: 'flex' }}>
         <div>
           {truncateInTheMiddle(
-            memberAddress.bech32(),
+            memberAddress?.bech32() ?? '',
             charactersLeftAfterTruncation,
           )}{' '}
         </div>
-        <CopyButton className="ml-2" text={memberAddress.toString()} />
+        <CopyButton className="ml-2" text={memberAddress?.toString()} />
         <Anchor
           href={`${
             network.explorerAddress
-          }/accounts/${memberAddress.toString()}`}
+          }/accounts/${memberAddress?.toString()}`}
           target="_blank"
           rel="noreferrer"
           color="#6c757d"
           className="ml-2"
         >
-          <ContentPasteSearchIcon />
+          <ContentPasteGoIcon />
         </Anchor>
       </Box>
     </Box>

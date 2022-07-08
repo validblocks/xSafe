@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
+import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
@@ -83,7 +83,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             rel="noreferrer"
             color="#6c757d"
           >
-            <ContentPasteSearchIcon />
+            <ContentPasteGoIcon />
           </Anchor>
         </Box>
         <ReceiveModal
