@@ -172,7 +172,7 @@ const AssetsPage = () => {
           '& .MuiDataGrid-row:hover': {
             backgroundColor: '#F5F7FF',
             '& .MuiButton-root': {
-              transform: 'scale(1)',
+              opacity: '1',
             },
           },
           '& p': {
