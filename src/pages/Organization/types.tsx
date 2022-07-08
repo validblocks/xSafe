@@ -83,3 +83,11 @@ export type Owner = {
   herotag?: string;
   name?: string;
 };
+
+export type OrganizationToken = {
+  prettyIdentifier: string;
+  identifier: string;
+  tokenPrice: string;
+  tokenAmount: string;
+  tokenValue: string;
+};

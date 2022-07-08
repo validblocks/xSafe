@@ -6,10 +6,10 @@ import { Box } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainButton } from 'src/components/Theme/StyledComponents';
-import { network, denomination, decimals } from 'src/config';
+import { network, denomination, decimals, DECIMAL_POINTS_UI } from 'src/config';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { TokenWithPrice } from 'src/pages/Organization/types';
-import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
+import { OrganizationToken, TokenTableRowItem, TokenWithPrice } from 'src/pages/Organization/types';
+import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import {
   currencyConvertedSelector,
   selectedCurrencySelector,
@@ -21,10 +21,8 @@ import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlic
 import { ProposalsTypes } from 'src/types/Proposals';
 import useCurrency from 'src/utils/useCurrency';
 import Divider from '@mui/material/Divider';
-import { setMultisigBalance, setOrganizationTokens } from 'src/redux/slices/accountSlice';
+import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountSlice';
 import { CenteredText } from '../navbar-style';
-
-type OrganizationToken = any;
 
 const identifierWithoutUniqueHash = (identifier: string) => identifier.split('-')[0] ?? '';
 
@@ -35,14 +33,13 @@ function TotalBalance() {
   const egldPrice = useSelector(priceSelector);
   const { tokenPrices } = useOrganizationInfoContext();
   const [totalUsdValue, setTotalUsdValue] = useState(0);
-  const organizationTokens = useSelector(organizationTokensSelector);
+  const tokenTableRows = useSelector(tokenTableRowsSelector);
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const getTokenPrice = useCallback(
     (tokenIdentifier: string) => {
       if (!tokenIdentifier) return 0;
 
-      console.log('searching for token price', tokenIdentifier);
       return tokenPrices.find(
         (tokenWithPrice: TokenWithPrice) =>
           tokenWithPrice.id === tokenIdentifier,
@@ -146,11 +143,33 @@ function TotalBalance() {
           };
         }
 
-        console.log({ tokensWithPrices });
+        const organizationTokens: OrganizationToken[] = tokensWithPrices.map((tokenRowItem: TokenTableRowItem) => ({
+          prettyIdentifier: tokenRowItem.identifier?.split('-')[0] ?? '',
+          identifier: tokenRowItem.identifier ?? '',
+          tokenPrice: `$${parseFloat(Number(tokenRowItem.value?.tokenPrice as string).toFixed(DECIMAL_POINTS_UI))}`,
+          tokenAmount: `${parseFloat(
+            Number(operations.denominate({
+              input: tokenRowItem.value?.amount as string,
+              denomination: tokenRowItem.balanceDetails?.decimals as number,
+              decimals: tokenRowItem.balanceDetails?.decimals as number,
+              showLastNonZeroDecimal: true,
+            })).toFixed(DECIMAL_POINTS_UI),
+          )}`,
+          tokenValue: `$${parseFloat(
+            Number(Number(operations.denominate({
+              input: tokenRowItem.value?.amount as string,
+              denomination: tokenRowItem.balanceDetails?.decimals as number,
+              decimals: tokenRowItem.balanceDetails?.decimals as number,
+              showLastNonZeroDecimal: true,
+            })) * (tokenRowItem.value?.tokenPrice as number)).toFixed(DECIMAL_POINTS_UI),
+          )}`,
+        }));
+
         dispatch(setMultisigBalance(JSON.stringify(egldBalance)));
-        dispatch(setOrganizationTokens(tokensWithPrices));
+        dispatch(setTokenTableRows(tokensWithPrices));
+        dispatch(setOrganizationTokens(organizationTokens));
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
 
       return true;
@@ -164,18 +183,15 @@ function TotalBalance() {
     const arrayOfUsdValues: number[] = [];
     let egldTokenPrice = 0;
     let egldTokensAmount = 0;
-    if (!organizationTokens) return;
-    organizationTokens.forEach((organizationToken: OrganizationToken) => {
+    if (!tokenTableRows) return;
+    tokenTableRows.forEach((organizationToken: TokenTableRowItem) => {
       if (organizationToken.valueUsd) {
         arrayOfUsdValues.push(organizationToken.valueUsd);
       }
 
       if (organizationToken.identifier === 'EGLD') {
-        egldTokenPrice = organizationToken.value?.tokenPrice ?? 0;
+        egldTokenPrice = parseFloat(Number(organizationToken.value?.tokenPrice).toString()) ?? 0;
         egldTokensAmount = Number(organizationToken.value?.amount) ?? 0;
-
-        const egldTotalPrice = egldTokenPrice * egldTokensAmount;
-        console.log({ egldTotalPrice });
 
         const denominatedEgldPrice = parseFloat(operations.denominate({
           input: egldTokensAmount.toString(),
@@ -192,11 +208,11 @@ function TotalBalance() {
         arrayOfUsdValues.reduce((x: number, y: number) => x + y),
       );
     }
-  }, [organizationTokens]);
+  }, [tokenTableRows]);
 
   useEffect(() => {
     totalValue();
-  }, [organizationTokens, totalValue]);
+  }, [tokenTableRows, totalValue]);
 
   useEffect(() => {
     dispatch(setValueInUsd(totalUsdValue));

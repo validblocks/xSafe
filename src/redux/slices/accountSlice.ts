@@ -1,6 +1,9 @@
 import { Balance as BalanceType, Balance } from '@elrondnetwork/erdjs';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { TokenTableRowItem } from 'src/pages/Organization/types';
+import {
+  OrganizationToken,
+  TokenTableRowItem,
+} from 'src/pages/Organization/types';
 import { logoutAction } from '../commonActions';
 
 export interface StateType {
@@ -11,7 +14,8 @@ export interface StateType {
   txCount: number;
   username: string;
   shard: number;
-  organizationTokens: TokenTableRowItem[];
+  tokenTableRows: TokenTableRowItem[];
+  organizationTokens: OrganizationToken[];
   multisigBalance: any;
 }
 
@@ -23,6 +27,7 @@ const initialState: StateType = {
   txCount: 0,
   username: '',
   shard: 0,
+  tokenTableRows: [],
   organizationTokens: [],
   multisigBalance: Balance.Zero() as BalanceType,
 };
@@ -34,9 +39,18 @@ export const accountSlice = createSlice({
     setAccountData(state: StateType, action: PayloadAction<StateType>) {
       return action.payload;
     },
-    setOrganizationTokens(
+    setTokenTableRows(
       state: StateType,
       action: PayloadAction<TokenTableRowItem[]>,
+    ) {
+      return {
+        ...state,
+        tokenTableRows: action.payload,
+      };
+    },
+    setOrganizationTokens(
+      state: StateType,
+      action: PayloadAction<OrganizationToken[]>,
     ) {
       return {
         ...state,
@@ -55,7 +69,11 @@ export const accountSlice = createSlice({
   },
 });
 
-export const { setAccountData, setOrganizationTokens, setMultisigBalance } =
-  accountSlice.actions;
+export const {
+  setAccountData,
+  setTokenTableRows,
+  setMultisigBalance,
+  setOrganizationTokens,
+} = accountSlice.actions;
 
 export default accountSlice.reducer;
