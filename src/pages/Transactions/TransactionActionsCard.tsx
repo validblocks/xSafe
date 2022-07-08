@@ -1,14 +1,14 @@
 /* eslint-disable react/no-unused-prop-types */
 import { Address } from '@elrondnetwork/erdjs/out';
 import {
-  faTimes,
   faThumbsUp,
-  faCheck,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import CloseIcon from '@mui/icons-material/Close';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import CheckIcon from '@mui/icons-material/Check';
 import {
   mutateSign,
   mutateUnsign,
@@ -16,6 +16,7 @@ import {
 } from 'src/contracts/MultisigContract';
 import { setSelectedPerformedAction } from 'src/redux/slices/modalsSlice';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import { DiscardActionButton, PerformActionButton } from 'src/components/StyledComponents/StyledComponents';
 import useTransactionPermissions from './useTransactionPermissions';
 
 export interface TransactionActionsCardType {
@@ -78,33 +79,23 @@ function TransactionActionsCard({
               </button>
             )}
             {canUnsign && (
-              <button
-                onClick={unsign}
-                className="btn  action unsign btn--discard"
-              >
-                <FontAwesomeIcon icon={faTimes} />
-                <span>{t('Withdraw') as string}</span>
-              </button>
+            <DiscardActionButton size="large" onClick={unsign} startIcon={<CloseIcon />}>
+              {t('Discard') as string}
+            </DiscardActionButton>
             )}
             {canPerformAction && (
-              <button
-                style={{ whiteSpace: 'nowrap' }}
+              <PerformActionButton
+                size="large"
                 onClick={performAction}
-                className="btn action perform btn--approve"
+                startIcon={<CheckIcon />}
               >
-                <FontAwesomeIcon icon={faCheck} />
                 {t('Perform') as string}
-              </button>
+              </PerformActionButton>
             )}
             {canDiscardAction && (
-              <button
-                style={{ whiteSpace: 'nowrap' }}
-                onClick={discardAction}
-                className="btn action remove btn--discard"
-              >
-                <FontAwesomeIcon icon={faTimes} />
+              <DiscardActionButton size="large" onClick={discardAction} startIcon={<CloseIcon />}>
                 {t('Discard') as string}
-              </button>
+              </DiscardActionButton>
             )}
           </div>
         </div>
