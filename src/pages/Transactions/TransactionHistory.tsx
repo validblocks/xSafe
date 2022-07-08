@@ -123,13 +123,16 @@ const TransactionHistory = () => {
             atob(topic),
           );
 
-          if (!decodedEventTopics.includes('actionPerformed')) {
+          if (decodedEventTopics.includes('actionPerformed')) {
             try {
               const buffer = Buffer.from(event.data || '', 'base64');
-              result.push({
-                action: parseActionDetailed(buffer) as MultisigActionDetailed,
-                transaction,
-              });
+              const actionDetailed = parseActionDetailed(buffer) as MultisigActionDetailed;
+              if (actionDetailed) {
+                result.push({
+                  action: actionDetailed,
+                  transaction,
+                });
+              }
             } catch (error) {
               console.error('Error while parsing action buffer: ', error);
             }
