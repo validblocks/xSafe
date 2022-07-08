@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { isNaN, useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
-import { FormikCheckbox, FormikInputField } from 'helpers/formikFields';
-import { MultisigIssueToken } from 'types/MultisigIssueToken';
+import { FormikCheckbox, FormikInputField } from 'src/helpers/formikFields';
+import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
 
 interface ProposeIssueTokenType {
   handleChange: (proposal: MultisigIssueToken) => void;
@@ -13,9 +13,24 @@ interface ProposeIssueTokenType {
 
 const ProposeIssueToken = ({
   handleChange,
-  setSubmitDisabled
+  setSubmitDisabled,
 }: ProposeIssueTokenType) => {
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
+
+  function validateAmount(value?: string, testContext?: TestContext) {
+    const amountNumeric = Number(value);
+    if (isNaN(amountNumeric)) {
+      return false;
+    }
+    if (amountNumeric === 0) {
+      return (
+        testContext?.createError({
+          message: 'Amount cannot be 0',
+        }) ?? false
+      );
+    }
+    return true;
+  }
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required('Required'),
@@ -28,7 +43,7 @@ const ProposeIssueToken = ({
     canMint: Yup.boolean(),
     canBurn: Yup.boolean(),
     canChangeOwner: Yup.boolean(),
-    canUpgrade: Yup.boolean()
+    canUpgrade: Yup.boolean(),
   });
 
   const formik = useFormik({
@@ -43,15 +58,12 @@ const ProposeIssueToken = ({
       canMint: true,
       canBurn: true,
       canChangeOwner: true,
-      canUpgrade: true
-    },
-    onSubmit: () => {
-      return;
+      canUpgrade: true,
     },
     validationSchema,
     validateOnChange: true,
-    validateOnMount: true
-  });
+    validateOnMount: true,
+  } as any);
   const { touched, errors, values } = formik;
 
   const {
@@ -65,7 +77,7 @@ const ProposeIssueToken = ({
     canMint,
     canBurn,
     canChangeOwner,
-    canUpgrade
+    canUpgrade,
   } = values;
 
   const amountError = touched.amount && errors.amount;
@@ -77,21 +89,6 @@ const ProposeIssueToken = ({
     const hasErrors = Object.keys(errors).length > 0;
     setSubmitDisabled(hasErrors);
   }, [errors]);
-
-  function validateAmount(value?: string, testContext?: TestContext) {
-    const amountNumeric = Number(value);
-    if (isNaN(amountNumeric)) {
-      return false;
-    }
-    if (amountNumeric === 0) {
-      return (
-        testContext?.createError({
-          message: 'Amount cannot be 0'
-        }) ?? false
-      );
-    }
-    return true;
-  }
 
   const getProposal = (): MultisigIssueToken | null => {
     const amountNumeric = Number(amount);
@@ -108,7 +105,7 @@ const ProposeIssueToken = ({
       name,
       identifier.toUpperCase(),
       amountNumeric,
-      decimalsNumeric
+      decimalsNumeric,
     );
     result.canFreeze = canFreeze;
     result.canWipe = canWipe;
@@ -128,7 +125,7 @@ const ProposeIssueToken = ({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     refreshProposal();
   }, [
     name,
@@ -141,86 +138,86 @@ const ProposeIssueToken = ({
     canMint,
     canBurn,
     canChangeOwner,
-    canUpgrade
+    canUpgrade,
   ]);
 
   return (
     <div>
       <FormikInputField
         label={t('Name')}
-        name={'name'}
+        name="name"
         value={name}
-        error={nameError}
+        error={nameError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
 
       <FormikInputField
         label={t('Identifier')}
-        name={'identifier'}
+        name="identifier"
         value={identifier}
-        error={identifierError}
+        error={identifierError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
       <FormikInputField
         label={t('Mint Amount')}
-        name={'amount'}
+        name="amount"
         value={amount}
-        error={amountError}
+        error={amountError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
       <FormikInputField
         label={t('Decimals')}
-        name={'decimals'}
+        name="decimals"
         value={decimals}
-        error={decimalsError}
+        error={decimalsError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
       <FormikCheckbox
         label={t('Can Freeze')}
-        name={'canFreeze'}
+        name="canFreeze"
         checked={canFreeze}
         handleChange={formik.handleChange}
       />
 
       <FormikCheckbox
         label={t('Can Wipe')}
-        name={'canWipe'}
+        name="canWipe"
         checked={canWipe}
         handleChange={formik.handleChange}
       />
 
       <FormikCheckbox
         label={t('Can Pause')}
-        name={'canPause'}
+        name="canPause"
         checked={canPause}
         handleChange={formik.handleChange}
       />
       <FormikCheckbox
         label={t('Can Mint')}
-        name={'canMint'}
+        name="canMint"
         checked={canMint}
         handleChange={formik.handleChange}
       />
 
       <FormikCheckbox
         label={t('Can Burn')}
-        name={'canBurn'}
+        name="canBurn"
         checked={canBurn}
         handleChange={formik.handleChange}
       />
       <FormikCheckbox
         label={t('Can Change Owner')}
-        name={'canChangeOwner'}
+        name="canChangeOwner"
         checked={canChangeOwner}
         handleChange={formik.handleChange}
       />
       <FormikCheckbox
         label={t('Can Upgrade')}
-        name={'canUpgrade'}
+        name="canUpgrade"
         checked={canUpgrade}
         handleChange={formik.handleChange}
       />

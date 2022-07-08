@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { faHandPaper, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,28 +9,37 @@ import {
   mutateProposeChangeQuorum,
   mutateProposeAddProposer,
   mutateProposeAddBoardMember,
-  mutateProposeRemoveUser
-} from 'contracts/MultisigContract';
-import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
-import { ProposalsTypes, SelectedOptionType } from 'types/Proposals';
+  mutateProposeRemoveUser,
+} from 'src/contracts/MultisigContract';
+import { addEntry } from 'src/redux/slices/addressBookSlice';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import { titles } from '../constants';
-import ProposeChangeQuorum from '../ProposeModal/ProposeChangeQuorum';
-import ProposeInputAddress from '../ProposeModal/ProposeInputAddress';
-import ProposeRemoveUser from '../ProposeModal/ProposeRemoveUser';
+import EditOwner from './EditOwner';
+import ProposeChangeQuorum from './ProposeChangeQuorum';
+import ProposeInputAddress from './ProposeInputAddress';
+import ProposeRemoveUser from './ProposeRemoveUser';
+import ReplaceOwner from './ReplaceOwner';
 
 interface ProposeModalPropsType {
   selectedOption: SelectedOptionType;
 }
 
-const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
+function ProposeModal({ selectedOption }: ProposeModalPropsType) {
   const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   const [submitDisabled, setSubmitDisabled] = useState(false);
   const [selectedNumericParam, setSelectedNumericParam] = useState(1);
   const [selectedAddressParam, setSelectedAddressParam] = useState(
-    new Address()
+    new Address(),
   );
+  const [selectedNameParam, setSelectedNameParam] = useState('');
+  const [selectedReplacementAddressParam] = useState(new Address());
+
+  const handleClose = () => {
+    dispatch(setProposeModalSelectedOption(null));
+  };
 
   const onProposeClicked = () => {
     try {
@@ -47,12 +56,32 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
         case ProposalsTypes.remove_user:
           mutateProposeRemoveUser(selectedAddressParam);
           break;
+        case ProposalsTypes.edit_owner:
+          dispatch(
+            addEntry({
+              address: selectedAddressParam.bech32(),
+              name: selectedNameParam,
+            }),
+          );
+          break;
+        case ProposalsTypes.replace_owner:
+          mutateProposeRemoveUser(selectedAddressParam);
+          mutateProposeAddBoardMember(selectedReplacementAddressParam);
+          dispatch(
+            addEntry({
+              address: selectedReplacementAddressParam.bech32(),
+              name: selectedNameParam,
+            }),
+          );
+          break;
         default:
           console.error(`Unrecognized option ${selectedOption}`);
           break;
       }
       handleClose();
-    } catch (err) {}
+    } catch (err) {
+      handleClose();
+    }
   };
 
   const handleNumericParamChange = (value: number) => {
@@ -63,13 +92,10 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
     setSelectedAddressParam(value);
   };
 
-  const handleClose = () => {
-    dispatch(setProposeModalSelectedOption(null));
-  };
   if (selectedOption == null) {
     return null;
   }
-
+  // eslint-disable-next-line consistent-return
   const getModalContent = () => {
     switch (selectedOption?.option) {
       case ProposalsTypes.change_quorum: {
@@ -95,6 +121,23 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
             selectedOption={selectedOption}
           />
         );
+      case ProposalsTypes.edit_owner:
+        return (
+          <EditOwner
+            handleSetAddress={handleAddressParamChange}
+            handleSetName={(value) => setSelectedNameParam(value)}
+            selectedOption={selectedOption}
+          />
+        );
+      case ProposalsTypes.replace_owner:
+        return (
+          <ReplaceOwner
+            handleSetAddress={handleAddressParamChange}
+            handleSetName={(value) => setSelectedNameParam(value)}
+            selectedOption={selectedOption}
+          />
+        );
+      default:
     }
   };
 
@@ -103,24 +146,24 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
   return (
     <Modal
       show
-      size='lg'
+      size="lg"
       onHide={handleClose}
-      className='modal-container proposal-modal'
+      className="modal-container proposal-modal"
       animation={false}
       centered
     >
-      <div className='card'>
-        <div className='card-body'>
-          <p className='h3 mb-spacer text-center' data-testid='delegateTitle'>
+      <div className="card">
+        <div className="card-body">
+          <p className="h3 mb-spacer text-center" data-testid="delegateTitle">
             {`${t('Make a proposal')}${actionTitle}`}
           </p>
 
           <div>
             {getModalContent()}
-            <div className='modal-action-btns'>
+            <div className="modal-action-btns">
               <button
                 onClick={handleClose}
-                className='btn btn-primary btn-light '
+                className="btn btn-primary btn-light "
               >
                 <FontAwesomeIcon icon={faTimes} />
                 {t('Cancel')}
@@ -128,7 +171,7 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
               <button
                 disabled={submitDisabled}
                 onClick={onProposeClicked}
-                className='btn btn-primary '
+                className="btn btn-primary "
               >
                 <FontAwesomeIcon icon={faHandPaper} />
                 {t('Propose')}
@@ -139,6 +182,6 @@ const ProposeModal = ({ selectedOption }: ProposeModalPropsType) => {
       </div>
     </Modal>
   );
-};
+}
 
 export default ProposeModal;

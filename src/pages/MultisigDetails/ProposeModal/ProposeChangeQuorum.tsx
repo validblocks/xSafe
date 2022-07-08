@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import MultisigDetailsContext from 'context/MultisigDetailsContext';
+import MultisigDetailsContext from 'src/context/MultisigDetailsContext';
 
 interface ProposeChangeQuorumType {
   handleParamsChange: (params: number) => void;
@@ -9,15 +9,15 @@ interface ProposeChangeQuorumType {
 
 const errors = {
   invalid: 'Invalid value',
-  tooBig: 'Quorum cannot be bigger than the number of board members'
+  tooBig: 'Quorum cannot be bigger than the number of board members',
 };
 
-const ProposeChangeQuorum = ({
+function ProposeChangeQuorum({
   handleParamsChange,
-  setSubmitDisabled
-}: ProposeChangeQuorumType) => {
+  setSubmitDisabled,
+}: ProposeChangeQuorumType) {
   const { quorumSize, totalBoardMembers } = useContext(MultisigDetailsContext);
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   const [newQuorumSize, setNewQuorumSize] = useState(1);
   const [error, setError] = useState<string | null>(null);
@@ -43,20 +43,21 @@ const ProposeChangeQuorum = ({
   }, [quorumSize]);
 
   return (
-    <div className='d-flex flex-column modal-control-container'>
-      <div className='group-center'>
-        <label>{t('Quorum Size')}: </label>
+    <div className="d-flex flex-column modal-control-container">
+      <div className="group-center">
+        <label htmlFor="newQuorumSize">{t('Quorum Size')}:</label>
         <input
+          id="newQuorumSize"
           style={{ width: 250 }}
-          className='form-control'
+          className="form-control"
           value={newQuorumSize}
-          autoComplete='off'
+          autoComplete="off"
           onChange={handleNewQuorumSizeChanged}
         />
-        {error != null && <p className='text-danger'>{error}</p>}
+        {error != null && <p className="text-danger">{error}</p>}
       </div>
     </div>
   );
-};
+}
 
 export default ProposeChangeQuorum;

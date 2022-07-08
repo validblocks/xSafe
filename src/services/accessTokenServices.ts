@@ -1,10 +1,11 @@
+import * as tokenServices from '@elrondnetwork/dapp-core-internal';
+import * as multisigExtrasConfig from '../multisigExtrasConfig';
 export let accessTokenServices: any = null;
 export let storageApi = null;
 export let maiarIdApi = null;
 
 try {
-  const multisigExtrasConfig = require('multisigExtrasConfig');
-  storageApi = multisigExtrasConfig?.storageApi;
-  maiarIdApi = multisigExtrasConfig?.maiarIdApi;
-  accessTokenServices = require('@elrondnetwork/dapp-core-internal');
+  storageApi = multisigExtrasConfig?.storageApi as any;
+  maiarIdApi = multisigExtrasConfig?.maiarIdApi as any;
+  accessTokenServices = tokenServices as any;
 } catch (err) {}

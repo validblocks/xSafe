@@ -1,40 +1,41 @@
-import React from 'react';
 import { Address } from '@elrondnetwork/erdjs';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SelectedOptionType } from 'types/Proposals';
+import { SelectedOptionType } from 'src/types/Proposals';
 
 interface ProposeRemoveUserType {
   selectedOption: SelectedOptionType;
   handleSetAddress: (address: Address) => void;
 }
 
-const ProposeRemoveUser = ({
+function ProposeRemoveUser({
   selectedOption,
-  handleSetAddress
-}: ProposeRemoveUserType) => {
+  handleSetAddress,
+}: ProposeRemoveUserType) {
   const { t } = useTranslation();
   const address = 'address' in selectedOption! ? selectedOption?.address : '';
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (address != null) {
       handleSetAddress(new Address(address));
     }
   }, []);
-  if (selectedOption == undefined) {
+  if (selectedOption === undefined) {
     return null;
   }
 
   return (
-    <div className='modal-control-container'>
-      <label>{t('Address')} </label>
+    <div className="modal-control-container">
+      <label htmlFor="delegateSubTitle">{t('Address') as string}</label>
       <div
-        className='h6 mb-spacer text-break remove-user'
-        data-testid='delegateSubTitle'
+        id="delegateSubTitle"
+        className="h6 mb-spacer text-break remove-user"
+        data-testid="delegateSubTitle"
       >
-        <p className='address'> {address} </p>
+        <p className="address">{address}</p>
       </div>
     </div>
   );
-};
+}
 
 export default ProposeRemoveUser;

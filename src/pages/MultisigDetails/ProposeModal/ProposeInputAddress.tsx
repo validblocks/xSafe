@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs';
 import { useTranslation } from 'react-i18next';
 
@@ -9,15 +9,15 @@ interface ProposeInputAddressType {
   disabled?: boolean;
 }
 
-const ProposeInputAddress = ({
+function ProposeInputAddress({
   handleParamsChange,
   setSubmitDisabled,
   invalidAddress,
-  disabled
-}: ProposeInputAddressType) => {
+  disabled,
+}: ProposeInputAddressType) {
   const [address, setAddress] = useState('');
   const [error, setError] = useState(false);
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   const handleAddressChanged = (event: any) => {
     const newAddress = String(event.target.value);
@@ -35,24 +35,28 @@ const ProposeInputAddress = ({
   };
 
   return (
-    <div className='modal-control-container'>
-      <label>{t('Address')} </label>
+    <div className="modal-control-container">
+      <label htmlFor={address}>
+        {t('Address')}
+        {' '}
+      </label>
       <input
-        type='text'
+        id={address}
+        type="text"
         disabled={disabled}
-        className='form-control'
+        className="form-control"
         value={address}
-        autoComplete='off'
+        autoComplete="off"
         onChange={handleAddressChanged}
       />
-      {error && <p className='text-danger'>{t('Invalid address')}</p>}
+      {error && <p className="text-danger">{t('Invalid address')}</p>}
       {invalidAddress && !error && (
-        <p className='text-danger'>
+        <p className="text-danger">
           {t('This is not a valid multisig address')}
         </p>
       )}
     </div>
   );
-};
+}
 
 export default ProposeInputAddress;

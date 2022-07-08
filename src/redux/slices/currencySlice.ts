@@ -9,7 +9,7 @@ export interface StateType {
 const initialState: StateType = {
   currencyConverted: 0,
   selectedCurrency: 'USD',
-  valueInUsd: 0
+  valueInUsd: 0,
 };
 
 export const currencySlice = createSlice({
@@ -19,7 +19,7 @@ export const currencySlice = createSlice({
     setTotalValueConverted(state: StateType, action: any) {
       return {
         ...state,
-        currencyConverted: action.payload
+        currencyConverted: action.payload,
       };
     },
     setSelectedCurrency(state: StateType, action: any) {
@@ -27,8 +27,8 @@ export const currencySlice = createSlice({
     },
     setValueInUsd(state: StateType, action: any) {
       return { ...state, valueInUsd: action.payload };
-    }
-  }
+    },
+  },
 });
 
 export const { setTotalValueConverted, setSelectedCurrency, setValueInUsd } =

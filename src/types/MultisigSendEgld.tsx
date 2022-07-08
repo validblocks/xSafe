@@ -1,29 +1,31 @@
-import React from 'react';
 import { Ui } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
 import {
   BigUIntValue,
-  BytesValue
+  BytesValue,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
 import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import i18next from 'i18next';
-import ExplorerLink from 'components/ExplorerLink';
+import ExplorerLink from 'src/components/ExplorerLink';
 import { MultisigAction } from './MultisigAction';
 
 import { MultisigActionType } from './MultisigActionType';
 
 export class MultisigSendEgld extends MultisigAction {
   address: Address;
+
   amount: BigUIntValue;
+
   functionName: string;
+
   args: BytesValue[];
 
   constructor(
     address: Address,
     amount: BigUIntValue,
     functionName: string,
-    args: BytesValue[] = []
+    args: BytesValue[] = [],
   ) {
     super(MultisigActionType.SendTransferExecute);
     this.address = address;
@@ -46,26 +48,24 @@ export class MultisigSendEgld extends MultisigAction {
 
   description() {
     return (
-      <>
-        <div className='d-flex flex-wrap transaction'>
-          <span className='mr-1 text-body'>
-            <Ui.Denominate
-              value={this.amount.valueOf().toString()}
-              showLastNonZeroDecimal
-              showLabel
-            />
-          </span>
-          <span className='mr-1'>{i18next.t('to')}</span>
-          <div className='address'>
-            <Ui.Trim text={this.address.bech32()} />
-            <ExplorerLink
-              page={`accounts/${this.address.bech32()}`}
-              text={<FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />}
-              className='link-second-style'
-            />
-          </div>
+      <div className="d-flex flex-wrap transaction">
+        <span className="mr-1 text-body">
+          <Ui.Denominate
+            value={this.amount.valueOf().toString()}
+            showLastNonZeroDecimal
+            showLabel
+          />
+        </span>
+        <span className="mr-1">{i18next.t('to') as string}</span>
+        <div className="address">
+          <Ui.Trim text={this.address.bech32()} />
+          <ExplorerLink
+            page={`accounts/${this.address.bech32()}`}
+            text={<FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />}
+            className="link-second-style"
+          />
         </div>
-      </>
+      </div>
     );
   }
 }

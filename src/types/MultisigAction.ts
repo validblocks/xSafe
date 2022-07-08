@@ -2,6 +2,7 @@ import { MultisigActionType } from './MultisigActionType';
 
 export abstract class MultisigAction {
   type: MultisigActionType = MultisigActionType.Nothing;
+
   data?: string;
 
   constructor(type: MultisigActionType) {
@@ -13,6 +14,8 @@ export abstract class MultisigAction {
   }
 
   abstract title(): any;
+
   abstract description(): any;
+
   abstract tooltip(): any;
 }

@@ -10,10 +10,10 @@ import {
   ChainID,
   TransactionOptions,
   TransactionVersion,
-  Address
+  Address,
 } from '@elrondnetwork/erdjs';
-import { gasLimit } from 'config';
-import { providerTypes } from 'helpers/constants';
+import { providerTypes } from 'src/helpers/constants';
+import { gasLimit } from 'src/config';
 import { multisigContractFunctionNames } from '../types/multisigFunctionNames';
 
 interface TransactionPayloadType {
@@ -44,7 +44,7 @@ export function buildTransaction(
     receiver: contract.getAddress(),
     value: Balance.egld(value),
     gasLimit: new GasLimit(transactionGasLimit),
-    data: payload
+    data: payload,
   };
   if (providerType === providerTypes.ledger) {
     transactionPayload.options = TransactionOptions.withTxHashSignOptions();
@@ -56,16 +56,17 @@ export function buildTransaction(
 export function buildBlockchainTransaction(
   value: number,
   providerType: string,
-  transactionGasLimit: number = gasLimit,
   receiver: Address,
-  data: string
+  data: string,
+  // eslint-disable-next-line comma-dangle
+  transactionGasLimit: number = gasLimit
 ) {
   const transactionPayload: TransactionPayloadType = {
     chainID: getChainID(),
     receiver,
     value: Balance.egld(value),
     gasLimit: new GasLimit(transactionGasLimit),
-    data: new TransactionPayload(data)
+    data: new TransactionPayload(data),
   };
 
   if (providerType === providerTypes.ledger) {
@@ -74,3 +75,22 @@ export function buildBlockchainTransaction(
   }
   return new Transaction(transactionPayload);
 }
+
+export const functionsWithActionIds = [
+  multisigContractFunctionNames.sign,
+  multisigContractFunctionNames.unsign,
+  multisigContractFunctionNames.performAction,
+  multisigContractFunctionNames.discardAction,
+  multisigContractFunctionNames.ESDTNFTTransfer,
+  multisigContractFunctionNames.quorumReached,
+];
+
+export enum TransactionTypesWithoutSCInteraction {
+  SCRsWithoutActionId = 'SCRsWithoutActionId',
+  noSCRs = 'noSCRs',
+}
+
+export const isIterable = (input: any) =>
+  input &&
+  typeof input !== 'undefined' &&
+  typeof input[Symbol.iterator] === 'function';

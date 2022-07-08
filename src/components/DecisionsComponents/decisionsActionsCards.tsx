@@ -1,4 +1,3 @@
-import React from 'react';
 import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 import LanIcon from '@mui/icons-material/Lan';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
@@ -9,17 +8,17 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import LinearWithValueLabel from 'components/ProgressBar/progressLinear';
-import { TypographyBold } from 'components/Theme/StyledComponents';
+import LinearWithValueLabel from 'src/components/ProgressBar/progressLinear';
+import { TypographyBold } from 'src/components/Theme/StyledComponents';
 
-const DecisionsActionsCards = () => {
+function DecisionsActionsCards() {
   const Item = styled(Paper)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-    boxShadow: 'unset'
+    boxShadow: 'unset',
   }));
 
   const actionCardsArray = [
@@ -32,7 +31,7 @@ const DecisionsActionsCards = () => {
       progress: <LinearWithValueLabel />,
       type: 'Organization',
       link: 'add-board-member-to-organization',
-      class: 'organization-btn'
+      class: 'organization-btn',
     },
     {
       title: 'Make new payment',
@@ -43,7 +42,7 @@ const DecisionsActionsCards = () => {
       progress: <LinearWithValueLabel />,
       type: 'Tokens',
       link: 'make-new-payment',
-      class: 'payments-btn'
+      class: 'payments-btn',
     },
     {
       title: 'Create new token',
@@ -54,54 +53,54 @@ const DecisionsActionsCards = () => {
       progress: <LinearWithValueLabel />,
       type: 'Payments',
       link: 'create-new-token',
-      class: 'tokens-btn'
-    }
+      class: 'tokens-btn',
+    },
   ];
   return (
     <Grid container spacing={2}>
-      {actionCardsArray.map((item, index) => {
-        return (
-          <Grid key={index} item md={4} xs={12} className='action-cards'>
-            <Link to={item.link}>
-              <Item sx={{ p: 5 }}>
-                <Box className='d-flex justify-content-between'>
-                  <Button disabled={true} className={item.class}>
-                    {item.icon}
-                    {item.type}
-                  </Button>
-                  <Typography align='right' className='box-number'>
-                    {item.id}
-                  </Typography>
-                </Box>
-                <Box sx={{ my: 4 }}>
-                  <TypographyBold align='left' variant='h6'>
-                    {item.title}
-                  </TypographyBold>
-                  <Typography align='left' variant='inherit'>
-                    Due: {item.date}
-                  </Typography>
-                </Box>
-                <Typography align='left' variant='inherit'>
-                  Link: {item.url}
+      {actionCardsArray.map((item) => (
+        <Grid key={item.id} item md={4} xs={12} className="action-cards">
+          <Link to={item.link}>
+            <Item sx={{ p: 5 }}>
+              <Box className="d-flex justify-content-between">
+                <Button disabled className={item.class}>
+                  {item.icon}
+                  {item.type}
+                </Button>
+                <Typography align="right" className="box-number">
+                  {item.id}
                 </Typography>
-                <Box sx={{ my: 4 }}>
-                  <Box className='d-flex justify-content-between'>
-                    <Typography align='left' variant='inherit'>
-                      Progress
-                    </Typography>
-                    <TypographyBold align='left' variant='inherit'>
-                      Approved
-                    </TypographyBold>
-                  </Box>
-                  <LinearWithValueLabel />
+              </Box>
+              <Box sx={{ my: 4 }}>
+                <TypographyBold align="left" variant="h6">
+                  {item.title}
+                </TypographyBold>
+                <Typography align="left" variant="inherit">
+                  Due:
+                  {item.date}
+                </Typography>
+              </Box>
+              <Typography align="left" variant="inherit">
+                Link:
+                {item.url}
+              </Typography>
+              <Box sx={{ my: 4 }}>
+                <Box className="d-flex justify-content-between">
+                  <Typography align="left" variant="inherit">
+                    Progress
+                  </Typography>
+                  <TypographyBold align="left" variant="inherit">
+                    Approved
+                  </TypographyBold>
                 </Box>
-              </Item>
-            </Link>
-          </Grid>
-        );
-      })}
+                <LinearWithValueLabel />
+              </Box>
+            </Item>
+          </Link>
+        </Grid>
+      ))}
     </Grid>
   );
-};
+}
 
 export default DecisionsActionsCards;

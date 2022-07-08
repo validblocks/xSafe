@@ -3,36 +3,38 @@ import { createTheme } from '@mui/material/styles';
 export const theme = createTheme({
   palette: {
     primary: {
-      main: '#4c2ffc'
+      main: '#4c2ffc',
     },
     secondary: {
-      main: '#4c2ffc8a'
+      main: '#4c2ffc8a',
     },
     black: {
-      main: '#08041D'
+      main: '#08041D',
     },
     background: {
       main: '#4c2ffc1a',
       white: '#FFFFFF',
       danger: '#e51a3e1a',
-      default: '#F4F6FD'
+      default: '#F4F6FD',
     },
     danger: {
-      main: '#e51a3e'
+      main: '#e51a3e',
     },
     anchor: {
-      main: '#4c2ffc8a'
-    }
+      main: '#4c2ffc8a',
+    },
   },
   shape: {
-    radius: '10px'
+    radius: '10px',
   },
   shadows: {
     main: '#4c2ffc2e',
-    secondary: '#4c2ffc36'
+    secondary: '#4c2ffc36',
   },
   typography: {
-    bold: '600'
+    fontFamily:
+      `${['"IBM Plex sans"', 'Arial', 'sans-serif'].join(',')} !important`,
+    bold: '600',
   },
   breakpoints: {
     values: {
@@ -40,7 +42,7 @@ export const theme = createTheme({
       sm: 600,
       md: 900,
       lg: 1200,
-      xl: 1536
-    }
-  }
+      xl: 1536,
+    },
+  },
 });

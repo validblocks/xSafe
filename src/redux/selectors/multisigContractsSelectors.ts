@@ -1,27 +1,27 @@
 import { Address } from '@elrondnetwork/erdjs/out';
-import { RootState } from '../store';
 import { createDeepEqualSelector } from './helpers';
+import { RootState } from '../store';
 
 const mainSelector = (state: RootState) => state.multisigContracts;
 
 export const multisigContractsFetchedSelector = createDeepEqualSelector(
   mainSelector,
-  (state) => state.fetched
+  (state) => state.fetched,
 );
 
 export const multisigContractsSelector = createDeepEqualSelector(
   mainSelector,
-  (state) => state.multisigContracts
+  (state) => state.multisigContracts,
 );
 
 export const currentMultisigContractSelector = createDeepEqualSelector(
   mainSelector,
-  (state) => state?.currentMultisigContract
+  (state) => state?.currentMultisigContract,
 );
 
 export const currentMultisigTransactionIdSelector = createDeepEqualSelector(
   mainSelector,
-  (state) => state?.currentMultisigTransactionId
+  (state) => state?.currentMultisigTransactionId,
 );
 
 export const currentMultisigAddressSelector = createDeepEqualSelector(
@@ -32,5 +32,5 @@ export const currentMultisigAddressSelector = createDeepEqualSelector(
       return new Address(address);
     }
     return address;
-  }
+  },
 );

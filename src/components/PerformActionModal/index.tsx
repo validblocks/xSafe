@@ -1,15 +1,15 @@
-import React from 'react';
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal, Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
-import { gasLimit as defaultGasLimit, maxGasLimit } from 'config';
-import { mutatePerformAction } from 'contracts/MultisigContract';
+import { mutatePerformAction } from 'src/contracts/MultisigContract';
 import {
   SelectedActionToPerform,
-  setSelectedPerformedAction
-} from 'redux/slices/modalsSlice';
-import { MultisigActionType } from 'types/MultisigActionType';
+  setSelectedPerformedAction,
+} from 'src/redux/slices/modalsSlice';
+import { gasLimit as defaultGasLimit, maxGasLimit } from 'src/config';
+import { MultisigActionType } from 'src/types/MultisigActionType';
+import { useState } from 'react';
 
 const gasLimits = {
   [MultisigActionType.Nothing]: 10_000_000,
@@ -20,7 +20,7 @@ const gasLimits = {
   [MultisigActionType.SendTransferExecute]: 60_000_000,
   [MultisigActionType.SendAsyncCall]: 60_000_000,
   [MultisigActionType.SCDeployFromSource]: 80_000_000,
-  [MultisigActionType.SCUpgradeFromSource]: 80_000_000
+  [MultisigActionType.SCUpgradeFromSource]: 80_000_000,
 };
 
 interface PerformActionModalPropsType {
@@ -28,14 +28,14 @@ interface PerformActionModalPropsType {
 }
 
 const PerformActionModal = ({
-  selectedAction
+  selectedAction,
 }: PerformActionModalPropsType) => {
   const gasLimit =
     selectedAction?.actionType != null
       ? gasLimits[selectedAction.actionType] ?? defaultGasLimit
       : defaultGasLimit;
-  const [selectedGasLimit, setSelectedGasLimit] = React.useState(gasLimit);
-  const [error, setError] = React.useState<string | null>(null);
+  const [selectedGasLimit, setSelectedGasLimit] = useState(gasLimit);
+  const [error, setError] = useState<string | null>(null);
   const dispatch = useDispatch();
   if (selectedAction == null) {
     return null;
@@ -43,24 +43,6 @@ const PerformActionModal = ({
 
   const handleClose = () => {
     dispatch(setSelectedPerformedAction(null));
-  };
-
-  const onPerformAction = () => {
-    const isGasLimitValid = validateGasLimit();
-    if (isGasLimitValid) {
-      mutatePerformAction(selectedAction.id, selectedGasLimit);
-      handleClose();
-    }
-  };
-
-  const handleChangeGasLimit = (e: any) => {
-    const newValue = Number(e.target.value);
-    if (Number.isNaN(newValue)) {
-      setError('Invalid number');
-      return false;
-    }
-    setError(null);
-    setSelectedGasLimit(newValue);
   };
 
   const validateGasLimit = () => {
@@ -78,6 +60,25 @@ const PerformActionModal = ({
     return true;
   };
 
+  const onPerformAction = () => {
+    const isGasLimitValid = validateGasLimit();
+    if (isGasLimitValid) {
+      mutatePerformAction(selectedAction.id, selectedGasLimit);
+      handleClose();
+    }
+  };
+
+  const handleChangeGasLimit = (e: any): boolean => {
+    const newValue = Number(e.target.value);
+    if (Number.isNaN(newValue)) {
+      setError('Invalid number');
+      return false;
+    }
+    setError(null);
+    setSelectedGasLimit(newValue);
+    return true;
+  };
+
   if (selectedAction == null) {
     return null;
   }
@@ -85,37 +86,38 @@ const PerformActionModal = ({
   return (
     <Modal
       show
-      size='lg'
+      size="lg"
       onHide={handleClose}
-      className='modal-container'
+      className="modal-container"
       animation={false}
       centered
     >
-      <div className='card'>
-        <div className='card-body'>
-          <div className='modal-control-container'>
-            <p className='h3 mb-spacer text-center'>Perform</p>
-            <div className='group-center '>
-              <label>Select gas limit:</label>
+      <div className="card">
+        <div className="card-body">
+          <div className="modal-control-container">
+            <p className="h3 mb-spacer text-center">Perform</p>
+            <div className="group-center ">
+              <label htmlFor="gasLimit">Select gas limit:</label>
               <Form.Control
-                className='form-control'
+                id="gasLimit"
+                className="form-control"
                 value={selectedGasLimit}
-                autoComplete='off'
+                autoComplete="off"
                 isInvalid={error != null}
                 onChange={handleChangeGasLimit}
               />
               {error != null && (
-                <Form.Control.Feedback type={'invalid'}>
+                <Form.Control.Feedback type="invalid">
                   {error}
                 </Form.Control.Feedback>
               )}
             </div>
           </div>
           <div>
-            <div className='modal-action-btns'>
+            <div className="modal-action-btns">
               <button
                 onClick={handleClose}
-                className='btn btn-primary btn-light '
+                className="btn btn-primary btn-light "
               >
                 <FontAwesomeIcon icon={faTimes} />
                 Cancel
@@ -124,7 +126,7 @@ const PerformActionModal = ({
               <button
                 onClick={onPerformAction}
                 disabled={error != null}
-                className='btn btn-primary'
+                className="btn btn-primary"
               >
                 <FontAwesomeIcon icon={faCheck} />
                 Perform

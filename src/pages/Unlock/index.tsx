@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DappUI, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { faArrowRight, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
-import { ReactComponent as IconElrond } from 'assets/img/icon-elrond.svg';
-import { ReactComponent as IconLedger } from 'assets/img/icon-ledger.svg';
-import { ReactComponent as IconMaiar } from 'assets/img/icon-maiar.svg';
-import { network } from 'config';
-import { routeNames } from 'routes';
-import { accessTokenServices, maiarIdApi } from 'services/accessTokenServices';
+import routeNames from 'src/routes/routeNames';
+import { ReactComponent as IconElrond } from 'src/assets/img/icon-elrond.svg';
+import { ReactComponent as IconLedger } from 'src/assets/img/icon-ledger.svg';
+import { ReactComponent as IconMaiar } from 'src/assets/img/icon-maiar.svg';
+import { network } from 'src/config';
+import { accessTokenServices, maiarIdApi } from 'src/services/accessTokenServices';
 
 declare global {
   interface Window {
@@ -17,35 +17,37 @@ declare global {
   }
 }
 
+const UnlockTitleTootlip = (props: Record<string, unknown>) => (
+  <Tooltip id="connect-to-wallet-tooltip" {...props}>
+    Connect securely using one of the provided options
+  </Tooltip>
+);
+
 const UnlockTitle = () => (
-  <h5 className='unlock-title mb-spacer'>
+  <h5 className="unlock-title mb-spacer">
     Connect to a wallet
     <OverlayTrigger
-      placement='top'
+      placement="top"
       delay={{ show: 250, hide: 400 }}
-      overlay={(props) => (
-        <Tooltip id='connect-to-wallet-tooltip' {...props}>
-          Connect securely using one of the provided options
-        </Tooltip>
-      )}
+      overlay={(props) => UnlockTitleTootlip(props)}
     >
       <a
-        href='/#'
+        href="/#"
         onClick={(e) => {
           e.preventDefault();
         }}
-        data-testid='infoConnect'
+        data-testid="infoConnect"
       >
         <FontAwesomeIcon
           icon={faInfoCircle}
-          className='i-icon text-secondary'
+          className="i-icon text-secondary"
         />
       </a>
     </OverlayTrigger>
   </h5>
 );
 
-const Unlock = () => {
+function Unlock() {
   const [token, setToken] = useState('');
   const { loginMethod } = useGetLoginInfo();
 
@@ -61,25 +63,25 @@ const Unlock = () => {
     callbackRoute: routeNames.dashboard,
     token,
     logoutRoute: routeNames.welcome,
-    buttonClassName: 'btn btn-unlock btn-block'
+    buttonClassName: 'btn btn-unlock btn-block',
   };
 
-  if (loginMethod != '') {
+  if (loginMethod !== '') {
     return <Navigate to={routeNames.dashboard} />;
   }
   return (
-    <div className='unlock-page m-auto'>
-      <div className='card unlock text-center'>
+    <div className="unlock-page m-auto">
+      <div className="card unlock text-center">
         <UnlockTitle />
         {!window.elrondWallet && (
           <a
-            rel='noreferrer'
-            href='https://chrome.google.com/webstore/detail/dngmlblcodfobpdpecaadgfbcggfjfnm?authuser=0&hl=en'
-            target='_blank'
-            className='btn btn-unlock btn-block'
+            rel="noreferrer"
+            href="https://chrome.google.com/webstore/detail/dngmlblcodfobpdpecaadgfbcggfjfnm?authuser=0&hl=en"
+            target="_blank"
+            className="btn btn-unlock btn-block"
           >
-            <div className='d-flex justify-content-between align-items-center'>
-              <div className='title'>Maiar DeFi Wallet</div>
+            <div className="d-flex justify-content-between align-items-center">
+              <div className="title">Maiar DeFi Wallet</div>
               <FontAwesomeIcon icon={faArrowRight} />
             </div>
           </a>
@@ -87,55 +89,55 @@ const Unlock = () => {
 
         {window.elrondWallet && (
           <DappUI.ExtensionLoginButton {...loginParams}>
-            <div className='d-flex justify-content-between align-items-center'>
-              <div className='d-flex flex-row method'>
+            <div className="d-flex justify-content-between align-items-center">
+              <div className="d-flex flex-row method">
                 <IconMaiar />
-                <div className='title'>Maiar DeFi Wallet</div>
+                <div className="title">Maiar DeFi Wallet</div>
               </div>
 
-              <FontAwesomeIcon icon={faArrowRight} className='arrow' />
+              <FontAwesomeIcon icon={faArrowRight} className="arrow" />
             </div>
           </DappUI.ExtensionLoginButton>
         )}
 
         <DappUI.WalletConnectLoginButton {...loginParams}>
-          <div className='d-flex justify-content-between align-items-center'>
-            <div className='d-flex flex-row method'>
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="d-flex flex-row method">
               <IconMaiar />
-              <div className='title'>Maiar App</div>
+              <div className="title">Maiar App</div>
             </div>
 
-            <FontAwesomeIcon icon={faArrowRight} className='arrow' />
+            <FontAwesomeIcon icon={faArrowRight} className="arrow" />
           </div>
         </DappUI.WalletConnectLoginButton>
 
-        <DappUI.LedgerLoginButton loginButtonText={''} {...loginParams}>
-          <div className='d-flex justify-content-between align-items-center'>
-            <div className='d-flex flex-row method'>
+        <DappUI.LedgerLoginButton loginButtonText="" {...loginParams}>
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="d-flex flex-row method">
               <IconLedger />
-              <div className='title'>Ledger</div>
+              <div className="title">Ledger</div>
             </div>
 
-            <FontAwesomeIcon icon={faArrowRight} className='arrow' />
+            <FontAwesomeIcon icon={faArrowRight} className="arrow" />
           </div>
         </DappUI.LedgerLoginButton>
 
         <DappUI.WebWalletLoginButton {...loginParams}>
-          <div className='d-flex justify-content-between align-items-center'>
-            <div className='d-flex flex-row method'>
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="d-flex flex-row method">
               <IconElrond />
-              <div className='title'>Elrond Web Wallet</div>
+              <div className="title">Elrond Web Wallet</div>
             </div>
-            <FontAwesomeIcon icon={faArrowRight} className='arrow' />
+            <FontAwesomeIcon icon={faArrowRight} className="arrow" />
           </div>
         </DappUI.WebWalletLoginButton>
 
-        <div className='mt-spacer'>
-          <span className='text'>New to Elrond?</span>
+        <div className="mt-spacer">
+          <span className="text">New to Elrond?</span>
         </div>
-        <div className='mt-1'>
+        <div className="mt-1">
           <a
-            className='link-style'
+            className="link-style"
             href={`${network.walletAddress}/create`}
             {...{ target: '_blank' }}
           >
@@ -145,6 +147,6 @@ const Unlock = () => {
       </div>
     </div>
   );
-};
+}
 
 export default Unlock;

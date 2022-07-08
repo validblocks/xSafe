@@ -1,11 +1,13 @@
 import { combineReducers } from 'redux';
+import appConfig from 'src/redux/slices/appConfigSlice';
 import account from './slices/accountSlice';
-import appConfig from './slices/appConfigSlice';
+import addressBook from './slices/addressBookSlice';
 import currency from './slices/currencySlice';
 import economics from './slices/economicsSlice';
 import modals from './slices/modalsSlice';
 import multisigContracts from './slices/multisigContractsSlice';
 import safeName from './slices/safeNameSlice';
+import transactions from './slices/transactionsSlice';
 
 export default function makeRootReducer() {
   return combineReducers({
@@ -15,6 +17,8 @@ export default function makeRootReducer() {
     account,
     appConfig,
     currency,
-    safeName
+    safeName,
+    addressBook,
+    transactions,
   });
 }

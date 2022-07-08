@@ -1,16 +1,13 @@
-import React from 'react';
 import { Box } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import './ChangeCurrency.scss';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
-import { useDispatch } from 'react-redux';
-import { selectedCurrencySelector } from 'redux/selectors/currencySelector';
-import { valueInUsdSelector } from 'redux/selectors/currencySelector';
-import useCurrency from 'utils/useCurrency';
+import { selectedCurrencySelector, valueInUsdSelector } from 'src/redux/selectors/currencySelector';
+import useCurrency from 'src/utils/useCurrency';
 
-const ChangeCurrency = () => {
+function ChangeCurrency() {
   interface CountryType {
     code: string;
     label: string;
@@ -19,7 +16,7 @@ const ChangeCurrency = () => {
   const currencyList: CountryType[] = [
     { code: 'US', label: 'USD' },
     { code: 'EU', label: 'EUR' },
-    { code: 'RO', label: 'RON' }
+    { code: 'RO', label: 'RON' },
   ];
   const getValueInUsd = useSelector(valueInUsdSelector);
 
@@ -38,34 +35,34 @@ const ChangeCurrency = () => {
             changeCurrency(newInputValue);
           }}
           value={{ code: '', label: `${getCurrency}` }}
-          id='country-select-demo'
+          id="country-select-demo"
           sx={{ width: 250 }}
           options={currencyList}
           autoHighlight
           getOptionLabel={(option) => option.label}
           renderOption={(props, option) => (
             <Box
-              component='li'
+              component="li"
               sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
               {...props}
             >
               <img
-                loading='lazy'
-                width='20'
+                loading="lazy"
+                width="20"
                 src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
                 srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                alt=''
+                alt=""
               />
               {option.label}
             </Box>
           )}
           renderInput={(params) => (
             <div>
-              <SearchIcon className='search-icon' />
+              <SearchIcon className="search-icon" />
               <TextField
                 {...params}
-                className='currency-input'
-                label='Search...'
+                className="currency-input"
+                label="Search..."
               />
             </div>
           )}
@@ -73,6 +70,6 @@ const ChangeCurrency = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default ChangeCurrency;

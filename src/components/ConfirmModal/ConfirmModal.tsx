@@ -1,4 +1,3 @@
-import React from 'react';
 import { Modal } from 'react-bootstrap';
 
 interface ConfirmModalType {
@@ -9,13 +8,13 @@ interface ConfirmModalType {
   handleConfirm: () => void;
 }
 
-const ConfirmModal = ({
+function ConfirmModal({
   title,
   confirmButtonTitle,
   show,
   handleClose,
-  handleConfirm
-}: ConfirmModalType) => {
+  handleConfirm,
+}: ConfirmModalType) {
   const onConfirmClicked = () => {
     handleConfirm();
   };
@@ -24,18 +23,18 @@ const ConfirmModal = ({
     <Modal
       show={show}
       onHide={handleClose}
-      className='modal-container'
+      className="modal-container"
       animation={false}
       centered
     >
-      <div className='card'>
-        <div className='card-body p-spacer text-center'>
-          <p className='h6 mb-spacer' data-testid='delegateTitle'>
+      <div className="card">
+        <div className="card-body p-spacer text-center">
+          <p className="h6 mb-spacer" data-testid="delegateTitle">
             {title}
           </p>
 
           <div>
-            <button onClick={onConfirmClicked} className='btn btn-primary mb-3'>
+            <button onClick={onConfirmClicked} className="btn btn-primary mb-3">
               {confirmButtonTitle}
             </button>
           </div>
@@ -43,6 +42,6 @@ const ConfirmModal = ({
       </div>
     </Modal>
   );
-};
+}
 
 export default ConfirmModal;

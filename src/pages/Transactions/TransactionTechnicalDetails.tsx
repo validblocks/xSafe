@@ -1,76 +1,115 @@
-import React, { useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
+import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
-import { getDate } from 'utils/transactionUtils';
+import CopyButton from 'src/components/CopyButton';
+import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
+import { network } from 'src/config';
+import { getDate } from 'src/utils/transactionUtils';
 import TransactionAdvancedDetails from './TransactionAdvancedDetails';
 
 type Props = any;
 
-const TransactionTechnicalDetails = ({ transaction }: Props) => {
+function TransactionTechnicalDetails({ transaction }: Props) {
   const [isAdvancedDetailsVisibile, setIsAdvancedDetailsVisible] =
     useState(false);
   const toggleAdvancedDetails = useCallback(
     () => setIsAdvancedDetailsVisible((currentState) => !currentState),
-    []
+    [],
   );
 
   return (
-    <Box sx={{ padding: '1rem' }}>
-      <Typography component='div' variant='body1' className='my-1'>
+    <Box>
+      <Typography component="div" variant="body1" className="my-1">
         <Typography
-          component='span'
-          className='mr-2'
-          variant='body1'
+          component="span"
+          className="mr-2"
+          variant="body1"
           sx={{
             color: 'rgb(93, 109, 116)',
-            letterSpacing: 0.5
           }}
         >
-          Transaction Hash:
+          <strong>Transaction Hash:</strong>
         </Typography>
-        {transaction?.txHash.slice(0, 15)}...
+        {transaction?.txHash.slice(0, 15)}
+        ...
         {transaction?.txHash.slice(transaction?.txHash.length - 15)}
+        <CopyButton className="ml-2" text={transaction?.txHash} />
+        <Anchor
+          href={`${network.explorerAddress}/transactions/${transaction?.txHash}`}
+          target="_blank"
+          rel="noreferrer"
+          color="#6c757d"
+          className="ml-2"
+        >
+          <ContentPasteGoIcon />
+        </Anchor>
       </Typography>
-      <Typography component='div' className='my-1'>
+
+      <Typography component="div" className="my-1">
         <Typography
-          component='span'
-          className='mr-2'
-          variant='body1'
+          component="span"
+          className="mr-2"
+          variant="body1"
           sx={{
             color: 'rgb(93, 109, 116)',
-            letterSpacing: 0.5
           }}
         >
-          Function Name:{' '}
-        </Typography>
-        {transaction?.function}
-      </Typography>
-      <Typography component='div' className='my-1'>
-        <Typography
-          component='span'
-          className='mr-2'
-          variant='body1'
-          sx={{
-            color: 'rgb(93, 109, 116)',
-            letterSpacing: 0.5
-          }}
-        >
-          Timestamp:{' '}
+          <strong>Timestamp: </strong>
         </Typography>
         {dayjs(getDate(transaction?.timestamp)).format('H:mm A')}
       </Typography>
+      <Typography component="div" className="my-1">
+        <Typography
+          component="span"
+          className="mr-2"
+          variant="body1"
+          sx={{
+            color: 'rgb(93, 109, 116)',
+          }}
+        >
+          <strong>Nonce: </strong>
+        </Typography>
+        {transaction?.nonce}
+      </Typography>
+      <Typography component="div" className="my-1">
+        <Typography
+          component="span"
+          className="mr-2"
+          variant="body1"
+          sx={{
+            color: 'rgb(93, 109, 116)',
+          }}
+        >
+          <strong>Sender shard: </strong>
+        </Typography>
+        {transaction.senderShard}
+      </Typography>
+      <Typography component="div" className="my-1">
+        <Typography
+          component="span"
+          className="mr-2"
+          variant="body1"
+          sx={{
+            color: 'rgb(93, 109, 116)',
+          }}
+        >
+          <strong>Receiver shard: </strong>
+        </Typography>
+        {transaction.receiverShard}
+      </Typography>
       <Button
-        variant='text'
-        className='px-0'
+        variant="text"
+        className="px-0"
         onClick={() => toggleAdvancedDetails()}
         sx={{
           color: 'rgb(93, 109, 116)',
           textDecoration: 'underline',
           '&:hover': {
             textDecoration: 'underline',
-            backgroundColor: 'transparent'
-          }
+            backgroundColor: 'transparent',
+          },
         }}
       >
         Advanced details
@@ -81,6 +120,6 @@ const TransactionTechnicalDetails = ({ transaction }: Props) => {
       )}
     </Box>
   );
-};
+}
 
 export default TransactionTechnicalDetails;

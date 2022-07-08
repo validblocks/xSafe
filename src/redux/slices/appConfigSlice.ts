@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { routeNames } from 'routes';
+import routeNames from 'src/routes/routeNames';
 import { logoutAction } from '../commonActions';
 
 export interface MultisigOriginType {
@@ -14,9 +14,9 @@ export interface AppConfigStateType {
 function getInitialState(): AppConfigStateType {
   return {
     multisigOrigin: {
-      pathname: routeNames.welcome,
-      search: ''
-    }
+      pathname: routeNames?.welcome,
+      search: '',
+    },
   };
 }
 
@@ -26,16 +26,14 @@ export const appConfigSlice = createSlice({
   reducers: {
     setMultisigOrigin: (
       state: AppConfigStateType,
-      action: PayloadAction<MultisigOriginType>
+      action: PayloadAction<MultisigOriginType>,
     ) => {
       state.multisigOrigin = action.payload;
-    }
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(logoutAction, () => {
-      return getInitialState();
-    });
-  }
+    builder.addCase(logoutAction, () => getInitialState());
+  },
 });
 
 export const { setMultisigOrigin } = appConfigSlice.actions;

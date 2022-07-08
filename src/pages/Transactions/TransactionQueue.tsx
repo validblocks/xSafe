@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PeopleIcon from '@mui/icons-material/People';
-import SettingsIcon from '@mui/icons-material/Settings';
-import { Box } from '@mui/material';
-import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import { makeStyles } from '@mui/styles';
-import { queryAllActions } from 'contracts/MultisigContract';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
-import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
+import { useQuery } from 'react-query';
+import { TransactionAccordion } from 'src/components/StyledComponents/transactions';
+import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
+import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItemsPerPage';
+import { queryAllActions } from 'src/contracts/MultisigContract';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
-import useTransactionPermissions from './useTransactionPermissions';
 
 const useStyles = makeStyles(() => ({
   expanded: { margin: 0 },
@@ -22,111 +24,115 @@ const useStyles = makeStyles(() => ({
     justifyContent: 'space-between',
 
     '&$expanded': {
-      margin: 0
-    }
-  }
+      margin: 0,
+    },
+  },
 }));
 
 const TransactionQueue = () => {
   const classes = useStyles();
-  const [allPendingTransactions, setAllPendingTransactions] = useState(
-    [] as MultisigActionDetailed[]
-  );
+  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [actionsPerPage, setActionsPerPage] = useState(20);
+  const [actionsForCurrentPage, setActionsForCurrentPage] = useState<
+    MultisigActionDetailed[]
+  >([]);
+  const [expanded, setExpanded] = React.useState<string | false>(false);
+
   const {
-    quorumCountState: [quorumCount],
-    boardMembersState: [boardMembers]
+    boardMembersState: [boardMembers],
   } = useOrganizationInfoContext();
 
-  const { canUnsign, canPerformAction, canSign, canDiscardAction } =
-    useTransactionPermissions();
+  const {
+    data: allPendingActions,
+    isLoading,
+    isFetching,
+    isError,
+  } = useQuery(
+    QueryKeys.ALL_PENDING_ACTIONS,
+    () => queryAllActions().then((resp) => resp),
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+    },
+  );
 
-  useEffect(() => {
-    queryAllActions().then((resp) => {
-      setAllPendingTransactions(resp);
-    });
-  }, []);
+  const reversedActions = useMemo(() => actionsForCurrentPage.slice().reverse(), [actionsForCurrentPage]);
+
+  const handleChange =
+    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? panel : false);
+    };
+
+  if (isLoading || isFetching) {
+    return <LoadingDataIndicator dataName="action" />;
+  }
+
+  if (isError || !allPendingActions) {
+    return <div>Error while retrieving pending actions!</div>;
+  }
 
   return (
     <>
-      {allPendingTransactions.reverse().map((transaction) => (
-        <Accordion key={transaction.actionId} sx={{ overflow: 'scroll' }}>
+      {reversedActions.map((action) => (
+        <TransactionAccordion
+          key={action.actionId}
+          sx={{
+            overflow: 'scroll',
+          }}
+          onChange={handleChange(action.actionId.toString())}
+          expanded={expanded === action.actionId.toString()}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
-            aria-controls='panel1a-content'
-            sx={{ borderBottom: '2px solid #ddd' }}
-            className='pl-0'
+            aria-controls="panel1a-content"
+            sx={{
+              borderRadius: '10px',
+              border: 'none !important',
+              outline: 'none !important',
+            }}
+            className="pl-0 m-0 d-flex"
             classes={{
               content: classes.content,
-              expanded: classes.expanded
+              expanded: classes.expanded,
             }}
-            id='panel1a-header'
+            id="panel1a-header"
           >
-            <div className='d-flex w-100'>
-              <Box
-                sx={{
-                  borderRight: '2px solid #ddd',
-                  padding: '1rem',
-                  fontSize: '0.85rem',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center'
-                }}
-                component='span'
-              >
-                <strong>ID: </strong>
-                {transaction.actionId}
-              </Box>
-              <Box
-                sx={{
-                  borderRight: '2px solid #ddd',
-                  padding: '1rem',
-                  fontSize: '0.85rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  minWidth: '230px'
-                }}
-              >
-                <SettingsIcon className='mr-2' color='info' />
-                {transaction.title()}
-              </Box>
-              <Box
-                sx={{
-                  borderRight: '2px solid #ddd',
-                  padding: '1rem',
-                  fontSize: '0.85rem',
-                  display: 'flex',
-                  alignItems: 'center'
-                }}
-              >
-                <PeopleIcon color='secondary' className='mr-2' />
-                {transaction.signers.length} out of {quorumCount}
-              </Box>
-            </div>
+            <PendingActionSummary action={action} />
           </AccordionSummary>
-          <AccordionDetails>
+          <AccordionDetails sx={{ padding: '0' }}>
             <TransactionDescription
               boardMembers={boardMembers}
-              signers={transaction.signers}
-              description={transaction.description()}
-            />
-            <TransactionActionsCard
-              boardMembers={boardMembers}
-              key={transaction.actionId}
-              type={transaction.typeNumber()}
-              actionId={transaction.actionId}
-              title={transaction.title()}
-              tooltip={transaction.tooltip()}
-              value={transaction.description()}
-              data={transaction.getData()}
-              canSign={canSign(transaction)}
-              canUnsign={canUnsign(transaction)}
-              canPerformAction={canPerformAction(transaction)}
-              canDiscardAction={canDiscardAction(transaction)}
-              signers={transaction.signers}
+              action={action}
+              signers={action.signers}
+              description={action.description()}
+              child3={(
+                <TransactionActionsCard
+                  boardMembers={boardMembers}
+                  key={action.actionId}
+                  type={action.typeNumber()}
+                  actionId={action.actionId}
+                  title={action.title()}
+                  tooltip={action.tooltip()}
+                  value={action.description()}
+                  data={action.getData()}
+                  action={action}
+                  signers={action.signers}
+                />
+              )}
             />
           </AccordionDetails>
-        </Accordion>
+        </TransactionAccordion>
       ))}
+      <PaginationWithItemsPerPage
+        data={allPendingActions}
+        setParentCurrentPage={setCurrentPage}
+        setParentItemsPerPage={setActionsPerPage}
+        setParentDataForCurrentPage={setActionsForCurrentPage}
+        setParentTotalPages={setTotalPages}
+        currentPage={currentPage}
+        itemsPerPage={actionsPerPage}
+        totalPages={totalPages}
+      />
     </>
   );
 };

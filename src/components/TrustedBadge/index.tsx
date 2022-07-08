@@ -1,8 +1,8 @@
-import React from 'react';
 import './trustedBadge.scss';
-import { getIsContractTrusted } from 'apiCalls/multisigContractsCalls';
+import { getIsContractTrusted } from 'src/apiCalls/multisigContractsCalls';
 
-import TrustedBadgeIcon from 'assets/img/trusted-badge.svg';
+import TrustedBadgeIcon from 'src/assets/img/trusted-badge.svg';
+import { useEffect, useState } from 'react';
 
 interface TrustedBadgePropsType {
   contractAddress?: string;
@@ -10,12 +10,12 @@ interface TrustedBadgePropsType {
   onVerificationComplete?: (trusted: boolean) => void;
 }
 
-function TrustedBadge({
+const TrustedBadge = ({
   contractAddress,
   initialValue,
-  onVerificationComplete
-}: TrustedBadgePropsType) {
-  const [isTrusted, setIsTrusted] = React.useState(initialValue);
+  onVerificationComplete,
+}: TrustedBadgePropsType) => {
+  const [isTrusted, setIsTrusted] = useState(initialValue);
 
   async function validateContractHash() {
     const isContractTrusted = await getIsContractTrusted(contractAddress);
@@ -23,21 +23,21 @@ function TrustedBadge({
     onVerificationComplete?.(isContractTrusted);
   }
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (contractAddress != null) {
       validateContractHash();
     }
   }, [contractAddress]);
 
+  if (!isTrusted) return <span>Not trusted</span>;
+
   return (
-    <>
-      {isTrusted && (
-        <span className='trust-badge'>
-          <img src={TrustedBadgeIcon} alt='trusted-badge' />
-        </span>
-      )}
-    </>
+    isTrusted && (
+      <span className="trust-badge">
+        <img src={TrustedBadgeIcon} alt="trusted-badge" />
+      </span>
+    )
   );
-}
+};
 
 export default TrustedBadge;

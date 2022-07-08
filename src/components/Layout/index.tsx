@@ -1,55 +1,59 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import {
   AuthenticatedRoutesWrapper,
   refreshAccount,
   useGetAccountInfo,
-  useGetLoginInfo
+  useGetLoginInfo,
 } from '@elrondnetwork/dapp-core';
 import { Box } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { getAccountData } from 'apiCalls/accountCalls';
-import PageBreadcrumbs from './Breadcrumb';
-import { getEconomicsData } from 'apiCalls/economicsCalls';
-import { getUserMultisigContractsList } from 'apiCalls/multisigContractsCalls';
-import { uniqueContractAddress, uniqueContractName } from 'multisigConfig';
-import ProposersTable from 'pages/Organization/ProposersTable';
-import { setAccountData } from 'redux/slices/accountSlice';
-import { setEconomics } from 'redux/slices/economicsSlice';
-import { setMultisigContracts } from 'redux/slices/multisigContractsSlice';
-import routes, { routeNames } from 'routes';
-('');
-import { accessTokenServices, storageApi } from 'services/accessTokenServices';
+import { getAccountData } from 'src/apiCalls/accountCalls';
+import { getEconomicsData } from 'src/apiCalls/economicsCalls';
+import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
+import { uniqueContractAddress, uniqueContractName } from 'src/multisigConfig';
+import { setAccountData } from 'src/redux/slices/accountSlice';
+import { setEconomics } from 'src/redux/slices/economicsSlice';
+import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
+import routes from 'src/routes';
+import { accessTokenServices, storageApi } from 'src/services/accessTokenServices';
+import { Main } from 'src/components/Theme/StyledComponents';
+import routeNames from 'src/routes/routeNames';
 import { TokenWrapper } from '../TokenWrapper';
+import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
-import Navbar from './Navbar';
-import MobileLayout from './Navbar/mobileLayout';
 import Account from './Navbar/Account';
-import { Main } from 'components/Theme/StyledComponents';
-import { theme } from 'components/Theme/createTheme';
 import { TopHeader } from './Navbar/navbar-style';
+import MobileLayout from './Navbar/mobileLayout';
+import Navbar from './Navbar/index';
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+function Layout({ children }: { children: React.ReactNode }) {
   const { loginMethod, isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
     address,
     accessTokenServices?.maiarIdApi,
-    isLoggedIn
+    isLoggedIn,
   );
   interface AppBarProps extends MuiAppBarProps {
     open?: boolean;
   }
 
-  const loggedIn = loginMethod != '';
-  React.useEffect(() => {
+  const loggedIn = loginMethod !== '';
+
+  async function fetchAccountData() {
+    const accountData = await getAccountData(address);
+    if (accountData !== null) {
+      dispatch(setAccountData(accountData));
+    }
+  }
+
+  useEffect(() => {
     if (loggedIn) {
       refreshAccount();
       fetchAccountData();
@@ -57,20 +61,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
 
-  React.useEffect(() => {
-    fetchEconomics();
-  }, []);
-
-  useEffect(() => {
-    readMultisigContracts();
-  }, [address, isAuthenticated?.isAuthenticated]);
-
   async function readMultisigContracts() {
     if (uniqueContractAddress || storageApi == null) {
       dispatch(
         setMultisigContracts([
-          { address: uniqueContractAddress, name: uniqueContractName ?? '' }
-        ])
+          { address: uniqueContractAddress, name: uniqueContractName ?? '' },
+        ]),
       );
       return;
     }
@@ -80,6 +76,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
+  useEffect(() => {
+    readMultisigContracts();
+  }, [address, isAuthenticated?.isAuthenticated]);
+
   async function fetchEconomics() {
     const economics = await getEconomicsData();
     if (economics !== null) {
@@ -87,39 +87,37 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     }
   }
 
-  async function fetchAccountData() {
-    const accountData = await getAccountData(address);
-    if (accountData !== null) {
-      dispatch(setAccountData(accountData));
-    }
-  }
+  useEffect(() => {
+    fetchEconomics();
+  }, []);
+
   const width = useMediaQuery('(min-width:600px)');
 
   const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open'
+    shouldForwardProp: (prop) => prop !== 'open',
   })<AppBarProps>(({ theme }) => ({
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen
+      duration: theme.transitions.duration.leavingScreen,
     }),
     boxShadow: 'unset',
     right: 'auto',
-    left: 'auto'
+    left: 'auto',
   }));
 
   return (
-    <div className='flex-row flex-fill wrapper page-wrapper'>
+    <div className="flex-row flex-fill wrapper page-wrapper">
       {width ? <Navbar /> : <MobileLayout />}
-      <Main className='flex-row flex-fill position-relative justify-center'>
+      <Main className="flex-row flex-fill position-relative justify-center">
         <Box sx={{ padding: '6rem 0px' }}>
           <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '1' }}>
             {width ? (
               <TopHeader
-                className='d-flex justify-content-between px-4 py-3 align-items-center'
+                className="d-flex justify-content-between px-4 py-3 align-items-center"
                 sx={{
                   position: 'absolute',
-                  width: '100%'
+                  width: '100%',
                 }}
               >
                 <Box>
@@ -145,6 +143,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       </Main>
     </div>
   );
-};
+}
 
 export default Layout;

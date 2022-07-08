@@ -1,4 +1,4 @@
-import { ProposalsTypes } from 'types/Proposals';
+import { ProposalsTypes } from 'src/types/Proposals';
 
 export const titles = {
   [ProposalsTypes.add_proposer]: 'add proposer',
@@ -17,5 +17,7 @@ export const titles = {
   [ProposalsTypes.upgrade_contract_from_source]:
     'Upgrade smart contract from source',
 
-  [ProposalsTypes.attach_contract]: 'Attach contract'
+  [ProposalsTypes.attach_contract]: 'Attach contract',
+  [ProposalsTypes.replace_owner]: 'Replace owner',
+  [ProposalsTypes.edit_owner]: 'Edit owner',
 };

@@ -1,142 +1,183 @@
-import React, { useCallback, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import DeleteIcon from '@mui/icons-material/Delete';
+import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+
+import { Avatar } from '@mui/material';
+import Button from '@mui/material/Button';
 import {
-  GridRowId,
-  GridActionsCellItem,
   DataGrid,
-  GridRenderCellParams
+  GridActionsCellItem,
+  GridRenderCellParams,
 } from '@mui/x-data-grid';
-import { useDispatch } from 'react-redux';
-import { setProposeModalSelectedOption } from 'redux/slices/modalsSlice';
-import { ProposalsTypes } from 'types/Proposals';
+import { toSvg } from 'jdenticon';
+import { useDispatch, useSelector } from 'react-redux';
+import { queryBoardMemberAddresses } from 'src/contracts/MultisigContract';
+import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+import { ProposalsTypes } from 'src/types/Proposals';
+import { RootState } from 'src/redux/store';
+import { getAccountData } from 'src/apiCalls/accountCalls';
+import { AccountInfo, AddressBook, Owner } from './types';
 
 const OrganizationsTokensTable = () => {
+  const [addresses, setAddresses] = useState<Array<Owner>>([]);
+
+  const getAddresses = () => queryBoardMemberAddresses();
+
+  // Set the address book
+  // Test the address book and herotag
+  const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
+
+  const addAddressBookEntry = (accountInformation: AccountInfo): Owner => ({
+    address: accountInformation.address,
+    ...(!!accountInformation.username && {
+      herotag: accountInformation.username,
+    }),
+    ...(!!addressBook[accountInformation.address] && {
+      name: addressBook[accountInformation.address],
+    }),
+  });
+  useEffect(() => {
+    // get hero tag
+    // get addressbook names
+    getAddresses().then((ownerAddresses) => {
+      Promise.all(
+        ownerAddresses.map((address) =>
+          getAccountData(new Address(address).bech32()),
+        ),
+      ).then((accountsInformation) => {
+        setAddresses(accountsInformation.map(addAddressBookEntry));
+      });
+    });
+  }, []);
+
   const dispatch = useDispatch();
-  const onRemoveUser = (address: Address) => {
-    return dispatch(
+  const onRemoveUser = (address: Address) =>
+    dispatch(
       setProposeModalSelectedOption({
         option: ProposalsTypes.remove_user,
-        address: address.bech32()
-      })
+        address: address.bech32(),
+      }),
     );
-  };
 
-  const toggleAdmin = useCallback(
-    (id: GridRowId) => () => {
-      // setRows((prevRows) =>
-      //   prevRows.map((row) =>
-      //     row.id === id ? { ...row, isAdmin: !row.isAdmin } : row
-      //   )
-      // );
-    },
-    []
-  );
+  const onEditOwner = (owner: Owner) =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.edit_owner,
+        name: owner.name,
+        address: new Address(owner.address).bech32(),
+      }),
+    );
 
-  const duplicateUser = useCallback(
-    (id: GridRowId) => () => {
-      // setRows((prevRows) => {
-      //   const rowToDuplicate = prevRows.find((row) => row.id === id)!;
-      //   return [...prevRows, { ...rowToDuplicate, id: Date.now() }];
-      // });
-    },
-    []
-  );
+  const onReplaceOwner = (owner: Owner) =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.replace_owner,
+        currentOwner: owner,
+      }),
+    );
+
+  const onAddBoardMember = () =>
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.add_board_member,
+      }),
+    );
 
   const columns = useMemo(
     () => [
       {
-        field: 'tokenName',
-        headerName: 'Token Name',
-        type: 'string',
+        field: 'owner',
+        headerName: 'Name',
+        type: 'object',
         renderCell: (params: GridRenderCellParams<any>) => (
-          <div className='d-flex flex-column justify-content-center'>
-            <strong>SOMA</strong>
-            <p className='mb-0'>{params.value}</p>
+          <div className="d-flex flex-column justify-content-center">
+            <strong className="mb-0">{params.value.name}</strong>
+            <strong>
+              <div>{params.value.herotag}</div>
+            </strong>
           </div>
-        )
+        ),
       },
       {
-        field: 'holder',
-        headerName: 'Holder',
+        field: 'address',
+        headerName: 'Address',
         width: 250,
-        type: 'string',
+        type: 'object',
+        /**
+         *
+         * @todo: add style component for avatar
+         */
         renderCell: (params: any) => (
-          <div className='d-flex align-items-center'>
-            <img
-              className='mr-3 rounded w-100 h-100'
-              src='https://picsum.photos/30/30?random=1'
-            />
+          <div className="d-flex align-items-center">
             <div>
+              <Avatar>
+                <div
+                  dangerouslySetInnerHTML={{ __html: params.value.identicon }}
+                />
+              </Avatar>
               <div>
-                {params.value.slice(0, 10) +
-                  '...' +
-                  params.value.slice(params.value.length - 10)}
+                {`${params.value.address.slice(
+                  0,
+                  10,
+                )}...${params.value.address.slice(params.value.length - 10)}`}
                 {/* <Ui.Trim text={params.value.valueHex} /> */}
               </div>
-              <div>@herotag</div>
             </div>
           </div>
-        )
-      },
-      {
-        field: 'amount',
-        headerName: 'Amount',
-        type: 'string',
-        renderCell: (params: any) => (
-          <div className='d-flex flex-column justify-content-center'>
-            <strong>{params.value}</strong>
-            <p className='mb-0'>${params.value}</p>
-          </div>
-        )
+        ),
       },
       {
         field: 'actions',
         type: 'actions',
         headerName: 'Action',
+        // eslint-disable-next-line react/no-unstable-nested-components
         getActions: (params: any) => [
-          // eslint-disable-next-line react/jsx-key
-          <div className='shadow-sm p-2 rounded mr-2'>
-            <GridActionsCellItem
-              icon={<MoreHorizIcon htmlColor='#9DABBD' />}
-              label='Toggle Admin'
-              onClick={toggleAdmin(params.id)}
-            />
-          </div>
-        ]
-      }
+          <GridActionsCellItem
+            key={params.id}
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={() => onRemoveUser(new Address(params.id))}
+          />,
+          <GridActionsCellItem
+            key={params.id}
+            icon={<EditIcon />}
+            label="Edit Owner"
+            onClick={() =>
+              onEditOwner(
+                addresses.find(
+                  (address) => address.address === params.id,
+                ) as Owner,
+              )
+            }
+          />,
+        ],
+      },
     ],
-    [onRemoveUser, toggleAdmin, duplicateUser]
+    [onRemoveUser, onEditOwner, onReplaceOwner],
   );
 
-  const rows = [
-    {
-      id: 1,
-      tokenName: 'EGLD',
-      holder: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a',
-      amount: '100'
-    },
-    {
-      id: 2,
-      tokenName: 'EGLD',
-      holder: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a',
-      amount: '100'
-    },
-    {
-      id: 3,
-      tokenName: 'EGLD',
-      holder: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a',
-      amount: '100'
-    },
-    {
-      id: 4,
-      tokenName: 'EGLD',
-      holder: 'erd1vlj3u8k7h3ua2v6lxkgtn5jw2pu2t4zggxngf95eger0d2e7gwmqlf7a2a',
-      amount: '100'
-    }
-  ];
+  const rows = addresses.map((owner: Owner) => ({
+    id: owner.address,
+    owner: { name: owner.name, herotag: owner.herotag },
+    address: { address: owner.address, identicon: toSvg(owner.address, 100) },
+  }));
 
-  return <DataGrid autoHeight rowHeight={65} rows={rows} columns={columns} />;
+  return (
+    <>
+      <Button
+        color="primary"
+        startIcon={<AddIcon />}
+        onClick={() => onAddBoardMember()}
+      >
+        Add new owner
+      </Button>
+
+      <DataGrid autoHeight rowHeight={65} rows={rows} columns={columns} />
+    </>
+  );
 };
 
 export default OrganizationsTokensTable;

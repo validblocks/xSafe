@@ -4,22 +4,32 @@ import { MultisigActionType } from './MultisigActionType';
 
 export class MultisigIssueToken extends MultisigAction {
   name: string;
+
   identifier: string;
+
   amount: number;
+
   decimals: number;
+
   canFreeze = false;
+
   canWipe = false;
+
   canPause = false;
+
   canMint = false;
+
   canBurn = false;
+
   canChangeOwner = false;
+
   canUpgrade = true;
 
   constructor(
     name: string,
     identifier: string,
     amount: number,
-    decimals: number
+    decimals: number,
   ) {
     super(MultisigActionType.SendTransferExecute);
     this.name = name;

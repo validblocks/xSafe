@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { MultisigContractInfoType } from 'types/multisigContracts';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { logoutAction } from '../commonActions';
 
 interface StateType {
@@ -15,7 +15,7 @@ const initialState: StateType = {
   fetched: false,
   isMultisigContractInvalid: false,
   currentMultisigContract: null,
-  currentMultisigTransactionId: null
+  currentMultisigTransactionId: null,
 };
 
 export const multisigContractsSlice = createSlice({
@@ -24,76 +24,74 @@ export const multisigContractsSlice = createSlice({
   reducers: {
     setMultisigContractsFetched: (
       state: StateType,
-      action: PayloadAction<boolean>
+      action: PayloadAction<boolean>,
     ) => {
       state.fetched = action.payload;
     },
     setMultisigContracts: (
       state: StateType,
-      action: PayloadAction<MultisigContractInfoType[]>
+      action: PayloadAction<MultisigContractInfoType[]>,
     ) => {
       state.multisigContracts = action.payload;
       state.fetched = true;
     },
     setIsMultisigContractInvalid: (
       state: StateType,
-      action: PayloadAction<boolean>
+      action: PayloadAction<boolean>,
     ) => {
       state.isMultisigContractInvalid = action.payload;
     },
     setCurrentMultisigTransactionId: (
       state: StateType,
-      action: PayloadAction<string | null>
+      action: PayloadAction<string | null>,
     ) => {
       state.currentMultisigTransactionId = action.payload;
     },
     setCurrentMultisigContract: (
       state: StateType,
-      action: PayloadAction<string>
+      action: PayloadAction<string>,
     ) => {
       const contracts = state.multisigContracts;
       const currentContract = contracts.find(
-        (contract) => contract.address === action.payload
+        (contract) => contract.address === action.payload,
       );
       if (currentContract != null) {
         state.currentMultisigContract = currentContract;
       } else {
         state.currentMultisigContract = {
           address: action.payload,
-          name: ''
+          name: '',
         };
       }
     },
     updateMultisigContract: (
       state: StateType,
-      action: PayloadAction<Partial<MultisigContractInfoType>>
+      action: PayloadAction<MultisigContractInfoType>,
     ) => {
       const { address } = action.payload;
-      if (address == null) {
-        return state;
+      if (address !== null) {
+        state.multisigContracts = state.multisigContracts.map((contract) => {
+          if (contract.address === address) {
+            return {
+              ...contract,
+              ...action.payload,
+            };
+          }
+          if (state?.currentMultisigContract?.address === address) {
+            state.currentMultisigContract = {
+              ...state.currentMultisigContract,
+              ...action.payload,
+            };
+          }
+          return contract;
+        });
       }
-      state.multisigContracts = state.multisigContracts.map((contract) => {
-        if (contract.address === address) {
-          return {
-            ...contract,
-            ...action.payload
-          };
-        }
-        if (state?.currentMultisigContract?.address === address) {
-          state.currentMultisigContract = {
-            ...state.currentMultisigContract,
-            ...action.payload
-          };
-        }
-        return contract;
-      });
-    }
+      return state;
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(logoutAction, () => {
-      return initialState;
-    });
-  }
+    builder.addCase(logoutAction, () => initialState);
+  },
 });
 
 export const {
@@ -102,7 +100,7 @@ export const {
   setIsMultisigContractInvalid,
   setCurrentMultisigTransactionId,
   updateMultisigContract,
-  setMultisigContracts
+  setMultisigContracts,
 } = multisigContractsSlice.actions;
 
 export default multisigContractsSlice.reducer;

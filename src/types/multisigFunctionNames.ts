@@ -12,9 +12,9 @@ export enum multisigContractFunctionNames {
   'proposeAsyncCall' = 'proposeAsyncCall',
   'proposeSCDeployFromSource' = 'proposeSCDeployFromSource',
   'proposeSCUpgradeFromSource' = 'proposeSCUpgradeFromSource',
-
   'issue' = 'issue',
   'ESDTTransfer' = 'ESDTTransfer',
+  'ESDTNFTTransfer' = 'ESDTNFTTransfer',
   'getPendingActionFullInfo' = 'getPendingActionFullInfo',
   'getNumBoardMembers' = 'getNumBoardMembers',
   'getNumProposers' = 'getNumProposers',

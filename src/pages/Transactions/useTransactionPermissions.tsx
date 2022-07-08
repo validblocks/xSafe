@@ -1,43 +1,25 @@
+import { useEffect, useState } from 'react';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
-import { MultisigActionDetailed } from 'types/MultisigActionDetailed';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 
-export default function useTransactionPermissions() {
+export default function useTransactionPermissions(
+  action: MultisigActionDetailed,
+) {
   const {
     quorumCountState: [quorumCount],
-    userRole
+    isBoardMemberState: [isBoardMember],
+    userRole,
   } = useOrganizationInfoContext();
-  const isBoardMember = userRole === 2;
-
-  const canUnsign = (action: MultisigActionDetailed) => {
-    return isBoardMember && alreadySigned(action);
-  };
-
-  const canPerformAction = (action: MultisigActionDetailed) => {
-    return (
-      isBoardMember &&
-      alreadySigned(action) &&
-      action.signers.length >= quorumCount
-    );
-  };
-
-  const canSign = (action: MultisigActionDetailed) => {
-    return isBoardMember && !alreadySigned(action);
-  };
-
-  const canDiscardAction = (action: MultisigActionDetailed) => {
-    return isBoardMember && action.signers.length === 0;
-  };
-
   const { address } = useGetAccountInfo();
 
-  const alreadySigned = (action: MultisigActionDetailed) => {
+  const alreadySigned = (multisigAction: MultisigActionDetailed) => {
     if (!address) {
       return false;
     }
     const typedAddress = new Address(address);
-    for (const signerAddress of action.signers) {
+    for (const signerAddress of multisigAction.signers) {
       if (signerAddress.hex() === typedAddress.hex()) {
         return true;
       }
@@ -46,10 +28,28 @@ export default function useTransactionPermissions() {
     return false;
   };
 
+  const [canSign, setCanSign] = useState(false);
+  const [canPerformAction, setCanPerformAction] = useState(false);
+  const [canUnsign, setCanUnsign] = useState(false);
+  const [canDiscardAction, setCanDiscardAction] = useState(false);
+
+  useEffect(() => {
+    setCanUnsign(isBoardMember && !!alreadySigned(action));
+
+    setCanPerformAction(
+      isBoardMember &&
+        !!alreadySigned(action) &&
+        action.signers.length >= quorumCount,
+    );
+    setCanSign(isBoardMember && !alreadySigned(action));
+
+    setCanDiscardAction(isBoardMember && action.signers.length === 0);
+  }, [isBoardMember, userRole, quorumCount]);
+
   return {
     canUnsign,
     canPerformAction,
     canSign,
-    canDiscardAction
+    canDiscardAction,
   };
 }

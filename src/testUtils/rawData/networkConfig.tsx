@@ -18,10 +18,10 @@ const networkConfig = {
       erd_rounds_per_epoch: 1200,
       erd_shard_consensus_group_size: 63,
       erd_start_time: 1618576200,
-      erd_top_up_factor: '0.500000'
-    }
+      erd_top_up_factor: '0.500000',
+    },
   },
   error: '',
-  code: 'successful'
+  code: 'successful',
 };
 export default networkConfig;

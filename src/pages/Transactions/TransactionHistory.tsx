@@ -1,92 +1,197 @@
-import React, { useMemo } from 'react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Container } from '@mui/material';
-import Accordion from '@mui/material/Accordion';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import { makeStyles } from '@mui/styles';
+import { useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
+import { useTranslation } from 'react-i18next';
+import { useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
-import { network } from 'config';
-import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
-import { getDate } from 'utils/transactionUtils';
-import useFetch from 'utils/useFetch';
-import TransactionDescription from './TransactionDescription';
-import TransactionSummary from './TransactionSummary';
+import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
+import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItemsPerPage';
+import { network } from 'src/config';
+import { parseActionDetailed } from 'src/helpers/converters';
+import { RawTransactionType } from 'src/helpers/types';
+import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import {
+  intervalStartTimestampSelector,
+  intervalEndTimestampSelector,
+} from 'src/redux/selectors/transactionsSelector';
+import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import { getDate } from 'src/utils/transactionUtils';
+import TransactionHistoryPresentation from './TransactionHistoryPresentation';
 
 const dateFormat = 'MMM D, YYYY';
 
-const useStyles = makeStyles(() => ({
-  expanded: { margin: 0 },
-  content: {
-    margin: 0,
-    display: 'flex',
-    justifyContent: 'space-between',
+export type PairOfTransactionAndDecodedAction = {
+  action: MultisigActionDetailed;
+  transaction: RawTransactionType;
+};
 
-    '&$expanded': {
-      margin: 0
-    }
-  }
-}));
+const API_RESPONSE_MAX_SIZE = 50;
 
 const TransactionHistory = () => {
-  const classes = useStyles();
+  const [actionAccumulator, setActionAccumulator] = useState<
+    PairOfTransactionAndDecodedAction[]
+  >([]);
+
   const currentContract = useSelector(currentMultisigContractSelector);
-  const { data: allTransactions = [] } = useFetch(
-    `${network.apiAddress}/transactions?receiver=${currentContract?.address}`
+
+  const [cursor, setCursor] = useState(() => 0);
+  const [actionsPerPage, setActionsPerPage] = useState(20);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const globalIntervalEndTimestamp = useSelector(intervalEndTimestampSelector);
+  const globalIntervalStartTimestamp = useSelector(
+    intervalStartTimestampSelector,
   );
-  const groupedTransactions = useMemo(() => {
-    return allTransactions?.reduce((acc: any, transaction: any) => {
-      const dateOfTransaction = dayjs(getDate(transaction.timestamp)).format(
-        dateFormat
-      );
 
-      if (!acc[dateOfTransaction]) acc[dateOfTransaction] = [];
-      acc[dateOfTransaction].push(transaction);
+  const { t } = useTranslation();
 
-      return acc;
-    }, {});
-  }, [allTransactions]);
+  const fetchTransactions = (cursorPointer = 0) => {
+    const urlParams = new URLSearchParams({
+      withLogs: 'true',
+      withOperations: 'true',
+      size: API_RESPONSE_MAX_SIZE.toString(),
+      after: globalIntervalStartTimestamp.toString(),
+      before: globalIntervalEndTimestamp.toString(),
+      from: cursorPointer.toString(),
+    });
+
+    const API_URL = `${network.apiAddress}/accounts/${
+      currentContract?.address
+    }/transactions?${urlParams.toString()}`;
+
+    return fetch(API_URL).then((response) => response.json());
+  };
+
+  const {
+    data: fetchedTransactionsFromSelectedInterval,
+    isFetching: isFetchingInterval,
+    isLoading: isLoadingInterval,
+    isError: isErrorOnFetchInterval,
+  } = useQuery(
+    [
+      QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
+      cursor,
+      globalIntervalStartTimestamp,
+      globalIntervalEndTimestamp,
+    ],
+    () => fetchTransactions(cursor),
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+      keepPreviousData: true,
+    },
+  );
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (
+      fetchedTransactionsFromSelectedInterval &&
+      fetchedTransactionsFromSelectedInterval.length === API_RESPONSE_MAX_SIZE
+    ) {
+      setCursor((prev) => prev + API_RESPONSE_MAX_SIZE);
+      return;
+    }
+
+    let cachedTransactions = queryClient
+      .getQueryCache()
+      .getAll()
+      .filter(
+        (cachedTransaction) =>
+          cachedTransaction.queryKey[0] ===
+            QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED &&
+          (cachedTransaction.queryKey[2] as any) >= globalIntervalStartTimestamp,
+      )
+      .map((cachedTransaction) => cachedTransaction.state.data)
+      .flat() as RawTransactionType[];
+
+    const result: PairOfTransactionAndDecodedAction[] = [];
+
+    if (!cachedTransactions) return;
+
+    cachedTransactions = cachedTransactions.filter(
+      (cachedTransaction) => !!cachedTransaction,
+    );
+
+    for (const transaction of cachedTransactions) {
+      const logEvents = transaction.logs?.events;
+
+      if (logEvents) {
+        for (const event of logEvents) {
+          const decodedEventTopics = event.topics.map((topic: string) =>
+            atob(topic),
+          );
+
+          if (decodedEventTopics.includes('actionPerformed')) {
+            try {
+              const buffer = Buffer.from(event.data || '', 'base64');
+              const actionDetailed = parseActionDetailed(buffer) as MultisigActionDetailed;
+              if (actionDetailed) {
+                result.push({
+                  action: actionDetailed,
+                  transaction,
+                });
+              }
+            } catch (error) {
+              console.error('Error while parsing action buffer: ', error);
+            }
+          }
+        }
+      }
+    }
+
+    setActionAccumulator(result);
+  }, [fetchedTransactionsFromSelectedInterval, globalIntervalStartTimestamp, queryClient]);
+
+  const [actionsForCurrentPage, setActionsForCurrentPage] = useState<
+    PairOfTransactionAndDecodedAction[]
+  >([]);
+
+  const fullActionHistoryGroupedByDate = useMemo(
+    () =>
+      actionsForCurrentPage?.reduce(
+        (
+          mapActionsToDate: Record<string, PairOfTransactionAndDecodedAction[]>,
+          transactionWithActionData: PairOfTransactionAndDecodedAction,
+        ) => {
+          const dateOfTransaction = dayjs(
+            getDate(transactionWithActionData.transaction.timestamp),
+          ).format(dateFormat);
+
+          if (!mapActionsToDate[dateOfTransaction]) mapActionsToDate[dateOfTransaction] = [];
+          mapActionsToDate[dateOfTransaction].push(transactionWithActionData);
+
+          return mapActionsToDate;
+        },
+        {},
+      ) ?? {},
+    [actionsForCurrentPage],
+  );
+
+  if (isFetchingInterval || isLoadingInterval) {
+    return <LoadingDataIndicator dataName="action" />;
+  }
+
+  if (isErrorOnFetchInterval) {
+    return <div>{t('An error occured while fetching actions') as string}...</div>;
+  }
 
   return (
     <>
-      {groupedTransactions &&
-        Object.entries(groupedTransactions).map(
-          ([transactionDate, transactionArray]: any) => {
-            return (
-              <div key={transactionDate}>
-                {
-                  <Typography variant='subtitle1' className='my-4'>
-                    <strong>{transactionDate}</strong>
-                  </Typography>
-                }
-                {transactionArray.map((transaction: any) => {
-                  return (
-                    <Accordion key={transaction.txHash}>
-                      <AccordionSummary
-                        expandIcon={<ExpandMoreIcon />}
-                        aria-controls='panel1a-content'
-                        sx={{ borderBottom: '2px solid #ddd' }}
-                        className='pl-0 m-0 d-flex'
-                        classes={{
-                          content: classes.content,
-                          expanded: classes.expanded
-                        }}
-                      >
-                        <TransactionSummary transaction={transaction} />
-                      </AccordionSummary>
-
-                      <AccordionDetails>
-                        <TransactionDescription transaction={transaction} />
-                      </AccordionDetails>
-                    </Accordion>
-                  );
-                })}
-              </div>
-            );
-          }
-        )}
+      <TransactionHistoryPresentation
+        fullActionHistoryGroupedByDate={fullActionHistoryGroupedByDate}
+      />
+      <PaginationWithItemsPerPage
+        data={actionAccumulator}
+        setParentCurrentPage={setCurrentPage}
+        setParentItemsPerPage={setActionsPerPage}
+        setParentDataForCurrentPage={setActionsForCurrentPage}
+        setParentTotalPages={setTotalPages}
+        currentPage={currentPage}
+        itemsPerPage={actionsPerPage}
+        totalPages={totalPages}
+      />
     </>
   );
 };

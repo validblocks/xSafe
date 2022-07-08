@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
@@ -6,14 +6,15 @@ import { useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { TestContext } from 'yup';
 import * as Yup from 'yup';
-import { denomination } from 'config';
-import { FormikInputField } from 'helpers/formikFields';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
-import { organizationTokensSelector } from 'redux/selectors/accountSelector';
-import { selectedTokenToSendSelector } from 'redux/selectors/modalsSelector';
-import { MultisigSendToken } from 'types/MultisigSendToken';
+import { FormikInputField } from 'src/helpers/formikFields';
+import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
+import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
+import { denomination } from 'src/config';
+import { MultisigSendToken } from 'src/types/MultisigSendToken';
+import { TokenTableRowItem } from 'src/pages/Organization/types';
+import { TestContext } from 'yup';
+import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -22,36 +23,51 @@ interface ProposeSendTokenType {
 
 function validateRecipient(value?: string) {
   try {
-    new Address(value);
+    const _address = new Address(value);
     return true;
   } catch (err) {
     return false;
   }
 }
 
+const DECIMAL_POINTS = 3;
+
+export type TokenPresentationProps = {
+    identifier: string;
+  };
+
 const ProposeSendToken = ({
   handleChange,
-  setSubmitDisabled
+  setSubmitDisabled,
 }: ProposeSendTokenType) => {
   const { t } = useTranslation();
+  let formik: any;
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
   const [identifier, setIdentifier] = useState(selectedToken.identifier);
-  const organizationTokens = useSelector(organizationTokensSelector);
+  const tokenTableRows = useSelector(tokenTableRowsSelector);
 
   const availableTokensWithBalances = useMemo(
     () =>
-      organizationTokens.map((token) => ({
+      tokenTableRows.map((token: TokenTableRowItem) => ({
         identifier: token.identifier,
         balance: operations.denominate({
           input: token?.balanceDetails?.amount as string,
           denomination: token?.balanceDetails?.decimals as number,
           decimals: token?.balanceDetails?.decimals as number,
           showLastNonZeroDecimal: true,
-          addCommas: false
-        })
+          addCommas: false,
+        }),
       })),
-    []
+    [tokenTableRows],
+  );
+
+  const selectedTokenBalance = useMemo(
+    () =>
+      availableTokensWithBalances.find(
+        (token: TokenTableRowItem) => token.identifier === identifier,
+      )?.balance as string,
+    [availableTokensWithBalances, identifier],
   );
 
   const validateAmount = (value?: string, testContext?: TestContext) => {
@@ -63,7 +79,7 @@ const ProposeSendToken = ({
       setSubmitDisabled(true);
       return (
         testContext?.createError({
-          message: 'Invalid amount'
+          message: 'Invalid amount',
         }) ?? false
       );
     }
@@ -75,16 +91,16 @@ const ProposeSendToken = ({
       return (
         testContext?.createError({
           message:
-            'There are not enough money in the organization for this transaction'
+            'There are not enough money in the organization for this transaction',
         }) ?? false
       );
     }
 
-    if (newAmount == 0) {
+    if (newAmount === 0) {
       setSubmitDisabled(true);
       return (
         testContext?.createError({
-          message: 'The amount should be greater than 0'
+          message: 'The amount should be greater than 0',
         }) ?? false
       );
     }
@@ -104,23 +120,20 @@ const ProposeSendToken = ({
         amount: Yup.string()
           .required('Required')
           .transform((value) => value.replace(',', '.'))
-          .test(validateAmount)
+          .test(validateAmount),
       }),
-    [validateAmount, validateRecipient]
+    [validateAmount, validateRecipient],
   );
 
-  const formik = useFormik({
+  formik = useFormik({
     initialValues: {
       address: '',
-      amount: 0
-    },
-    onSubmit: () => {
-      return;
+      amount: 0,
     },
     validationSchema,
     validateOnChange: true,
-    validateOnMount: true
-  });
+    validateOnMount: true,
+  } as any);
 
   const { touched, errors, values } = formik;
   const { amount, address } = values;
@@ -129,10 +142,10 @@ const ProposeSendToken = ({
     try {
       const nominatedAmount = operations.nominate(
         amount.toString(),
-        denomination
+        denomination,
       );
       const amountNumeric = Number(nominatedAmount);
-      if (isNaN(amountNumeric)) {
+      if (Number.isNaN(amountNumeric)) {
         return null;
       }
       const parsedAddress = new Address(address);
@@ -153,14 +166,6 @@ const ProposeSendToken = ({
     }, 100);
   };
 
-  const selectedTokenBalance = useMemo(
-    () =>
-      availableTokensWithBalances.find(
-        (token) => token.identifier === identifier
-      )?.balance as string,
-    [identifier]
-  );
-
   const amountError = touched.amount && errors.amount;
   const addressError = touched.address && errors.address;
 
@@ -173,55 +178,61 @@ const ProposeSendToken = ({
     setSubmitDisabled(!(formik.isValid && formik.dirty));
   }, [amount, address]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     refreshProposal();
   }, [address, identifier, amount]);
 
   return (
     <div>
-      <div className='modal-control-container mb-4'>
+      <div className="modal-control-container mb-4">
         <FormikInputField
           label={t('Send to')}
-          name={'address'}
+          name="address"
           value={address}
           error={addressError}
           handleChange={formik.handleChange}
           handleBlur={formik.handleBlur}
         />
       </div>
-      <div className='modal-control-container mb-4'>
-        <InputLabel id='demo-simple-select-label'>Identifier</InputLabel>
+      <div className="modal-control-container mb-4">
+        <InputLabel id="demo-simple-select-label">Identifier</InputLabel>
         <Select
           value={identifier}
           fullWidth
-          label='Identifier'
+          label="Identifier"
+          size="small"
           onChange={onIdentifierChanged}
-          className='mb-2'
+          className="mb-2"
         >
-          {availableTokensWithBalances.map((token, idx) => {
-            return (
-              <MenuItem key={idx} value={token.identifier}>
-                {token.identifier?.split('-')[0]}
-              </MenuItem>
-            );
-          })}
+          {tokenTableRows.map((token: TokenPresentationProps) => (
+            <MenuItem
+              key={token.identifier?.split('-')[0]}
+              value={token.identifier?.split('-')[0]}
+            >
+              <TokenPresentationWithPrice
+                identifier={token.identifier}
+              />
+            </MenuItem>
+          ))}
         </Select>
         <div>
-          Balance:{' '}
-          {Number(
+          Balance:
+          {` ${parseFloat(Number(
             availableTokensWithBalances.find(
-              (token) => token.identifier === identifier
-            )?.balance
-          ).toFixed(5)}
+              (token: TokenTableRowItem) => token.identifier === identifier,
+            )?.balance,
+          ).toFixed(DECIMAL_POINTS))}`}
         </div>
       </div>
 
-      <div className='modal-control-container'>
-        <div className='input-wrapper'>
-          <label>{t('Amount')}: </label>
+      <div className="modal-control-container">
+        <div className="input-wrapper">
+          <label htmlFor={amount}>
+            {`${t('Amount')}:`}
+          </label>
           <Form.Control
-            id='amount'
-            name='amount'
+            id={amount}
+            name="amount"
             isInvalid={amountError != null}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
@@ -229,7 +240,7 @@ const ProposeSendToken = ({
           />
 
           {amountError != null && (
-            <Form.Control.Feedback type={'invalid'}>
+            <Form.Control.Feedback type="invalid">
               {amountError}
             </Form.Control.Feedback>
           )}

@@ -63,5 +63,13 @@ export const germanTranslations = {
   'Access wallet': 'Brieftasche öffnen',
   'No Multisig Wallet Yet': 'Sie haben noch keine Multisig-Brieftasche',
   'Welcome to our platform!': 'Willkommen zu unserer Plattform!',
-  Balance: 'Saldo'
+  Balance: 'Saldo',
+  Transactions: 'Transaktionen',
+  'Loading actions': 'Aktionen werden geladen',
+  'An error occured while fetching actions':
+    'Beim Laden der Aktionen ist ein Fehler aufgetreten',
+  // eslint-disable-next-line comma-dangle
+  'Actions per page': 'Aktionen pro Seite',
+  'No transactions found for this period':
+    'Keine Transaktionen für diesen Zeitraum gefunden',
 };

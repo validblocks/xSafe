@@ -1,35 +1,54 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Address, Balance } from '@elrondnetwork/erdjs/out';
 import {
   BigUIntValue,
-  BytesValue
+  BytesValue,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
-import { faMinus } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import { FormikCheckbox, FormikInputField } from 'helpers/formikFields';
-import {
-  validateAddressIsContract,
-  validateContractAddressOwner
-} from 'helpers/validation';
-import { currentMultisigAddressSelector } from 'redux/selectors/multisigContractsSelectors';
-import { MultisigUpgradeContractFromSource } from 'types/MultisigUpgradeContractFromSource';
+
+import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeContractFromSource';
+import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { FormikCheckbox, FormikInputField } from 'src/helpers/formikFields';
+import { validateAddressIsContract, validateContractAddressOwner } from 'src/helpers/validation';
 
 interface ProposeDeployContractType {
   handleChange: (proposal: MultisigUpgradeContractFromSource) => void;
   setSubmitDisabled: (value: boolean) => void;
 }
 
+function validateAmount(value?: string) {
+  const amountNumeric = Number(value);
+  return !Number.isNaN(amountNumeric);
+}
+
+function validateArgument(value?: string[], testContext?: Yup.TestContext) {
+  try {
+    if (value == null) {
+      return true;
+    }
+    value.map((arg) => BytesValue.fromHex(arg));
+    return true;
+  } catch (err) {
+    return (
+      testContext?.createError({
+        message: 'Invalid arguments',
+      }) ?? false
+    );
+  }
+}
+
 const ProposeDeployContract = ({
   handleChange,
-  setSubmitDisabled
+  setSubmitDisabled,
 }: ProposeDeployContractType) => {
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
   const currentMultisigAddress = useSelector(currentMultisigAddressSelector);
 
   const validationSchema = Yup.object().shape({
@@ -41,7 +60,7 @@ const ProposeDeployContract = ({
     upgradeable: Yup.boolean(),
     payable: Yup.boolean(),
     readable: Yup.boolean(),
-    args: Yup.array().test(validateArgument)
+    args: Yup.array().test(validateArgument),
   });
 
   const formik = useFormik({
@@ -52,15 +71,12 @@ const ProposeDeployContract = ({
       args: [],
       upgradeable: true,
       payable: true,
-      readable: true
-    },
-    onSubmit: () => {
-      return;
+      readable: true,
     },
     validationSchema,
     validateOnChange: true,
-    validateOnMount: true
-  });
+    validateOnMount: true,
+  } as any);
   const { touched, errors, values } = formik;
 
   const { address, amount, args, source, upgradeable, payable, readable } =
@@ -71,38 +87,17 @@ const ProposeDeployContract = ({
     setSubmitDisabled(hasErrors);
   }, [errors]);
 
-  function validateAmount(value?: string) {
-    const amountNumeric = Number(value);
-    return !isNaN(amountNumeric);
-  }
-
-  function validateArgument(value?: string[], testContext?: Yup.TestContext) {
-    try {
-      if (value == null) {
-        return true;
-      }
-      value.map((arg) => BytesValue.fromHex(arg));
-      return true;
-    } catch (err) {
-      return (
-        testContext?.createError({
-          message: 'Invalid arguments'
-        }) ?? false
-      );
-    }
-  }
-
   const getProposal = (): MultisigUpgradeContractFromSource | null => {
     const amountNumeric = Number(amount);
     if (Object.keys(errors).length > 0) {
       return null;
     }
-    if (isNaN(amountNumeric)) {
+    if (Number.isNaN(amountNumeric)) {
       return null;
     }
 
     const amountParam = new BigUIntValue(Balance.egld(amountNumeric).valueOf());
-    const argsParams = args.map((arg) => BytesValue.fromHex(arg));
+    const argsParams: BytesValue[] = args.map((arg: string) => BytesValue.fromHex(arg));
     return new MultisigUpgradeContractFromSource(
       new Address(address),
       amountParam,
@@ -110,7 +105,7 @@ const ProposeDeployContract = ({
       upgradeable,
       payable,
       readable,
-      argsParams
+      argsParams,
     );
   };
 
@@ -122,7 +117,7 @@ const ProposeDeployContract = ({
   const removeArg = (removeIdx: number) => {
     formik.setFieldValue(
       'args',
-      args.filter((_, index: number) => index !== removeIdx)
+      args.filter((_: string, index: number) => index !== removeIdx),
     );
   };
 
@@ -133,7 +128,7 @@ const ProposeDeployContract = ({
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     refreshProposal();
   }, [address, args, amount, source, upgradeable, payable, readable, errors]);
 
@@ -151,58 +146,61 @@ const ProposeDeployContract = ({
     <div>
       <FormikInputField
         label={t('Address')}
-        name={'address'}
+        name="address"
         value={address}
-        error={addressError}
+        error={addressError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
       <FormikInputField
         label={t('Amount')}
-        name={'amount'}
+        name="amount"
         value={amount}
-        error={amountError}
+        error={amountError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
       <FormikInputField
         label={t('Source')}
-        name={'source'}
+        name="source"
         value={source}
-        error={sourceError}
+        error={sourceError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
-      <div className={'mt-4'}>
+      <div className="mt-4">
         <FormikCheckbox
           label={t('Upgradeable')}
-          name={'upgradeable'}
+          name="upgradeable"
           checked={upgradeable}
           handleChange={formik.handleChange}
         />
         <FormikCheckbox
           label={t('Payable')}
-          name={'payable'}
+          name="payable"
           checked={payable}
           handleChange={formik.handleChange}
         />
         <FormikCheckbox
           label={t('Readable')}
-          name={'readable'}
+          name="readable"
           checked={readable}
           handleChange={formik.handleChange}
         />
       </div>
-      <div className={'d-flex flex-column'}>
-        {args.map((arg, idx) => (
-          <div key={idx} className='modal-control-container my-3'>
-            <label>{`${t('argument')} ${idx + 1}`} </label>
-            <div className={'d-flex align-items-stretch my-0'}>
+      <div className="d-flex flex-column">
+        {args.map((arg: string, idx: number) => (
+          <div key={arg} className="modal-control-container my-3">
+            <label htmlFor={`args[${idx}]`}>
+              {`${t('argument')} 
+              ${idx + 1}`}
+            </label>
+            <div className="d-flex align-items-stretch my-0">
               <Form.Control
                 id={`args[${idx}]`}
                 name={`args[${idx}]`}
-                className={'my-0 mr-3'}
-                type='text'
+                className="my-0 mr-3"
+                type="text"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={arg}
@@ -210,18 +208,18 @@ const ProposeDeployContract = ({
 
               <button
                 onClick={() => removeArg(idx)}
-                className={'action-remove action remove'}
+                className="action-remove action remove"
               >
-                <FontAwesomeIcon className={'mx-2'} icon={faMinus} />
+                <FontAwesomeIcon className="mx-2" icon={faMinus as IconProp} />
               </button>
             </div>
           </div>
         ))}
-        {argsError && <small className='text-danger'>{argsError}</small>}
-        <div className={'modal-action-btns'}>
-          <button onClick={addNewArgsField} className={'btn btn-primary '}>
-            <FontAwesomeIcon className={'mx-2'} icon={faPlus} />
-            <span className='name'>Add argument</span>
+        {argsError && <small className="text-danger">{argsError as string}</small>}
+        <div className="modal-action-btns">
+          <button onClick={addNewArgsField} className="btn btn-primary ">
+            <FontAwesomeIcon className="mx-2" icon={faPlus as IconProp} />
+            <span className="name">Add argument</span>
           </button>
         </div>
       </div>

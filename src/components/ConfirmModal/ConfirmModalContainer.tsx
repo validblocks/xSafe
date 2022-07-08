@@ -1,13 +1,13 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import ConfirmModal from './ConfirmModal';
 import { useConfirmModal } from './ConfirmModalPayload';
 
-const ConfirmModalContainer = () => {
+function ConfirmModalContainer() {
   const useModal = useConfirmModal();
 
-  const [title, setTitle] = React.useState('');
-  const [confirmButtonTitle, setConfirmButtonTitle] = React.useState('');
-  const [show, setShow] = React.useState(false);
+  const [title, setTitle] = useState('');
+  const [confirmButtonTitle, setConfirmButtonTitle] = useState('');
+  const [show, setShow] = useState(false);
 
   const onConfirmClicked = () => {
     useModal.handleModalConfirm();
@@ -19,7 +19,7 @@ const ConfirmModalContainer = () => {
     setShow(false);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     useModal.handleModalShow = (newTitle, newConfirmButtonTitle) => {
       setTitle(newTitle);
       setConfirmButtonTitle(newConfirmButtonTitle);
@@ -36,6 +36,6 @@ const ConfirmModalContainer = () => {
       handleConfirm={onConfirmClicked}
     />
   );
-};
+}
 
 export default ConfirmModalContainer;

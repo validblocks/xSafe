@@ -2,34 +2,54 @@ import {
   getAccount,
   getAddress,
   getChainID,
-  sendTransactions
+  sendTransactions,
 } from '@elrondnetwork/dapp-core';
 import {
   Address,
   AddressValue,
   SmartContract,
   TypedValue,
-  U8Value
-} from '@elrondnetwork/erdjs';
-import {
+  U8Value,
   Balance,
   CodeMetadata,
   DeployArguments,
   GasLimit,
-  NetworkConfig
-} from '@elrondnetwork/erdjs/out';
+  NetworkConfig,
+} from '@elrondnetwork/erdjs';
 import { Code } from '@elrondnetwork/erdjs/out/smartcontracts/code';
 
-import { smartContractCode } from 'helpers/constants';
+import { smartContractCode } from 'src/helpers/constants';
 
 export const deployContractGasLimit = 400_000_000;
 
 export async function deployMultisigContract() {
   const address = await getAddress();
   const account = await getAccount(address);
+
+  function getDeployContractTransaction(
+    quorum: number,
+    boardMembers: AddressValue[],
+  ) {
+    NetworkConfig.getDefault().ChainID = getChainID();
+    const contract = new SmartContract({});
+    const code = Code.fromBuffer(Buffer.from(smartContractCode, 'hex'));
+    const codeMetadata = new CodeMetadata(false, true, true);
+    const quorumTyped = new U8Value(quorum);
+    const initArguments: TypedValue[] = [quorumTyped, ...boardMembers];
+    const value = Balance.Zero();
+    const deployArguments: DeployArguments = {
+      code,
+      codeMetadata,
+      initArguments,
+      value,
+      gasLimit: new GasLimit(deployContractGasLimit),
+    };
+    return contract.deploy(deployArguments);
+  }
+
   const multisigAddress = SmartContract.computeAddress(
     new Address(address),
-    account.nonce as any
+    account.nonce as any,
   );
   const boardMembers = [new AddressValue(new Address(address))];
   const quorum = 1;
@@ -37,28 +57,7 @@ export async function deployMultisigContract() {
 
   const transactions = [deployTransaction];
   const { sessionId } = await sendTransactions({
-    transactions
+    transactions,
   });
   return { sessionId, multisigAddress: multisigAddress.bech32() };
-}
-
-function getDeployContractTransaction(
-  quorum: number,
-  boardMembers: AddressValue[]
-) {
-  NetworkConfig.getDefault().ChainID = getChainID();
-  const contract = new SmartContract({});
-  const code = Code.fromBuffer(Buffer.from(smartContractCode, 'hex'));
-  const codeMetadata = new CodeMetadata(false, true, true);
-  const quorumTyped = new U8Value(quorum);
-  const initArguments: TypedValue[] = [quorumTyped, ...boardMembers];
-  const value = Balance.Zero();
-  const deployArguments: DeployArguments = {
-    code,
-    codeMetadata,
-    initArguments,
-    value,
-    gasLimit: new GasLimit(deployContractGasLimit)
-  };
-  return contract.deploy(deployArguments);
 }

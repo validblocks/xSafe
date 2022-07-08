@@ -18,17 +18,6 @@ export const walletConnectDeepLink =
 
 export const issueTokenContractAddress =
   'erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzllls8a5w6u';
-
-export const network: NetworkType = {
-  id: 'devnet',
-  name: 'Devnet',
-  egldLabel: 'xEGLD',
-  walletAddress: 'https://devnet-wallet.elrond.com',
-  apiAddress: 'https://devnet-api.elrond.com',
-  gatewayAddress: 'https://devnet-gateway.elrond.com',
-  explorerAddress: 'http://devnet-explorer.elrond.com'
-};
-
 const networkSchema = object({
   id: string().defined().required(),
   egldLabel: string().defined().required(),
@@ -36,10 +25,19 @@ const networkSchema = object({
   walletAddress: string(),
   apiAddress: string(),
   gatewayAddress: string(),
-  explorerAddress: string().required()
+  explorerAddress: string().required(),
 }).required();
 
 export type NetworkType = InferType<typeof networkSchema>;
+export const network: NetworkType = {
+  id: 'devnet',
+  name: 'Devnet',
+  egldLabel: 'xEGLD',
+  walletAddress: 'https://devnet-wallet.elrond.com',
+  apiAddress: 'https://devnet-api.elrond.com',
+  gatewayAddress: 'https://devnet-gateway.elrond.com',
+  explorerAddress: 'http://devnet-explorer.elrond.com',
+};
 
 networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
   console.error(`Config invalid format for ${network.id}`, errors);

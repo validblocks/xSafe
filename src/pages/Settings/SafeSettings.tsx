@@ -1,22 +1,22 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
-import ChangeCurrency from 'components/ChangeCurrency';
-import { MainButton, TypographyBold } from 'components/Theme/StyledComponents';
-import ThemeColor from 'components/ThemeColor';
-import { safeNameStoredSelector } from 'redux/selectors/safeNameSelector';
-import { setSafeName } from 'redux/slices/safeNameSlice';
+import ChangeCurrency from 'src/components/ChangeCurrency';
+import { MainButton, TypographyBold } from 'src/components/Theme/StyledComponents';
+import ThemeColor from 'src/components/ThemeColor';
+import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
+import { setSafeName } from 'src/redux/slices/safeNameSlice';
 import { NoteSpan, Span } from './settings-style';
 
-const SafeSettings = () => {
+function SafeSettings() {
   const safeName = useSelector(safeNameStoredSelector);
+  const [name, setName] = useState('');
+
   useEffect(() => {
     setName(safeName);
   }, [safeName]);
   const dispatch = useDispatch();
-
-  const [name, setName] = React.useState('');
 
   const changeSafeName = (event: any) => {
     setName(event.target.value);
@@ -36,14 +36,15 @@ const SafeSettings = () => {
       </Typography>
       <Typography sx={{ mb: 3 }}>
         <NoteSpan>
-          <Span>Note:</Span>This name is only stored locally. (You&apos;re the
-          only one who&apos;s seeing it)
+          <Span>Note:</Span>
+          This name is only stored locally. (You&apos;re the only one who&apos;s
+          seeing it)
         </NoteSpan>
       </Typography>
       <TextField
-        id='outlined-basic'
-        label='Safe Name'
-        variant='outlined'
+        id="outlined-basic"
+        label="Safe Name"
+        variant="outlined"
         onChange={changeSafeName}
         value={name}
         sx={{ width: 250 }}
@@ -64,9 +65,9 @@ const SafeSettings = () => {
         You can choose between a dark and a light theme.
       </Typography>
       <ThemeColor />
-      <Box className=' d-flex justify-content-end'>
+      <Box className=" d-flex justify-content-end">
         <MainButton
-          variant='outlined'
+          variant="outlined"
           sx={{ display: 'block', mt: 5 }}
           onClick={saveUpdates}
         >
@@ -75,6 +76,6 @@ const SafeSettings = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default SafeSettings;

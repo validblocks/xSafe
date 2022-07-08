@@ -1,20 +1,20 @@
-import React from 'react';
 import { RouteType as DappCoreRouteTypes } from '@elrondnetwork/dapp-core';
-import { dAppName } from 'config';
-import AssetsPage from 'pages/AssetsPage/AssetsPage';
-import Decisions from 'pages/Decisions';
-import NftPage from 'pages/NftPage';
-import Organization from 'pages/Organization';
-import CvorumContainer from 'pages/Organization/CvorumContainer';
-import OrganizationTokens from 'pages/Organization/OrganizationTokens';
-import TransactionsPage from 'pages/Transactions/TransactionsPage';
-import Unlock from 'pages/Unlock';
-import withPageTitle from './components/PageTitle';
-import Dashboard from './pages/Dashboard';
-import DecisionActions from './pages/DecisionActions';
-import Welcome from './pages/Welcome';
-import MultisigDetailsPage from './pages/MultisigDetails/MultisigDetailsPage';
-import Settings from './pages/Settings';
+import Welcome from 'src/pages/Welcome';
+import Dashboard from 'src/pages/Dashboard';
+import Decisions from 'src/pages/Decisions';
+import DecisionActions from 'src/pages/DecisionActions';
+import MultisigDetailsPage from 'src/pages/MultisigDetails/MultisigDetailsPage';
+import Unlock from 'src/pages/Unlock';
+import AssetsPage from 'src/pages/AssetsPage/AssetsPage';
+import NftPage from 'src/pages/NftPage';
+import TransactionsPage from 'src/pages/Transactions/TransactionsPage';
+import CvorumContainer from 'src/pages/Organization/CvorumContainer';
+import OrganizationTokens from 'src/pages/Organization/OrganizationTokens';
+import Settings from 'src/pages/Settings';
+import AddressBook from 'src/pages/AddressBook';
+import { dAppName } from 'src/config';
+import withPageTitle from 'src/components/PageTitle';
+import routeNames from './routeNames';
 
 type RouteType = DappCoreRouteTypes & { title: string };
 
@@ -26,117 +26,110 @@ export type ForegroundRoutesType =
   | 'decisionActions'
   | 'multisig'
   | 'multisigAddress'
-  | 'organization'
-  | 'organizationTokens'
+  | 'tokenTableRows'
   | 'assets'
   | 'nft'
   | 'cvorum'
   | 'owners'
   | 'transactions'
-  | 'settings';
+  | 'settings'
+  | 'addressBook';
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
 export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
   welcome: {
-    path: '/',
+    path: routeNames.welcome,
     title: 'Welcome',
-    component: Welcome
+    component: Welcome,
   },
   dashboard: {
-    path: '/dashboard',
+    path: routeNames.dashboard,
     title: 'Dashboard',
     component: Dashboard,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   decisions: {
-    path: '/decisions',
+    path: routeNames.decisions,
     title: 'Decisions',
     component: Decisions,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   decisionActions: {
-    path: '/decisions/:decisionsActionParam',
+    path: routeNames.decisionActions,
     title: 'Decision Actions',
     component: DecisionActions,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   multisigAddress: {
     path: '/multisig/:multisigAddressParam',
     title: 'Multisig',
     component: MultisigDetailsPage,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   multisig: {
     path: '/multisig',
     title: 'Multisig Details',
     component: Dashboard,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   unlock: {
     path: '/unlock',
     title: 'Unlock',
-    component: Unlock
+    component: Unlock,
   },
-  organization: {
-    path: '/organization-details',
-    title: 'Organization',
-    component: Organization
-  },
-  organizationTokens: {
+  tokenTableRows: {
     path: '/tokens',
     title: 'Organization Tokens',
-    component: AssetsPage
+    component: AssetsPage,
   },
   assets: {
     path: '/assets',
     title: 'Assets',
-    component: AssetsPage
+    component: AssetsPage,
   },
   nft: {
     path: '/nft',
     title: 'NFT',
-    component: NftPage
+    component: NftPage,
   },
   transactions: {
     path: '/transactions',
     title: 'Transactions',
-    component: TransactionsPage
+    component: TransactionsPage,
   },
   cvorum: {
     path: '/cvorum',
     title: 'Cvorum',
-    component: CvorumContainer
+    component: CvorumContainer,
   },
   owners: {
     path: '/owners',
     title: 'Owners',
-    component: OrganizationTokens
+    component: OrganizationTokens,
   },
   settings: {
     path: '/settings',
     title: 'Settings',
-    component: Settings
-  }
-};
-
-export const foregroundRouteNames = Object.keys(foregroundRoutes).reduce(
-  (acc, cur) => ({
-    ...acc,
-    [cur]: foregroundRoutes[cur as ForegroundRoutesType].path
-  }),
-  {} as Record<ForegroundRoutesType, string>
-);
-
-export const routeNames = {
-  ...foregroundRouteNames
+    component: Settings,
+  },
+  addressBook: {
+    path: '/address-book',
+    title: 'Address Book',
+    component: AddressBook,
+  },
 };
 
 const routes: RouteType[] = [
   ...Object.keys(foregroundRoutes).map((route) => {
     const { path, title, authenticatedRoute, component } =
       foregroundRoutes[route as ForegroundRoutesType];
-    return { path, title, authenticatedRoute, component };
-  })
+    return {
+      path,
+      title,
+      authenticatedRoute,
+      component,
+    };
+  }),
 ];
 
 const wrappedRoutes = () =>
@@ -149,8 +142,8 @@ const wrappedRoutes = () =>
       authenticatedRoute: Boolean(route.authenticatedRoute),
       component: withPageTitle(
         title,
-        route.component
-      ) as any as React.ComponentClass<any, any>
+        route.component,
+      ) as any as React.ComponentClass<any, any>,
     };
   });
 

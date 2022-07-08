@@ -1,4 +1,4 @@
-import { Address, Balance } from '@elrondnetwork/erdjs/out';
+import { Address } from '@elrondnetwork/erdjs/out';
 
 export type MemberAddressTableRow = {
   id: number;
@@ -41,6 +41,7 @@ export type BalanceDetails = {
   amount: string;
   decimals: number;
   tokenPrice: string | number;
+  photoUrl: string;
 };
 
 export type TokenTableRowItem = Partial<
@@ -49,10 +50,15 @@ export type TokenTableRowItem = Partial<
     balanceDetails: BalanceDetails;
     value: BalanceDetails;
     valueUsd?: number;
+    presentation: {
+      tokenIdentifier: string;
+      photoUrl: string;
+    }
   }
 >;
 
 export type TokenWithPrice = {
+  id: string;
   symbol: string;
   name: string;
   price: number;
@@ -66,4 +72,22 @@ export type OrganizationInfoContextType = {
   tokenPrices: TokenWithPrice[];
   userRole: number;
   allMemberAddresses: MemberAddressTableRow[];
+  isBoardMemberState: CustomStateType<boolean>;
+};
+
+export type AddressBook = Record<string, string>;
+export type AccountInfo = Record<string, any>;
+
+export type Owner = {
+  address: Address;
+  herotag?: string;
+  name?: string;
+};
+
+export type OrganizationToken = {
+  prettyIdentifier: string;
+  identifier: string;
+  tokenPrice: string;
+  tokenAmount: string;
+  tokenValue: string;
 };

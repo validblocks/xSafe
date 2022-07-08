@@ -1,4 +1,3 @@
-import React from 'react';
 import { Ui } from '@elrondnetwork/dapp-utils';
 import { faExternalLinkAlt, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,56 +12,56 @@ interface ConfirmUnregisterModalPropsType {
   address: string;
 }
 
-const ConfirmUnregisterModal = ({
+function ConfirmUnregisterModal({
   show,
   handleClose,
   onConfirmed,
-  address
-}: ConfirmUnregisterModalPropsType) => {
+  address,
+}: ConfirmUnregisterModalPropsType) {
   const { t } = useTranslation();
 
   return (
     <Modal
-      size='lg'
+      size="lg"
       show={show}
       onHide={handleClose}
-      className='modal-container'
+      className="modal-container"
       animation={false}
       centered
     >
-      <div className='card'>
-        <div className='card-body '>
-          <p className='h4 text-center' data-testid='confirmDeleteTitle'>
-            {t('Are you sure you want to unregister this contract?')}
+      <div className="card">
+        <div className="card-body ">
+          <p className="h4 text-center" data-testid="confirmDeleteTitle">
+            {t('Are you sure you want to unregister this contract?') as string}
           </p>
-          <div className='mt-5 d-flex wallet-address'>
+          <div className="mt-5 d-flex wallet-address">
             <Ui.Trim text={address} />
             <a
               href={`${network.explorerAddress}/accounts/${address}`}
-              target='_blank'
+              target="_blank"
               onClick={(e) => e.stopPropagation()}
-              rel='noreferrer'
-              className='link-second-style ml-2'
+              rel="noreferrer"
+              className="link-second-style ml-2"
             >
-              <FontAwesomeIcon icon={faExternalLinkAlt} size='sm' />
+              <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
             </a>
           </div>
-          <div className='modal-action-btns'>
+          <div className="modal-action-btns">
             <button
               onClick={handleClose}
-              className='btn btn-primary btn-light '
+              className="btn btn-primary btn-light "
             >
               <FontAwesomeIcon icon={faTimes} />
-              {t('Cancel')}
+              {t('Cancel') as string}
             </button>
-            <button onClick={onConfirmed} className='btn btn-primary mb-3'>
-              {t('Confirm')}
+            <button onClick={onConfirmed} className="btn btn-primary mb-3">
+              {t('Confirm') as string}
             </button>
           </div>
         </div>
       </div>
     </Modal>
   );
-};
+}
 
 export default ConfirmUnregisterModal;

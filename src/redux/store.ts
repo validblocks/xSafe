@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { persistReducer, persistStore } from 'redux-persist';
-import localStorage from 'redux-persist/lib/storage';
+import persistReducer from 'redux-persist/es/persistReducer';
+import persistStore from 'redux-persist/es/persistStore';
+import localStorage from 'redux-persist/es/storage';
 import makeRootReducer from './makeRootReducer';
 
 const persistConfig = {
@@ -12,8 +13,9 @@ const persistConfig = {
     'multisigContracts',
     'economics',
     'currency',
-    'safeName'
-  ]
+    'safeName',
+    'addressBook',
+  ],
 };
 
 const persistedReducer = persistReducer(persistConfig, makeRootReducer());
@@ -23,10 +25,8 @@ export const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: ['persist/PERSIST']
-      }
-    })
+      serializableCheck: false,
+    }),
 });
 
 export const persistor = persistStore(store);

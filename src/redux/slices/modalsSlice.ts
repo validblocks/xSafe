@@ -1,7 +1,7 @@
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { MultisigActionType } from 'types/MultisigActionType';
-import { SelectedOptionType } from 'types/Proposals';
+import { MultisigActionType } from 'src/types/MultisigActionType';
+import { SelectedOptionType } from 'src/types/Proposals';
 import { logoutAction } from '../commonActions';
 
 interface TxSubmittedModal {
@@ -47,15 +47,15 @@ export interface ModalsSliceState {
 
 const initialState: ModalsSliceState = {
   proposeModal: {
-    selectedOption: null
+    selectedOption: null,
   },
   proposeMultiselectModal: {
-    selectedOption: null
+    selectedOption: null,
   },
   performActionModal: {
     selectedAction: null,
-    selectedToken: null
-  }
+    selectedToken: null,
+  },
 };
 
 export const modalsSlice = createSlice({
@@ -64,13 +64,13 @@ export const modalsSlice = createSlice({
   reducers: {
     setTxSubmittedModal: (
       state: ModalsSliceState,
-      action: PayloadAction<TxSubmittedModal>
+      action: PayloadAction<TxSubmittedModal>,
     ) => {
       state.txSubmittedModal = action.payload;
     },
     setNotificationModal: (
       state: ModalsSliceState,
-      action: PayloadAction<NotificationModal>
+      action: PayloadAction<NotificationModal>,
     ) => {
       state.notificationModal = action.payload;
     },
@@ -82,35 +82,33 @@ export const modalsSlice = createSlice({
     },
     setProposeModalSelectedOption: (
       state: ModalsSliceState,
-      action: PayloadAction<SelectedOptionType | null>
+      action: PayloadAction<SelectedOptionType | null>,
     ) => {
       state.proposeModal.selectedOption = action.payload;
     },
     setProposeMultiselectSelectedOption: (
       state: ModalsSliceState,
-      action: PayloadAction<SelectedOptionType | null>
+      action: PayloadAction<SelectedOptionType | null>,
     ) => {
       state.proposeMultiselectModal.selectedOption = action.payload;
     },
     setSelectedPerformedAction: (
       state: ModalsSliceState,
-      action: PayloadAction<SelectedActionToPerform | null>
+      action: PayloadAction<SelectedActionToPerform | null>,
     ) => {
       state.performActionModal.selectedAction = action.payload;
     },
     setSelectedTokenToSend: (
       state: ModalsSliceState,
-      action: PayloadAction<any>
+      action: PayloadAction<any>,
     ) => {
       state.performActionModal.selectedToken = action.payload;
-    }
+    },
   },
 
   extraReducers: (builder) => {
-    builder.addCase(logoutAction, () => {
-      return initialState;
-    });
-  }
+    builder.addCase(logoutAction, () => initialState);
+  },
 });
 
 export const {
@@ -121,7 +119,7 @@ export const {
   clearNotificationModal,
   setProposeModalSelectedOption,
   setSelectedPerformedAction,
-  setSelectedTokenToSend
+  setSelectedTokenToSend,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

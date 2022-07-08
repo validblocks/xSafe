@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
@@ -11,12 +11,12 @@ interface EditContractNameModalPropsType {
   onCancel: (e: any) => void;
 }
 
-const EditContractNameModal = ({
+function EditContractNameModal({
   show,
   contractName,
   onConfirm,
-  onCancel
-}: EditContractNameModalPropsType) => {
+  onCancel,
+}: EditContractNameModalPropsType) {
   const { t } = useTranslation();
 
   const [name, setName] = useState(contractName);
@@ -38,44 +38,48 @@ const EditContractNameModal = ({
     <Modal
       show={show}
       onHide={onCancel}
-      className='modal-container'
+      className="modal-container"
       animation={false}
       centered
     >
-      <div className='card'>
-        <div className='card-body p-spacer '>
-          <p className='h3 text-center' data-testid='delegateTitle'>
-            {t('Edit contract name')}
+      <div className="card">
+        <div className="card-body p-spacer ">
+          <p className="h3 text-center" data-testid="delegateTitle">
+            {t('Edit contract name') as string}
           </p>
 
-          <div className='modal-control-container'>
-            <label>{t('Name')}: </label>
+          <div className="modal-control-container">
+            <label htmlFor="name">
+              {t('Name') as string}
+              :
+              {' '}
+            </label>
             <input
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
               }}
-              type='text'
-              className='form-control'
+              type="text"
+              className="form-control"
               value={name}
-              autoComplete='off'
+              autoComplete="off"
               onChange={handleChangeName}
             />
           </div>
 
-          <div className='modal-action-btns'>
-            <button onClick={onCancel} className='btn btn-primary btn-light '>
+          <div className="modal-action-btns">
+            <button onClick={onCancel} className="btn btn-primary btn-light ">
               <FontAwesomeIcon icon={faTimes} />
-              {t('Cancel')}
+              {t('Cancel') as string}
             </button>
-            <button onClick={handleConfirm} className='btn btn-primary mb-3'>
-              {t('Confirm')}
+            <button onClick={handleConfirm} className="btn btn-primary mb-3">
+              {t('Confirm') as string}
             </button>
           </div>
         </div>
       </div>
     </Modal>
   );
-};
+}
 
 export default EditContractNameModal;

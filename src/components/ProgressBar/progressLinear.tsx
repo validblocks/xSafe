@@ -1,35 +1,37 @@
-import * as React from 'react';
 import Box from '@mui/material/Box';
 import LinearProgress, {
-  LinearProgressProps
+  LinearProgressProps,
 } from '@mui/material/LinearProgress';
 import Typography from '@mui/material/Typography';
+import { useEffect, useState } from 'react';
 
-function LinearProgressWithLabel(
-  props: LinearProgressProps & { value: number }
-) {
+const LinearProgressWithLabel = (
+  props: LinearProgressProps & { value: number },
+) => {
+  const { value } = props;
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <Box sx={{ width: '100%', mr: 1 }}>
-        <LinearProgress variant='determinate' {...props} />
+        <LinearProgress variant="determinate" {...props} />
       </Box>
       <Box sx={{ minWidth: 35 }}>
-        <Typography variant='body2' color='text.secondary'>{`${Math.round(
-          props.value
-        )}%`}</Typography>
+        <Typography variant="body2" color="text.secondary">
+          {`${Math.round(value)}%`}
+        </Typography>
       </Box>
     </Box>
   );
-}
+};
 
 export default function LinearWithValueLabel() {
-  const [progress, setProgress] = React.useState(10);
+  const [progress, setProgress] = useState(10);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setInterval(() => {
-      setProgress((prevProgress) =>
-        prevProgress >= 100 ? 10 : prevProgress + 10
-      );
+      setProgress((prevProgress: number) => {
+        if (prevProgress >= 100) return 0;
+        return prevProgress + 10;
+      });
     }, 800);
     return () => {
       clearInterval(timer);
