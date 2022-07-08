@@ -63,8 +63,6 @@ export default function TransactionsPage() {
     )?.label ?? 'Last day'
   ));
 
-  console.log({ intervalLabel });
-
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };

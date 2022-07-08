@@ -15,7 +15,6 @@ function NftCompmonent() {
   );
 
   const nftList: any = fetchNftList.data;
-  console.log(nftList, 'nftList');
 
   const nftListSorted = nftList.sort((a: any, b: any) => a.collection.localeCompare(b.collection));
 

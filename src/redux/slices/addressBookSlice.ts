@@ -19,7 +19,6 @@ export const addressBookSlice = createSlice({
       };
     },
     removeEntry(state: StateType, { payload: { address } }: any) {
-      console.log(address);
       delete state.addressBook[address];
       return state;
     },

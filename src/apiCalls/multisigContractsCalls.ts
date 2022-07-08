@@ -39,7 +39,7 @@ multisigAxiosInstance.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.status === 403) {
-      console.log('Axios request 403. Logging out.');
+      console.error('Axios request 403. Logging out.');
       // logout(routeNames.unlock);
     }
     return Promise.reject(error);

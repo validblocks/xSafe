@@ -65,11 +65,6 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
           );
           break;
         case ProposalsTypes.replace_owner:
-          console.log(
-            selectedAddressParam,
-            selectedReplacementAddressParam,
-            selectedNameParam,
-          );
           mutateProposeRemoveUser(selectedAddressParam);
           mutateProposeAddBoardMember(selectedReplacementAddressParam);
           dispatch(
