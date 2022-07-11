@@ -125,7 +125,7 @@ export const BreadcrumbsWrapper = styled(Box)`
 
 export const MenuAccordion = styled(AccordionSummary)`
   .MuiAccordionSummary-content {
-    margin: 0px;
+    margin: 0;
   }
 `;
 
