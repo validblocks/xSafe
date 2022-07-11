@@ -244,7 +244,7 @@ function TotalBalance() {
   return (
     <Box
       sx={{
-        py: 1,
+        py: 2,
         px: 2,
         display: { sm: 'block', xs: 'flex' },
         justifyContent: { sm: 'center', xs: 'space-around' },

@@ -48,7 +48,7 @@ export const Anchor = styled.a`
 `;
 
 export const MembersBox = styled(Box)`
-  width: 91px;
+  width: 17px;
   margin: auto;
   background-color: #f0f1fd;
   border-radius: ${(props) => props.theme.shape.radius};

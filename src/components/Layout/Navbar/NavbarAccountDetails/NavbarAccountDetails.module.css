@@ -4,7 +4,7 @@
   grid-template-rows: auto;
   grid-template-areas: 'safeNmembers uniqueAddressNicons uniqueAddressNicons' 'readOnly readOnly readOnly';
   max-width: 190px;
-  margin: 0 auto;
+  margin: .5rem auto 0;
 }
 
 .safeNmembers {
@@ -16,6 +16,7 @@
   grid-area: uniqueAddressNicons;
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .readOnly {
@@ -26,6 +27,10 @@
 .membersBox{
   position: absolute;
   display: block;
-  top: -1rem;
-  left: -1rem;
+  top: -1.5rem;
+  left: -.5rem;
+}
+
+.horizontalRule{
+  margin: 0;
 }
