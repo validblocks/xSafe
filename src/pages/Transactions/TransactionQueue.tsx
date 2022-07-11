@@ -107,7 +107,6 @@ const TransactionQueue = () => {
               description={action.description()}
               child3={(
                 <TransactionActionsCard
-                  boardMembers={boardMembers}
                   key={action.actionId}
                   type={action.typeNumber()}
                   actionId={action.actionId}

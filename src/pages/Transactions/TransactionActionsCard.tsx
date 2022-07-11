@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unused-prop-types */
+import { Address } from '@elrondnetwork/erdjs/out';
 import {
   faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
@@ -20,9 +22,18 @@ import useTransactionPermissions from './useTransactionPermissions';
 export interface TransactionActionsCardType {
   type: number;
   actionId?: number;
+  tooltip?: string;
+  title?: string;
+  value?: string;
+  canSign?: boolean;
+  canUnsign?: boolean;
+  canPerformAction?: boolean;
+  canDiscardAction?: boolean;
+  data?: string;
+  signers: Address[];
+  boardMembers?: Address[];
   action: MultisigActionDetailed;
 }
-
 function TransactionActionsCard({
   type = 0,
   actionId = 0,
@@ -32,23 +43,18 @@ function TransactionActionsCard({
   const dispatch = useDispatch();
   const { canUnsign, canPerformAction, canSign, canDiscardAction } =
     useTransactionPermissions(action);
-
   const sign = () => {
     mutateSign(actionId);
   };
-
   const unsign = () => {
     mutateUnsign(actionId);
   };
-
   const performAction = () => {
     dispatch(setSelectedPerformedAction({ id: actionId, actionType: type }));
   };
-
   const discardAction = () => {
     mutateDiscardAction(actionId);
   };
-
   if (!canSign && !canUnsign && !canPerformAction && !canDiscardAction) {
     return <div>You are not allowed to make changes on this action.</div>;
   }
@@ -91,5 +97,4 @@ function TransactionActionsCard({
     </>
   );
 }
-
 export default TransactionActionsCard;
