@@ -100,13 +100,21 @@ const Account = () => {
         open={open}
         onClose={handleClose}
         onClick={handleClose}
+        sx={{ borderRadius: '30px' }}
       >
         {loggedIn ? (
           <Box sx={{ width: '350px' }}>
             <ConnectedAccount />
           </Box>
         ) : (
-          <MenuItem>
+          <MenuItem
+            sx={{
+              padding: '0',
+              '&:hover': {
+                backgroundColor: 'transparent'
+              }
+            }}
+          >
             <Unlock />
           </MenuItem>
         )}
