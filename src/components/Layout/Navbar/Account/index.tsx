@@ -16,9 +16,6 @@ import { ConnectDropdown } from '../navbar-style';
 const Account = () => {
   const { address } = useGetAccountInfo();
   const loggedIn = getIsLoggedIn();
-  const isOnUnlockPage = window.location.pathname.includes(routeNames.unlock);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>();
   const intervalRef = React.useRef<any>();
   const logoutOnSessionExpire = () => {
