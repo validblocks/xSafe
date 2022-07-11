@@ -6,7 +6,7 @@ import { Button } from '@mui/material';
 import { validateMultisigAddress } from 'src/apiCalls/multisigContractsCalls';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import NewDashboard from 'src/pages/NewDashboard';
-import { multisigContractsFetchedSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { multisigContractsFetchedSelector, multisigContractsSelector, multisigContractsSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { storageApi } from 'src/services/accessTokenServices';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';

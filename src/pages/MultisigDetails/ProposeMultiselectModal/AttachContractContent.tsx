@@ -121,6 +121,6 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
       </div>
     </div>
   );
-};
+}
 
 export default AttachContractContent;
