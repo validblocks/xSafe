@@ -2,9 +2,9 @@ import { useState } from 'react';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import {
-  Box, Button, Typography, Grid, Paper,
+  Box, Typography, Grid,
 } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Safe from 'src/assets/img/safe.png';
 import CopyButton from 'src/components/CopyButton';
 import ReceiveModal from 'src/components/ReceiveModal';
@@ -31,10 +31,6 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
 
   const handleQrModal = () => {
     setShowQr(!showQr);
-  };
-
-  const closeSafeDropdown = (data: boolean) => {
-    setOpenedSafeSelect(data);
   };
 
   return (
@@ -73,7 +69,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
                     setOpenedSafeSelect(false);
                   }}
                 />
-                <SafeOptions closeSafeDropdown={closeSafeDropdown} />
+                <SafeOptions />
               </Box>
             )}
             {openedSafeSelect === false && (

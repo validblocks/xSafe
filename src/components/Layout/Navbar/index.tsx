@@ -9,12 +9,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { ReactComponent as Union } from 'src/assets/img/Union.svg';
-import addressShorthand from 'src/helpers/addressShorthand';
+import { Link, useLocation } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import { routeNames } from 'src/routes';
 import menuItems from 'src/utils/menuItems';
+import addressShorthand from 'src/helpers/addressShorthand';
 import AccountDetails from './NavbarAccountDetails';
 import './menu.scss';
 import {
@@ -25,7 +23,6 @@ import {
   BottomMenu,
 } from './navbar-style';
 import NavbarLogo from './Logo';
-import { useTheme } from 'styled-components';
 
 const drawerWidth = 255;
 
@@ -218,7 +215,7 @@ const MiniDrawer = () => {
               key={el.link}
               to={el.link}
               className={
-                locationString == el.link
+                locationString === el.link
                   ? 'active link-decoration'
                   : 'link-decoration'
               }
