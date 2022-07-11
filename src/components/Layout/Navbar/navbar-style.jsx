@@ -76,6 +76,7 @@ export const TopHeader = styled(Box)`
 
 export const NavLogo = styled(NavItem)`
   cursor: pointer;
+  padding: 0 1rem;
 `;
 
 export const Logo = styled(ElrondLogo)`
