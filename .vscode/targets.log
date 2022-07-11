@@ -6,11 +6,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
- 
-make: *** No rule to make target `all'.  Stop.
 
-
-# Make data base, printed on Thu Jul  7 12:17:09 2022
+# Make data base, printed on Fri Jul  8 10:13:18 2022
 
 # Variables
 
@@ -25,7 +22,6 @@ VSCODE_LOG_NATIVE = false
 # makefile (from `.env', line 16)
 TRAEFIK_DOMAIN = ${DOCKER_DOMAIN}
 # automatic
- 
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
@@ -58,7 +54,7 @@ __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 INFOPATH = /opt/homebrew/share/info:
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/5k/934rwxzj7bv2byy3p084lw5r0000gn/T/vscode-ipc-90ebaa3d-a72b-4cf6-baaa-81680760d295.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/5k/934rwxzj7bv2byy3p084lw5r0000gn/T/vscode-ipc-78093974-5421-4d82-9f8f-b21b9553bfc8.sock
 # environment
 VSCODE_CWD = /
 # environment
@@ -78,7 +74,7 @@ ELECTRON_RUN_AS_NODE = 1
 # environment
 HOMEBREW_GITHUB_API_TOKEN = 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
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.MNJgOgaQkC/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.Xbwys2cRdL/Listeners
 # automatic
 %F = $(notdir $%)
 # makefile (from `.env', line 7)
@@ -204,7 +200,7 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 2441
+VSCODE_PID = 1726
 # makefile (from `.env', line 14)
 DOCKER_NGINX_EXPOSED_PORT = 8082
 # variable set hash-table stats:
@@ -291,6 +287,9 @@ Makefile:
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
+ 
+make: *** No rule to make target `all'.  Stop.
+
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 start:
@@ -299,7 +298,6 @@ start:
 #  File does not exist.
 #  File has not been updated.
 #  commands to execute (from `Makefile', line 9):
- 
 	docker compose up -d
 	
 
@@ -478,6 +476,6 @@ setup-multi-wallet:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4082 / max = 4082 / min = 4082 / avg = 4082
 
-# Finished Make data base on Thu Jul  7 12:17:09 2022
+# Finished Make data base on Fri Jul  8 10:13:18 2022
 
  
