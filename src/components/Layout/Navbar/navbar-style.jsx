@@ -41,6 +41,8 @@ export const ReadOnly = styled(Typography)`
   border-radius: ${(props) => props.theme.shape.radius};
   background: rgba(8, 4, 29, 0.1);
   color: #7a7883;
+  font-size: 14px;
+  padding: 2px 9px;
 `;
 
 export const Anchor = styled.a`
