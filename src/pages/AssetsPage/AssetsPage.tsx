@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { operations, Ui } from '@elrondnetwork/dapp-utils';
+import { operations } from '@elrondnetwork/dapp-utils';
 import { Box } from '@mui/material';
 import {
   DataGrid,
@@ -17,7 +17,8 @@ import {
 import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
 import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
 import { ProposalsTypes } from 'src/types/Proposals';
-import { AssetActionButton, AssetValue } from 'src/components/Theme/StyledComponents';
+import { AssetActionButton } from 'src/components/Theme/StyledComponents';
+import DisplayTokenPrice from './DisplayTokenPrice';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 
@@ -103,7 +104,7 @@ const AssetsPage = () => {
         flex: 0.8,
         renderCell: (params: GridRenderCellParams<any>) => (
           <h5 className="text-center mb-0 font-weight-normal">
-            <AssetValue>
+            {/* <AssetValue>
               <Ui.UsdValue
                 amount={operations.denominate({
                   input: params.value.amount,
@@ -114,7 +115,17 @@ const AssetsPage = () => {
                 })}
                 usd={params.value.tokenPrice}
               />
-            </AssetValue>
+            </AssetValue> */}
+            <DisplayTokenPrice
+              tokenAmount={operations.denominate({
+                input: params.value.amount,
+                denomination: params.value.decimals,
+                decimals: params.value.decimals,
+                showLastNonZeroDecimal: true,
+                addCommas: false,
+              })}
+              tokenUnitPrice={params.value.tokenPrice}
+            />
           </h5>
         ),
       },
@@ -138,7 +149,7 @@ const AssetsPage = () => {
             key="1"
             onClick={handleQrModal}
           >
-            <AssetActionIcon width="30px" height="30px" /> Deposit
+            <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Deposit
           </AssetActionButton>,
         ],
       },

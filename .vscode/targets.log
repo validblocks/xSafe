@@ -6,8 +6,11 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
+ 
+make: *** No rule to make target `all'.  Stop.
 
-# Make data base, printed on Fri Jul  8 10:13:18 2022
+
+# Make data base, printed on Mon Jul 11 10:42:00 2022
 
 # Variables
 
@@ -17,11 +20,10 @@ PHPLS_ALLOW_XDEBUG = 1
 <D = $(patsubst %/,%,$(dir $<))
 # automatic
 ?F = $(notdir $?)
-# environment
-VSCODE_LOG_NATIVE = false
 # makefile (from `.env', line 16)
 TRAEFIK_DOMAIN = ${DOCKER_DOMAIN}
 # automatic
+ 
 ?D = $(patsubst %/,%,$(dir $?))
 # automatic
 @D = $(patsubst %/,%,$(dir $@))
@@ -46,15 +48,13 @@ TRAEFIK_HOSTNAME = ${DOCKER_HOSTNAME}
 # makefile (from `.env', line 1)
 MAKEFILE_LIST :=  Makefile .env
 # environment
-VSCODE_VERBOSE_LOGGING = true
-# environment
 LOCALE = en_US.UTF-8
 # environment
 __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 INFOPATH = /opt/homebrew/share/info:
-# environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/5k/934rwxzj7bv2byy3p084lw5r0000gn/T/vscode-ipc-78093974-5421-4d82-9f8f-b21b9553bfc8.sock
+# makefile (from `.env', line 1)
+COMPOSE_PROJECT_NAME = multisig
 # environment
 VSCODE_CWD = /
 # environment
@@ -65,8 +65,8 @@ TRAEFIK_PASSWORD = $$2y$$05$$vfax9V5Q9M.86ro6t7EATOd/VMn5TS7BZ2e1O8FcwIoacBaZcS6
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # makefile (from `Makefile', line 4)
 CONTAINER_NGINX = docker compose exec -T nginx sh -c
-# environment
-VSCODE_LOG_STACK = false
+# makefile (from `.env', line 14)
+DOCKER_NGINX_EXPOSED_PORT = 8082
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # default
@@ -74,7 +74,7 @@ ELECTRON_RUN_AS_NODE = 1
 # environment
 HOMEBREW_GITHUB_API_TOKEN = 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
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.Xbwys2cRdL/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.s3vMj7ZMPz/Listeners
 # automatic
 %F = $(notdir $%)
 # makefile (from `.env', line 7)
@@ -83,8 +83,6 @@ EXTRAS_API_DEVNET =
 DOCKER_BUILDKIT = 1
 # makefile (from `.env', line 18)
 TRAEFIK_USER = multisig
-# environment
-VSCODE_PIPE_LOGGING = true
 # environment
 PWD = /Users/Alexandru/Sites/Graffino/Multisig
 # environment
@@ -102,7 +100,7 @@ HOME = /Users/Alexandru
 # default
 MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/Alexandru/Library/Application Support/Code/CachedData/30d9c6cd9483b2cc586687151bcbcd635f373630
+VSCODE_CODE_CACHE_PATH = /Users/Alexandru/Library/Application Support/Code/CachedData/92d25e35d9bf1a6b16f7d0758f25d48ace11e5b9
 # environment
 LOGNAME = Alexandru
 # environment
@@ -114,6 +112,7 @@ VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
 ^D = $(patsubst %/,%,$(dir $^))
 # environment
+ 
 XPC_FLAGS = 0x0
 # default
 MAKE = $(MAKE_COMMAND)
@@ -138,6 +137,7 @@ LESS = -R
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # default
+ 
 MAKE_COMMAND := /Library/Developer/CommandLineTools/usr/bin/make
 # default
 .VARIABLES := 
@@ -148,7 +148,9 @@ TMPDIR = /var/folders/5k/934rwxzj7bv2byy3p084lw5r0000gn/T/
 # makefile (from `.env', line 9)
 UNIQUE_CONTRACT_ADDRESS = erd1qqqqqqqqqqqqqpgqettaulcsh6afs9h4mhsv44lu28p0rezehdeqk7nttw
 # environment
-VSCODE_IPC_HOOK = /Users/Alexandru/Library/Application Support/Code/1.68.1-main.sock
+VSCODE_IPC_HOOK = /Users/Alexandru/Library/Application Support/Code/1.69.0-main.sock
+# environment
+MallocNanoZone = 0
 # makefile
 MAKEFLAGS = Rrqp
 # environment
@@ -156,7 +158,7 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.1660535.1660541
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.3628733.3628739
 # environment
 HOMEBREW_PREFIX = /opt/homebrew
 # automatic
@@ -187,8 +189,6 @@ LC_ALL = C
 ^F = $(notdir $^)
 # default
 SUFFIXES := 
-# makefile (from `.env', line 1)
-COMPOSE_PROJECT_NAME = multisig
 # makefile (from `.env', line 2)
 COMPOSE_DOCKER_CLI_BUILD = 1
 # environment
@@ -200,11 +200,9 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 1726
-# makefile (from `.env', line 14)
-DOCKER_NGINX_EXPOSED_PORT = 8082
+VSCODE_PID = 1713
 # variable set hash-table stats:
-# Load=96/1024=9%, Rehash=0, Collisions=7/122=6%
+# Load=92/1024=9%, Rehash=0, Collisions=5/118=4%
 
 # Pattern-specific Variable Values
 
@@ -260,6 +258,7 @@ all:
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
+ 
 .PHONY: start stop setup setup-wallet setup-single-wallet setup-multi-wallet setup-dev dev staging production permissions reset clean clean-force ssh-nginx rebuild-nginx
 #  Implicit rule search has not been done.
 #  Modification time never checked.
@@ -284,12 +283,10 @@ setup-dev:
 Makefile:
 #  Implicit rule search has been done.
 #  Last modified 2022-07-06 12:52:25
+ 
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
- 
-make: *** No rule to make target `all'.  Stop.
-
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
 start:
@@ -307,6 +304,7 @@ start:
 #  Last modified 2022-06-27 15:52:10
 #  File has been updated.
 #  Successfully updated.
+ 
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
@@ -354,6 +352,7 @@ permissions:
 #  File has not been updated.
 
 reset:
+ 
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
@@ -391,6 +390,7 @@ setup-single-wallet:
 	make setup-dev
 	rm .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
+ 
 	rm ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
@@ -476,6 +476,6 @@ setup-multi-wallet:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4082 / max = 4082 / min = 4082 / avg = 4082
 
-# Finished Make data base on Fri Jul  8 10:13:18 2022
+# Finished Make data base on Mon Jul 11 10:42:00 2022
 
  

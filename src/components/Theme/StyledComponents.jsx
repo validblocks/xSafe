@@ -31,7 +31,7 @@ export const Main = styled.main`
 `;
 
 export const AssetValue = styled(Box)`
-  font-size: 17px;
+  font-size: 13px;
   color: ${(props) => props.theme.palette.black.main};
   padding: 0;
   margin: 0;
