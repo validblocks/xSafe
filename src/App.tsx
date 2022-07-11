@@ -1,8 +1,6 @@
 import React from 'react';
 import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
-// import { theme } from 'components/StyledComponents/createTheme';
 import { createTheme, CssBaseline } from '@mui/material';
-// import { ThemeProvider } from '@mui/material/styles';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -86,7 +84,7 @@ export default function App() {
                           element={<route.component />}
                         />
                       ))}
-                      <Route element={PageNotFound} />
+                      <Route element={PageNotFound()} />
                     </Routes>
                   </Layout>
                 </PersistGate>
