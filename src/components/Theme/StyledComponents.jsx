@@ -45,3 +45,9 @@ export const AssetValue = styled(Box)`
   padding: 0;
   margin: 0;
 `;
+
+export const AccountButton = styled.div`
+  &:hover ${Button} {
+    background-color: red;
+  }
+`;
