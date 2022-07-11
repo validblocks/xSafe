@@ -59,11 +59,7 @@ export function buildBlockchainTransaction(
   receiver: Address,
   data: string,
   // eslint-disable-next-line comma-dangle
-<<<<<<< HEAD
   transactionGasLimit: number = gasLimit,
-=======
-  transactionGasLimit: number = gasLimit
->>>>>>> 19d9bc2 (chore: fix conflicts after merge)
 ) {
   const transactionPayload: TransactionPayloadType = {
     chainID: getChainID(),
