@@ -1,20 +1,28 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getIsLoggedIn, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import BoltIcon from '@mui/icons-material/Bolt';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
+import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import ConnectedAccount from 'src/components/Layout/Navbar/ConnectedAccount';
-import { MainButton } from 'src/components/Theme/StyledComponents';
-import Unlock from 'src/pages/Unlock';
-import addressShorthand from 'src/helpers/addressShorthand';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import { ReactComponent as Union } from 'assets/img/Union.svg';
+import ConnectedAccount from 'components/Layout/Navbar/ConnectedAccount';
+import { MainButton } from 'components/Theme/StyledComponents';
+import addressShorthand from 'helpers/addressShorthand';
+import Unlock from 'pages/Unlock';
+import { routeNames } from 'routes';
 import { ConnectDropdown } from '../navbar-style';
 
-function Account() {
+const Account = () => {
   const { address } = useGetAccountInfo();
   const loggedIn = getIsLoggedIn();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
-  const intervalRef = useRef<any>();
+  const isOnUnlockPage = window.location.pathname.includes(routeNames.unlock);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>();
+  const intervalRef = React.useRef<any>();
   const logoutOnSessionExpire = () => {
     intervalRef.current = setInterval(() => {
       const loggedIn = getIsLoggedIn();
@@ -36,27 +44,51 @@ function Account() {
     setWalletAddress(addressShorthand(address));
   }, []);
 
-  useEffect(logoutOnSessionExpire, [isLoggedIn]);
+  React.useEffect(logoutOnSessionExpire, [isLoggedIn]);
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setIsMainButtonActive(true);
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setIsMainButtonActive(false);
   };
+  const [isMainButtonActive, setIsMainButtonActive] = useState(false);
+
+  const MAIN_BUTTON_DEFAULT_STYLE = useMemo(
+    () => ({
+      pr: 1.7,
+      pl: 1,
+      py: 1.2
+    }),
+    []
+  );
+  const MAIN_BUTTON_VARIABLE_STYLE = useMemo(
+    () => ({
+      backgroundColor: isMainButtonActive ? '#4C2FFC !important' : '',
+      color: isMainButtonActive ? '#FFFF !important' : ''
+    }),
+    [isMainButtonActive]
+  );
   return (
-    <div className="mr-2">
+    <div className='mr-2'>
       <Box>
-        <MainButton variant="outlined" onClick={handleClick} size="large">
+        <MainButton
+          variant='outlined'
+          onClick={handleClick}
+          size='large'
+          sx={{ ...MAIN_BUTTON_DEFAULT_STYLE, ...MAIN_BUTTON_VARIABLE_STYLE }}
+        >
           {loggedIn ? (
-            <Box className="d-flex">
+            <Box className='d-flex'>
               <BoltIcon />
-              <Typography sx={{ textTransform: 'lowercase' }}>{walletAddress}</Typography>
+              <Typography>{walletAddress}</Typography>
             </Box>
           ) : (
-            <Box className="d-flex">
+            <Box className='d-flex' sx={{ textTransform: 'capitalize' }}>
               <BoltIcon />
               <Typography>Connect</Typography>
             </Box>
@@ -81,6 +113,6 @@ function Account() {
       </ConnectDropdown>
     </div>
   );
-}
+};
 
 export default Account;
