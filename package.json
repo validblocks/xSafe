@@ -66,6 +66,7 @@
   "cracoConfig": "craco.config.js",
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
+    "legacy-install": "npm install --legacy-peer-deps",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
