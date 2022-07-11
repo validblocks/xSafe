@@ -9,13 +9,12 @@ import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import {
   styled, useTheme, Theme, CSSObject,
 } from '@mui/material/styles';
-import { Navbar as BsNavbar, NavItem, Nav } from 'react-bootstrap';
+import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { ReactComponent as Union } from 'src/assets/img/Union.svg';
 import addressShorthand from 'src/helpers/addressShorthand';
@@ -23,9 +22,7 @@ import { uniqueContractAddress } from 'src/multisigConfig';
 import { routeNames } from 'src/routes';
 import menuItems from 'src/utils/menuItems';
 import AccountDetails from './NavbarAccountDetails';
-import Network from './Network';
 import './menu.scss';
-import PageBreadcrumbs from '../Breadcrumb';
 import {
   TopHeader,
   TopMenu,
