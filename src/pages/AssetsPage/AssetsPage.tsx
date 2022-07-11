@@ -163,7 +163,7 @@ const AssetsPage = () => {
         columns={columns}
         sx={{
           borderRadius: '10px',
-          boxShadow: '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
+          boxShadow: '0px 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
           backgroundColor: '#ffff',
           border: 'none',
           '& .MuiDataGrid-columnSeparator': {
