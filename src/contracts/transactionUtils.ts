@@ -59,7 +59,7 @@ export function buildBlockchainTransaction(
   receiver: Address,
   data: string,
   // eslint-disable-next-line comma-dangle
-  transactionGasLimit: number = gasLimit
+  transactionGasLimit: number = gasLimit,
 ) {
   const transactionPayload: TransactionPayloadType = {
     chainID: getChainID(),
@@ -90,6 +90,7 @@ export enum TransactionTypesWithoutSCInteraction {
   noSCRs = 'noSCRs',
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isIterable = (input: any) =>
   input &&
   typeof input !== 'undefined' &&

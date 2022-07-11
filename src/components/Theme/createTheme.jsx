@@ -45,6 +45,26 @@ export const theme = createTheme({
       xl: 1536,
     },
   },
+  font: {
+    weight: {
+      xs: 300,
+      sm: 400,
+      md: 500,
+      lg: 600,
+      xl: 700,
+      xxl: 800,
+    },
+  },
+  padding: {
+    value: {
+      xs: '3px',
+      sm: '5px',
+      md: '8px',
+      lg: '10px',
+      xl: '12px',
+      xxl: '15px',
+    },
+  },
 });
 
 export const darkTheme = createTheme({

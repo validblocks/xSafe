@@ -1,11 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
-import { operations, Ui } from '@elrondnetwork/dapp-utils';
-import CallMadeIcon from '@mui/icons-material/CallMade';
-import CallReceivedIcon from '@mui/icons-material/CallReceived';
+import { operations } from '@elrondnetwork/dapp-utils';
 import { Box } from '@mui/material';
 import {
   DataGrid,
-  GridActionsCellItem,
   GridRenderCellParams,
 } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,7 +15,10 @@ import {
   setSelectedTokenToSend,
 } from 'src/redux/slices/modalsSlice';
 import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
+import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
 import { ProposalsTypes } from 'src/types/Proposals';
+import { AssetActionButton } from 'src/components/Theme/StyledComponents';
+import DisplayTokenPrice from './DisplayTokenPrice';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 
@@ -51,11 +51,11 @@ const AssetsPage = () => {
     () => [
       {
         field: 'presentation',
-        headerName: 'ASSET',
-        width: 150,
+        headerName: 'Asset',
+        flex: 1.2,
         type: 'string',
         renderCell: (params: GridRenderCellParams<any>) => (
-          <div className="d-flex justify-content-center align-items-center">
+          <div className="d-flex justify-content-center align-items-center font-weight-normal">
             {params.value.tokenIdentifier !== 'EGLD' && (
               <img
                 width={SQUARE_IMAGE_WIDTH}
@@ -80,11 +80,11 @@ const AssetsPage = () => {
       },
       {
         field: 'balanceDetails',
-        headerName: 'BALANCE',
-        width: 200,
+        headerName: 'Balance',
+        flex: 1.2,
         type: 'string',
         renderCell: (params: GridRenderCellParams<any>) => (
-          <h6 className="text-center mb-0">
+          <h6 className="text-center mb-0 font-weight-normal">
             {Number(
               Number(
                 operations.denominate({
@@ -94,26 +94,37 @@ const AssetsPage = () => {
                   showLastNonZeroDecimal: true,
                 }),
               ).toFixed(8),
-            )}
-            ${params.value.identifier}
+            )} ${params.value.identifier}
           </h6>
         ),
       },
       {
         field: 'value',
-        headerName: 'VALUE',
-        width: 250,
+        headerName: 'Value',
+        flex: 0.8,
         renderCell: (params: GridRenderCellParams<any>) => (
-          <h5 className="ex-currency text-center mb-0">
-            <Ui.UsdValue
-              amount={operations.denominate({
+          <h5 className="text-center mb-0 font-weight-normal">
+            {/* <AssetValue>
+              <Ui.UsdValue
+                amount={operations.denominate({
+                  input: params.value.amount,
+                  denomination: params.value.decimals,
+                  decimals: params.value.decimals,
+                  showLastNonZeroDecimal: true,
+                  addCommas: false,
+                })}
+                usd={params.value.tokenPrice}
+              />
+            </AssetValue> */}
+            <DisplayTokenPrice
+              tokenAmount={operations.denominate({
                 input: params.value.amount,
                 denomination: params.value.decimals,
                 decimals: params.value.decimals,
                 showLastNonZeroDecimal: true,
                 addCommas: false,
               })}
-              usd={params.value.tokenPrice}
+              tokenUnitPrice={params.value.tokenPrice}
             />
           </h5>
         ),
@@ -121,26 +132,25 @@ const AssetsPage = () => {
       {
         field: 'actions',
         type: 'actions',
-        width: 300,
-        headerName: 'Quick Actions',
-        // eslint-disable-next-line react/no-unstable-nested-components
+        width: 210,
+        headerName: '',
         getActions: (params: GridRenderCellParams) => [
-          <div key="0" className="shadow-sm p-2 rounded mr-2">
-            <GridActionsCellItem
-              icon={<CallMadeIcon htmlColor="#9DABBD" />}
-              label="Send"
-              onClick={() =>
-                handleOptionSelected(ProposalsTypes.send_token, params.row)
+          <AssetActionButton
+            key="0"
+            variant="outlined"
+            className="shadow-sm rounded mr-2"
+            onClick={() =>
+              handleOptionSelected(ProposalsTypes.send_token, params.row)
               }
-            />
-          </div>,
-          <div key="1" className="shadow-sm p-2 rounded mr-2">
-            <GridActionsCellItem
-              icon={<CallReceivedIcon htmlColor="#9DABBD" />}
-              label="Receive"
-              onClick={handleQrModal}
-            />
-          </div>,
+          >
+            <AssetActionIcon width="30px" height="30px" /> Send
+          </AssetActionButton>,
+          <AssetActionButton
+            key="1"
+            onClick={handleQrModal}
+          >
+            <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Deposit
+          </AssetActionButton>,
         ],
       },
     ],
@@ -159,6 +169,41 @@ const AssetsPage = () => {
         rowHeight={65}
         rows={tokenTableRows ?? []}
         columns={columns}
+        sx={{
+          borderRadius: '10px',
+          boxShadow: '0px 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
+          backgroundColor: '#ffff',
+          border: 'none',
+          '& .MuiDataGrid-columnSeparator': {
+            display: 'none',
+          },
+          '& .MuiDataGrid-columnHeader': {
+            padding: '5px 0 0 20px',
+          },
+          '& .MuiDataGrid-row:hover': {
+            backgroundColor: '#F5F7FF',
+            '& .MuiButton-root': {
+              opacity: '1',
+            },
+          },
+          '& p': {
+            margin: 0,
+            color: 'rgba(0, 0, 0, 0.6)',
+          },
+          '& .MuiTablePagination-select': {
+            paddingTop: 0,
+            paddingBottom: 0,
+          },
+          '& .MuiInputBase-root': {
+            margin: '0 8px',
+          },
+          '& .MuiTablePagination-actions': {
+            marginLeft: '15px',
+            '& button svg': {
+              color: 'rgba(76, 47, 252, 0.54)',
+            },
+          },
+        }}
       />
       <ReceiveModal
         showQrFromSidebar={showQr}

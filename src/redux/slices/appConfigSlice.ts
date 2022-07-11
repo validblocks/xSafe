@@ -36,7 +36,6 @@ export const appConfigSlice = createSlice({
       state: AppConfigStateType,
       action: PayloadAction<'Light' | 'Dark'>,
     ) => {
-      console.log('setting theme', action.payload);
       state.selectedTheme = action.payload;
     },
   },

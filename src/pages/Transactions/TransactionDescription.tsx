@@ -82,7 +82,10 @@ function TransactionDescription({
     quorumCountState: [quorumCount],
   } = useOrganizationInfoContext();
 
-  const toggleSignerVisibilityButtonText = useMemo(() => (areAllSignersVisible ? 'Hide all' : 'Show all'), [areAllSignersVisible]);
+  const toggleSignerVisibilityButtonText = useMemo(() =>
+    (areAllSignersVisible ? 'Hide all' : 'Show all'),
+  [areAllSignersVisible],
+  );
 
   const toggleShowAllSigners = useCallback(() => {
     setShowAllSigners((areVisible) => !areVisible);

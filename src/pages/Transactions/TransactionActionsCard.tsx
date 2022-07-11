@@ -34,7 +34,6 @@ export interface TransactionActionsCardType {
   boardMembers?: Address[];
   action: MultisigActionDetailed;
 }
-
 function TransactionActionsCard({
   type = 0,
   actionId = 0,
@@ -44,23 +43,18 @@ function TransactionActionsCard({
   const dispatch = useDispatch();
   const { canUnsign, canPerformAction, canSign, canDiscardAction } =
     useTransactionPermissions(action);
-
   const sign = () => {
     mutateSign(actionId);
   };
-
   const unsign = () => {
     mutateUnsign(actionId);
   };
-
   const performAction = () => {
     dispatch(setSelectedPerformedAction({ id: actionId, actionType: type }));
   };
-
   const discardAction = () => {
     mutateDiscardAction(actionId);
   };
-
   if (!canSign && !canUnsign && !canPerformAction && !canDiscardAction) {
     return <div>You are not allowed to make changes on this action.</div>;
   }
@@ -103,5 +97,4 @@ function TransactionActionsCard({
     </>
   );
 }
-
 export default TransactionActionsCard;

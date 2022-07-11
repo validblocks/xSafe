@@ -8,7 +8,6 @@ import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItems
 import { network } from 'src/config';
 import { parseActionDetailed } from 'src/helpers/converters';
 import { RawTransactionType } from 'src/helpers/types';
-import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import {
@@ -17,6 +16,7 @@ import {
 } from 'src/redux/selectors/transactionsSelector';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { getDate } from 'src/utils/transactionUtils';
+import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import TransactionHistoryPresentation from './TransactionHistoryPresentation';
 
 const dateFormat = 'MMM D, YYYY';
@@ -98,12 +98,12 @@ const TransactionHistory = () => {
       .getQueryCache()
       .getAll()
       .filter(
-        (cachedTransaction) =>
+        (cachedTransaction: any) =>
           cachedTransaction.queryKey[0] ===
             QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED &&
           (cachedTransaction.queryKey[2] as any) >= globalIntervalStartTimestamp,
       )
-      .map((cachedTransaction) => cachedTransaction.state.data)
+      .map((cachedTransaction: any) => cachedTransaction.state.data)
       .flat() as RawTransactionType[];
 
     const result: PairOfTransactionAndDecodedAction[] = [];

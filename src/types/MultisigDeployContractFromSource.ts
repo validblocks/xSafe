@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { operations } from '@elrondnetwork/dapp-utils';
 import { BigUIntValue, Address } from '@elrondnetwork/erdjs';
 import { BytesValue } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
@@ -46,8 +47,8 @@ export class MultisigDeployContractFromSource extends MultisigAction {
     return `Deploy from ${this.source.bech32()}  ${
       hasArgs
         ? `/ arguments: ${this.args.map((arg) =>
-          arg.valueOf().toString('hex'),
-        )}`
+            arg.valueOf().toString('hex'),
+          )}`
         : ''
     }`;
   }

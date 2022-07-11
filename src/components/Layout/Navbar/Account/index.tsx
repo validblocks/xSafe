@@ -53,7 +53,7 @@ function Account() {
           {loggedIn ? (
             <Box className="d-flex">
               <BoltIcon />
-              <Typography>{walletAddress}</Typography>
+              <Typography sx={{ textTransform: 'lowercase' }}>{walletAddress}</Typography>
             </Box>
           ) : (
             <Box className="d-flex">
