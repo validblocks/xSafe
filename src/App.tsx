@@ -8,8 +8,6 @@ import { initReactI18next } from 'react-i18next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider as ReduxProvider } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
-import { theme } from 'src/components/Theme/createTheme';
 import i18next from 'i18next';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import routes from './routes';
@@ -21,6 +19,7 @@ import PageNotFound from './components/PageNotFound';
 import '@elrondnetwork/dapp-core/build/index.css';
 import { persistor, store } from './redux/store';
 import OrganizationInfoContextProvider from './pages/Organization/OrganizationInfoContextProvider';
+import CustomThemeProvider from './components/Theme/CustomThemeProvider';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -64,9 +63,9 @@ i18next.use(initReactI18next).init({
 const queryClient = new QueryClient();
 
 export const App = () => (
-  <ThemeProvider theme={theme}>
+  <ReduxProvider store={store}>
     <CssBaseline />
-    <ReduxProvider store={store}>
+    <CustomThemeProvider>
       <DappProvider environment="devnet">
         <OrganizationInfoContextProvider>
           <QueryClientProvider client={queryClient}>
@@ -94,6 +93,6 @@ export const App = () => (
           </QueryClientProvider>
         </OrganizationInfoContextProvider>
       </DappProvider>
-    </ReduxProvider>
-  </ThemeProvider>
+    </CustomThemeProvider>
+  </ReduxProvider>
 );
