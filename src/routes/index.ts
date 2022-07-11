@@ -40,83 +40,83 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
   welcome: {
     path: routeNames.welcome,
     title: 'Welcome',
-    component: Welcome
+    component: Welcome,
   },
   dashboard: {
     path: routeNames.dashboard,
     title: 'Dashboard',
     component: Dashboard,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   decisions: {
     path: routeNames.decisions,
     title: 'Decisions',
     component: Decisions,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   decisionActions: {
     path: routeNames.decisionActions,
     title: 'Decision Actions',
     component: DecisionActions,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   multisigAddress: {
     path: '/multisig/:multisigAddressParam',
     title: 'Multisig',
     component: MultisigDetailsPage,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   multisig: {
     path: '/multisig',
     title: 'Multisig Details',
     component: Dashboard,
-    authenticatedRoute: true
+    authenticatedRoute: true,
   },
   unlock: {
     path: '/unlock',
     title: 'Unlock',
-    component: Unlock
+    component: Unlock,
   },
   tokenTableRows: {
     path: '/tokens',
     title: 'Organization Tokens',
-    component: AssetsPage
+    component: AssetsPage,
   },
   assets: {
     path: '/assets',
     title: 'Assets',
-    component: AssetsPage
+    component: AssetsPage,
   },
   nft: {
     path: '/nft',
     title: 'NFT',
-    component: NftPage
+    component: NftPage,
   },
   transactions: {
     path: '/transactions',
     title: 'Transactions',
-    component: TransactionsPage
+    component: TransactionsPage,
   },
   cvorum: {
     path: '/cvorum',
     title: 'Cvorum',
-    component: CvorumContainer
+    component: CvorumContainer,
   },
   owners: {
     path: '/owners',
     title: 'Owners',
-    component: OrganizationTokens
+    component: OrganizationTokens,
   },
   settings: {
     path: '/settings',
     title: 'Settings',
-    component: Settings
+    component: Settings,
   },
   addressBook: {
     path: '/address-book',
     title: 'Address Book',
-    component: AddressBook
-  }
+    component: AddressBook,
+  },
 };
 
 const routes: RouteType[] = [
@@ -127,9 +127,9 @@ const routes: RouteType[] = [
       path,
       title,
       authenticatedRoute,
-      component
+      component,
     };
-  })
+  }),
 ];
 
 const wrappedRoutes = () =>
@@ -142,8 +142,8 @@ const wrappedRoutes = () =>
       authenticatedRoute: Boolean(route.authenticatedRoute),
       component: withPageTitle(
         title,
-        route.component
-      ) as any as React.ComponentClass<any, any>
+        route.component,
+      ) as any as React.ComponentClass<any, any>,
     };
   });
 

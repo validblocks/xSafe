@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import { Box, MenuItem, SelectChangeEvent, Tab, Tabs } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,7 +51,7 @@ function a11yProps(index: number) {
 }
 
 export default function TransactionsPage() {
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const globalIntervalStartTimestamp = useSelector(
     intervalStartTimestampSelector,
   );

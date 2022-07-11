@@ -98,12 +98,12 @@ const TransactionHistory = () => {
       .getQueryCache()
       .getAll()
       .filter(
-        (cachedTransaction) =>
+        (cachedTransaction: any) =>
           cachedTransaction.queryKey[0] ===
             QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED &&
           (cachedTransaction.queryKey[2] as any) >= globalIntervalStartTimestamp,
       )
-      .map((cachedTransaction) => cachedTransaction.state.data)
+      .map((cachedTransaction: any) => cachedTransaction.state.data)
       .flat() as RawTransactionType[];
 
     const result: PairOfTransactionAndDecodedAction[] = [];

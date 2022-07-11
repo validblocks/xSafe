@@ -1,5 +1,3 @@
-/* eslint-disable react/no-unused-prop-types */
-import { Address } from '@elrondnetwork/erdjs/out';
 import {
   faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
@@ -22,16 +20,6 @@ import useTransactionPermissions from './useTransactionPermissions';
 export interface TransactionActionsCardType {
   type: number;
   actionId?: number;
-  tooltip?: string;
-  title?: string;
-  value?: string;
-  canSign?: boolean;
-  canUnsign?: boolean;
-  canPerformAction?: boolean;
-  canDiscardAction?: boolean;
-  data?: string;
-  signers: Address[];
-  boardMembers?: Address[];
   action: MultisigActionDetailed;
 }
 

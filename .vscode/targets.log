@@ -6,11 +6,8 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
- 
-make: *** No rule to make target `all'.  Stop.
 
-
-# Make data base, printed on Wed Jul  6 12:38:50 2022
+# Make data base, printed on Thu Jul  7 23:26:05 2022
 
 # Variables
 
@@ -59,7 +56,7 @@ __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 INFOPATH = /opt/homebrew/share/info:
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/n8/cttdcj690n1f4b1nznxc8jj40000gn/T/vscode-ipc-018e326d-d2bd-484e-9b22-7871c872545c.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/n8/cttdcj690n1f4b1nznxc8jj40000gn/T/vscode-ipc-e31ec781-ee6c-481d-9180-052a0f4ecc66.sock
 # environment
 VSCODE_CWD = /Users/Rares/Sites/Graffino/Multisig/Multisig
 # environment
@@ -141,7 +138,7 @@ USER = Rares
 # environment
 N_PREFIX = /Users/Rares/.n
 # environment
-TERM_SESSION_ID = 5B054F82-F04E-48E8-8466-181067C3BD6A
+TERM_SESSION_ID = 57131B1C-73A5-4D86-B000-D70EC4E45EC5
 # makefile (from `.env', line 10)
 MAIAR_ID_API_DEVNET = 
 # environment
@@ -171,7 +168,7 @@ MFLAGS = -Rrqp
 # environment
 TERM_PROGRAM_VERSION = 445
 # environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.29369592.29369799.AFB16917-9C75-4464-A782-0041DFFC3839
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.29369592.29369799.E1D8B5EE-6914-48B9-92A9-43DB49126CF5
 # environment
 HOMEBREW_PREFIX = /opt/homebrew
 # automatic
@@ -217,11 +214,11 @@ LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 28921
+VSCODE_PID = 49539
 # makefile (from `.env', line 17)
 DOCKER_NGINX_EXPOSED_PORT = 8082
 # variable set hash-table stats:
-# Load=103/1024=10%, Rehash=0, Collisions=7/128=5%
+# Load=103/1024=10%, Rehash=0, Collisions=7/129=5%
 
 # Pattern-specific Variable Values
 
@@ -229,9 +226,9 @@ DOCKER_NGINX_EXPOSED_PORT = 8082
 
 # Directories
 
-# . (device 16777234, inode 23382553): 29 files, no impossibilities.
+# . (device 16777234, inode 23382553): 32 files, no impossibilities.
 
-# 29 files, no impossibilities in 1 directories.
+# 32 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -264,7 +261,7 @@ rebuild-nginx:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 122):
+#  commands to execute (from `Makefile', line 141):
 	docker compose up -d --no-deps --force-recreate --build nginx
 	
 
@@ -277,7 +274,7 @@ all:
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
-.PHONY: start stop setup setup-single-wallet setup-multi-wallet setup-dev dev staging production permissions reset clean clean-force ssh-nginx rebuild-nginx
+.PHONY: start stop setup setup-wallet setup-single-wallet setup-multi-wallet setup-dev dev staging production permissions reset clean clean-force ssh-nginx rebuild-nginx
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -287,7 +284,10 @@ setup-dev:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 60):
+ 
+make: *** No rule to make target `all'.  Stop.
+
+#  commands to execute (from `Makefile', line 79):
 	docker-compose -f docker-compose.dev.yml up -d
 	
 
@@ -299,9 +299,8 @@ setup-dev:
 
 # Not a target:
 Makefile:
- 
 #  Implicit rule search has been done.
-#  Last modified 2022-07-06 12:33:32
+#  Last modified 2022-07-06 14:03:31
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -330,7 +329,7 @@ staging:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 71):
+#  commands to execute (from `Makefile', line 90):
 	make production
 	
 
@@ -339,7 +338,7 @@ ssh-nginx:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 118):
+#  commands to execute (from `Makefile', line 137):
 	docker exec -it ${COMPOSE_PROJECT_NAME}-nginx /bin/sh
 	
 
@@ -348,7 +347,7 @@ dev:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 64):
+#  commands to execute (from `Makefile', line 83):
 	$(CONTAINER_DEV) 'npm start'
 	
 
@@ -357,7 +356,7 @@ permissions:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 89):
+#  commands to execute (from `Makefile', line 108):
 	mkdir -p .docker/logs/nginx/
 	chmod -R 777 .docker/logs/
 	
@@ -373,7 +372,7 @@ reset:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 95):
+#  commands to execute (from `Makefile', line 114):
 	make stop
 	docker system prune --force
 	rm -rf ./.docker/logs/nginx/*
@@ -388,7 +387,7 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 105):
+#  commands to execute (from `Makefile', line 124):
 	make stop
 	docker system prune --all --volumes --force
 	rm -rf ./.docker/logs/nginx/*
@@ -402,13 +401,12 @@ setup-single-wallet:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 23):
+#  commands to execute (from `Makefile', line 42):
 	make setup-dev
 	rm .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
 	rm ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
- 
 	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 	cp -p ./src/config.devnet.ts ./src/config.ts
 	rm ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
@@ -419,12 +417,27 @@ setup-single-wallet:
 	$(CONTAINER_DEV) 'npm install @elrondnetwork/dapp-core-internal'
 	
 
+setup-wallet:
+#  Phony target (prerequisite of .PHONY).
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has not been updated.
+#  commands to execute (from `Makefile', line 23):
+	rm -f .npmrc && touch .npmrc
+	echo $(NPMRC) >> .npmrc
+	rm -f ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
+	cp -p ./src/config.devnet.ts ./src/config.ts
+	rm -f ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
+	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
+	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
+	
+
 production:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 75):
+#  commands to execute (from `Makefile', line 94):
 	make permissions
 	docker compose up -d
 	$(CONTAINER_NGINX) 'npm install'
@@ -442,7 +455,7 @@ clean-force:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 114):
+#  commands to execute (from `Makefile', line 133):
 	sudo make clean
 	
 
@@ -451,7 +464,7 @@ setup-multi-wallet:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 43):
+#  commands to execute (from `Makefile', line 62):
 	make setup-dev
 	rm .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
@@ -462,11 +475,10 @@ setup-multi-wallet:
 	rm ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
 	$(CONTAINER_DEV) 'npm install'
 	$(CONTAINER_DEV) 'npm install @elrondnetwork/dapp-core-internal'
- 
 	
 
 # files hash-table stats:
-# Load=21/1024=2%, Rehash=0, Collisions=0/63=0%
+# Load=22/1024=2%, Rehash=0, Collisions=0/66=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -478,6 +490,6 @@ setup-multi-wallet:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4082 / max = 4082 / min = 4082 / avg = 4082
 
-# Finished Make data base on Wed Jul  6 12:38:50 2022
+# Finished Make data base on Thu Jul  7 23:26:05 2022
 
  
