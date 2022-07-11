@@ -99,7 +99,7 @@ export const TopMenu = styled(Box)`
   z-index: 0;
   &:after {
     content: '';
-    box-shadow: 0px -26px 31px 0px rgba(100, 100, 111, 0.3);
+    box-shadow: 0px -26px 31px 0 rgba(100, 100, 111, 0.3);
     width: 100%;
     height: 40px;
     display: block;
