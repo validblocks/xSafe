@@ -78,6 +78,10 @@ const ProposeMultiselectModal = ({
     dispatch(setProposeMultiselectSelectedOption(null));
   };
 
+  const handleClose = () => {
+    dispatch(setProposeMultiselectSelectedOption(null));
+  };
+
   const onProposeClicked = () => {
     try {
       if (selectedProposal instanceof MultisigSendEgld) {
