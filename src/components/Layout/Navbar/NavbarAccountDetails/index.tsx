@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import {
   Box, Button, Typography, Grid, Paper,
@@ -12,8 +15,6 @@ import SafeOptions from 'components/SafeOptions';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import {
   Anchor, MembersBox, ReadOnly,
 } from '../navbar-style';

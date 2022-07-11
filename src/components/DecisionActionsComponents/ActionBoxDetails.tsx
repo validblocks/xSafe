@@ -2,9 +2,7 @@ import { useState } from 'react';
 import CloseIcon from '@mui/icons-material/Close';
 import DoneIcon from '@mui/icons-material/Done';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
-import {
-  Typography, Grid, Paper, Button, Box,
-} from '@mui/material';
+import { Typography, Grid, Paper, Button, Box } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
 import LinearWithValueLabel from 'src/components/ProgressBar/progressLinear';
