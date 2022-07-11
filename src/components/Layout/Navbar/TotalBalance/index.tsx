@@ -251,7 +251,7 @@ function TotalBalance() {
       }}
     >
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
-        <CenteredText>Total balance:</CenteredText>
+        <CenteredText>Your Total Balance:</CenteredText>
         <CenteredText fontSize="16px" fontWeight="bold">
           {currencyConverted?.toFixed(2)}
           {getCurrency}
