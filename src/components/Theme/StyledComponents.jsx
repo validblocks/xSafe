@@ -43,7 +43,7 @@ export const AssetValue = styled(Box)`
   font-size: 13px;
   color: ${(props) => props.theme.palette.black.main};
   padding: 0;
-  margin: 0;
+  margin: 0px;
 `;
 
 export const AccountButton = styled.div`
