@@ -9,6 +9,7 @@ export interface MultisigOriginType {
 
 export interface AppConfigStateType {
   multisigOrigin: MultisigOriginType;
+  selectedTheme: 'Light' | 'Dark';
 }
 
 function getInitialState(): AppConfigStateType {
@@ -17,6 +18,7 @@ function getInitialState(): AppConfigStateType {
       pathname: routeNames?.welcome,
       search: '',
     },
+    selectedTheme: 'Light',
   };
 }
 
@@ -30,12 +32,19 @@ export const appConfigSlice = createSlice({
     ) => {
       state.multisigOrigin = action.payload;
     },
+    setSelectedTheme: (
+      state: AppConfigStateType,
+      action: PayloadAction<'Light' | 'Dark'>,
+    ) => {
+      console.log('setting theme', action.payload);
+      state.selectedTheme = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(logoutAction, () => getInitialState());
   },
 });
 
-export const { setMultisigOrigin } = appConfigSlice.actions;
+export const { setMultisigOrigin, setSelectedTheme } = appConfigSlice.actions;
 
 export default appConfigSlice.reducer;
