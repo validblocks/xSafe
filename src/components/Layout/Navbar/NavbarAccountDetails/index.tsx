@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
+import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Box, Button, Typography, Grid, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -62,7 +62,9 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             sx={{ ml: 0.5 }}
             className='d-flex justify-content-center align-items-center'
           >
-            <Typography align='center'>{uniqueAddress}</Typography>
+            <Typography align='center' lineHeight='1'>
+              {uniqueAddress}
+            </Typography>
             {openedSafeSelect === true && (
               <Box>
                 <ArrowDropUpIcon
@@ -86,7 +88,8 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
           <Box
             sx={{
               display: 'flex',
-              flexDirection: 'row'
+              flexDirection: 'row',
+              mb: 0.7
             }}
           >
             <Box
@@ -109,7 +112,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
                 rel='noreferrer'
                 color='#6c757d'
               >
-                <ContentPasteSearchIcon />
+                <ContentPasteGoOutlinedIcon />
               </Anchor>
             </Box>
           </Box>

@@ -2,13 +2,12 @@ import AdjustOutlinedIcon from '@mui/icons-material/AdjustOutlined';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined';
 import DiamondIcon from '@mui/icons-material/Diamond';
-import GridViewSharpIcon from '@mui/icons-material/GridViewSharp';
 import GroupsIcon from '@mui/icons-material/Groups';
 import HelpIcon from '@mui/icons-material/Help';
 import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import PeopleIcon from '@mui/icons-material/People';
-import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 
 const topItems = [
   {
@@ -47,7 +46,7 @@ const topItems = [
     name: 'Apps',
     link: 'apps',
     id: 'apps-menu-item',
-    icon: <GridViewSharpIcon />,
+    icon: <MenuBookIcon />,
   },
   {
     name: 'Organization',
@@ -76,7 +75,7 @@ const bottomItems = [
     name: 'Settings',
     id: 'settings-menu-item',
     link: 'settings',
-    icon: <SettingsApplicationsIcon />,
+    icon: <MenuBookIcon />,
   },
   { name: 'Help Center',
     id: 'help-center-menu-item',
@@ -120,14 +119,13 @@ const mobileBottomItems = [
     link: 'apps',
     id: 'apps-mobile-menu-item',
 
-    icon: <GridViewSharpIcon />,
+    icon: <MenuBookIcon />,
   },
   {
     name: 'Address Book',
     link: 'address-book',
     id: 'address-book-mobile-menu-item',
-
-    icon: <MenuBookIcon />,
+    icon: <MenuBookRoundedIcon />,
   },
 ];
 
