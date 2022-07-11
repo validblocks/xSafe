@@ -90,6 +90,7 @@ export enum TransactionTypesWithoutSCInteraction {
   noSCRs = 'noSCRs',
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const isIterable = (input: any) =>
   input &&
   typeof input !== 'undefined' &&
