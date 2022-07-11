@@ -9,6 +9,12 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import PeopleIcon from '@mui/icons-material/People';
 
+export type MenuItem = {
+  name: string;
+  link: string;
+  icon: any
+};
+
 const topItems = [
   {
     name: 'Assets',
