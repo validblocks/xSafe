@@ -110,6 +110,9 @@ export async function sendTransaction(
     transactionGasLimit,
     ...args,
   );
+
+  console.log({ tData: transaction.getData() });
+
   const { sessionId } = await transactionServices.sendTransactions({
     transactions: transaction,
     minGasLimit,
@@ -205,7 +208,7 @@ export function mutateSmartContractCall(
   address: Address,
   amount: BigUIntValue,
   endpointName: string,
-  ...args: (BytesValue | U32Value)[]
+  ...args: (BytesValue | U32Value | TypedValue)[]
 ) {
   const allArgs: TypedValue[] = [
     new AddressValue(address),
@@ -282,7 +285,9 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
     new BigUIntValue(new BigNumber(0)),
     multisigContractFunctionNames.ESDTNFTTransfer,
     BytesValue.fromUTF8(proposal.identifier),
-    // new U32Value(proposal.amount)
+    BytesValue.fromUTF8(''),
+    new U32Value(1),
+    new AddressValue(proposal.address),
   );
 }
 
