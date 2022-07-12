@@ -1,13 +1,12 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useFormik } from 'formik';
-import { FormikInputField } from 'helpers/formikFields';
-import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { FormikInputField } from 'src/helpers/formikFields';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { selectedNftToSendSelector } from 'redux/selectors/modalsSelector';
+import { selectedNftToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { Address } from '@elrondnetwork/erdjs/out';
-import { MultisigSendNft } from 'types/MultisigSendNft';
+import { MultisigSendNft } from 'src/types/MultisigSendNft';
 
 interface ProposeSendNftType {
   handleChange: (proposal: MultisigSendNft) => void;
@@ -25,7 +24,7 @@ function validateRecipient(value?: string) {
 
 const ProposeSendNft = ({
   handleChange,
-  setSubmitDisabled
+  setSubmitDisabled,
 }: ProposeSendNftType) => {
   const { t } = useTranslation();
 
@@ -39,22 +38,22 @@ const ProposeSendNft = ({
           .max(500, 'Too Long!')
           .required('Required')
           .test(validateRecipient),
-        identifier: Yup.string().required('Required')
+        identifier: Yup.string().required('Required'),
       }),
-    []
+    [],
   );
 
   const formik = useFormik({
     initialValues: {
       address: '',
-      identifier: selectedNft.identifier
+      identifier: selectedNft.identifier,
     },
-    onSubmit: () => {
-      return;
+    onSubmit: (values) => {
+      console.log(values);
     },
     validationSchema,
     validateOnChange: true,
-    validateOnMount: true
+    validateOnMount: true,
   });
 
   const { touched, errors, values } = formik;
@@ -93,7 +92,7 @@ const ProposeSendNft = ({
 
   return (
     <div>
-      <div className='modal-control-container mb-4'>
+      <div className="modal-control-container mb-4">
         <FormikInputField
           label={t('Send to')}
           name={'address'}
@@ -103,7 +102,7 @@ const ProposeSendNft = ({
           handleBlur={formik.handleBlur}
         />
       </div>
-      <div className='modal-control-container mb-4'>
+      <div className="modal-control-container mb-4">
         <FormikInputField
           label={t('Identifier')}
           name={'identifier'}
