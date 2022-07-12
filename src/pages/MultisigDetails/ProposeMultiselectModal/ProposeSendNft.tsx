@@ -6,7 +6,8 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { selectedNftToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { Address } from '@elrondnetwork/erdjs/out';
-import { MultisigSendNft } from 'src/types/MultisigSendNft';
+import { MultisigSendNft } from 'types/MultisigSendNft';
+import { MultisigSendToken } from 'types/MultisigSendToken';
 
 interface ProposeSendNftType {
   handleChange: (proposal: MultisigSendNft) => void;
@@ -15,7 +16,6 @@ interface ProposeSendNftType {
 
 function validateRecipient(value?: string) {
   try {
-    // eslint-disable-next-line no-new
     new Address(value);
     return true;
   } catch (err) {
@@ -60,19 +60,19 @@ const ProposeSendNft = ({
   const { touched, errors, values } = formik;
   const { address, identifier } = values;
 
-  const getProposal = (): MultisigSendNft | null => {
+  const getProposal = (): MultisigSendToken | null => {
     try {
       const parsedAddress = new Address(address);
-      return new MultisigSendNft(parsedAddress, identifier);
+
+      return new MultisigSendToken(parsedAddress, identifier, 1);
     } catch (err) {
       return null;
     }
   };
 
-  const _refreshProposal = () => {
+  const refreshProposal = () => {
     setTimeout(() => {
       const proposal = getProposal();
-      console.log(proposal, 'proposal12345');
 
       if (proposal !== null) {
         handleChange(proposal);

@@ -119,7 +119,6 @@ export const modalsSlice = createSlice({
       state: ModalsSliceState,
       action: PayloadAction<any>,
     ) => {
-      console.log(action, 'action');
       state.performActionModal.selectedNft = action.payload;
     },
   },
