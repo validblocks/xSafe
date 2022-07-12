@@ -61,11 +61,10 @@ const ProposeSendNft = ({
   const { touched, errors, values } = formik;
   const { address, identifier } = values;
 
-  const getProposal = (): MultisigSendToken | null => {
+  const getProposal = (): MultisigSendNft | null => {
     try {
       const parsedAddress = new Address(address);
-
-      return new MultisigSendToken(parsedAddress, identifier, 1);
+      return new MultisigSendNft(parsedAddress, identifier);
     } catch (err) {
       return null;
     }
@@ -74,7 +73,7 @@ const ProposeSendNft = ({
   const refreshProposal = () => {
     setTimeout(() => {
       const proposal = getProposal();
-
+      console.log(proposal, 'propo');
       if (proposal !== null) {
         handleChange(proposal);
       }
