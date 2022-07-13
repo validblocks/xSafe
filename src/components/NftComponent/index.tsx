@@ -13,10 +13,23 @@ function NftCompmonent() {
   const fetchNftList = useFetch(
     `${network.apiAddress}/accounts/${uniqueContractAddress}/nfts`,
   );
+  const dispatch = useDispatch();
 
   const nftList: any = fetchNftList.data;
 
   const nftListSorted = nftList.sort((a: any, b: any) => a.collection.localeCompare(b.collection));
+
+  const handleOptionSelected = (option: ProposalsTypes, nft: any) => {
+    console.log(option, nft, 'opt');
+    dispatch(setProposeMultiselectSelectedOption({ option }));
+    dispatch(
+      setSelectedNftToSend({
+        id: nft.id,
+        identifier: nft.identifier,
+        balance: nft.balance,
+      }),
+    );
+  };
 
   return (
     <Box>
@@ -47,7 +60,14 @@ function NftCompmonent() {
                     <Typography gutterBottom variant="h5" component="div">
                       {item.name}
                     </Typography>
-                    <MainButton sx={{ width: '100%' }}>Send NFT</MainButton>
+                    <MainButton
+                      sx={{ width: '100%' }}
+                      onClick={() =>
+                        handleOptionSelected(ProposalsTypes.send_nft, item)
+                      }
+                    >
+                      Send NFT
+                    </MainButton>
                   </CardContent>
                 </CardBox>
               </Grid>
