@@ -1,12 +1,106 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { useFormik } from 'formik';
+import { FormikInputField } from 'helpers/formikFields';
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import * as Yup from 'yup';
+import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { selectedNftToSendSelector } from 'redux/selectors/modalsSelector';
+import { Address } from '@elrondnetwork/erdjs/out';
+import { MultisigSendNft } from 'types/MultisigSendNft';
 
-const ProposeSendNft = ({ handleChange, setSubmitDisabled }: any) => {
+interface ProposeSendNftType {
+  handleChange: (proposal: MultisigSendNft) => void;
+  setSubmitDisabled: (value: boolean) => void;
+}
+
+const ProposeSendNft = ({
+  handleChange,
+  setSubmitDisabled
+}: ProposeSendNftType) => {
+  const { t } = useTranslation();
+
+  const getProposal = (): MultisigSendNft | null => {
+    try {
+      const parsedAddress = new Address(address);
+
+      return new MultisigSendNft(parsedAddress, identifier);
+    } catch (err) {
+      return null;
+    }
+  };
+
+  const refreshProposal = () => {
+    setTimeout(() => {
+      const proposal = getProposal();
+
+      if (proposal !== null) {
+        handleChange(proposal);
+      }
+    }, 100);
+  };
+
+  const selectedNft = useSelector(selectedNftToSendSelector);
+
+  const validationSchema = useMemo(
+    () =>
+      Yup.object().shape({
+        address: Yup.string()
+          .min(2, 'Too Short!')
+          .max(500, 'Too Long!')
+          .required('Required'),
+        identifier: Yup.string().required('Required')
+      }),
+    []
+  );
+
+  const formik = useFormik({
+    initialValues: {
+      address: '',
+      identifier: selectedNft.identifier
+    },
+    onSubmit: () => {
+      return;
+    },
+    validationSchema,
+    validateOnChange: true,
+    validateOnMount: true
+  });
+
+  const { touched, errors, values } = formik;
+  const { address, identifier } = values;
+  const addressError = touched.address && errors.address;
+  const identifierError: any = touched.identifier && errors.identifier;
+  setSubmitDisabled(!formik.isValid || !formik.dirty);
+  useEffect(() => {
+    setSubmitDisabled(!(formik.isValid && formik.dirty));
+  }, [address, identifier]);
+
+  React.useEffect(() => {
+    refreshProposal();
+  }, [address, identifier]);
+
   return (
     <div>
-      <div className='modal-control-container mb-4'></div>
       <div className='modal-control-container mb-4'>
-        <InputLabel id='demo-simple-select-label'>Identifier</InputLabel>
+        <FormikInputField
+          label={t('Send to')}
+          name={'address'}
+          value={address}
+          error={addressError}
+          handleChange={formik.handleChange}
+          handleBlur={formik.handleBlur}
+        />
+      </div>
+      <div className='modal-control-container mb-4'>
+        <FormikInputField
+          label={t('Identifier')}
+          name={'identifier'}
+          value={identifier}
+          error={identifierError}
+          handleChange={formik.handleChange}
+          handleBlur={formik.handleBlur}
+        />
       </div>
 
       <div className='modal-control-container'>
