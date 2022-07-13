@@ -54,7 +54,7 @@ jobs:
       - name: YARN Install
         id: YARN-Install
         if: success()
-        run: yarn install
+        run: npm install
 
       # - name: Lint
       #   id: Lint
