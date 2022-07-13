@@ -1,6 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import {
+  Box, Button, Grid, Typography,
+} from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { useDispatch, useSelector } from 'react-redux';
