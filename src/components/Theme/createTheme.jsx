@@ -68,6 +68,7 @@ export const theme = createTheme({
 });
 
 export const darkTheme = createTheme({
+  ...theme,
   palette: {
     mode: 'dark',
   },
