@@ -1,8 +1,7 @@
-import React from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { Box } from '@mui/system';
 import i18next from 'i18next';
-import MemberPresentationWithPhoto from 'pages/Organization/MemberPresentationWithPhoto';
+import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
 
