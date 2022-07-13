@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
-import { useFormik } from 'formik';
+import { FormikProps, useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -17,12 +17,18 @@ interface ProposeSendEgldType {
   setSubmitDisabled: (value: boolean) => void;
 }
 
+interface IFormValues {
+  receiver: string;
+  amount: string;
+  data: string
+}
+
 const ProposeSendEgld = ({
   handleChange,
   setSubmitDisabled,
 }: ProposeSendEgldType) => {
-  const multisigBalance = useSelector(multisigBalanceSelector);
-  let formik: any;
+  const multisigBalance = useSelector(multisigBalanceSelector) as Balance;
+  let formik: FormikProps<IFormValues>;
 
   const { t }: { t: any } = useTranslation();
 

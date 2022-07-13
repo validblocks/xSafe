@@ -11,7 +11,7 @@ import {
   BinaryCodec,
   CodeMetadata,
 } from '@elrondnetwork/erdjs';
-
+import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
 import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
 import { Query } from '@elrondnetwork/erdjs/out/smartcontracts/query';
 import {
@@ -24,17 +24,17 @@ import {
   U32Type,
   U32Value,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
-import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
-import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContractsSlice';
-import { store } from 'src/redux/store';
-import { parseAction, parseActionDetailed } from 'src/helpers/converters';
 import { gasLimit, minGasLimit, issueTokenContractAddress } from 'src/config';
+import { parseAction, parseActionDetailed } from 'src/helpers/converters';
+import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { MultisigAction } from 'src/types/MultisigAction';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { multisigContractFunctionNames } from 'src/types/multisigFunctionNames';
 import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
+import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
+import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContractsSlice';
+import { store } from 'src/redux/store';
 import { buildTransaction } from './transactionUtils';
 
 const proposeDeployGasLimit = 256_000_000;
@@ -102,6 +102,8 @@ export async function sendTransaction(
     address: currentMultisigAddress,
   });
   const providerType = getAccountProviderType();
+
+  console.log({ args1: args });
   const transaction = buildTransaction(
     0,
     functionName,
@@ -110,6 +112,9 @@ export async function sendTransaction(
     transactionGasLimit,
     ...args,
   );
+
+  console.log({ tData: transaction.getData() });
+
   const { sessionId } = await transactionServices.sendTransactions({
     transactions: transaction,
     minGasLimit,
@@ -205,7 +210,7 @@ export function mutateSmartContractCall(
   address: Address,
   amount: BigUIntValue,
   endpointName: string,
-  ...args: (BytesValue | U32Value)[]
+  ...args: (BytesValue | U32Value | TypedValue)[]
 ) {
   const allArgs: TypedValue[] = [
     new AddressValue(address),
@@ -213,6 +218,8 @@ export function mutateSmartContractCall(
     BytesValue.fromUTF8(endpointName),
     ...args,
   ];
+
+  console.log({ allArgs });
 
   return sendTransaction(
     multisigContractFunctionNames.proposeAsyncCall,
@@ -267,12 +274,35 @@ export function mutateUpgradeContractFromSource(
 }
 
 export function mutateEsdtSendToken(proposal: MultisigSendToken) {
+  console.log({ proposal });
   mutateSmartContractCall(
     proposal.address,
     new BigUIntValue(new BigNumber(0)),
     multisigContractFunctionNames.ESDTTransfer,
     BytesValue.fromUTF8(proposal.identifier),
     new U32Value(proposal.amount),
+  );
+}
+
+export function mutateEsdtSendNft(proposal: MultisigSendNft) {
+  console.log({ proposal });
+  const identifierWithoutNonce = proposal.identifier.split('-').slice(0, 2).join('-');
+  const currentMultisigAddress = currentMultisigAddressSelector(
+    store.getState(),
+  );
+
+  const smartContract = new SmartContract({
+    address: currentMultisigAddress,
+  });
+
+  mutateSmartContractCall(
+    smartContract.getAddress(),
+    new BigUIntValue(new BigNumber(0)),
+    multisigContractFunctionNames.ESDTNFTTransfer,
+    BytesValue.fromUTF8(identifierWithoutNonce),
+    new U32Value(new BigNumber(proposal.nonce)),
+    new U32Value(1),
+    new AddressValue(proposal.address),
   );
 }
 

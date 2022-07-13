@@ -9,6 +9,18 @@ $primary: #4c2ffc;
 $light: #fafafa;
 $a: #1392ff;
 
+// Theme variables
+:root {
+  --primary-color: #4c2ffc;
+  --primary-background: #4c2ffc1a;
+  --primary-shadow: #4c2ffc2e;
+  --radius: 10px;
+  --link: #4c2ffc8a;
+  --danger-color: #e51a3e;
+  --danger-background: #e51a3e1a;
+  --secondary-shadow: #4c2ffc08;
+}
+
 /* Do not move the imports from here. 
 Override Bootstrap variables only above.
 -------------------------------------------------- */
@@ -94,7 +106,7 @@ a,
   text-shadow: 0px 4px 7px rgba(0, 0, 0, 0.3);
 }
 .btn {
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04) !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04) !important;
 }
 .connect-btns {
   .btn {

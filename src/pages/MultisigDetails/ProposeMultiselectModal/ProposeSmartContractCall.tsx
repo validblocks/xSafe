@@ -51,7 +51,7 @@ function validateArgument(value?: string[], testContext?: TestContext) {
 
 interface IFormValues {
   receiver: string,
-  amount: number,
+  amount: string,
   functionName: string,
   args: string[],
 }

@@ -11,14 +11,15 @@ import {
   mutateUpgradeContractFromSource,
   mutateEsdtIssueToken,
   mutateEsdtSendToken,
+  mutateEsdtSendNft,
 } from 'src/contracts/MultisigContract';
-import * as modalsSlice from 'src/redux/slices/modalsSlice';
+import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { MultisigAction } from 'src/types/MultisigAction';
 import { MultisigDeployContractFromSource } from 'src/types/MultisigDeployContractFromSource';
 import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
-
+import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeContractFromSource';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
@@ -34,6 +35,7 @@ import ProposeUpgradeContractFromSource from './ProposeUpgradeContractFromSource
 import SelectOption from './SelectOption';
 
 import './proposeMultiselectModal.scss';
+import ProposeSendNft from './ProposeSendNft';
 
 interface ProposeMultiselectModalPropsType {
   selectedOption: SelectedOptionType;
@@ -49,7 +51,7 @@ const ProposeMultiselectModal = ({
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const handleClose = () => {
-    dispatch(modalsSlice.setProposeMultiselectSelectedOption(null));
+    dispatch(setProposeMultiselectSelectedOption(null));
   };
 
   const onProposeClicked = () => {
@@ -72,6 +74,8 @@ const ProposeMultiselectModal = ({
         mutateEsdtIssueToken(selectedProposal as MultisigIssueToken);
       } else if (selectedProposal instanceof MultisigSendToken) {
         mutateEsdtSendToken(selectedProposal as MultisigSendToken);
+      } else if (selectedProposal instanceof MultisigSendNft) {
+        mutateEsdtSendNft(selectedProposal as MultisigSendNft);
       } else if (selectedProposal instanceof MultisigDeployContractFromSource) {
         mutateDeployContractFromSource(
           selectedProposal.amount,
@@ -104,7 +108,7 @@ const ProposeMultiselectModal = ({
   };
 
   const handleOptionSelected = (option: ProposalsTypes) => {
-    dispatch(modalsSlice.setProposeMultiselectSelectedOption({ option }));
+    dispatch(setProposeMultiselectSelectedOption({ option }));
   };
 
   const getContent = () => {
@@ -133,6 +137,14 @@ const ProposeMultiselectModal = ({
       case ProposalsTypes.send_token: {
         return (
           <ProposeSendToken
+            setSubmitDisabled={setSubmitDisabled}
+            handleChange={handleProposalChange}
+          />
+        );
+      }
+      case ProposalsTypes.send_nft: {
+        return (
+          <ProposeSendNft
             setSubmitDisabled={setSubmitDisabled}
             handleChange={handleProposalChange}
           />
