@@ -92,14 +92,14 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             <Box
               onClick={handleQrModal}
               sx={{
-                mr: 1.4,
+                mr: 1.6,
                 ml: 0.2,
                 cursor: 'pointer',
               }}
             >
               <QrCode2Icon />
             </Box>
-            <Box sx={{ mr: 1.4 }}>
+            <Box sx={{ mr: 1.6 }}>
               <CopyButton text={uniqueContractAddress} />
             </Box>
             <Box>
