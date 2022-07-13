@@ -1,8 +1,8 @@
 /* Bootstrap overrides
 -------------------------------------------------- */
 // Fonts
-@import "./fonts";
-@import "./variables";
+@import './fonts';
+@import './variables';
 
 $headings-font-weight: 300 !important;
 $primary: #4c2ffc;
@@ -26,10 +26,10 @@ Override Bootstrap variables only above.
 -------------------------------------------------- */
 
 // Bootstrap
-@import "./../../../node_modules/bootstrap/scss/bootstrap.scss";
+@import './../../../node_modules/bootstrap/scss/bootstrap.scss';
 
 // Progress bar
-@import "./../../../node_modules/react-circular-progressbar/dist/styles.css";
+@import './../../../node_modules/react-circular-progressbar/dist/styles.css';
 
 /* Base
 -------------------------------------------------- */
@@ -103,7 +103,7 @@ a,
   color: #9dabbd;
 }
 .t-shadow {
-  text-shadow: 0px 4px 7px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 4px 7px rgba(0, 0, 0, 0.3);
 }
 .btn {
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04) !important;
@@ -151,7 +151,7 @@ a,
     color: #9ba5b4;
     margin-left: 1.6428571428571428rem;
     &:before {
-      content: "";
+      content: '';
       display: block;
       width: 1px;
       height: toRem(42);
