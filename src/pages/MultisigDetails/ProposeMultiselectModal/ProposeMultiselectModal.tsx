@@ -11,8 +11,9 @@ import {
   mutateUpgradeContractFromSource,
   mutateEsdtIssueToken,
   mutateEsdtSendToken,
-  mutateEsdtSendNft } from 'src/contracts/MultisigContract';
-import * as modalsSlice from 'src/redux/slices/modalsSlice';
+  mutateEsdtSendNft,
+} from 'src/contracts/MultisigContract';
+import modalsSlice, { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { MultisigAction } from 'src/types/MultisigAction';
 import { MultisigDeployContractFromSource } from 'src/types/MultisigDeployContractFromSource';
 import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
@@ -22,6 +23,7 @@ import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeContractFromSource';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
+import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { titles } from '../constants';
 import AttachContractContent from './AttachContractContent';
 import ProposeDeployContractFromSource from './ProposeDeployContractFromSource';
@@ -35,7 +37,6 @@ import SelectOption from './SelectOption';
 
 import './proposeMultiselectModal.scss';
 import ProposeSendNft from './ProposeSendNft';
-import { MultisigSendNft } from 'src/types/MultisigSendNft';
 
 interface ProposeMultiselectModalPropsType {
   selectedOption: SelectedOptionType;
@@ -51,7 +52,7 @@ const ProposeMultiselectModal = ({
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
   const handleClose = () => {
-    dispatch(modalsSlice.setProposeMultiselectSelectedOption(null));
+    dispatch(setProposeMultiselectSelectedOption(null));
   };
 
   const onProposeClicked = () => {
@@ -108,7 +109,7 @@ const ProposeMultiselectModal = ({
   };
 
   const handleOptionSelected = (option: ProposalsTypes) => {
-    dispatch(modalsSlice.setProposeMultiselectSelectedOption({ option }));
+    dispatch(setProposeMultiselectSelectedOption({ option }));
   };
 
   const getContent = () => {

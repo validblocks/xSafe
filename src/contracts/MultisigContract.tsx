@@ -24,18 +24,18 @@ import {
   U32Type,
   U32Value,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
-import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
-import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContractsSlice';
-import { store } from 'src/redux/store';
-import { parseAction, parseActionDetailed } from 'src/helpers/converters';
+import BigNumber from 'bignumber.js';
 import { gasLimit, minGasLimit, issueTokenContractAddress } from 'src/config';
+import { parseAction, parseActionDetailed } from 'src/helpers/converters';
+import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { MultisigAction } from 'src/types/MultisigAction';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { multisigContractFunctionNames } from 'src/types/multisigFunctionNames';
 import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
-import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { MultisigSendNft } from 'src/types/MultisigSendNft';
+import { MultisigSendToken } from 'src/types/MultisigSendToken';
+import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContractsSlice';
+import { store } from 'src/redux/store';
 import { buildTransaction } from './transactionUtils';
 
 const proposeDeployGasLimit = 256_000_000;
