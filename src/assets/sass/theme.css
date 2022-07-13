@@ -11332,7 +11332,7 @@ a,
 }
 
 .t-shadow {
-  text-shadow: 0px 4px 7px rgba(0, 0, 0, 0.3);
+  text-shadow: 0 4px 7px rgba(0, 0, 0, 0.3);
 }
 
 .btn {
