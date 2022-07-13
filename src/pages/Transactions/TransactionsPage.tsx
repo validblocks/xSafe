@@ -10,6 +10,7 @@ import {
   enlargeInterval,
   dwindleInterval,
 } from 'src/redux/slices/transactionsSlice';
+import { RootState } from 'src/redux/store';
 import TransactionHistory from './TransactionHistory';
 import {
   HistoryInterval,
@@ -52,7 +53,7 @@ function a11yProps(index: number) {
 
 export default function TransactionsPage() {
   const [value, setValue] = React.useState(0);
-  const globalIntervalStartTimestamp = useSelector(
+  const globalIntervalStartTimestamp = useSelector<RootState, number>(
     intervalStartTimestampSelector,
   );
 
@@ -62,8 +63,6 @@ export default function TransactionsPage() {
         interval.intervalStartTimestamp === globalIntervalStartTimestamp,
     )?.label ?? 'Last day'
   ));
-
-  console.log({ intervalLabel });
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
