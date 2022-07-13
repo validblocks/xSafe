@@ -57,7 +57,7 @@ jobs:
       - name: YARN Install
         id: YARN-Install
         if: success()
-        run: yarn
+        run: yarn --network-timeout 500000
 
       # - name: Lint
       #   id: Lint
