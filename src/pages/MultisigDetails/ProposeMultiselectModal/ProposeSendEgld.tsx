@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
-import { useFormik } from 'formik';
+import { FormikProps, useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -17,12 +17,18 @@ interface ProposeSendEgldType {
   setSubmitDisabled: (value: boolean) => void;
 }
 
+interface IFormValues {
+  receiver: string;
+  amount: string;
+  data: string
+}
+
 const ProposeSendEgld = ({
   handleChange,
   setSubmitDisabled,
 }: ProposeSendEgldType) => {
-  const multisigBalance = useSelector(multisigBalanceSelector);
-  let formik: any;
+  const multisigBalance = useSelector(multisigBalanceSelector) as Balance;
+  let formik: FormikProps<IFormValues>;
 
   const { t }: { t: any } = useTranslation();
 
@@ -138,31 +144,6 @@ const ProposeSendEgld = ({
     const hasErrors = Object.keys(formik.errors).length > 0;
     setSubmitDisabled(hasErrors);
   }, [formik.errors]);
-  function validateAmount(value?: string, testContext?: TestContext) {
-    if (value == null) {
-      return true;
-    }
-    const newAmount = Number(value);
-    if (Number.isNaN(newAmount)) {
-      return (
-        testContext?.createError({
-          message: 'Invalid amount'
-        }) ?? false
-      );
-    }
-    if (newAmount < 0) {
-      formik.setFieldValue('amount', 0);
-    }
-    if (newAmount > Number(multisigBalance.asCurrencyString.split(' '[0]))) {
-      return (
-        testContext?.createError({
-          message:
-            'There are not enough money in the organization for this transaction'
-        }) ?? false
-      );
-    }
-    return true;
-  }
 
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;

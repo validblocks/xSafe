@@ -169,22 +169,3 @@ export const LogoMenuWrapper = styled(Box)`
   z-index: 1;
   width: 100%;
 `;
-
-export const MobileSecondaryMenu = styled(Box)`
-  background-color: ${(props) => {
-    return props.theme.palette.background.default;
-  }};
-`;
-
-export const TotalBalanceWrapper = styled(Box)`
-  margin-top: 150px;
-`;
-
-export const LogoMenuWrapper = styled(Box)`
-  position: fixed;
-  background-color: ${(props) => {
-    return props.theme.palette.background.white;
-  }};
-  z-index: 1;
-  width: 100%;
-`;

@@ -23,7 +23,6 @@ import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeContractFromSource';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
-import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { titles } from '../constants';
 import AttachContractContent from './AttachContractContent';
 import ProposeDeployContractFromSource from './ProposeDeployContractFromSource';

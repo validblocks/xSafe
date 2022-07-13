@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
-import { useFormik } from 'formik';
+import { FormikProps, useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -34,14 +34,20 @@ const DECIMAL_POINTS = 3;
 
 export type TokenPresentationProps = {
     identifier: string;
-  };
+};
+
+interface IFormValues {
+  address: string;
+  identifier: string;
+  amount: string;
+}
 
 const ProposeSendToken = ({
   handleChange,
   setSubmitDisabled,
 }: ProposeSendTokenType) => {
   const { t } = useTranslation();
-  let formik: any;
+  let formik: FormikProps<IFormValues>;
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
   const [identifier, setIdentifier] = useState(selectedToken.identifier);
