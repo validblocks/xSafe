@@ -35,6 +35,7 @@ import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { multisigContractFunctionNames } from 'src/types/multisigFunctionNames';
 import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
+import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { buildTransaction } from './transactionUtils';
 
 const proposeDeployGasLimit = 256_000_000;
@@ -273,6 +274,16 @@ export function mutateEsdtSendToken(proposal: MultisigSendToken) {
     multisigContractFunctionNames.ESDTTransfer,
     BytesValue.fromUTF8(proposal.identifier),
     new U32Value(proposal.amount),
+  );
+}
+
+export function mutateEsdtSendNft(proposal: MultisigSendNft) {
+  mutateSmartContractCall(
+    proposal.address,
+    new BigUIntValue(new BigNumber(0)),
+    multisigContractFunctionNames.ESDTNFTTransfer,
+    BytesValue.fromUTF8(proposal.identifier),
+    // new U32Value(proposal.amount)
   );
 }
 

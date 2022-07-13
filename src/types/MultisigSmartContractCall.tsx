@@ -54,6 +54,7 @@ export class MultisigSmartContractCall extends MultisigAction {
     switch (this.functionName) {
       case multisigContractFunctionNames.issue:
       case multisigContractFunctionNames.ESDTTransfer:
+      case multisigContractFunctionNames.ESDTNFTTransfer:
         return null;
       default:
     }
@@ -68,7 +69,10 @@ export class MultisigSmartContractCall extends MultisigAction {
         return i18next.t('Issue Token');
       case multisigContractFunctionNames.ESDTTransfer:
         return i18next.t('Send Token');
+      case multisigContractFunctionNames.ESDTNFTTransfer:
+        return i18next.t('Send NFT');
       default:
+        return 'Unknown function';
     }
     return i18next.t('Smart contract call');
   }
@@ -79,7 +83,10 @@ export class MultisigSmartContractCall extends MultisigAction {
         return this.getIssueTokenDescription();
       case multisigContractFunctionNames.ESDTTransfer:
         return this.getSendTokenDescription();
+      case multisigContractFunctionNames.ESDTNFTTransfer:
+        return this.getSendNFTDescription();
       default:
+        return 'Unknown function';
     }
     return (
       <div className="d-flex flex-wrap transaction">
@@ -128,6 +135,14 @@ export class MultisigSmartContractCall extends MultisigAction {
     return (
       <MultisigSmartContractCallPresentation identifier={identifier} amount={amount} address={this.address} />
     );
+  }
+
+  getSendNFTDescription(): string {
+    const identifier = this.args[0].valueOf().toString();
+    const codec = new BinaryCodec();
+
+    return `${i18next.t('Identifier')}: ${identifier}
+    )}: ${identifier}`;
   }
 
   getIssueTokenDescription(): string {
