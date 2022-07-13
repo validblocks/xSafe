@@ -56,7 +56,7 @@ jobs:
       - name: YARN Install
         id: YARN-Install
         if: success()
-        run: npm install
+        run: npm run legacy-install
 
       # - name: Lint
       #   id: Lint
@@ -71,7 +71,7 @@ jobs:
           export NODE_OPTIONS="--max-old-space-size=2048"
           export CI=false
           export DISABLE_ESLINT_PLUGIN=true
-          yarn build
+          npm run build
 
       - name: Deploy
         id: Deploy
