@@ -107,7 +107,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   }));
 
   return (
-    <div className="flex-row flex-fill wrapper page-wrapper">
+    <div className="bg-light flex-row flex-fill wrapper page-wrapper">
       {width ? <Navbar /> : <MobileLayout />}
       <Main className="flex-row flex-fill position-relative justify-center">
         <Box sx={{ padding: '6rem 0px' }}>
