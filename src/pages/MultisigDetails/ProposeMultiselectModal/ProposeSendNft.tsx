@@ -40,6 +40,7 @@ const ProposeSendNft = ({
           .required('Required')
           .test(validateRecipient),
         identifier: Yup.string().required('Required'),
+        nonce: Yup.string().required('Required'),
       }),
     [],
   );
@@ -48,6 +49,7 @@ const ProposeSendNft = ({
     initialValues: {
       address: '',
       identifier: selectedNft?.identifier ?? '',
+      nonce: selectedNft?.nonce ?? '',
     },
     onSubmit: (values) => {
       console.log(values);
@@ -58,12 +60,12 @@ const ProposeSendNft = ({
   });
 
   const { touched, errors, values } = formik;
-  const { address, identifier } = values;
+  const { address, identifier, nonce } = values;
 
   const getProposal = (): MultisigSendNft | null => {
     try {
       const parsedAddress = new Address(address);
-      return new MultisigSendNft(parsedAddress, identifier);
+      return new MultisigSendNft(parsedAddress, identifier, nonce);
     } catch (err) {
       return null;
     }
@@ -72,7 +74,6 @@ const ProposeSendNft = ({
   const refreshProposal = () => {
     setTimeout(() => {
       const proposal = getProposal();
-      console.log(proposal, 'proposal12345');
 
       if (proposal !== null) {
         handleChange(proposal);
@@ -85,11 +86,11 @@ const ProposeSendNft = ({
   setSubmitDisabled(!formik.isValid || !formik.dirty);
   useEffect(() => {
     setSubmitDisabled(!(formik.isValid && formik.dirty));
-  }, [address, identifier]);
+  }, [address, identifier, nonce]);
 
   React.useEffect(() => {
     refreshProposal();
-  }, [address, identifier]);
+  }, [address, identifier, nonce]);
 
   return (
     <div>
@@ -108,7 +109,19 @@ const ProposeSendNft = ({
           label={t('Identifier')}
           name={'identifier'}
           value={identifier}
+          disabled
           error={identifierError}
+          handleChange={formik.handleChange}
+          handleBlur={formik.handleBlur}
+        />
+      </div>
+      <div className="modal-control-container mb-4">
+        <FormikInputField
+          label={t('Nonce')}
+          name={'nonce'}
+          value={nonce}
+          error={identifierError}
+          disabled
           handleChange={formik.handleChange}
           handleBlur={formik.handleBlur}
         />

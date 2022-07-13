@@ -9,6 +9,7 @@ interface FormikInputFieldPropsType {
   handleBlur?: (e: any) => void;
   as?: any;
   footer?: React.ReactElement;
+  disabled?: boolean;
 }
 
 interface FormikCheckboxPropsType {
@@ -26,6 +27,7 @@ export function FormikInputField({
   handleChange,
   handleBlur,
   footer,
+  disabled,
   as = 'input',
 }: FormikInputFieldPropsType) {
   return (
@@ -41,6 +43,7 @@ export function FormikInputField({
           onChange={handleChange}
           onBlur={handleBlur}
           value={value}
+          disabled={disabled}
         />
         {error && (
           <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
