@@ -22,6 +22,7 @@ setup:
 setup-wallet:
 	rm -f .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
+	echo $(NPMRC)
 
 	rm -f ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
 
