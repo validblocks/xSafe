@@ -11,7 +11,7 @@ import {
   BinaryCodec,
   CodeMetadata,
 } from '@elrondnetwork/erdjs';
-
+import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
 import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
 import { Query } from '@elrondnetwork/erdjs/out/smartcontracts/query';
 import {
@@ -24,7 +24,6 @@ import {
   U32Type,
   U32Value,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
-import BigNumber from 'bignumber.js';
 import { gasLimit, minGasLimit, issueTokenContractAddress } from 'src/config';
 import { parseAction, parseActionDetailed } from 'src/helpers/converters';
 import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';

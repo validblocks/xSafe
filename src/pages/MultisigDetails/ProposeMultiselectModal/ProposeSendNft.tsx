@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import { selectedNftToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { MultisigSendNft } from 'src/types/MultisigSendNft';
-import { MultisigSendToken } from 'src/types/MultisigSendToken';
 
 interface ProposeSendNftType {
   handleChange: (proposal: MultisigSendNft) => void;
@@ -73,7 +72,8 @@ const ProposeSendNft = ({
   const refreshProposal = () => {
     setTimeout(() => {
       const proposal = getProposal();
-      console.log(proposal, 'propo');
+      console.log(proposal, 'proposal12345');
+
       if (proposal !== null) {
         handleChange(proposal);
       }
@@ -88,7 +88,7 @@ const ProposeSendNft = ({
   }, [address, identifier]);
 
   React.useEffect(() => {
-    // refreshProposal();
+    refreshProposal();
   }, [address, identifier]);
 
   return (

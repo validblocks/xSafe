@@ -13,13 +13,13 @@ import {
   mutateEsdtSendToken,
   mutateEsdtSendNft,
 } from 'src/contracts/MultisigContract';
-import modalsSlice, { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
+import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { MultisigAction } from 'src/types/MultisigAction';
 import { MultisigDeployContractFromSource } from 'src/types/MultisigDeployContractFromSource';
 import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
-
+import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeContractFromSource';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
