@@ -11,7 +11,7 @@ import {
   mutateUpgradeContractFromSource,
   mutateEsdtIssueToken,
   mutateEsdtSendToken,
-} from 'src/contracts/MultisigContract';
+  mutateEsdtSendNft } from 'src/contracts/MultisigContract';
 import * as modalsSlice from 'src/redux/slices/modalsSlice';
 import { MultisigAction } from 'src/types/MultisigAction';
 import { MultisigDeployContractFromSource } from 'src/types/MultisigDeployContractFromSource';
