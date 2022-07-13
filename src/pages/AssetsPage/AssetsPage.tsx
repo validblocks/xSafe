@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import { useCallback, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Box } from '@mui/material';
@@ -167,7 +168,7 @@ const AssetsPage = () => {
       <DataGrid
         autoHeight
         rowHeight={65}
-        rows={tokenTableRows ?? []}
+        rows={tokenTableRows ?? [] as any}
         columns={columns}
         sx={{
           borderRadius: '10px',
