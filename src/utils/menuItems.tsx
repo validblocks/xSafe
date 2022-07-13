@@ -23,6 +23,12 @@ const topItems = [
         id: 'tokens-menu-item',
         icon: <DiamondIcon />,
       },
+      {
+        name: 'NFTs',
+        link: 'nft',
+        id: 'nft-menu-item',
+        icon: <DiamondIcon />,
+      },
     ],
   },
   {

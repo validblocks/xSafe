@@ -8,7 +8,6 @@ import useFetch from 'src/utils/useFetch';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { useDispatch } from 'react-redux';
 import {
-  setProposeModalSelectedOption,
   setProposeMultiselectSelectedOption,
   setSelectedNftToSend,
 } from 'src/redux/slices/modalsSlice';

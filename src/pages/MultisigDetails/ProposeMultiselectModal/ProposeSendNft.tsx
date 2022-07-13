@@ -15,6 +15,7 @@ interface ProposeSendNftType {
 
 function validateRecipient(value?: string) {
   try {
+    // eslint-disable-next-line no-new
     new Address(value);
     return true;
   } catch (err) {
@@ -46,7 +47,7 @@ const ProposeSendNft = ({
   const formik = useFormik({
     initialValues: {
       address: '',
-      identifier: selectedNft.identifier,
+      identifier: selectedNft?.identifier ?? '',
     },
     onSubmit: (values) => {
       console.log(values);
@@ -68,7 +69,7 @@ const ProposeSendNft = ({
     }
   };
 
-  const refreshProposal = () => {
+  const _refreshProposal = () => {
     setTimeout(() => {
       const proposal = getProposal();
       console.log(proposal, 'proposal12345');
@@ -87,7 +88,7 @@ const ProposeSendNft = ({
   }, [address, identifier]);
 
   React.useEffect(() => {
-    refreshProposal();
+    // refreshProposal();
   }, [address, identifier]);
 
   return (
