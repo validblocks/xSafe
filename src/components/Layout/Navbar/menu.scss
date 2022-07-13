@@ -38,16 +38,6 @@
   min-height: 50px !important;
 }
 
-.mobile-menu {
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
-  box-shadow: 0px -14px 24px rgba(76, 47, 252, 0.03);
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 2;
-}
-
 .assets-mobile-submenu {
   display: inline-block;
   width: 50%;
@@ -57,9 +47,4 @@
 
 .active-submenu {
   border-bottom: 2px solid #4c2ffc;
-}
-
-.mobile-top-side {
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
 }
