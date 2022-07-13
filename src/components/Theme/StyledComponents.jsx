@@ -17,12 +17,12 @@ export const MainButton = styled(Button)`
 `;
 
 export const NewTranzationButton = styled(MainButton)`
-font-size: 15px;
-padding:
-    ${(props) => props.theme.padding.value.md}
-    25px
-    ${(props) => props.theme.padding.value.sm};
-font-weight: ${(props) => props.theme.font.weight.md};
+  font-size: 15px;
+  padding:
+      ${(props) => props.theme.padding.value.md}
+      25px
+      ${(props) => props.theme.padding.value.sm};
+  font-weight: ${(props) => props.theme.font.weight.md};
 `;
 
 export const AssetActionButton = styled(MainButton)`

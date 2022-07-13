@@ -38,7 +38,7 @@ export const DisconnectButton = styled(Button)`
 `;
 
 export const ReadOnly = styled(Typography)`
-  border-radius: ${(props) => props.theme.shape.radius};
+  border-radius: .4rem;
   background: rgba(8, 4, 29, 0.1);
   color: #7a7883;
   font-size: 14px;
@@ -52,11 +52,10 @@ export const Anchor = styled.a`
 export const MembersBox = styled(Box)`
   width: 17px;
   margin: auto;
-  background-color: #f0f1fd;
-  border-radius: ${(props) => props.theme.shape.radius};
+  background-color: #E4DFFF;
+  border-radius: 4px;
   margin-top: 10px;
   color: ${(props) => props.theme.palette.primary.main};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 export const CenteredText = styled(Typography)`

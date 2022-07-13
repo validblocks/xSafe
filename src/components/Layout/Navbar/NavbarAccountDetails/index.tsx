@@ -49,7 +49,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             <img src={Safe} alt="safe" width="60px" height="60px" />
           </Box>
           <Box position="absolute" top="-1.4rem" left="-.5rem">
-            <MembersBox borderRadius=".2rem !important">
+            <MembersBox>
               <Typography>{membersCount}</Typography>
             </MembersBox>
           </Box>
@@ -119,8 +119,8 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             handleQr={handleQrModal}
           />
         </Grid>
-        <Grid sx={{ mt: 1.2, mb: 1.1 }} sm={8}>
-          <ReadOnly borderRadius=".4rem !important" sx={{ px: 2 }}>
+        <Grid sx={{ mt: 1.2, mb: 1.1 }} sm={8.15}>
+          <ReadOnly>
             Read-only
           </ReadOnly>
         </Grid>
