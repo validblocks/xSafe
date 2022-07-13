@@ -44,6 +44,7 @@ jobs:
       - name: Config setup
         run: |
           make setup-wallet
+          cat .npmrc
 
       - uses: actions/cache@v2
         with:
@@ -56,7 +57,7 @@ jobs:
       - name: YARN Install
         id: YARN-Install
         if: success()
-        run: npm run legacy-install
+        run: yarn
 
       # - name: Lint
       #   id: Lint
