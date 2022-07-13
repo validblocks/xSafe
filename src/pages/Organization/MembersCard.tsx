@@ -14,7 +14,7 @@ function MembersCard() {
     boardMembersState: [boardMembers],
   } = useOrganizationInfoContext();
 
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   const memberTypes = [
     {

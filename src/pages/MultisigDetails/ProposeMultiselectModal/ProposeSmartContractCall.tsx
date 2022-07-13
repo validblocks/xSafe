@@ -62,7 +62,7 @@ const ProposeSmartContractCall = ({
 }: ProposeSmartContractCallType) => {
   const { multisigBalance } = useContext(MultisigDetailsContext);
 
-  const { t } = useTranslation();
+  const { t }: { t: any } = useTranslation();
 
   let formik: FormikProps<IFormValues>;
 
