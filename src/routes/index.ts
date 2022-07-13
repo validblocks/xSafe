@@ -121,9 +121,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
 
 const routes: RouteType[] = [
   ...Object.keys(foregroundRoutes).map((route) => {
-    const {
-      path, title, authenticatedRoute, component,
-    } =
+    const { path, title, authenticatedRoute, component } =
       foregroundRoutes[route as ForegroundRoutesType];
     return {
       path,
