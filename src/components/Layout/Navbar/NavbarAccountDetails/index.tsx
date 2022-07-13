@@ -63,7 +63,13 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
               {uniqueAddress}
             </Typography>
             {openedSafeSelect === true && (
-              <Box>
+              <Box
+                sx={{
+                  '& .css-i4bv87-MuiSvgIcon-root': {
+                    color: 'rgba(76, 47, 252, 0.54) !important',
+                  },
+                }}
+              >
                 <ArrowDropUpIcon
                   onClick={() => {
                     setOpenedSafeSelect(false);
@@ -73,7 +79,13 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
               </Box>
             )}
             {openedSafeSelect === false && (
-              <Box>
+              <Box
+                sx={{
+                  '& .css-i4bv87-MuiSvgIcon-root': {
+                    color: 'rgba(76, 47, 252, 0.54) !important',
+                  },
+                }}
+              >
                 <ArrowDropDownIcon
                   onClick={() => {
                     setOpenedSafeSelect(true);

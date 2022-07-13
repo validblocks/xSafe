@@ -105,6 +105,9 @@ export const ListItem = styled(ListItemButton)`
   &:hover {
     color: ${(props) => props.theme.palette.primary.main};
     background-color: #f5f7ff !important;
+    .css-hgjmvv-MuiListItemIcon-root {
+      color: ${(props) => props.theme.palette.primary.main} !important
+    };
   }
 `;
 
@@ -115,6 +118,18 @@ export const BreadcrumbsWrapper = styled(Box)`
 export const MenuAccordion = styled(AccordionSummary)`
   .MuiAccordionSummary-content {
     margin: 0px;
+  }
+  &:hover {
+    background-color: #f5f7ff !important;
+    .MuiTypography-root {
+      color: ${(props) => props.theme.palette.primary.main} !important;
+    };
+    .css-hgjmvv-MuiListItemIcon-root {
+      color: ${(props) => props.theme.palette.primary.main} !important;
+    };
+    .css-yw020d-MuiAccordionSummary-expandIconWrapper {
+      color: rgba(76, 47, 252, 0.54);
+    }
   }
 `;
 

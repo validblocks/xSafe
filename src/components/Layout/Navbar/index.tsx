@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { List, Accordion } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -7,6 +6,7 @@ import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
@@ -91,7 +91,7 @@ const MiniDrawer = () => {
           <Nav className="ml-auto align-items-center" />
         </BsNavbar>
         <Divider />
-        <List sx={{ mt: 1 }}>
+        <List sx={{ mt: 1, pb: 0 }}>
           <AccountDetails uniqueAddress={walletAddress} />
           <Divider />
         </List>
@@ -106,9 +106,14 @@ const MiniDrawer = () => {
                 >
                   <MenuAccordion
                     aria-controls="panel1a-content"
-                    expandIcon={<ExpandMoreIcon />}
+                    expandIcon={<ArrowDropDownIcon />}
                     id="panel1a-header"
                     sx={{ pl: 0 }}
+                    className={
+                    locationString === el.link
+                      ? 'active link-decoration'
+                      : 'link-decoration'
+                    }
                   >
                     <ListItem
                       sx={{
@@ -152,7 +157,7 @@ const MiniDrawer = () => {
                             justifyContent: open ? 'initial' : 'center',
                             px: 2.5,
                             ml: 0,
-                            pl: 5,
+                            pl: 3,
                           }}
                         >
                           <ListItemIcon
@@ -243,7 +248,6 @@ const MiniDrawer = () => {
               </ListItem>
             </Link>
           ))}
-
         </BottomMenu>
       </Drawer>
     </Box>
