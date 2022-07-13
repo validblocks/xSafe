@@ -27,6 +27,7 @@ function NftCompmonent() {
     dispatch(setProposeMultiselectSelectedOption({ option }));
     dispatch(
       setSelectedNftToSend({
+        nonce: nft.nonce,
         identifier: nft.identifier,
       }),
     );
