@@ -49,15 +49,17 @@ const AssetsPage = () => {
   const tokenTableRows = useSelector(tokenTableRowsSelector);
 
   const columns = useMemo(
-    () => [
-      {
-        field: 'presentation',
-        headerName: 'Asset',
-        flex: 1.2,
-        type: 'string',
-        renderCell: (params: GridRenderCellParams<any>) => (
-          <div className="d-flex justify-content-center align-items-center font-weight-normal">
-            {params.value.tokenIdentifier !== 'EGLD' && (
+    () => {
+      if (!tokenTableRows) return [];
+      return [
+        {
+          field: 'presentation',
+          headerName: 'Asset',
+          flex: 1.2,
+          type: 'string',
+          renderCell: (params: GridRenderCellParams) => (
+            <div className="d-flex justify-content-center align-items-center font-weight-normal">
+              {params.value.tokenIdentifier !== 'EGLD' && (
               <img
                 width={SQUARE_IMAGE_WIDTH}
                 height={SQUARE_IMAGE_WIDTH}
@@ -65,98 +67,89 @@ const AssetsPage = () => {
                 alt={params.value.tokenIdentifier}
                 className="mr-3"
               />
-            )}
-            {params.value.tokenIdentifier === 'EGLD' && (
+              )}
+              {params.value.tokenIdentifier === 'EGLD' && (
               <ElrondLogo
                 width={SQUARE_IMAGE_WIDTH}
                 height={SQUARE_IMAGE_WIDTH}
                 className="mr-3"
               />
-            )}
-            <p className="mb-0">
-              {params.value.tokenIdentifier.split('-')[0] ?? 'unknown'}
-            </p>
-          </div>
-        ),
-      },
-      {
-        field: 'balanceDetails',
-        headerName: 'Balance',
-        flex: 1.2,
-        type: 'string',
-        renderCell: (params: GridRenderCellParams<any>) => (
-          <h6 className="text-center mb-0 font-weight-normal">
-            {Number(
-              Number(
+              )}
+              <p className="mb-0">
+                {params.value.tokenIdentifier.split('-')[0] ?? 'unknown'}
+              </p>
+            </div>
+          ),
+        },
+        {
+          field: 'balanceDetails',
+          headerName: 'Balance',
+          flex: 1.2,
+          type: 'string',
+          renderCell: (params: GridRenderCellParams) => (
+            <h6 className="text-center mb-0 font-weight-normal">
+              {
                 operations.denominate({
-                  input: params.value.amount,
-                  denomination: params.value.decimals,
-                  decimals: params.value.decimals,
+                  input: params.value?.amount,
+                  denomination: params.value?.decimals,
+                  decimals: 3,
                   showLastNonZeroDecimal: true,
-                }),
-              ).toFixed(8),
-            )} ${params.value.identifier}
-          </h6>
-        ),
-      },
-      {
-        field: 'value',
-        headerName: 'Value',
-        flex: 0.8,
-        renderCell: (params: GridRenderCellParams<any>) => (
-          <h5 className="text-center mb-0 font-weight-normal">
-            {/* <AssetValue>
-              <Ui.UsdValue
-                amount={operations.denominate({
-                  input: params.value.amount,
-                  denomination: params.value.decimals,
-                  decimals: params.value.decimals,
-                  showLastNonZeroDecimal: true,
-                  addCommas: false,
-                })}
-                usd={params.value.tokenPrice}
+                })
+
+            } ${params.value.identifier}
+            </h6>
+          ),
+        },
+        {
+          field: 'value',
+          headerName: 'Value',
+          flex: 0.8,
+          renderCell: (params: GridRenderCellParams) => (
+            <h5 className="text-center mb-0 font-weight-normal">
+              <DisplayTokenPrice
+                // tokenAmount={operations.denominate({
+                //   input: params.value.amount,
+                //   denomination: params.value.decimals,
+                //   decimals: params.value.decimals,
+                //   showLastNonZeroDecimal: true,
+                //   addCommas: false,
+                // })}
+                // tokenUnitPrice={params.value.tokenPrice}
+                balanceDetails={params.value}
               />
-            </AssetValue> */}
-            <DisplayTokenPrice
-              tokenAmount={operations.denominate({
-                input: params.value.amount,
-                denomination: params.value.decimals,
-                decimals: params.value.decimals,
-                showLastNonZeroDecimal: true,
-                addCommas: false,
-              })}
-              tokenUnitPrice={params.value.tokenPrice}
-            />
-          </h5>
-        ),
-      },
-      {
-        field: 'actions',
-        type: 'actions',
-        width: 210,
-        headerName: '',
-        getActions: (params: GridRenderCellParams) => [
-          <AssetActionButton
-            key="0"
-            variant="outlined"
-            className="shadow-sm rounded mr-2"
-            onClick={() =>
-              handleOptionSelected(ProposalsTypes.send_token, params.row)
+            </h5>
+          ),
+        },
+        {
+          field: 'actions',
+          type: 'actions',
+          width: 210,
+          headerName: '',
+          getActions: (params: GridRenderCellParams) => [
+            <AssetActionButton
+              key="0"
+              variant="outlined"
+              className="shadow-sm rounded mr-2"
+              onClick={() =>
+                handleOptionSelected(ProposalsTypes.send_token, params.row)
               }
-          >
-            <AssetActionIcon width="30px" height="30px" /> Send
-          </AssetActionButton>,
-          <AssetActionButton
-            key="1"
-            onClick={handleQrModal}
-          >
-            <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Deposit
-          </AssetActionButton>,
-        ],
-      },
-    ],
-    [],
+            >
+              <AssetActionIcon width="30px" height="30px" /> Send
+            </AssetActionButton>,
+            <AssetActionButton
+              key="1"
+              onClick={handleQrModal}
+            >
+              <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Deposit
+            </AssetActionButton>,
+          ],
+        },
+      ];
+    },
+    [tokenTableRows],
   );
+
+  console.log({ tokenTableRows });
 
   return (
     <Box
