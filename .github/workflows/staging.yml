@@ -50,7 +50,10 @@ jobs:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}      
       
-      - uses: actions/setup-node@v2-beta
+      actions/setup-node@v3
+      - uses:  actions/setup-node@v3
+        with:
+          node-version: 16
       - name: YARN Install
         id: YARN-Install
         if: success()
