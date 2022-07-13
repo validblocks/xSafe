@@ -169,3 +169,9 @@ export const LogoMenuWrapper = styled(Box)`
   z-index: 1;
   width: 100%;
 `;
+
+export const MobileSecondaryMenu = styled(Box)`
+  background-color: ${(props) => {
+    return props.theme.palette.background.default;
+  }};
+`;
