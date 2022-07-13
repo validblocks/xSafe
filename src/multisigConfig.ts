@@ -1,3 +1,3 @@
 export const uniqueContractAddress =
-  'erd1qqqqqqqqqqqqqpgqettaulcsh6afs9h4mhsv44lu28p0rezehdeqk7nttw';
+  'erd1qqqqqqqqqqqqqpgqp7kvx57gwty22z5zlanqgexga45yjhjectas25mxqa';
 export const uniqueContractName = 'Graffino';
