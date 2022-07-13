@@ -17,7 +17,7 @@ export const PerformActionButton = styled(Button)`
   height: ${(props) => props.height};
   background: transparent !important;
   color: ${(props) => props.theme.palette.secondary} !important;
-  padding: 0px 1rem !important;
+  padding: 0 1rem !important;
   border: 1px solid ${(props) => props.theme.palette.secondary.main} !important;
   &:hover {
     background: ${(props) => props.theme.palette.background.main} !important;
