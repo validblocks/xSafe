@@ -16,7 +16,7 @@ export const MainButton = styled(Button)`
     ${(props) => props.theme.padding.value.xs};
 `;
 
-export const NewTranzationButton = styled(MainButton)`
+export const NewTransactionButton = styled(MainButton)`
   font-size: 15px;
   padding:
       ${(props) => props.theme.padding.value.md}
