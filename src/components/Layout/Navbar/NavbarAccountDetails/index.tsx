@@ -104,14 +104,14 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             <Box
               onClick={handleQrModal}
               sx={{
-                mr: 1.6,
+                mr: 1.7,
                 ml: 0.2,
                 cursor: 'pointer',
               }}
             >
               <QrCode2Icon />
             </Box>
-            <Box sx={{ mr: 1.6 }}>
+            <Box sx={{ mr: 1.85, ml: 0.35 }}>
               <CopyButton text={uniqueContractAddress} />
             </Box>
             <Box>
@@ -131,7 +131,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             handleQr={handleQrModal}
           />
         </Grid>
-        <Grid sx={{ mt: 1.2, mb: 1.1 }} sm={8.15}>
+        <Grid sx={{ mt: 1.2, mb: 1.1 }} sm={8.3}>
           <ReadOnly>
             Read-only
           </ReadOnly>
