@@ -1,19 +1,16 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { getIsLoggedIn, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import BoltIcon from '@mui/icons-material/Bolt';
-import { Box, Button } from '@mui/material';
-import Menu from '@mui/material/Menu';
+import { Box } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
-import { borderRadius } from 'react-select/src/theme';
-import { ReactComponent as Union } from 'src/assets/img/Union.svg';
-import ConnectedAccount from 'components/Layout/Navbar/ConnectedAccount';
-import { MainButton } from 'components/Theme/StyledComponents';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import ConnectedAccount from 'src/components/Layout/Navbar/ConnectedAccount';
+import { MainButton } from 'src/components/Theme/StyledComponents';
 import addressShorthand from 'src/helpers/addressShorthand';
 import Unlock from 'src/pages/Unlock';
-import { routeNames } from 'src/routes';
+import routeNames from 'src/routes';
 import { ConnectDropdown } from '../navbar-style';
 
 const Account = () => {
@@ -101,11 +98,7 @@ const Account = () => {
         PaperProps={{
           sx: {
             borderRadius: '10px',
-<<<<<<< HEAD
             boxShadow: '0 8px 24px rgba(76, 47, 252, 0.13)',
-=======
-            boxShadow: '0px 8px 24px rgba(76, 47, 252, 0.13)',
->>>>>>> 88351ab (chore: formatted with prettier)
           },
         }}
         open={open}
