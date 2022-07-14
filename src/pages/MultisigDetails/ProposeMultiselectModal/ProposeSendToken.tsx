@@ -15,6 +15,7 @@ import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { TokenTableRowItem } from 'src/pages/Organization/types';
 import { TestContext } from 'yup';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
+import { DECIMAL_POINTS_UI } from 'src/components/Layout/Navbar/TotalBalance';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -29,8 +30,6 @@ function validateRecipient(value?: string) {
     return false;
   }
 }
-
-const DECIMAL_POINTS = 3;
 
 export type TokenPresentationProps = {
     identifier: string;
@@ -227,7 +226,7 @@ const ProposeSendToken = ({
             availableTokensWithBalances.find(
               (token: TokenTableRowItem) => token.identifier === identifier,
             )?.balance,
-          ).toFixed(DECIMAL_POINTS))}`}
+          ).toFixed(DECIMAL_POINTS_UI))}`}
         </div>
       </div>
 

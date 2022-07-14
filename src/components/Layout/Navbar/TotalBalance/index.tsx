@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getNetworkProxy, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { operations } from '@elrondnetwork/dapp-utils';
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address, Token } from '@elrondnetwork/erdjs/out';
 import { Box } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainButton } from 'src/components/Theme/StyledComponents';
-import { network, denomination, decimals, DECIMAL_POINTS_UI } from 'src/config';
+import { network, denomination, decimals } from 'src/config';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { OrganizationToken, TokenTableRowItem, TokenWithPrice } from 'src/pages/Organization/types';
 import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
@@ -21,10 +21,12 @@ import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlic
 import { ProposalsTypes } from 'src/types/Proposals';
 import useCurrency from 'src/utils/useCurrency';
 import Divider from '@mui/material/Divider';
-import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountSlice';
+import { setMultisigBalance, setOrganizationTokens, setTokenTableRows, StateType } from 'src/redux/slices/accountSlice';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { CenteredText } from '../navbar-style';
 
 const identifierWithoutUniqueHash = (identifier: string) => identifier.split('-')[0] ?? '';
+export const DECIMAL_POINTS_UI = 2;
 
 function TotalBalance() {
   const dispatch = useDispatch();
@@ -33,8 +35,8 @@ function TotalBalance() {
   const egldPrice = useSelector(priceSelector);
   const { tokenPrices } = useOrganizationInfoContext();
   const [totalUsdValue, setTotalUsdValue] = useState(0);
-  const tokenTableRows = useSelector(tokenTableRowsSelector);
-  const currentContract = useSelector(currentMultisigContractSelector);
+  const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
+  const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
 
   const getTokenPrice = useCallback(
     (tokenIdentifier: string) => {
@@ -72,13 +74,15 @@ function TotalBalance() {
     };
   }, [currentContract, proxy]);
 
-  const getAllTokensAndEgldBalance = useCallback(async () => {
+  const getAllTokensAndEgldBalance = useCallback(async (): Promise<{ allTokens: Token[], egldBalance: any }> => {
     const { egldBalance, otherTokens } = await getBalances();
     // eslint-disable-next-line consistent-return
     const allTokens = [
       { ...egldBalance.token, balance: egldBalance.value.toString() },
       ...otherTokens,
     ];
+
+    console.log({ allTokens });
 
     return { allTokens, egldBalance };
   }, [getBalances]);
@@ -137,31 +141,34 @@ function TotalBalance() {
       try {
         const { egldBalance, allTokens } = await getAllTokensAndEgldBalance();
         const tokensWithPrices = await getTokensWithPrices(allTokens);
+
         if (!isMounted) {
           return () => {
             isMounted = false;
           };
         }
 
-        const organizationTokens: OrganizationToken[] = tokensWithPrices.map((tokenRowItem: TokenTableRowItem) => ({
-          prettyIdentifier: tokenRowItem.identifier?.split('-')[0] ?? '',
-          identifier: tokenRowItem.identifier ?? '',
-          tokenPrice: `$${parseFloat(Number(tokenRowItem.value?.tokenPrice as string).toFixed(DECIMAL_POINTS_UI))}`,
+        const organizationTokens: OrganizationToken[] = tokensWithPrices.map(({
+          identifier, balanceDetails, value }: TokenTableRowItem) => ({
+          prettyIdentifier: identifier?.split('-')[0] ?? '',
+          identifier: identifier ?? '',
+          photoUrl: balanceDetails?.photoUrl ?? '',
+          tokenPrice: `$${parseFloat(Number(value?.tokenPrice as string).toFixed(DECIMAL_POINTS_UI))}`,
           tokenAmount: `${parseFloat(
             Number(operations.denominate({
-              input: tokenRowItem.value?.amount as string,
-              denomination: tokenRowItem.balanceDetails?.decimals as number,
-              decimals: tokenRowItem.balanceDetails?.decimals as number,
+              input: value?.amount as string,
+              denomination: balanceDetails?.decimals as number,
+              decimals: balanceDetails?.decimals as number,
               showLastNonZeroDecimal: true,
             })).toFixed(DECIMAL_POINTS_UI),
           )}`,
           tokenValue: `$${parseFloat(
             Number(Number(operations.denominate({
-              input: tokenRowItem.value?.amount as string,
-              denomination: tokenRowItem.balanceDetails?.decimals as number,
-              decimals: tokenRowItem.balanceDetails?.decimals as number,
+              input: value?.amount as string,
+              denomination: balanceDetails?.decimals as number,
+              decimals: balanceDetails?.decimals as number,
               showLastNonZeroDecimal: true,
-            })) * (tokenRowItem.value?.tokenPrice as number)).toFixed(DECIMAL_POINTS_UI),
+            })) * (value?.tokenPrice as number)).toFixed(DECIMAL_POINTS_UI),
           )}`,
         }));
 
@@ -218,7 +225,7 @@ function TotalBalance() {
     dispatch(setValueInUsd(totalUsdValue));
   }, [dispatch, totalUsdValue]);
 
-  const currencyConverted = useSelector(currencyConvertedSelector);
+  const currencyConverted = useSelector<StateType, number>(currencyConvertedSelector);
 
   const onAddBoardMember = () =>
     dispatch(
@@ -246,7 +253,7 @@ function TotalBalance() {
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
         <CenteredText>Total balance:</CenteredText>
         <CenteredText fontSize="16px" fontWeight="bold">
-          ≈{currencyConverted?.toFixed(2)}
+          {currencyConverted?.toFixed(2)}
           {getCurrency}
         </CenteredText>
       </Box>

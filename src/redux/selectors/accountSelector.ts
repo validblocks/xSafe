@@ -1,7 +1,4 @@
-import {
-  OrganizationToken,
-  TokenTableRowItem,
-} from 'src/pages/Organization/types';
+import { OrganizationToken } from 'src/pages/Organization/types';
 import { createDeepEqualSelector } from './helpers';
 import { RootState } from '../store';
 
@@ -17,12 +14,17 @@ export const tokenTableRowsSelector = createDeepEqualSelector(
   (state) => state.tokenTableRows,
 );
 
+export const organizationTokensSelector = createDeepEqualSelector(
+  accountSelector,
+  (state) => state.organizationTokens,
+);
+
 export const organizationTokenPhotoUrlSelector = createDeepEqualSelector(
   accountSelector,
   (state) => (tokenIdentifier: string) =>
-    state.tokenTableRows?.find(
-      (token: TokenTableRowItem) => token.identifier === tokenIdentifier,
-    )?.balanceDetails.photoUrl,
+    state.organizationTokens?.find(
+      (token: OrganizationToken) => token.prettyIdentifier === tokenIdentifier,
+    )?.photoUrl,
 );
 
 export const organizationTokenByIdentifierSelector = createDeepEqualSelector(

@@ -103,7 +103,6 @@ export async function sendTransaction(
   });
   const providerType = getAccountProviderType();
 
-  console.log({ args1: args });
   const transaction = buildTransaction(
     0,
     functionName,
@@ -112,8 +111,6 @@ export async function sendTransaction(
     transactionGasLimit,
     ...args,
   );
-
-  console.log({ tData: transaction.getData() });
 
   const { sessionId } = await transactionServices.sendTransactions({
     transactions: transaction,
@@ -219,8 +216,6 @@ export function mutateSmartContractCall(
     ...args,
   ];
 
-  console.log({ allArgs });
-
   return sendTransaction(
     multisigContractFunctionNames.proposeAsyncCall,
     gasLimit,
@@ -274,7 +269,6 @@ export function mutateUpgradeContractFromSource(
 }
 
 export function mutateEsdtSendToken(proposal: MultisigSendToken) {
-  console.log({ proposal });
   mutateSmartContractCall(
     proposal.address,
     new BigUIntValue(new BigNumber(0)),
@@ -285,7 +279,6 @@ export function mutateEsdtSendToken(proposal: MultisigSendToken) {
 }
 
 export function mutateEsdtSendNft(proposal: MultisigSendNft) {
-  console.log({ proposal });
   const identifierWithoutNonce = proposal.identifier.split('-').slice(0, 2).join('-');
   const currentMultisigAddress = currentMultisigAddressSelector(
     store.getState(),

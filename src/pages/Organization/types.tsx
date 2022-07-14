@@ -90,4 +90,5 @@ export type OrganizationToken = {
   tokenPrice: string;
   tokenAmount: string;
   tokenValue: string;
+  photoUrl: string;
 };
