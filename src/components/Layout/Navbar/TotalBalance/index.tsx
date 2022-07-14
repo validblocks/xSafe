@@ -6,7 +6,7 @@ import { Box } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainButton } from 'src/components/Theme/StyledComponents';
-import { network, denomination, decimals, DECIMAL_POINTS_UI } from 'src/config';
+import { network, denomination, decimals } from 'src/config';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { OrganizationToken, TokenTableRowItem, TokenWithPrice } from 'src/pages/Organization/types';
 import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
@@ -26,6 +26,7 @@ import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { CenteredText } from '../navbar-style';
 
 const identifierWithoutUniqueHash = (identifier: string) => identifier.split('-')[0] ?? '';
+export const DECIMAL_POINTS_UI = 2;
 
 function TotalBalance() {
   const dispatch = useDispatch();
