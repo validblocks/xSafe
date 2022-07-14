@@ -140,31 +140,6 @@ const ProposeSendEgld = ({
     const hasErrors = Object.keys(formik.errors).length > 0;
     setSubmitDisabled(hasErrors);
   }, [formik.errors]);
-  function validateAmount(value?: string, testContext?: TestContext) {
-    if (value == null) {
-      return true;
-    }
-    const newAmount = Number(value);
-    if (Number.isNaN(newAmount)) {
-      return (
-        testContext?.createError({
-          message: 'Invalid amount'
-        }) ?? false
-      );
-    }
-    if (newAmount < 0) {
-      formik.setFieldValue('amount', 0);
-    }
-    if (newAmount > Number(multisigBalance.asCurrencyString.split(' '[0]))) {
-      return (
-        testContext?.createError({
-          message:
-            'There are not enough money in the organization for this transaction'
-        }) ?? false
-      );
-    }
-    return true;
-  }
 
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;

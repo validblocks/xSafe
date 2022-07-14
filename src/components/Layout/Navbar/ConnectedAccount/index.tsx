@@ -77,6 +77,6 @@ const ConnectedAccount = () => {
       </Box>
     </Box>
   );
-}
+};
 
 export default ConnectedAccount;

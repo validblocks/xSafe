@@ -74,6 +74,6 @@ const ReceiveModal = ({
       </Modal>
     </>
   );
-}
+};
 
 export default ReceiveModal;

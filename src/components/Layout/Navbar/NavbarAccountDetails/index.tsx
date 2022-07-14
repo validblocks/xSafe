@@ -133,6 +133,6 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
       <TotalBalance />
     </Box>
   );
-}
+};
 
 export default NavbarAccountDetails;
