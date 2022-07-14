@@ -6,7 +6,7 @@ import {
   useGetLoginInfo,
 } from '@elrondnetwork/dapp-core';
 import { Box, styled } from '@mui/material';
-import MuiAppBar, { AppBarProps, AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import MuiAppBar, { AppBarProps } from '@mui/material/AppBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
 import { getAccountData } from 'src/apiCalls/accountCalls';

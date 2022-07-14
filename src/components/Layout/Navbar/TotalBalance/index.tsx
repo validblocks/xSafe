@@ -5,7 +5,7 @@ import { Address, Token } from '@elrondnetwork/erdjs/out';
 import { Box } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { MainButton } from 'src/components/Theme/StyledComponents';
+import { NewTranzationButton } from 'src/components/Theme/StyledComponents';
 import { network, denomination, decimals } from 'src/config';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { OrganizationToken, TokenTableRowItem, TokenWithPrice } from 'src/pages/Organization/types';
@@ -262,9 +262,9 @@ function TotalBalance() {
         className="d-flex justify-content-center"
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
       >
-        <MainButton variant="outlined" onClick={onAddBoardMember}>
+        <NewTranzationButton variant="outlined" onClick={onAddBoardMember}>
           New Transaction
-        </MainButton>
+        </NewTranzationButton>
       </Box>
     </Box>
   );
