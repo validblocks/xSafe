@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
-
-import { styled } from '@mui/material/styles';
 import {
   AuthenticatedRoutesWrapper,
   refreshAccount,
   useGetAccountInfo,
   useGetLoginInfo,
 } from '@elrondnetwork/dapp-core';
-import { Box } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';

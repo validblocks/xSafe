@@ -6,11 +6,15 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # PARTICULAR PURPOSE.
 
 # This program built for i386-apple-darwin11.3.0
+ 
+make: *** No rule to make target `all'.  Stop.
 
-# Make data base, printed on Thu Jul  7 23:26:05 2022
+
+# Make data base, printed on Tue Jun 28 10:30:46 2022
 
 # Variables
 
+ 
 # environment
 PHPLS_ALLOW_XDEBUG = 1
 # automatic
@@ -18,10 +22,8 @@ PHPLS_ALLOW_XDEBUG = 1
 # automatic
 ?F = $(notdir $?)
 # environment
-ELECTRON_NO_ATTACH_CONSOLE = 1
-# environment
 VSCODE_LOG_NATIVE = false
-# makefile (from `.env', line 20)
+# makefile (from `.env', line 16)
 TRAEFIK_DOMAIN = ${DOCKER_DOMAIN}
 # automatic
 ?D = $(patsubst %/,%,$(dir $?))
@@ -30,20 +32,20 @@ TRAEFIK_DOMAIN = ${DOCKER_DOMAIN}
 # automatic
 @F = $(notdir $@)
 # environment
-ZNT_REPO_DIR = /Users/Rares/.oh-my-zsh/plugins/zsh-navigation-tools
+ZNT_REPO_DIR = /Users/Alexandru/.oh-my-zsh/plugins/zsh-navigation-tools
 # makefile
-CURDIR := /Users/Rares/Sites/Graffino/Multisig/Multisig
+CURDIR := /Users/Alexandru/Sites/Graffino/Multisig
 # makefile
 SHELL = /bin/sh
-# makefile (from `.env', line 13)
+# makefile (from `.env', line 11)
 NPMRC = //registry.npmjs.org/:_authToken=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
 # environment
 VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
-# makefile (from `.env', line 26)
+# makefile (from `.env', line 22)
 TRAEFIK_RESOLVER = graffino-route53
 # environment
 _ = /usr/bin/make
-# makefile (from `.env', line 21)
+# makefile (from `.env', line 17)
 TRAEFIK_HOSTNAME = ${DOCKER_HOSTNAME}
 # makefile (from `.env', line 1)
 MAKEFILE_LIST :=  Makefile .env
@@ -56,19 +58,17 @@ __CFBundleIdentifier = com.microsoft.VSCode
 # environment
 INFOPATH = /opt/homebrew/share/info:
 # environment
-VSCODE_IPC_HOOK_EXTHOST = /var/folders/n8/cttdcj690n1f4b1nznxc8jj40000gn/T/vscode-ipc-e31ec781-ee6c-481d-9180-052a0f4ecc66.sock
+VSCODE_IPC_HOOK_EXTHOST = /var/folders/5k/934rwxzj7bv2byy3p084lw5r0000gn/T/vscode-ipc-1c117b00-4cc7-4f6a-8129-4face2affc26.sock
 # environment
-VSCODE_CWD = /Users/Rares/Sites/Graffino/Multisig/Multisig
+VSCODE_CWD = /
 # environment
-PATH = /Users/Rares/elrondsdk:node_modules/.bin:/Users/Rares/.n/bin:/opt/homebrew/opt/php@8.0/sbin:/opt/homebrew/opt/php@8.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/usr/local/MacGPG2/bin:/usr/local/munki:/Library/Apple/usr/bin:/Users/Rares/.composer/vendor/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/include:/usr/bin:/bin:/usr/sbin:/sbin:/Users/Rares/.composer/vendor/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin
-# makefile (from `.env', line 23)
+PATH = node_modules/.bin:/Users/Alexandru/.n/bin:/opt/homebrew/opt/php@8.0/sbin:/opt/homebrew/opt/php@8.0/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/MacGPG2/bin:/usr/local/munki:/Users/Alexandru/.composer/vendor/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/opt/homebrew/include:/usr/bin:/bin:/usr/sbin:/sbin:/Users/Alexandru/.composer/vendor/bin:/Applications/Visual Studio Code.app/Contents/Resources/app/bin
+# makefile (from `.env', line 19)
 TRAEFIK_PASSWORD = $$2y$$05$$vfax9V5Q9M.86ro6t7EATOd/VMn5TS7BZ2e1O8FcwIoacBaZcS6Km
 # environment
 LSCOLORS = Gxfxcxdxbxegedabagacad
 # makefile (from `Makefile', line 4)
 CONTAINER_NGINX = docker compose exec -T nginx sh -c
-# environment
-LaunchInstanceID = 0FC970A8-59FD-4B61-A8E5-1682119B2839
 # environment
 VSCODE_LOG_STACK = false
 # environment
@@ -76,24 +76,24 @@ ELECTRON_RUN_AS_NODE = 1
 # default
 .FEATURES := target-specific order-only second-expansion else-if archives jobserver check-symlink
 # environment
-HOMEBREW_GITHUB_API_TOKEN = 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
+HOMEBREW_GITHUB_API_TOKEN = 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
 # environment
-SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.zeWBeYJILt/Listeners
+SSH_AUTH_SOCK = /private/tmp/com.apple.launchd.OHFYMV3XQU/Listeners
 # automatic
 %F = $(notdir $%)
-# makefile (from `.env', line 9)
+# makefile (from `.env', line 7)
 EXTRAS_API_DEVNET = 
 # makefile (from `.env', line 3)
 DOCKER_BUILDKIT = 1
-# makefile (from `.env', line 22)
+# makefile (from `.env', line 18)
 TRAEFIK_USER = multisig
 # environment
 VSCODE_PIPE_LOGGING = true
 # environment
-PWD = /Users/Rares/Sites/Graffino/Multisig/Multisig
+PWD = /Users/Alexandru/Sites/Graffino/Multisig
 # environment
 HOMEBREW_CELLAR = /opt/homebrew/Cellar
-# makefile (from `.env', line 6)
+# makefile (from `.env', line 5)
 DOCKER_DOMAIN = *.graffino.live
 # environment
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
@@ -102,18 +102,16 @@ MANPATH = /opt/homebrew/share/man::
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
-HOME = /Users/Rares
+HOME = /Users/Alexandru
 # default
 MAKEFILEPATH = $(shell /usr/bin/xcode-select -print-path 2>/dev/null || echo /Developer)/Makefiles
 # environment
-VSCODE_CLI = 1
+VSCODE_CODE_CACHE_PATH = /Users/Alexandru/Library/Application Support/Code/CachedData/30d9c6cd9483b2cc586687151bcbcd635f373630
 # environment
-VSCODE_CODE_CACHE_PATH = /Users/Rares/Library/Application Support/Code/CachedData/30d9c6cd9483b2cc586687151bcbcd635f373630
-# environment
-LOGNAME = Rares
+LOGNAME = Alexandru
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
-# makefile (from `.env', line 5)
+# makefile (from `.env', line 4)
 DOCKER_HOSTNAME = multisig.graffino.live
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
@@ -126,20 +124,18 @@ MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
-SHLVL = 3
+SHLVL = 1
 # makefile (from `Makefile', line 5)
 CONTAINER_DEV = docker compose exec -T multisig_dev sh -c
 # default
 MAKE_VERSION := 3.81
 # environment
-USER = Rares
+USER = Alexandru
 # makefile
 .DEFAULT_GOAL := start
 # environment
-N_PREFIX = /Users/Rares/.n
-# environment
-TERM_SESSION_ID = 57131B1C-73A5-4D86-B000-D70EC4E45EC5
-# makefile (from `.env', line 10)
+N_PREFIX = /Users/Alexandru/.n
+# makefile (from `.env', line 8)
 MAIAR_ID_API_DEVNET = 
 # environment
 LESS = -R
@@ -147,18 +143,16 @@ LESS = -R
 %D = $(patsubst %/,%,$(dir $%))
 # default
 MAKE_COMMAND := /Library/Developer/CommandLineTools/usr/bin/make
-# environment
-TERM_PROGRAM = Apple_Terminal
 # default
 .VARIABLES := 
 # environment
-TMPDIR = /var/folders/n8/cttdcj690n1f4b1nznxc8jj40000gn/T/
+TMPDIR = /var/folders/5k/934rwxzj7bv2byy3p084lw5r0000gn/T/
 # automatic
 *F = $(notdir $*)
-# makefile (from `.env', line 11)
+# makefile (from `.env', line 9)
 UNIQUE_CONTRACT_ADDRESS = erd1qqqqqqqqqqqqqpgqettaulcsh6afs9h4mhsv44lu28p0rezehdeqk7nttw
 # environment
-VSCODE_IPC_HOOK = /Users/Rares/Library/Application Support/Code/1.68.1-main.sock
+VSCODE_IPC_HOOK = /Users/Alexandru/Library/Application Support/Code/1.68.1-main.sock
 # makefile
 MAKEFLAGS = Rrqp
 # environment
@@ -166,14 +160,12 @@ MFLAGS = -Rrqp
 # automatic
 *D = $(patsubst %/,%,$(dir $*))
 # environment
-TERM_PROGRAM_VERSION = 445
-# environment
-XPC_SERVICE_NAME = application.com.microsoft.VSCode.29369592.29369799.E1D8B5EE-6914-48B9-92A9-43DB49126CF5
+XPC_SERVICE_NAME = application.com.microsoft.VSCode.1660535.1660541
 # environment
 HOMEBREW_PREFIX = /opt/homebrew
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
-# makefile (from `.env', line 16)
+# makefile (from `.env', line 13)
 DOCKER_NGINX_PORT = 80
 # automatic
 +F = $(notdir $+)
@@ -186,7 +178,7 @@ COMMAND_MODE = unix2003
 # default
 MAKEFILES := 
 # environment
-ZNT_CONFIG_DIR = /Users/Rares/.config/znt
+ZNT_CONFIG_DIR = /Users/Alexandru/.config/znt
 # automatic
 <F = $(notdir $<)
 # environment
@@ -195,8 +187,6 @@ EDITOR = vim
 PAGER = less
 # environment
 LC_ALL = C
-# environment
-SECURITYSESSIONID = 186b2
 # automatic
 ^F = $(notdir $^)
 # default
@@ -207,18 +197,18 @@ COMPOSE_PROJECT_NAME = multisig
 COMPOSE_DOCKER_CLI_BUILD = 1
 # environment
 MAKELEVEL := 0
-# makefile (from `.env', line 12)
+# makefile (from `.env', line 10)
 UNIQUE_CONTRACT_NAME = Graffino
 # environment
 LANG = C
 # environment
 TERM = xterm-256color
 # environment
-VSCODE_PID = 49539
-# makefile (from `.env', line 17)
+VSCODE_PID = 2237
+# makefile (from `.env', line 14)
 DOCKER_NGINX_EXPOSED_PORT = 8082
 # variable set hash-table stats:
-# Load=103/1024=10%, Rehash=0, Collisions=7/129=5%
+# Load=96/1024=9%, Rehash=0, Collisions=7/121=6%
 
 # Pattern-specific Variable Values
 
@@ -226,9 +216,9 @@ DOCKER_NGINX_EXPOSED_PORT = 8082
 
 # Directories
 
-# . (device 16777234, inode 23382553): 32 files, no impossibilities.
+# . (device 16777230, inode 2437285): 29 files, no impossibilities.
 
-# 32 files, no impossibilities in 1 directories.
+# 29 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -261,7 +251,7 @@ rebuild-nginx:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 141):
+#  commands to execute (from `Makefile', line 122):
 	docker compose up -d --no-deps --force-recreate --build nginx
 	
 
@@ -274,7 +264,7 @@ all:
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
 
-.PHONY: start stop setup setup-wallet setup-single-wallet setup-multi-wallet setup-dev dev staging production permissions reset clean clean-force ssh-nginx rebuild-nginx
+.PHONY: start stop setup setup-single-wallet setup-multi-wallet setup-dev dev staging production permissions reset clean clean-force ssh-nginx rebuild-nginx
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -284,10 +274,7 @@ setup-dev:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
- 
-make: *** No rule to make target `all'.  Stop.
-
-#  commands to execute (from `Makefile', line 79):
+#  commands to execute (from `Makefile', line 60):
 	docker-compose -f docker-compose.dev.yml up -d
 	
 
@@ -300,7 +287,7 @@ make: *** No rule to make target `all'.  Stop.
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-06 14:03:31
+#  Last modified 2022-06-27 13:57:55
 #  File has been updated.
 #  Successfully updated.
 # variable set hash-table stats:
@@ -318,8 +305,9 @@ start:
 # Not a target:
 .env:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-09 14:49:54
+#  Last modified 2022-06-27 15:52:10
 #  File has been updated.
+ 
 #  Successfully updated.
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/0=0%
@@ -329,7 +317,7 @@ staging:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 90):
+#  commands to execute (from `Makefile', line 71):
 	make production
 	
 
@@ -338,7 +326,7 @@ ssh-nginx:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 137):
+#  commands to execute (from `Makefile', line 118):
 	docker exec -it ${COMPOSE_PROJECT_NAME}-nginx /bin/sh
 	
 
@@ -347,7 +335,7 @@ dev:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 83):
+#  commands to execute (from `Makefile', line 64):
 	$(CONTAINER_DEV) 'npm start'
 	
 
@@ -356,7 +344,7 @@ permissions:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 108):
+#  commands to execute (from `Makefile', line 89):
 	mkdir -p .docker/logs/nginx/
 	chmod -R 777 .docker/logs/
 	
@@ -372,7 +360,7 @@ reset:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 114):
+#  commands to execute (from `Makefile', line 95):
 	make stop
 	docker system prune --force
 	rm -rf ./.docker/logs/nginx/*
@@ -387,7 +375,7 @@ clean:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 124):
+#  commands to execute (from `Makefile', line 105):
 	make stop
 	docker system prune --all --volumes --force
 	rm -rf ./.docker/logs/nginx/*
@@ -401,7 +389,7 @@ setup-single-wallet:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 42):
+#  commands to execute (from `Makefile', line 23):
 	make setup-dev
 	rm .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
@@ -417,27 +405,12 @@ setup-single-wallet:
 	$(CONTAINER_DEV) 'npm install @elrondnetwork/dapp-core-internal'
 	
 
-setup-wallet:
-#  Phony target (prerequisite of .PHONY).
-#  Implicit rule search has not been done.
-#  File does not exist.
-#  File has not been updated.
-#  commands to execute (from `Makefile', line 23):
-	rm -f .npmrc && touch .npmrc
-	echo $(NPMRC) >> .npmrc
-	rm -f ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
-	cp -p ./src/config.devnet.ts ./src/config.ts
-	rm -f ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
-	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
-	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
-	
-
 production:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 94):
+#  commands to execute (from `Makefile', line 75):
 	make permissions
 	docker compose up -d
 	$(CONTAINER_NGINX) 'npm install'
@@ -455,7 +428,7 @@ clean-force:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 133):
+#  commands to execute (from `Makefile', line 114):
 	sudo make clean
 	
 
@@ -464,7 +437,7 @@ setup-multi-wallet:
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  commands to execute (from `Makefile', line 62):
+#  commands to execute (from `Makefile', line 43):
 	make setup-dev
 	rm .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
@@ -478,7 +451,7 @@ setup-multi-wallet:
 	
 
 # files hash-table stats:
-# Load=22/1024=2%, Rehash=0, Collisions=0/66=0%
+# Load=21/1024=2%, Rehash=0, Collisions=0/63=0%
 # VPATH Search Paths
 
 # No `vpath' search paths.
@@ -490,6 +463,6 @@ setup-multi-wallet:
 # strcache size: total = 4096 / max = 4096 / min = 4096 / avg = 4096
 # strcache free: total = 4082 / max = 4082 / min = 4082 / avg = 4082
 
-# Finished Make data base on Thu Jul  7 23:26:05 2022
+# Finished Make data base on Tue Jun 28 10:30:46 2022
 
  

@@ -1,26 +1,29 @@
-import { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
+import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
-import { Box, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
-import Safe from 'src/assets/img/safe.png';
-import CopyButton from 'src/components/CopyButton';
-import ReceiveModal from 'src/components/ReceiveModal';
-import SafeOptions from 'src/components/SafeOptions';
-import { uniqueContractAddress } from 'src/multisigConfig';
-import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { Box, Button, Typography } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
+import Safe from 'assets/img/safe.png';
+import CopyButton from 'components/CopyButton';
+import ReceiveModal from 'components/ReceiveModal';
+import SafeOptions from 'components/SafeOptions';
+import { uniqueContractAddress } from 'multisigConfig';
+import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
+import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
 import { Anchor, ReadOnly, MembersBox } from '../navbar-style';
 import TotalBalance from '../TotalBalance';
+import styles from './NavbarAccountDetails.module.css';
 
 const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
+  const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
   const [showQr, setShowQr] = useState(false);
 
   const {
-    membersCountState: [membersCount],
+    tokenPrices,
+    membersCountState: [membersCount]
   } = useOrganizationInfoContext();
 
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
@@ -29,72 +32,90 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
     setShowQr(!showQr);
   };
 
+  const closeSafeDropdown = (data: boolean) => {
+    setOpenedSafeSelect(data);
+  };
+
   return (
     <Box>
-      <Box sx={{ textAlign: 'center' }}>
-        <Box>
-          <img src={Safe} width="91px" height="91px" alt="safe" />
+      <Box className={styles.navbarAccountDetails}>
+        <Box sx={{ textAlign: 'center' }} className={styles.safeNmembers}>
+          <Box>
+            <img src={Safe} width='70px' height='70px' />
+          </Box>
+          <Box className={styles.membersBox}>
+            <MembersBox>
+              <Typography>{membersCount}</Typography>
+            </MembersBox>
+          </Box>
         </Box>
-        <Box>
-          <MembersBox>
-            <Typography>
-              {membersCount}
-              {membersCount === 1 ? 'Member' : 'Members'}
-            </Typography>
-          </MembersBox>
-        </Box>
-        <Box
-          sx={{ pt: 1 }}
-          className="d-flex justify-content-center align-items-center"
-        >
-          <Typography align="center">{uniqueAddress}</Typography>
-          {openedSafeSelect === true && (
-            <Box>
-              <ArrowDropUpIcon
-                onClick={() => {
-                  setOpenedSafeSelect(false);
-                }}
-              />
-              <SafeOptions />
-            </Box>
-          )}
-          {openedSafeSelect === false && (
-            <Box>
-              <ArrowDropDownIcon
-                onClick={() => {
-                  setOpenedSafeSelect(true);
-                }}
-              />
-            </Box>
-          )}
-        </Box>
-      </Box>
-      <Box className="d-flex justify-content-center" sx={{ pt: 1 }}>
-        <Box onClick={handleQrModal} sx={{ mx: 1, cursor: 'pointer' }}>
-          <QrCode2Icon />
-        </Box>
-        <Box sx={{ mx: 1 }}>
-          <CopyButton text={uniqueContractAddress} />
-        </Box>
-        <Box sx={{ mx: 1 }}>
-          <Anchor
-            href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
-            target="_blank"
-            rel="noreferrer"
-            color="#6c757d"
+        <Box className={styles.uniqueAddressNicons} sx={{ pt: 1, pl: 1 }}>
+          <Box
+            sx={{ pt: 1 }}
+            className='d-flex justify-content-center align-items-center'
           >
-            <ContentPasteGoIcon />
-          </Anchor>
+            <Typography align='center'>{uniqueAddress}</Typography>
+            {openedSafeSelect === true && (
+              <Box>
+                <ArrowDropUpIcon
+                  onClick={() => {
+                    setOpenedSafeSelect(false);
+                  }}
+                />
+                <SafeOptions closeSafeDropdown={closeSafeDropdown} />
+              </Box>
+            )}
+            {openedSafeSelect === false && (
+              <Box>
+                <ArrowDropDownIcon
+                  onClick={() => {
+                    setOpenedSafeSelect(true);
+                  }}
+                />
+              </Box>
+            )}
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'center'
+            }}
+          >
+            <Box
+              onClick={handleQrModal}
+              sx={{
+                mx: 1,
+                cursor: 'pointer'
+              }}
+            >
+              <QrCode2Icon />
+            </Box>
+            <Box sx={{ mx: 1 }}>
+              <CopyButton text={uniqueContractAddress} />
+            </Box>
+            <Box sx={{ mx: 1 }}>
+              <Anchor
+                href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
+                target='_blank'
+                rel='noreferrer'
+                color='#6c757d'
+              >
+                <ContentPasteSearchIcon />
+              </Anchor>
+            </Box>
+          </Box>
+          <ReceiveModal
+            showQrFromSidebar={showQr}
+            address={currentContract?.address}
+            handleQr={handleQrModal}
+          />
         </Box>
-        <ReceiveModal
-          showQrFromSidebar={showQr}
-          address={currentContract?.address}
-          handleQr={handleQrModal}
-        />
+        <Box sx={{ mt: 2 }} className={styles.readOnly}>
+          <ReadOnly sx={{ px: 2 }}>Read-only</ReadOnly>
+        </Box>
       </Box>
-      <Box sx={{ mt: 2 }} className="d-flex justify-content-center">
-        <ReadOnly sx={{ px: 2 }}>Read-only</ReadOnly>
-      </Box>
+      <hr />
       <TotalBalance />
     </Box>
   );
