@@ -13,6 +13,7 @@
 
 # misc
 /src/config.tsx
+/src/config.ts
 .DS_Store
 .env
 .npmrc
@@ -23,5 +24,4 @@ src/multisigExtrasConfig.ts
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-config.ts
 build.yaml
