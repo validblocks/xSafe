@@ -22,6 +22,6 @@ const NavbarLogo = () => {
       <DappName className="d-flex align-items-center">{dAppName}</DappName>
     </NavLogo>
   );
-};
+}
 
 export default NavbarLogo;

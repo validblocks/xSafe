@@ -62,6 +62,6 @@ const Trim = ({ text, dataTestId = '' }: TrimType) => {
       )}
     </span>
   );
-};
+}
 
 export default Trim;
