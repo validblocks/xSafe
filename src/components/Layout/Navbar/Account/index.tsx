@@ -63,33 +63,33 @@ const Account = () => {
     () => ({
       pr: 1.7,
       pl: 1,
-      py: 1.2
+      py: 1.2,
     }),
-    []
+    [],
   );
   const MAIN_BUTTON_VARIABLE_STYLE = useMemo(
     () => ({
       backgroundColor: isMainButtonActive ? '#4C2FFC !important' : '',
-      color: isMainButtonActive ? '#FFFF !important' : ''
+      color: isMainButtonActive ? '#FFFF !important' : '',
     }),
-    [isMainButtonActive]
+    [isMainButtonActive],
   );
   return (
-    <div className='mr-2'>
+    <div className="mr-2">
       <Box>
         <MainButton
-          variant='outlined'
+          variant="outlined"
           onClick={handleClick}
-          size='large'
+          size="large"
           sx={{ ...MAIN_BUTTON_DEFAULT_STYLE, ...MAIN_BUTTON_VARIABLE_STYLE }}
         >
           {loggedIn ? (
-            <Box className='d-flex'>
+            <Box className="d-flex">
               <BoltIcon />
               <Typography>{walletAddress}</Typography>
             </Box>
           ) : (
-            <Box className='d-flex' sx={{ textTransform: 'capitalize' }}>
+            <Box className="d-flex" sx={{ textTransform: 'capitalize' }}>
               <BoltIcon />
               <Typography>Connect</Typography>
             </Box>
@@ -101,8 +101,8 @@ const Account = () => {
         PaperProps={{
           sx: {
             borderRadius: '10px',
-            boxShadow: '0px 8px 24px rgba(76, 47, 252, 0.13)'
-          }
+            boxShadow: '0 8px 24px rgba(76, 47, 252, 0.13)',
+          },
         }}
         open={open}
         onClose={handleClose}
@@ -117,8 +117,8 @@ const Account = () => {
             sx={{
               padding: '0',
               '&:hover': {
-                backgroundColor: 'transparent'
-              }
+                backgroundColor: 'transparent',
+              },
             }}
           >
             <Unlock />
