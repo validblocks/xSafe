@@ -36,7 +36,6 @@ const AssetsPage = () => {
     token: TokenTableRowItem,
   ) => {
     dispatch(setProposeMultiselectSelectedOption({ option }));
-    console.log(token, 'token');
     dispatch(
       setSelectedTokenToSend({
         id: token.id,
@@ -149,8 +148,6 @@ const AssetsPage = () => {
     },
     [tokenTableRows],
   );
-
-  console.log({ tokenTableRows });
 
   return (
     <Box
