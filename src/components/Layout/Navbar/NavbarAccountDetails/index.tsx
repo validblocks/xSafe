@@ -14,6 +14,7 @@ import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationI
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { network } from 'src/config';
 import {
   Anchor, MembersBox, ReadOnly,
 } from '../navbar-style';
@@ -116,7 +117,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             </Box>
             <Box>
               <Anchor
-                href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
+                href={`${network.explorerAddress}/accounts/${uniqueContractAddress}`}
                 target="_blank"
                 rel="noreferrer"
                 color="#6c757d"
