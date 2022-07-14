@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { List, Accordion } from '@mui/material';
 import Box from '@mui/material/Box';
@@ -80,7 +80,7 @@ const MiniDrawer = () => {
     setWalletAddress(addressShorthand(uniqueContractAddress));
   }, []);
 
-  const [expanded, setExpanded] = React.useState<string | false>(false);
+  const [expanded, setExpanded] = useState<string | false>(false);
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
