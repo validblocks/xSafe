@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Box, Button, Typography, Grid, Paper } from '@mui/material';
@@ -11,10 +9,13 @@ import CopyButton from 'components/CopyButton';
 import ReceiveModal from 'components/ReceiveModal';
 import SafeOptions from 'components/SafeOptions';
 import { uniqueContractAddress } from 'multisigConfig';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
-import { Anchor, ReadOnly, MembersBox } from '../navbar-style';
+import './navbarAccountDetails.scss';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import TotalBalance from '../TotalBalance';
+import { Anchor, MembersBox, ReadOnly } from '../navbar-style';
 
 const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   const dispatch = useDispatch();
