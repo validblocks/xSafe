@@ -69,7 +69,6 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const MiniDrawer = () => {
-  const theme = useTheme();
   const location = useLocation();
   const locationString = location.pathname.substring(1);
 
@@ -100,8 +99,8 @@ const MiniDrawer = () => {
           <Divider />
         </List>
         <TopMenu>
-          {menuItems.topItems.map((el, index) => (
-            <div key={index}>
+          {menuItems.topItems.map((el) => (
+            <div key={el.id}>
               {el.submenu && (
                 <Accordion
                   expanded={expanded === `${el.id}`}
@@ -140,8 +139,8 @@ const MiniDrawer = () => {
                       />
                     </ListItem>
                   </MenuAccordion>
-                  {el.submenu?.map((el, index) => (
-                    <AccordionDetail key={index} sx={{ p: 0 }}>
+                  {el.submenu?.map((el) => (
+                    <AccordionDetail key={el.link} sx={{ p: 0 }}>
                       <Link
                         to={el.link}
                         className={
@@ -214,9 +213,9 @@ const MiniDrawer = () => {
         </TopMenu>
         <BottomMenu>
           <Divider sx={{ mt: 1 }} />
-          {menuItems.bottomItems.map((el, index) => (
+          {menuItems.bottomItems.map((el) => (
             <Link
-              key={index}
+              key={el.link}
               to={el.link}
               className={
                 locationString == el.link
@@ -248,7 +247,7 @@ const MiniDrawer = () => {
             </Link>
           ))}
 
-        </BottomMenu>src/
+        </BottomMenu>
       </Drawer>
     </Box>
   );
