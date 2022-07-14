@@ -19,8 +19,9 @@ import routeNames from './routeNames';
 type RouteType = DappCoreRouteTypes & { title: string };
 
 export type ForegroundRoutesType =
-  | 'unlock'
   | 'welcome'
+  | 'unlock'
+  | 'home'
   | 'dashboard'
   | 'decisions'
   | 'decisionActions'
@@ -28,11 +29,11 @@ export type ForegroundRoutesType =
   | 'multisigAddress'
   | 'tokenTableRows'
   | 'assets'
-  | 'nft'
   | 'cvorum'
   | 'owners'
   | 'transactions'
   | 'settings'
+  | 'nft'
   | 'addressBook';
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
@@ -117,6 +118,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     title: 'Address Book',
     component: AddressBook,
   },
+  home: {} as RouteType,
 };
 
 const routes: RouteType[] = [

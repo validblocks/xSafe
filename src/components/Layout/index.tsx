@@ -6,7 +6,7 @@ import {
   useGetLoginInfo,
 } from '@elrondnetwork/dapp-core';
 import { Box, styled } from '@mui/material';
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import MuiAppBar, { AppBarProps, AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
 import { getAccountData } from 'src/apiCalls/accountCalls';
@@ -38,9 +38,6 @@ function Layout({ children }: { children: React.ReactNode }) {
     accessTokenServices?.maiarIdApi,
     isLoggedIn,
   );
-  interface AppBarProps extends MuiAppBarProps {
-    open?: boolean;
-  }
 
   const loggedIn = loginMethod !== '';
 
