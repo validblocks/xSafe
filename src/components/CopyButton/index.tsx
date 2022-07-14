@@ -46,6 +46,6 @@ const CopyButton = ({ text, className = '' }: CopyButtonType) => {
       )}
     </a>
   );
-}
+};
 
 export default CopyButton;

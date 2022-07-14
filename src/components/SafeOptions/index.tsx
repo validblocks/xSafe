@@ -112,6 +112,6 @@ const SafeOptions = () => {
       />
     </SafeOptionsWrapper>
   );
-}
+};
 
 export default SafeOptions;
