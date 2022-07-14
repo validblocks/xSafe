@@ -131,6 +131,19 @@ export const MenuAccordion = styled(AccordionSummary)`
       color: rgba(76, 47, 252, 0.54);
     }
   }
+  &.Mui-expanded {
+    border-right: solid 2px #4c2ffc;
+    background-color: #e4eaff;
+    .MuiTypography-root {
+      color: ${(props) => props.theme.palette.primary.main} !important;
+    };
+    .css-hgjmvv-MuiListItemIcon-root {
+      color: ${(props) => props.theme.palette.primary.main} !important;
+    };
+    .css-yw020d-MuiAccordionSummary-expandIconWrapper {
+      color: rgba(76, 47, 252, 0.54);
+    }
+  }
 `;
 
 export const AccordionDetail = styled(AccordionDetails)`

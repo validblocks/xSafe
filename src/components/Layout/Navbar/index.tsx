@@ -109,11 +109,6 @@ const MiniDrawer = () => {
                     expandIcon={<ArrowDropDownIcon />}
                     id="panel1a-header"
                     sx={{ pl: 0 }}
-                    className={
-                    locationString === el.link
-                      ? 'active link-decoration'
-                      : 'link-decoration'
-                    }
                   >
                     <ListItem
                       sx={{
@@ -150,6 +145,7 @@ const MiniDrawer = () => {
                             ? 'active link-decoration'
                             : 'link-decoration'
                         }
+                        style={{ borderRight: 'none', backgroundColor: '#f5f7ff' }}
                       >
                         <ListItem
                           sx={{
