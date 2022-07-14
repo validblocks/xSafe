@@ -8,12 +8,12 @@ import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { borderRadius } from 'react-select/src/theme';
-import { ReactComponent as Union } from 'assets/img/Union.svg';
+import { ReactComponent as Union } from 'src/assets/img/Union.svg';
 import ConnectedAccount from 'components/Layout/Navbar/ConnectedAccount';
 import { MainButton } from 'components/Theme/StyledComponents';
-import addressShorthand from 'helpers/addressShorthand';
-import Unlock from 'pages/Unlock';
-import { routeNames } from 'routes';
+import addressShorthand from 'src/helpers/addressShorthand';
+import Unlock from 'src/pages/Unlock';
+import { routeNames } from 'src/routes';
 import { ConnectDropdown } from '../navbar-style';
 
 const Account = () => {
@@ -47,7 +47,8 @@ const Account = () => {
 
   React.useEffect(logoutOnSessionExpire, [isLoggedIn]);
 
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isMainButtonActive, setIsMainButtonActive] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setIsMainButtonActive(true);
@@ -57,7 +58,6 @@ const Account = () => {
     setAnchorEl(null);
     setIsMainButtonActive(false);
   };
-  const [isMainButtonActive, setIsMainButtonActive] = useState(false);
 
   const MAIN_BUTTON_DEFAULT_STYLE = useMemo(
     () => ({
@@ -101,7 +101,11 @@ const Account = () => {
         PaperProps={{
           sx: {
             borderRadius: '10px',
+<<<<<<< HEAD
             boxShadow: '0 8px 24px rgba(76, 47, 252, 0.13)',
+=======
+            boxShadow: '0px 8px 24px rgba(76, 47, 252, 0.13)',
+>>>>>>> 88351ab (chore: formatted with prettier)
           },
         }}
         open={open}

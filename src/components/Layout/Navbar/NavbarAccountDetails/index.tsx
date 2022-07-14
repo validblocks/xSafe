@@ -1,21 +1,21 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
-import { Box, Button, Typography, Grid, Paper } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import {
+  Box, Button, Typography, Grid, Paper,
+} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import Safe from 'assets/img/safe.png';
+import Safe from 'src/assets/img/safe.png';
 import CopyButton from 'components/CopyButton';
 import ReceiveModal from 'components/ReceiveModal';
 import SafeOptions from 'components/SafeOptions';
-import { uniqueContractAddress } from 'multisigConfig';
-import { currentMultisigContractSelector } from 'redux/selectors/multisigContractsSelectors';
-import './navbarAccountDetails.scss';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import {
+  Anchor, MembersBox, ReadOnly,
+} from '../navbar-style';
 import TotalBalance from '../TotalBalance';
-import { Anchor, MembersBox, ReadOnly } from '../navbar-style';
 
 const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
 
   const {
     tokenPrices,
-    membersCountState: [membersCount]
+    membersCountState: [membersCount],
   } = useOrganizationInfoContext();
 
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
@@ -43,17 +43,17 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
         container
         spacing={1}
         sx={{ mt: 1 }}
-        justifyContent='center'
-        alignItems='center'
-        padding='0px'
-        textAlign='center'
+        justifyContent="center"
+        alignItems="center"
+        padding="0px"
+        textAlign="center"
       >
-        <Grid position='relative' sm={3}>
-          <Box display='table'>
-            <img src={Safe} width='60px' height='60px' />
+        <Grid position="relative" sm={3}>
+          <Box display="table">
+            <img src={Safe} alt="safe" width="60px" height="60px" />
           </Box>
-          <Box position='absolute' top='-1.4rem' left='-.5rem'>
-            <MembersBox borderRadius='.2rem !important'>
+          <Box position="absolute" top="-1.4rem" left="-.5rem">
+            <MembersBox borderRadius=".2rem !important">
               <Typography>{membersCount}</Typography>
             </MembersBox>
           </Box>
@@ -61,9 +61,9 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
         <Grid sx={{ pl: 0 }}>
           <Box
             sx={{ ml: 0.5 }}
-            className='d-flex justify-content-center align-items-center'
+            className="d-flex justify-content-center align-items-center"
           >
-            <Typography align='center' lineHeight='1'>
+            <Typography align="center" lineHeight="1">
               {uniqueAddress}
             </Typography>
             {openedSafeSelect === true && (
@@ -90,7 +90,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             sx={{
               display: 'flex',
               flexDirection: 'row',
-              mb: 0.7
+              mb: 0.7,
             }}
           >
             <Box
@@ -98,7 +98,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
               sx={{
                 mr: 1.4,
                 ml: 0.2,
-                cursor: 'pointer'
+                cursor: 'pointer',
               }}
             >
               <QrCode2Icon />
@@ -109,9 +109,9 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             <Box>
               <Anchor
                 href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
-                target='_blank'
-                rel='noreferrer'
-                color='#6c757d'
+                target="_blank"
+                rel="noreferrer"
+                color="#6c757d"
               >
                 <ContentPasteGoOutlinedIcon />
               </Anchor>
@@ -124,7 +124,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
           />
         </Grid>
         <Grid sx={{ mt: 1.2, mb: 1.1 }} sm={8}>
-          <ReadOnly borderRadius='.4rem !important' sx={{ px: 2 }}>
+          <ReadOnly borderRadius=".4rem !important" sx={{ px: 2 }}>
             Read-only
           </ReadOnly>
         </Grid>
