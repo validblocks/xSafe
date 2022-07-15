@@ -87,8 +87,8 @@ export type Owner = {
 export type OrganizationToken = {
   prettyIdentifier: string;
   identifier: string;
-  tokenPrice: string;
+  tokenPrice: number;
   tokenAmount: string;
-  tokenValue: string;
+  tokenValue: number;
   photoUrl: string;
 };

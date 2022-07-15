@@ -1,11 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, Typography } from '@mui/material';
-import { useMemo } from 'react';
+import { OrganizationToken } from 'src/pages/Organization/types';
 import { useSelector } from 'react-redux';
 import { TokenPresentationProps } from 'src/pages/MultisigDetails/ProposeMultiselectModal/ProposeSendToken';
-import { TokenTableRowItem } from 'src/pages/Organization/types';
-import { organizationTokenByIdentifierSelector, tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
+import {
+  organizationTokenByIdentifierSelector,
+  tokenTableRowsSelector,
+  getTokenPhotoById,
+  accountSelector } from 'src/redux/selectors/accountSelector';
 import useTokenPhoto from 'src/utils/useTokenPhoto';
+import { StateType } from 'src/redux/slices/accountSlice';
+import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
+import { useMemo } from 'react';
 
 type TokenPresentationConfig = {
     withPhoto: boolean;
@@ -24,9 +30,16 @@ const TokenPresentationWithPrice = ({
   withPrice = true }: TokenPresentationWithPriceProps) => {
   const { tokenPhotoJSX } = useTokenPhoto(identifier);
 
-  const tokenSelectorFunction = useSelector(organizationTokenByIdentifierSelector);
+  const selector = useMemo(
+    () => createDeepEqualSelector(accountSelector, (state: StateType) => getTokenPhotoById(state, identifier)),
+    [identifier]);
 
-  const tokenForPresentation = useMemo(() => tokenSelectorFunction(identifier), [identifier, tokenSelectorFunction]);
+  const {
+    prettyIdentifier,
+    tokenPrice,
+    tokenValue,
+    tokenAmount,
+  } = useSelector<StateType, OrganizationToken>(selector);
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
@@ -43,11 +56,11 @@ const TokenPresentationWithPrice = ({
         }}
         >
           <Box>
-            {tokenForPresentation?.prettyIdentifier}
+            {prettyIdentifier}
           </Box>
           {withPrice && (
           <Typography variant="subtitle2">
-            {tokenForPresentation?.tokenPrice}
+            ${tokenPrice}
           </Typography>
           )}
         </Box>
@@ -55,12 +68,12 @@ const TokenPresentationWithPrice = ({
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
         {withTokenAmount && (
         <Box>
-          {tokenForPresentation?.tokenAmount}
+          {tokenAmount}
         </Box>
         )}
         {withTokenValue && (
         <Box>
-          {tokenForPresentation?.tokenValue}
+          ${tokenValue}
         </Box>
         )}
       </Box>

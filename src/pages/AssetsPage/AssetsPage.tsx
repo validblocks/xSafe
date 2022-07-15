@@ -107,14 +107,6 @@ const AssetsPage = () => {
           renderCell: (params: GridRenderCellParams) => (
             <h5 className="text-center mb-0 font-weight-normal">
               <DisplayTokenPrice
-                // tokenAmount={operations.denominate({
-                //   input: params.value.amount,
-                //   denomination: params.value.decimals,
-                //   decimals: params.value.decimals,
-                //   showLastNonZeroDecimal: true,
-                //   addCommas: false,
-                // })}
-                // tokenUnitPrice={params.value.tokenPrice}
                 balanceDetails={params.value}
               />
             </h5>

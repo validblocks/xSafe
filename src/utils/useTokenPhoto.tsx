@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { organizationTokenPhotoUrlSelector } from 'src/redux/selectors/accountSelector';
+import { getTokenPhotoUrlById, accountSelector } from 'src/redux/selectors/accountSelector';
 import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
+import { StateType } from 'src/redux/slices/accountSlice';
+import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 
 interface IUseTokenPhotoOptions {
     width?: number;
@@ -12,15 +14,12 @@ export default function useTokenPhoto(identifier: string, options: IUseTokenPhot
   width: 30,
   height: 30,
 }) {
-  const photoUrlSelectorFunction = useSelector(organizationTokenPhotoUrlSelector);
-  const [photoUrl, setPhotoTokenUrl] = useState(() => photoUrlSelectorFunction(identifier));
+  const tokenPhotoByUrlSelector = useMemo(() => createDeepEqualSelector(accountSelector,
+    (state: StateType) => getTokenPhotoUrlById(state, identifier)), [identifier]);
+  const photoUrl = useSelector<StateType, string>(tokenPhotoByUrlSelector);
   const [tokenPhotoJSX, setTokenPhotoJSX] = useState(
     <img width={options.width} height={options.height} src={photoUrl} alt="token" className="mr-2" />,
   );
-
-  useEffect(() => {
-    setPhotoTokenUrl(photoUrlSelectorFunction(identifier));
-  }, [photoUrlSelectorFunction, identifier]);
 
   useEffect(() => {
     setTokenPhotoJSX(
