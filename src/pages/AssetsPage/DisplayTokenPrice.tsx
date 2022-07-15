@@ -9,7 +9,7 @@ interface Props {
 
 const calculatePrice = (balanceDetails: BalanceDetails) => {
   const { amount, decimals, tokenPrice } = balanceDetails;
-
+  console.log({ amount });
   const tokenAmount = parseFloat(operations.denominate({
     input: amount,
     denomination: decimals,

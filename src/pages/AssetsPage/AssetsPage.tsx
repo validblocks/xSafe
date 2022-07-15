@@ -89,13 +89,12 @@ const AssetsPage = () => {
           renderCell: (params: GridRenderCellParams) => (
             <h6 className="text-center mb-0 font-weight-normal">
               {
-                operations.denominate({
+                Number(operations.denominate({
                   input: params.value?.amount,
                   denomination: params.value?.decimals,
                   decimals: 3,
                   showLastNonZeroDecimal: true,
-                })
-
+                }).replaceAll(',', '')).toLocaleString()
             } ${params.value.identifier}
             </h6>
           ),
