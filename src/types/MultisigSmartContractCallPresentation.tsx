@@ -6,7 +6,7 @@ import i18next from 'i18next';
 import { denomination } from 'src/config';
 import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
 import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
-import useTokenPhoto from 'src/utils/useTokenPhoto';
+import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 
 const StyledTypography = withStyles({
   root: {
@@ -21,19 +21,13 @@ interface IMultisigSmartContractCallPresentationProps {
 }
 
 const MultisigSmartContractCallPresentation = (
-  { address, amount, identifier }: IMultisigSmartContractCallPresentationProps) => {
-  const { tokenPhotoJSX } = useTokenPhoto(identifier);
-
-  return (
+  { address, amount, identifier }: IMultisigSmartContractCallPresentationProps) => (
     <Box>
       <h4>
         <strong>Send Token</strong>
       </h4>
-      <Box>
-        <StyledTypography variant="subtitle1" sx={{ marginRight: '0.75rem', padding: '1rem 0' }}>
-          {tokenPhotoJSX}
-          <strong>{identifier}{' '}</strong>
-        </StyledTypography>
+      <Box sx={{ py: '1rem' }}>
+        <TokenPresentationWithPrice identifier={identifier} withTokenAmount={false} withTokenValue={false} />
       </Box>
       <Box>
         <StyledTypography
@@ -63,7 +57,6 @@ const MultisigSmartContractCallPresentation = (
         />
       </Box>
     </Box>
-  );
-};
+);
 
 export default MultisigSmartContractCallPresentation;

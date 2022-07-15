@@ -17,6 +17,8 @@ import {
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { getDate } from 'src/utils/transactionUtils';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import { StateType } from 'src/redux/slices/accountSlice';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import TransactionHistoryPresentation from './TransactionHistoryPresentation';
 
 const dateFormat = 'MMM D, YYYY';
@@ -33,15 +35,15 @@ const TransactionHistory = () => {
     PairOfTransactionAndDecodedAction[]
   >([]);
 
-  const currentContract = useSelector(currentMultisigContractSelector);
+  const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
 
   const [cursor, setCursor] = useState(() => 0);
   const [actionsPerPage, setActionsPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
-  const globalIntervalEndTimestamp = useSelector(intervalEndTimestampSelector);
-  const globalIntervalStartTimestamp = useSelector(
+  const globalIntervalEndTimestamp = useSelector<StateType, number>(intervalEndTimestampSelector);
+  const globalIntervalStartTimestamp = useSelector<StateType, number>(
     intervalStartTimestampSelector,
   );
 

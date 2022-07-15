@@ -31,13 +31,27 @@ export const getTokenPhotoUrlById = (
   tokenIdentifier: string,
 ) =>
   state.organizationTokens?.find(
-    (token: OrganizationToken) => token.identifier === tokenIdentifier,
+    (token: OrganizationToken) =>
+      token.identifier === tokenIdentifier ||
+      token.prettyIdentifier === tokenIdentifier,
   )?.photoUrl;
 
-export const getTokenPhotoById = (state: RootState, tokenIdentifier: string) =>
-  state.organizationTokens?.find(
-    (token: OrganizationToken) => token.identifier === tokenIdentifier,
-  ) ?? DEFAULT_ORGANIZATION_TOKEN;
+export const getTokenPhotoById = (
+  state: RootState,
+  tokenIdentifier: string,
+) => {
+  console.log(
+    '!!! WARNING: watchout for comparison here and in getTokenPhotoUrlById',
+  );
+  const res =
+    state.organizationTokens?.find(
+      (token: OrganizationToken) =>
+        token.identifier === tokenIdentifier ||
+        token.prettyIdentifier === tokenIdentifier,
+    ) ?? DEFAULT_ORGANIZATION_TOKEN;
+
+  return res;
+};
 
 export const organizationTokenByIdentifierSelector = createDeepEqualSelector(
   accountSelector,

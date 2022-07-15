@@ -4,8 +4,6 @@ import { OrganizationToken } from 'src/pages/Organization/types';
 import { useSelector } from 'react-redux';
 import { TokenPresentationProps } from 'src/pages/MultisigDetails/ProposeMultiselectModal/ProposeSendToken';
 import {
-  organizationTokenByIdentifierSelector,
-  tokenTableRowsSelector,
   getTokenPhotoById,
   accountSelector } from 'src/redux/selectors/accountSelector';
 import useTokenPhoto from 'src/utils/useTokenPhoto';
