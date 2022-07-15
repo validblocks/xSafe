@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { getIsLoggedIn, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { Box } from '@mui/material';
@@ -39,24 +39,48 @@ function Account() {
   useEffect(logoutOnSessionExpire, [isLoggedIn]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [isMainButtonActive, setIsMainButtonActive] = useState(false);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setIsMainButtonActive(true);
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
+    setIsMainButtonActive(false);
   };
+
+  const MAIN_BUTTON_DEFAULT_STYLE = useMemo(
+    () => ({
+      pr: 1.7,
+      pl: 1,
+      py: 1.2,
+    }),
+    [],
+  );
+  const MAIN_BUTTON_VARIABLE_STYLE = useMemo(
+    () => ({
+      backgroundColor: isMainButtonActive ? '#4C2FFC !important' : '',
+      color: isMainButtonActive ? '#FFFF !important' : '',
+    }),
+    [isMainButtonActive],
+  );
   return (
     <div className="mr-2">
       <Box>
-        <MainButton variant="outlined" onClick={handleClick} size="large">
+        <MainButton
+          variant="outlined"
+          onClick={handleClick}
+          size="large"
+          sx={{ ...MAIN_BUTTON_DEFAULT_STYLE, ...MAIN_BUTTON_VARIABLE_STYLE, p: '10px 18px 9px 10px !important' }}
+        >
           {loggedIn ? (
             <Box className="d-flex">
               <BoltIcon />
               <Typography sx={{ textTransform: 'lowercase' }}>{walletAddress}</Typography>
             </Box>
           ) : (
-            <Box className="d-flex">
+            <Box className="d-flex" sx={{ textTransform: 'capitalize' }}>
               <BoltIcon />
               <Typography>Connect</Typography>
             </Box>
@@ -65,6 +89,12 @@ function Account() {
       </Box>
       <ConnectDropdown
         anchorEl={anchorEl}
+        PaperProps={{
+          sx: {
+            borderRadius: '10px',
+            boxShadow: '0px 8px 24px rgba(76, 47, 252, 0.13)',
+          },
+        }}
         open={open}
         onClose={handleClose}
         onClick={handleClose}
@@ -74,7 +104,14 @@ function Account() {
             <ConnectedAccount />
           </Box>
         ) : (
-          <MenuItem>
+          <MenuItem
+            sx={{
+              padding: '0',
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+            }}
+          >
             <Unlock />
           </MenuItem>
         )}

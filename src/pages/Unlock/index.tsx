@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
 import { DappUI, useGetLoginInfo } from '@elrondnetwork/dapp-core';
-import { faArrowRight, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Navigate } from 'react-router-dom';
-import routeNames from 'src/routes/routeNames';
-import { ReactComponent as IconElrond } from 'src/assets/img/icon-elrond.svg';
-import { ReactComponent as IconLedger } from 'src/assets/img/icon-ledger.svg';
-import { ReactComponent as IconMaiar } from 'src/assets/img/icon-maiar.svg';
+import { ReactComponent as IconElrond } from 'src/assets/img/elrond-web-wallet.svg';
+import { ReactComponent as IconLedger } from 'src/assets/img/ledger.svg';
+import { ReactComponent as IconMaiar } from 'src/assets/img/maiar-app.svg';
+import { ReactComponent as IconMaiarWallet } from 'src/assets/img/maiar-defi-wallet.svg';
 import { network } from 'src/config';
 import { accessTokenServices, maiarIdApi } from 'src/services/accessTokenServices';
+import routeNames from 'src/routes/routeNames';
 
 declare global {
   interface Window {
@@ -17,37 +17,7 @@ declare global {
   }
 }
 
-const UnlockTitleTootlip = (props: Record<string, unknown>) => (
-  <Tooltip id="connect-to-wallet-tooltip" {...props}>
-    Connect securely using one of the provided options
-  </Tooltip>
-);
-
-const UnlockTitle = () => (
-  <h5 className="unlock-title mb-spacer">
-    Connect to a wallet
-    <OverlayTrigger
-      placement="top"
-      delay={{ show: 250, hide: 400 }}
-      overlay={(props) => UnlockTitleTootlip(props)}
-    >
-      <a
-        href="/#"
-        onClick={(e) => {
-          e.preventDefault();
-        }}
-        data-testid="infoConnect"
-      >
-        <FontAwesomeIcon
-          icon={faInfoCircle}
-          className="i-icon text-secondary"
-        />
-      </a>
-    </OverlayTrigger>
-  </h5>
-);
-
-function Unlock() {
+const Unlock = () => {
   const [token, setToken] = useState('');
   const { loginMethod } = useGetLoginInfo();
 
@@ -69,10 +39,10 @@ function Unlock() {
   if (loginMethod !== '') {
     return <Navigate to={routeNames.dashboard} />;
   }
+
   return (
-    <div className="unlock-page m-auto">
-      <div className="card unlock text-center">
-        <UnlockTitle />
+    <div className="unlock-block">
+      <div className="unlock text-center">
         {!window.elrondWallet && (
           <a
             rel="noreferrer"
@@ -81,8 +51,10 @@ function Unlock() {
             className="btn btn-unlock btn-block"
           >
             <div className="d-flex justify-content-between align-items-center">
-              <div className="title">Maiar DeFi Wallet</div>
-              <FontAwesomeIcon icon={faArrowRight} />
+              <div className="d-flex flex-row method">
+                <IconMaiarWallet />
+                <div className="title">Maiar DeFi Wallet</div>
+              </div>
             </div>
           </a>
         )}
@@ -91,7 +63,7 @@ function Unlock() {
           <DappUI.ExtensionLoginButton {...loginParams}>
             <div className="d-flex justify-content-between align-items-center">
               <div className="d-flex flex-row method">
-                <IconMaiar />
+                <IconMaiarWallet />
                 <div className="title">Maiar DeFi Wallet</div>
               </div>
 
@@ -106,8 +78,6 @@ function Unlock() {
               <IconMaiar />
               <div className="title">Maiar App</div>
             </div>
-
-            <FontAwesomeIcon icon={faArrowRight} className="arrow" />
           </div>
         </DappUI.WalletConnectLoginButton>
 
@@ -117,8 +87,6 @@ function Unlock() {
               <IconLedger />
               <div className="title">Ledger</div>
             </div>
-
-            <FontAwesomeIcon icon={faArrowRight} className="arrow" />
           </div>
         </DappUI.LedgerLoginButton>
 
@@ -128,25 +96,26 @@ function Unlock() {
               <IconElrond />
               <div className="title">Elrond Web Wallet</div>
             </div>
-            <FontAwesomeIcon icon={faArrowRight} className="arrow" />
           </div>
         </DappUI.WebWalletLoginButton>
+      </div>
 
-        <div className="mt-spacer">
-          <span className="text">New to Elrond?</span>
-        </div>
-        <div className="mt-1">
-          <a
-            className="link-style"
-            href={`${network.walletAddress}/create`}
-            {...{ target: '_blank' }}
-          >
-            Learn How to setup a wallet
-          </a>
-        </div>
+      <hr />
+
+      <div className="mt-3">
+        <span>New to Elrond?</span>
+      </div>
+      <div className="mt-1 mb-1">
+        <a
+          className="link-third-style"
+          href={`${network.walletAddress}/create`}
+          {...{ target: '_blank' }}
+        >
+          Learn how to setup a wallet
+        </a>
       </div>
     </div>
   );
-}
+};
 
 export default Unlock;

@@ -1,14 +1,20 @@
 import AdjustOutlinedIcon from '@mui/icons-material/AdjustOutlined';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CompareArrowsOutlinedIcon from '@mui/icons-material/CompareArrowsOutlined';
+import AppsIcon from '@mui/icons-material/Apps';
 import DiamondIcon from '@mui/icons-material/Diamond';
-import GridViewSharpIcon from '@mui/icons-material/GridViewSharp';
 import GroupsIcon from '@mui/icons-material/Groups';
 import HelpIcon from '@mui/icons-material/Help';
-import MapsHomeWorkIcon from '@mui/icons-material/MapsHomeWork';
-import MenuBookIcon from '@mui/icons-material/MenuBook';
+import MapsHomeWorkRoundedIcon from '@mui/icons-material/MapsHomeWorkRounded';
+import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import PeopleIcon from '@mui/icons-material/People';
-import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import SettingsIcon from '@mui/icons-material/Settings';
+
+export type MenuItem = {
+  name: string;
+  link: string;
+  icon: any
+};
 
 const topItems = [
   {
@@ -35,25 +41,25 @@ const topItems = [
     name: 'Transactions',
     link: 'transactions',
     id: 'transactions-menu-item',
-    icon: <CompareArrowsOutlinedIcon />,
+    icon: <CompareArrowsOutlinedIcon transform="rotate(90)" />,
   },
   {
     name: 'Address Book',
     link: 'address-book',
     id: 'address-book-menu-item',
-    icon: <MenuBookIcon />,
+    icon: <MenuBookRoundedIcon />,
   },
   {
     name: 'Apps',
     link: 'apps',
     id: 'apps-menu-item',
-    icon: <GridViewSharpIcon />,
+    icon: <AppsIcon />,
   },
   {
     name: 'Organization',
     link: 'organization',
     id: 'organization-menu-item',
-    icon: <MapsHomeWorkIcon />,
+    icon: <MapsHomeWorkRoundedIcon />,
     submenu: [
       {
         name: 'Owners',
@@ -76,7 +82,7 @@ const bottomItems = [
     name: 'Settings',
     id: 'settings-menu-item',
     link: 'settings',
-    icon: <SettingsApplicationsIcon />,
+    icon: <SettingsIcon />,
   },
   { name: 'Help Center',
     id: 'help-center-menu-item',
@@ -120,14 +126,13 @@ const mobileBottomItems = [
     link: 'apps',
     id: 'apps-mobile-menu-item',
 
-    icon: <GridViewSharpIcon />,
+    icon: <AppsIcon />,
   },
   {
     name: 'Address Book',
     link: 'address-book',
     id: 'address-book-mobile-menu-item',
-
-    icon: <MenuBookIcon />,
+    icon: <MenuBookRoundedIcon />,
   },
 ];
 

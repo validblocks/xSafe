@@ -89,13 +89,12 @@ const AssetsPage = () => {
           renderCell: (params: GridRenderCellParams) => (
             <h6 className="text-center mb-0 font-weight-normal">
               {
-                operations.denominate({
+                Number(operations.denominate({
                   input: params.value?.amount,
                   denomination: params.value?.decimals,
                   decimals: 3,
                   showLastNonZeroDecimal: true,
-                })
-
+                }).replaceAll(',', '')).toLocaleString()
             } ${params.value.identifier}
             </h6>
           ),
@@ -107,14 +106,6 @@ const AssetsPage = () => {
           renderCell: (params: GridRenderCellParams) => (
             <h5 className="text-center mb-0 font-weight-normal">
               <DisplayTokenPrice
-                // tokenAmount={operations.denominate({
-                //   input: params.value.amount,
-                //   denomination: params.value.decimals,
-                //   decimals: params.value.decimals,
-                //   showLastNonZeroDecimal: true,
-                //   addCommas: false,
-                // })}
-                // tokenUnitPrice={params.value.tokenPrice}
                 balanceDetails={params.value}
               />
             </h5>
@@ -163,7 +154,7 @@ const AssetsPage = () => {
         columns={columns}
         sx={{
           borderRadius: '10px',
-          boxShadow: '0px 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
+          boxShadow: '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
           backgroundColor: '#ffff',
           border: 'none',
           '& .MuiDataGrid-columnSeparator': {

@@ -12,6 +12,7 @@ import Safe from 'src/assets/img/safe.png';
 import { accessTokenServices } from 'src/services/accessTokenServices';
 import routeNames from 'src/routes/routeNames';
 
+import { network } from 'src/config';
 import {
   ConnectItems,
   Anchor,
@@ -53,7 +54,7 @@ const ConnectedAccount = () => {
             </Box>
             <Box sx={{ mr: 1 }}>
               <Anchor
-                href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
+                href={`${network.explorerAddress}/accounts/${uniqueContractAddress}`}
                 target="_blank"
                 rel="noreferrer"
                 color={theme.palette.secondary.main}

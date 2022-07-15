@@ -45,12 +45,12 @@ const MultisigSmartContractCallPresentation = (
           variant="subtitle1"
         >
           <strong className="mr-3">{i18next.t('Amount') as string}:</strong>
-          {Number.isInteger(amount) ? operations.denominate({
-            input: amount.toString(),
+          { operations.denominate({
+            input: amount.toString(10) ?? '0',
             denomination,
             decimals: 4,
             showLastNonZeroDecimal: true,
-          }) : '0'}{' '}
+          }) ?? '0'}{' '}
         </StyledTypography>
       </Box>
       <Box sx={{ display: 'flex' }}>

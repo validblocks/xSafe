@@ -83,7 +83,10 @@ const ProposeSendNft = ({
 
   const addressError = touched.address && errors.address;
   const identifierError: any = touched.identifier && errors.identifier;
-  setSubmitDisabled(!formik.isValid || !formik.dirty);
+
+  useEffect(() => {
+    setSubmitDisabled(!formik.isValid || !formik.dirty);
+  }, [formik.isValid, formik.dirty]);
   useEffect(() => {
     setSubmitDisabled(!(formik.isValid && formik.dirty));
   }, [address, identifier, nonce]);

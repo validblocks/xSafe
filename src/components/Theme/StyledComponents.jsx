@@ -16,6 +16,15 @@ export const MainButton = styled(Button)`
     ${(props) => props.theme.padding.value.xs};
 `;
 
+export const NewTransactionButton = styled(MainButton)`
+  font-size: 15px;
+  padding:
+      ${(props) => props.theme.padding.value.md}
+      25px
+      ${(props) => props.theme.padding.value.sm};
+  font-weight: ${(props) => props.theme.font.weight.md};
+`;
+
 export const AssetActionButton = styled(MainButton)`
   padding: 1px ${(props) => props.theme.padding.value.lg} 0 0;
   opacity: 0;
@@ -43,5 +52,11 @@ export const AssetValue = styled(Box)`
   font-size: 13px;
   color: ${(props) => props.theme.palette.black.main};
   padding: 0;
-  margin: 0;
+  margin: 0px;
+`;
+
+export const AccountButton = styled.div`
+  &:hover ${Button} {
+    background-color: red;
+  }
 `;

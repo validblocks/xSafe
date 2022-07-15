@@ -5,8 +5,8 @@ import { Address, Token } from '@elrondnetwork/erdjs/out';
 import { Box } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { MainButton } from 'src/components/Theme/StyledComponents';
-import { network, denomination, decimals } from 'src/config';
+import { NewTransactionButton } from 'src/components/Theme/StyledComponents';
+import { network, decimals, denomination } from 'src/config';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { OrganizationToken, TokenTableRowItem, TokenWithPrice } from 'src/pages/Organization/types';
 import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
@@ -82,8 +82,6 @@ function TotalBalance() {
       ...otherTokens,
     ];
 
-    console.log({ allTokens });
-
     return { allTokens, egldBalance };
   }, [getBalances]);
 
@@ -149,28 +147,28 @@ function TotalBalance() {
         }
 
         const organizationTokens: OrganizationToken[] = tokensWithPrices.map(({
-          identifier, balanceDetails, value }: TokenTableRowItem) => ({
-          prettyIdentifier: identifier?.split('-')[0] ?? '',
-          identifier: identifier ?? '',
-          photoUrl: balanceDetails?.photoUrl ?? '',
-          tokenPrice: `$${parseFloat(Number(value?.tokenPrice as string).toFixed(DECIMAL_POINTS_UI))}`,
-          tokenAmount: `${parseFloat(
-            Number(operations.denominate({
-              input: value?.amount as string,
-              denomination: balanceDetails?.decimals as number,
-              decimals: balanceDetails?.decimals as number,
-              showLastNonZeroDecimal: true,
-            })).toFixed(DECIMAL_POINTS_UI),
-          )}`,
-          tokenValue: `$${parseFloat(
-            Number(Number(operations.denominate({
-              input: value?.amount as string,
-              denomination: balanceDetails?.decimals as number,
-              decimals: balanceDetails?.decimals as number,
-              showLastNonZeroDecimal: true,
-            })) * (value?.tokenPrice as number)).toFixed(DECIMAL_POINTS_UI),
-          )}`,
-        }));
+          identifier, balanceDetails, value }: TokenTableRowItem) => {
+          const amountAfterDenomination = operations.denominate({
+            input: value?.amount as string,
+            denomination: balanceDetails?.decimals as number,
+            decimals: balanceDetails?.decimals as number,
+            showLastNonZeroDecimal: true,
+          });
+          const denominatedAmountForCalcs = Number(amountAfterDenomination.replaceAll(',', ''));
+
+          const priceAsNumber = value?.tokenPrice as number;
+
+          const totalUsdValue = Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(DECIMAL_POINTS_UI));
+
+          return ({
+            prettyIdentifier: identifier?.split('-')[0] ?? '',
+            identifier: identifier ?? '',
+            photoUrl: balanceDetails?.photoUrl ?? '',
+            tokenPrice: Number(Number(priceAsNumber).toPrecision(DECIMAL_POINTS_UI)),
+            tokenAmount: Number(denominatedAmountForCalcs).toLocaleString(),
+            tokenValue: totalUsdValue,
+          });
+        });
 
         dispatch(setMultisigBalance(JSON.stringify(egldBalance)));
         dispatch(setTokenTableRows(tokensWithPrices));
@@ -244,17 +242,17 @@ function TotalBalance() {
   return (
     <Box
       sx={{
-        py: 1,
+        pt: 0.5,
+        pb: 2,
         px: 2,
         display: { sm: 'block', xs: 'flex' },
         justifyContent: { sm: 'center', xs: 'space-around' },
       }}
     >
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
-        <CenteredText>Total balance:</CenteredText>
-        <CenteredText fontSize="16px" fontWeight="bold">
-          {currencyConverted?.toFixed(2)}
-          {getCurrency}
+        <CenteredText fontSize="14px">Your Total Balance:</CenteredText>
+        <CenteredText fontSize="16px" fontWeight="bolder">
+          {currencyConverted?.toFixed(2)} {getCurrency}
         </CenteredText>
       </Box>
       <Divider orientation="vertical" flexItem />
@@ -262,9 +260,9 @@ function TotalBalance() {
         className="d-flex justify-content-center"
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
       >
-        <MainButton variant="outlined" onClick={onAddBoardMember}>
+        <NewTransactionButton variant="outlined" onClick={onAddBoardMember}>
           New Transaction
-        </MainButton>
+        </NewTransactionButton>
       </Box>
     </Box>
   );

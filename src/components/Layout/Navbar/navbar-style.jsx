@@ -38,9 +38,11 @@ export const DisconnectButton = styled(Button)`
 `;
 
 export const ReadOnly = styled(Typography)`
-  border-radius: ${(props) => props.theme.shape.radius};
+  border-radius: .4rem;
   background: rgba(8, 4, 29, 0.1);
   color: #7a7883;
+  font-size: 14px;
+  padding: 2px 9px;
 `;
 
 export const Anchor = styled.a`
@@ -48,13 +50,12 @@ export const Anchor = styled.a`
 `;
 
 export const MembersBox = styled(Box)`
-  width: 91px;
+  width: 17px;
   margin: auto;
-  background-color: #f0f1fd;
-  border-radius: ${(props) => props.theme.shape.radius};
+  background-color: #E4DFFF;
+  border-radius: 4px;
   margin-top: 10px;
   color: ${(props) => props.theme.palette.primary.main};
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 `;
 
 export const CenteredText = styled(Typography)`
@@ -74,6 +75,7 @@ export const TopHeader = styled(Box)`
 
 export const NavLogo = styled(NavItem)`
   cursor: pointer;
+  padding: 0 1rem;
 `;
 
 export const Logo = styled(ElrondLogo)`
@@ -97,22 +99,15 @@ export const TopMenu = styled(Box)`
   overflow-y: scroll;
   height: 100%;
   z-index: 0;
-  &:after {
-    content: '';
-    box-shadow: 0px -26px 31px 0px rgba(100, 100, 111, 0.3);
-    width: 100%;
-    height: 40px;
-    display: block;
-    position: absolute;
-    bottom: 75px;
-    z-index: 9;
-  }
 `;
 
 export const ListItem = styled(ListItemButton)`
   &:hover {
     color: ${(props) => props.theme.palette.primary.main};
     background-color: #f5f7ff !important;
+    .css-hgjmvv-MuiListItemIcon-root {
+      color: ${(props) => props.theme.palette.primary.main} !important
+    };
   }
 `;
 
@@ -123,6 +118,31 @@ export const BreadcrumbsWrapper = styled(Box)`
 export const MenuAccordion = styled(AccordionSummary)`
   .MuiAccordionSummary-content {
     margin: 0px;
+  }
+  &:hover {
+    background-color: #f5f7ff !important;
+    .MuiTypography-root {
+      color: ${(props) => props.theme.palette.primary.main} !important;
+    };
+    .css-hgjmvv-MuiListItemIcon-root {
+      color: ${(props) => props.theme.palette.primary.main} !important;
+    };
+    .css-yw020d-MuiAccordionSummary-expandIconWrapper {
+      color: rgba(76, 47, 252, 0.54);
+    }
+  }
+  &.Mui-expanded {
+    border-right: solid 2px #4c2ffc;
+    background-color: #e4eaff;
+    .MuiTypography-root {
+      color: ${(props) => props.theme.palette.primary.main} !important;
+    };
+    .css-hgjmvv-MuiListItemIcon-root {
+      color: ${(props) => props.theme.palette.primary.main} !important;
+    };
+    .css-yw020d-MuiAccordionSummary-expandIconWrapper {
+      color: rgba(76, 47, 252, 0.54);
+    }
   }
 `;
 

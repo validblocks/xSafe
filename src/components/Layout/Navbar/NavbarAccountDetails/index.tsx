@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
+import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
-import { Box, Typography } from '@mui/material';
+import {
+  Box, Typography, Grid,
+} from '@mui/material';
 import { useSelector } from 'react-redux';
 import Safe from 'src/assets/img/safe.png';
 import CopyButton from 'src/components/CopyButton';
@@ -12,7 +12,12 @@ import SafeOptions from 'src/components/SafeOptions';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { Anchor, ReadOnly, MembersBox } from '../navbar-style';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { network } from 'src/config';
+import {
+  Anchor, MembersBox, ReadOnly,
+} from '../navbar-style';
 import TotalBalance from '../TotalBalance';
 
 const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
@@ -31,70 +36,109 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
 
   return (
     <Box>
-      <Box sx={{ textAlign: 'center' }}>
-        <Box>
-          <img src={Safe} width="91px" height="91px" alt="safe" />
-        </Box>
-        <Box>
-          <MembersBox>
-            <Typography>
-              {membersCount}
-              {membersCount === 1 ? 'Member' : 'Members'}
-            </Typography>
-          </MembersBox>
-        </Box>
-        <Box
-          sx={{ pt: 1 }}
-          className="d-flex justify-content-center align-items-center"
-        >
-          <Typography align="center">{uniqueAddress}</Typography>
-          {openedSafeSelect === true && (
-            <Box>
-              <ArrowDropUpIcon
-                onClick={() => {
-                  setOpenedSafeSelect(false);
-                }}
-              />
-              <SafeOptions />
-            </Box>
-          )}
-          {openedSafeSelect === false && (
-            <Box>
-              <ArrowDropDownIcon
-                onClick={() => {
-                  setOpenedSafeSelect(true);
-                }}
-              />
-            </Box>
-          )}
-        </Box>
-      </Box>
-      <Box className="d-flex justify-content-center" sx={{ pt: 1 }}>
-        <Box onClick={handleQrModal} sx={{ mx: 1, cursor: 'pointer' }}>
-          <QrCode2Icon />
-        </Box>
-        <Box sx={{ mx: 1 }}>
-          <CopyButton text={uniqueContractAddress} />
-        </Box>
-        <Box sx={{ mx: 1 }}>
-          <Anchor
-            href={`https://devnet-explorer.elrond.com/accounts/${uniqueContractAddress}`}
-            target="_blank"
-            rel="noreferrer"
-            color="#6c757d"
+      <Grid
+        container
+        spacing={1}
+        sx={{ mt: 1 }}
+        justifyContent="center"
+        alignItems="center"
+        padding="0px"
+        textAlign="center"
+      >
+        <Grid item position="relative" sm={3}>
+          <Box display="table">
+            <img src={Safe} alt="safe" width="60px" height="60px" />
+          </Box>
+          <Box position="absolute" top="-1.4rem" left="-.5rem">
+            <MembersBox>
+              <Typography>{membersCount}</Typography>
+            </MembersBox>
+          </Box>
+        </Grid>
+        <Grid sx={{ pl: 0 }}>
+          <Box
+            sx={{ ml: 0.5 }}
+            className="d-flex justify-content-center align-items-center"
           >
-            <ContentPasteGoIcon />
-          </Anchor>
-        </Box>
-        <ReceiveModal
-          showQrFromSidebar={showQr}
-          address={currentContract?.address}
-          handleQr={handleQrModal}
-        />
-      </Box>
-      <Box sx={{ mt: 2 }} className="d-flex justify-content-center">
-        <ReadOnly sx={{ px: 2 }}>Read-only</ReadOnly>
-      </Box>
+            <Typography align="center" lineHeight="1">
+              {uniqueAddress}
+            </Typography>
+            {openedSafeSelect === true && (
+              <Box
+                sx={{
+                  '& .css-i4bv87-MuiSvgIcon-root': {
+                    color: 'rgba(76, 47, 252, 0.54) !important',
+                  },
+                }}
+              >
+                <ArrowDropUpIcon
+                  onClick={() => {
+                    setOpenedSafeSelect(false);
+                  }}
+                />
+                <SafeOptions />
+              </Box>
+            )}
+            {openedSafeSelect === false && (
+              <Box
+                sx={{
+                  '& .css-i4bv87-MuiSvgIcon-root': {
+                    color: 'rgba(76, 47, 252, 0.54) !important',
+                  },
+                }}
+              >
+                <ArrowDropDownIcon
+                  onClick={() => {
+                    setOpenedSafeSelect(true);
+                  }}
+                />
+              </Box>
+            )}
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              mb: 0.7,
+            }}
+          >
+            <Box
+              onClick={handleQrModal}
+              sx={{
+                mr: 1.7,
+                ml: 0.2,
+                cursor: 'pointer',
+              }}
+            >
+              <QrCode2Icon />
+            </Box>
+            <Box sx={{ mr: 1.85, ml: 0.35 }}>
+              <CopyButton text={uniqueContractAddress} />
+            </Box>
+            <Box>
+              <Anchor
+                href={`${network.explorerAddress}/accounts/${uniqueContractAddress}`}
+                target="_blank"
+                rel="noreferrer"
+                color="#6c757d"
+              >
+                <ContentPasteGoOutlinedIcon />
+              </Anchor>
+            </Box>
+          </Box>
+          <ReceiveModal
+            showQrFromSidebar={showQr}
+            address={currentContract?.address}
+            handleQr={handleQrModal}
+          />
+        </Grid>
+        <Grid item sx={{ mt: 1.2, mb: 1.1 }} sm={8.3}>
+          <ReadOnly>
+            Read-only
+          </ReadOnly>
+        </Grid>
+      </Grid>
+      <hr />
       <TotalBalance />
     </Box>
   );

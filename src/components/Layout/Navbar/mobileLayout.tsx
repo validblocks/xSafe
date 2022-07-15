@@ -3,13 +3,13 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, Typography } from '@mui/material';
+import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Link } from 'react-router-dom';
 import Safe from 'src/assets/img/safe.png';
 import SafeOptions from 'src/components/SafeOptions';
 import menuItems from 'src/utils/menuItems';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import Divider from '@mui/material/Divider';
 import addressShorthand from 'src/helpers/addressShorthand';
 import {
   LogoMenuWrapper,

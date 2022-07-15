@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { List, Accordion } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -7,6 +6,7 @@ import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
@@ -65,7 +65,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function MiniDrawer() {
+const MiniDrawer = () => {
   const location = useLocation();
   const locationString = location.pathname.substring(1);
 
@@ -86,12 +86,12 @@ export default function MiniDrawer() {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <Drawer variant="permanent" open={open} className="drawer-wrapper">
-        <BsNavbar className="px-4 py-3">
+        <BsNavbar className="p-0 px-4">
           <NavbarLogo />
           <Nav className="ml-auto align-items-center" />
         </BsNavbar>
         <Divider />
-        <List sx={{ mt: 1 }}>
+        <List sx={{ mt: 1, pb: 0 }}>
           <AccountDetails uniqueAddress={walletAddress} />
           <Divider />
         </List>
@@ -106,7 +106,7 @@ export default function MiniDrawer() {
                 >
                   <MenuAccordion
                     aria-controls="panel1a-content"
-                    expandIcon={<ExpandMoreIcon />}
+                    expandIcon={<ArrowDropDownIcon />}
                     id="panel1a-header"
                     sx={{ pl: 0 }}
                   >
@@ -115,12 +115,13 @@ export default function MiniDrawer() {
                         minHeight: 48,
                         justifyContent: open ? 'initial' : 'center',
                         px: 2.5,
+                        color: '#08041D',
                       }}
                     >
                       <ListItemIcon
                         sx={{
                           minWidth: 0,
-                          mr: open ? 3 : 'auto',
+                          mr: open ? 1 : 'auto',
                           justifyContent: 'center',
                         }}
                       >
@@ -128,7 +129,10 @@ export default function MiniDrawer() {
                       </ListItemIcon>
                       <ListItemText
                         primary={el.name}
-                        sx={{ opacity: open ? 1 : 0 }}
+                        sx={{
+                          opacity: open ? 1 : 0,
+                          color: '#08041D',
+                        }}
                       />
                     </ListItem>
                   </MenuAccordion>
@@ -141,6 +145,7 @@ export default function MiniDrawer() {
                             ? 'active link-decoration'
                             : 'link-decoration'
                         }
+                        style={{ borderRight: 'none', backgroundColor: '#f5f7ff' }}
                       >
                         <ListItem
                           sx={{
@@ -148,7 +153,7 @@ export default function MiniDrawer() {
                             justifyContent: open ? 'initial' : 'center',
                             px: 2.5,
                             ml: 0,
-                            pl: 5,
+                            pl: 3,
                           }}
                         >
                           <ListItemIcon
@@ -182,12 +187,13 @@ export default function MiniDrawer() {
                       minHeight: 48,
                       justifyContent: open ? 'initial' : 'center',
                       px: 2.5,
+                      color: '#08041D',
                     }}
                   >
                     <ListItemIcon
                       sx={{
                         minWidth: 0,
-                        mr: open ? 3 : 'auto',
+                        mr: open ? 1 : 'auto',
                         justifyContent: 'center',
                       }}
                     >
@@ -225,7 +231,7 @@ export default function MiniDrawer() {
                 <ListItemIcon
                   sx={{
                     minWidth: 0,
-                    mr: open ? 3 : 'auto',
+                    mr: open ? 1 : 'auto',
                     justifyContent: 'center',
                   }}
                 >
@@ -242,4 +248,6 @@ export default function MiniDrawer() {
       </Drawer>
     </Box>
   );
-}
+};
+
+export default MiniDrawer;

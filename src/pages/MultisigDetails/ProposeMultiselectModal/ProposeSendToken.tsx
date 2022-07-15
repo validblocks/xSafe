@@ -15,7 +15,7 @@ import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { TokenTableRowItem } from 'src/pages/Organization/types';
 import { TestContext } from 'yup';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
-import { DECIMAL_POINTS_UI } from 'src/components/Layout/Navbar/TotalBalance';
+import { StateType } from 'src/redux/slices/accountSlice';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -30,6 +30,8 @@ function validateRecipient(value?: string) {
     return false;
   }
 }
+
+const DECIMAL_POINTS = 3;
 
 export type TokenPresentationProps = {
     identifier: string;
@@ -50,11 +52,11 @@ const ProposeSendToken = ({
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
   const [identifier, setIdentifier] = useState(selectedToken.identifier);
-  const tokenTableRows = useSelector(tokenTableRowsSelector);
+  const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
 
   const availableTokensWithBalances = useMemo(
     () =>
-      tokenTableRows.map((token: TokenTableRowItem) => ({
+      tokenTableRows?.map((token: TokenTableRowItem) => ({
         identifier: token.identifier,
         balance: operations.denominate({
           input: token?.balanceDetails?.amount as string,
@@ -68,10 +70,9 @@ const ProposeSendToken = ({
   );
 
   const selectedTokenBalance = useMemo(
-    () =>
-      availableTokensWithBalances.find(
-        (token: TokenTableRowItem) => token.identifier === identifier,
-      )?.balance as string,
+    () => availableTokensWithBalances.find(
+      (token: TokenTableRowItem) => token?.identifier === identifier,
+    )?.balance as string,
     [availableTokensWithBalances, identifier],
   );
 
@@ -209,13 +210,13 @@ const ProposeSendToken = ({
           onChange={onIdentifierChanged}
           className="mb-2"
         >
-          {tokenTableRows.map((token: TokenPresentationProps) => (
+          {tokenTableRows?.map((token: TokenTableRowItem) => (
             <MenuItem
-              key={token.identifier?.split('-')[0]}
-              value={token.identifier?.split('-')[0]}
+              key={token.identifier}
+              value={token.identifier}
             >
               <TokenPresentationWithPrice
-                identifier={token.identifier}
+                identifier={token.identifier as string}
               />
             </MenuItem>
           ))}
@@ -226,7 +227,7 @@ const ProposeSendToken = ({
             availableTokensWithBalances.find(
               (token: TokenTableRowItem) => token.identifier === identifier,
             )?.balance,
-          ).toFixed(DECIMAL_POINTS_UI))}`}
+          ).toFixed(DECIMAL_POINTS))}`}
         </div>
       </div>
 
