@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -81,8 +82,8 @@ function NftCompmonent() {
     <Box>
       { (
         <Grid container spacing={2}>
-          {nftListSorted?.map((item: any, index: number) => (
-            <>
+          {nftListSorted?.map((item: NFTType, index: number) => (
+            <Fragment key={item.identifier}>
               {((index > 0 &&
                 item.collection !== nftListSorted[index - 1].collection) ||
                 index === 0) && (
@@ -117,7 +118,7 @@ function NftCompmonent() {
                   </CardContent>
                 </CardBox>
               </Grid>
-            </>
+            </Fragment>
           ))}
         </Grid>
       )}

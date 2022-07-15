@@ -51,7 +51,6 @@ const ProposeSendToken = ({
   let formik: FormikProps<IFormValues>;
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
-  console.log({ look: selectedToken });
   const [identifier, setIdentifier] = useState(selectedToken.identifier);
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
 
@@ -71,13 +70,9 @@ const ProposeSendToken = ({
   );
 
   const selectedTokenBalance = useMemo(
-    () => {
-      console.log({ availableTokensWithBalances });
-      console.log({ selectedToken });
-      return availableTokensWithBalances.find(
-        (token: TokenTableRowItem) => token?.identifier === identifier,
-      )?.balance as string;
-    },
+    () => availableTokensWithBalances.find(
+      (token: TokenTableRowItem) => token?.identifier === identifier,
+    )?.balance as string,
     [availableTokensWithBalances, identifier],
   );
 
@@ -192,8 +187,6 @@ const ProposeSendToken = ({
   useEffect(() => {
     refreshProposal();
   }, [address, identifier, amount]);
-
-  console.log({ here: tokenTableRows });
 
   return (
     <div>

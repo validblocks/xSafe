@@ -82,8 +82,6 @@ function TotalBalance() {
       ...otherTokens,
     ];
 
-    console.log({ allTokens });
-
     return { allTokens, egldBalance };
   }, [getBalances]);
 
@@ -175,8 +173,6 @@ function TotalBalance() {
         dispatch(setMultisigBalance(JSON.stringify(egldBalance)));
         dispatch(setTokenTableRows(tokensWithPrices));
         dispatch(setOrganizationTokens(organizationTokens));
-
-        console.log({ set: organizationTokens });
       } catch (error) {
         console.error(error);
       }
