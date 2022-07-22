@@ -127,6 +127,10 @@ module.exports = {
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         // moduleDirectory: ['node_modules', './src'],
       },
+      node: {
+        paths: ['src'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+      },
     },
   },
 };
