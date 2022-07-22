@@ -26,6 +26,8 @@ export default {
 
   owners: '/owners',
 
+  stake: '/stake',
+
   settings: '/settings',
 
   addressBook: '/address-book',

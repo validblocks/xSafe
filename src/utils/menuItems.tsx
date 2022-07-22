@@ -9,6 +9,7 @@ import MapsHomeWorkRoundedIcon from '@mui/icons-material/MapsHomeWorkRounded';
 import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
+import LockIcon from '@mui/icons-material/Lock';
 
 export type MenuItem = {
   name: string;
@@ -48,6 +49,12 @@ const topItems = [
     link: 'address-book',
     id: 'address-book-menu-item',
     icon: <MenuBookRoundedIcon />,
+  },
+  {
+    name: 'Stake',
+    link: 'stake',
+    id: 'stake-menu-item',
+    icon: <LockIcon />,
   },
   {
     name: 'Apps',
