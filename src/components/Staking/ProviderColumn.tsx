@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ProviderColumn = ({ columnData: { avatar, name, website } }: Props) => (
-  <Box sx={{ display: 'flex', gap: '12px' }}>
+  <Box sx={{ display: 'flex', gap: '12px', height: '68px', alignItems: 'center' }}>
     <Box
       width={48}
       height={48}
@@ -20,7 +20,6 @@ const ProviderColumn = ({ columnData: { avatar, name, website } }: Props) => (
         sx={{ color: '#08041D !important', letterSpacing: '-0.01em' }}
         fontWeight={500}
         fontSize={17}
-        marginBottom={25}
         noWrap
       >
         {name}

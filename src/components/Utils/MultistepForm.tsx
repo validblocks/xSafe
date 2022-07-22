@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FinalStepActionButton, ChangeStepButton } from '../Theme/StyledComponents';
 
@@ -9,6 +9,19 @@ interface IMultistepFormProps {
     emitStepChange?: React.Dispatch<React.SetStateAction<number>>;
     finalActionText?: string;
 }
+
+interface IMultistepFormContextType {
+    activeStepNumber: number;
+    proceedToPreviousStep: () => void;
+}
+
+const MultistepFormContext = createContext<IMultistepFormContextType>(
+  {} as IMultistepFormContextType,
+);
+
+export const useMultistepFormContext = () =>
+  useContext(MultistepFormContext);
+
 const MultistepForm = ({
   steps,
   finalActionText = 'Proceed',
@@ -38,27 +51,34 @@ const MultistepForm = ({
   }, [emitStepChange]);
 
   return (
-    <Box>
+    <MultistepFormContext.Provider value={useMemo(() => ({
+      proceedToPreviousStep,
+      activeStepNumber,
+    }),
+    [proceedToPreviousStep])}
+    >
       <Box>
-        {activeStepJSX}
-      </Box>
-      <Box display={'flex'} gap={2} padding="2rem 3rem">
-        {activeStepNumber > 1 && (
-        <ChangeStepButton onClick={proceedToPreviousStep}>
-          {t('Back') as string}
-        </ChangeStepButton>
-        )}
-        {activeStepNumber < finalStep ? (
-          <ChangeStepButton disabled={!isNextButtonActive} onClick={proceedToNextStep}>
-            {t('Next') as string}
+        <Box>
+          {activeStepJSX}
+        </Box>
+        <Box display={'flex'} gap={2} padding="2rem 3rem">
+          {activeStepNumber > 1 && (
+          <ChangeStepButton onClick={proceedToPreviousStep}>
+            {t('Back') as string}
           </ChangeStepButton>
-        ) : (
-          <FinalStepActionButton onClick={() => finalActionHandler()}>
-            {t(finalActionText) as string}
-          </FinalStepActionButton>
-        )}
+          )}
+          {activeStepNumber < finalStep ? (
+            <ChangeStepButton disabled={!isNextButtonActive} onClick={proceedToNextStep}>
+              {t('Next') as string}
+            </ChangeStepButton>
+          ) : (
+            <FinalStepActionButton onClick={() => finalActionHandler()}>
+              {t(finalActionText) as string}
+            </FinalStepActionButton>
+          )}
+        </Box>
       </Box>
-    </Box>
+    </MultistepFormContext.Provider>
   );
 };
 

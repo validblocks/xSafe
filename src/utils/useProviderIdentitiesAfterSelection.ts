@@ -18,7 +18,7 @@ interface InputParams {
 
 export default function useProviderIdentitiesAfterSelection({
   searchParam,
-}: InputParams) {
+}: InputParams = {}) {
   const fetchProviders = (): Promise<IProvider[]> =>
     axios.get('https://api.elrond.com/providers').then((res) => res.data);
 
