@@ -47,3 +47,11 @@ export interface IAPRColumn {
 export interface IFilledColumn {
   filledPercentage: number;
 }
+
+export interface IdentityWithColumns extends IProviderIdentity {
+  id: string;
+  providerColumn: IProviderColumn;
+  aprColumn: IAPRColumn;
+  filledColumn: IFilledColumn;
+  numNodes: number;
+}

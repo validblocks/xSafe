@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address, Balance } from '@elrondnetwork/erdjs/out';
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
@@ -8,14 +8,15 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { FormikInputField } from 'src/helpers/formikFields';
-import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
+import { accountSelector, getTokenPhotoById, tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { denomination } from 'src/config';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
-import { TokenTableRowItem } from 'src/pages/Organization/types';
+import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
 import { TestContext } from 'yup';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { StateType } from 'src/redux/slices/accountSlice';
+import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -30,8 +31,6 @@ function validateRecipient(value?: string) {
     return false;
   }
 }
-
-const DECIMAL_POINTS = 3;
 
 export type TokenPresentationProps = {
     identifier: string;
@@ -58,13 +57,7 @@ const ProposeSendToken = ({
     () =>
       tokenTableRows?.map((token: TokenTableRowItem) => ({
         identifier: token.identifier,
-        balance: operations.denominate({
-          input: token?.balanceDetails?.amount as string,
-          denomination: token?.balanceDetails?.decimals as number,
-          decimals: token?.balanceDetails?.decimals as number,
-          showLastNonZeroDecimal: true,
-          addCommas: false,
-        }),
+        balance: Balance.fromString(token?.balanceDetails?.amount ?? '').toDenominated(),
       })),
     [tokenTableRows],
   );
@@ -188,6 +181,14 @@ const ProposeSendToken = ({
     refreshProposal();
   }, [address, identifier, amount]);
 
+  const selector = useMemo(
+    () => createDeepEqualSelector(accountSelector, (state: StateType) => getTokenPhotoById(state, identifier)),
+    [identifier]);
+
+  const {
+    tokenAmount,
+  } = useSelector<StateType, OrganizationToken>(selector);
+
   return (
     <div>
       <div className="modal-control-container mb-4">
@@ -223,11 +224,7 @@ const ProposeSendToken = ({
         </Select>
         <div>
           Balance:
-          {` ${parseFloat(Number(
-            availableTokensWithBalances.find(
-              (token: TokenTableRowItem) => token.identifier === identifier,
-            )?.balance,
-          ).toFixed(DECIMAL_POINTS))}`}
+          {tokenAmount}
         </div>
       </div>
 

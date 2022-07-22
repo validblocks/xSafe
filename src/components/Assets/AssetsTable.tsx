@@ -20,6 +20,7 @@ import { ProposalsTypes } from 'src/types/Proposals';
 import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
 import { Typography } from '@mui/material';
+import { Balance } from '@elrondnetwork/erdjs/out';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 
@@ -124,7 +125,7 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
             <h6 className="text-center mb-0 font-weight-normal">
               {
                 Number(operations.denominate({
-                  input: params.value?.amount,
+                  input: Balance.fromString(params.value?.amount).toString(),
                   denomination: params.value?.decimals,
                   decimals: 3,
                   showLastNonZeroDecimal: true,

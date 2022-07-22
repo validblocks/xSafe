@@ -2,6 +2,7 @@ import { BalanceDetails } from 'src/pages/Organization/types';
 import { useState, useEffect } from 'react';
 import { AssetValue } from 'src/components/Theme/StyledComponents';
 import { operations } from '@elrondnetwork/dapp-utils';
+import { Balance } from '@elrondnetwork/erdjs/out';
 
 interface Props {
     balanceDetails: BalanceDetails;
@@ -9,8 +10,8 @@ interface Props {
 
 const calculatePrice = (balanceDetails: BalanceDetails) => {
   const { amount, decimals, tokenPrice } = balanceDetails;
-  const tokenAmount = parseFloat(operations.denominate({
-    input: amount,
+  const tokenAmount = Number(operations.denominate({
+    input: Balance.fromString(amount).toString(),
     denomination: decimals,
     decimals,
     showLastNonZeroDecimal: true,
