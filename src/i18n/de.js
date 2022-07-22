@@ -49,6 +49,7 @@ export const germanTranslations = {
   'Can Wipe': 'Awischbar',
   'Can Pause': 'Pausierbar',
   'Can Mint': 'Prägbar',
+  'My Total Stake': 'Mein gesamter Stake',
   'Can Burn': 'Verbrennbar',
   'Can Change Owner': 'Besitzer wechselbar',
   'Can Upgrade': 'Nachrüstbar',
