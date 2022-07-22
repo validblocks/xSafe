@@ -13,6 +13,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import menuItems from 'src/utils/menuItems';
 import addressShorthand from 'src/helpers/addressShorthand';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 import AccountDetails from './NavbarAccountDetails';
 import './menu.scss';
 import {
@@ -128,7 +129,7 @@ const MiniDrawer = () => {
                         {el.icon}
                       </ListItemIcon>
                       <ListItemText
-                        primary={el.name}
+                        primary={<Text> {el.name}</Text>}
                         sx={{
                           opacity: open ? 1 : 0,
                           color: '#08041D',
@@ -164,7 +165,7 @@ const MiniDrawer = () => {
                             }}
                           />
                           <ListItemText
-                            primary={el.name}
+                            primary={<Text>{el.name}</Text>}
                             sx={{ opacity: open ? 1 : 0 }}
                           />
                         </ListItem>
@@ -200,7 +201,7 @@ const MiniDrawer = () => {
                       {el.icon}
                     </ListItemIcon>
                     <ListItemText
-                      primary={el.name}
+                      primary={<Text>{el.name}</Text>}
                       sx={{ opacity: open ? 1 : 0 }}
                     />
                   </ListItem>
@@ -238,7 +239,7 @@ const MiniDrawer = () => {
                   {el.icon}
                 </ListItemIcon>
                 <ListItemText
-                  primary={el.name}
+                  primary={<Text>{el.name}</Text>}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
               </ListItem>

@@ -2,7 +2,6 @@ import {
   Menu,
   Box,
   Button,
-  Typography,
   ListItemButton,
   AccordionSummary,
   AccordionDetails,
@@ -12,6 +11,7 @@ import { Navbar as NavItem } from 'react-bootstrap';
 import styled from 'styled-components';
 import { ReactComponent as ElrondLogo } from 'src/assets/img/elrond.svg';
 import CopyButton from 'src/components/CopyButton';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 export const ConnectDropdown = styled(Menu)`
   top: 20px;
@@ -37,7 +37,7 @@ export const DisconnectButton = styled(Button)`
   background: ${(props) => props.theme.palette.background.danger};
 `;
 
-export const ReadOnly = styled(Typography)`
+export const ReadOnly = styled(Text)`
   border-radius: .4rem;
   background: rgba(8, 4, 29, 0.1);
   color: #7a7883;
@@ -58,13 +58,14 @@ export const MembersBox = styled(Box)`
   color: ${(props) => props.theme.palette.primary.main};
 `;
 
-export const CenteredText = styled(Typography)`
+export const CenteredText = styled(Text)`
   @media (max-width: 600px) {
     text-align: left;
   }
   text-align: center;
   font-size: ${(props) => props.fontSize};
   font-weight: ${(props) => props.fontWeight};
+  font-family: 'IBM Plex Sans', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
 `;
 
 export const TopHeader = styled(Box)`
