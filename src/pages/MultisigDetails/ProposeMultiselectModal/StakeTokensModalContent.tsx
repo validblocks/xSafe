@@ -41,7 +41,6 @@ const StakeTokensModalContent = ({
     <MultistepForm
       finalActionText="Stake"
       emitStepChange={setStep}
-      finalActionHandler={() => console.log('STAKED')}
       steps={steps}
     />
   );

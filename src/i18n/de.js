@@ -74,4 +74,6 @@ export const germanTranslations = {
   'Actions per page': 'Aktionen pro Seite',
   'No transactions found for this period':
     'Keine Transaktionen für diesen Zeitraum gefunden',
+  Available: 'Verfügbar',
+  'Insufficient funds': 'Unzureichender Kontostand',
 };

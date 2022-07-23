@@ -67,6 +67,8 @@ export class MultisigSmartContractCall extends MultisigAction {
         return i18next.t('Send Token');
       case multisigContractFunctionNames.ESDTNFTTransfer:
         return i18next.t('Send NFT');
+      case 'delegate':
+        return i18next.t('Stake Tokens');
       default:
         return 'Unknown function';
     }

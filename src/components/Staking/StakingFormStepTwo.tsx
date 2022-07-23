@@ -1,18 +1,17 @@
 import { Box } from '@mui/material';
-import { useMemo } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import Form from 'react-bootstrap/Form';
-import { operations } from '@elrondnetwork/dapp-utils';
-import { Address, Balance } from '@elrondnetwork/erdjs/out';
+import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
 import { FormikProps, useFormik } from 'formik';
-import { denomination } from 'src/config';
 import { TestContext } from 'yup';
 import * as Yup from 'yup';
-import { multisigBalanceSelector, organizationTokensSelector } from 'src/redux/selectors/accountSelector';
+import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
 import { OrganizationToken } from 'src/pages/Organization/types';
+import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import ProviderPresentation from './ProviderPresentation';
 import { useMultistepFormContext } from '../Utils/MultistepForm';
 import { ChangeStepButton } from '../Theme/StyledComponents';
@@ -22,7 +21,9 @@ interface IFormValues {
 }
 
 const StakingFormStepTwo = () => {
+  const { t } = useTranslation();
   const selectedProviderIdentifier = useSelector(selectedStakingProviderSelector);
+  const { setIsFinalStepButtonActive, setBuiltFinalActionHandler } = useMultistepFormContext();
 
   const {
     fetchedProviderIdentities,
@@ -34,25 +35,15 @@ const StakingFormStepTwo = () => {
     [fetchedProviderIdentities, selectedProviderIdentifier],
   );
 
-  const { t } = useTranslation();
-
   let formik: FormikProps<IFormValues>;
-  const multisigBalance = useSelector(multisigBalanceSelector) as Balance;
-  console.log({ BALANCE: multisigBalance.toString() });
   const {
     proceedToPreviousStep,
   } = useMultistepFormContext();
 
-  const denominatedValue = useMemo(
-    () =>
-      operations.denominate({
-        input: '100000000',
-        denomination,
-        decimals: 4,
-        showLastNonZeroDecimal: true,
-      }),
-    [multisigBalance],
-  );
+  const organizationTokens = useSelector(organizationTokensSelector);
+  const egldBalanceString = organizationTokens
+    .find((token: OrganizationToken) => token.identifier === 'EGLD').tokenAmount.replaceAll(',', '') ?? 0;
+
   function validateRecipient(value?: string) {
     try {
       const _address = new Address(value);
@@ -61,10 +52,8 @@ const StakingFormStepTwo = () => {
       return false;
     }
   }
-  const organizationTokens = useSelector(organizationTokensSelector);
-  console.log({ organizationTokens });
-  const egldBalance = organizationTokens.find((token: OrganizationToken) => token.identifier === 'EGLD');
-  console.log({ egldBalance });
+
+  const egldBalanceNumber = Number(egldBalanceString);
 
   function validateAmount(value?: string, testContext?: TestContext) {
     if (value == null) {
@@ -72,6 +61,7 @@ const StakingFormStepTwo = () => {
     }
     const newAmount = Number(value);
     if (Number.isNaN(newAmount)) {
+      setIsFinalStepButtonActive(false);
       return (
         testContext?.createError({
           message: 'Invalid amount',
@@ -81,14 +71,20 @@ const StakingFormStepTwo = () => {
     if (newAmount < 0) {
       formik.setFieldValue('amount', 0);
     }
-    if (newAmount > Number(0)) {
+    if (newAmount === 0) {
+      setIsFinalStepButtonActive(false);
+    }
+    if (newAmount > Number(egldBalanceNumber)) {
+      setIsFinalStepButtonActive(false);
       return (
         testContext?.createError({
           message:
-            'There are not enough money in the organization for this transaction',
+                        t('Insufficient funds'),
         }) ?? false
       );
     }
+
+    setIsFinalStepButtonActive(true);
     return true;
   }
 
@@ -119,22 +115,53 @@ const StakingFormStepTwo = () => {
 
   const amountError = touched.amount && errors.amount;
 
+  const buttonRef = useRef<any>(null);
+  const [buttonWidth, setButtonWidth] = useState(0);
+
+  useEffect(() => {
+    try {
+      //   const addressParam = new Address(formik.values.receiver);
+      const addressParam = new Address('erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqplllllscktaww');
+
+      const amountNumeric = Number(formik.values.amount);
+      if (Number.isNaN(amountNumeric)) {
+        return;
+      }
+
+      const amountParam = new BigUIntValue(
+        Balance.egld(amountNumeric).valueOf(),
+      );
+
+      setBuiltFinalActionHandler(() => () => mutateSmartContractCall(addressParam, amountParam, 'delegate'));
+    } catch (err) {
+      console.error(err);
+    }
+  }, [formik.values.amount, setBuiltFinalActionHandler]);
+
+  useLayoutEffect(() => {
+    setButtonWidth(buttonRef?.current?.offsetWidth);
+  }, [buttonRef.current]);
+
+  const buttonStyle = useMemo(() => ({
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    padding: '0 14px',
+    justifyContent: 'center',
+    gap: buttonWidth > 90 ? 0 : 3,
+    background: 'rgba(76, 47, 252, 0.1)',
+    paddingBottom: buttonWidth > 90 ? '10px' : '0 !important',
+    borderRadius: '10px',
+  }), [buttonWidth]);
+
   return (
-    <Box sx={{ padding: '2rem 3rem' }}>
-      <Box sx={{
-        display: 'flex',
-        alignItems: 'center',
-        padding: '0 14px',
-        justifyContent: 'center',
-        gap: 3,
-        background: 'rgba(76, 47, 252, 0.1)',
-        borderRadius: '10px' }}
-      >
+    <Box sx={{ padding: '2rem 3rem 0', display: 'flex', flexDirection: 'column', gap: 2 }}>
+      <Box sx={buttonStyle}>
         <Box sx={{ flex: 4 }}>
           <ProviderPresentation provider={selectedProvider} />
         </Box>
         <Box sx={{ flex: 1 }}>
-          <ChangeStepButton onClick={proceedToPreviousStep}>
+          <ChangeStepButton ref={buttonRef} onClick={proceedToPreviousStep}>
             {t('Change') as string}
           </ChangeStepButton>
         </Box>
@@ -153,12 +180,12 @@ const StakingFormStepTwo = () => {
             />
 
             {amountError != null && (
-            <Form.Control.Feedback type="invalid">
-              {amountError}
-            </Form.Control.Feedback>
+              <Form.Control.Feedback type="invalid">
+                {amountError}
+              </Form.Control.Feedback>
             )}
           </div>
-          <span>{`Balance: ${denominatedValue} EGLD`}</span>
+          <span className="mb-0">{`${t('Available')}: ${egldBalanceString} EGLD`}</span>
         </div>
       </Box>
     </Box>

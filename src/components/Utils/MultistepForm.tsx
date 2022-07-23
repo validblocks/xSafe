@@ -5,14 +5,15 @@ import { FinalStepActionButton, ChangeStepButton } from '../Theme/StyledComponen
 
 interface IMultistepFormProps {
     steps: React.ReactElement[];
-    finalActionHandler: () => void;
     emitStepChange?: React.Dispatch<React.SetStateAction<number>>;
     finalActionText?: string;
 }
 
 interface IMultistepFormContextType {
+    setBuiltFinalActionHandler: any;
     activeStepNumber: number;
     proceedToPreviousStep: () => void;
+    setIsFinalStepButtonActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const MultistepFormContext = createContext<IMultistepFormContextType>(
@@ -25,10 +26,10 @@ export const useMultistepFormContext = () =>
 const MultistepForm = ({
   steps,
   finalActionText = 'Proceed',
-  finalActionHandler,
   emitStepChange = () => null }: IMultistepFormProps) => {
   const [activeStepNumber, setActiveStepNumber] = useState(1);
   const [isNextButtonActive, setIsNextButtonActive] = useState(false);
+  const [isFinalStepButtonActive, setIsFinalStepButtonActive] = useState(false);
 
   const finalStep = steps.length;
   const { t } = useTranslation();
@@ -50,10 +51,14 @@ const MultistepForm = ({
     emitStepChange((activeStepNumber) => activeStepNumber - 1);
   }, [emitStepChange]);
 
+  const [builtFinalActionHandler, setBuiltFinalActionHandler] = useState(() => () => ({}));
+
   return (
     <MultistepFormContext.Provider value={useMemo(() => ({
       proceedToPreviousStep,
       activeStepNumber,
+      setIsFinalStepButtonActive,
+      setBuiltFinalActionHandler,
     }),
     [proceedToPreviousStep])}
     >
@@ -68,11 +73,25 @@ const MultistepForm = ({
           </ChangeStepButton>
           )}
           {activeStepNumber < finalStep ? (
-            <ChangeStepButton disabled={!isNextButtonActive} onClick={proceedToNextStep}>
+            <ChangeStepButton
+              sx={{ ...(!isNextButtonActive && {
+                background: '#eee !important',
+                border: '1px solid #ddd !important',
+              }) }}
+              disabled={!isNextButtonActive}
+              onClick={proceedToNextStep}
+            >
               {t('Next') as string}
             </ChangeStepButton>
           ) : (
-            <FinalStepActionButton onClick={() => finalActionHandler()}>
+            <FinalStepActionButton
+              disabled={!isFinalStepButtonActive}
+              onClick={builtFinalActionHandler}
+              sx={{ ...(!isFinalStepButtonActive && {
+                background: '#eee !important',
+                border: '1px solid #ddd !important',
+              }) }}
+            >
               {t(finalActionText) as string}
             </FinalStepActionButton>
           )}

@@ -82,6 +82,8 @@ const ProvidersList = ({ searchParam }: Props) => {
     dispatch(setSelectedStakingProvider(newSelectionModel[newSelectionModel.length - 1]));
   }, []);
 
+  const [pageSize, setPageSize] = useState(10);
+
   if (isFetchingProviderIdentities || isLoadingProviderIdentities) {
     return (
       <Box
@@ -111,7 +113,11 @@ const ProvidersList = ({ searchParam }: Props) => {
         checkboxSelection
         getRowSpacing={getRowSpacing}
         onSelectionModelChange={onSelectionModelChanged}
+        pagination
+        rowsPerPageOptions={[10, 20, 50, 100]}
         selectionModel={selectionModel}
+        pageSize={pageSize}
+        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         sx={{
           borderRadius: '10px',
           background: 'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)',
