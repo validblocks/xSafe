@@ -6,11 +6,7 @@ import {
   useGetLoginInfo,
 } from '@elrondnetwork/dapp-core';
 import { Box, styled } from '@mui/material';
-<<<<<<< HEAD
-import MuiAppBar, { AppBarProps } from '@mui/material/AppBar';
-=======
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
->>>>>>> 0e76dfb (styled navbarAccountDetails)
+import MuiAppBar, { AppBarProps, AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
 import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
