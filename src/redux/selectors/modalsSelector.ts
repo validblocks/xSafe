@@ -58,3 +58,12 @@ export const selectedStakingProviderSelector = createDeepEqualSelector(
   performActionModalSelector,
   (state) => state.selectedStakingProvider,
 );
+
+export const needsReshuffleSelector = createDeepEqualSelector(
+  proposeModalSelector,
+  (state) => {
+    const res = state.needsReshuffle;
+    console.log({ res });
+    return res;
+  },
+);

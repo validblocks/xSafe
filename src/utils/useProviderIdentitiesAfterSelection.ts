@@ -19,8 +19,11 @@ interface InputParams {
 export default function useProviderIdentitiesAfterSelection({
   searchParam,
 }: InputParams = {}) {
-  const fetchProviders = (): Promise<IProvider[]> =>
-    axios.get('https://api.elrond.com/providers').then((res) => res.data);
+  const fetchProviders = useCallback(
+    (): Promise<IProvider[]> =>
+      axios.get('https://api.elrond.com/providers').then((res) => res.data),
+    [],
+  );
 
   const { data: fetchedProviders } = useQuery(
     [QueryKeys.FETCHED_PROVIDERS],
@@ -89,11 +92,26 @@ export default function useProviderIdentitiesAfterSelection({
     [fetchedProviders],
   );
 
-  const sortAfterNodes = useCallback(
+  const _sortAfterNodes = useCallback(
     (data: IdentityWithColumns[]) =>
       data.sort((a, b) => b.numNodes - a.numNodes),
     [],
   );
+
+  console.log('custom hook called');
+
+  //   const needsReshuffle = useSelector(needsReshuffleSelector);
+  //   const dispatch = useDispatch();
+
+  const _sortRandom = useCallback((data: IdentityWithColumns[]) => {
+    // if (needsReshuffle) {
+    //   dispatch(setNeedsReshuffle(false));
+    console.log('returning sorted data');
+    return data.sort(() => Math.random() - 0.5);
+    // }
+    // console.log('returning unsorted data');
+    // return data;
+  }, []);
 
   const bringValidBlocksFirst = useCallback((data: IdentityWithColumns[]) => {
     const validBlocksIndex = data.findIndex(
@@ -115,6 +133,16 @@ export default function useProviderIdentitiesAfterSelection({
     },
     [searchParam],
   );
+
+  const _shuffle = useCallback((inputArray: any[]) => {
+    const array = inputArray.slice();
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    return array;
+  }, []);
 
   const fetchProviderIdentities = () => {
     const providerIds = fetchedProviders
@@ -142,7 +170,7 @@ export default function useProviderIdentitiesAfterSelection({
         pipe(
           filterBySearchParam,
           buildColumns,
-          sortAfterNodes,
+          _sortRandom,
           bringValidBlocksFirst,
         )(data),
     },

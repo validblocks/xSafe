@@ -55,3 +55,12 @@ export interface IdentityWithColumns extends IProviderIdentity {
   filledColumn: IFilledColumn;
   numNodes: number;
 }
+
+export interface IDelegation {
+  address: string;
+  claimableRewards: string;
+  contract: string;
+  userActiveStake: string;
+  userUnBondable: string;
+  userUndelegatedList: unknown[];
+}

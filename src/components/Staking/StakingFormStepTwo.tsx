@@ -121,7 +121,7 @@ const StakingFormStepTwo = () => {
   useEffect(() => {
     try {
       //   const addressParam = new Address(formik.values.receiver);
-      const addressParam = new Address('erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqplllllscktaww');
+      const addressParam = new Address('erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqz0llllsup4dew');
 
       const amountNumeric = Number(formik.values.amount);
       if (Number.isNaN(amountNumeric)) {
