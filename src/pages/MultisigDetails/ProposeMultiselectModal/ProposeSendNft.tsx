@@ -13,6 +13,7 @@ import { SearchedNFT } from 'src/components/Theme/StyledComponents';
 import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
 import { Box, Typography } from '@mui/material';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { truncateInTheMiddle } from 'src/utils/addressUtils';
 
 interface ProposeSendNftType {
   handleChange: (proposal: MultisigSendNft) => void;
@@ -129,7 +130,7 @@ const ProposeSendNft = ({
         <FormikInputField
           label={t('Send to')}
           name={'address'}
-          value={address}
+          value={truncateInTheMiddle(address, 24)}
           error={addressError}
           handleChange={formik.handleChange}
           handleBlur={formik.handleBlur}
