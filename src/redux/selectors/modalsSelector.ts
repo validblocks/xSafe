@@ -67,3 +67,8 @@ export const needsReshuffleSelector = createDeepEqualSelector(
     return res;
   },
 );
+
+export const selectedNftToSendSelector = createDeepEqualSelector(
+  performActionModalSelector,
+  (state) => state.selectedNft
+);
