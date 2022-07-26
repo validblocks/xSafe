@@ -5,7 +5,6 @@ import { MultisigActionType } from './MultisigActionType';
 
 export class MultisigSendNft extends MultisigAction {
   address: Address;
-
   identifier: string;
 
   nonce: string;
