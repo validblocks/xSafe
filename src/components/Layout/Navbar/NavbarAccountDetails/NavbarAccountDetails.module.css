@@ -3,7 +3,7 @@
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: auto;
   grid-template-areas: 'safeNmembers uniqueAddressNicons uniqueAddressNicons' 'readOnly readOnly readOnly';
-  max-width: 170px;
+  max-width: 190px;
   margin: 0 auto;
 }
 
