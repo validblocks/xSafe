@@ -21,7 +21,9 @@ export default function useProviderIdentitiesAfterSelection({
 }: InputParams = {}) {
   const fetchProviders = useCallback(
     (): Promise<IProvider[]> =>
-      axios.get('https://api.elrond.com/providers').then((res) => res.data),
+      axios
+        .get('https://devnet-api.elrond.com/providers')
+        .then((res) => res.data),
     [],
   );
 
@@ -80,6 +82,7 @@ export default function useProviderIdentitiesAfterSelection({
             avatar: provider.avatar,
             name: provider.name,
             website: provider.website,
+            apr: provider.apr ?? 0,
           },
           aprColumn: {
             apr: provider.apr ?? 0,
@@ -91,27 +94,6 @@ export default function useProviderIdentitiesAfterSelection({
       }),
     [fetchedProviders],
   );
-
-  const _sortAfterNodes = useCallback(
-    (data: IdentityWithColumns[]) =>
-      data.sort((a, b) => b.numNodes - a.numNodes),
-    [],
-  );
-
-  console.log('custom hook called');
-
-  //   const needsReshuffle = useSelector(needsReshuffleSelector);
-  //   const dispatch = useDispatch();
-
-  const _sortRandom = useCallback((data: IdentityWithColumns[]) => {
-    // if (needsReshuffle) {
-    //   dispatch(setNeedsReshuffle(false));
-    console.log('returning sorted data');
-    return data.sort(() => Math.random() - 0.5);
-    // }
-    // console.log('returning unsorted data');
-    // return data;
-  }, []);
 
   const bringValidBlocksFirst = useCallback((data: IdentityWithColumns[]) => {
     const validBlocksIndex = data.findIndex(
@@ -134,7 +116,7 @@ export default function useProviderIdentitiesAfterSelection({
     [searchParam],
   );
 
-  const _shuffle = useCallback((inputArray: any[]) => {
+  const shuffle = useCallback((inputArray: IdentityWithColumns[]) => {
     const array = inputArray.slice();
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -144,15 +126,25 @@ export default function useProviderIdentitiesAfterSelection({
     return array;
   }, []);
 
-  const fetchProviderIdentities = () => {
+  const fetchProviderIdentities = useCallback(() => {
     const providerIds = fetchedProviders
       ?.map((provider: IProvider) => provider.identity)
       .join(',');
     return axios
       .get(`https://api.elrond.com/identities?identities=${providerIds}`)
       .then((res) => res.data);
-  };
+  }, [fetchedProviders]);
 
+  const select = useCallback(
+    (data: IProviderIdentity[]) =>
+      pipe(
+        filterBySearchParam,
+        buildColumns,
+        shuffle,
+        bringValidBlocksFirst,
+      )(data),
+    [shuffle, bringValidBlocksFirst, buildColumns, filterBySearchParam],
+  );
   const {
     data: fetchedProviderIdentities,
     isFetching: isFetchingProviderIdentities,
@@ -166,16 +158,13 @@ export default function useProviderIdentitiesAfterSelection({
       keepPreviousData: true,
       enabled: !!fetchedProviders,
       refetchOnMount: false,
-      select: (data: IProviderIdentity[]) =>
-        pipe(
-          filterBySearchParam,
-          buildColumns,
-          _sortRandom,
-          bringValidBlocksFirst,
-        )(data),
+      select,
     },
   );
 
+  console.log({
+    fetchedProviderIdentities,
+  });
   return {
     fetchedProviderIdentities,
     isFetchingProviderIdentities,

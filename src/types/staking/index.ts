@@ -38,6 +38,7 @@ export interface IProviderColumn {
   avatar: string;
   name: string;
   website: string;
+  apr: number;
 }
 
 export interface IAPRColumn {
