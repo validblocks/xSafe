@@ -24,6 +24,7 @@ interface Props {
 
 const ProvidersList = ({ searchParam }: Props) => {
   const config = useMemo(() => ({ searchParam }), [searchParam]);
+  const dispatch = useDispatch();
 
   const {
     fetchedProviderIdentities,
@@ -77,23 +78,12 @@ const ProvidersList = ({ searchParam }: Props) => {
   const selectedStakingProvider = useSelector(selectedStakingProviderSelector);
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([selectedStakingProvider]);
 
-  const dispatch = useDispatch();
-
-  console.log('rendering providers list');
-
   const onSelectionModelChanged = useCallback((newSelectionModel: GridSelectionModel) => {
     setSelectionModel([newSelectionModel[newSelectionModel.length - 1]]);
     dispatch(setSelectedStakingProvider(newSelectionModel[newSelectionModel.length - 1]));
-  }, []);
+  }, [dispatch]);
 
   const [pageSize, setPageSize] = useState(10);
-  //   const needsReshuffle = useSelector(needsReshuffleSelector);
-
-  //   useEffect(() => {
-  //     if (needsReshuffle) {
-  //       dispatch(setNeedsReshuffle(false));
-  //     }
-  //   }, [dispatch, needsReshuffle]);
 
   if (isFetchingProviderIdentities || isLoadingProviderIdentities) {
     return (
@@ -147,7 +137,6 @@ const ProvidersList = ({ searchParam }: Props) => {
           },
           '& .MuiDataGrid-cell': {
             border: 'none',
-
           },
           '& .MuiDataGrid-row': {
             borderRadius: '10px',

@@ -163,8 +163,6 @@ function TotalBalance() {
 
           const totalUsdValue = Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(2));
 
-          console.log({ priceAsNumber: Number(Number(Number(priceAsNumber)).toFixed(3)) });
-
           return ({
             prettyIdentifier: identifier?.split('-')[0] ?? '',
             identifier: identifier ?? '',
