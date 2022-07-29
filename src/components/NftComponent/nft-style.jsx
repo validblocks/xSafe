@@ -14,15 +14,6 @@ export const CollectionName = styled.div`
 export const TextDivider = styled.div`
   margin-top: 1rem;
   position: relative;
-  &:before{
-    position: absolute;
-    content:'';
-    width: 50%;
-    height: 1px;
-    bottom: -2px;
-    background: #DFDFE8;
-  }
-  border-top: solid 1px #DFDFE8;
   & .collectionLight{
     font-weight: 500;
     font-size: 11px;
@@ -35,7 +26,15 @@ export const TextDivider = styled.div`
       font-size: 16px;
     }
     span:nth-child(2){
-      margin-left: .4rem;
+      margin: 0 0 1px .4rem;
+      line-height: 1;
+    }
+    :after {
+      content: '';
+      width: 100%;
+      height: 1px;
+      margin: 1px 0 0 .4rem;
+      background-color: #DFDFE8;
     }
   }
 `;
