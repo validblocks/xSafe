@@ -60,7 +60,7 @@ const MultistepForm = ({
       setIsFinalStepButtonActive,
       setBuiltFinalActionHandler,
     }),
-    [proceedToPreviousStep])}
+    [activeStepNumber, proceedToPreviousStep])}
     >
       <Box>
         <Box>

@@ -118,7 +118,6 @@ export const modalsSlice = createSlice({
       state: ModalsSliceState,
       action: PayloadAction<any>,
     ) => {
-      console.log('setting ', action.payload);
       state.performActionModal.selectedStakingProvider = action.payload;
     },
   },

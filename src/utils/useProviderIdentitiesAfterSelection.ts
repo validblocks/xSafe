@@ -76,6 +76,7 @@ export default function useProviderIdentitiesAfterSelection({
 
         return {
           ...provider,
+          provider: providerBeforeIdentityFetch?.provider ?? '',
           numNodes: providerBeforeIdentityFetch?.numNodes ?? 0,
           id: provider.identity,
           providerColumn: {
@@ -162,9 +163,6 @@ export default function useProviderIdentitiesAfterSelection({
     },
   );
 
-  console.log({
-    fetchedProviderIdentities,
-  });
   return {
     fetchedProviderIdentities,
     isFetchingProviderIdentities,
