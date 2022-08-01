@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from 'react';
-import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
 import { FormikProps, useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
@@ -7,10 +6,11 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
-import { multisigBalanceSelector } from 'src/redux/selectors/accountSelector';
+import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accountSelector';
 import { FormikInputField } from 'src/helpers/formikFields';
-import { denomination } from 'src/config';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
+import { OrganizationToken } from 'src/pages/Organization/types';
+import { StateType } from 'src/redux/slices/accountSlice';
 
 interface ProposeSendEgldType {
   handleChange: (proposal: MultisigSendEgld) => void;
@@ -27,25 +27,21 @@ const ProposeSendEgld = ({
   handleChange,
   setSubmitDisabled,
 }: ProposeSendEgldType) => {
-  const multisigBalance = useSelector(multisigBalanceSelector) as Balance;
   let formik: FormikProps<IFormValues>;
 
   const { t }: { t: any } = useTranslation();
+
+  const organizationEgld = useSelector<StateType, OrganizationToken>(organizationTokenByIdentifierSelector('EGLD'));
+
+  const egldBalanceString = useMemo(() => organizationEgld.tokenAmount, [organizationEgld]);
+
+  const egldBalance =
+  useMemo(() => parseFloat(egldBalanceString.replaceAll(',', '')), [egldBalanceString]);
 
   useEffect(() => {
     setSubmitDisabled(true);
   }, []);
 
-  const denominatedValue = useMemo(
-    () =>
-      operations.denominate({
-        input: multisigBalance.toString(),
-        denomination,
-        decimals: 4,
-        showLastNonZeroDecimal: true,
-      }),
-    [multisigBalance],
-  );
   function validateRecipient(value?: string) {
     try {
       const _address = new Address(value);
@@ -70,7 +66,7 @@ const ProposeSendEgld = ({
     if (newAmount < 0) {
       formik.setFieldValue('amount', 0);
     }
-    if (newAmount > Number(multisigBalance.toDenominated())) {
+    if (newAmount > Number(egldBalance)) {
       return (
         testContext?.createError({
           message:
@@ -175,7 +171,7 @@ const ProposeSendEgld = ({
             </Form.Control.Feedback>
           )}
         </div>
-        <span>{`Balance: ${denominatedValue} EGLD`}</span>
+        <span>{`Balance: ${egldBalanceString} EGLD`}</span>
       </div>
       <div className="modal-control-container">
         <label htmlFor={data}>{t('data (optional)')}</label>

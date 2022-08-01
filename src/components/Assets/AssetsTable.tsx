@@ -58,8 +58,9 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
       key="0"
       variant="outlined"
       className="shadow-sm rounded mr-2"
-      onClick={() =>
-        handleOptionSelected(ProposalsTypes.send_token, params.row)
+      onClick={(_e: any) => (params.row.identifier === 'EGLD'
+        ? handleOptionSelected(ProposalsTypes.send_egld, params.row)
+        : handleOptionSelected(ProposalsTypes.send_token, params.row))
               }
     >
       <AssetActionIcon width="30px" height="30px" /> Send
