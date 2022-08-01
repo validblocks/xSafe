@@ -7,25 +7,21 @@ import {
   GridSelectionModel,
 } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
-import { TokenTableRowItem } from 'src/pages/Organization/types';
 import {
-  setProposeMultiselectSelectedOption,
-  setSelectedTokenToSend,
   setSelectedStakingProvider } from 'src/redux/slices/modalsSlice';
-import { ProposalsTypes } from 'src/types/Proposals';
 import { Box } from '@mui/material';
-import { IProviderColumn, IAPRColumn, IFilledColumn } from 'src/types/staking';
+import { IProviderColumn, IDelegatedColumn, IClaimableRewardsColumn, IdentityWithColumns } from 'src/types/staking';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
-import APRColumn from '../Staking/APRColumn';
-import FilledColumn from '../Staking/FilledColumn';
 import ProviderColumn from '../Staking/ProviderColumn';
 import { AssetActionButton } from '../Theme/StyledComponents';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
+import DelegatedColumn from '../Staking/DelegatedColumn';
+import ClaimableRewardsColumn from '../Staking/ClaimableRewardsColumn';
 
 interface Props {
-    rows: any[];
+    rows: IdentityWithColumns[];
     isFetching?: boolean;
     isLoading?: boolean;
     isError?: boolean;
@@ -38,46 +34,39 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
   const dispatch = useDispatch();
   const [pageSize, setPageSize] = useState(10);
 
-  console.log({ renderTable: '1' });
-
-  const handleOptionSelected = useCallback((
-    option: ProposalsTypes,
-    token: TokenTableRowItem,
-  ) => {
-    dispatch(setProposeMultiselectSelectedOption({ option }));
-    dispatch(
-      setSelectedTokenToSend({
-        id: token.id,
-        identifier: token.identifier,
-        balance: token.balance,
-      }),
-    );
-  }, [dispatch]);
+  console.log({ rows });
 
   const getTableActions = useCallback((params: GridRenderCellParams) => [
     <AssetActionButton
       key="0"
       variant="outlined"
       className="shadow-sm rounded mr-2"
-      onClick={() =>
-        handleOptionSelected(ProposalsTypes.send_token, params.row)
-        }
+      onClick={() => {
+        console.log(params);
+        // mutateSmartContractCall(addressParam, '0', 'redelegate');
+      }}
     >
       <AssetActionIcon width="30px" height="30px" /> Restake
     </AssetActionButton>,
     <AssetActionButton
       key="1"
-      onClick={() => null}
+      onClick={() => {
+        console.log(params);
+        // mutateSmartContractCall(addressParam, '0', 'redelegate');
+      }}
     >
       <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Claim
     </AssetActionButton>,
     <AssetActionButton
       key="1"
-      onClick={() => null}
+      onClick={() => {
+        console.log(params);
+        // mutateSmartContractCall(addressParam, '0', 'redelegate');
+      }}
     >
       <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Unstake
     </AssetActionButton>,
-  ], [handleOptionSelected]);
+  ], []);
 
   const columns = useMemo(
     () => [
@@ -90,19 +79,19 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
         ),
       },
       {
-        field: 'filledColumn',
+        field: 'delegatedColumn',
         headerName: 'Delegated',
         flex: 1,
-        renderCell: (params: GridRenderCellParams<IFilledColumn>) => (
-          <FilledColumn columnData={params.value as IFilledColumn} />
+        renderCell: (params: GridRenderCellParams<IDelegatedColumn>) => (
+          <DelegatedColumn columnData={params.value ?? { delegatedAmount: '0' }} />
         ),
       },
       {
-        field: 'aprColumn',
+        field: 'claimableRewardsColumn',
         headerName: 'Rewards',
         flex: 1,
-        renderCell: (params: GridRenderCellParams<IAPRColumn>) => (
-          <APRColumn columnData={params.value as IAPRColumn} />
+        renderCell: (params: GridRenderCellParams<IClaimableRewardsColumn>) => (
+          <ClaimableRewardsColumn columnData={params.value as IClaimableRewardsColumn} />
         ),
       },
       {
@@ -129,6 +118,8 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
     setSelectionModel([newSelectionModel[newSelectionModel.length - 1]]);
     dispatch(setSelectedStakingProvider(newSelectionModel[newSelectionModel.length - 1]));
   }, [dispatch]);
+
+  const onPageSizeChange = useCallback((newPageSize: number) => setPageSize(newPageSize), []);
 
   if (isLoading || isFetching) {
     return (
@@ -159,7 +150,7 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
         rowsPerPageOptions={[10, 20, 50, 100]}
         selectionModel={selectionModel}
         pageSize={pageSize}
-        onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        onPageSizeChange={onPageSizeChange}
         sx={{
           borderRadius: '10px',
           boxShadow: '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',

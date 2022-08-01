@@ -49,12 +49,23 @@ export interface IFilledColumn {
   filledPercentage: number;
 }
 
+export interface IDelegatedColumn {
+  delegatedAmount: string;
+}
+
+export interface IClaimableRewardsColumn {
+  claimableRewards: string;
+}
+
 export interface IdentityWithColumns extends IProviderIdentity {
   id: string;
   providerColumn: IProviderColumn;
   aprColumn: IAPRColumn;
   filledColumn: IFilledColumn;
+  delegatedColumn?: IDelegatedColumn;
+  claimRewardsColumn?: IClaimableRewardsColumn;
   numNodes: number;
+  provider: string;
 }
 
 export interface IDelegation {
