@@ -1,6 +1,7 @@
 import { OrganizationToken } from 'src/pages/Organization/types';
 import { createDeepEqualSelector } from './helpers';
 import { RootState } from '../store';
+import { StateType } from '../slices/accountSlice';
 
 export const accountSelector = (state: RootState) => state.account;
 
@@ -53,15 +54,10 @@ export const getTokenPhotoById = (
   return res;
 };
 
-export const organizationTokenByIdentifierSelector = createDeepEqualSelector(
-  accountSelector,
-  (state) => (tokenIdentifier: string) => {
-    const res = state.organizationTokens?.find(
-      (token: OrganizationToken) => token.identifier === tokenIdentifier,
-    );
-    return res ?? DEFAULT_ORGANIZATION_TOKEN;
-  },
-);
+export const organizationTokenByIdentifierSelector = (identifier: string) =>
+  createDeepEqualSelector(accountSelector, (state: StateType) =>
+    getTokenPhotoById(state, identifier),
+  );
 
 export const multisigBalanceSelector = createDeepEqualSelector(
   accountSelector,
