@@ -163,11 +163,13 @@ function TotalBalance() {
 
           const totalUsdValue = Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(2));
 
+          const tokenPrice = parseFloat(Number(priceAsNumber).toPrecision(4));
+
           return ({
             prettyIdentifier: identifier?.split('-')[0] ?? '',
             identifier: identifier ?? '',
             photoUrl: balanceDetails?.photoUrl ?? '',
-            tokenPrice: Number(Number(Number(priceAsNumber)).toFixed(DECIMAL_POINTS_UI)),
+            tokenPrice,
             tokenAmount: Number(denominatedAmountForCalcs).toLocaleString(),
             tokenValue: totalUsdValue,
           });
