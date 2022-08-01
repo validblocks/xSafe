@@ -8,9 +8,8 @@ import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { IDelegation } from 'src/types/staking';
+import { IDelegation, IdentityWithColumns } from 'src/types/staking';
 import { Balance } from '@elrondnetwork/erdjs/out';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
@@ -28,8 +27,6 @@ const MyStake = () => {
     dispatch(setProposeMultiselectSelectedOption({ option }));
   };
 
-  const { address } = useGetAccountInfo();
-
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const {
@@ -41,11 +38,12 @@ const MyStake = () => {
 
   const [totalActiveStake, setTotalActiveStake] = useState<string>('0');
   const [totalClaimableRewards, setTotalClaimableRewards] = useState<string>('0');
+  const [activeDelegationsRows, setActiveDelegationRows] = useState<IdentityWithColumns[]>([]);
 
   const fetchDelegations = useCallback(() =>
     axios
       .get(`https://devnet-delegation-api.elrond.com/accounts/${currentContract.address}/delegations`)
-      .then((res) => res.data), [address]);
+      .then((res) => res.data), [currentContract.address]);
 
   const {
     data: fetchedDelegations,
@@ -64,10 +62,10 @@ const MyStake = () => {
   );
 
   useEffect(() => {
-    if (!fetchedDelegations) return;
-
     console.log({ fetchedDelegations });
     console.log({ fetchedProviderIdentities });
+
+    if (!fetchedDelegations || !fetchedProviderIdentities) return;
 
     const totalActiveStake = fetchedDelegations.reduce((totalSum: number, delegation: IDelegation) =>
       totalSum + parseFloat(Balance.fromString(delegation.userActiveStake).toDenominated()), 0);
@@ -75,6 +73,33 @@ const MyStake = () => {
     const allClaimableRewards = fetchedDelegations.reduce((totalSum: number, delegation: IDelegation) =>
       totalSum + parseFloat(Balance.fromString(delegation.claimableRewards).toDenominated()), 0);
     setTotalClaimableRewards(Number(allClaimableRewards).toFixed(2));
+
+    const activeDelegationsRows = fetchedProviderIdentities
+      ?.filter((providerIdentity: IdentityWithColumns) => fetchedDelegations
+        .some((delegation: IDelegation) => delegation.contract === providerIdentity.provider))
+      .map((providerIdentity: IdentityWithColumns) => {
+        const delegation = fetchedDelegations
+          .find((delegation: IDelegation) => delegation.contract === providerIdentity.provider);
+
+        const delegatedAmount = delegation
+          ? Number(Balance.fromString(delegation.userActiveStake).toDenominated()).toPrecision(4)
+          : '0';
+
+        console.log({ delegation });
+
+        return {
+          ...providerIdentity,
+          delegatedColumn: {
+            delegatedAmount,
+          },
+          claimableRewardsColumn: {
+            claimableRewards: delegation.claimableRewards ?? '0',
+          },
+        };
+      }) ?? [];
+
+    console.log({ activeDelegationsRows });
+    setActiveDelegationRows(activeDelegationsRows);
 
     setTotalActiveStake(Number(totalActiveStake).toFixed(2));
   }, [fetchedDelegations, fetchedProviderIdentities]);
@@ -131,9 +156,8 @@ const MyStake = () => {
         />
       </Box>
       <Box>
-        {/* <AssetsTable hasStakingActions /> */}
         <ActiveDelegationsTable
-          rows={fetchedProviderIdentities as any}
+          rows={activeDelegationsRows}
           isFetching={isFetchingProviderIdentities}
           isLoading={isLoadingProviderIdentities}
           isError={isErrorOnFetchingProviderIdentities}
