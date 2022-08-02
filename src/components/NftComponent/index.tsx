@@ -78,6 +78,16 @@ function NftCompmonent() {
     );
   }
 
+  const rewriteNftsCollection = (value: string) => {
+    const string1 = value.slice(0, value.indexOf('-'));
+    const string2 = `(${value.slice(value.indexOf('-') + 1, value.length)})`;
+    return (
+      <Box sx={{ mt: 0.2, mb: 0.2, pl: 1 }}>
+        <span className="font-weight-bold">{string1}</span> <span className="collectionLight">{string2}</span>
+      </Box>
+    );
+  };
+
   return (
     <Box>
       { (
@@ -89,7 +99,7 @@ function NftCompmonent() {
                 index === 0) && (
                 <CollectionName>
                   <TextDivider>
-                    <Box sx={{ mt: 0.2, mb: 0.2, pl: 1, fontWeight: '600' }}>{item.collection}</Box>
+                    {rewriteNftsCollection(item.collection)}
                   </TextDivider>
                 </CollectionName>
               )}
