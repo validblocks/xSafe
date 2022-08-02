@@ -71,7 +71,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
                   },
                 }}
               >
-                <ArrowDropUpIcon
+                <ArrowDropDownIcon
                   onClick={() => {
                     setOpenedSafeSelect(false);
                   }}
@@ -87,7 +87,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
                   },
                 }}
               >
-                <ArrowDropDownIcon
+                <ArrowDropUpIcon
                   onClick={() => {
                     setOpenedSafeSelect(true);
                   }}

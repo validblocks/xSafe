@@ -6,7 +6,7 @@ import Divider from '@mui/material/Divider';
 import MuiDrawer from '@mui/material/Drawer';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
@@ -120,7 +120,7 @@ const MiniDrawer = () => {
                 >
                   <MenuAccordion
                     aria-controls="panel1a-content"
-                    expandIcon={<ArrowDropDownIcon />}
+                    expandIcon={<ArrowDropUpIcon />}
                     id="panel1a-header"
                     sx={{ pl: 0 }}
                   >
