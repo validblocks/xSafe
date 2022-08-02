@@ -202,3 +202,23 @@ export const MaxSendEGLDButton = styled(Button)`
     color: ${(props) => props.theme.palette.background.white}
   }
 `;
+
+export const FormSearchInput = styled(Box)`
+  width: 23ch;
+  margin-left: .93rem;
+  padding: .12rem .5rem;
+  display: flex;
+  flex-direction: row;
+  aling-items: center;
+  border-radius: .3rem;
+  background-color: rgba(76,47,252, 0.06);
+  & input{
+    padding: .25rem;
+  };
+  & fieldset{
+    border: none;
+  };
+  & svg{
+    margin-top: 2px;
+  }
+`;

@@ -2,7 +2,9 @@ import { useState, useEffect } from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useLocation, Link } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import { Box, FormControl, OutlinedInput } from '@mui/material';
+import { Box, OutlinedInput } from '@mui/material';
+import searchedNfts from 'src/components/NftComponent/SearchedNfts';
+import { FormSearchInput } from 'src/components/Theme/StyledComponents';
 import breadcrumbItems from './BreadcrumbItems';
 import { ReactComponent as SearchIcon } from '../../../assets/img/searchFilled.svg';
 
@@ -15,33 +17,22 @@ function PageBreadcrumbs() {
   }, [location.pathname]);
 
   // eslint-disable-next-line consistent-return
+  const handleSearch = (text: any) => {
+    console.log('AICI', searchedNfts(text));
+    if (text !== 'mama mea') return searchedNfts(text);
+  };
+
+  // eslint-disable-next-line consistent-return
   const displaySearch = (val: any) => {
     if (val === 'NFT') {
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <span>{val}</span>
           <Box component="form" noValidate autoComplete="off">
-            <FormControl sx={{
-              width: '23ch',
-              ml: '.93rem',
-              p: '.12rem .5rem',
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              borderRadius: '.3rem',
-              backgroundColor: 'rgba(76, 47, 252, 0.06)',
-              '& input': {
-                p: '.25rem',
-                fontSize: '14px',
-              },
-              '& fieldset': {
-                border: 'none',
-              },
-            }}
-            >
+            <FormSearchInput onChange={() => handleSearch('ceau')}>
               <SearchIcon />
               <OutlinedInput placeholder="Search..." />
-            </FormControl>
+            </FormSearchInput>
           </Box>
         </Box>
       );
