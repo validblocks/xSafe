@@ -44,7 +44,14 @@ export const FinalStepActionButton = styled(ChangeStepButton)`
     color: ${(props) => props.theme.palette.background.default};
     border: 1px solid ${(props) => props.theme.palette.primary.main};
     background-color: ${(props) => props.theme.palette.primary.main};
-  }
+  }`;
+export const NewTranzationButton = styled(MainButton)`
+font-size: 15px;
+padding:
+    ${(props) => props.theme.padding.value.md}
+    25px
+    ${(props) => props.theme.padding.value.sm};
+font-weight: ${(props) => props.theme.font.weight.md};
 `;
 
 export const AssetActionButton = styled(MainButton)`
