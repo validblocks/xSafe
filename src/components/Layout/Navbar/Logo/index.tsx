@@ -5,14 +5,13 @@ import { routeNames } from 'src/routes';
 import { NavLogo, Logo, DappName } from '../navbar-style';
 
 const NavbarLogo = () => {
+  const navigate = useNavigate();
   const handleRedirectToHome = () => {
     const route = uniqueContractAddress
       ? `/multisig/${uniqueContractAddress}`
       : routeNames.welcome;
     navigate(route);
   };
-
-  const navigate = useNavigate();
 
   return (
     <NavLogo

@@ -20,12 +20,10 @@ import {
 import TotalBalance from '../TotalBalance';
 
 const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
-  const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
   const [showQr, setShowQr] = useState(false);
 
   const {
-    tokenPrices,
     membersCountState: [membersCount],
   } = useOrganizationInfoContext();
 
