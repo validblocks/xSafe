@@ -34,6 +34,10 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
     setShowQr(!showQr);
   };
 
+  // const closeSafeDropdown = (data: boolean) => {
+  //   setOpenedSafeSelect(data);
+  // };
+
   return (
     <Box>
       <Grid
@@ -45,7 +49,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
         padding="0px"
         textAlign="center"
       >
-        <Grid position="relative" sm={3}>
+        <Grid item position="relative" sx={{ paddingTop: '0 !important', paddingLeft: '0 !important' }} sm={3}>
           <Box display="table">
             <img src={Safe} alt="safe" width="60px" height="60px" />
           </Box>
@@ -71,7 +75,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
                   },
                 }}
               >
-                <ArrowDropDownIcon
+                <ArrowDropUpIcon
                   onClick={() => {
                     setOpenedSafeSelect(false);
                   }}
@@ -87,7 +91,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
                   },
                 }}
               >
-                <ArrowDropUpIcon
+                <ArrowDropDownIcon
                   onClick={() => {
                     setOpenedSafeSelect(true);
                   }}
@@ -113,7 +117,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
               <QrCode2Icon />
             </Box>
             <Box sx={{ mr: 1.85, ml: 0.35 }}>
-              <CopyButton text={uniqueContractAddress} className="text-secondary" />
+              <CopyButton text={uniqueContractAddress} />
             </Box>
             <Box>
               <Anchor
@@ -132,7 +136,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             handleQr={handleQrModal}
           />
         </Grid>
-        <Grid sx={{ mt: 1.2, mb: 1.1 }} sm={8.3}>
+        <Grid item sx={{ mt: 1.2, mb: 1.1, paddingTop: '0 !important', paddingLeft: '0 !important' }} sm={8.3}>
           <ReadOnly>
             Read-only
           </ReadOnly>
