@@ -12,6 +12,8 @@ import SafeOptions from 'components/SafeOptions';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import {
   Anchor, MembersBox, ReadOnly,
 } from '../navbar-style';
