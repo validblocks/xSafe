@@ -21,4 +21,10 @@ export const TextDivider = styled(Divider)`
 
 export const CardBox = styled(Card)`
   height: ${(props) => props.height};
+  width: 270px;
+  padding: .25rem .3rem 0 .3rem;
+  border-radius: .7rem;
+  box-shadow:
+    0px 2px 10px rgba(76, 47, 252, 0.03),
+    0px 3px 12px rgba(76, 47, 252, 0.03);
 `;
