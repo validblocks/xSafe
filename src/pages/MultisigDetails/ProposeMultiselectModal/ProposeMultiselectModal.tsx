@@ -230,7 +230,7 @@ const ProposeMultiselectModal = ({
       onClick={onProposeClicked}
       sx={{ boxShadow: 'none !important', width: '100%' }}
     >
-      {t('Send NFT')}
+      {t('Send')}
     </MainButton>
   );
 
