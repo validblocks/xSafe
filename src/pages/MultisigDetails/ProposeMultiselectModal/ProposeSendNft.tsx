@@ -108,7 +108,7 @@ const ProposeSendNft = ({
 
   return (
     <Box>
-      <Box sx={{ p: '1rem 2.5rem 0.4rem' }}>
+      <Box sx={{ p: '1rem 2.5rem 0.9rem' }}>
         <SearchedNFT>
           <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>NFT name:</Typography>
           <div>
@@ -125,7 +125,7 @@ const ProposeSendNft = ({
         />
       </Box>
       <hr />
-      <Box sx={{ p: '0.9rem 2.5rem 0', m: ' 0 0 0.7rem' }}>
+      <Box sx={{ p: '1.25rem 2.5rem 0', m: ' 0 0 1rem' }}>
         <FormikInputField
           label={t('Send to')}
           name={'address'}

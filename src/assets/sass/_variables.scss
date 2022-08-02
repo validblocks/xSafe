@@ -6,11 +6,11 @@ $spacer-val: $spacer * 1.7;
 // SPACING
 $spacers: (
   spacer: (
-    $spacer-val
-  )
+    $spacer-val,
+  ),
 );
 
-$modal-lg: 565px;
+$modal-lg: 530px;
 
 @function toRem($value) {
   $remValue: ($value / 14) + rem;
