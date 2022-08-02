@@ -31,7 +31,7 @@ function NftCompmonent() {
     isError: isErrorOnFetchNFTs,
   } = useQuery(
     [
-      QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
+      QueryKeys.ALL_NFTS,
     ],
     () => fetchNfts(),
     {
@@ -101,16 +101,24 @@ function NftCompmonent() {
                       height="auto"
                       image={`${item.media[0].url}?w=164&h=164&fit=crop&auto=format`}
                       alt="nft"
+                      sx={{ borderRadius: '.5rem' }}
                     />
                   </Box>
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                  <CardContent sx={{ p: '.5rem .5rem 0.95rem .5rem !important' }}>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                      sx={{ fontWeight: '600', fontSize: '15px', pl: '.12rem !important' }}
+                    >
                       {item.name}
                     </Typography>
                     <MainButton
-                      sx={{ width: '100%' }}
-                      onClick={() =>
-                        handleOptionSelected(ProposalsTypes.send_nft, item)
+                      sx={{ width: '100%', fontWeight: '500 !important', boxShadow: 'none !important' }}
+                      onClick={(e) => {
+                        handleOptionSelected(ProposalsTypes.send_nft, item);
+                        console.log('obj', e.target);
+                      }
                       }
                     >
                       Send NFT

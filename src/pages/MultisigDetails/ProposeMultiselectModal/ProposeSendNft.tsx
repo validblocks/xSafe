@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { selectedNftToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { MultisigSendNft } from 'src/types/MultisigSendNft';
+import { useQueryClient } from 'react-query';
+import useNft from 'src/utils/useNft';
 
 interface ProposeSendNftType {
   handleChange: (proposal: MultisigSendNft) => void;
@@ -57,6 +59,12 @@ const ProposeSendNft = ({
     validateOnMount: true,
   });
 
+  const queryClient = useQueryClient();
+
+  const { searchedNft } = useNft(queryClient, selectedNft.identifier);
+
+  console.log({ searchedNft });
+
   const { touched, errors, values } = formik;
   const { address, identifier, nonce } = values;
 
@@ -105,7 +113,7 @@ const ProposeSendNft = ({
           handleBlur={formik.handleBlur}
         />
       </div>
-      <div className="modal-control-container mb-4">
+      <div className="mb-4">
         <FormikInputField
           label={t('Identifier')}
           name={'identifier'}
