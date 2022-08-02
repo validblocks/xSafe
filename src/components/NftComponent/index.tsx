@@ -88,20 +88,20 @@ function NftCompmonent() {
                 item.collection !== nftListSorted[index - 1].collection) ||
                 index === 0) && (
                 <CollectionName>
-                  <TextDivider textAlign="left">
-                    <Box sx={{ mt: 3, mb: 3 }}>{item.collection}</Box>
+                  <TextDivider>
+                    <Box sx={{ mt: 0.2, mb: 0.2, pl: 1, fontWeight: '600' }}>{item.collection}</Box>
                   </TextDivider>
                 </CollectionName>
               )}
               <Grid xs={12} sm={6} md={4} lg={3} item key={item.name}>
                 <CardBox>
-                  <Box>
+                  <Box width={180} height={180} sx={{ m: '0 auto' }}>
                     <CardMedia
                       component="img"
                       height="auto"
-                      image={`${item.media[0].url}?w=164&h=164&fit=crop&auto=format`}
+                      image={`${item.media[0].url}?w=150&h=150&fit=crop&auto=format`}
                       alt="nft"
-                      sx={{ borderRadius: '.5rem' }}
+                      sx={{ borderRadius: '.5rem', border: 'solid 1px black' }}
                     />
                   </Box>
                   <CardContent sx={{ p: '.5rem .5rem 0.95rem .5rem !important' }}>
@@ -109,15 +109,14 @@ function NftCompmonent() {
                       gutterBottom
                       variant="h6"
                       component="div"
-                      sx={{ fontWeight: '600', fontSize: '15px', pl: '.12rem !important' }}
+                      sx={{ fontWeight: '600', fontSize: '15px', m: '0 0 0 .2rem !important', textAlign: 'center' }}
                     >
                       {item.name}
                     </Typography>
                     <MainButton
-                      sx={{ width: '100%', fontWeight: '500 !important', boxShadow: 'none !important' }}
-                      onClick={(e) => {
+                      sx={{ width: '100%', fontWeight: '500 !important', boxShadow: 'none !important', mt: '.35rem' }}
+                      onClick={() => {
                         handleOptionSelected(ProposalsTypes.send_nft, item);
-                        console.log('obj', e.target);
                       }
                       }
                     >

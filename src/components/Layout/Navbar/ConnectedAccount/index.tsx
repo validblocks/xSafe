@@ -42,7 +42,7 @@ const ConnectedAccount = () => {
 
   useEffect(() => {
     setWalletAddress(addressShorthand(address));
-  }, []);
+  }, [address]);
   return (
     <Box>
       <Box
