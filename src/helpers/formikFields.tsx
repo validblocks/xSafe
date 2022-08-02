@@ -1,5 +1,6 @@
 import { TextField } from '@mui/material';
 import Form from 'react-bootstrap/Form';
+import { truncateInTheMiddle } from 'src/utils/addressUtils';
 
 interface FormikInputFieldPropsType {
   label: string;
@@ -47,7 +48,7 @@ export function FormikInputField({
           variant="outlined"
           label={label}
           id={name}
-          value={value}
+          value={truncateInTheMiddle(value, 24)}
           name={name}
           disabled={disabled}
           onChange={handleChange}
