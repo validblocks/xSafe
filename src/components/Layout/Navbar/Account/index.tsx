@@ -72,7 +72,7 @@ function Account() {
           variant="outlined"
           onClick={handleClick}
           size="large"
-          sx={{ ...MAIN_BUTTON_DEFAULT_STYLE, ...MAIN_BUTTON_VARIABLE_STYLE }}
+          sx={{ ...MAIN_BUTTON_DEFAULT_STYLE, ...MAIN_BUTTON_VARIABLE_STYLE, p: '10px 18px 9px 10px !important' }}
         >
           {loggedIn ? (
             <Box className="d-flex">
