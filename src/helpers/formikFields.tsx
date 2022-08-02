@@ -44,7 +44,7 @@ export function FormikInputField({
           disabled={disabled}
         /> */}
         <TextField
-          variant="outlined"
+          variant="filled"
           label={label}
           id={name}
           value={value}
@@ -56,7 +56,7 @@ export function FormikInputField({
           sx={{
             width: '100%',
             '.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input': {
-              padding: '0.7rem 0.9rem',
+              py: '.73rem',
             },
             label: {
               marginBottom: 0,

@@ -49,6 +49,7 @@ export const FinalStepActionButton = styled(ChangeStepButton)`
     border: 1px solid ${(props) => props.theme.palette.primary.main};
     background-color: ${(props) => props.theme.palette.primary.main};
   }`;
+
 export const NewTranzationButton = styled(MainButton)`
   font-size: 15px;
   padding:
@@ -221,4 +222,29 @@ export const FormSearchInput = styled(Box)`
   & svg{
     margin-top: 2px;
   }
+`;
+
+export const SendInputs = styled(Box)`
+  margin-top: .55rem;
+  background-color: rgba(76, 47, 252, 0.1);
+  border-top-left-radius: .3rem;
+  border-top-right-radius: .3rem;
+  border-bottom: solid 1px ${(props) => props.theme.palette.primary.main};
+  & label {
+    margin: .2rem 0 .2rem .5rem;
+    color: ${(props) => props.theme.palette.primary.main};
+    font-size: 13px;
+  };
+  & input.form-control {
+    max-width: 300px;
+    height: auto;
+    border: none;
+    background-color: transparent;
+    margin: 0 0 0 .5rem;
+    padding: 0;
+  };
+  & input.form-control:focus {
+    outline: solid 1px black;
+    background-color: transparent;
+  };
 `;

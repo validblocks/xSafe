@@ -11,6 +11,8 @@ import { FormikInputField } from 'src/helpers/formikFields';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { OrganizationToken } from 'src/pages/Organization/types';
 import { StateType } from 'src/redux/slices/accountSlice';
+import { Box } from '@mui/material';
+import { SendInputs } from 'src/components/Theme/StyledComponents';
 
 interface ProposeSendEgldType {
   handleChange: (proposal: MultisigSendEgld) => void;
@@ -144,7 +146,7 @@ const ProposeSendEgld = ({
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;
   return (
-    <div>
+    <Box sx={{ p: '1.3rem 2.5rem .3rem' }}>
       <FormikInputField
         label={t('Send to')}
         name="receiver"
@@ -153,26 +155,24 @@ const ProposeSendEgld = ({
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
-      <div className="modal-control-container">
+      <SendInputs>
         <label htmlFor={amount}>{t('Amount')}</label>
-        <div className="input-wrapper">
-          <Form.Control
-            id={amount}
-            name="amount"
-            isInvalid={amountError != null}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={amount}
-          />
+        <Form.Control
+          id={amount}
+          name="amount"
+          isInvalid={amountError != null}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={amount}
+        />
 
-          {amountError != null && (
-            <Form.Control.Feedback type="invalid">
-              {amountError}
-            </Form.Control.Feedback>
-          )}
-        </div>
+        {amountError != null && (
+        <Form.Control.Feedback type="invalid">
+          {amountError}
+        </Form.Control.Feedback>
+        )}
         <span>{`Balance: ${egldBalanceString} EGLD`}</span>
-      </div>
+      </SendInputs>
       <div className="modal-control-container">
         <label htmlFor={data}>{t('data (optional)')}</label>
         <Form.Control
@@ -184,7 +184,7 @@ const ProposeSendEgld = ({
           value={data}
         />
       </div>
-    </div>
+    </Box>
   );
 };
 
