@@ -1,3 +1,4 @@
+import { TextField } from '@mui/material';
 import Form from 'react-bootstrap/Form';
 
 interface FormikInputFieldPropsType {
@@ -7,7 +8,6 @@ interface FormikInputFieldPropsType {
   error?: string | boolean;
   handleChange?: (e: any) => void;
   handleBlur?: (e: any) => void;
-  as?: any;
   footer?: React.ReactElement;
   disabled?: boolean;
 }
@@ -28,13 +28,11 @@ export function FormikInputField({
   handleBlur,
   footer,
   disabled,
-  as = 'input',
 }: FormikInputFieldPropsType) {
   return (
-    <div className="modal-control-container">
+    <div>
       <div className="input-wrapper">
-        <label htmlFor="form" className="form-label">{label} </label>
-        <Form.Control
+        {/* <Form.Control
           id={name}
           name={name}
           type="text"
@@ -44,6 +42,28 @@ export function FormikInputField({
           onBlur={handleBlur}
           value={value}
           disabled={disabled}
+        /> */}
+        <TextField
+          variant="outlined"
+          label={label}
+          id={name}
+          value={value}
+          name={name}
+          disabled={disabled}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          helperText={error != null}
+          sx={{
+            width: '100%',
+            '.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input': {
+              padding: '0.7rem 0.9rem',
+            },
+            label: {
+              marginBottom: 0,
+              fontSize: '15px',
+              left: '-1px',
+            },
+          }}
         />
         {error && (
           <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>

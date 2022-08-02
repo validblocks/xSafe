@@ -10,7 +10,9 @@ import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { useQueryClient } from 'react-query';
 import useNft from 'src/utils/useNft';
 import { SearchedNFT } from 'src/components/Theme/StyledComponents';
-import { Typography } from '@mui/material';
+import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
+import { Box, Typography } from '@mui/material';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 
 interface ProposeSendNftType {
   handleChange: (proposal: MultisigSendNft) => void;
@@ -68,7 +70,8 @@ const ProposeSendNft = ({
   console.log({ searchedNft });
 
   const { touched, errors, values } = formik;
-  const { address, identifier, nonce } = values;
+  // eslint-disable-next-line prefer-const
+  let { address, identifier, nonce } = values;
 
   const getProposal = (): MultisigSendNft | null => {
     try {
@@ -90,11 +93,7 @@ const ProposeSendNft = ({
   };
 
   const addressError = touched.address && errors.address;
-  const identifierError: any = touched.identifier && errors.identifier;
-
-  useEffect(() => {
-    setSubmitDisabled(!formik.isValid || !formik.dirty);
-  }, [formik.isValid, formik.dirty]);
+  setSubmitDisabled(!formik.isValid || !formik.dirty);
   useEffect(() => {
     setSubmitDisabled(!(formik.isValid && formik.dirty));
   }, [address, identifier, nonce]);
@@ -103,9 +102,30 @@ const ProposeSendNft = ({
     refreshProposal();
   }, [address, identifier, nonce]);
 
+  ({ address } = useGetAccountInfo());
+  const memoizedAddress = useMemo(() => new Address(address), [address]);
+  console.log('adresa', memoizedAddress);
+
   return (
-    <div>
-      <div className="modal-control-container mb-4">
+    <Box>
+      <Box sx={{ p: '1rem 2.5rem 0.4rem' }}>
+        <SearchedNFT>
+          <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>NFT name:</Typography>
+          <div>
+            <img src={searchedNft.url} alt="" width={40} height={40} className="rounded" />
+            <span className="nftName">{searchedNft.name}</span>
+          </div>
+        </SearchedNFT>
+        <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>
+          Sending from:
+        </Typography>
+        <MemberPresentationWithPhoto
+          memberAddress={memoizedAddress}
+          charactersLeftAfterTruncation={15}
+        />
+      </Box>
+      <hr />
+      <Box sx={{ p: '0.9rem 2.5rem 0', m: ' 0 0 0.7rem' }}>
         <FormikInputField
           label={t('Send to')}
           name={'address'}
@@ -114,37 +134,8 @@ const ProposeSendNft = ({
           handleChange={formik.handleChange}
           handleBlur={formik.handleBlur}
         />
-      </div>
-      <div className="mb-4">
-        <FormikInputField
-          label={t('Identifier')}
-          name={'identifier'}
-          value={identifier}
-          disabled
-          error={identifierError}
-          handleChange={formik.handleChange}
-          handleBlur={formik.handleBlur}
-        />
-      </div>
-      <div className="modal-control-container mb-4">
-        <FormikInputField
-          label={t('Nonce')}
-          name={'nonce'}
-          value={nonce}
-          error={identifierError}
-          disabled
-          handleChange={formik.handleChange}
-          handleBlur={formik.handleBlur}
-        />
-      </div>
-      <SearchedNFT>
-        <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>NFT name:</Typography>
-        <div>
-          <img src={searchedNft.url} alt="" width={40} height={40} className="rounded" />
-          <span className="nftName">{searchedNft.name}</span>
-        </div>
-      </SearchedNFT>
-    </div>
+      </Box>
+    </Box>
   );
 };
 
