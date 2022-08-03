@@ -313,3 +313,9 @@ export const ModalContainer = styled(Modal)`
   top: calc(50% + 5px) !important;
 };
 `;
+
+export const DepositDoneAction = styled(Button)`
+  background-color: ${(props) => props.theme.palette.primary.main};
+  border: none;
+  color: #ffff;
+`;
