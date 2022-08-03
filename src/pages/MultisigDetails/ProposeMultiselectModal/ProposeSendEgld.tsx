@@ -173,8 +173,8 @@ const ProposeSendEgld = ({
         )}
         <span>{`Balance: ${egldBalanceString} EGLD`}</span>
       </SendInputs>
-      <div className="modal-control-container">
-        <label htmlFor={data}>{t('data (optional)')}</label>
+      <SendInputs sx={{ my: '1rem !important' }}>
+        <label htmlFor={data}>{t('Data (optional)')}</label>
         <Form.Control
           id={data}
           name="data"
@@ -183,7 +183,7 @@ const ProposeSendEgld = ({
           onBlur={formik.handleBlur}
           value={data}
         />
-      </div>
+      </SendInputs>
     </Box>
   );
 };
