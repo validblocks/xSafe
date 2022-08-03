@@ -251,3 +251,9 @@ export const SendInputs = styled(Box)`
     color: grey;
   };
 `;
+
+export const DepositDoneAction = styled(Button)`
+  background-color: ${(props) => props.theme.palette.primary.main};
+  border: none;
+  color: #ffff;
+`;
