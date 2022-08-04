@@ -224,13 +224,14 @@ export const FormSearchInput = styled(Box)`
   }
 `;
 
-export const SendInputs = styled(Box)`
+// don't delete this component yet, wait for miki's response
+export const InputsContainer = styled(Box)`
   margin: .67rem 0 1.93rem;
   border-bottom: solid 1px ${(props) => props.theme.palette.primary.main};
   & label {
     margin: .2rem 0 .5rem .5rem;
     color: ${(props) => props.theme.palette.primary.main};
-    font-size: 13px;
+    font-size: 14px;
   };
   & input.form-control {
     max-width: 300px;
