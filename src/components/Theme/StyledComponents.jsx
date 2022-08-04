@@ -241,7 +241,13 @@ export const InputsContainer = styled(Box)`
     background-color: #ffff;
   };
   & label.test {
-    top: calc(50% - 9px);
+    top: calc(50% - 11px);
+    font-size: 15px;
+    font-weight: ${(props) => props.theme.font.weight.md};
+  }
+  & label.test.sus {
+    top: -11px;
+    font-size: 12px;
   }
   & input.form-control {
     max-width: 300px;

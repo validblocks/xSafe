@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
 import { FormikProps, useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
@@ -134,6 +134,9 @@ const ProposeSendEgld = ({
     }
   }
 
+  const [isClickedInput, setIsClickedInput] = useState(false);
+  const onClickedInput = () => setIsClickedInput(!isClickedInput);
+
   useEffect(() => {
     refreshProposal();
   }, [formik.values, formik.errors]);
@@ -181,8 +184,8 @@ const ProposeSendEgld = ({
         </InputsContainer>
       </Box>
       <Box>
-        <InputsContainer>
-          <label htmlFor={amount} className="test">
+        <InputsContainer onClick={onClickedInput}>
+          <label htmlFor={amount} className={`test ${isClickedInput ? 'sus' : ''}`}>
             {`${t('Data (optional)')}`}
           </label>
           <Form.Control
