@@ -20,7 +20,7 @@ import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import ActionDialog from 'src/components/Utils/ActionDialog';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
-import { SendInputs } from 'src/components/Theme/StyledComponents';
+import { InputsContainer } from 'src/components/Theme/StyledComponents';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -216,7 +216,7 @@ const ProposeSendToken = ({
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
-      <SendInputs>
+      <InputsContainer sx={{ mt: '1.2rem !important' }}>
         <InputLabel id="demo-simple-select-label">Identifier</InputLabel>
         <Select
           value={identifier}
@@ -241,9 +241,9 @@ const ProposeSendToken = ({
           Balance:
           {tokenAmount}
         </div>
-      </SendInputs>
+      </InputsContainer>
 
-      <SendInputs>
+      <InputsContainer>
         <label htmlFor={amount}>
           {`${t('Amount')}:`}
         </label>
@@ -261,7 +261,7 @@ const ProposeSendToken = ({
           {amountError}
         </Form.Control.Feedback>
         )}
-      </SendInputs>
+      </InputsContainer>
       <ActionDialog
         showButton={false}
         isOpen={isSendEgldPromptOpen}
