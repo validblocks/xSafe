@@ -10,6 +10,7 @@ interface FormikInputFieldPropsType {
   handleBlur?: (e: any) => void;
   footer?: React.ReactElement;
   disabled?: boolean;
+  isInvalid?: any;
 }
 
 interface FormikCheckboxPropsType {
@@ -28,6 +29,7 @@ export function FormikInputField({
   handleBlur,
   footer,
   disabled,
+  isInvalid,
 }: FormikInputFieldPropsType) {
   return (
     <div>
@@ -53,6 +55,7 @@ export function FormikInputField({
           onChange={handleChange}
           onBlur={handleBlur}
           helperText={error != null}
+          onInvalid={isInvalid}
           sx={{
             width: '100%',
             '.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input': {

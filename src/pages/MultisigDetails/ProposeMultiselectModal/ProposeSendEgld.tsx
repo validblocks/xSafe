@@ -158,7 +158,7 @@ const ProposeSendEgld = ({
         <FormikInputField
           label={t('Amount')}
           name="amount"
-          disabled={amountError != null}
+          isInvalid={amountError != null}
           handleChange={formik.handleChange}
           handleBlur={formik.handleBlur}
           value={amount}
