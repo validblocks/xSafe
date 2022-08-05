@@ -6,13 +6,14 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
-import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accountSelector';
+import { organizationTokenByIdentifierSelector, tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import { FormikInputField } from 'src/helpers/formikFields';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
-import { OrganizationToken } from 'src/pages/Organization/types';
+import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
 import { StateType } from 'src/redux/slices/accountSlice';
-import { Box, TextField } from '@mui/material';
+import { Box, MenuItem, TextField } from '@mui/material';
 import { InputsContainer } from 'src/components/Theme/StyledComponents';
+import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 
 interface ProposeSendEgldType {
   handleChange: (proposal: MultisigSendEgld) => void;
@@ -145,6 +146,7 @@ const ProposeSendEgld = ({
 
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;
+  const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
 
   console.log({ amountError });
 
@@ -171,6 +173,15 @@ const ProposeSendEgld = ({
             onBlur={formik.handleBlur}
             value={amount}
           />
+
+          <MenuItem
+            key={tokenTableRows[0].identifier}
+            value={tokenTableRows[0].identifier}
+          >
+            <TokenPresentationWithPrice
+              identifier={tokenTableRows[0].identifier as string}
+            />
+          </MenuItem>
 
           {amountError != null && (
           <Form.Control.Feedback type="invalid">
