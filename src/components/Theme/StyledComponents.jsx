@@ -232,7 +232,6 @@ export const FormSearchInput = styled(Box)`
 export const InputsContainer = styled(Box)`
   margin: .67rem 0 1.93rem;
   position: relative;
-  z-index: 0;
   background-color: transparent;
   &:focus-within{
     label.test {
@@ -253,7 +252,6 @@ export const InputsContainer = styled(Box)`
     top: calc(50% - 11px);
     font-size: 15px;
     font-weight: ${(props) => props.theme.font.weight.md};
-    z-index: 1;
   }
   & input.form-control {
     width: 100%;
@@ -262,7 +260,6 @@ export const InputsContainer = styled(Box)`
     background-color: transparent;
     border: solid 1px rgba(76, 47, 252, 0.23);
     border-radius: .3rem;
-    z-index: 2;
   };
   & input.form-control:focus {
     outline: none;
@@ -277,6 +274,16 @@ export const InputsContainer = styled(Box)`
     font-size: 12px;
     color: grey;
   };
+  & li {
+    position: absolute;
+    width: 200px;
+    top: 0;
+    right: 0;
+    border: solid 1px rgba(76, 47, 252, 0.23);
+    border-radius: .3rem;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+  }
 `;
 
 export const DepositDoneAction = styled(Button)`
