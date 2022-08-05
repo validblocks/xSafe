@@ -60,6 +60,9 @@ export function FormikInputField({
               fontSize: '15px',
               left: '-1px',
             },
+            '& .MuiOutlinedInput-root fieldset': {
+              borderColor: 'rgba(76, 47, 252, 0.23)',
+            },
             '& .MuiOutlinedInput-root.Mui-focused fieldset': {
               borderColor: '#4c2ffc',
             },

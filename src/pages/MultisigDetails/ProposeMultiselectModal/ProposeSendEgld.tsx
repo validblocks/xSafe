@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
 import { FormikProps, useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
@@ -11,7 +11,7 @@ import { FormikInputField } from 'src/helpers/formikFields';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { OrganizationToken } from 'src/pages/Organization/types';
 import { StateType } from 'src/redux/slices/accountSlice';
-import { Box } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { InputsContainer } from 'src/components/Theme/StyledComponents';
 
 interface ProposeSendEgldType {
@@ -134,9 +134,6 @@ const ProposeSendEgld = ({
     }
   }
 
-  const [isClickedInput, setIsClickedInput] = useState(false);
-  const onClickedInput = () => setIsClickedInput(!isClickedInput);
-
   useEffect(() => {
     refreshProposal();
   }, [formik.values, formik.errors]);
@@ -184,18 +181,32 @@ const ProposeSendEgld = ({
         </InputsContainer>
       </Box>
       <Box>
-        <InputsContainer onClick={onClickedInput}>
-          <label htmlFor={amount} className="test">
-            {`${t('Data (optional)')}`}
-          </label>
-          <Form.Control
-            id={data}
-            name="data"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={data}
-          />
-        </InputsContainer>
+        <TextField
+          variant="outlined"
+          label={t('Data (optional)')}
+          id={data}
+          name="data"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          sx={{
+            width: '100%',
+            m: '0.63rem 0 1.93rem',
+            label: {
+              marginBottom: 0,
+              fontSize: '15px',
+              left: '-1px',
+            },
+            '& .MuiOutlinedInput-root fieldset': {
+              borderColor: 'rgba(76, 47, 252, 0.23)',
+            },
+            '& .MuiOutlinedInput-root.Mui-focused fieldset': {
+              borderColor: '#4c2ffc',
+            },
+            '& label.MuiInputLabel-root.Mui-focused': {
+              color: '#4c2ffc',
+            },
+          }}
+        />
       </Box>
     </Box>
   );

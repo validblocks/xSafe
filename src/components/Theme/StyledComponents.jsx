@@ -228,19 +228,18 @@ export const FormSearchInput = styled(Box)`
 export const InputsContainer = styled(Box)`
   margin: .67rem 0 1.93rem;
   position: relative;
-  padding: 16.5px 14px;
-  border: solid 2px ${(props) => props.theme.palette.primary.main};
-  border-radius: .5rem;
+  z-index: 0;
+  background-color: transparent;
   &:focus-within{
     label.test {
-    top: -11px;
+    top: -9px;
     font-size: 12px;
     }
   }
   & label {
     position: absolute;
     padding: 0 3px;
-    top: -11px;
+    top: -9px;
     left: 10px;
     color: ${(props) => props.theme.palette.primary.main};
     font-size: 12px;
@@ -250,23 +249,26 @@ export const InputsContainer = styled(Box)`
     top: calc(50% - 11px);
     font-size: 15px;
     font-weight: ${(props) => props.theme.font.weight.md};
+    z-index: 1;
   }
   & input.form-control {
-    max-width: 300px;
+    width: 100%;
     height: auto;
-    padding: 0;
+    padding: 16.5px 14px;
     background-color: transparent;
-    border: none;
+    border: solid 1px rgba(76, 47, 252, 0.23);
+    border-radius: .3rem;
+    z-index: 2;
   };
   & input.form-control:focus {
     outline: none;
-    background-color: transparent;
+    border: solid 2px ${(props) => props.theme.palette.primary.main};
     box-shadow: none;
   };
   & span {
     position: absolute;
-    bottom: 0px;
-    left: 3px
+    bottom: -17px;
+    left: 4px;
     display: table;
     font-size: 12px;
     color: grey;
