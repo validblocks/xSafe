@@ -18,6 +18,10 @@ export const MainButton = styled(Button)`
     transform: translateY(50px);
     transition: transform .2s linear;
   }
+  &:disabled{
+    background-color: #eee;
+    border-color: #ddd;
+  }
 `;
 
 export const NewTransactionButton = styled(MainButton)`

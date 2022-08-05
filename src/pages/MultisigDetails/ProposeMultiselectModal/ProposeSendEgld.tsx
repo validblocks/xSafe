@@ -158,7 +158,7 @@ const ProposeSendEgld = ({
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
-      <Box sx={{ mt: '1.2rem !important' }}>
+      <Box sx={{ mt: '2.1rem !important' }}>
         <InputsContainer>
           <label htmlFor={amount}>
             {`${t('Amount')}`}
@@ -190,7 +190,7 @@ const ProposeSendEgld = ({
           onBlur={formik.handleBlur}
           sx={{
             width: '100%',
-            m: '0.63rem 0 1.93rem',
+            m: '0.55rem 0 1.93rem',
             label: {
               marginBottom: 0,
               fontSize: '15px',
