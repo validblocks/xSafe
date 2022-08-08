@@ -177,6 +177,7 @@ const ProposeSendEgld = ({
           <MenuItem
             key={tokenTableRows[0].identifier}
             value={tokenTableRows[0].identifier}
+            sx={{ p: '.25rem .4rem' }}
           >
             <TokenPresentationWithPriceForSendEGLD
               identifier={tokenTableRows[0].identifier as string}

@@ -238,6 +238,9 @@ export const InputsContainer = styled(Box)`
     top: -9px;
     font-size: 12px;
     }
+    li {
+      border: solid 2px ${(props) => props.theme.palette.primary.main};
+    }
   }
   & label {
     position: absolute;
@@ -276,6 +279,7 @@ export const InputsContainer = styled(Box)`
   };
   & li {
     position: absolute;
+    height: 100%;
     top: 0;
     right: 0;
     border: solid 1px rgba(76, 47, 252, 0.23);
