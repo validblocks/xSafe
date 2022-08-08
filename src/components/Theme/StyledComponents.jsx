@@ -301,6 +301,12 @@ export const InputsContainer = styled(Box)`
   }
 `;
 
+export const SelectsContainer = styled(Box)`
+  & fieldset {
+      border: solid 1px rgba(76, 47, 252, 0.23) !important;
+  }
+`;
+
 export const DepositDoneAction = styled(Button)`
   background-color: ${(props) => props.theme.palette.primary.main};
   border: none;
