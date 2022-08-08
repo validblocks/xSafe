@@ -235,11 +235,19 @@ export const InputsContainer = styled(Box)`
   background-color: transparent;
   &:focus-within{
     label.test {
-    top: -9px;
-    font-size: 12px;
+      top: -9px;
+      font-size: 12px;
     }
     li {
       border: solid 2px ${(props) => props.theme.palette.primary.main};
+    }
+  }
+  &:hover {
+    input.form-control {
+      border-color: black;
+    }
+    li {
+      border-color: black;
     }
   }
   & label {
@@ -263,6 +271,7 @@ export const InputsContainer = styled(Box)`
     background-color: transparent;
     border: solid 1px rgba(76, 47, 252, 0.23);
     border-radius: .3rem;
+    transition: border-color 0s;
   };
   & input.form-control:focus {
     outline: none;
@@ -286,6 +295,9 @@ export const InputsContainer = styled(Box)`
     border-radius: .3rem;
     border-top-left-radius: 2rem;
     border-bottom-left-radius: 2rem;
+    &:hover {
+      background-color: transparent;
+    }
   }
 `;
 
