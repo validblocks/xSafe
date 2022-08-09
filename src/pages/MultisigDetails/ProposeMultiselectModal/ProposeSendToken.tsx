@@ -237,15 +237,15 @@ const ProposeSendToken = ({
             </MenuItem>
           ))}
         </Select>
-        <div>
+        <span>
           Balance:
           {tokenAmount}
-        </div>
+        </span>
       </SelectorsContainer>
 
       <InputsContainer>
         <label htmlFor={amount}>
-          {`${t('Amount')}:`}
+          {`${t('Amount')}`}
         </label>
         <Form.Control
           id={amount}
