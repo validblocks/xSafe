@@ -17,6 +17,8 @@ export type MenuItem = {
   icon: any
 };
 
+console.log(window.localStorage);
+
 const topItems = [
   {
     name: 'Assets',
@@ -61,6 +63,24 @@ const topItems = [
     link: 'apps',
     id: 'apps-menu-item',
     icon: <AppsIcon />,
+    submenu: [
+      {
+        name: 'Stake',
+        link: 'stake',
+        id: 'stake-menu-sub-item',
+
+        icon: <DiamondIcon />,
+
+      },
+      {
+        name: 'Stake 2',
+        link: 'stake-2',
+        id: 'stake-2-menu-sub-item',
+
+        icon: <DiamondIcon />,
+
+      },
+    ],
   },
   {
     name: 'Organization',

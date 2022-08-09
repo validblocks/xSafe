@@ -103,12 +103,22 @@ export const TopMenu = styled(Box)`
 `;
 
 export const ListItem = styled(ListItemButton)`
+  .pin-icon {
+    opacity: 0;
+  }
   &:hover {
     color: ${(props) => props.theme.palette.primary.main};
     background-color: #f5f7ff !important;
     .css-hgjmvv-MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main} !important
     };
+  }
+  &:hover .pin-icon {
+    opacity: 1;
+    color: ${(props) => props.theme.palette.primary.main} !important;
+  }
+  &:hover .pin-icon * {
+    color: ${(props) => props.theme.palette.primary.main} !important;
   }
 `;
 

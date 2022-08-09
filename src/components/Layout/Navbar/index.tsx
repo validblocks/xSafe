@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { List, Accordion } from '@mui/material';
+import { List, Accordion, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
@@ -14,6 +14,8 @@ import { uniqueContractAddress } from 'src/multisigConfig';
 import menuItems from 'src/utils/menuItems';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
+import { useLocalStorage } from 'src/utils/useLocalStorage';
 import AccountDetails from './NavbarAccountDetails';
 import './menu.scss';
 import {
@@ -83,6 +85,8 @@ const MiniDrawer = () => {
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
+
+  const [_pinnedApps, setPinnedApps] = useLocalStorage('PINNED_APPS', []);
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -137,12 +141,12 @@ const MiniDrawer = () => {
                       />
                     </ListItem>
                   </MenuAccordion>
-                  {el.submenu?.map((el) => (
-                    <AccordionDetail key={el.link} sx={{ p: 0 }}>
+                  {el.submenu?.map((subEl) => (
+                    <AccordionDetail key={subEl.link} sx={{ p: 0 }}>
                       <Link
-                        to={el.link}
+                        to={subEl.link}
                         className={
-                          locationString === el.link
+                          locationString === subEl.link
                             ? 'active link-decoration'
                             : 'link-decoration'
                         }
@@ -165,9 +169,27 @@ const MiniDrawer = () => {
                             }}
                           />
                           <ListItemText
-                            primary={<Text>{el.name}</Text>}
+                            primary={<Text>{subEl.name}</Text>}
                             sx={{ opacity: open ? 1 : 0 }}
                           />
+                          {el.name === 'Apps' && (
+                          <div className="pin-icon">
+                            <IconButton
+                              color="secondary"
+                              onClick={() => {
+                                console.log('pinned ', subEl);
+                                setPinnedApps((apps: string[]) => (
+                                  apps.includes(subEl.id)
+                                    ? apps
+                                    : [...apps, subEl.id]
+                                ));
+                              }}
+                            >
+                              <PushPinRoundedIcon />
+                            </IconButton>
+                          </div>
+                          )}
+
                         </ListItem>
                       </Link>
                     </AccordionDetail>
@@ -207,6 +229,40 @@ const MiniDrawer = () => {
                   </ListItem>
                 </Link>
               )}
+              {el.id === 'Apps' && (
+                el.submenu?.filter((app) => _pinnedApps.includes(app.id)) || []).map((app) => (
+                  <Link
+                    to={app.link}
+                    className={
+                    locationString === app.link
+                      ? 'active link-decoration'
+                      : 'link-decoration'
+                  }
+                  >
+                    <ListItem
+                      sx={{
+                        minHeight: 48,
+                        justifyContent: open ? 'initial' : 'center',
+                        px: 2.5,
+                        color: '#08041D',
+                      }}
+                    >
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: open ? 1 : 'auto',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {app.icon}
+                      </ListItemIcon>
+                      <ListItemText
+                        primary={<Text>{app.name}</Text>}
+                        sx={{ opacity: open ? 1 : 0 }}
+                      />
+                    </ListItem>
+                  </Link>
+              ))}
             </div>
           ))}
         </TopMenu>
