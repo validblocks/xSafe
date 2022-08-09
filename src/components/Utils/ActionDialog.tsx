@@ -6,6 +6,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ActionResponseButton } from '../Theme/StyledComponents';
 import ReactPortal from './ReactPortal';
 
 interface Props {
@@ -59,7 +60,7 @@ export default function ActionDialog({
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title" textAlign={'center'}>
+          <DialogTitle sx={{ fontWeight: '600 !important' }} id="alert-dialog-title" textAlign={'center'}>
             {t(dialogTitle) as string}
           </DialogTitle>
           <DialogContent>
@@ -68,10 +69,10 @@ export default function ActionDialog({
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Disagree</Button>
-            <Button onClick={onActionAccepted} autoFocus>
+            <ActionResponseButton className="disagree" onClick={handleClose}>Disagree</ActionResponseButton>
+            <ActionResponseButton className="agree" onClick={onActionAccepted} autoFocus>
               Agree
-            </Button>
+            </ActionResponseButton>
           </DialogActions>
         </Dialog>
       </div>
