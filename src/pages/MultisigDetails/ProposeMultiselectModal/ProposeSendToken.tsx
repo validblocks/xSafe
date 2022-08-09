@@ -216,7 +216,7 @@ const ProposeSendToken = ({
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
-      <SelectorsContainer sx={{ mt: '1.2rem !important' }}>
+      <SelectorsContainer sx={{ mt: '2.5rem !important' }}>
         <InputLabel id="demo-simple-select-label">Identifier</InputLabel>
         <Select
           value={identifier}
