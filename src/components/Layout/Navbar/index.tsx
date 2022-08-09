@@ -86,7 +86,8 @@ const MiniDrawer = () => {
       setExpanded(isExpanded ? panel : false);
     };
 
-  const [_pinnedApps, setPinnedApps] = useLocalStorage('PINNED_APPS', []);
+  const [pinnedApps, setPinnedApps] = useLocalStorage('PINNED_APPS', []);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -226,11 +227,12 @@ const MiniDrawer = () => {
                       primary={<Text>{el.name}</Text>}
                       sx={{ opacity: open ? 1 : 0 }}
                     />
+
                   </ListItem>
                 </Link>
               )}
-              {el.id === 'Apps' && (
-                el.submenu?.filter((app) => _pinnedApps.includes(app.id)) || []).map((app) => (
+              {el.name === 'Apps' && (
+                el.submenu?.filter((app) => pinnedApps.includes(app.id)) || []).map((app) => (
                   <Link
                     to={app.link}
                     className={
@@ -260,6 +262,19 @@ const MiniDrawer = () => {
                         primary={<Text>{app.name}</Text>}
                         sx={{ opacity: open ? 1 : 0 }}
                       />
+                      <div className="pin-icon">
+                        <IconButton
+                          color="secondary"
+                          onClick={() => {
+                            console.log('removing ', app.id);
+                            setPinnedApps((apps: string[]) => (
+                              apps.filter((appId) => appId !== app.id)
+                            ));
+                          }}
+                        >
+                          <PushPinRoundedIcon />
+                        </IconButton>
+                      </div>
                     </ListItem>
                   </Link>
               ))}
