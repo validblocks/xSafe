@@ -54,6 +54,7 @@ export default function useProviderIdentitiesAfterSelection({
         const providerBeforeIdentityFetch = fetchedProviders?.find(
           (p) => p.identity === provider.identity,
         );
+
         const delegationCap = providerBeforeIdentityFetch?.delegationCap;
 
         const denominatedDelegationCap = operations.denominate({
@@ -107,6 +108,66 @@ export default function useProviderIdentitiesAfterSelection({
     return data;
   }, []);
 
+  const addProvidersWithoutIdentity = useCallback(
+    (data: IdentityWithColumns[]) => {
+      const newProviders =
+        fetchedProviders
+          ?.filter((p) => !p.identity)
+          .map((provider) => {
+            const stakedAmount = Number(
+              operations
+                .denominate({
+                  input: provider.locked,
+                  denomination,
+                  decimals,
+                  showLastNonZeroDecimal: true,
+                })
+                .replaceAll(',', ''),
+            );
+
+            const delegationCap = provider?.delegationCap;
+
+            const denominatedDelegationCap = operations.denominate({
+              input: delegationCap ?? '1',
+              denomination,
+              decimals,
+              showLastNonZeroDecimal: true,
+            });
+
+            const delegationCapForCalculations = Number(
+              denominatedDelegationCap.replaceAll(',', ''),
+            );
+
+            let filledPercentage = Number(
+              Number(
+                (stakedAmount / delegationCapForCalculations) * 100,
+              ).toFixed(1),
+            );
+            if (filledPercentage > 100) filledPercentage = 100;
+
+            return {
+              ...provider,
+              id: provider.provider,
+              providerColumn: {
+                avatar: '#',
+                name: provider.provider,
+                website: 'Unknown',
+                apr: provider.apr ?? 0,
+              },
+              aprColumn: {
+                apr: provider.apr ?? 0,
+              },
+              filledColumn: {
+                filledPercentage,
+              },
+            };
+          }) ?? [];
+
+      return [...data, ...newProviders];
+    },
+    [fetchedProviders],
+  );
+
   const filterBySearchParam = useCallback(
     (data: IProviderIdentity[]) => {
       if (!searchParam) return data;
@@ -132,7 +193,7 @@ export default function useProviderIdentitiesAfterSelection({
       ?.map((provider: IProvider) => provider.identity)
       .join(',');
     return axios
-      .get(`https://api.elrond.com/identities?identities=${providerIds}`)
+      .get(`https://devnet-api.elrond.com/identities?identities=${providerIds}`)
       .then((res) => res.data);
   }, [fetchedProviders]);
 
@@ -141,10 +202,17 @@ export default function useProviderIdentitiesAfterSelection({
       pipe(
         filterBySearchParam,
         buildColumns,
+        addProvidersWithoutIdentity,
         shuffle,
         bringValidBlocksFirst,
       )(data),
-    [shuffle, bringValidBlocksFirst, buildColumns, filterBySearchParam],
+    [
+      filterBySearchParam,
+      buildColumns,
+      addProvidersWithoutIdentity,
+      shuffle,
+      bringValidBlocksFirst,
+    ],
   );
   const {
     data: fetchedProviderIdentities,

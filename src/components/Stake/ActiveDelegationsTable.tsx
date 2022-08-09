@@ -8,11 +8,16 @@ import {
 } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  setProposeMultiselectSelectedOption,
   setSelectedStakingProvider } from 'src/redux/slices/modalsSlice';
 import { Box } from '@mui/material';
 import { IProviderColumn, IDelegatedColumn, IClaimableRewardsColumn, IdentityWithColumns } from 'src/types/staking';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
+import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
+import { Address, BigUIntValue } from '@elrondnetwork/erdjs/out';
+import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
+import { ProposalsTypes } from 'src/types/Proposals';
 import ProviderColumn from '../Staking/ProviderColumn';
 import { AssetActionButton } from '../Theme/StyledComponents';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
@@ -33,8 +38,11 @@ export const SQUARE_IMAGE_WIDTH = 30;
 const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dataName = 'data' }: Props) => {
   const dispatch = useDispatch();
   const [pageSize, setPageSize] = useState(10);
-
-  console.log({ rows });
+  const handleOptionSelected = (
+    option: ProposalsTypes,
+  ) => {
+    dispatch(setProposeMultiselectSelectedOption({ option }));
+  };
 
   const getTableActions = useCallback((params: GridRenderCellParams) => [
     <AssetActionButton
@@ -42,8 +50,10 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
       variant="outlined"
       className="shadow-sm rounded mr-2"
       onClick={() => {
-        console.log(params);
-        // mutateSmartContractCall(addressParam, '0', 'redelegate');
+        mutateSmartContractCall(
+          new Address('erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzhllllsp9wvyl'),
+          new BigUIntValue(new BigNumber(0)),
+          'reDelegateRewards');
       }}
     >
       <AssetActionIcon width="30px" height="30px" /> Restake
@@ -51,8 +61,11 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
     <AssetActionButton
       key="1"
       onClick={() => {
-        console.log(params);
-        // mutateSmartContractCall(addressParam, '0', 'redelegate');
+        mutateSmartContractCall(
+          new Address('erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzhllllsp9wvyl'),
+          new BigUIntValue(new BigNumber(0)),
+          'claimRewards',
+        );
       }}
     >
       <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Claim
@@ -60,8 +73,13 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
     <AssetActionButton
       key="1"
       onClick={() => {
-        console.log(params);
-        // mutateSmartContractCall(addressParam, '0', 'redelegate');
+        // dispatch(setSelectedStakingProvider(params.row));
+        // mutateSmartContractCall(new Address('erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzhllllsp9wvyl'),
+        //   new BigUIntValue(new BigNumber(0)),
+        //   'unDelegate',
+        //   new BigUIntValue(new BigNumber(0.1)));
+        handleOptionSelected(ProposalsTypes.unstake_tokens);
+        dispatch(setSelectedStakingProvider(params.row));
       }}
     >
       <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Unstake
@@ -115,8 +133,10 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([selectedStakingProvider]);
 
   const onSelectionModelChanged = useCallback((newSelectionModel: GridSelectionModel) => {
-    setSelectionModel([newSelectionModel[newSelectionModel.length - 1]]);
-    dispatch(setSelectedStakingProvider(newSelectionModel[newSelectionModel.length - 1]));
+    const newSelectedProvider = newSelectionModel[newSelectionModel.length - 1];
+
+    setSelectionModel([newSelectedProvider]);
+    dispatch(setSelectedStakingProvider(newSelectedProvider));
   }, [dispatch]);
 
   const onPageSizeChange = useCallback((newPageSize: number) => setPageSize(newPageSize), []);

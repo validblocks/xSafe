@@ -79,8 +79,9 @@ const ProvidersList = ({ searchParam }: Props) => {
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([selectedStakingProvider]);
 
   const onSelectionModelChanged = useCallback((newSelectionModel: GridSelectionModel) => {
-    setSelectionModel([newSelectionModel[newSelectionModel.length - 1]]);
-    dispatch(setSelectedStakingProvider(newSelectionModel[newSelectionModel.length - 1]));
+    const newSelectedProvider = newSelectionModel[newSelectionModel.length - 1];
+    setSelectionModel([newSelectedProvider]);
+    dispatch(setSelectedStakingProvider(newSelectedProvider));
   }, [dispatch]);
 
   const [pageSize, setPageSize] = useState(10);

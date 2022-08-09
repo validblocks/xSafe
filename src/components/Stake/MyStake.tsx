@@ -13,6 +13,9 @@ import { IDelegation, IdentityWithColumns } from 'src/types/staking';
 import { Balance } from '@elrondnetwork/erdjs/out';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
+import { getDenominatedBalanceString } from 'src/utils/balanceUtils';
+import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
+import { setActiveDelegationRows } from 'src/redux/slices/accountSlice';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
@@ -38,11 +41,12 @@ const MyStake = () => {
 
   const [totalActiveStake, setTotalActiveStake] = useState<string>('0');
   const [totalClaimableRewards, setTotalClaimableRewards] = useState<string>('0');
-  const [activeDelegationsRows, setActiveDelegationRows] = useState<IdentityWithColumns[]>([]);
+
+  const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = useCallback(() =>
     axios
-      .get(`https://devnet-delegation-api.elrond.com/accounts/${currentContract.address}/delegations`)
+      .get(`https://devnet-delegation-api.elrond.com/accounts/${currentContract.address}/delegations?forceRefresh=true`)
       .then((res) => res.data), [currentContract.address]);
 
   const {
@@ -58,13 +62,13 @@ const MyStake = () => {
     {
       ...USE_QUERY_DEFAULT_CONFIG,
       keepPreviousData: true,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
     },
   );
 
   useEffect(() => {
-    console.log({ fetchedDelegations });
-    console.log({ fetchedProviderIdentities });
-
     if (!fetchedDelegations || !fetchedProviderIdentities) return;
 
     const totalActiveStake = fetchedDelegations.reduce((totalSum: number, delegation: IDelegation) =>
@@ -72,7 +76,12 @@ const MyStake = () => {
 
     const allClaimableRewards = fetchedDelegations.reduce((totalSum: number, delegation: IDelegation) =>
       totalSum + parseFloat(Balance.fromString(delegation.claimableRewards).toDenominated()), 0);
-    setTotalClaimableRewards(Number(allClaimableRewards).toFixed(2));
+
+    const allClaimableRewardsString = getDenominatedBalanceString<string>(
+      allClaimableRewards, { precisionAfterComma: 5, needsDenomination: false });
+    setTotalClaimableRewards(
+      allClaimableRewardsString,
+    );
 
     const activeDelegationsRows = fetchedProviderIdentities
       ?.filter((providerIdentity: IdentityWithColumns) => fetchedDelegations
@@ -82,10 +91,12 @@ const MyStake = () => {
           .find((delegation: IDelegation) => delegation.contract === providerIdentity.provider);
 
         const delegatedAmount = delegation
-          ? Number(Balance.fromString(delegation.userActiveStake).toDenominated()).toPrecision(4)
+          ? getDenominatedBalanceString<string>(delegation.userActiveStake, { precisionAfterComma: 4 })
           : '0';
 
-        console.log({ delegation });
+        const claimableRewards = getDenominatedBalanceString<number>(
+          delegation.claimableRewards, { precisionAfterComma: 4 },
+        ) ?? '0';
 
         return {
           ...providerIdentity,
@@ -93,15 +104,16 @@ const MyStake = () => {
             delegatedAmount,
           },
           claimableRewardsColumn: {
-            claimableRewards: delegation.claimableRewards ?? '0',
+            claimableRewards,
           },
         };
       }) ?? [];
 
-    console.log({ activeDelegationsRows });
-    setActiveDelegationRows(activeDelegationsRows);
+    dispatch(setActiveDelegationRows(activeDelegationsRows));
 
-    setTotalActiveStake(Number(totalActiveStake).toFixed(2));
+    setTotalActiveStake(
+      getDenominatedBalanceString<string>(totalActiveStake, { precisionAfterComma: 4, needsDenomination: false }),
+    );
   }, [fetchedDelegations, fetchedProviderIdentities]);
 
   if (isFetchingDelegations ||
@@ -149,7 +161,8 @@ const MyStake = () => {
                 width: '100%',
               }}
             >
-              <InfoOutlinedIcon sx={{ marginRight: '5px' }} /> from 2 Providers
+              <InfoOutlinedIcon sx={{ marginRight: '5px' }} />
+              {`from ${activeDelegationsRows?.length ?? '0'} Providers`}
             </Button>
 )}
           title={'My Claimable Rewards'}

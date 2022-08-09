@@ -121,7 +121,7 @@ const StakingFormStepTwo = () => {
   useEffect(() => {
     try {
       //   const addressParam = new Address(formik.values.receiver);
-      const addressParam = new Address('erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqz0llllsup4dew');
+      const addressParam = new Address('erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzhllllsp9wvyl');
 
       const amountNumeric = Number(formik.values.amount);
       if (Number.isNaN(amountNumeric)) {
@@ -132,7 +132,9 @@ const StakingFormStepTwo = () => {
         Balance.egld(amountNumeric).valueOf(),
       );
 
-      setBuiltFinalActionHandler(() => () => mutateSmartContractCall(addressParam, amountParam, 'delegate'));
+      setBuiltFinalActionHandler(() => () => {
+        mutateSmartContractCall(addressParam, amountParam, 'delegate');
+      });
     } catch (err) {
       console.error(err);
     }
