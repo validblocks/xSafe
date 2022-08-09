@@ -242,7 +242,7 @@ export const InputsContainer = styled(Box)`
       height: 58px;
       border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
     }
-  }
+  };
   &:hover {
     input.form-control {
       border-color: black;
@@ -250,7 +250,7 @@ export const InputsContainer = styled(Box)`
     li {
       border-color: black;
     }
-  }
+  };
   & label {
     position: absolute;
     padding: 0 3px;
@@ -264,7 +264,7 @@ export const InputsContainer = styled(Box)`
     top: calc(50% - 11px);
     font-size: 15px;
     font-weight: ${(props) => props.theme.font.weight.md};
-  }
+  };
   & input.form-control {
     width: 100%;
     height: auto;
@@ -299,7 +299,7 @@ export const InputsContainer = styled(Box)`
     &:hover {
       background-color: transparent;
     }
-  }
+  };
 `;
 
 export const SelectorsContainer = styled(FormControl)`
