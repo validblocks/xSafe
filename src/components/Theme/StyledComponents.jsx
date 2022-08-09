@@ -225,7 +225,7 @@ export const FormSearchInput = styled(Box)`
   };
   & svg{
     margin-top: 2px;
-  }
+  };
 `;
 
 // don't delete this component yet, wait for miki's response
@@ -306,20 +306,23 @@ export const SelectorsContainer = styled(FormControl)`
   width: 100%;
   margin: .67rem 0 1.93rem;
   position: relative;
+  & svg.MuiSelect-iconOpen + fieldset{
+    border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
+  };
   &:hover {
     fieldset {
       border-color: #000 !important;
-    };
-  }
+    }
+  };
   & fieldset {
     border: solid 1px rgba(76, 47, 252, 0.23) !important;
-  }
+  };
   & label {
     position: absolute;
     padding: 0 3px;
     top: 0px;
     left: -4px;
-    color: ${(props) => props.theme.palette.primary.main};
+    color: ${(props) => props.theme.palette.primary.main} !important;
     font-size: 15px;
     background-color: #ffff;
   };
