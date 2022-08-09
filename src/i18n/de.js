@@ -80,4 +80,6 @@ export const germanTranslations = {
     'Das Senden von EGLD benötigt andere Transaktionsparameter. Dafür wird der Vorschlagstyp auf "Send EGLD" geändert und die Summe vom Vorschlag entfernt. Möchten Sie das wirklich tun?',
   'Are you sure you want to change the proposal type to "Send EGLD" ?':
     'Möchten Sie wirklich den Vorschlagstyp auf "Send EGLD" ändern?',
+  'There is not enough money in the organization for this transaction':
+    'Es gibt nicht genug Geld in der Organisation für diese Transaktion',
 };
