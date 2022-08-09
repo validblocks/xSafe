@@ -38,6 +38,7 @@ import SelectOption from './SelectOption';
 import './proposeMultiselectModal.scss';
 import ProposeSendNft from './ProposeSendNft';
 import StakeTokensModalContent from './StakeTokensModalContent';
+import ProposeUnstakeTokens from './ProposeUnstakeTokens';
 
 interface ProposeMultiselectModalPropsType {
   selectedOption: SelectedOptionType;
@@ -83,6 +84,7 @@ const ProposeMultiselectModal = ({
           ...selectedProposal.args,
         );
       } else if (selectedProposal instanceof MultisigSmartContractCall) {
+        console.log('Smart Contract Call', selectedProposal);
         mutateSmartContractCall(
           selectedProposal.address,
           selectedProposal.amount,
@@ -119,6 +121,7 @@ const ProposeMultiselectModal = ({
       }
       handleClose();
     } catch (err) {
+      console.log('err handling proposal instance');
       handleClose();
     }
   };
@@ -191,6 +194,14 @@ const ProposeMultiselectModal = ({
             setIsAtFinish={setIsAtFinish}
             stepChanged={setActiveStepNumber}
             announceTotalSteps={setTotalSteps}
+          />
+        );
+      }
+      case ProposalsTypes.unstake_tokens: {
+        return (
+          <ProposeUnstakeTokens
+            setSubmitDisabled={setSubmitDisabled}
+            handleChange={handleProposalChange}
           />
         );
       }

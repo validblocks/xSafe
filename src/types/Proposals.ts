@@ -19,6 +19,7 @@ export enum ProposalsTypes {
   'upgrade_contract_from_source' = 'upgrade_contract_from_source',
   'attach_contract' = 'attach_contract',
   'stake_tokens' = 'stake_tokens',
+  'unstake_tokens' = 'unstake_tokens',
 }
 
 export interface RemoveUserOptionType {
