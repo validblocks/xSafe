@@ -254,7 +254,7 @@ export const InputsContainer = styled(Box)`
   & label {
     position: absolute;
     padding: 0 3px;
-    top: -9px;
+    top: -10px;
     left: 10px;
     color: ${(props) => props.theme.palette.primary.main};
     font-size: 12px;
@@ -304,14 +304,33 @@ export const InputsContainer = styled(Box)`
 
 export const SelectorsContainer = styled(FormControl)`
   width: 100%;
+  margin: .67rem 0 1.93rem;
+  position: relative;
   &:hover {
     fieldset {
-      border-color: #000;
+      border-color: #000 !important;
     };
   }
   & fieldset {
-      border: solid 1px rgba(76, 47, 252, 0.23) !important;
+    border: solid 1px rgba(76, 47, 252, 0.23) !important;
   }
+  & label {
+    position: absolute;
+    padding: 0 3px;
+    top: 0px;
+    left: -4px;
+    color: ${(props) => props.theme.palette.primary.main};
+    font-size: 15px;
+    background-color: #ffff;
+  };
+  & span {
+    position: absolute;
+    bottom: -17px;
+    left: 4px;
+    display: table;
+    font-size: 12px;
+    color: grey;
+  };
 `;
 
 export const DepositDoneAction = styled(Button)`
