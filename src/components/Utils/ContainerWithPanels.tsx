@@ -48,13 +48,13 @@ const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
           >
             {
                 panels.map((panel, index) =>
-                  <Tab label={panel.title} {...a11yProps(index)} />,
+                  <Tab key={panel.title} label={panel.title} {...a11yProps(index)} />,
                 )
             }
           </Tabs>
         </Box>
         {panels.map((panel, index) => (
-          <TabPanel value={selectedTab} index={index}>
+          <TabPanel key={panel.title} value={selectedTab} index={index}>
             {panel.content}
           </TabPanel>
         ),

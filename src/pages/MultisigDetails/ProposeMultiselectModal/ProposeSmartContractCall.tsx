@@ -85,7 +85,7 @@ const ProposeSmartContractCall = ({
       return (
         testContext?.createError({
           message:
-            'There are not enough money in the organization for this transaction',
+            'There is not enough money in the organization for this transaction',
         }) ?? false
       );
     }

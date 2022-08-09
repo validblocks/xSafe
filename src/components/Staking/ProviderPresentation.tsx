@@ -9,7 +9,6 @@ interface Props {
 }
 
 const ProviderPresentation = ({ provider }: Props) => {
-  console.log('provider');
   if (!provider) {
     return <div>No provider to show</div>;
   }

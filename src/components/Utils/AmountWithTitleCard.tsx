@@ -14,7 +14,6 @@ const AmountWithTitleCard = ({
   amountUnityMeasure = '',
   actionButton = null,
 }: Props) => {
-  console.log('card');
   const { t } = useTranslation();
   return (
     <MultisigCard sx={{
