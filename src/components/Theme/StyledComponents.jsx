@@ -256,6 +256,9 @@ export const InputsContainer = styled(Box)`
     font-size: 12px;
     background-color: #ffff;
   };
+  & input.form-control.is-invalid ~ label {
+    color: #dc3545;
+  }
   & input.form-control {
     width: 100%;
     height: auto;
@@ -273,10 +276,10 @@ export const InputsContainer = styled(Box)`
     background: none;
     border: solid 2px #dc3545;
   }
-  & input.form-control.is-invalid + li {
+  & input.form-control.is-invalid ~ li {
     border-color: #dc3545;
   }
-  & input.form-control.is-invalid:focus + li {
+  & input.form-control.is-invalid:focus ~ li {
     border: solid 2px #dc3545 !important;
   }
   & input.form-control:focus {
