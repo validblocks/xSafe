@@ -120,8 +120,7 @@ const StakingFormStepTwo = () => {
 
   useEffect(() => {
     try {
-      //   const addressParam = new Address(formik.values.receiver);
-      const addressParam = new Address('erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzhllllsp9wvyl');
+      const addressParam = new Address(selectedProvider?.provider);
 
       const amountNumeric = Number(formik.values.amount);
       if (Number.isNaN(amountNumeric)) {
@@ -138,7 +137,7 @@ const StakingFormStepTwo = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [formik.values.amount, setBuiltFinalActionHandler]);
+  }, [formik.values.amount, selectedProvider?.provider, setBuiltFinalActionHandler]);
 
   useLayoutEffect(() => {
     setButtonWidth(buttonRef?.current?.offsetWidth);

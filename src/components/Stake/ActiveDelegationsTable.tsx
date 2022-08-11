@@ -3,7 +3,6 @@ import { useCallback, useMemo, useState } from 'react';
 import {
   DataGrid,
   GridRenderCellParams,
-  GridRowSpacingParams,
   GridSelectionModel,
 } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,7 +50,7 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
       className="shadow-sm rounded mr-2"
       onClick={() => {
         mutateSmartContractCall(
-          new Address('erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzhllllsp9wvyl'),
+          new Address(params.row.provider),
           new BigUIntValue(new BigNumber(0)),
           'reDelegateRewards');
       }}
@@ -73,11 +72,6 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
     <AssetActionButton
       key="1"
       onClick={() => {
-        // dispatch(setSelectedStakingProvider(params.row));
-        // mutateSmartContractCall(new Address('erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzhllllsp9wvyl'),
-        //   new BigUIntValue(new BigNumber(0)),
-        //   'unDelegate',
-        //   new BigUIntValue(new BigNumber(0.1)));
         handleOptionSelected(ProposalsTypes.unstake_tokens);
         dispatch(setSelectedStakingProvider(params.row));
       }}
@@ -124,11 +118,6 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
     [getTableActions],
   );
 
-  const getRowSpacing = useCallback((_params: GridRowSpacingParams) => ({
-    // top: params.isFirstVisible ? 0 : 6,
-    // bottom: params.isLastVisible ? 0 : 6,
-  }), []);
-
   const selectedStakingProvider = useSelector(selectedStakingProviderSelector);
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([selectedStakingProvider]);
 
@@ -164,7 +153,6 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
         rows={rows}
         columns={columns}
         headerHeight={48}
-        getRowSpacing={getRowSpacing}
         onSelectionModelChange={onSelectionModelChanged}
         pagination
         rowsPerPageOptions={[10, 20, 50, 100]}
