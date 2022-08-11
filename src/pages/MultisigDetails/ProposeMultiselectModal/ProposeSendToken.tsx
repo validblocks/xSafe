@@ -244,9 +244,6 @@ const ProposeSendToken = ({
       </SelectorsContainer>
 
       <InputsContainer>
-        <label htmlFor={amount}>
-          {`${t('Amount')}`}
-        </label>
         <Form.Control
           id={amount}
           name="amount"
@@ -255,6 +252,10 @@ const ProposeSendToken = ({
           onBlur={formik.handleBlur}
           value={amount}
         />
+
+        <label htmlFor={amount}>
+          {`${t('Amount')}`}
+        </label>
 
         {amountError != null && (
         <Form.Control.Feedback type="invalid">
