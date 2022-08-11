@@ -5,7 +5,7 @@ export interface IDenominatedBalanceConfig {
   needsDenomination?: boolean;
 }
 
-export const getDenominatedBalanceString = <T extends string | number>(
+export const getDenominatedBalance = <T extends string | number>(
   stringBalance: string,
   {
     precisionAfterComma = 4,
