@@ -6,7 +6,8 @@ import { FinalStepActionButton, ChangeStepButton } from '../Theme/StyledComponen
 interface IMultistepFormProps {
     steps: React.ReactElement[];
     emitStepChange?: React.Dispatch<React.SetStateAction<number>>;
-    finalActionText?: string;
+  finalActionText?: string;
+  hasFinalActionButton?: boolean;
 }
 
 interface IMultistepFormContextType {
@@ -26,6 +27,7 @@ export const useMultistepFormContext = () =>
 const MultistepForm = ({
   steps,
   finalActionText = 'Proceed',
+  hasFinalActionButton = true,
   emitStepChange = () => null }: IMultistepFormProps) => {
   const [activeStepNumber, setActiveStepNumber] = useState(1);
   const [isNextButtonActive, setIsNextButtonActive] = useState(false);
@@ -83,7 +85,7 @@ const MultistepForm = ({
             >
               {t('Next') as string}
             </ChangeStepButton>
-          ) : (
+          ) : hasFinalActionButton && (
             <FinalStepActionButton
               disabled={!isFinalStepButtonActive}
               onClick={builtFinalActionHandler}

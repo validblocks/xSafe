@@ -39,10 +39,17 @@ import './proposeMultiselectModal.scss';
 import ProposeSendNft from './ProposeSendNft';
 import StakeTokensModalContent from './StakeTokensModalContent';
 import ProposeUnstakeTokens from './ProposeUnstakeTokens';
+import ProposeWithdrawFunds from './ProposeWithdrawFunds';
 
 interface ProposeMultiselectModalPropsType {
   selectedOption: SelectedOptionType;
+
 }
+
+export const MultiStepProposals = [
+  ProposalsTypes.stake_tokens,
+  ProposalsTypes.withdraw_funds,
+];
 
 const ProposeMultiselectModal = ({
   selectedOption,
@@ -52,12 +59,10 @@ const ProposeMultiselectModal = ({
   const [selectedProposal, setSelectedProposal] =
     useState<MultisigAction | null>(null);
   const [submitDisabled, setSubmitDisabled] = useState(true);
-  const [_areActionsAvailable, setAreActionsAvailable] = useState(
-    selectedOption?.option !== ProposalsTypes.stake_tokens,
-  );
   const [isMultiStep, setIsMultiStep] = useState(
-    selectedOption?.option === ProposalsTypes.stake_tokens,
+    MultiStepProposals.includes(selectedOption?.option ?? '' as ProposalsTypes),
   );
+
   const [activeStepNumber, setActiveStepNumber] = useState(1);
   const [totalSteps, setTotalSteps] = useState(0);
 
@@ -66,8 +71,7 @@ const ProposeMultiselectModal = ({
   );
 
   useEffect(() => {
-    setIsMultiStep(selectedOption?.option === ProposalsTypes.stake_tokens);
-    setAreActionsAvailable(isAtFinish);
+    setIsMultiStep(MultiStepProposals.includes(selectedOption?.option ?? '' as ProposalsTypes));
   }, [selectedOption?.option, isAtFinish]);
 
   const handleClose = () => {
@@ -125,6 +129,7 @@ const ProposeMultiselectModal = ({
       handleClose();
     }
   };
+
   const handleProposalChange = (proposal: MultisigAction) => {
     setSelectedProposal(proposal);
   };
@@ -202,6 +207,17 @@ const ProposeMultiselectModal = ({
           <ProposeUnstakeTokens
             setSubmitDisabled={setSubmitDisabled}
             handleChange={handleProposalChange}
+          />
+        );
+      }
+      case ProposalsTypes.withdraw_funds: {
+        return (
+          <ProposeWithdrawFunds
+            setSubmitDisabled={setSubmitDisabled}
+            handleChange={handleProposalChange}
+            setIsAtFinish={setIsAtFinish}
+            stepChanged={setActiveStepNumber}
+            announceTotalSteps={setTotalSteps}
           />
         );
       }

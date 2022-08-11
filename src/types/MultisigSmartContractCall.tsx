@@ -76,6 +76,8 @@ export class MultisigSmartContractCall extends MultisigAction {
         return i18next.t('Unstake Tokens');
       case delegationFunctionNames.claimRewards:
         return i18next.t('Claim Rewards');
+      case delegationFunctionNames.withdraw:
+        return i18next.t('Withdraw Delegation');
       default:
         return 'Unknown function';
     }

@@ -53,6 +53,14 @@ export interface IDelegatedColumn {
   delegatedAmount: string;
 }
 
+export interface IUndelegatedColumn {
+  undelegatedAmount: string;
+}
+
+export interface IWithdrawableColumn {
+  withdrawableAmount: string;
+}
+
 export interface IClaimableRewardsColumn {
   claimableRewards: string;
 }
@@ -64,8 +72,15 @@ export interface IdentityWithColumns extends IProviderIdentity {
   filledColumn: IFilledColumn;
   delegatedColumn?: IDelegatedColumn;
   claimRewardsColumn?: IClaimableRewardsColumn;
+  undelegatedColumn?: IUndelegatedColumn;
+  withdrawableColumn?: IWithdrawableColumn;
   numNodes: number;
   provider: string;
+}
+
+export interface IUndelegatedFunds {
+  amount: string;
+  seconds: number;
 }
 
 export interface IDelegation {
@@ -74,5 +89,5 @@ export interface IDelegation {
   contract: string;
   userActiveStake: string;
   userUnBondable: string;
-  userUndelegatedList: unknown[];
+  userUndelegatedList: IUndelegatedFunds[];
 }

@@ -97,7 +97,7 @@ const ProposeUnstakeTokens = ({
       );
     }
 
-    setSubmitDisabled(!formik.isValid || !formik.dirty);
+    setSubmitDisabled(!formik.isValid);
     return true;
   };
 
@@ -209,13 +209,13 @@ const ProposeUnstakeTokens = ({
 
   useEffect(() => {
     console.log({ isValid: formik.isValid });
-    console.log({ dirty: formik.dirty });
-    setSubmitDisabled((!formik.isValid || !formik.dirty));
+    // console.log({ dirty: formik.dirty });
+    setSubmitDisabled((!formik.isValid));
   }, [formik.isValid, formik.dirty, setSubmitDisabled]);
 
   return (
     <div className="px-4 py-3">
-      <div className="modal-control-container mb-4">
+      <div className="modal-control-  container mb-4">
         <InputLabel id="demo-simple-select-label">Staking Provider</InputLabel>
         <Select
           value={identifier}

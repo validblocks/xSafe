@@ -23,4 +23,5 @@ export const titles = {
   [ProposalsTypes.edit_owner]: 'Edit owner',
   [ProposalsTypes.stake_tokens]: 'Choose a Staking Provider',
   [ProposalsTypes.unstake_tokens]: 'Unstake tokens',
+  [ProposalsTypes.withdraw_funds]: 'Withdraw funds',
 };

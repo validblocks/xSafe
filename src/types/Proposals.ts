@@ -20,6 +20,7 @@ export enum ProposalsTypes {
   'attach_contract' = 'attach_contract',
   'stake_tokens' = 'stake_tokens',
   'unstake_tokens' = 'unstake_tokens',
+  'withdraw_funds' = 'withdraw_funds',
 }
 
 export interface RemoveUserOptionType {

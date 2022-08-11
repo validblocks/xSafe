@@ -3,4 +3,5 @@ export enum delegationFunctionNames {
   'reDelegateRewards' = 'reDelegateRewards',
   'claimRewards' = 'claimRewards',
   'unDelegate' = 'unDelegate',
+  'withdraw' = 'withdraw',
 }
