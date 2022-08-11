@@ -162,9 +162,6 @@ const ProposeSendEgld = ({
       />
       <Box sx={{ mt: '2.1rem !important' }}>
         <InputsContainer>
-          <label htmlFor={amount}>
-            {`${t('Amount')}`}
-          </label>
           <Form.Control
             id={amount}
             name="amount"
@@ -173,6 +170,10 @@ const ProposeSendEgld = ({
             onBlur={formik.handleBlur}
             value={amount}
           />
+
+          <label htmlFor={amount}>
+            {`${t('Amount')}`}
+          </label>
 
           <MenuItem
             key={tokenTableRows[0].identifier}
