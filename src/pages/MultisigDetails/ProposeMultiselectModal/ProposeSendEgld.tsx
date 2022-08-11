@@ -12,7 +12,7 @@ import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
 import { StateType } from 'src/redux/slices/accountSlice';
 import { Box, MenuItem, TextField } from '@mui/material';
-import { InputsContainer } from 'src/components/Theme/StyledComponents';
+import { InputsContainer, MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
 import TokenPresentationWithPriceForSendEGLD from 'src/components/Utils/TokenPresentationWithPriceForSendEGLD';
 
 interface ProposeSendEgldType {
@@ -174,6 +174,10 @@ const ProposeSendEgld = ({
           <label htmlFor={amount}>
             {`${t('Amount')}`}
           </label>
+
+          <MaxSendEGLDButton>
+            Max
+          </MaxSendEGLDButton>
 
           <MenuItem
             key={tokenTableRows[0].identifier}
