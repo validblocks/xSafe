@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
@@ -9,11 +9,11 @@ import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { IDelegation, IdentityWithColumns } from 'src/types/staking';
+import { IDelegation, IdentityWithColumns, IUndelegatedFunds } from 'src/types/staking';
 import { Balance } from '@elrondnetwork/erdjs/out';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
-import { getDenominatedBalanceString } from 'src/utils/balanceUtils';
+import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import { setActiveDelegationRows } from 'src/redux/slices/accountSlice';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
@@ -41,6 +41,7 @@ const MyStake = () => {
 
   const [totalActiveStake, setTotalActiveStake] = useState<string>('0');
   const [totalClaimableRewards, setTotalClaimableRewards] = useState<string>('0');
+  const [totalUndelegatedFunds, setTotalUndelegatedFunds] = useState<string>('0');
 
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
@@ -77,10 +78,22 @@ const MyStake = () => {
     const allClaimableRewards = fetchedDelegations.reduce((totalSum: number, delegation: IDelegation) =>
       totalSum + parseFloat(Balance.fromString(delegation.claimableRewards).toDenominated()), 0);
 
-    const allClaimableRewardsString = getDenominatedBalanceString<string>(
-      allClaimableRewards, { precisionAfterComma: 5, needsDenomination: false });
+    const allClaimableRewardsString = getDenominatedBalance<string>(
+      allClaimableRewards, { precisionAfterComma: 4, needsDenomination: false });
     setTotalClaimableRewards(
       allClaimableRewardsString,
+    );
+
+    const contractUndelegations = fetchedDelegations
+      .reduce((acc: IUndelegatedFunds[], delegation: IDelegation) => [...acc, ...delegation.userUndelegatedList], []);
+
+    const totalUndelegations = contractUndelegations.reduce((totalSum: number, undelegation: IUndelegatedFunds) => {
+      const amount = parseFloat(Balance.fromString(undelegation.amount).toDenominated());
+      return totalSum + amount;
+    }, 0);
+
+    setTotalUndelegatedFunds(
+      getDenominatedBalance<string>(totalUndelegations, { precisionAfterComma: 5, needsDenomination: false }),
     );
 
     const activeDelegationsRows = fetchedProviderIdentities
@@ -91,10 +104,10 @@ const MyStake = () => {
           .find((delegation: IDelegation) => delegation.contract === providerIdentity.provider);
 
         const delegatedAmount = delegation
-          ? getDenominatedBalanceString<string>(delegation.userActiveStake, { precisionAfterComma: 4 })
+          ? getDenominatedBalance<string>(delegation.userActiveStake, { precisionAfterComma: 4 })
           : '0';
 
-        const claimableRewards = getDenominatedBalanceString<number>(
+        const claimableRewards = getDenominatedBalance<number>(
           delegation.claimableRewards, { precisionAfterComma: 4 },
         ) ?? '0';
 
@@ -112,7 +125,7 @@ const MyStake = () => {
     dispatch(setActiveDelegationRows(activeDelegationsRows));
 
     setTotalActiveStake(
-      getDenominatedBalanceString<string>(totalActiveStake, { precisionAfterComma: 4, needsDenomination: false }),
+      getDenominatedBalance<string>(totalActiveStake, { precisionAfterComma: 4, needsDenomination: false }),
     );
   }, [fetchedDelegations, fetchedProviderIdentities]);
 
@@ -123,50 +136,85 @@ const MyStake = () => {
   return (
     <>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', padding: '12px 0', gap: '12px' }}>
-        <AmountWithTitleCard
-          amountValue={totalActiveStake}
-          amountUnityMeasure={'EGLD'}
-          title={'My Total Stake'}
-          actionButton={(
-            <MainButton
-              key="0"
-              variant="outlined"
-              sx={{
-                fontSize: '16px',
-                fontWeight: '400 !important',
-                paddingLeft: '4px !important',
-                width: '100%',
-                marginTop: '1rem',
-              }}
-              className="shadow-sm rounded mr-2"
-              onClick={() =>
-                handleOptionSelected(ProposalsTypes.stake_tokens)
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6} lg={4}>
+            <AmountWithTitleCard
+              amountValue={totalActiveStake}
+              amountUnityMeasure={'EGLD'}
+              title={'My Total Stake'}
+              actionButton={(
+                <MainButton
+                  key="0"
+                  variant="outlined"
+                  size="medium"
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: '400 !important',
+                    paddingLeft: '4px !important',
+                    width: '100%',
+                    marginTop: '1rem',
+                  }}
+                  className="shadow-sm rounded mr-2"
+                  onClick={() =>
+                    handleOptionSelected(ProposalsTypes.stake_tokens)
               }
-            >
-              <AssetActionIcon width="30px" height="30px" /> Stake
-            </MainButton>
+                >
+                  <AssetActionIcon width="25px" height="25px" /> Stake
+                </MainButton>
 )}
-        />
-        <AmountWithTitleCard
-          amountValue={totalClaimableRewards}
-          amountUnityMeasure={'EGLD'}
-          actionButton={(
-            <Button
-              disabled
-              sx={{
-                background: '#eee !important',
-                border: '1px solid #ddd !important',
-                padding: '0.5rem',
-                marginTop: '1rem',
-                width: '100%',
-              }}
-            >
-              <InfoOutlinedIcon sx={{ marginRight: '5px' }} />
-              {`from ${activeDelegationsRows?.length ?? '0'} Providers`}
-            </Button>
+            />
+          </Grid>
+          <Grid item xs={12} md={6} lg={4}>
+            <AmountWithTitleCard
+              amountValue={
+            getDenominatedBalance(totalClaimableRewards, { needsDenomination: false, precisionAfterComma: 5 })
+          }
+              amountUnityMeasure={'EGLD'}
+              actionButton={(
+                <Button
+                  disabled
+                  sx={{
+                    background: '#eee !important',
+                    border: '1px solid #ddd !important',
+                    padding: '0.5rem',
+                    marginTop: '1rem',
+                    width: '100%',
+                  }}
+                >
+                  <InfoOutlinedIcon sx={{ marginRight: '5px' }} />
+                  {`from ${activeDelegationsRows?.length ?? '0'} Providers`}
+                </Button>
 )}
-          title={'My Claimable Rewards'}
-        />
+              title={'My Claimable Rewards'}
+            />
+          </Grid>
+          <Grid item xs={12} md={6} lg={4}>
+            <AmountWithTitleCard
+              amountValue={totalUndelegatedFunds}
+              amountUnityMeasure={'EGLD'}
+              actionButton={(
+                <MainButton
+                  key="0"
+                  variant="outlined"
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: '400 !important',
+                    paddingLeft: '4px !important',
+                    width: '100%',
+                    marginTop: '1rem',
+                  }}
+                  className="shadow-sm rounded mr-2"
+                  onClick={() =>
+                    handleOptionSelected(ProposalsTypes.withdraw_funds)
+              }
+                >
+                  <AssetActionIcon width="25px" height="25px" /> Details
+                </MainButton>
+)}
+              title={'My Undelegated Funds'}
+            />
+          </Grid>
+        </Grid>
       </Box>
       <Box>
         <ActiveDelegationsTable
