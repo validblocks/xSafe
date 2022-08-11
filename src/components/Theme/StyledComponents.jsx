@@ -256,11 +256,6 @@ export const InputsContainer = styled(Box)`
     font-size: 12px;
     background-color: #ffff;
   };
-  & label.test {
-    top: calc(50% - 11px);
-    font-size: 15px;
-    font-weight: ${(props) => props.theme.font.weight.md};
-  };
   & input.form-control {
     width: 100%;
     height: auto;
@@ -272,6 +267,17 @@ export const InputsContainer = styled(Box)`
   };
   & input.form-control.is-invalid {
     background: none;
+    border: solid 1px #dc3545;
+  }
+  & input.form-control.is-invalid:focus {
+    background: none;
+    border: solid 2px #dc3545;
+  }
+  & input.form-control.is-invalid + li {
+    border-color: #dc3545;
+  }
+  & input.form-control.is-invalid:focus + li {
+    border: solid 2px #dc3545 !important;
   }
   & input.form-control:focus {
     outline: none;
