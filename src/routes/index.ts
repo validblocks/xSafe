@@ -15,6 +15,7 @@ import AddressBook from 'src/pages/AddressBook';
 import { dAppName } from 'src/config';
 import withPageTitle from 'src/components/PageTitle';
 import StakingDashboard from 'src/pages/Stake/StakingDashboard';
+import Marketplace from 'src/pages/Marketplace';
 import routeNames from './routeNames';
 
 type RouteType = DappCoreRouteTypes & { title: string };
@@ -36,7 +37,9 @@ export type ForegroundRoutesType =
   | 'settings'
   | 'nft'
   | 'stake'
+  | 'marketplace'
   | 'addressBook';
+
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
 export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
@@ -124,6 +127,11 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/stake',
     title: 'Stake',
     component: StakingDashboard,
+  },
+  marketplace: {
+    path: '/marketplace',
+    title: 'Marketplace',
+    component: Marketplace,
   },
   home: {} as RouteType,
 };
