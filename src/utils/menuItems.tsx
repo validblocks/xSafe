@@ -17,8 +17,6 @@ export type MenuItem = {
   icon: any
 };
 
-console.log(window.localStorage);
-
 const topItems = [
   {
     name: 'Assets',

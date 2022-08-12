@@ -65,7 +65,6 @@ const ProposeUnstakeTokens = ({
     }
     const newAmount = Number(value);
     if (Number.isNaN(newAmount)) {
-      console.log('amount NaN');
       setSubmitDisabled(true);
       return (
         testContext?.createError({
@@ -77,7 +76,6 @@ const ProposeUnstakeTokens = ({
       formik.setFieldValue('amount', 1);
     }
     if (newAmount > Number(selectedStakingProvider?.delegatedColumn?.delegatedAmount ?? 1)) {
-      console.log('balance not enough');
       setSubmitDisabled(true);
       return (
         testContext?.createError({
@@ -88,7 +86,6 @@ const ProposeUnstakeTokens = ({
     }
 
     if (newAmount === 0) {
-      console.log('amount 1');
       setSubmitDisabled(true);
       return (
         testContext?.createError({
@@ -148,12 +145,6 @@ const ProposeUnstakeTokens = ({
       );
       const parsedAddress = new Address(identifier);
 
-      // const balance = Balance.fromString(nominatedAmount);
-      // balance.
-      // const _amountParamBytes = new BytesValue(balance.valueOf());
-
-      console.log({ amountNumeric: amountNumeric.toString(16) });
-
       let hexEncodedAmount = amountNumeric.toString(16);
       if (hexEncodedAmount.length % 2 !== 0) { hexEncodedAmount = `0${hexEncodedAmount}`; }
       const unDelegateAmount = BytesValue.fromHex(hexEncodedAmount);
@@ -168,7 +159,6 @@ const ProposeUnstakeTokens = ({
 
       );
     } catch (err) {
-      console.log('CATCHED', err);
       return null;
     }
   };
@@ -178,10 +168,7 @@ const ProposeUnstakeTokens = ({
       const proposal = getProposal();
 
       if (proposal !== null) {
-        console.log('proposal', proposal);
         handleChange(proposal);
-      } else {
-        console.log('NULL');
       }
     }, 100);
   };
@@ -202,14 +189,11 @@ const ProposeUnstakeTokens = ({
     const proposal = getProposal();
 
     if (proposal !== null) {
-      console.log('proposal', proposal);
       handleChange(proposal);
     }
   };
 
   useEffect(() => {
-    console.log({ isValid: formik.isValid });
-    // console.log({ dirty: formik.dirty });
     setSubmitDisabled((!formik.isValid));
   }, [formik.isValid, formik.dirty, setSubmitDisabled]);
 

@@ -178,7 +178,6 @@ const MiniDrawer = () => {
                             <IconButton
                               color="secondary"
                               onClick={() => {
-                                console.log('pinned ', subEl);
                                 setPinnedApps((apps: string[]) => (
                                   apps.includes(subEl.id)
                                     ? apps
@@ -266,7 +265,6 @@ const MiniDrawer = () => {
                         <IconButton
                           color="secondary"
                           onClick={() => {
-                            console.log('removing ', app.id);
                             setPinnedApps((apps: string[]) => (
                               apps.filter((appId) => appId !== app.id)
                             ));

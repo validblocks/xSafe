@@ -88,7 +88,6 @@ const ProposeMultiselectModal = ({
           ...selectedProposal.args,
         );
       } else if (selectedProposal instanceof MultisigSmartContractCall) {
-        console.log('Smart Contract Call', selectedProposal);
         mutateSmartContractCall(
           selectedProposal.address,
           selectedProposal.amount,
@@ -125,7 +124,6 @@ const ProposeMultiselectModal = ({
       }
       handleClose();
     } catch (err) {
-      console.log('err handling proposal instance');
       handleClose();
     }
   };

@@ -127,7 +127,7 @@ const MyStake = () => {
     setTotalActiveStake(
       getDenominatedBalance<string>(totalActiveStake, { precisionAfterComma: 4, needsDenomination: false }),
     );
-  }, [fetchedDelegations, fetchedProviderIdentities]);
+  }, [dispatch, fetchedDelegations, fetchedProviderIdentities]);
 
   if (isFetchingDelegations ||
     isLoadingDelegations) { return <LoadingDataIndicator dataName="delegation" />; }

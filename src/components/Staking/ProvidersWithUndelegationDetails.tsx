@@ -92,8 +92,6 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
         const pendingWithdrawals = delegation?.userUndelegatedList
           .filter((delegation: IUndelegatedFunds) => delegation.seconds > 0);
 
-        console.log({ delegation });
-        console.log({ pendingWithdrawals });
         return {
           ...providerIdentity,
           totalRequestedUndelegations: getDenominatedBalance(totalRequestedUndelegations?.toString() ?? '0', {
