@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
-import { LOCAL_STORAGE_KEYS } from 'src/redux/slices/appConfigSlice';
 import { availableApps, MenuItem } from 'src/utils/menuItems';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
 import AppCard from './AppCard';
+import { LOCAL_STORAGE_KEYS } from './localStorageKeys';
 
 const Marketplace = () => {
   const [installedApps, setInstalledApps, updateLocalStorage] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);

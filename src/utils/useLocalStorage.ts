@@ -1,6 +1,7 @@
 import { useState } from 'react';
+import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
 
-export function useLocalStorage<T>(key: string, initialValue: T) {
+export function useLocalStorage<T>(key: LOCAL_STORAGE_KEYS, initialValue: T) {
   const [storedValue, setStoredValue] = useState(() => {
     if (typeof window === 'undefined') {
       return initialValue;
@@ -9,7 +10,6 @@ export function useLocalStorage<T>(key: string, initialValue: T) {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.error(error);
       return initialValue;
     }
   });
