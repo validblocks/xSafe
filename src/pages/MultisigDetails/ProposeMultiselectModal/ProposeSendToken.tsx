@@ -217,7 +217,7 @@ const ProposeSendToken = ({
         handleBlur={formik.handleBlur}
       />
 
-      <InputsContainer sx={{ mt: '2.1rem !important' }}>
+      <InputsContainer sx={{ mt: '2.1rem !important', mb: '2.3rem !important' }}>
         <Form.Control
           id={amount}
           name="amount"
