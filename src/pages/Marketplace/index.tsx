@@ -5,7 +5,7 @@ import AppCard from './AppCard';
 import { LOCAL_STORAGE_KEYS } from './localStorageKeys';
 
 const Marketplace = () => {
-  const [installedApps, setInstalledApps, updateLocalStorage] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);
+  const [installedApps, setInstalledApps] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);
   return (
     <Box display={'flex'} alignItems={'center'} gap={2}>
       {
@@ -21,7 +21,6 @@ const Marketplace = () => {
                   ? apps
                   : [...apps, app.id]
               ));
-              updateLocalStorage();
             }}
           />
         ))
