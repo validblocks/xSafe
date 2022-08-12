@@ -20,7 +20,7 @@ import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import ActionDialog from 'src/components/Utils/ActionDialog';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
-import { InputsContainer, SelectorsContainer } from 'src/components/Theme/StyledComponents';
+import { InputsContainer } from 'src/components/Theme/StyledComponents';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -236,34 +236,36 @@ const ProposeSendToken = ({
           {amountError}
         </Form.Control.Feedback>
         )}
-        <Box
+        <Select
+          value={identifier}
+          fullWidth
+          label="Identifier"
+          size="small"
+          onChange={onIdentifierChanged}
           sx={{
             position: 'absolute',
             top: '0',
             right: '0',
+            height: '56px',
+            width: '145px',
+            fieldset: {
+              border: 'solid 1px rgba(76, 47, 252, 0.23)',
+              borderTopLeftRadius: '2rem',
+              borderBottomLeftRadius: '2rem',
+            },
           }}
         >
-          <SelectorsContainer sx={{ m: '0rem !important' }}>
-            <Select
-              value={identifier}
-              fullWidth
-              label="Identifier"
-              size="small"
-              onChange={onIdentifierChanged}
+          {tokenTableRows?.map((token: TokenTableRowItem) => (
+            <MenuItem
+              key={token.identifier}
+              value={token.identifier}
             >
-              {tokenTableRows?.map((token: TokenTableRowItem) => (
-                <MenuItem
-                  key={token.identifier}
-                  value={token.identifier}
-                >
-                  <TokenPresentationWithPrice
-                    identifier={token.identifier as string}
-                  />
-                </MenuItem>
-              ))}
-            </Select>
-          </SelectorsContainer>
-        </Box>
+              <TokenPresentationWithPrice
+                identifier={token.identifier as string}
+              />
+            </MenuItem>
+          ))}
+        </Select>
         <span>
           Balance:
           {tokenAmount}
