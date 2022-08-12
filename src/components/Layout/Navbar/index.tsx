@@ -11,7 +11,7 @@ import { styled, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import menuItems, { availableApps, MenuItem } from 'src/utils/menuItems';
+import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
@@ -90,8 +90,11 @@ const MiniDrawer = () => {
   const [pinnedApps, setPinnedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.PINNED_APPS, []);
   const [installedApps, _setInstalledApps] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);
 
-  console.log({ pinnedApps });
-  console.log({ installedApps });
+  const installedAndPinnedApps = ([
+    ...preinstalledApps,
+    ...availableApps
+      .filter((app: MenuItem) => installedApps.includes(app.id)),
+  ].filter((app: MenuItem) => pinnedApps.includes(app.id)));
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -292,7 +295,7 @@ const MiniDrawer = () => {
                 </Link>
               )}
               {el.name === 'Apps' && (
-                availableApps?.filter((app: MenuItem) => pinnedApps.includes(app.id)) || []).map((app: MenuItem) => (
+                installedAndPinnedApps.map((app: MenuItem) => (
                   <Link
                     to={app.link}
                     key={app.id}
@@ -337,7 +340,7 @@ const MiniDrawer = () => {
                       </div>
                     </ListItem>
                   </Link>
-              ))}
+                )))}
             </div>
           ))}
         </TopMenu>
@@ -345,7 +348,7 @@ const MiniDrawer = () => {
           <Divider sx={{ mt: 1 }} />
           {menuItems.bottomItems.map((el) => (
             <Link
-              key={el.link}
+              key={el.id}
               to={el.link}
               className={
                 locationString === el.link
