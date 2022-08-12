@@ -230,14 +230,8 @@ export const InputsContainer = styled(Box)`
   position: relative;
   background-color: transparent;
   &:focus-within {
-    li {
+    li, div.MuiOutlinedInput-root {
       height: 58px;
-      border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
-    }
-    div.MuiOutlinedInput-root {
-      height: 58px !important;
-    }
-    div.MuiOutlinedInput-root fieldset {
       border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
     }
   };
@@ -248,7 +242,7 @@ export const InputsContainer = styled(Box)`
     li {
       border-color: black;
     }
-    div.MuiOutlinedInput-root fieldset {
+    div.MuiOutlinedInput-root {
       border-color: black;
     }
   };
@@ -282,11 +276,11 @@ export const InputsContainer = styled(Box)`
     border: solid 2px #dc3545;
   }
   & input.form-control.is-invalid ~ li,
-    input.form-control.is-invalid ~ div.MuiOutlinedInput-root fieldset {
+    input.form-control.is-invalid ~ div.MuiOutlinedInput-root {
     border-color: #dc3545;
   }
   & input.form-control.is-invalid:focus ~ li,
-    input.form-control.is-invalid:focus ~ div.MuiOutlinedInput-root fieldset{
+    input.form-control.is-invalid:focus ~ div.MuiOutlinedInput-root {
     border: solid 2px #dc3545 !important;
   }
   & input.form-control:focus {
