@@ -217,7 +217,7 @@ const ProposeSendToken = ({
         handleBlur={formik.handleBlur}
       />
 
-      <InputsContainer>
+      <InputsContainer sx={{ mt: '2.1rem !important' }}>
         <Form.Control
           id={amount}
           name="amount"
@@ -256,7 +256,7 @@ const ProposeSendToken = ({
             },
             '.MuiSelect-select': {
               py: '.2rem',
-              pl: '.3rem',
+              pl: '.1rem',
             },
           }}
         >
