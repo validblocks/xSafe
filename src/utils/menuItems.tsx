@@ -10,14 +10,36 @@ import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LockIcon from '@mui/icons-material/Lock';
+import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
 
 export type MenuItem = {
   name: string;
   link: string;
-  icon: any
+  icon: any;
+  description?: string;
+  id: string;
+  submenu?: any;
 };
 
-const topItems = [
+export const availableApps: MenuItem[] = [
+  {
+    name: 'Stake',
+    link: 'stake',
+    id: 'stake-menu-sub-item',
+    description: 'Stake your tokens, secure the network and earn rewards',
+    icon: <DiamondIcon />,
+
+  },
+  {
+    name: 'App 2',
+    link: 'app-2',
+    id: 'app-2-menu-sub-item',
+    description: 'Let us make money while teaching you how to make money',
+    icon: <DiamondIcon />,
+  },
+];
+
+const topItems: MenuItem[] = [
   {
     name: 'Assets',
     link: 'assets',
@@ -63,21 +85,13 @@ const topItems = [
     icon: <AppsIcon />,
     submenu: [
       {
-        name: 'Stake',
-        link: 'stake',
-        id: 'stake-menu-sub-item',
-
-        icon: <DiamondIcon />,
-
-      },
-      {
-        name: 'Stake 2',
-        link: 'stake-2',
-        id: 'stake-2-menu-sub-item',
-
-        icon: <DiamondIcon />,
+        name: 'Marketplace',
+        link: 'marketplace',
+        id: 'marketplace-menu-sub-item',
+        icon: <GetAppRoundedIcon />,
 
       },
+
     ],
   },
   {
@@ -127,7 +141,6 @@ const mobileBottomItems = [
         name: 'Coins',
         link: 'tokens',
         id: 'tokens-mobile-menu-item',
-
         icon: <AdjustOutlinedIcon />,
       },
       {
@@ -161,4 +174,4 @@ const mobileBottomItems = [
   },
 ];
 
-export default { topItems, bottomItems, mobileBottomItems };
+export default { topItems, bottomItems, mobileBottomItems, availableApps };
