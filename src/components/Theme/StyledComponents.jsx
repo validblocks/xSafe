@@ -229,13 +229,15 @@ export const InputsContainer = styled(Box)`
   margin: .67rem 0 1.93rem;
   position: relative;
   background-color: transparent;
-  &:focus-within{
-    label.test {
-      top: -9px;
-      font-size: 12px;
-    }
+  &:focus-within {
     li {
       height: 58px;
+      border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
+    }
+    div.MuiOutlinedInput-root {
+      height: 58px !important;
+    }
+    div.MuiOutlinedInput-root fieldset {
       border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
     }
   };
@@ -247,7 +249,7 @@ export const InputsContainer = styled(Box)`
       border-color: black;
     }
     div.MuiOutlinedInput-root fieldset {
-      border-color: black !important;
+      border-color: black;
     }
   };
   & label {
@@ -279,10 +281,12 @@ export const InputsContainer = styled(Box)`
     background: none;
     border: solid 2px #dc3545;
   }
-  & input.form-control.is-invalid ~ li {
+  & input.form-control.is-invalid ~ li,
+    input.form-control.is-invalid ~ div.MuiOutlinedInput-root fieldset {
     border-color: #dc3545;
   }
-  & input.form-control.is-invalid:focus ~ li {
+  & input.form-control.is-invalid:focus ~ li,
+    input.form-control.is-invalid:focus ~ div.MuiOutlinedInput-root fieldset{
     border: solid 2px #dc3545 !important;
   }
   & input.form-control:focus {
@@ -323,7 +327,7 @@ export const SelectorsContainer = styled(FormControl)`
   position: relative;
   border-radius: .3rem;
   & div.MuiOutlinedInput-root {
-    height: 56px;
+    height: 100%;
   }
   & div.MuiSelect-select {
     padding: .25rem .36rem;
