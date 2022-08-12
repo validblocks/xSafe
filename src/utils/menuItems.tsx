@@ -11,21 +11,31 @@ import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LockIcon from '@mui/icons-material/Lock';
 import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
+import { AppIdentifiers } from 'src/pages/Marketplace/appIds';
 
 export type MenuItem = {
   name: string;
   link: string;
-  icon: any;
+  icon: React.ReactElement;
   description?: string;
   id: string;
-  submenu?: any;
+  submenu?: MenuItem[];
 };
+
+export const preinstalledApps: MenuItem[] = [
+  {
+    name: 'Marketplace',
+    link: 'marketplace',
+    id: AppIdentifiers.Marketplace,
+    icon: <GetAppRoundedIcon />,
+  },
+];
 
 export const availableApps: MenuItem[] = [
   {
     name: 'Stake',
     link: 'stake',
-    id: 'stake-menu-sub-item',
+    id: AppIdentifiers.Staking,
     description: 'Stake your tokens, secure the network and earn rewards',
     icon: <DiamondIcon />,
 
@@ -84,13 +94,7 @@ const topItems: MenuItem[] = [
     id: 'apps-menu-item',
     icon: <AppsIcon />,
     submenu: [
-      {
-        name: 'Marketplace',
-        link: 'marketplace',
-        id: 'marketplace-menu-sub-item',
-        icon: <GetAppRoundedIcon />,
-
-      },
+      ...preinstalledApps,
 
     ],
   },
