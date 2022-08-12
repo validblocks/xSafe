@@ -1,4 +1,4 @@
-import { Button, Typography, Box, Select, FormControl } from '@mui/material';
+import { Button, Typography, Box, Select } from '@mui/material';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
@@ -246,6 +246,10 @@ export const InputsContainer = styled(Box)`
       border-color: black;
     }
   };
+  & div.MuiOutlinedInput-root.Mui-focused {
+    height: 56px;
+    border: solid 1px rgba(76, 47, 252, 0.23) !important;
+  }
   & label {
     position: absolute;
     padding: 0 3px;
@@ -311,45 +315,6 @@ export const InputsContainer = styled(Box)`
   };
   & div.invalid-feedback {
     margin-left: 4px;
-  };
-`;
-
-export const SelectorsContainer = styled(FormControl)`
-  width: 145px;
-  height: 56px;
-  margin: .67rem 0 1.93rem;
-  position: relative;
-  border-radius: .3rem;
-  & div.MuiOutlinedInput-root {
-    height: 100%;
-  }
-  & div.MuiSelect-select {
-    padding: .25rem .36rem;
-  }
-  & svg.MuiSelect-iconOpen + fieldset{
-    border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
-  };
-  & fieldset {
-    border: solid 1px rgba(76, 47, 252, 0.23) !important;
-    border-top-left-radius: 2rem;
-    border-bottom-left-radius: 2rem;
-  };
-  & label {
-    position: absolute;
-    padding: 0 3px;
-    top: 0px;
-    left: -4px;
-    color: ${(props) => props.theme.palette.primary.main} !important;
-    font-size: 15px;
-    background-color: #ffff;
-  };
-  & span {
-    position: absolute;
-    bottom: -17px;
-    left: 4px;
-    display: table;
-    font-size: 12px;
-    color: grey;
   };
 `;
 
