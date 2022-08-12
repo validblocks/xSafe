@@ -244,14 +244,19 @@ const ProposeSendToken = ({
           onChange={onIdentifierChanged}
           sx={{
             position: 'absolute',
-            top: '0',
-            right: '0',
+            top: '0px',
+            right: '0px',
             height: '56px',
             width: '145px',
+            border: 'solid 1px rgba(76, 47, 252, 0.23)',
+            borderTopLeftRadius: '2rem',
+            borderBottomLeftRadius: '2rem',
             fieldset: {
-              border: 'solid 1px rgba(76, 47, 252, 0.23)',
-              borderTopLeftRadius: '2rem',
-              borderBottomLeftRadius: '2rem',
+              border: 'none',
+            },
+            '.MuiSelect-select': {
+              py: '.2rem',
+              pl: '.3rem',
             },
           }}
         >
