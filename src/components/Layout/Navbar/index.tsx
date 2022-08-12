@@ -11,11 +11,12 @@ import { styled, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import menuItems from 'src/utils/menuItems';
+import menuItems, { availableApps, MenuItem } from 'src/utils/menuItems';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
+import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
 import AccountDetails from './NavbarAccountDetails';
 import './menu.scss';
 import {
@@ -86,7 +87,11 @@ const MiniDrawer = () => {
       setExpanded(isExpanded ? panel : false);
     };
 
-  const [pinnedApps, setPinnedApps] = useLocalStorage('PINNED_APPS', []);
+  const [pinnedApps, setPinnedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.PINNED_APPS, []);
+  const [installedApps, _setInstalledApps] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);
+
+  console.log({ pinnedApps });
+  console.log({ installedApps });
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -142,7 +147,62 @@ const MiniDrawer = () => {
                       />
                     </ListItem>
                   </MenuAccordion>
-                  {el.submenu?.map((subEl) => (
+                  {el.submenu?.map((subEl: MenuItem) => (
+                    <AccordionDetail key={subEl.link} sx={{ p: 0 }}>
+                      <Link
+                        to={subEl.link}
+                        className={
+                          locationString === subEl.link
+                            ? 'active link-decoration'
+                            : 'link-decoration'
+                        }
+                        style={{ borderRight: 'none', backgroundColor: '#f5f7ff' }}
+                      >
+                        <ListItem
+                          sx={{
+                            minHeight: 48,
+                            justifyContent: open ? 'initial' : 'center',
+                            px: 2.5,
+                            ml: 0,
+                            pl: 3,
+                          }}
+                        >
+                          <ListItemIcon
+                            sx={{
+                              minWidth: 0,
+                              mr: open ? 3 : 'auto',
+                              justifyContent: 'center',
+                            }}
+                          />
+                          <ListItemText
+                            primary={<Text>{subEl.name}</Text>}
+                            sx={{ opacity: open ? 1 : 0 }}
+                          />
+                          {el.name === 'Apps' && (
+                          <div className="pin-icon">
+                            <IconButton
+                              color="secondary"
+                              onClick={() => {
+                                setPinnedApps((apps: string[]) => (
+                                  apps.includes(subEl.id)
+                                    ? apps
+                                    : [...apps, subEl.id]
+                                ));
+                              }}
+                            >
+                              <PushPinRoundedIcon />
+                            </IconButton>
+                          </div>
+                          )}
+
+                        </ListItem>
+                      </Link>
+                    </AccordionDetail>
+                  ))}
+                  {el.name === 'Apps' && [
+                    ...availableApps
+                      .filter((app: MenuItem) => installedApps.includes(app.id)),
+                  ].map((subEl: MenuItem) => (
                     <AccordionDetail key={subEl.link} sx={{ p: 0 }}>
                       <Link
                         to={subEl.link}
@@ -196,6 +256,7 @@ const MiniDrawer = () => {
                   ))}
                 </Accordion>
               )}
+
               {!el.submenu && (
                 <Link
                   to={el.link}
@@ -231,9 +292,10 @@ const MiniDrawer = () => {
                 </Link>
               )}
               {el.name === 'Apps' && (
-                el.submenu?.filter((app) => pinnedApps.includes(app.id)) || []).map((app) => (
+                availableApps?.filter((app: MenuItem) => pinnedApps.includes(app.id)) || []).map((app: MenuItem) => (
                   <Link
                     to={app.link}
+                    key={app.id}
                     className={
                     locationString === app.link
                       ? 'active link-decoration'
