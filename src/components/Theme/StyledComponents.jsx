@@ -227,19 +227,28 @@ export const FormSearchInput = styled(Box)`
 // don't delete this component yet, wait for miki's response
 export const InputsContainer = styled(Box)`
   margin: .67rem 0 1.93rem;
-  border-bottom: solid 1px ${(props) => props.theme.palette.primary.main};
+  position: relative;
+  padding: 16.5px 14px;
+  border: solid 2px ${(props) => props.theme.palette.primary.main};
+  border-radius: .5rem;
   & label {
-    margin: .2rem 0 .5rem .5rem;
+    position: absolute;
+    padding: 0 3px;
+    top: -11px;
+    left: 10px;
     color: ${(props) => props.theme.palette.primary.main};
-    font-size: 14px;
+    font-size: 12px;
+    background-color: #ffff;
   };
+  & label.test {
+    top: calc(50% - 9px);
+  }
   & input.form-control {
     max-width: 300px;
     height: auto;
-    border: none;
-    background-color: transparent;
-    margin: 0 0 0 .5rem;
     padding: 0;
+    background-color: transparent;
+    border: none;
   };
   & input.form-control:focus {
     outline: none;
@@ -247,8 +256,11 @@ export const InputsContainer = styled(Box)`
     box-shadow: none;
   };
   & span {
+    position: absolute;
+    bottom: 0px;
+    left: 3px
     display: table;
-    margin-right: .5rem;
+    font-size: 12px;
     color: grey;
   };
 `;
