@@ -44,11 +44,7 @@ const TokenPresentationWithPrice = ({
       {withPhoto && (
       <Box
         sx={{
-          p: '.3rem',
-          mr: '.55rem',
-          borderRadius: '50%',
-          backgroundColor: 'rgba(76, 47, 252, 0.1)',
-          border: 'solid 1px #ddd',
+          m: '0 .55rem 0 .3rem',
           '& svg, & img': { width: '35px', height: '35px', m: '0 !important' },
         }}
       >

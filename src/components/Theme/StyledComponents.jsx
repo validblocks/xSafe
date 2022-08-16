@@ -246,6 +246,9 @@ export const InputsContainer = styled(Box)`
     li {
       border-color: black;
     }
+    div.MuiOutlinedInput-root fieldset {
+      border-color: black !important;
+    }
   };
   & label {
     position: absolute;
@@ -314,21 +317,19 @@ export const InputsContainer = styled(Box)`
 `;
 
 export const SelectorsContainer = styled(FormControl)`
-  width: 125px;
+  width: 145px;
   height: 56px;
   margin: .67rem 0 1.93rem;
   position: relative;
   border-radius: .3rem;
+  & div.MuiOutlinedInput-root {
+    height: 56px;
+  }
   & div.MuiSelect-select {
     padding: .25rem .36rem;
   }
   & svg.MuiSelect-iconOpen + fieldset{
     border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
-  };
-  &:hover {
-    fieldset {
-      border-color: #000 !important;
-    }
   };
   & fieldset {
     border: solid 1px rgba(76, 47, 252, 0.23) !important;
