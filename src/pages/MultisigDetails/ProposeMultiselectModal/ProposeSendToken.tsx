@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, Balance } from '@elrondnetwork/erdjs/out';
-import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Box, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +20,7 @@ import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import ActionDialog from 'src/components/Utils/ActionDialog';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
+import { SendInputs } from 'src/components/Theme/StyledComponents';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -206,18 +207,16 @@ const ProposeSendToken = ({
   } = useSelector<StateType, OrganizationToken>(selector);
 
   return (
-    <div>
-      <div className="modal-control-container mb-4">
-        <FormikInputField
-          label={t('Send to')}
-          name="address"
-          value={address}
-          error={addressError}
-          handleChange={formik.handleChange}
-          handleBlur={formik.handleBlur}
-        />
-      </div>
-      <div className="modal-control-container mb-4">
+    <Box sx={{ p: '1.93rem 2.5rem .3rem' }}>
+      <FormikInputField
+        label={t('Send to')}
+        name="address"
+        value={address}
+        error={addressError}
+        handleChange={formik.handleChange}
+        handleBlur={formik.handleBlur}
+      />
+      <SendInputs>
         <InputLabel id="demo-simple-select-label">Identifier</InputLabel>
         <Select
           value={identifier}
@@ -242,29 +241,27 @@ const ProposeSendToken = ({
           Balance:
           {tokenAmount}
         </div>
-      </div>
+      </SendInputs>
 
-      <div className="modal-control-container">
-        <div className="input-wrapper">
-          <label htmlFor={amount}>
-            {`${t('Amount')}:`}
-          </label>
-          <Form.Control
-            id={amount}
-            name="amount"
-            isInvalid={amountError != null}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={amount}
-          />
+      <SendInputs>
+        <label htmlFor={amount}>
+          {`${t('Amount')}:`}
+        </label>
+        <Form.Control
+          id={amount}
+          name="amount"
+          isInvalid={amountError != null}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={amount}
+        />
 
-          {amountError != null && (
-            <Form.Control.Feedback type="invalid">
-              {amountError}
-            </Form.Control.Feedback>
-          )}
-        </div>
-      </div>
+        {amountError != null && (
+        <Form.Control.Feedback type="invalid">
+          {amountError}
+        </Form.Control.Feedback>
+        )}
+      </SendInputs>
       <ActionDialog
         showButton={false}
         isOpen={isSendEgldPromptOpen}
@@ -279,7 +276,7 @@ const ProposeSendToken = ({
           setIdentifier(firstDifferentIdentifier);
         }}
       />
-    </div>
+    </Box>
   );
 };
 
