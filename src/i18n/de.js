@@ -49,6 +49,7 @@ export const germanTranslations = {
   'Can Wipe': 'Awischbar',
   'Can Pause': 'Pausierbar',
   'Can Mint': 'Prägbar',
+  'My Total Stake': 'Mein gesamter Stake',
   'Can Burn': 'Verbrennbar',
   'Can Change Owner': 'Besitzer wechselbar',
   'Can Upgrade': 'Nachrüstbar',
@@ -73,4 +74,12 @@ export const germanTranslations = {
   'Actions per page': 'Aktionen pro Seite',
   'No transactions found for this period':
     'Keine Transaktionen für diesen Zeitraum gefunden',
+  Available: 'Verfügbar',
+  'Insufficient funds': 'Unzureichender Kontostand',
+  'Sending EGLD needs different transaction parameters. This will change the proposal type to "Send EGLD" and will remove the amount from the proposal. Are you sure you want to do this?':
+    'Das Senden von EGLD benötigt andere Transaktionsparameter. Dafür wird der Vorschlagstyp auf "Send EGLD" geändert und die Summe vom Vorschlag entfernt. Möchten Sie das wirklich tun?',
+  'Are you sure you want to change the proposal type to "Send EGLD" ?':
+    'Möchten Sie wirklich den Vorschlagstyp auf "Send EGLD" ändern?',
+  'There is not enough money in the organization for this transaction':
+    'Es gibt nicht genug Geld in der Organisation für diese Transaktion',
 };

@@ -34,20 +34,6 @@ const TransactionAdvancedDetails = ({ transaction }: Props) => (
           letterSpacing: 0.5,
         }}
       >
-        Nonce:
-      </Typography>
-      {transaction?.nonce}
-    </Typography>
-    <Typography component="div" className="my-1">
-      <Typography
-        component="span"
-        className="mr-2"
-        variant="body1"
-        sx={{
-          color: 'rgb(93, 109, 116)',
-          letterSpacing: 0.5,
-        }}
-      >
         Gas Price:
       </Typography>
       {transaction?.gasPrice}

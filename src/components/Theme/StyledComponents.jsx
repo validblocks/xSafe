@@ -25,6 +25,28 @@ export const NewTransactionButton = styled(MainButton)`
   font-weight: ${(props) => props.theme.font.weight.md};
 `;
 
+export const ChangeStepButton = styled(MainButton)`
+  font-size: 15px;
+  padding:
+      ${(props) => props.theme.padding.value.xs}
+      auto;
+  font-weight: ${(props) => props.theme.font.weight.md};
+  width: 100%;
+  box-shadow: none;
+`;
+
+export const FinalStepActionButton = styled(ChangeStepButton)`
+  color: ${(props) => props.theme.palette.background.default};
+  border: 1px solid ${(props) => props.theme.palette.primary.main};
+  background-color: ${(props) => props.theme.palette.primary.main};
+  &:hover  {
+    box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+    color: ${(props) => props.theme.palette.background.default};
+    border: 1px solid ${(props) => props.theme.palette.primary.main};
+    background-color: ${(props) => props.theme.palette.primary.main};
+  }
+`;
+
 export const AssetActionButton = styled(MainButton)`
   padding: 1px ${(props) => props.theme.padding.value.lg} 0 0;
   opacity: 0;

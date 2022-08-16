@@ -4,6 +4,7 @@ import {
   OrganizationToken,
   TokenTableRowItem,
 } from 'src/pages/Organization/types';
+import { IdentityWithColumns } from 'src/types/staking';
 import { logoutAction } from '../commonActions';
 
 export interface StateType {
@@ -16,6 +17,7 @@ export interface StateType {
   shard: number;
   tokenTableRows: TokenTableRowItem[];
   organizationTokens: OrganizationToken[];
+  activeDelegationsRows: IdentityWithColumns[];
   multisigBalance: any;
 }
 
@@ -30,6 +32,7 @@ const initialState: StateType = {
   tokenTableRows: [],
   organizationTokens: [],
   multisigBalance: Balance.Zero() as BalanceType,
+  activeDelegationsRows: [],
 };
 
 export const accountSlice = createSlice({
@@ -63,6 +66,15 @@ export const accountSlice = createSlice({
         multisigBalance: action.payload,
       };
     },
+    setActiveDelegationRows(
+      state: StateType,
+      action: PayloadAction<IdentityWithColumns[]>,
+    ) {
+      return {
+        ...state,
+        activeDelegationsRows: action.payload,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(logoutAction, () => initialState);
@@ -74,6 +86,7 @@ export const {
   setTokenTableRows,
   setMultisigBalance,
   setOrganizationTokens,
+  setActiveDelegationRows,
 } = accountSlice.actions;
 
 export default accountSlice.reducer;

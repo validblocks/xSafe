@@ -124,7 +124,8 @@ function OrganizationInfoContextProvider({ children }: Props) {
         tokenPrices: tokenPrices as unknown as TokenWithPrice[],
         allMemberAddresses,
         isBoardMemberState: [isBoardMember, setIsBoardMember],
-      }), [membersCount, boardMembers, quorumCount, proposers, userRole, tokenPrices, allMemberAddresses, isBoardMember])}
+      }),
+      [membersCount, boardMembers, quorumCount, proposers, userRole, tokenPrices, allMemberAddresses, isBoardMember])}
     >
       {children}
     </OrganizationInfoContext.Provider>

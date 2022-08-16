@@ -1,5 +1,3 @@
-// import { foregroundRoutes, ForegroundRoutesType } from '.';
-
 export default {
   welcome: '/welcome',
   dashboard: '/dashboard',
@@ -26,18 +24,9 @@ export default {
 
   owners: '/owners',
 
+  stake: '/stake',
+
   settings: '/settings',
 
   addressBook: '/address-book',
 };
-// export const foregroundRouteNames = Object.keys(foregroundRoutes).reduce(
-//   (acc, cur) => ({
-//     ...acc,
-//     [cur]: foregroundRoutes[cur as ForegroundRoutesType].path,
-//   }),
-//   {} as Record<ForegroundRoutesType, string>,
-// );
-
-// export const routeNames = {
-//   ...foregroundRouteNames,
-// };

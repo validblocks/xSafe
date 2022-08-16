@@ -53,3 +53,8 @@ export const selectedNftToSendSelector = createDeepEqualSelector(
   performActionModalSelector,
   (state) => state.selectedNft,
 );
+
+export const selectedStakingProviderSelector = createDeepEqualSelector(
+  performActionModalSelector,
+  (state) => state.selectedStakingProvider,
+);

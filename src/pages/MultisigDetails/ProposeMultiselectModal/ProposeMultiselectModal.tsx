@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { faHandPaper, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
@@ -23,6 +23,7 @@ import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeContractFromSource';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
+import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import { titles } from '../constants';
 import AttachContractContent from './AttachContractContent';
 import ProposeDeployContractFromSource from './ProposeDeployContractFromSource';
@@ -36,10 +37,19 @@ import SelectOption from './SelectOption';
 
 import './proposeMultiselectModal.scss';
 import ProposeSendNft from './ProposeSendNft';
+import StakeTokensModalContent from './StakeTokensModalContent';
+import ProposeUnstakeTokens from './ProposeUnstakeTokens';
+import ProposeWithdrawFunds from './ProposeWithdrawFunds';
 
 interface ProposeMultiselectModalPropsType {
   selectedOption: SelectedOptionType;
+
 }
+
+export const MultiStepProposals = [
+  ProposalsTypes.stake_tokens,
+  ProposalsTypes.withdraw_funds,
+];
 
 const ProposeMultiselectModal = ({
   selectedOption,
@@ -49,6 +59,20 @@ const ProposeMultiselectModal = ({
   const [selectedProposal, setSelectedProposal] =
     useState<MultisigAction | null>(null);
   const [submitDisabled, setSubmitDisabled] = useState(true);
+  const [isMultiStep, setIsMultiStep] = useState(
+    MultiStepProposals.includes(selectedOption?.option ?? '' as ProposalsTypes),
+  );
+
+  const [activeStepNumber, setActiveStepNumber] = useState(1);
+  const [totalSteps, setTotalSteps] = useState(0);
+
+  const [isAtFinish, setIsAtFinish] = useState(
+    !isMultiStep,
+  );
+
+  useEffect(() => {
+    setIsMultiStep(MultiStepProposals.includes(selectedOption?.option ?? '' as ProposalsTypes));
+  }, [selectedOption?.option, isAtFinish]);
 
   const handleClose = () => {
     dispatch(setProposeMultiselectSelectedOption(null));
@@ -103,6 +127,7 @@ const ProposeMultiselectModal = ({
       handleClose();
     }
   };
+
   const handleProposalChange = (proposal: MultisigAction) => {
     setSelectedProposal(proposal);
   };
@@ -164,6 +189,36 @@ const ProposeMultiselectModal = ({
             handleChange={handleProposalChange}
           />
         );
+      case ProposalsTypes.stake_tokens: {
+        return (
+          <StakeTokensModalContent
+            setSubmitDisabled={setSubmitDisabled}
+            handleChange={handleProposalChange}
+            setIsAtFinish={setIsAtFinish}
+            stepChanged={setActiveStepNumber}
+            announceTotalSteps={setTotalSteps}
+          />
+        );
+      }
+      case ProposalsTypes.unstake_tokens: {
+        return (
+          <ProposeUnstakeTokens
+            setSubmitDisabled={setSubmitDisabled}
+            handleChange={handleProposalChange}
+          />
+        );
+      }
+      case ProposalsTypes.withdraw_funds: {
+        return (
+          <ProposeWithdrawFunds
+            setSubmitDisabled={setSubmitDisabled}
+            handleChange={handleProposalChange}
+            setIsAtFinish={setIsAtFinish}
+            stepChanged={setActiveStepNumber}
+            announceTotalSteps={setTotalSteps}
+          />
+        );
+      }
       default:
         return <SelectOption onSelected={handleOptionSelected} />;
     }
@@ -189,7 +244,7 @@ const ProposeMultiselectModal = ({
   const cancelButton = closeButton;
 
   const actionTitle =
-    selectedOption?.option != null ? `: ${titles[selectedOption?.option]}` : '';
+    selectedOption?.option != null ? `${titles[selectedOption?.option]}` : '';
 
   const isAttachContractAction =
     selectedOption?.option === ProposalsTypes.attach_contract;
@@ -197,19 +252,24 @@ const ProposeMultiselectModal = ({
   const modalContent = isAttachContractAction ? (
     <AttachContractContent handleClose={handleClose} />
   ) : (
-    <div className="card">
-      <div className="card-body">
-        <p className="h3 mb-spacer text-center" data-testid="delegateTitle">
-          {`${t('Make a proposal')}${actionTitle}`}
-        </p>
+    <div className="card overflow-hidden">
+      <ModalCardTitle
+        activeStepNumber={activeStepNumber}
+        totalSteps={totalSteps}
+        title={actionTitle}
+        handleClose={handleClose}
+      />
+      <div>
 
         {getContent()}
-        <div className="modal-action-btns">
-          {cancelButton}
+        {!isMultiStep && (
+          <div className="modal-action-btns">
+            {cancelButton}
 
-          {selectedOption?.option !==
+            {selectedOption?.option !==
             ProposalsTypes.multiselect_proposal_options && proposeButton}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

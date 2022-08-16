@@ -1,21 +1,25 @@
 import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address, Balance } from '@elrondnetwork/erdjs/out';
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { FormikInputField } from 'src/helpers/formikFields';
-import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
+import { accountSelector, getTokenPhotoById, tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { denomination } from 'src/config';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
-import { TokenTableRowItem } from 'src/pages/Organization/types';
+import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
 import { TestContext } from 'yup';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { StateType } from 'src/redux/slices/accountSlice';
+import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
+import ActionDialog from 'src/components/Utils/ActionDialog';
+import { ProposalsTypes } from 'src/types/Proposals';
+import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -30,8 +34,6 @@ function validateRecipient(value?: string) {
     return false;
   }
 }
-
-const DECIMAL_POINTS = 3;
 
 export type TokenPresentationProps = {
     identifier: string;
@@ -50,6 +52,14 @@ const ProposeSendToken = ({
   const { t } = useTranslation();
   let formik: FormikProps<IFormValues>;
 
+  const dispatch = useDispatch();
+
+  const handleOptionSelected = (
+    option: ProposalsTypes,
+  ) => {
+    dispatch(setProposeMultiselectSelectedOption({ option }));
+  };
+
   const selectedToken = useSelector(selectedTokenToSendSelector);
   const [identifier, setIdentifier] = useState(selectedToken.identifier);
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
@@ -58,13 +68,7 @@ const ProposeSendToken = ({
     () =>
       tokenTableRows?.map((token: TokenTableRowItem) => ({
         identifier: token.identifier,
-        balance: operations.denominate({
-          input: token?.balanceDetails?.amount as string,
-          denomination: token?.balanceDetails?.decimals as number,
-          decimals: token?.balanceDetails?.decimals as number,
-          showLastNonZeroDecimal: true,
-          addCommas: false,
-        }),
+        balance: Balance.fromString(token?.balanceDetails?.amount ?? '').toDenominated(),
       })),
     [tokenTableRows],
   );
@@ -97,7 +101,7 @@ const ProposeSendToken = ({
       return (
         testContext?.createError({
           message:
-            'There are not enough money in the organization for this transaction',
+            'There is not enough money in the organization for this transaction',
         }) ?? false
       );
     }
@@ -174,19 +178,32 @@ const ProposeSendToken = ({
 
   const amountError = touched.amount && errors.amount;
   const addressError = touched.address && errors.address;
+  const [isSendEgldPromptOpen, setIsSendEgldPromptOpen] = useState(false);
 
   const onIdentifierChanged = (event: SelectChangeEvent) => {
+    const newIdentifier = event.target.value;
+    if (newIdentifier === 'EGLD') {
+      setIsSendEgldPromptOpen(true);
+    }
     setIdentifier(event.target.value as string);
     formik.setFieldValue('amount', 0);
   };
 
   useEffect(() => {
     setSubmitDisabled(!(formik.isValid && formik.dirty));
-  }, [amount, address]);
+  }, [amount, address, setSubmitDisabled, formik.isValid, formik.dirty]);
 
   useEffect(() => {
     refreshProposal();
   }, [address, identifier, amount]);
+
+  const selector = useMemo(
+    () => createDeepEqualSelector(accountSelector, (state: StateType) => getTokenPhotoById(state, identifier)),
+    [identifier]);
+
+  const {
+    tokenAmount,
+  } = useSelector<StateType, OrganizationToken>(selector);
 
   return (
     <div>
@@ -223,11 +240,7 @@ const ProposeSendToken = ({
         </Select>
         <div>
           Balance:
-          {` ${parseFloat(Number(
-            availableTokensWithBalances.find(
-              (token: TokenTableRowItem) => token.identifier === identifier,
-            )?.balance,
-          ).toFixed(DECIMAL_POINTS))}`}
+          {tokenAmount}
         </div>
       </div>
 
@@ -252,6 +265,20 @@ const ProposeSendToken = ({
           )}
         </div>
       </div>
+      <ActionDialog
+        showButton={false}
+        isOpen={isSendEgldPromptOpen}
+        dialogTitle={'Are you sure you want to change the proposal type to "Send EGLD" ?'}
+        dialogContent={'Sending EGLD needs different transaction parameters. This will change the proposal type to "Send EGLD" and will remove the amount from the proposal. Are you sure you want to do this?'}
+        onActionAccepted={() => handleOptionSelected(ProposalsTypes.send_egld)}
+        onActionRejected={() => {
+          handleOptionSelected(ProposalsTypes.send_token);
+          setIsSendEgldPromptOpen(false);
+          const firstDifferentIdentifier = tokenTableRows
+            ?.find((token: TokenTableRowItem) => token.identifier !== 'EGLD')?.identifier;
+          setIdentifier(firstDifferentIdentifier);
+        }}
+      />
     </div>
   );
 };

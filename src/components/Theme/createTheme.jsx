@@ -1,4 +1,4 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material';
 
 export const theme = createTheme({
   palette: {
@@ -23,6 +23,9 @@ export const theme = createTheme({
     anchor: {
       main: '#4c2ffc8a',
     },
+    divider: {
+      main: '#DFDFE8',
+    },
   },
   shape: {
     radius: '10px',
@@ -32,8 +35,12 @@ export const theme = createTheme({
     secondary: '#4c2ffc36',
   },
   typography: {
-    fontFamily:
-      `${['"IBM Plex sans"', 'Arial', 'sans-serif'].join(',')} !important`,
+    fontFamily: [
+      'IBM Plex Sans',
+      'Roboto',
+      'Arial',
+      'sans-serif',
+    ].join(','),
     bold: '600',
   },
   breakpoints: {

@@ -9,14 +9,47 @@ import MapsHomeWorkRoundedIcon from '@mui/icons-material/MapsHomeWorkRounded';
 import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
+import LockIcon from '@mui/icons-material/Lock';
+import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
+import { AppIdentifiers } from 'src/pages/Marketplace/appIds';
 
 export type MenuItem = {
   name: string;
   link: string;
-  icon: any
+  icon: React.ReactElement;
+  description?: string;
+  id: string;
+  submenu?: MenuItem[];
 };
 
-const topItems = [
+export const preinstalledApps: MenuItem[] = [
+  {
+    name: 'Marketplace',
+    link: 'marketplace',
+    id: AppIdentifiers.Marketplace,
+    icon: <GetAppRoundedIcon />,
+  },
+];
+
+export const availableApps: MenuItem[] = [
+  {
+    name: 'Stake',
+    link: 'stake',
+    id: AppIdentifiers.Staking,
+    description: 'Stake your tokens, secure the network and earn rewards',
+    icon: <DiamondIcon />,
+
+  },
+  {
+    name: 'App 2',
+    link: 'app-2',
+    id: 'app-2-menu-sub-item',
+    description: 'Let us make money while teaching you how to make money',
+    icon: <DiamondIcon />,
+  },
+];
+
+const topItems: MenuItem[] = [
   {
     name: 'Assets',
     link: 'assets',
@@ -50,10 +83,20 @@ const topItems = [
     icon: <MenuBookRoundedIcon />,
   },
   {
+    name: 'Stake',
+    link: 'stake',
+    id: 'stake-menu-item',
+    icon: <LockIcon />,
+  },
+  {
     name: 'Apps',
     link: 'apps',
     id: 'apps-menu-item',
     icon: <AppsIcon />,
+    submenu: [
+      ...preinstalledApps,
+
+    ],
   },
   {
     name: 'Organization',
@@ -102,7 +145,6 @@ const mobileBottomItems = [
         name: 'Coins',
         link: 'tokens',
         id: 'tokens-mobile-menu-item',
-
         icon: <AdjustOutlinedIcon />,
       },
       {
@@ -136,4 +178,4 @@ const mobileBottomItems = [
   },
 ];
 
-export default { topItems, bottomItems, mobileBottomItems };
+export default { topItems, bottomItems, mobileBottomItems, availableApps };

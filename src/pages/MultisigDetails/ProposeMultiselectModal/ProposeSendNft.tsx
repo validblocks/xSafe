@@ -51,9 +51,7 @@ const ProposeSendNft = ({
       identifier: selectedNft?.identifier ?? '',
       nonce: selectedNft?.nonce ?? '',
     },
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    onSubmit: () => undefined,
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,

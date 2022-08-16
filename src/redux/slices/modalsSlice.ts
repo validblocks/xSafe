@@ -28,6 +28,7 @@ interface PerformActionModal {
   selectedAction: SelectedActionToPerform | null;
   selectedToken: any | null;
   selectedNft: any | null;
+  selectedStakingProvider: any | null;
 }
 
 interface ProposeModal {
@@ -57,6 +58,7 @@ const initialState: ModalsSliceState = {
     selectedAction: null,
     selectedToken: null,
     selectedNft: null,
+    selectedStakingProvider: null,
   },
 };
 
@@ -112,6 +114,12 @@ export const modalsSlice = createSlice({
     ) => {
       state.performActionModal.selectedNft = action.payload;
     },
+    setSelectedStakingProvider: (
+      state: ModalsSliceState,
+      action: PayloadAction<any>,
+    ) => {
+      state.performActionModal.selectedStakingProvider = action.payload;
+    },
   },
 
   extraReducers: (builder) => {
@@ -129,6 +137,7 @@ export const {
   setSelectedPerformedAction,
   setSelectedTokenToSend,
   setSelectedNftToSend,
+  setSelectedStakingProvider,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

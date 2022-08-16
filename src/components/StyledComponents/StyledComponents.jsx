@@ -1,4 +1,4 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
@@ -38,4 +38,24 @@ export const DiscardActionButton = styled(Button)`
     border: 1px solid ${(props) => props.theme.palette.danger.main} !important;
     box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main} !important;
   }
+`;
+
+export const MultisigCard = styled(Box)`
+  background: ${(props) => props.theme.palette.background.default};
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03);
+  background-color: #fff;
+  border: none;
+`;
+
+export const Text = styled(Typography)`
+  font-family: 'IBM Plex Sans', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace !important;
+`;
+
+export const ModalCardTitleContainer = styled(Box)`
+  border-bottom: 1px solid ${(props) => props.theme.palette.divider.main};
+  border-radius: 10px 10px 0 0;
+  padding: 1.5rem 3rem;
+
 `;

@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { getNetworkProxy, useGetAccountInfo } from '@elrondnetwork/dapp-core';
-import { operations } from '@elrondnetwork/dapp-utils';
-import { Address, Token } from '@elrondnetwork/erdjs/out';
+import { Address, Balance, Token } from '@elrondnetwork/erdjs/out';
 import { Box } from '@mui/material';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,10 +22,11 @@ import useCurrency from 'src/utils/useCurrency';
 import Divider from '@mui/material/Divider';
 import { setMultisigBalance, setOrganizationTokens, setTokenTableRows, StateType } from 'src/redux/slices/accountSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { operations } from '@elrondnetwork/dapp-utils';
 import { CenteredText } from '../navbar-style';
 
 const identifierWithoutUniqueHash = (identifier: string) => identifier.split('-')[0] ?? '';
-export const DECIMAL_POINTS_UI = 2;
+export const DECIMAL_POINTS_UI = 3;
 
 function TotalBalance() {
   const dispatch = useDispatch();
@@ -148,23 +148,28 @@ function TotalBalance() {
 
         const organizationTokens: OrganizationToken[] = tokensWithPrices.map(({
           identifier, balanceDetails, value }: TokenTableRowItem) => {
+          const balance = Balance.fromString(value?.amount as string).toString();
+
           const amountAfterDenomination = operations.denominate({
-            input: value?.amount as string,
+            input: balance,
             denomination: balanceDetails?.decimals as number,
             decimals: balanceDetails?.decimals as number,
             showLastNonZeroDecimal: true,
           });
+
           const denominatedAmountForCalcs = Number(amountAfterDenomination.replaceAll(',', ''));
 
           const priceAsNumber = value?.tokenPrice as number;
 
-          const totalUsdValue = Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(DECIMAL_POINTS_UI));
+          const totalUsdValue = Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(2));
+
+          const tokenPrice = parseFloat(Number(priceAsNumber).toPrecision(4));
 
           return ({
             prettyIdentifier: identifier?.split('-')[0] ?? '',
             identifier: identifier ?? '',
             photoUrl: balanceDetails?.photoUrl ?? '',
-            tokenPrice: Number(Number(priceAsNumber).toPrecision(DECIMAL_POINTS_UI)),
+            tokenPrice,
             tokenAmount: Number(denominatedAmountForCalcs).toLocaleString(),
             tokenValue: totalUsdValue,
           });
@@ -198,12 +203,15 @@ function TotalBalance() {
         egldTokenPrice = parseFloat(Number(organizationToken.value?.tokenPrice).toString()) ?? 0;
         egldTokensAmount = Number(organizationToken.value?.amount) ?? 0;
 
-        const denominatedEgldPrice = parseFloat(operations.denominate({
-          input: egldTokensAmount.toString(),
+        const _denominatedEgldPrice1 = parseFloat(operations.denominate({
+          input: Balance.fromString(egldTokensAmount.toString()).toString(),
           denomination,
           decimals,
           showLastNonZeroDecimal: true,
         })) * egldTokenPrice;
+        const denominatedEgldPrice = Number(
+          Balance.fromString(egldTokensAmount.toString()).toDenominated(),
+        ) * egldTokenPrice;
         arrayOfUsdValues.push(Number(denominatedEgldPrice));
       }
     });

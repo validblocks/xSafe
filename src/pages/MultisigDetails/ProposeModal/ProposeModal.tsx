@@ -14,7 +14,6 @@ import {
 import { addEntry } from 'src/redux/slices/addressBookSlice';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
-import { titles } from '../constants';
 import EditOwner from './EditOwner';
 import ProposeChangeQuorum from './ProposeChangeQuorum';
 import ProposeInputAddress from './ProposeInputAddress';
@@ -141,8 +140,6 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
     }
   };
 
-  const actionTitle =
-    selectedOption?.option != null ? `: ${titles[selectedOption?.option]}` : '';
   return (
     <Modal
       show
@@ -154,9 +151,6 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
     >
       <div className="card">
         <div className="card-body">
-          <p className="h3 mb-spacer text-center" data-testid="delegateTitle">
-            {`${t('Make a proposal')}${actionTitle}`}
-          </p>
 
           <div>
             {getModalContent()}

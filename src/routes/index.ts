@@ -5,7 +5,7 @@ import Decisions from 'src/pages/Decisions';
 import DecisionActions from 'src/pages/DecisionActions';
 import MultisigDetailsPage from 'src/pages/MultisigDetails/MultisigDetailsPage';
 import Unlock from 'src/pages/Unlock';
-import AssetsPage from 'src/pages/AssetsPage/AssetsPage';
+import AssetsTable from 'src/pages/AssetsPage/AssetsPage';
 import NftPage from 'src/pages/NftPage';
 import TransactionsPage from 'src/pages/Transactions/TransactionsPage';
 import CvorumContainer from 'src/pages/Organization/CvorumContainer';
@@ -14,6 +14,8 @@ import Settings from 'src/pages/Settings';
 import AddressBook from 'src/pages/AddressBook';
 import { dAppName } from 'src/config';
 import withPageTitle from 'src/components/PageTitle';
+import StakingDashboard from 'src/pages/Stake/StakingDashboard';
+import Marketplace from 'src/pages/Marketplace';
 import routeNames from './routeNames';
 
 type RouteType = DappCoreRouteTypes & { title: string };
@@ -34,7 +36,10 @@ export type ForegroundRoutesType =
   | 'transactions'
   | 'settings'
   | 'nft'
+  | 'stake'
+  | 'marketplace'
   | 'addressBook';
+
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
 export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
@@ -81,12 +86,12 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
   tokenTableRows: {
     path: '/tokens',
     title: 'Organization Tokens',
-    component: AssetsPage,
+    component: AssetsTable,
   },
   assets: {
     path: '/assets',
     title: 'Assets',
-    component: AssetsPage,
+    component: AssetsTable,
   },
   nft: {
     path: '/nft',
@@ -117,6 +122,16 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/address-book',
     title: 'Address Book',
     component: AddressBook,
+  },
+  stake: {
+    path: '/stake',
+    title: 'Stake',
+    component: StakingDashboard,
+  },
+  marketplace: {
+    path: '/marketplace',
+    title: 'Marketplace',
+    component: Marketplace,
   },
   home: {} as RouteType,
 };

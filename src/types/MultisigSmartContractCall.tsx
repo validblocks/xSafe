@@ -13,6 +13,7 @@ import MultisigSmartContractCallPresentation from 'src/types/MultisigSmartContra
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
 import { multisigContractFunctionNames } from './multisigFunctionNames';
+import { delegationFunctionNames } from './staking/delegationFunctionNames';
 
 export class MultisigSmartContractCall extends MultisigAction {
   address: Address;
@@ -67,6 +68,16 @@ export class MultisigSmartContractCall extends MultisigAction {
         return i18next.t('Send Token');
       case multisigContractFunctionNames.ESDTNFTTransfer:
         return i18next.t('Send NFT');
+      case delegationFunctionNames.delegate:
+        return i18next.t('Stake Tokens');
+      case delegationFunctionNames.reDelegateRewards:
+        return i18next.t('Restake Tokens');
+      case delegationFunctionNames.unDelegate:
+        return i18next.t('Unstake Tokens');
+      case delegationFunctionNames.claimRewards:
+        return i18next.t('Claim Rewards');
+      case delegationFunctionNames.withdraw:
+        return i18next.t('Withdraw Delegation');
       default:
         return 'Unknown function';
     }

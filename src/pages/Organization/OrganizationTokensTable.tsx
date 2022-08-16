@@ -122,7 +122,6 @@ const OrganizationsTokensTable = () => {
                   0,
                   10,
                 )}...${params.value.address.slice(params.value.length - 10)}`}
-                {/* <Ui.Trim text={params.value.valueHex} /> */}
               </div>
             </div>
           </div>
