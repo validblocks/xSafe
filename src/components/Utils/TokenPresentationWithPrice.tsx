@@ -40,30 +40,37 @@ const TokenPresentationWithPrice = ({
   } = useSelector<StateType, OrganizationToken>(selector);
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        {withPhoto && (
-        <Box>
-          {tokenPhotoJSX}
-        </Box>
-        )}
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      {withPhoto && (
+      <Box
+        sx={{
+          p: '.3rem',
+          mr: '.55rem',
+          borderRadius: '50%',
+          backgroundColor: 'rgba(76, 47, 252, 0.1)',
+          border: 'solid 1px #ddd',
+          '& svg, & img': { width: '35px', height: '35px', m: '0 !important' },
         }}
-        >
-          <Box>
-            {prettyIdentifier}
-          </Box>
-          {withPrice && (
+      >
+        {tokenPhotoJSX}
+      </Box>
+      )}
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+      >
+        <Box>
+          {prettyIdentifier}
+        </Box>
+        {withPrice && (
           <Typography variant="subtitle2">
             ${tokenPrice}
           </Typography>
-          )}
-        </Box>
+        )}
       </Box>
-      <Box
+      {/* <Box
         sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}
       >
         {withTokenAmount && (
@@ -76,7 +83,7 @@ const TokenPresentationWithPrice = ({
           ${tokenValue}
         </Box>
         )}
-      </Box>
+      </Box> */}
     </Box>
   );
 };

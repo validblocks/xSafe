@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, Balance } from '@elrondnetwork/erdjs/out';
-import { Box, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Box, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -217,7 +217,6 @@ const ProposeSendToken = ({
         handleBlur={formik.handleBlur}
       />
       <SelectorsContainer sx={{ mt: '2.5rem !important' }}>
-        <InputLabel id="demo-simple-select-label">Identifier</InputLabel>
         <Select
           value={identifier}
           fullWidth

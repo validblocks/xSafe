@@ -314,9 +314,14 @@ export const InputsContainer = styled(Box)`
 `;
 
 export const SelectorsContainer = styled(FormControl)`
-  width: 100%;
+  width: 125px;
+  height: 56px;
   margin: .67rem 0 1.93rem;
   position: relative;
+  border-radius: .3rem;
+  & div.MuiSelect-select {
+    padding: .25rem .36rem;
+  }
   & svg.MuiSelect-iconOpen + fieldset{
     border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
   };
@@ -327,6 +332,8 @@ export const SelectorsContainer = styled(FormControl)`
   };
   & fieldset {
     border: solid 1px rgba(76, 47, 252, 0.23) !important;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
   };
   & label {
     position: absolute;
