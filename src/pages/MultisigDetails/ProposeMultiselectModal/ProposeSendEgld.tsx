@@ -12,6 +12,7 @@ import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { OrganizationToken } from 'src/pages/Organization/types';
 import { StateType } from 'src/redux/slices/accountSlice';
 import { Box } from '@mui/material';
+import { InputsContainer } from 'src/components/Theme/StyledComponents';
 
 interface ProposeSendEgldType {
   handleChange: (proposal: MultisigSendEgld) => void;
@@ -140,10 +141,13 @@ const ProposeSendEgld = ({
   useEffect(() => {
     const hasErrors = Object.keys(formik.errors).length > 0;
     setSubmitDisabled(hasErrors);
-  }, [formik.errors]);
+  }, [formik.errors, setSubmitDisabled]);
 
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;
+
+  console.log({ amountError });
+
   return (
     <Box sx={{ p: '1.93rem 2.5rem .3rem' }}>
       <FormikInputField
@@ -155,30 +159,40 @@ const ProposeSendEgld = ({
         handleBlur={formik.handleBlur}
       />
       <Box sx={{ mt: '1.2rem !important' }}>
-        <FormikInputField
-          label={t('Amount')}
-          name="amount"
-          isInvalid={amountError != null}
-          handleChange={formik.handleChange}
-          handleBlur={formik.handleBlur}
-          value={amount}
-        />
+        <InputsContainer>
+          <label htmlFor={amount}>
+            {`${t('Amount')}`}
+          </label>
+          <Form.Control
+            id={amount}
+            name="amount"
+            isInvalid={amountError != null}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={amount}
+          />
 
-        {amountError != null && (
+          {amountError != null && (
           <Form.Control.Feedback type="invalid">
             {amountError}
           </Form.Control.Feedback>
-        )}
-        <span>{`Balance: ${egldBalanceString} EGLD`}</span>
+          )}
+          <span>{`Balance: ${egldBalanceString} EGLD`}</span>
+        </InputsContainer>
       </Box>
       <Box>
-        <FormikInputField
-          label={t('Data (optional)')}
-          name="data"
-          handleChange={formik.handleChange}
-          handleBlur={formik.handleBlur}
-          value={data}
-        />
+        <InputsContainer>
+          <label htmlFor={amount} className="test">
+            {`${t('Data (optional)')}`}
+          </label>
+          <Form.Control
+            id={data}
+            name="data"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={data}
+          />
+        </InputsContainer>
       </Box>
     </Box>
   );
