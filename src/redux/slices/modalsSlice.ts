@@ -33,7 +33,6 @@ interface PerformActionModal {
 
 interface ProposeModal {
   selectedOption?: SelectedOptionType;
-  needsReshuffle: boolean;
 }
 
 interface ProposeMultiselectModal {
@@ -51,7 +50,6 @@ export interface ModalsSliceState {
 const initialState: ModalsSliceState = {
   proposeModal: {
     selectedOption: null,
-    needsReshuffle: true,
   },
   proposeMultiselectModal: {
     selectedOption: null,
@@ -122,13 +120,6 @@ export const modalsSlice = createSlice({
     ) => {
       state.performActionModal.selectedStakingProvider = action.payload;
     },
-    setNeedsReshuffle: (
-      state: ModalsSliceState,
-      action: PayloadAction<boolean>,
-    ) => {
-      state.proposeModal.needsReshuffle = action.payload;
-      console.log('toggling, new value: ', state.proposeModal.needsReshuffle);
-    },
   },
 
   extraReducers: (builder) => {
@@ -147,7 +138,6 @@ export const {
   setSelectedTokenToSend,
   setSelectedNftToSend,
   setSelectedStakingProvider,
-  setNeedsReshuffle,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;
