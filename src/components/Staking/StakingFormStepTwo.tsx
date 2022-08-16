@@ -160,7 +160,7 @@ const StakingFormStepTwo = () => {
     justifyContent: 'center',
     gap: buttonWidth > 90 ? 0 : 3,
     background: 'rgba(76, 47, 252, 0.1)',
-    paddingBottom: buttonWidth > 90 ? '10px' : '0 !important',
+    paddingBottom: buttonWidth > 90 ? '9px' : '0 !important',
     borderRadius: '10px',
   }), [buttonWidth]);
 
@@ -170,7 +170,7 @@ const StakingFormStepTwo = () => {
         <Box sx={{ flex: 4 }}>
           <ProviderPresentation provider={selectedProvider} />
         </Box>
-        <Box sx={{ flex: 1 }}>
+        <Box sx={{ width: '100%' }}>
           <ChangeStepButton ref={buttonRef} onClick={proceedToPreviousStep}>
             {t('Change') as string}
           </ChangeStepButton>
