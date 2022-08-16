@@ -1,4 +1,4 @@
-import { Button, Typography, Box, Select } from '@mui/material';
+import { Button, Typography, Box, Select, FormControl } from '@mui/material';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
@@ -239,7 +239,8 @@ export const InputsContainer = styled(Box)`
       font-size: 12px;
     }
     li {
-      border: solid 2px ${(props) => props.theme.palette.primary.main};
+      height: 58px;
+      border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
     }
   }
   &:hover {
@@ -301,7 +302,13 @@ export const InputsContainer = styled(Box)`
   }
 `;
 
-export const SelectsContainer = styled(Box)`
+export const SelectorsContainer = styled(FormControl)`
+  width: 100%;
+  &:hover {
+    fieldset {
+      border-color: #000;
+    };
+  }
   & fieldset {
       border: solid 1px rgba(76, 47, 252, 0.23) !important;
   }
