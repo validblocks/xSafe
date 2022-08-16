@@ -216,31 +216,6 @@ const ProposeSendToken = ({
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
-      <SelectorsContainer sx={{ mt: '2.5rem !important' }}>
-        <Select
-          value={identifier}
-          fullWidth
-          label="Identifier"
-          size="small"
-          onChange={onIdentifierChanged}
-          className="mb-2"
-        >
-          {tokenTableRows?.map((token: TokenTableRowItem) => (
-            <MenuItem
-              key={token.identifier}
-              value={token.identifier}
-            >
-              <TokenPresentationWithPrice
-                identifier={token.identifier as string}
-              />
-            </MenuItem>
-          ))}
-        </Select>
-        <span>
-          Balance:
-          {tokenAmount}
-        </span>
-      </SelectorsContainer>
 
       <InputsContainer>
         <Form.Control
@@ -261,7 +236,40 @@ const ProposeSendToken = ({
           {amountError}
         </Form.Control.Feedback>
         )}
+        <Box
+          sx={{
+            position: 'absolute',
+            top: '0',
+            right: '0',
+          }}
+        >
+          <SelectorsContainer sx={{ m: '0rem !important' }}>
+            <Select
+              value={identifier}
+              fullWidth
+              label="Identifier"
+              size="small"
+              onChange={onIdentifierChanged}
+            >
+              {tokenTableRows?.map((token: TokenTableRowItem) => (
+                <MenuItem
+                  key={token.identifier}
+                  value={token.identifier}
+                >
+                  <TokenPresentationWithPrice
+                    identifier={token.identifier as string}
+                  />
+                </MenuItem>
+              ))}
+            </Select>
+          </SelectorsContainer>
+        </Box>
+        <span>
+          Balance:
+          {tokenAmount}
+        </span>
       </InputsContainer>
+
       <ActionDialog
         showButton={false}
         isOpen={isSendEgldPromptOpen}
