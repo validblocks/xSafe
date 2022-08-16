@@ -14,10 +14,6 @@ export const MainButton = styled(Button)`
     ${(props) => props.theme.padding.value.sm}
     ${(props) => props.theme.padding.value.lg}
     ${(props) => props.theme.padding.value.xs};
-  &.nftHover {
-    transform: translateY(50px);
-    transition: transform .2s linear;
-  }
   &:disabled{
     background-color: #eee;
     border-color: #ddd;

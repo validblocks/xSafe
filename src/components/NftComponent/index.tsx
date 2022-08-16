@@ -129,30 +129,21 @@ function NftCompmonent() {
                     />
                   </Box>
                   <CardContent
-                    className="nftHover"
                     sx={{
                       p: '.5rem .8rem 0.95rem !important',
-                      transform: 'translateY(25px)',
-                      transition: 'transform .2s linear',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      height: '93px',
                     }}
                   >
                     <Typography
-                      className="nftHover"
                       gutterBottom
                       variant="h6"
-                      component="div"
-                      sx={{
-                        fontWeight: '600',
-                        fontSize: '18px',
-                        m: '0 0 0 .2rem !important',
-                        textAlign: 'center',
-                        transition: 'font-size .2s linear',
-                      }}
+                      component="span"
                     >
                       {item.name}
                     </Typography>
                     <MainButton
-                      className="nftHover"
                       sx={{
                         width: '100%',
                         fontWeight: '500 !important',
