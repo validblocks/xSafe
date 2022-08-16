@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import { faHandPaper, faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -24,6 +22,8 @@ import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeContractFromSource';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
+import { MainButton } from 'src/components/Theme/StyledComponents';
+import { Box } from '@mui/material';
 import { titles } from '../constants';
 import AttachContractContent from './AttachContractContent';
 import ProposeDeployContractFromSource from './ProposeDeployContractFromSource';
@@ -224,24 +224,15 @@ const ProposeMultiselectModal = ({
     }
   };
 
-  const proposeButton = (
-    <button
+  const sendNFTButton = (
+    <MainButton
       disabled={submitDisabled}
       onClick={onProposeClicked}
-      className="btn btn-primary "
+      sx={{ boxShadow: 'none !important', width: '100%' }}
     >
-      <FontAwesomeIcon icon={faHandPaper} />
-      {t('Propose')}
-    </button>
+      {t('Send NFT')}
+    </MainButton>
   );
-
-  const closeButton = (
-    <button onClick={handleClose} className="btn btn-primary btn-light ">
-      <FontAwesomeIcon icon={faTimes} />
-      {t('Cancel')}
-    </button>
-  );
-  const cancelButton = closeButton;
 
   const actionTitle =
     selectedOption?.option != null ? `${titles[selectedOption?.option]}` : '';
@@ -263,12 +254,15 @@ const ProposeMultiselectModal = ({
 
         {getContent()}
         {!isMultiStep && (
-          <div className="modal-action-btns">
-            {cancelButton}
-
-            {selectedOption?.option !==
-            ProposalsTypes.multiselect_proposal_options && proposeButton}
-          </div>
+        <Box sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          p: '0 2.5rem 2rem',
+        }}
+        >
+          {selectedOption?.option !==
+            ProposalsTypes.multiselect_proposal_options && sendNFTButton}
+        </Box>
         )}
       </div>
     </div>
