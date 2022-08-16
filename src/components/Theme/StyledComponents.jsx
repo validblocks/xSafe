@@ -226,9 +226,6 @@ export const FormSearchInput = styled(Box)`
 
 export const SendInputs = styled(Box)`
   margin-top: .55rem;
-  background-color: rgba(76, 47, 252, 0.1);
-  border-top-left-radius: .3rem;
-  border-top-right-radius: .3rem;
   border-bottom: solid 1px ${(props) => props.theme.palette.primary.main};
   & label {
     margin: .2rem 0 .2rem .5rem;
@@ -244,7 +241,13 @@ export const SendInputs = styled(Box)`
     padding: 0;
   };
   & input.form-control:focus {
-    outline: solid 1px black;
+    outline: none;
     background-color: transparent;
+    box-shadow: none;
+  };
+  & span {
+    display: table;
+    margin: 0 .5rem 0 auto;
+    color: grey;
   };
 `;
