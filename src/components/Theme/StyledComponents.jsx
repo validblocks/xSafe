@@ -270,6 +270,9 @@ export const InputsContainer = styled(Box)`
     border-radius: .3rem;
     transition: border-color 0s;
   };
+  & input.form-control.is-invalid {
+    background: none;
+  }
   & input.form-control:focus {
     outline: none;
     border: solid 2px ${(props) => props.theme.palette.primary.main};
@@ -295,6 +298,9 @@ export const InputsContainer = styled(Box)`
     &:hover {
       background-color: transparent;
     }
+  };
+  & div.invalid-feedback {
+    margin-left: 4px;
   };
 `;
 
