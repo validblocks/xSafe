@@ -86,8 +86,6 @@ const ProvidersList = ({ searchParam }: Props) => {
 
   const [pageSize, setPageSize] = useState(10);
 
-  const [pageSize, setPageSize] = useState(10);
-
   if (isFetchingProviderIdentities || isLoadingProviderIdentities) {
     return (
       <Box
