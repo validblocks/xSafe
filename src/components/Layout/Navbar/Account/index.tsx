@@ -1,23 +1,20 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { getIsLoggedIn, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { Box } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import ConnectedAccount from 'src/components/Layout/Navbar/ConnectedAccount';
 import { MainButton } from 'src/components/Theme/StyledComponents';
-import addressShorthand from 'src/helpers/addressShorthand';
 import Unlock from 'src/pages/Unlock';
-import routeNames from 'src/routes';
+import addressShorthand from 'src/helpers/addressShorthand';
 import { ConnectDropdown } from '../navbar-style';
 
 const Account = () => {
   const { address } = useGetAccountInfo();
   const loggedIn = getIsLoggedIn();
-  const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>();
-  const intervalRef = React.useRef<any>();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
+  const intervalRef = useRef<any>();
   const logoutOnSessionExpire = () => {
     intervalRef.current = setInterval(() => {
       const loggedIn = getIsLoggedIn();
@@ -39,7 +36,7 @@ const Account = () => {
     setWalletAddress(addressShorthand(address));
   }, []);
 
-  React.useEffect(logoutOnSessionExpire, [isLoggedIn]);
+  useEffect(logoutOnSessionExpire, [isLoggedIn]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isMainButtonActive, setIsMainButtonActive] = useState(false);
@@ -95,7 +92,7 @@ const Account = () => {
         PaperProps={{
           sx: {
             borderRadius: '10px',
-            boxShadow: '0 8px 24px rgba(76, 47, 252, 0.13)',
+            boxShadow: '0px 8px 24px rgba(76, 47, 252, 0.13)',
           },
         }}
         open={open}

@@ -1,20 +1,19 @@
 import { useState } from 'react';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ContentPasteSearchIcon from '@mui/icons-material/ContentPasteSearch';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import {
   Box, Button, Typography, Grid, Paper,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import Safe from 'src/assets/img/safe.png';
-import CopyButton from 'components/CopyButton';
-import ReceiveModal from 'components/ReceiveModal';
-import SafeOptions from 'components/SafeOptions';
+import CopyButton from 'src/components/CopyButton';
+import ReceiveModal from 'src/components/ReceiveModal';
+import SafeOptions from 'src/components/SafeOptions';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import { useOrganizationInfoContext } from 'pages/Organization/OrganizationInfoContextProvider';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import {
   Anchor, MembersBox, ReadOnly,
 } from '../navbar-style';
