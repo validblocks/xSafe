@@ -91,12 +91,3 @@ export interface IDelegation {
   userUnBondable: string;
   userUndelegatedList: IUndelegatedFunds[];
 }
-
-export interface IDelegation {
-  address: string;
-  claimableRewards: string;
-  contract: string;
-  userActiveStake: string;
-  userUnBondable: string;
-  userUndelegatedList: unknown[];
-}
