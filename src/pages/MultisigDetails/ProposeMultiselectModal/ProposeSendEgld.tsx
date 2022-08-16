@@ -185,7 +185,7 @@ const ProposeSendEgld = ({
       </Box>
       <Box>
         <InputsContainer onClick={onClickedInput}>
-          <label htmlFor={amount} className={`test ${isClickedInput ? 'sus' : ''}`}>
+          <label htmlFor={amount} className="test">
             {`${t('Data (optional)')}`}
           </label>
           <Form.Control

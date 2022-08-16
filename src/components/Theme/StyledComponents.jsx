@@ -231,6 +231,12 @@ export const InputsContainer = styled(Box)`
   padding: 16.5px 14px;
   border: solid 2px ${(props) => props.theme.palette.primary.main};
   border-radius: .5rem;
+  &:focus-within{
+    label.test {
+    top: -11px;
+    font-size: 12px;
+    }
+  }
   & label {
     position: absolute;
     padding: 0 3px;
@@ -244,10 +250,6 @@ export const InputsContainer = styled(Box)`
     top: calc(50% - 11px);
     font-size: 15px;
     font-weight: ${(props) => props.theme.font.weight.md};
-  }
-  & label.test.sus {
-    top: -11px;
-    font-size: 12px;
   }
   & input.form-control {
     max-width: 300px;
