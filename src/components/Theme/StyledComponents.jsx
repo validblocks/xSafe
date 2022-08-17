@@ -82,3 +82,111 @@ export const AccountButton = styled.div`
     background-color: red;
   }
 `;
+
+export const InputsContainer = styled(Box)`
+  margin: .67rem 0 1.93rem;
+  position: relative;
+  background-color: transparent;
+  &:focus-within {
+    li, div.MuiOutlinedInput-root {
+      height: 58px;
+      border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
+    }
+  };
+  &:hover {
+    input.form-control {
+      border-color: black;
+    }
+    li {
+      border-color: black;
+    }
+    div.MuiOutlinedInput-root {
+      border-color: black;
+    }
+  };
+  & div.MuiOutlinedInput-root.Mui-focused {
+    height: 56px;
+    border: solid 1px rgba(76, 47, 252, 0.23) !important;
+  }
+  & label {
+    position: absolute;
+    padding: 0 3px;
+    top: -10px;
+    left: 10px;
+    color: ${(props) => props.theme.palette.primary.main};
+    font-size: 12px;
+    background-color: #ffff;
+  };
+  & input.form-control.is-invalid ~ label {
+    color: #dc3545;
+  }
+  & input.form-control {
+    width: 100%;
+    height: auto;
+    padding: 16.5px 14px;
+    background-color: transparent;
+    border: solid 1px rgba(76, 47, 252, 0.23);
+    border-radius: .3rem;
+    transition: border-color 0s;
+  };
+  & input.form-control.is-invalid {
+    background: none;
+    border: solid 1px #dc3545;
+  }
+  & input.form-control.is-invalid:focus {
+    background: none;
+    border: solid 2px #dc3545;
+  }
+  & input.form-control.is-invalid ~ li,
+    input.form-control.is-invalid ~ div.MuiOutlinedInput-root {
+    border-color: #dc3545;
+  }
+  & input.form-control.is-invalid:focus ~ li,
+    input.form-control.is-invalid:focus ~ div.MuiOutlinedInput-root {
+    border: solid 2px #dc3545 !important;
+  }
+  & input.form-control:focus {
+    outline: none;
+    border: solid 2px ${(props) => props.theme.palette.primary.main};
+    box-shadow: none;
+  };
+  & span {
+    position: absolute;
+    bottom: -17px;
+    left: 4px;
+    display: table;
+    font-size: 12px;
+    color: grey;
+  };
+  & li {
+    position: absolute;
+    height: 56px;
+    top: 0;
+    right: 0;
+    border: solid 1px rgba(76, 47, 252, 0.23);
+    border-radius: .3rem;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    &:hover {
+      background-color: transparent;
+    }
+  };
+  & div.invalid-feedback {
+    margin-left: 4px;
+  };
+`;
+
+export const MaxSendEGLDButton = styled(Button)`
+  position: absolute;
+  min-width: 30px;
+  top: 14px;
+  right: 112px;
+  color: ${(props) => props.theme.palette.secondary.main};
+  background-color: transparent;
+  border: solid 1px ${(props) => props.theme.palette.secondary.main};
+  line-height: 1.4;
+  &:hover {
+    background-color: ${(props) => props.theme.palette.primary.main};
+    color: ${(props) => props.theme.palette.background.white}
+  }
+`;

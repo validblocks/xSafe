@@ -29,7 +29,7 @@ const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
     <Box
       sx={{
         width: '100%',
-        padding: '2rem',
+        padding: '0 1rem',
       }}
     >
       <Box>

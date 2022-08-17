@@ -1,5 +1,5 @@
-import { Box } from '@mui/material';
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Box, MenuItem } from '@mui/material';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
@@ -14,7 +14,9 @@ import { OrganizationToken } from 'src/pages/Organization/types';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import ProviderPresentation from './ProviderPresentation';
 import { useMultistepFormContext } from '../Utils/MultistepForm';
-import { ChangeStepButton } from '../Theme/StyledComponents';
+import { ChangeStepButton, InputsContainer, MaxSendEGLDButton } from '../Theme/StyledComponents';
+import TokenPresentationWithPriceForSendEGLD from '../Utils/TokenPresentationWithPriceForSendEGLD';
+import { Text } from '../StyledComponents/StyledComponents';
 
 interface IFormValues {
   amount: string;
@@ -42,7 +44,7 @@ const StakingFormStepTwo = () => {
 
   const organizationTokens = useSelector(organizationTokensSelector);
   const egldBalanceString = organizationTokens
-    .find((token: OrganizationToken) => token.identifier === 'EGLD').tokenAmount.replaceAll(',', '') ?? 0;
+    ?.find((token: OrganizationToken) => token.identifier === 'EGLD').tokenAmount.replaceAll(',', '') ?? 0;
 
   function validateRecipient(value?: string) {
     try {
@@ -68,8 +70,8 @@ const StakingFormStepTwo = () => {
         }) ?? false
       );
     }
-    if (newAmount < 0) {
-      formik.setFieldValue('amount', 0);
+    if (newAmount < 1) {
+      formik.setFieldValue('amount', 1);
     }
     if (newAmount === 0) {
       setIsFinalStepButtonActive(false);
@@ -103,7 +105,7 @@ const StakingFormStepTwo = () => {
 
   formik = useFormik({
     initialValues: {
-      amount: 0,
+      amount: 1,
     },
     validationSchema,
     validateOnChange: true,
@@ -141,7 +143,14 @@ const StakingFormStepTwo = () => {
 
   useLayoutEffect(() => {
     setButtonWidth(buttonRef?.current?.offsetWidth);
-  }, [buttonRef.current]);
+  }, []);
+
+  const autocompleteMaxAmount = useCallback(() => {
+    if (amountError) {
+      return;
+    }
+    formik.setFieldValue('amount', egldBalanceNumber);
+  }, [amountError, egldBalanceNumber, formik]);
 
   const buttonStyle = useMemo(() => ({
     display: 'flex',
@@ -168,26 +177,48 @@ const StakingFormStepTwo = () => {
         </Box>
       </Box>
       <Box>
-        <div className="modal-control-container">
-          <label htmlFor={amount}>{t('Amount') as string}</label>
-          <div className="input-wrapper">
-            <Form.Control
-              id={amount}
-              name="amount"
-              isInvalid={amountError != null}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={amount}
-            />
+        <InputsContainer sx={{ marginBottom: '0.35rem !important' }}>
+          <Form.Control
+            id={amount}
+            name="amount"
+            isInvalid={amountError != null}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={amount}
+          />
 
-            {amountError != null && (
-              <Form.Control.Feedback type="invalid">
-                {amountError}
-              </Form.Control.Feedback>
-            )}
-          </div>
-          <span className="mb-0">{`${t('Available')}: ${egldBalanceString} EGLD`}</span>
-        </div>
+          <label htmlFor={amount}>
+            {`${t('Amount')}`}
+          </label>
+
+          <MaxSendEGLDButton onClick={autocompleteMaxAmount}>
+            Max
+          </MaxSendEGLDButton>
+
+          <MenuItem
+            key={'EGLD'}
+            value={'EGLD'}
+            sx={{ p: '.25rem .4rem' }}
+          >
+            <TokenPresentationWithPriceForSendEGLD
+              withTokenAmount={false}
+              withTokenValue={false}
+              identifier={'EGLD'}
+            />
+          </MenuItem>
+          <Text
+            fontSize={13}
+            variant="subtitle2"
+            sx={{ marginTop: '.35rem !important' }}
+          >{`${t('Available')}: ${egldBalanceString} EGLD`}
+          </Text>
+
+          {amountError != null && (
+          <Form.Control.Feedback type="invalid">
+            {amountError}
+          </Form.Control.Feedback>
+          )}
+        </InputsContainer>
       </Box>
     </Box>
   );

@@ -11,7 +11,7 @@ import { gasLimit as defaultGasLimit, maxGasLimit } from 'src/config';
 import { MultisigActionType } from 'src/types/MultisigActionType';
 import { useState } from 'react';
 
-const gasLimits = {
+export const gasLimits = {
   [MultisigActionType.Nothing]: 10_000_000,
   [MultisigActionType.AddBoardMember]: 10_000_000,
   [MultisigActionType.AddProposer]: 10_000_000,
