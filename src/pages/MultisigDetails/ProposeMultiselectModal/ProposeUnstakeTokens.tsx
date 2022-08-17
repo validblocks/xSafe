@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, Balance, BigUIntValue, BytesValue } from '@elrondnetwork/erdjs/out';
 import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
@@ -6,12 +6,12 @@ import { FormikProps, useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { denomination } from 'src/config';
 import * as Yup from 'yup';
 import {
   activeDelegationsRowsSelector,
 } from 'src/redux/selectors/accountSelector';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
-import { denomination } from 'src/config';
 import { TestContext } from 'yup';
 import { StateType } from 'src/redux/slices/accountSlice';
 import { setSelectedStakingProvider } from 'src/redux/slices/modalsSlice';
@@ -22,6 +22,8 @@ import DelegatedColumn from 'src/components/Staking/DelegatedColumn';
 import { delegationFunctionNames } from 'src/types/staking/delegationFunctionNames';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { useEffectDebugger } from 'src/utils/useEffectDebugger';
+import { InputsContainer, MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
+import TokenPresentationWithPriceForSendEGLD from 'src/components/Utils/TokenPresentationWithPriceForSendEGLD';
 
 interface ProposeUnstakeTokensType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -197,6 +199,13 @@ const ProposeUnstakeTokens = ({
     setSubmitDisabled((!formik.isValid));
   }, [formik.isValid, formik.dirty, setSubmitDisabled]);
 
+  const autocompleteMaxAmount = useCallback(() => {
+    if (amountError) {
+      return;
+    }
+    formik.setFieldValue('amount', selectedStakingProvider?.delegatedColumn?.delegatedAmount);
+  }, [amountError, formik, selectedStakingProvider?.delegatedColumn?.delegatedAmount]);
+
   return (
     <div className="px-4 py-3">
       <div className="modal-control-  container mb-4">
@@ -235,27 +244,42 @@ const ProposeUnstakeTokens = ({
         </div>
       </div>
 
-      <div className="modal-control-container">
-        <div className="input-wrapper">
-          <label htmlFor={amount}>
-            {`${t('Amount')}:`}
-          </label>
-          <Form.Control
-            id={amount}
-            name="amount"
-            isInvalid={amountError != null}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={amount}
-          />
+      <InputsContainer>
+        <Form.Control
+          id={amount}
+          name="amount"
+          isInvalid={amountError != null}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={amount}
+        />
 
-          {amountError != null && (
-            <Form.Control.Feedback type="invalid">
-              {amountError}
-            </Form.Control.Feedback>
-          )}
-        </div>
-      </div>
+        <label htmlFor={amount}>
+          {`${t('Amount')}`}
+        </label>
+
+        <MaxSendEGLDButton onClick={autocompleteMaxAmount}>
+          Max
+        </MaxSendEGLDButton>
+
+        <MenuItem
+          key={'EGLD'}
+          value={'EGLD'}
+          sx={{ p: '.25rem .4rem' }}
+        >
+          <TokenPresentationWithPriceForSendEGLD
+            withTokenAmount={false}
+            withTokenValue={false}
+            identifier={'EGLD'}
+          />
+        </MenuItem>
+
+        {amountError != null && (
+          <Form.Control.Feedback type="invalid">
+            {amountError}
+          </Form.Control.Feedback>
+        )}
+      </InputsContainer>
 
     </div>
   );

@@ -102,7 +102,7 @@ export default function TransactionsPage() {
     <Box
       sx={{
         width: '100%',
-        padding: '2rem',
+        padding: '0 1rem',
       }}
     >
       <Box>

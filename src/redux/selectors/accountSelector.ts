@@ -6,10 +6,10 @@ import { StateType } from '../slices/accountSlice';
 export const accountSelector = (state: RootState) => state.account;
 
 const DEFAULT_ORGANIZATION_TOKEN = {
-  prettyIdentifier: 'Unknown identifier',
-  tokenPrice: 'Unknown price',
-  tokenValue: 'Unknown value',
-  tokenAmount: 'Unknown amount',
+  prettyIdentifier: 'ID',
+  tokenPrice: '0',
+  tokenValue: '0',
+  tokenAmount: '0',
 };
 
 export const usernameSelector = createDeepEqualSelector(
