@@ -6,8 +6,7 @@ import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sha
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
-import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { IDelegation, IdentityWithColumns, IUndelegatedFunds } from 'src/types/staking';
 import { Balance } from '@elrondnetwork/erdjs/out';
@@ -16,11 +15,14 @@ import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentities
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import { setActiveDelegationRows } from 'src/redux/slices/accountSlice';
+import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
 import { MainButton } from '../Theme/StyledComponents';
 import ActiveDelegationsTable from './ActiveDelegationsTable';
+
+const networkProvider2 = new ApiNetworkProvider('https://devnet-delegation-api.elrond.com');
 
 const MyStake = () => {
   const dispatch = useDispatch();
@@ -45,10 +47,9 @@ const MyStake = () => {
 
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
-  const fetchDelegations = useCallback(() =>
-    axios
-      .get(`https://devnet-delegation-api.elrond.com/accounts/${currentContract.address}/delegations?forceRefresh=true`)
-      .then((res) => res.data), [currentContract.address]);
+  const fetchDelegations = () =>
+    networkProvider2
+      .doGetGeneric(`accounts/${currentContract.address}/delegations?forceRefresh=true`);
 
   const {
     data: fetchedDelegations,
@@ -218,7 +219,6 @@ const MyStake = () => {
       </Box>
       <Box>
         <ActiveDelegationsTable
-          rows={activeDelegationsRows}
           isFetching={isFetchingProviderIdentities}
           isLoading={isLoadingProviderIdentities}
           isError={isErrorOnFetchingProviderIdentities}

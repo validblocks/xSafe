@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { useCallback, useMemo, useState } from 'react';
+import { memo, useCallback, useMemo, useState } from 'react';
 import {
   DataGrid,
   GridRenderCellParams,
@@ -10,13 +10,14 @@ import {
   setProposeMultiselectSelectedOption,
   setSelectedStakingProvider } from 'src/redux/slices/modalsSlice';
 import { Box } from '@mui/material';
-import { IProviderColumn, IDelegatedColumn, IClaimableRewardsColumn, IdentityWithColumns } from 'src/types/staking';
+import { IProviderColumn, IDelegatedColumn, IClaimableRewardsColumn } from 'src/types/staking';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
 import { Address, BigUIntValue } from '@elrondnetwork/erdjs/out';
 import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
 import { ProposalsTypes } from 'src/types/Proposals';
+import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import ProviderColumn from '../Staking/ProviderColumn';
 import { AssetActionButton } from '../Theme/StyledComponents';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
@@ -25,7 +26,6 @@ import DelegatedColumn from '../Staking/DelegatedColumn';
 import ClaimableRewardsColumn from '../Staking/ClaimableRewardsColumn';
 
 interface Props {
-    rows: IdentityWithColumns[];
     isFetching?: boolean;
     isLoading?: boolean;
     isError?: boolean;
@@ -34,14 +34,16 @@ interface Props {
 
 export const SQUARE_IMAGE_WIDTH = 30;
 
-const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dataName = 'data' }: Props) => {
+const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'data' }: Props) => {
   const dispatch = useDispatch();
   const [pageSize, setPageSize] = useState(10);
-  const handleOptionSelected = (
+  const handleOptionSelected = useCallback((
     option: ProposalsTypes,
   ) => {
     dispatch(setProposeMultiselectSelectedOption({ option }));
-  };
+  }, [dispatch]);
+
+  const rows = useSelector(activeDelegationsRowsSelector);
 
   const getTableActions = useCallback((params: GridRenderCellParams) => [
     <AssetActionButton
@@ -78,7 +80,7 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
     >
       <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Unstake
     </AssetActionButton>,
-  ], []);
+  ], [dispatch, handleOptionSelected]);
 
   const columns = useMemo(
     () => [
@@ -121,14 +123,14 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
   const selectedStakingProvider = useSelector(selectedStakingProviderSelector);
   const [selectionModel, setSelectionModel] = useState<GridSelectionModel>([selectedStakingProvider]);
 
-  const onSelectionModelChanged = useCallback((newSelectionModel: GridSelectionModel) => {
+  const onSelectionModelChanged = useCallback(() => (newSelectionModel: GridSelectionModel) => {
     const newSelectedProvider = newSelectionModel[newSelectionModel.length - 1];
 
     setSelectionModel([newSelectedProvider]);
     dispatch(setSelectedStakingProvider(newSelectedProvider));
   }, [dispatch]);
 
-  const onPageSizeChange = useCallback((newPageSize: number) => setPageSize(newPageSize), []);
+  const onPageSizeChange = useCallback(() => (newPageSize: number) => setPageSize(newPageSize), []);
 
   if (isLoading || isFetching) {
     return (
@@ -150,7 +152,7 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
       <DataGrid
         autoHeight
         rowHeight={68}
-        rows={rows}
+        rows={rows ?? []}
         columns={columns}
         headerHeight={48}
         onSelectionModelChange={onSelectionModelChanged}
@@ -199,4 +201,6 @@ const ActiveDelegationsTable = ({ rows = [], isError, isFetching, isLoading, dat
   );
 };
 
-export default ActiveDelegationsTable;
+const memoActiveDelegationsTable = memo(ActiveDelegationsTable);
+
+export default memoActiveDelegationsTable;
