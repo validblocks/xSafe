@@ -66,8 +66,14 @@ const TokenPresentationWithPrice = ({
           </Typography>
         )}
       </Box>
-      {/* <Box
-        sx={{ display: 'flex', flexDirection: 'column', ml: 'auto' }}
+      <Box
+        sx={{
+          width: '100px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          ml: '.4rem',
+        }}
       >
         {withTokenAmount && (
         <Box>
@@ -79,7 +85,7 @@ const TokenPresentationWithPrice = ({
           ${tokenValue}
         </Box>
         )}
-      </Box> */}
+      </Box>
     </Box>
   );
 };

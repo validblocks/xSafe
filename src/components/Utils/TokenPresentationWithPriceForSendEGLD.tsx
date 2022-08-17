@@ -23,8 +23,6 @@ type TokenPresentationWithPriceProps = TokenPresentationProps & Partial<TokenPre
 const TokenPresentationWithPrice = ({
   identifier,
   withPhoto = true,
-  withTokenAmount = true,
-  withTokenValue = true,
   withPrice = true }: TokenPresentationWithPriceProps) => {
   const { tokenPhotoJSX } = useTokenPhoto(identifier);
 
@@ -35,8 +33,6 @@ const TokenPresentationWithPrice = ({
   const {
     prettyIdentifier,
     tokenPrice,
-    tokenValue,
-    tokenAmount,
   } = useSelector<StateType, OrganizationToken>(selector);
 
   return (
