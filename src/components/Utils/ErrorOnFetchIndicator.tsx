@@ -12,7 +12,7 @@ const ErrorOnFetchIndicator = ({ dataName }: Props) => {
     <CenteredBox
       sx={{ justifyContent: 'start !important', marginTop: '1.5rem' }}
     >
-      <Box sx={{ marginLeft: '10px' }}>{t(`Loading ${dataName}s`) as string}...</Box>
+      <Box sx={{ marginLeft: '10px' }}>{t(`Error fetching ${dataName}s`) as string}.</Box>
     </CenteredBox>
   );
 };
