@@ -44,17 +44,18 @@ export const CardBox = styled(Card)`
   width: 250px;
   border-radius: .7rem;
   box-shadow: none;
-  transition: transform .2s linear;
+  transition: all .2s linear;
   transform: scale(1);
   overflow: hidden;
   & span {
-    display: table;
-    width: 100% !important;
+    position: absolute;
+    width: 100%;
     font-size: 18px;
     font-weight: 600;
     text-align: center;
-    transform: translateY(25px);
-    transition: font-size .2s linear, transform .2s linear;
+    top: 35px;
+    left: 0;
+    transition: font-size .2s linear, top .2s linear;
   };
   & button {
     position: absolute;
@@ -69,7 +70,7 @@ export const CardBox = styled(Card)`
       0px 2px 10px rgba(191, 191, 191, 0.4),
       0px 3px 12px rgba(191, 191, 191, 0.4);
     & span {
-      transform: translateY(0);
+      top: 13px;
       font-size: 15px;
     };
     & button {

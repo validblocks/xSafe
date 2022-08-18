@@ -15,6 +15,9 @@ import { Box, MenuItem, TextField } from '@mui/material';
 import { InputsContainer, MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
 import TokenPresentationWithPriceForSendEGLD from 'src/components/Utils/TokenPresentationWithPriceForSendEGLD';
 
+// import axios from 'axios';
+// import { network } from '../../../config';
+
 interface ProposeSendEgldType {
   handleChange: (proposal: MultisigSendEgld) => void;
   setSubmitDisabled: (value: boolean) => void;
@@ -148,7 +151,19 @@ const ProposeSendEgld = ({
   const amountError = touched.amount && errors.amount;
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
 
-  console.log({ amountError });
+  // const fetchConstants = useCallback(async () => {
+  //   const { data } = await axios.get(
+  //     `${network.apiAddress}/constants`,
+  //   );
+
+  //   return data.gasLimit;
+  // }, []);
+
+  // function calculateGasFee(transferAmount: float) {
+  //   const gasFees = fetchConstants();
+  //   return gasFee;
+  // }
+  // console.log({ amountError });
 
   return (
     <Box sx={{ p: '1.93rem 2.5rem .3rem' }}>
