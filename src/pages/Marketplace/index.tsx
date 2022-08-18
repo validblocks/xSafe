@@ -11,6 +11,7 @@ const Marketplace = () => {
       {
         availableApps.map((app: MenuItem) => (
           <AppCard
+            key={app.id}
             imgUrl={`https://picsum.photos/200/200?random=${Math.random()}`}
             title={app.name}
             description={app?.description}

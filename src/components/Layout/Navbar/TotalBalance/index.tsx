@@ -83,7 +83,6 @@ function TotalBalance() {
     const fetchTokenPhotoUrl = async (tokenIdentifier: string) => {
       if (tokenIdentifier === 'EGLD') return '';
 
-      console.log('fetchTokenPhotoUrl', tokenIdentifier);
       const { data } = await axios.get(
         `${network.apiAddress}/tokens/${tokenIdentifier}`,
       );
@@ -132,8 +131,6 @@ function TotalBalance() {
     }
     (async function getTokens() {
       let isMounted = true;
-
-      console.log('getTokens');
 
       if (!currentContract?.address) {
         return () => {

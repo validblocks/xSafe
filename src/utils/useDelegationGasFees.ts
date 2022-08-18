@@ -24,7 +24,6 @@ export default function useDelegationGasFees() {
     async function fetchGasFees() {
       const gasFees = await networkProvider2.doGetGeneric('constants');
 
-      console.log({ gasFees });
       setGasFees(gasFees);
     }
     fetchGasFees();
