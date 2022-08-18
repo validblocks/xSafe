@@ -9,6 +9,8 @@ import { Address } from '@elrondnetwork/erdjs/out';
 import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { useQueryClient } from 'react-query';
 import useNft from 'src/utils/useNft';
+import { SearchedNFT } from 'src/components/Theme/StyledComponents';
+import { Typography } from '@mui/material';
 
 interface ProposeSendNftType {
   handleChange: (proposal: MultisigSendNft) => void;
@@ -135,6 +137,13 @@ const ProposeSendNft = ({
           handleBlur={formik.handleBlur}
         />
       </div>
+      <SearchedNFT>
+        <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>NFT name:</Typography>
+        <div>
+          <img src={searchedNft.url} alt="" width={40} height={40} className="rounded" />
+          <span className="nftName">{searchedNft.name}</span>
+        </div>
+      </SearchedNFT>
     </div>
   );
 };
