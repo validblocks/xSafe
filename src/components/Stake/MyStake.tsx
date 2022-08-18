@@ -9,19 +9,28 @@ import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { useEffect, useState } from 'react';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { IDelegation, IdentityWithColumns, IUndelegatedFunds } from 'src/types/staking';
-import { ApiProvider, Balance } from '@elrondnetwork/erdjs';
+import { Balance, ProxyProvider } from '@elrondnetwork/erdjs';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import { setActiveDelegationRows } from 'src/redux/slices/accountSlice';
+import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
 import { MainButton } from '../Theme/StyledComponents';
 import ActiveDelegationsTable from './ActiveDelegationsTable';
 
-const proxy = new ApiProvider('https://devnet-delegation-api.elrond.com');
+export class CustomNetworkProvider extends ApiNetworkProvider {
+  async getDelegations(address: string) {
+    return this.doGetGeneric(`accounts/${address}/delegations?forceRefresh=true`);
+  }
+}
+
+const customNetworkProvider = new CustomNetworkProvider('https://devnet-delegation-api.elrond.com');
+
+const _proxy = new ProxyProvider('https://devnet-delegation-api.elrond.com', { timeout: 5000 });
 
 const MyStake = () => {
   const dispatch = useDispatch();
@@ -47,11 +56,8 @@ const MyStake = () => {
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    proxy
-      .doGetGeneric(
-        `accounts/${currentContract.address}/delegations?forceRefresh=true`, (resp) => resp);
-
-  fetchDelegations();
+    customNetworkProvider
+      .getDelegations(currentContract.address);
 
   const {
     data: fetchedDelegations,
