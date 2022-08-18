@@ -49,32 +49,24 @@ function TotalBalance() {
     },
     [egldPrice, tokenPrices],
   );
-  const fetchTokenPhotoUrl = useCallback(async (tokenIdentifier: string) => {
-    if (tokenIdentifier === 'EGLD') return '';
-
-    const { data } = await axios.get(
-      `${network.apiAddress}/tokens/${tokenIdentifier}`,
-    );
-
-    return data.assets.pngUrl;
-  }, []);
-
-  const getBalances = useCallback(async () => {
-    const getEgldBalancePromise = proxy.getAccount(new Address(currentContract?.address));
-    const getAllOtherTokensPromise = axios.get(
-      `${network.apiAddress}/accounts/${currentContract?.address}/tokens`,
-    );
-
-    const [{ balance: egldBalance }, { data: otherTokens }] =
-      await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
-
-    return {
-      egldBalance,
-      otherTokens,
-    };
-  }, [currentContract, proxy]);
 
   const getAllTokensAndEgldBalance = useCallback(async (): Promise<{ allTokens: Token[], egldBalance: any }> => {
+    const getBalances = async () => {
+      const getEgldBalancePromise = proxy.getAccount(new Address(currentContract?.address));
+
+      const getAllOtherTokensPromise = axios.get(
+        `${network.apiAddress}/accounts/${currentContract?.address}/tokens`,
+      );
+
+      const [{ balance: egldBalance }, { data: otherTokens }] =
+      await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
+
+      return {
+        egldBalance,
+        otherTokens,
+      };
+    };
+
     const { egldBalance, otherTokens } = await getBalances();
     // eslint-disable-next-line consistent-return
     const allTokens = [
@@ -83,10 +75,21 @@ function TotalBalance() {
     ];
 
     return { allTokens, egldBalance };
-  }, [getBalances]);
+  }, [currentContract?.address, proxy]);
 
   const getTokensWithPrices = useCallback(async (allTokens: any[]) => {
     const tokensWithPrices = [];
+
+    const fetchTokenPhotoUrl = async (tokenIdentifier: string) => {
+      if (tokenIdentifier === 'EGLD') return '';
+
+      console.log('fetchTokenPhotoUrl', tokenIdentifier);
+      const { data } = await axios.get(
+        `${network.apiAddress}/tokens/${tokenIdentifier}`,
+      );
+
+      return data.assets.pngUrl;
+    };
 
     for (const [idx, token] of Object.entries(allTokens)) {
       const currentTokenPrice = getTokenPrice(token.identifier);
@@ -117,7 +120,7 @@ function TotalBalance() {
       });
     }
     return tokensWithPrices;
-  }, [fetchTokenPhotoUrl, getTokenPrice]);
+  }, [getTokenPrice]);
 
   useEffect(() => {
     let isMounted = true;
@@ -129,6 +132,8 @@ function TotalBalance() {
     }
     (async function getTokens() {
       let isMounted = true;
+
+      console.log('getTokens');
 
       if (!currentContract?.address) {
         return () => {
@@ -187,7 +192,7 @@ function TotalBalance() {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return () => { isMounted = false; };
-  }, [currentContract?.address, address, getAllTokensAndEgldBalance, getTokensWithPrices, dispatch]);
+  }, [currentContract?.address, address]);
 
   const totalValue = useCallback(() => {
     const arrayOfUsdValues: number[] = [];

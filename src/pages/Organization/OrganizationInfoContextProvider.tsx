@@ -31,13 +31,12 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const [boardMembers, setBoardMembers] = useState([] as Address[]);
   const [proposers, setProposers] = useState([] as Address[]);
   const [isBoardMember, setIsBoardMember] = useState(false);
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   const { address } = useGetAccountInfo();
 
   const { data: tokenPrices }: { data: TokenWithPrice[] | undefined } =
     useFetch(`${network.apiAddress}/mex/tokens`);
-
-  const currentContract = useSelector(currentMultisigContractSelector);
 
   const allMemberAddresses = useMemo(
     () =>
@@ -88,7 +87,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
     return () => {
       isMounted = false;
     };
-  }, [currentContract, currentContract?.address]);
+  }, [address, currentContract, currentContract?.address]);
 
   useEffect(() => {
     let isMounted = true;
