@@ -122,6 +122,7 @@ export const FormSearchInput = styled(Box)`
     margin-top: 2px;
   };
 `;
+<<<<<<< HEAD
 
 export const InputsContainer = styled(Box)`
   margin: .67rem 0 1.93rem;
