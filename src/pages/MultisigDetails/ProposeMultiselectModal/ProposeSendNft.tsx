@@ -9,7 +9,6 @@ import { Address } from '@elrondnetwork/erdjs/out';
 import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { useQueryClient } from 'react-query';
 import useNft from 'src/utils/useNft';
-import { SearchedNFT } from 'src/components/Theme/StyledComponents';
 import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
 import { Box, Typography } from '@mui/material';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
@@ -110,13 +109,11 @@ const ProposeSendNft = ({
   return (
     <Box>
       <Box sx={{ p: '1rem 2.5rem 0.9rem' }}>
-        <SearchedNFT>
-          <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>NFT name:</Typography>
-          <div>
-            <img src={searchedNft.url} alt="" width={40} height={40} className="rounded" />
-            <span className="nftName">{searchedNft.name}</span>
-          </div>
-        </SearchedNFT>
+        <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>NFT name:</Typography>
+        <div>
+          <img src={searchedNft.url} alt="" width={40} height={40} className="rounded" />
+          <span className="nftName">{searchedNft.name}</span>
+        </div>
         <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>
           Sending from:
         </Typography>
