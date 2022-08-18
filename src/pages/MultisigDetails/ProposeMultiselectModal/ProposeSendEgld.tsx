@@ -13,7 +13,7 @@ import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/typ
 import { StateType } from 'src/redux/slices/accountSlice';
 import { Box, MenuItem, TextField } from '@mui/material';
 import { InputsContainer } from 'src/components/Theme/StyledComponents';
-import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
+import TokenPresentationWithPriceForSendEGLD from 'src/components/Utils/TokenPresentationWithPriceForSendEGLD';
 
 interface ProposeSendEgldType {
   handleChange: (proposal: MultisigSendEgld) => void;
@@ -178,7 +178,7 @@ const ProposeSendEgld = ({
             key={tokenTableRows[0].identifier}
             value={tokenTableRows[0].identifier}
           >
-            <TokenPresentationWithPrice
+            <TokenPresentationWithPriceForSendEGLD
               identifier={tokenTableRows[0].identifier as string}
             />
           </MenuItem>

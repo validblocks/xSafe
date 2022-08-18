@@ -276,7 +276,6 @@ export const InputsContainer = styled(Box)`
   };
   & li {
     position: absolute;
-    width: 200px;
     top: 0;
     right: 0;
     border: solid 1px rgba(76, 47, 252, 0.23);

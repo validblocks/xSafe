@@ -63,7 +63,9 @@ const TokenPresentationWithPrice = ({
           )}
         </Box>
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+      <Box
+        sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}
+      >
         {withTokenAmount && (
         <Box>
           {tokenAmount}
