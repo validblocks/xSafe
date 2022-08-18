@@ -82,6 +82,7 @@ export const AccountButton = styled.div`
     background-color: red;
   }
 `;
+<<<<<<< HEAD
 
 export const InputsContainer = styled(Box)`
   margin: .67rem 0 1.93rem;
