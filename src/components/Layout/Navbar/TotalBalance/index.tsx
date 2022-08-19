@@ -13,7 +13,6 @@ import {
   currencyConvertedSelector,
   selectedCurrencySelector,
 } from 'src/redux/selectors/currencySelector';
-import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setValueInUsd } from 'src/redux/slices/currencySlice';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
@@ -32,23 +31,20 @@ function TotalBalance() {
   const dispatch = useDispatch();
   const proxy = getNetworkProxy();
   const { address } = useGetAccountInfo();
-  const egldPrice = useSelector(priceSelector);
   const { tokenPrices } = useOrganizationInfoContext();
   const [totalUsdValue, setTotalUsdValue] = useState(0);
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
 
-  const getTokenPrice = useCallback(
-    (tokenIdentifier: string) => {
+  const getTokenPrice =
+    useCallback((tokenIdentifier: string) => {
       if (!tokenIdentifier) return 0;
 
-      return tokenPrices.find(
+      return tokenPrices?.find(
         (tokenWithPrice: TokenWithPrice) =>
           tokenWithPrice.id === tokenIdentifier,
-      )?.price ?? egldPrice;
-    },
-    [egldPrice, tokenPrices],
-  );
+      )?.price ?? 0;
+    }, [tokenPrices]);
 
   const getAllTokensAndEgldBalance = useCallback(async (): Promise<{ allTokens: Token[], egldBalance: any }> => {
     const getBalances = async () => {
@@ -189,7 +185,7 @@ function TotalBalance() {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return () => { isMounted = false; };
-  }, [currentContract?.address, address]);
+  }, [currentContract?.address, address, getAllTokensAndEgldBalance, getTokensWithPrices, dispatch]);
 
   const totalValue = useCallback(() => {
     const arrayOfUsdValues: number[] = [];
@@ -247,7 +243,7 @@ function TotalBalance() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useCurrency(totalUsdValue, getCurrency, dispatch);
-  }, [totalUsdValue]);
+  }, [dispatch, getCurrency, totalUsdValue]);
 
   return (
     <Box

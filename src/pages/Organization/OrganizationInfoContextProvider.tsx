@@ -9,8 +9,11 @@ import {
   queryQuorumCount,
   queryUserRole,
 } from 'src/contracts/MultisigContract';
-import useFetch from 'src/utils/useFetch';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { OrganizationInfoContextType, TokenWithPrice } from './types';
 
 type Props = {
@@ -35,8 +38,18 @@ function OrganizationInfoContextProvider({ children }: Props) {
 
   const { address } = useGetAccountInfo();
 
-  const { data: tokenPrices }: { data: TokenWithPrice[] | undefined } =
-    useFetch(`${network.apiAddress}/mex/tokens`);
+  const {
+    data: tokenPrices,
+  } = useQuery(
+    [
+      QueryKeys.TOKEN_PRICES,
+    ],
+    () => axios.get(`${network.apiAddress}/mex/tokens`).then((res) => res.data),
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+      keepPreviousData: true,
+    },
+  );
 
   const allMemberAddresses = useMemo(
     () =>

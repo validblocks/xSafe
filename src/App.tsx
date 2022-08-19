@@ -67,8 +67,8 @@ export const App = () => (
     <CssBaseline />
     <CustomThemeProvider>
       <DappProvider environment="devnet">
-        <OrganizationInfoContextProvider>
-          <QueryClientProvider client={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          <OrganizationInfoContextProvider>
             <>
               <DappUI.SignTransactionsModals />
               <DappUI.TransactionsToastList />
@@ -90,8 +90,8 @@ export const App = () => (
                 </PersistGate>
               </Router>
             </>
-          </QueryClientProvider>
-        </OrganizationInfoContextProvider>
+          </OrganizationInfoContextProvider>
+        </QueryClientProvider>
       </DappProvider>
     </CustomThemeProvider>
   </ReduxProvider>
