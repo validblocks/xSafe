@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
@@ -143,13 +143,6 @@ const StakingFormStepTwo = () => {
     setButtonWidth(buttonRef?.current?.offsetWidth);
   }, []);
 
-  const autocompleteMaxAmount = useCallback(() => {
-    if (amountError) {
-      return;
-    }
-    formik.setFieldValue('amount', egldBalanceNumber);
-  }, [amountError, egldBalanceNumber, formik]);
-
   const buttonStyle = useMemo(() => ({
     display: 'flex',
     alignItems: 'center',
@@ -180,9 +173,9 @@ const StakingFormStepTwo = () => {
           amountError={amountError}
           egldBalanceString={egldBalanceString}
           label={`${t('Amount')}`}
-          formikChange={formik.handleChange}
-          formikBlur={formik.handleBlur}
-          onClick={autocompleteMaxAmount}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          formik={formik}
         />
       </Box>
     </Box>

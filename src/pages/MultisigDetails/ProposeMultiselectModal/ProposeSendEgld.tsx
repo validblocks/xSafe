@@ -145,8 +145,6 @@ const ProposeSendEgld = ({
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;
 
-  const test = () => console.log('max clicked');
-
   return (
     <Box sx={{ p: '1.93rem 2.5rem .3rem' }}>
       <FormikInputField
@@ -163,9 +161,9 @@ const ProposeSendEgld = ({
           amountError={amountError}
           egldBalanceString={egldBalanceString}
           label={`${t('Amount')}`}
-          formikChange={formik.handleChange}
-          formikBlur={formik.handleBlur}
-          onClick={test}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          formik={formik}
         />
       </Box>
       <Box>

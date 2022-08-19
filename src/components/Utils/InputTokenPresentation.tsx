@@ -1,19 +1,30 @@
 import { MenuItem } from '@mui/material';
 import Form from 'react-bootstrap/Form';
+import { useCallback } from 'react';
 import { InputsContainer, MaxSendEGLDButton } from '../Theme/StyledComponents';
 import { Text } from '../StyledComponents/StyledComponents';
 import TokenPresentationWithPrice from './TokenPresentationWithPrice';
 
 const InputTokenPresentation = ({
-  amount, amountError, egldBalanceString, label, formikChange, formikBlur, onClick }:
-  { amount: any, amountError: any, egldBalanceString: any, label: any, formikChange: any, formikBlur: any, onClick: any }) => (
+  amount, amountError, egldBalanceString, label, onChange, onBlur, formik }:
+  { amount: any, amountError: any, egldBalanceString: any, label: any, onChange: any, onBlur: any, formik: any }) => {
+  const egldBalanceNumber = Number(egldBalanceString);
+
+  const autocompleteMaxAmount = useCallback(() => {
+    if (amountError) {
+      return;
+    }
+    formik.setFieldValue('amount', egldBalanceNumber);
+  }, [amountError, egldBalanceNumber, formik]);
+
+  return (
     <InputsContainer>
       <Form.Control
         id={amount}
         name="amount"
         isInvalid={amountError != null}
-        onChange={formikChange}
-        onBlur={formikBlur}
+        onChange={onChange}
+        onBlur={onBlur}
         value={amount}
       />
 
@@ -21,7 +32,7 @@ const InputTokenPresentation = ({
         {label}
       </label>
 
-      <MaxSendEGLDButton onClick={onClick}>
+      <MaxSendEGLDButton onClick={autocompleteMaxAmount}>
         Max
       </MaxSendEGLDButton>
 
@@ -51,6 +62,7 @@ const InputTokenPresentation = ({
       </Form.Control.Feedback>
       )}
     </InputsContainer>
-);
+  );
+};
 
 export default InputTokenPresentation;
