@@ -1,22 +1,17 @@
 import { useEffect, useMemo } from 'react';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
 import { FormikProps, useFormik } from 'formik';
-import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
-import { organizationTokenByIdentifierSelector, tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
+import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accountSelector';
 import { FormikInputField } from 'src/helpers/formikFields';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
-import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
+import { OrganizationToken } from 'src/pages/Organization/types';
 import { StateType } from 'src/redux/slices/accountSlice';
-import { Box, MenuItem, TextField } from '@mui/material';
-import { InputsContainer, MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
-import TokenPresentationWithPriceForSendEGLD from 'src/components/Utils/TokenPresentationWithPriceForSendEGLD';
-
-// import axios from 'axios';
-// import { network } from '../../../config';
+import { Box, TextField } from '@mui/material';
+import InputTokenPresentation from 'src/components/Utils/InputTokenPresentation';
 
 interface ProposeSendEgldType {
   handleChange: (proposal: MultisigSendEgld) => void;
@@ -149,21 +144,8 @@ const ProposeSendEgld = ({
 
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;
-  const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
 
-  // const fetchConstants = useCallback(async () => {
-  //   const { data } = await axios.get(
-  //     `${network.apiAddress}/constants`,
-  //   );
-
-  //   return data.gasLimit;
-  // }, []);
-
-  // function calculateGasFee(transferAmount: float) {
-  //   const gasFees = fetchConstants();
-  //   return gasFee;
-  // }
-  // console.log({ amountError });
+  const test = () => console.log('max clicked');
 
   return (
     <Box sx={{ p: '1.93rem 2.5rem .3rem' }}>
@@ -176,41 +158,15 @@ const ProposeSendEgld = ({
         handleBlur={formik.handleBlur}
       />
       <Box sx={{ mt: '2.1rem !important' }}>
-        <InputsContainer>
-          <Form.Control
-            id={amount}
-            name="amount"
-            isInvalid={amountError != null}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={amount}
-          />
-
-          <label htmlFor={amount}>
-            {`${t('Amount')}`}
-          </label>
-
-          <MaxSendEGLDButton>
-            Max
-          </MaxSendEGLDButton>
-
-          <MenuItem
-            key={tokenTableRows[0].identifier}
-            value={tokenTableRows[0].identifier}
-            sx={{ p: '.25rem .4rem' }}
-          >
-            <TokenPresentationWithPriceForSendEGLD
-              identifier={tokenTableRows[0].identifier as string}
-            />
-          </MenuItem>
-
-          {amountError != null && (
-          <Form.Control.Feedback type="invalid">
-            {amountError}
-          </Form.Control.Feedback>
-          )}
-          <span>{`Balance: ${egldBalanceString} EGLD`}</span>
-        </InputsContainer>
+        <InputTokenPresentation
+          amount={amount}
+          amountError={amountError}
+          egldBalanceString={egldBalanceString}
+          label={`${t('Amount')}`}
+          formikChange={formik.handleChange}
+          formikBlur={formik.handleBlur}
+          onClick={test}
+        />
       </Box>
       <Box>
         <TextField

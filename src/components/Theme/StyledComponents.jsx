@@ -187,9 +187,9 @@ export const InputsContainer = styled(Box)`
     border: solid 2px ${(props) => props.theme.palette.primary.main};
     box-shadow: none;
   };
-  & span {
+  & h6.availableAmount {
     position: absolute;
-    bottom: -17px;
+    bottom: -20px;
     left: 4px;
     display: table;
     font-size: 12px;
@@ -197,6 +197,7 @@ export const InputsContainer = styled(Box)`
   };
   & li {
     position: absolute;
+    width: 103.56px;
     height: 56px;
     top: 0;
     right: 0;
@@ -207,6 +208,19 @@ export const InputsContainer = styled(Box)`
     z-index: -1;
     &:hover {
       background-color: transparent;
+    }
+    & svg {
+      width: 26px;
+      height: 26px;
+      margin: 0;
+    }
+    & > div.MuiBox-root > div.MuiBox-root:nth-child(1) {
+      padding: .6rem;
+      margin: 0;
+      margin-right: .55rem;
+      background-color: rgba(76, 47, 252, 0.1);
+      border: solid 1px #ddd;
+      border-radius: 50%;
     }
   };
   & div.invalid-feedback {

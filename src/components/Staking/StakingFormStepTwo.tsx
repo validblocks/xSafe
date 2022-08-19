@@ -15,8 +15,8 @@ import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import ProviderPresentation from './ProviderPresentation';
 import { useMultistepFormContext } from '../Utils/MultistepForm';
 import { ChangeStepButton, InputsContainer, MaxSendEGLDButton } from '../Theme/StyledComponents';
-import TokenPresentationWithPriceForSendEGLD from '../Utils/TokenPresentationWithPriceForSendEGLD';
 import { Text } from '../StyledComponents/StyledComponents';
+import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
 
 interface IFormValues {
   amount: string;
@@ -176,7 +176,7 @@ const StakingFormStepTwo = () => {
           </ChangeStepButton>
         </Box>
       </Box>
-      <Box>
+      <Box sx={{ mb: '.35rem !important' }}>
         <InputsContainer sx={{ marginBottom: '0.35rem !important' }}>
           <Form.Control
             id={amount}
@@ -200,12 +200,13 @@ const StakingFormStepTwo = () => {
             value={'EGLD'}
             sx={{ p: '.25rem .4rem' }}
           >
-            <TokenPresentationWithPriceForSendEGLD
+            <TokenPresentationWithPrice
               withTokenAmount={false}
               withTokenValue={false}
               identifier={'EGLD'}
             />
           </MenuItem>
+
           <Text
             fontSize={13}
             variant="subtitle2"

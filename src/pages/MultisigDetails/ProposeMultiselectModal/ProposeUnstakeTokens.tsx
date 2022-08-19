@@ -23,7 +23,7 @@ import { delegationFunctionNames } from 'src/types/staking/delegationFunctionNam
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { useEffectDebugger } from 'src/utils/useEffectDebugger';
 import { InputsContainer, MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
-import TokenPresentationWithPriceForSendEGLD from 'src/components/Utils/TokenPresentationWithPriceForSendEGLD';
+import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 
 interface ProposeUnstakeTokensType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -267,7 +267,7 @@ const ProposeUnstakeTokens = ({
           value={'EGLD'}
           sx={{ p: '.25rem .4rem' }}
         >
-          <TokenPresentationWithPriceForSendEGLD
+          <TokenPresentationWithPrice
             withTokenAmount={false}
             withTokenValue={false}
             identifier={'EGLD'}
