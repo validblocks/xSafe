@@ -1,10 +1,9 @@
-import { Box, MenuItem } from '@mui/material';
+import { Box } from '@mui/material';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
-import Form from 'react-bootstrap/Form';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
@@ -14,9 +13,8 @@ import { OrganizationToken } from 'src/pages/Organization/types';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import ProviderPresentation from './ProviderPresentation';
 import { useMultistepFormContext } from '../Utils/MultistepForm';
-import { ChangeStepButton, InputsContainer, MaxSendEGLDButton } from '../Theme/StyledComponents';
-import { Text } from '../StyledComponents/StyledComponents';
-import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
+import { ChangeStepButton } from '../Theme/StyledComponents';
+import InputTokenPresentation from '../Utils/InputTokenPresentation';
 
 interface IFormValues {
   amount: string;
@@ -177,49 +175,15 @@ const StakingFormStepTwo = () => {
         </Box>
       </Box>
       <Box sx={{ mb: '.35rem !important' }}>
-        <InputsContainer sx={{ marginBottom: '0.35rem !important' }}>
-          <Form.Control
-            id={amount}
-            name="amount"
-            isInvalid={amountError != null}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={amount}
-          />
-
-          <label htmlFor={amount}>
-            {`${t('Amount')}`}
-          </label>
-
-          <MaxSendEGLDButton onClick={autocompleteMaxAmount}>
-            Max
-          </MaxSendEGLDButton>
-
-          <MenuItem
-            key={'EGLD'}
-            value={'EGLD'}
-            sx={{ p: '.25rem .4rem' }}
-          >
-            <TokenPresentationWithPrice
-              withTokenAmount={false}
-              withTokenValue={false}
-              identifier={'EGLD'}
-            />
-          </MenuItem>
-
-          <Text
-            fontSize={13}
-            variant="subtitle2"
-            sx={{ marginTop: '.35rem !important' }}
-          >{`${t('Available')}: ${egldBalanceString} EGLD`}
-          </Text>
-
-          {amountError != null && (
-          <Form.Control.Feedback type="invalid">
-            {amountError}
-          </Form.Control.Feedback>
-          )}
-        </InputsContainer>
+        <InputTokenPresentation
+          amount={amount}
+          amountError={amountError}
+          egldBalanceString={egldBalanceString}
+          label={`${t('Amount')}`}
+          formikChange={formik.handleChange}
+          formikBlur={formik.handleBlur}
+          onClick={autocompleteMaxAmount}
+        />
       </Box>
     </Box>
   );
