@@ -3,7 +3,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import { makeStyles } from '@mui/styles';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { TransactionAccordion } from 'src/components/StyledComponents/transactions';
 import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
 import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItemsPerPage';
@@ -12,6 +12,11 @@ import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationI
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import {
+  transactionServices,
+} from '@elrondnetwork/dapp-core';
+import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { useSelector } from 'react-redux';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
@@ -43,6 +48,8 @@ const TransactionQueue = () => {
     boardMembersState: [boardMembers],
   } = useOrganizationInfoContext();
 
+  const queryClient = useQueryClient();
+
   const {
     data: allPendingActions,
     isLoading,
@@ -62,6 +69,15 @@ const TransactionQueue = () => {
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
+
+  const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
+
+  transactionServices.useTrackTransactionStatus({
+    transactionId: currentMultisigTransactionId,
+    onSuccess: () => {
+      queryClient.invalidateQueries(QueryKeys.ALL_PENDING_ACTIONS);
+    },
+  });
 
   if (isLoading || isFetching) {
     return <LoadingDataIndicator dataName="action" />;
