@@ -53,6 +53,8 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
   const currentContract = useSelector(currentMultisigContractSelector);
   const tokenTableRows = useSelector(tokenTableRowsSelector);
 
+  console.log('tokenTableRows', tokenTableRows);
+
   const getTableActions = useCallback((params: GridRenderCellParams) => (!hasStakingActions ? [
     <AssetActionButton
       key="0"
@@ -112,7 +114,7 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
               />
               )}
               <p className="mb-0">
-                {params.value.tokenIdentifier.split('-')[0] ?? 'unknown'}
+                {params.value.tokenIdentifier?.split('-')[0] ?? 'unknown'}
               </p>
             </div>
           ),
@@ -156,7 +158,7 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
         },
       ];
     },
-    [tokenTableRows],
+    [getTableActions, tokenTableRows],
   );
 
   return (

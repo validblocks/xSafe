@@ -4,7 +4,7 @@ import { usePrevious } from './usePrevious';
 export const useEffectDebugger = (
   effectHook: any,
   dependencies: any,
-  dependencyNames = [],
+  dependencyNames: string[] = [],
 ) => {
   const previousDeps = usePrevious(dependencies, []);
 

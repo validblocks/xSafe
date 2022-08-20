@@ -1,13 +1,10 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { getNetworkProxy, useGetAccountInfo } from '@elrondnetwork/dapp-core';
-import { Address, Balance, Token } from '@elrondnetwork/erdjs/out';
+import { Address, Balance } from '@elrondnetwork/erdjs/out';
 import { Box } from '@mui/material';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { NewTransactionButton } from 'src/components/Theme/StyledComponents';
-import { network, decimals, denomination } from 'src/config';
-import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { OrganizationToken, TokenTableRowItem, TokenWithPrice } from 'src/pages/Organization/types';
+import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
 import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import {
   currencyConvertedSelector,
@@ -22,129 +19,147 @@ import Divider from '@mui/material/Divider';
 import { setMultisigBalance, setOrganizationTokens, setTokenTableRows, StateType } from 'src/redux/slices/accountSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { operations } from '@elrondnetwork/dapp-utils';
+import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { useEffectDebugger } from 'src/utils/useEffectDebugger';
+import { useQuery } from 'react-query';
+import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import { CenteredText } from '../navbar-style';
 
-const identifierWithoutUniqueHash = (identifier: string) => identifier.split('-')[0] ?? '';
+const identifierWithoutUniqueHash = (identifier: string) => identifier?.split('-')[0] ?? '';
 export const DECIMAL_POINTS_UI = 3;
 
 function TotalBalance() {
   const dispatch = useDispatch();
   const proxy = getNetworkProxy();
   const { address } = useGetAccountInfo();
-  const { tokenPrices } = useOrganizationInfoContext();
   const [totalUsdValue, setTotalUsdValue] = useState(0);
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
 
-  const getTokenPrice =
-    useCallback((tokenIdentifier: string) => {
-      if (!tokenIdentifier) return 0;
+  const {
+    data: addressTokens,
+  } = useQuery(
+    [
+      QueryKeys.ADDRESS_TOKENS,
+    ],
+    () => ElrondApiProvider.getAddressTokens(currentContract?.address),
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+      keepPreviousData: true,
+      refetchOnMount: false,
+    },
+  );
 
-      return tokenPrices?.find(
-        (tokenWithPrice: TokenWithPrice) =>
-          tokenWithPrice.id === tokenIdentifier,
-      )?.price ?? 0;
-    }, [tokenPrices]);
+  const {
+    data: egldBalanceDetails,
+  } = useQuery(
+    [
+      'EGLD_TOKENS',
+    ],
+    () => proxy.getAccount(new Address(currentContract?.address)),
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+      keepPreviousData: true,
+      refetchOnMount: false,
+      select: (data) => data.balance,
+    },
+  );
 
-  const getAllTokensAndEgldBalance = useCallback(async (): Promise<{ allTokens: Token[], egldBalance: any }> => {
-    const getBalances = async () => {
-      const getEgldBalancePromise = proxy.getAccount(new Address(currentContract?.address));
+  // const {
+  //   data: addressTokensWithDetails,
+  // } = useQuery(
+  //   [
+  //     'QueryKeys.ADDRESS_TOKENS_DETAILS',
+  //   ],
+  //   () => ElrondApiProvider.getTokenDetailsForIdentifiers(
+  //     addressTokens.map((token: Token) => token.identifier),
+  //   ),
+  //   {
+  //     ...USE_QUERY_DEFAULT_CONFIG,
+  //     keepPreviousData: true,
+  //     refetchOnMount: false,
+  //     enabled: !!addressTokens,
+  //   },
+  // );
 
-      const getAllOtherTokensPromise = axios.get(
-        `${network.apiAddress}/accounts/${currentContract?.address}/tokens`,
-      );
+  console.log({ addressTokens });
+  console.log({ egldBalanceDetails });
 
-      const [{ balance: egldBalance }, { data: otherTokens }] =
-      await Promise.all([getEgldBalancePromise, getAllOtherTokensPromise]);
+  const egldPrice = useSelector(priceSelector);
 
-      return {
-        egldBalance,
-        otherTokens,
-      };
-    };
+  const newTokensWithPrices = useMemo(() => {
+    if (!addressTokens || !egldBalanceDetails) { return null; }
+    const allTokens = addressTokens?.map((token: any) => ({
+      ...token,
+      id: token.identifier,
+      presentation: {
+        tokenIdentifier: token.identifier,
+        photoUrl: token.assets?.svgUrl,
+      },
+      balanceDetails: {
+        photoUrl: token.assets?.svgUrl,
+        identifier: identifierWithoutUniqueHash(token.identifier),
+        amount: token.balance as string,
+        decimals: token.decimals as number,
+      },
+      value: {
+        tokenPrice: parseFloat(token.price.toString()),
+        decimals: token.decimals as number,
+        amount: token.balance as string,
+      },
+    }));
 
-    const { egldBalance, otherTokens } = await getBalances();
-    // eslint-disable-next-line consistent-return
-    const allTokens = [
-      { ...egldBalance.token, balance: egldBalance.value.toString() },
-      ...otherTokens,
-    ];
+    allTokens.push({
+      id: 'EGLD',
+      tokenIdentifier: egldBalanceDetails?.token.identifier ?? 'EGLD',
+      ...egldBalanceDetails?.token,
+      balance: egldBalanceDetails?.value.toString(),
+      presentation: {
+        tokenIdentifier: egldBalanceDetails?.token.identifier,
+        photoUrl: '',
+      },
+      balanceDetails: {
+        identifier: 'EGLD',
+        amount: egldBalanceDetails?.token.balance as string,
+        decimals: egldBalanceDetails?.token.decimals as number,
+      },
+      value: {
+        tokenPrice: egldPrice,
+        decimals: egldBalanceDetails?.token.decimals as number,
+        amount: egldBalanceDetails?.token.balance as string,
+      },
+    });
 
-    return { allTokens, egldBalance };
-  }, [currentContract?.address, proxy]);
+    return allTokens;
+  }, [addressTokens, egldBalanceDetails, egldPrice]);
 
-  const getTokensWithPrices = useCallback(async (allTokens: any[]) => {
-    const tokensWithPrices = [];
+  console.log('totalBalance');
 
-    const fetchTokenPhotoUrl = async (tokenIdentifier: string) => {
-      if (tokenIdentifier === 'EGLD') return '';
-
-      const { data } = await axios.get(
-        `${network.apiAddress}/tokens/${tokenIdentifier}`,
-      );
-
-      return data.assets.pngUrl;
-    };
-
-    for (const [idx, token] of Object.entries(allTokens)) {
-      const currentTokenPrice = getTokenPrice(token.identifier);
-
-      delete token.owner;
-
-      // eslint-disable-next-line no-await-in-loop
-      const photoUrl = await fetchTokenPhotoUrl(token.identifier);
-
-      tokensWithPrices.push({
-        ...token,
-        id: idx,
-        presentation: {
-          tokenIdentifier: token.identifier,
-          photoUrl,
-        },
-        balanceDetails: {
-          photoUrl,
-          identifier: identifierWithoutUniqueHash(token.identifier),
-          amount: token.balance as string,
-          decimals: token.decimals as number,
-        },
-        value: {
-          tokenPrice: currentTokenPrice,
-          decimals: token.decimals as number,
-          amount: token.balance as string,
-        },
-      });
-    }
-    return tokensWithPrices;
-  }, [getTokenPrice]);
-
-  useEffect(() => {
+  useEffectDebugger(() => {
     let isMounted = true;
-    if (!address || !currentContract?.address) {
+    if (
+      !address
+      || !currentContract?.address
+      || !newTokensWithPrices
+    ) {
       return () => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         isMounted = false;
       };
     }
+
     (async function getTokens() {
       let isMounted = true;
 
-      if (!currentContract?.address) {
+      if (!currentContract?.address || !isMounted) {
         return () => {
           isMounted = false;
         };
       }
 
       try {
-        const { egldBalance, allTokens } = await getAllTokensAndEgldBalance();
-        const tokensWithPrices = await getTokensWithPrices(allTokens);
-
-        if (!isMounted) {
-          return () => {
-            isMounted = false;
-          };
-        }
-
-        const organizationTokens: OrganizationToken[] = tokensWithPrices.map(({
+        const organizationTokens: OrganizationToken[] = newTokensWithPrices.map(({
           identifier, balanceDetails, value }: TokenTableRowItem) => {
           const balance = Balance.fromString(value?.amount as string).toString();
 
@@ -156,11 +171,8 @@ function TotalBalance() {
           });
 
           const denominatedAmountForCalcs = Number(amountAfterDenomination.replaceAll(',', ''));
-
           const priceAsNumber = value?.tokenPrice as number;
-
           const totalUsdValue = Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(2));
-
           const tokenPrice = parseFloat(Number(priceAsNumber).toPrecision(4));
 
           return ({
@@ -173,8 +185,10 @@ function TotalBalance() {
           });
         });
 
-        dispatch(setMultisigBalance(JSON.stringify(egldBalance)));
-        dispatch(setTokenTableRows(tokensWithPrices));
+        console.log({ newTokensWithPrices });
+
+        dispatch(setMultisigBalance(JSON.stringify(egldBalanceDetails)));
+        dispatch(setTokenTableRows(newTokensWithPrices));
         dispatch(setOrganizationTokens(organizationTokens));
       } catch (error) {
         console.error(error);
@@ -185,52 +199,51 @@ function TotalBalance() {
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return () => { isMounted = false; };
-  }, [currentContract?.address, address, getAllTokensAndEgldBalance, getTokensWithPrices, dispatch]);
+  }, [currentContract?.address, address, dispatch, newTokensWithPrices]);
 
   const totalValue = useCallback(() => {
-    const arrayOfUsdValues: number[] = [];
-    let egldTokenPrice = 0;
-    let egldTokensAmount = 0;
-    if (!tokenTableRows) return;
-    tokenTableRows.forEach((organizationToken: TokenTableRowItem) => {
-      if (organizationToken.valueUsd) {
-        arrayOfUsdValues.push(organizationToken.valueUsd);
-      }
+    if (!newTokensWithPrices) return;
 
-      if (organizationToken.identifier === 'EGLD') {
-        egldTokenPrice = parseFloat(Number(organizationToken.value?.tokenPrice).toString()) ?? 0;
-        egldTokensAmount = Number(organizationToken.value?.amount) ?? 0;
+    // const arrayOfUsdValues: number[] = [];
+    // let egldTokenPrice = 0;
+    // let egldTokensAmount = 0;
+    // tokenTableRows.forEach((organizationToken: TokenTableRowItem) => {
+    //   if (organizationToken.valueUsd) {
+    //     arrayOfUsdValues.push(organizationToken.valueUsd);
+    //   }
 
-        const _denominatedEgldPrice1 = parseFloat(operations.denominate({
-          input: Balance.fromString(egldTokensAmount.toString()).toString(),
-          denomination,
-          decimals,
-          showLastNonZeroDecimal: true,
-        })) * egldTokenPrice;
-        const denominatedEgldPrice = Number(
-          Balance.fromString(egldTokensAmount.toString()).toDenominated(),
-        ) * egldTokenPrice;
-        arrayOfUsdValues.push(Number(denominatedEgldPrice));
-      }
-    });
+    //   if (organizationToken.identifier === 'EGLD') {
+    //     egldTokenPrice = parseFloat(Number(organizationToken.value?.tokenPrice).toString()) ?? 0;
+    //     egldTokensAmount = Number(organizationToken.value?.amount) ?? 0;
 
-    if (arrayOfUsdValues.length > 0) {
-      setTotalUsdValue(
-        arrayOfUsdValues.reduce((x: number, y: number) => x + y),
-      );
-    }
-  }, [tokenTableRows]);
+    //     const denominatedEgldPrice = Number(
+    //       Balance.fromString(egldTokensAmount.toString()).toDenominated(),
+    //     ) * egldTokenPrice;
+    //     arrayOfUsdValues.push(Number(denominatedEgldPrice));
+    //   }
+    // });
 
-  useEffect(() => {
+    const totalAssetsValue = newTokensWithPrices
+      ?.reduce((acc: number, token: TokenTableRowItem) =>
+        acc + (parseFloat(token?.valueUsd?.toString() ?? '0')), 0);
+
+    console.log({ totalAssetsValue });
+    setTotalUsdValue(
+      totalAssetsValue,
+    );
+  }, [newTokensWithPrices]);
+
+  useEffectDebugger(() => {
+    if (!tokenTableRows || !totalValue) return;
     totalValue();
-  }, [tokenTableRows, totalValue]);
+  }, [tokenTableRows, totalValue], ['tokenTableRows', 'totalValue']);
 
-  useEffect(() => {
+  useEffectDebugger(() => {
     dispatch(setValueInUsd(totalUsdValue));
-  }, [dispatch, totalUsdValue]);
+  }, [dispatch, totalUsdValue], ['dispatch', 'totalUsdValue']);
 
   const currencyConverted = useSelector<StateType, number>(currencyConvertedSelector);
-
+  console.log({ currencyConverted });
   const onAddBoardMember = () =>
     dispatch(
       setProposeMultiselectSelectedOption({
@@ -240,10 +253,11 @@ function TotalBalance() {
 
   const getCurrency = useSelector(selectedCurrencySelector);
 
-  useEffect(() => {
+  useEffectDebugger(() => {
+    console.log({ totalUsdValue });
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useCurrency(totalUsdValue, getCurrency, dispatch);
-  }, [dispatch, getCurrency, totalUsdValue]);
+  }, [dispatch, getCurrency, totalUsdValue], ['dispatch', 'getCurrency', 'totalUsdValue']);
 
   return (
     <Box

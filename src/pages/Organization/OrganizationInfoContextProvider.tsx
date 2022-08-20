@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useSelector } from 'react-redux';
-import { network } from 'src/config';
 import {
   queryBoardMemberAddresses,
   queryProposerAddresses,
@@ -10,11 +9,7 @@ import {
   queryUserRole,
 } from 'src/contracts/MultisigContract';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { QueryKeys } from 'src/react-query/queryKeys';
-import { useQuery } from 'react-query';
-import axios from 'axios';
-import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
-import { OrganizationInfoContextType, TokenWithPrice } from './types';
+import { OrganizationInfoContextType } from './types';
 
 type Props = {
   children?: JSX.Element | JSX.Element[];
@@ -37,19 +32,6 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const { address } = useGetAccountInfo();
-
-  const {
-    data: tokenPrices,
-  } = useQuery(
-    [
-      QueryKeys.TOKEN_PRICES,
-    ],
-    () => axios.get(`${network.apiAddress}/mex/tokens`).then((res) => res.data),
-    {
-      ...USE_QUERY_DEFAULT_CONFIG,
-      keepPreviousData: true,
-    },
-  );
 
   const allMemberAddresses = useMemo(
     () =>
@@ -133,11 +115,10 @@ function OrganizationInfoContextProvider({ children }: Props) {
         quorumCountState: [quorumCount, setQuorumCount],
         proposersState: [proposers, setProposers],
         userRole: userRole as number,
-        tokenPrices: tokenPrices as unknown as TokenWithPrice[],
         allMemberAddresses,
         isBoardMemberState: [isBoardMember, setIsBoardMember],
       }),
-      [membersCount, boardMembers, quorumCount, proposers, userRole, tokenPrices, allMemberAddresses, isBoardMember])}
+      [membersCount, boardMembers, quorumCount, proposers, userRole, allMemberAddresses, isBoardMember])}
     >
       {children}
     </OrganizationInfoContext.Provider>

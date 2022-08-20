@@ -40,7 +40,7 @@ const OrganizationsTokensTable = () => {
     }),
   });
   useEffect(() => {
-    // get hero tag
+    // get herotag
     // get addressbook names
     getAddresses().then((ownerAddresses) => {
       Promise.all(
