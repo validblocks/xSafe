@@ -33,7 +33,10 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   const reference = useRef(null);
 
   const handleClickOutside = (e: any) => {
-    if (e.path[0] && reference.current) setOpenedSafeSelect(false);
+    if (e.path[0] && reference.current) {
+      console.log('outside');
+      setOpenedSafeSelect(false);
+    }
   };
 
   useEffect(() => {
