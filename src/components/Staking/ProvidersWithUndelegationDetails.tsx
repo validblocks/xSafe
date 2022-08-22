@@ -171,12 +171,23 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
             <Grid
               container
               sx={{
-                padding: '0.5rem 1.25rem 0.75rem',
+                padding: '0.5rem 1.25rem 0.55rem',
                 backgroundColor: '#F3F6FC',
                 width: '100% !important',
               }}
             >
-              <Grid item xs={7} md={5} maxWidth={'50%'} overflow={'scroll'}>
+              <Grid
+                item
+                xs={7}
+                md={5}
+                maxWidth={'50%'}
+                overflow={'scroll'}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                }}
+              >
                 <ProviderColumn columnData={row.providerColumn} />
               </Grid>
               <Grid
