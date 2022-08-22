@@ -5,11 +5,10 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
-import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accountSelector';
+import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
 import { FormikInputField } from 'src/helpers/formikFields';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { OrganizationToken } from 'src/pages/Organization/types';
-import { StateType } from 'src/redux/slices/accountSlice';
 import { Box, TextField } from '@mui/material';
 import InputTokenPresentation from 'src/components/Utils/InputTokenPresentation';
 
@@ -32,9 +31,9 @@ const ProposeSendEgld = ({
 
   const { t }: { t: any } = useTranslation();
 
-  const organizationEgld = useSelector<StateType, OrganizationToken>(organizationTokenByIdentifierSelector('EGLD'));
-
-  const egldBalanceString = useMemo(() => organizationEgld.tokenAmount, [organizationEgld]);
+  const organizationTokens = useSelector(organizationTokensSelector);
+  const egldBalanceString = organizationTokens
+    ?.find((token: OrganizationToken) => token.identifier === 'EGLD').tokenAmount.replaceAll(',', '') ?? 0;
 
   const egldBalance =
   useMemo(() => parseFloat(egldBalanceString.replaceAll(',', '')), [egldBalanceString]);
