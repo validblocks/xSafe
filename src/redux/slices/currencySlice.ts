@@ -1,14 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SupportedCurrencies } from 'src/utils/supportedCurrencies';
-
-export type IConversionRates = Record<SupportedCurrencies, number>;
 
 export interface StateType {
   currencyConverted: number;
   selectedCurrency: string;
   previousCurrency: string;
   valueInUsd: number;
-  conversionRates: IConversionRates;
 }
 
 const initialState: StateType = {
@@ -16,24 +12,19 @@ const initialState: StateType = {
   selectedCurrency: 'USD',
   previousCurrency: 'USD',
   valueInUsd: 0,
-  conversionRates: {
-    USD: 1,
-    EUR: 1,
-    RON: 1,
-  },
 };
 
 export const currencySlice = createSlice({
   name: 'currencySlice',
   initialState,
   reducers: {
-    setTotalValueConverted(state: StateType, action: any) {
+    setTotalValueConverted(state: StateType, action: PayloadAction<number>) {
       return {
         ...state,
         currencyConverted: action.payload,
       };
     },
-    setSelectedCurrency(state: StateType, action: any) {
+    setSelectedCurrency(state: StateType, action: PayloadAction<string>) {
       return {
         ...state,
         previousCurrency:
@@ -43,23 +34,13 @@ export const currencySlice = createSlice({
         selectedCurrency: action.payload,
       };
     },
-    setValueInUsd(state: StateType, action: any) {
+    setValueInUsd(state: StateType, action: PayloadAction<number>) {
       return { ...state, valueInUsd: action.payload };
-    },
-    setConversionRates(
-      state: StateType,
-      action: PayloadAction<IConversionRates>,
-    ) {
-      return { ...state, conversionRates: action.payload };
     },
   },
 });
 
-export const {
-  setTotalValueConverted,
-  setSelectedCurrency,
-  setValueInUsd,
-  setConversionRates,
-} = currencySlice.actions;
+export const { setTotalValueConverted, setSelectedCurrency, setValueInUsd } =
+  currencySlice.actions;
 
 export default currencySlice.reducer;
