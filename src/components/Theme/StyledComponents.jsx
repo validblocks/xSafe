@@ -214,7 +214,7 @@ export const InputsContainer = styled(Box)`
       height: 26px;
       margin: 0;
     }
-    & > div.MuiBox-root > div.MuiBox-root:nth-child(1) {
+    & > div.MuiBox-root > div.MuiBox-root:nth-of-type(1) {
       padding: .6rem;
       margin: 0;
       margin-right: .55rem;
