@@ -13,7 +13,6 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import { setValueInUsd } from 'src/redux/slices/currencySlice';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
-import useCurrency from 'src/utils/useCurrency';
 import Divider from '@mui/material/Divider';
 import { setMultisigBalance, setOrganizationTokens, setTokenTableRows, StateType } from 'src/redux/slices/accountSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
@@ -218,11 +217,6 @@ function TotalBalance() {
 
   const getCurrency = useSelector(selectedCurrencySelector);
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useCurrency(totalUsdValue, getCurrency, dispatch);
-  }, [dispatch, getCurrency, totalUsdValue]);
 
   return (
     <Box

@@ -1,36 +1,39 @@
-import { SupportedCurrencies } from 'src/utils/supportedCurrencies';
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  conversionRatesSelector,
   previousCurrencySelector,
   selectedCurrencySelector,
 } from 'src/redux/selectors/currencySelector';
+import axios from 'axios';
+import { useQuery } from 'react-query';
+import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import { SupportedCurrencies } from './supportedCurrencies';
 
 export default function useCurrencyConversion(amount: number) {
   const toCurrency = useSelector(selectedCurrencySelector);
   const fromCurrency = useSelector(previousCurrencySelector);
-  const conversionRates = useSelector(conversionRatesSelector);
 
-  const [initialAmount, setInitialAmount] = useState(amount);
-  const [convertedAmount, setConvertedAmount] = useState(amount);
-
-  useEffect(() => {
-    if (toCurrency === SupportedCurrencies.USD) setInitialAmount(amount);
-  }, [amount, toCurrency]);
-
-  useEffect(() => {
-    if (toCurrency === SupportedCurrencies.USD) {
-      setConvertedAmount(amount / (conversionRates[fromCurrency] ?? 1));
-      return;
+  const fetchConversion = useCallback(() => {
+    if (toCurrency === fromCurrency || toCurrency === SupportedCurrencies.USD) {
+      return amount;
     }
+    if (amount !== 0) {
+      return axios
+        .get(
+          `https://api.frankfurter.app/latest?amount=${amount}&from=USD&to=${toCurrency}`,
+        )
+        .then((resp) => resp.data.rates[toCurrency]);
+    }
+    return 0;
+  }, [amount, fromCurrency, toCurrency]);
 
-    const baseAmount =
-      fromCurrency === SupportedCurrencies.USD ? initialAmount : amount;
-    setConvertedAmount(baseAmount * conversionRates[toCurrency]);
-  }, [conversionRates, amount, toCurrency, initialAmount, fromCurrency]);
+  const { data: fetchedConversion } = useQuery(
+    ['FETCHED_CONVERSION', fromCurrency, toCurrency, amount],
+    fetchConversion,
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+    },
+  );
 
-  return toCurrency === SupportedCurrencies.USD
-    ? initialAmount
-    : convertedAmount;
+  return Number(fetchedConversion);
 }
