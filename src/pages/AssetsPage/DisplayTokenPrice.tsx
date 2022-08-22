@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import { AssetValue } from 'src/components/Theme/StyledComponents';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Balance } from '@elrondnetwork/erdjs/out';
+import useCurrencyConversion from 'src/utils/useCurrencyConversion';
+import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
+import { useSelector } from 'react-redux';
 
 interface Props {
     balanceDetails: BalanceDetails;
@@ -26,11 +29,12 @@ const calculatePrice = (balanceDetails: BalanceDetails) => {
 
 const DisplayTokenPrice = ({ balanceDetails }: Props) => {
   const [totalValue, _setTotalValue] = useState(() => calculatePrice(balanceDetails));
-
+  const convertedValue = useCurrencyConversion(Number(totalValue));
+  const activeCurrency = useSelector(selectedCurrencySelector);
   useEffect(() => {
     _setTotalValue(calculatePrice(balanceDetails));
   }, [balanceDetails]);
 
-  return (<AssetValue>{totalValue ?? '0'} USD</AssetValue>);
+  return (<AssetValue>{Number(convertedValue).toLocaleString() ?? '0'} {activeCurrency}</AssetValue>);
 };
 export default DisplayTokenPrice;

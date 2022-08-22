@@ -12,7 +12,7 @@ export default {
 
   unlock: '/unlock',
 
-  tokenTableRows: '/tokens',
+  tokens: '/tokens',
 
   assets: '/assets',
 

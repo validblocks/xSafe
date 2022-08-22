@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   queryBoardMemberAddresses,
   queryProposerAddresses,
@@ -9,11 +9,17 @@ import {
   queryUserRole,
 } from 'src/contracts/MultisigContract';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { useQuery } from 'react-query';
+import axios from 'axios';
+import { setConversionRates } from 'src/redux/slices/currencySlice';
+import { conversionRatesSelector } from 'src/redux/selectors/currencySelector';
 import { OrganizationInfoContextType } from './types';
 
 type Props = {
   children?: JSX.Element | JSX.Element[];
 };
+
+const CONVERSION_API_BASE_URL = 'https://api.frankfurter.app/latest';
 
 const OrganizationInfoContext = createContext<OrganizationInfoContextType>(
   {} as OrganizationInfoContextType,
@@ -23,15 +29,30 @@ export const useOrganizationInfoContext = () =>
   useContext(OrganizationInfoContext);
 
 function OrganizationInfoContextProvider({ children }: Props) {
-  const [membersCount, setMembersCount] = useState(0);
+  const [proposers, setProposers] = useState<Address[]>([]);
   const [quorumCount, setQuorumCount] = useState(0);
-
-  const [boardMembers, setBoardMembers] = useState([] as Address[]);
-  const [proposers, setProposers] = useState([] as Address[]);
+  const [membersCount, setMembersCount] = useState(0);
+  const [boardMembers, setBoardMembers] = useState<Address[]>([]);
   const [isBoardMember, setIsBoardMember] = useState(false);
-  const currentContract = useSelector(currentMultisigContractSelector);
 
+  const dispatch = useDispatch();
   const { address } = useGetAccountInfo();
+  const supportedCurrencies = useSelector(conversionRatesSelector);
+  const currentContract = useSelector(currentMultisigContractSelector);
+  const currencyQueryParam = useMemo(() => Object.keys(supportedCurrencies).join(','), [supportedCurrencies]);
+
+  const {
+    data: fetchedConversionRates,
+  } = useQuery(
+    ['currencyRates'],
+    () => axios.get(`${CONVERSION_API_BASE_URL}?from=USD&to=${currencyQueryParam}`)
+      .then((resp) => resp.data),
+  );
+
+  useEffect(() => {
+    if (!fetchedConversionRates) return;
+    dispatch(setConversionRates(fetchedConversionRates.rates));
+  }, [dispatch, fetchedConversionRates]);
 
   const allMemberAddresses = useMemo(
     () =>

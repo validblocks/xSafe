@@ -14,6 +14,7 @@ import Settings from 'src/pages/Settings';
 import AddressBook from 'src/pages/AddressBook';
 import { dAppName } from 'src/config';
 import withPageTitle from 'src/components/PageTitle';
+import StakingDashboard from 'src/pages/Stake/StakingDashboard';
 import Marketplace from 'src/pages/Marketplace';
 import routeNames from './routeNames';
 
@@ -35,6 +36,7 @@ export type ForegroundRoutesType =
   | 'transactions'
   | 'settings'
   | 'nft'
+  | 'stake'
   | 'marketplace'
   | 'addressBook';
 
@@ -120,6 +122,11 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/address-book',
     title: 'Address Book',
     component: AddressBook,
+  },
+  stake: {
+    path: '/stake',
+    title: 'Stake',
+    component: StakingDashboard,
   },
   marketplace: {
     path: '/marketplace',
