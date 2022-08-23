@@ -2,25 +2,30 @@ import { Button, Typography, Box, Select } from '@mui/material';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
+  padding:
+    ${(props) => props.theme.padding.value.sm}
+    ${(props) => props.theme.padding.value.lg}
+    ${(props) => props.theme.padding.value.xs};
   color: ${(props) => props.theme.palette.primary.main};
+  font-weight: ${(props) => props.theme.font.weight.lg};
+  text-transform: capitalize;
+  transition: all .15s linear;
   border: 1px solid
     ${(props) => props.theme.palette.primary.main};
   background-color: ${(props) => props.theme.palette.background.main};
   box-shadow: 0px 0px 8px
     ${(props) => props.theme.shadows.main};
-  text-transform: capitalize;
-  font-weight: ${(props) => props.theme.font.weight.lg};
-  padding:
-    ${(props) => props.theme.padding.value.sm}
-    ${(props) => props.theme.padding.value.lg}
-    ${(props) => props.theme.padding.value.xs};
   &:disabled{
     background-color: #eee;
     border-color: #ddd;
   }
   &:hover {
     background-color: ${(props) => props.theme.palette.primary.main} !important;
-    color: ${(props) => props.theme.palette.background.white}
+    color: ${(props) => props.theme.palette.background.white};
+    & svg path {
+      fill: ${(props) => props.theme.palette.background.white};
+      fill-opacity: 1;
+    }
   }
 `;
 
@@ -66,7 +71,6 @@ export const NewTranzationButton = styled(MainButton)`
 export const AssetActionButton = styled(MainButton)`
   padding: 1px ${(props) => props.theme.padding.value.lg} 0 0;
   opacity: 0;
-  transition: all .3s;
   box-shadow: 0px 0px 8px
     ${(props) => props.theme.shadows.main};
 `;
