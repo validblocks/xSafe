@@ -31,7 +31,7 @@ const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
             padding: '1rem 0',
           },
           '&:hover': {
-            '& .MuiInput-root:before': { borderColor: '#4c2ffc8a' },
+            '& .MuiInput-root:before': { borderColor: '#4c2ffc8a !important' },
           },
         }}
         placeholder="Search for a provider"
