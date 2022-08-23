@@ -69,7 +69,6 @@ export type OrganizationInfoContextType = {
   quorumCountState: CustomStateType<number>;
   boardMembersState: CustomStateType<Address[]>;
   proposersState: CustomStateType<Address[]>;
-  tokenPrices: TokenWithPrice[];
   userRole: number;
   allMemberAddresses: MemberAddressTableRow[];
   isBoardMemberState: CustomStateType<boolean>;

@@ -1,23 +1,29 @@
 import { createDeepEqualSelector } from './helpers';
 import { RootState } from '../store';
 
-const totalValueSelector = (state: RootState) => state.currency;
-
-const currencySelector = (state: RootState) => state.currency;
-
-const valueInUsd = (state: RootState) => state.currency;
+const currencySliceSelector = (state: RootState) => state.currency;
 
 export const currencyConvertedSelector = createDeepEqualSelector(
-  totalValueSelector,
+  currencySliceSelector,
   (state) => state?.currencyConverted,
 );
 
 export const selectedCurrencySelector = createDeepEqualSelector(
-  currencySelector,
+  currencySliceSelector,
   (state) => state?.selectedCurrency,
 );
 
+export const previousCurrencySelector = createDeepEqualSelector(
+  currencySliceSelector,
+  (state) => state?.previousCurrency,
+);
+
 export const valueInUsdSelector = createDeepEqualSelector(
-  valueInUsd,
+  currencySliceSelector,
   (state) => state?.valueInUsd,
+);
+
+export const conversionRatesSelector = createDeepEqualSelector(
+  currencySliceSelector,
+  (state) => state.conversionRates,
 );

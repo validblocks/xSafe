@@ -4,35 +4,35 @@ import './ChangeCurrency.scss';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
-import { selectedCurrencySelector, valueInUsdSelector } from 'src/redux/selectors/currencySelector';
-import useCurrency from 'src/utils/useCurrency';
+import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
+import { SupportedCurrencies } from 'src/utils/supportedCurrencies';
+import { setSelectedCurrency } from 'src/redux/slices/currencySlice';
 
-function ChangeCurrency() {
-  interface CountryType {
+interface ICurrencySelectItem {
     code: string;
     label: string;
     suggested?: boolean;
-  }
-  const currencyList: CountryType[] = [
-    { code: 'US', label: 'USD' },
-    { code: 'EU', label: 'EUR' },
-    { code: 'RO', label: 'RON' },
-  ];
-  const getValueInUsd = useSelector(valueInUsdSelector);
+}
 
+const currencyList: ICurrencySelectItem[] = [
+  { code: 'US', label: 'USD' },
+  { code: 'EU', label: 'EUR' },
+  { code: 'RO', label: 'RON' },
+];
+
+function ChangeCurrency() {
   const getCurrency = useSelector(selectedCurrencySelector);
   const dispatch = useDispatch();
 
-  const changeCurrency = (param: any) => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useCurrency(getValueInUsd, param, dispatch);
+  const changeCurrency = (param: SupportedCurrencies) => {
+    dispatch(setSelectedCurrency(param));
   };
   return (
     <Box>
       <Box>
         <Autocomplete
           onInputChange={(event, newInputValue) => {
-            changeCurrency(newInputValue);
+            changeCurrency(newInputValue as SupportedCurrencies);
           }}
           value={{ code: '', label: `${getCurrency}` }}
           id="country-select-demo"

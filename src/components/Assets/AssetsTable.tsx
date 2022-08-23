@@ -36,7 +36,7 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
     setShowQr((showQr: boolean) => !showQr);
   }, []);
 
-  const handleOptionSelected = (
+  const handleOptionSelected = useCallback((
     option: ProposalsTypes,
     token: TokenTableRowItem,
   ) => {
@@ -48,7 +48,7 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
         balance: token.balance,
       }),
     );
-  };
+  }, [dispatch]);
 
   const currentContract = useSelector(currentMultisigContractSelector);
   const tokenTableRows = useSelector(tokenTableRowsSelector);
@@ -82,7 +82,7 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
     >
       <AssetActionIcon width="30px" height="30px" /> Stake
     </AssetActionButton>,
-  ]), [hasStakingActions]);
+  ]), [handleOptionSelected, handleQrModal, hasStakingActions]);
 
   const columns = useMemo(
     () => {
@@ -91,7 +91,7 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
         {
           field: 'presentation',
           headerName: 'Asset',
-          flex: 1.2,
+          flex: 0.8,
           type: 'string',
           renderCell: (params: GridRenderCellParams) => (
             <div className="d-flex justify-content-center align-items-center font-weight-normal">
@@ -101,7 +101,7 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
                 height={SQUARE_IMAGE_WIDTH}
                 src={params.value.photoUrl}
                 alt={params.value.tokenIdentifier}
-                className="mr-3"
+                className="mr-3 rounded-circle"
               />
               )}
               {params.value.tokenIdentifier === 'EGLD' && (
@@ -112,7 +112,7 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
               />
               )}
               <p className="mb-0">
-                {params.value.tokenIdentifier.split('-')[0] ?? 'unknown'}
+                {params.value.tokenIdentifier?.split('-')[0] ?? 'unknown'}
               </p>
             </div>
           ),
@@ -150,13 +150,13 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
         {
           field: 'actions',
           type: 'actions',
-          width: 210,
+          width: 200,
           headerName: '',
           getActions: (params: GridRenderCellParams) => getTableActions(params),
         },
       ];
     },
-    [tokenTableRows],
+    [getTableActions, tokenTableRows],
   );
 
   return (
@@ -164,7 +164,7 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
       <DataGrid
         autoHeight
         rowHeight={65}
-        rows={tokenTableRows ?? [] as any}
+        rows={tokenTableRows ?? []}
         columns={columns}
         sx={{
           borderRadius: '10px',
