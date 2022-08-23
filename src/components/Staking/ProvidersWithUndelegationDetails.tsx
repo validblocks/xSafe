@@ -152,8 +152,6 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
             }}
             id="panel1a-header"
             sx={{
-              borderRadius: '10px',
-              border: '1px solid #eee !important',
               outline: 'none !important',
               flexWrap: 'wrap',
               '& .MuiAccordionSummary-expandIconWrapper': {
@@ -163,7 +161,6 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                 alignItems: 'center !important',
                 backgroundColor: '#F3F6FC',
                 padding: '0.25rem',
-                borderTop: '1px solid #eee',
               },
             }}
             className="pl-0 pr-0 m-0 d-flex"
@@ -174,6 +171,14 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                 padding: '0.5rem 1.25rem 0.55rem',
                 backgroundColor: '#F3F6FC',
                 width: '100% !important',
+                border: 'solid 1px #eee',
+                borderRadius: '10px',
+                transition: 'all .2s linear',
+                ':hover': {
+                  backgroundColor: '#ffff !important',
+                  borderColor: '#4c2ffc',
+                  boxShadow: 'inset 0px 0px 6px #4c2ffc2e !important',
+                },
               }}
             >
               <Grid

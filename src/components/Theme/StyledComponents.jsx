@@ -18,6 +18,10 @@ export const MainButton = styled(Button)`
     background-color: #eee;
     border-color: #ddd;
   }
+  &:hover {
+    background-color: ${(props) => props.theme.palette.primary.main} !important;
+    color: ${(props) => props.theme.palette.background.white}
+  }
 `;
 
 export const NewTransactionButton = styled(MainButton)`
@@ -65,10 +69,6 @@ export const AssetActionButton = styled(MainButton)`
   transition: all .3s;
   box-shadow: 0px 0px 8px
     ${(props) => props.theme.shadows.main};
-  &:hover {
-    border-color: ${(props) => props.theme.palette.primary.main};
-    background-color: ${(props) => props.theme.palette.background.default};
-  };
 `;
 
 export const MainSelect = styled(Select)`
