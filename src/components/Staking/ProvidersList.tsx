@@ -122,7 +122,6 @@ const ProvidersList = ({ searchParam }: Props) => {
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         sx={{
           borderRadius: '10px',
-          background: 'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 100%)',
           border: 'none',
           '& .MuiDataGrid-columnSeparator': {
             display: 'none',
@@ -158,6 +157,25 @@ const ProvidersList = ({ searchParam }: Props) => {
           },
           '& .MuiInputBase-root': {
             margin: '0 8px',
+          },
+          '& .MuiDataGrid-cellCheckbox > span.MuiCheckbox-root': {
+            p: '0',
+            '& svg': {
+              width: '32px',
+              height: '32px',
+              border: 'solid 1px #dfdfe8',
+              borderRadius: '50%',
+              '& path': {
+                fill: 'transparent',
+              },
+            },
+            '& svg[data-testid="CheckBoxIcon"]': {
+              backgroundColor: 'white',
+              boxShadow: 'inset 0px 0px 1px #4c2ffc, inset 1px 0px 1px #4c2ffc, inset 2px 0px 1px #4c2ffc, inset 3px 0px 1px #4c2ffc, inset 4px 0px 1px #4c2ffc, inset 5px 0px 1px #4c2ffc, inset 0px 1px 1px #4c2ffc, inset 0px 2px 1px #4c2ffc, inset 0px 3px 1px #4c2ffc, inset 0px 4px 1px #4c2ffc, inset 0px 5px 1px #4c2ffc, inset -1px 0px 1px #4c2ffc, inset -2px 0px 1px #4c2ffc, inset -3px 0px 1px #4c2ffc, inset -4px 0px 1px #4c2ffc, inset -5px 0px 1px #4c2ffc, inset 0px -1px 1px #4c2ffc, inset 0px -2px 1px #4c2ffc, inset 0px -3px 1px #4c2ffc, inset 0px -4px 1px #4c2ffc, inset 0px -5px 1px #4c2ffc',
+              '& path': {
+                fill: '#4c2ffc',
+              },
+            },
           },
         }}
       />

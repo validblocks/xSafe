@@ -125,7 +125,6 @@ export const FormSearchInput = styled(Box)`
   };
 `;
 
-// don't delete this component yet, wait for miki's response
 export const InputsContainer = styled(Box)`
   margin: .67rem 0 1.93rem;
   position: relative;
@@ -278,5 +277,44 @@ export const MaxSendEGLDButton = styled(Button)`
   &:hover {
     background-color: ${(props) => props.theme.palette.primary.main};
     color: ${(props) => props.theme.palette.background.white}
+  }
+`;
+
+export const RoundCheckBox = styled(Box)`
+  .round {
+    position: realtive;
+  }
+  .round label {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    border: solid 1px ${(props) => props.theme.palette.devider.main};
+    border-radius: 50%;
+    &:after {
+      position: absolute;
+      width: 12px;
+      height: 6px;
+      top: 8px;
+      left: 7px;
+      content: "";
+      border: solid 2px #fff;
+      border-top: none;
+      border-right: none;
+      opacity: 0;
+      transform: rotate(-45deg);
+    };
+  }
+  .round input[type="checkbox"] {
+    visibility: hidden;
+  }
+  .round input[type="checkbox"]:checked + label {
+    background-color: ${(props) => props.theme.palette.primary.main};
+    border-color: ${(props) => props.theme.palette.primary.main};
+  }
+  .round input[type="checkbox"]:checked + label:after {
+    opacity: 1;
   }
 `;
