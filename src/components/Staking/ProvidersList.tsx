@@ -142,10 +142,13 @@ const ProvidersList = ({ searchParam }: Props) => {
             borderRadius: '10px',
           },
           '& .MuiDataGrid-row:hover': {
-            backgroundColor: '#4c2ffc1a',
+            backgroundColor: '#F4F6FD',
             '& .MuiButton-root': {
               opacity: '1',
             },
+          },
+          '& .MuiDataGrid-row.Mui-selected': {
+            backgroundColor: '#4c2ffc1a !important',
           },
           '& p': {
             margin: 0,
