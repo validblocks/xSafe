@@ -7,6 +7,7 @@ import {
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import { QueryKeys } from 'src/react-query/queryKeys';
 import { SupportedCurrencies } from './supportedCurrencies';
 
 export default function useCurrencyConversion(amount: number) {
@@ -28,7 +29,7 @@ export default function useCurrencyConversion(amount: number) {
   }, [amount, fromCurrency, toCurrency]);
 
   const { data: fetchedConversion } = useQuery(
-    ['FETCHED_CONVERSION', fromCurrency, toCurrency, amount],
+    [QueryKeys.FETCHED_CONVERSION, fromCurrency, toCurrency, amount],
     fetchConversion,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
