@@ -56,8 +56,7 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
   const getTableActions = useCallback((params: GridRenderCellParams) => (!hasStakingActions ? [
     <AssetActionButton
       key="0"
-      variant="outlined"
-      className="shadow-sm rounded mr-2"
+      className="mr-2"
       onClick={(_e: any) => (params.row.identifier === 'EGLD'
         ? handleOptionSelected(ProposalsTypes.send_egld, params.row)
         : handleOptionSelected(ProposalsTypes.send_token, params.row))

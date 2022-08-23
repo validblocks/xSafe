@@ -195,8 +195,13 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                 xs={5}
                 md={4}
                 sx={{
-                  padding: '1rem',
+                  padding: '.5rem 1rem',
                   fontSize: '0.85rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'flex-start',
+                  textAlign: 'left',
                 }}
               >
                 <div>
@@ -214,8 +219,8 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                     opacity: '1 !important',
                     height: '30px',
                     width: '100%',
-                    paddingLeft: '0.5rem !important',
-                    marginRight: '0 !important',
+                    p: '.17rem .5rem 0rem !important',
+                    mr: '0 !important',
                   }}
                   disabled={row.withdrawableUndelegationsAmount === 0}
                   className="shadow-sm rounded mr-2"
