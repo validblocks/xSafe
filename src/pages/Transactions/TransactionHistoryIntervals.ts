@@ -45,19 +45,20 @@ const lastXMonths: ITimeShiftable = {
 
 const lastXIntervals: ITimeShiftable[] = [lastXDays, lastXWeeks, lastXMonths];
 
-export const HISTORY_INTERVALS = (function createIntervals() {
+// eslint-disable-next-line wrap-iife
+export const HISTORY_INTERVALS = (function () {
   const historyIntervals: HistoryInterval[] = [];
 
   lastXIntervals.forEach((timeShiftable: ITimeShiftable) => {
     timeShiftable.quantities.forEach((quantity: number) => {
       historyIntervals.push({
         intervalStartTimestamp: timeShiftable.getTimestamp(quantity),
-        label: `Last ${quantity > 1 ? quantity : ''} ${timeShiftable.label}${
-          quantity > 1 ? 's' : ''
-        }`,
+        label: `Last${quantity > 1 ? ` ${quantity}` : ''} ${
+          timeShiftable.label
+        }${quantity > 1 ? 's' : ''}`,
       });
     });
   });
 
   return historyIntervals;
-}());
+})();
