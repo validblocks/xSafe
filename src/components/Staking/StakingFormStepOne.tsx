@@ -19,8 +19,24 @@ const StakingFormStepOne = ({ enableNextStep = () => null }: Props) => {
   }, [selectedStakingProvider, enableNextStep]);
 
   const [searchParam, setSearchParam] = useState('');
+  const [isScrollToBottom, setIsScrollToBottom] = useState(false);
+
+  useEffect(() => {
+    const containerOfProvList = document.getElementsByClassName('containerOfProvList')[0];
+    const provList = containerOfProvList.children[0];
+
+    const handleScroll = () => {
+      if (provList.scrollTop <= 420) setIsScrollToBottom(false);
+      else setIsScrollToBottom(true);
+    };
+
+    provList.addEventListener('scroll', handleScroll);
+  }, []);
 
   const debouncedSearchParam = useDebounce(searchParam, 500);
+
+  const resultOfSetScroll = isScrollToBottom ? 'scrolledToBottom' : 'notScrolledToBottom';
+
   return (
     <Box>
       <StakingSearchBar
@@ -36,7 +52,26 @@ const StakingFormStepOne = ({ enableNextStep = () => null }: Props) => {
           ),
         }}
       />
-      <Box padding="0 3rem">
+      <Box
+        padding="0 3rem"
+        className={`containerOfProvList ${resultOfSetScroll}`}
+        sx={{
+          position: 'relative',
+          transition: 'background .4s linear',
+          '&.notScrolledToBottom:after': {
+            position: 'absolute',
+            width: '100%',
+            height: '77px',
+            content: '""',
+            bottom: '0',
+            left: '0',
+            background: 'linear-gradient(0deg, rgba(255,255,255,0.8930) 30%, rgba(255,252,252,0) 100%)',
+          },
+          '&.scrolledToBottom:after': {
+            display: 'none',
+          },
+        }}
+      >
         <ProvidersList searchParam={debouncedSearchParam} />
       </Box>
     </Box>
