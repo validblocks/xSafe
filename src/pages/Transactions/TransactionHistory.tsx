@@ -126,7 +126,7 @@ const TransactionHistory = () => {
             atob(topic),
           );
 
-          if (decodedEventTopics.includes('actionPerformed')) {
+          if (decodedEventTopics.includes('startPerformAction')) {
             try {
               const buffer = Buffer.from(event.data || '', 'base64');
               const actionDetailed = parseActionDetailed(buffer) as MultisigActionDetailed;
