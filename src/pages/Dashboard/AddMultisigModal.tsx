@@ -6,9 +6,9 @@ import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import {
   addContractToMultisigContractsList,
-  validateMultisigAddress,
 } from 'src/apiCalls/multisigContractsCalls';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import ProposeInputAddress from '../MultisigDetails/ProposeModal/ProposeInputAddress';
 
 interface AddMultisigModalType {
@@ -38,7 +38,7 @@ function AddMultisigModal({
   }
   async function onAddClicked() {
     const contractAddress = address.bech32();
-    const isAddressValid = await validateMultisigAddress(contractAddress);
+    const isAddressValid = await ElrondApiProvider.validateMultisigAddress(contractAddress);
     if (isAddressValid) {
       const newContracts = await addContractToMultisigContractsList({
         address: contractAddress,

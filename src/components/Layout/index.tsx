@@ -9,8 +9,6 @@ import { Box, styled } from '@mui/material';
 import MuiAppBar, { AppBarProps } from '@mui/material/AppBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
-import { getAccountData } from 'src/apiCalls/accountCalls';
-import { getEconomicsData } from 'src/apiCalls/economicsCalls';
 import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import { uniqueContractAddress, uniqueContractName } from 'src/multisigConfig';
 import { setAccountData } from 'src/redux/slices/accountSlice';
@@ -20,6 +18,7 @@ import routes from 'src/routes';
 import { accessTokenServices, storageApi } from 'src/services/accessTokenServices';
 import { Main } from 'src/components/Theme/StyledComponents';
 import routeNames from 'src/routes/routeNames';
+import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { TokenWrapper } from '../TokenWrapper';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
@@ -42,7 +41,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   const loggedIn = loginMethod !== '';
 
   async function fetchAccountData() {
-    const accountData = await getAccountData(address);
+    const accountData = await ElrondApiProvider.getAccountData(address);
     if (accountData !== null) {
       dispatch(setAccountData(accountData));
     }
@@ -76,7 +75,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   }, [address, isAuthenticated?.isAuthenticated]);
 
   async function fetchEconomics() {
-    const economics = await getEconomicsData();
+    const economics = await ElrondApiProvider.getEconomicsData();
     if (economics !== null) {
       dispatch(setEconomics(economics));
     }

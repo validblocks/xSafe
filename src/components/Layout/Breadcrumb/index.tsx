@@ -6,13 +6,10 @@ import breadcrumbItems from './BreadcrumbItems';
 
 function PageBreadcrumbs() {
   const [breadcrumb, setBreadcrumb] = useState([]);
-  //   const [breadcrumbLink, setbreadcrumbLink] = useState('');
 
   const location = useLocation();
   useEffect(() => {
     setBreadcrumb(breadcrumbItems[location.pathname.substring(1)]);
-
-    // setbreadcrumbLink(breadcrumbItems[location.pathname.substring(1)].link);
   }, [location.pathname]);
 
   return (

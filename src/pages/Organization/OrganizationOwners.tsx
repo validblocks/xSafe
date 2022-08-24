@@ -18,10 +18,10 @@ import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { RootState } from 'src/redux/store';
-import { getAccountData } from 'src/apiCalls/accountCalls';
+import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { AccountInfo, AddressBook, Owner } from './types';
 
-const OrganizationsTokensTable = () => {
+const OrganizationsOwnersTable = () => {
   const [addresses, setAddresses] = useState<Array<Owner>>([]);
 
   const getAddresses = () => queryBoardMemberAddresses();
@@ -45,7 +45,7 @@ const OrganizationsTokensTable = () => {
     getAddresses().then((ownerAddresses) => {
       Promise.all(
         ownerAddresses.map((address) =>
-          getAccountData(new Address(address).bech32())),
+          ElrondApiProvider.getAccountData(new Address(address).bech32())),
       ).then((accountsInformation) => {
         setAddresses(accountsInformation.map(addAddressBookEntry));
       });
@@ -177,4 +177,4 @@ const OrganizationsTokensTable = () => {
   );
 };
 
-export default OrganizationsTokensTable;
+export default OrganizationsOwnersTable;

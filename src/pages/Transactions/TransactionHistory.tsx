@@ -5,7 +5,6 @@ import { useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
 import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItemsPerPage';
-import { network } from 'src/config';
 import { parseActionDetailed } from 'src/helpers/converters';
 import { RawTransactionType } from 'src/helpers/types';
 import { QueryKeys } from 'src/react-query/queryKeys';
@@ -13,12 +12,15 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import {
   intervalStartTimestampSelector,
   intervalEndTimestampSelector,
+  intervalStartTimestampForFilteringSelector,
 } from 'src/redux/selectors/transactionsSelector';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { getDate } from 'src/utils/transactionUtils';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { StateType } from 'src/redux/slices/accountSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { parseInt } from 'lodash';
+import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import TransactionHistoryPresentation from './TransactionHistoryPresentation';
 
 const dateFormat = 'MMM D, YYYY';
@@ -46,6 +48,9 @@ const TransactionHistory = () => {
   const globalIntervalStartTimestamp = useSelector<StateType, number>(
     intervalStartTimestampSelector,
   );
+  const globalIntervalStartTimestampForFiltering = useSelector<StateType, number>(
+    intervalStartTimestampForFilteringSelector,
+  );
 
   const { t } = useTranslation();
 
@@ -54,16 +59,12 @@ const TransactionHistory = () => {
       withLogs: 'true',
       withOperations: 'true',
       size: API_RESPONSE_MAX_SIZE.toString(),
-      after: globalIntervalStartTimestamp.toString(),
-      before: globalIntervalEndTimestamp.toString(),
+      after: parseInt(globalIntervalStartTimestamp.toString()).toString(),
+      before: parseInt(globalIntervalEndTimestamp.toString()).toString(),
       from: cursorPointer.toString(),
     });
 
-    const API_URL = `${network.apiAddress}/accounts/${
-      currentContract?.address
-    }/transactions?${urlParams.toString()}`;
-
-    return fetch(API_URL).then((response) => response.json());
+    return ElrondApiProvider.getAddressTransactions(currentContract?.address, urlParams);
   };
 
   const {
@@ -103,7 +104,7 @@ const TransactionHistory = () => {
         (cachedTransaction: any) =>
           cachedTransaction.queryKey[0] ===
             QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED &&
-          (cachedTransaction.queryKey[2] as any) >= globalIntervalStartTimestamp,
+          (cachedTransaction.queryKey[2] as any) >= globalIntervalStartTimestampForFiltering,
       )
       .map((cachedTransaction: any) => cachedTransaction.state.data)
       .flat() as RawTransactionType[];
@@ -125,7 +126,7 @@ const TransactionHistory = () => {
             atob(topic),
           );
 
-          if (decodedEventTopics.includes('actionPerformed')) {
+          if (decodedEventTopics.includes('startPerformAction')) {
             try {
               const buffer = Buffer.from(event.data || '', 'base64');
               const actionDetailed = parseActionDetailed(buffer) as MultisigActionDetailed;
@@ -144,7 +145,7 @@ const TransactionHistory = () => {
     }
 
     setActionAccumulator(result);
-  }, [fetchedTransactionsFromSelectedInterval, globalIntervalStartTimestamp, queryClient]);
+  }, [fetchedTransactionsFromSelectedInterval, globalIntervalStartTimestampForFiltering, queryClient]);
 
   const [actionsForCurrentPage, setActionsForCurrentPage] = useState<
     PairOfTransactionAndDecodedAction[]

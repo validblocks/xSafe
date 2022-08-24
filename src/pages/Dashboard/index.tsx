@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
-import { validateMultisigAddress } from 'src/apiCalls/multisigContractsCalls';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import NewDashboard from 'src/pages/NewDashboard';
 import { multisigContractsFetchedSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { storageApi } from 'src/services/accessTokenServices';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 
@@ -24,7 +24,7 @@ function Dashboard() {
   const [invalidMultisigContract, setInvalidMultisigContract] = useState(false);
   async function checkSingleContractValidity() {
     if (uniqueContractAddress || !storageApi) {
-      const isValidMultisigContract = await validateMultisigAddress(
+      const isValidMultisigContract = await ElrondApiProvider.validateMultisigAddress(
         uniqueContractAddress,
       );
       if (!isValidMultisigContract) {

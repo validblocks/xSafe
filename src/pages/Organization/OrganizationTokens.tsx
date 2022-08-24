@@ -1,5 +1,5 @@
-import OrganizationTokensContent from './OrganizationTokensContent';
+import OrganizationOwnersContent from './OrganizationOwnersContent';
 
-const OrganizationTokens = () => <OrganizationTokensContent />;
+const OrganizationOwners = () => <OrganizationOwnersContent />;
 
-export default OrganizationTokens;
+export default OrganizationOwners;
