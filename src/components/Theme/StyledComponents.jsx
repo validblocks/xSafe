@@ -1,4 +1,4 @@
-import { Button, Typography, Box, Select } from '@mui/material';
+import { Button, Typography, Box, Select, TextField } from '@mui/material';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
@@ -276,45 +276,27 @@ export const MaxSendEGLDButton = styled(Button)`
   line-height: 1.4;
   &:hover {
     background-color: ${(props) => props.theme.palette.primary.main};
-    color: ${(props) => props.theme.palette.background.white}
+    color: ${(props) => props.theme.palette.background.white};
   }
 `;
 
-export const RoundCheckBox = styled(Box)`
-  .round {
-    position: realtive;
+export const StakingSearchBar = styled(TextField)`
+  & .MuiFilledInput-root {
+    background-color: transparent;
   }
-  .round label {
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    top: 0;
-    left: 0;
-    background-color: #fff;
-    border: solid 1px ${(props) => props.theme.palette.devider.main};
-    border-radius: 50%;
-    &:after {
-      position: absolute;
-      width: 12px;
-      height: 6px;
-      top: 8px;
-      left: 7px;
-      content: "";
-      border: solid 2px #fff;
-      border-top: none;
-      border-right: none;
-      opacity: 0;
-      transform: rotate(-45deg);
-    };
+  width: 100%;
+  & .MuiFilledInput-root:before { 
+    border-bottom: 1px solid ${(props) => props.theme.palette.divider.main};
   }
-  .round input[type="checkbox"] {
-    visibility: hidden;
-  }
-  .round input[type="checkbox"]:checked + label {
-    background-color: ${(props) => props.theme.palette.primary.main};
+  & .MuiFilledInput-root:after {
     border-color: ${(props) => props.theme.palette.primary.main};
   }
-  .round input[type="checkbox"]:checked + label:after {
-    opacity: 1;
+  & .MuiFilledInput-input {
+    padding: 1rem 0;
+  }
+  &:hover {
+    & .MuiFilledInput-root:before {
+      border-color: ${(props) => props.theme.palette.secondary.main} !important;
+    }
   }
 `;
