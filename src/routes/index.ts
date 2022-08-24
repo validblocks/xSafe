@@ -9,7 +9,7 @@ import AssetsTable from 'src/pages/AssetsPage/AssetsPage';
 import NftPage from 'src/pages/NftPage';
 import TransactionsPage from 'src/pages/Transactions/TransactionsPage';
 import CvorumContainer from 'src/pages/Organization/CvorumContainer';
-import OrganizationTokens from 'src/pages/Organization/OrganizationTokens';
+import OrganizationOwners from 'src/pages/Organization/OrganizationOwners';
 import Settings from 'src/pages/Settings';
 import AddressBook from 'src/pages/AddressBook';
 import { dAppName } from 'src/config';
@@ -111,7 +111,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
   owners: {
     path: '/owners',
     title: 'Owners',
-    component: OrganizationTokens,
+    component: OrganizationOwners,
   },
   settings: {
     path: '/settings',

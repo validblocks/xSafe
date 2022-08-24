@@ -21,7 +21,7 @@ import { RootState } from 'src/redux/store';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { AccountInfo, AddressBook, Owner } from './types';
 
-const OrganizationsTokensTable = () => {
+const OrganizationsOwnersTable = () => {
   const [addresses, setAddresses] = useState<Array<Owner>>([]);
 
   const getAddresses = () => queryBoardMemberAddresses();
@@ -177,4 +177,4 @@ const OrganizationsTokensTable = () => {
   );
 };
 
-export default OrganizationsTokensTable;
+export default OrganizationsOwnersTable;
