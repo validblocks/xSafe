@@ -8,7 +8,7 @@ import {
 } from 'src/redux/selectors/transactionsSelector';
 import {
   enlargeInterval,
-  dwindleInterval,
+  setIntervalStartTimestampForFiltering,
 } from 'src/redux/slices/transactionsSlice';
 import { RootState } from 'src/redux/store';
 import TransactionHistory from './TransactionHistory';
@@ -93,8 +93,8 @@ export default function TransactionsPage() {
     }
 
     // current: last month ==> new: last week
-    if (newIntervalStartTimestamp > oldIntervalStartTimestamp) {
-      dispatch(dwindleInterval(newIntervalStartTimestamp));
+    if (newIntervalStartTimestamp > globalIntervalStartTimestamp) {
+      dispatch(setIntervalStartTimestampForFiltering(newIntervalStartTimestamp));
     }
   };
 

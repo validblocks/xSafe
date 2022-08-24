@@ -20,7 +20,6 @@ import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { getAccountData } from 'src/apiCalls/accountCalls';
 import { useConfirmModal } from 'src/components/ConfirmModal/ConfirmModalPayload';
 import Loader from 'src/components/Loader';
 import PerformActionModal from 'src/components/PerformActionModal';
@@ -63,6 +62,7 @@ import { denomination, decimals } from 'src/config';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { ProposalsTypes } from 'src/types/Proposals';
 import routeNames from 'src/routes/routeNames';
+import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import MultisigDetailsAccordion from './MultisigDetailsAccordion';
 import ProposeModal from './ProposeModal/ProposeModal';
 import ProposeMultiselectModal from './ProposeMultiselectModal/ProposeMultiselectModal';
@@ -153,7 +153,7 @@ function MultisigDetailsPage() {
         queryBoardMemberAddresses(),
         queryProposerAddresses(),
       ]);
-      const accountInfo = await getAccountData(currentContract.address);
+      const accountInfo = await ElrondApiProvider.getAccountData(currentContract.address);
       const newContractInfo: ContractInfo = {
         totalBoardMembers: newTotalBoardMembers,
         totalProposers: newTotalProposers,

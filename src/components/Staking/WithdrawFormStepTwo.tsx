@@ -120,7 +120,6 @@ const WithdrawFormStepTwo = () => {
 
   useEffect(() => {
     try {
-      //   const addressParam = new Address(formik.values.receiver);
       const addressParam = new Address('erd1qqqqqqqqqqqqqqqpqqqqqqqqqqqqqqqqqqqqqqqqqqqqqzhllllsp9wvyl');
 
       const amountNumeric = Number(formik.values.amount);

@@ -12,3 +12,9 @@ export const intervalStartTimestampSelector = createDeepEqualSelector(
   transactionsSelector,
   (state) => state.intervalStartTimestamp,
 );
+
+export const intervalStartTimestampForFilteringSelector =
+  createDeepEqualSelector(
+    transactionsSelector,
+    (state) => state.intervalStartTimestampForFiltering,
+  );
