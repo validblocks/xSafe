@@ -216,6 +216,9 @@ const ProposeUnstakeTokens = ({
         ml: '.35rem',
         fontSize: '13px',
       },
+      label: {
+        ml: '.3rem !important',
+      },
     }}
     >
       <div className="mb-4">
