@@ -32,7 +32,7 @@ const InputTokenPresentation = ({
         {label}
       </label>
 
-      <MaxSendEGLDButton onClick={autocompleteMaxAmount}>
+      <MaxSendEGLDButton disabled={amountError != null} onClick={autocompleteMaxAmount}>
         Max
       </MaxSendEGLDButton>
 

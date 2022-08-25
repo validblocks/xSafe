@@ -131,12 +131,15 @@ export const InputsContainer = styled(Box)`
   background-color: transparent;
   z-index: 0;
   &:focus-within {
-    input.form-control{
+    input.form-control {
       border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
     }
     li, div.MuiOutlinedInput-root {
       height: 58px;
       border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
+    }
+    .MuiButton-root {
+      top: 16px;
     }
   };
   &:hover {
@@ -265,19 +268,15 @@ export const ActionResponseButton = styled(MainButton)`
   };
 `;
 
-export const MaxSendEGLDButton = styled(Button)`
+export const MaxSendEGLDButton = styled(MainButton)`
   position: absolute;
   min-width: 30px;
-  top: 14px;
+  top: 15px;
   right: 112px;
-  color: ${(props) => props.theme.palette.secondary.main};
-  background-color: transparent;
-  border: solid 1px ${(props) => props.theme.palette.secondary.main};
   line-height: 1.4;
-  &:hover {
-    background-color: ${(props) => props.theme.palette.primary.main};
-    color: ${(props) => props.theme.palette.background.white};
-  }
+  font-weight: ${(props) => props.theme.font.weight.sm};
+  box-shadow: none;
+  border-radius: .2rem;
 `;
 
 export const StakingSearchBar = styled(TextField)`

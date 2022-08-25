@@ -207,8 +207,18 @@ const ProposeUnstakeTokens = ({
   }, [amountError, formik, selectedStakingProvider?.delegatedColumn?.delegatedAmount]);
 
   return (
-    <div className="px-4 py-3">
-      <div className="modal-control-  container mb-4">
+    <Box sx={{
+      px: '2.5rem',
+      pt: '1.4rem',
+      pb: '.3rem',
+      span: {
+        color: 'grey',
+        ml: '.5rem',
+        fontSize: '13px',
+      },
+    }}
+    >
+      <div className="mb-4">
         <InputLabel id="demo-simple-select-label">Staking Provider</InputLabel>
         <Select
           value={identifier}
@@ -216,11 +226,23 @@ const ProposeUnstakeTokens = ({
           label="Identifier"
           size="small"
           onChange={(e: any) => { onChange(e); formik.handleChange(e); }}
-          className="mb-2"
+          className="mb-0"
           sx={{
+            borderRadius: '.33rem',
+            border: 'solid 1px rgba(76, 47, 252, 0.23)',
+            ':hover': {
+              borderColor: '#08041D',
+            },
+            ':focus-within': {
+              border: 'solid 2px #4c2ffc !important',
+            },
             '.MuiInputBase-input': {
               paddingY: '0 !important',
-            } }}
+            },
+            fieldset: {
+              display: 'none',
+            },
+          }}
         >
           {activeDelegationsRows?.map((activeDelegation: IdentityWithColumns) => (
             <MenuItem
@@ -235,13 +257,13 @@ const ProposeUnstakeTokens = ({
             </MenuItem>
           ))}
         </Select>
-        <div>
+        <span>
           Staked:
           {' '}
           {selectedStakingProvider?.delegatedColumn?.delegatedAmount ?? 'Unknown'}
           {' '}
           $EGLD
-        </div>
+        </span>
       </div>
 
       <InputsContainer>
@@ -281,7 +303,7 @@ const ProposeUnstakeTokens = ({
         )}
       </InputsContainer>
 
-    </div>
+    </Box>
   );
 };
 
