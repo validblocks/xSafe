@@ -3,6 +3,8 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Accordion, useAccordionToggle } from 'react-bootstrap';
 import { ProposalsTypes } from 'src/types/Proposals';
+import { MainButton } from 'src/components/Theme/StyledComponents';
+import { Box } from '@mui/material';
 
 interface SelectOptionPropsType {
   onSelected: (option: ProposalsTypes) => void;
@@ -49,16 +51,16 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
 
   const decoratedOnClick = useAccordionToggle('0', handleToggleExpanded);
   return (
-    <>
-      <div className="card select-options-list modal-action-btns">
+    <Box sx={{ px: '2.75rem', pt: '1.8rem' }}>
+      <div className="card select-options-list">
         {proposeAvailableOptions.map((option) => (
-          <button
+          <MainButton
             key={option.type}
-            className="selectable-option btn btn-primary btn-light"
             onClick={() => onSelected(option.type)}
+            sx={{ mb: '1rem', boxShadow: 'none !important' }}
           >
             {option.label}
-          </button>
+          </MainButton>
         ))}
       </div>
       <div className="card select-options-list">
@@ -66,7 +68,7 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
           <Accordion.Toggle
             eventKey="0"
             onClick={decoratedOnClick}
-            className="expand-icon advanced-options-toggle mb-2 mt-4"
+            className="expand-icon advanced-options-toggle mb-2"
           >
             <div className="d-flex justify-content-center align-items-center flex-fill">
               <span className="h6 mb-1 mr-2" data-testid="delegateTitle">
@@ -76,20 +78,23 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
             </div>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="0">
-            <div className="d-flex flex-column">
+            <Box
+              className="d-flex flex-column"
+              sx={{ '& > button.MuiButton-root:nth-of-type(4)': { mb: '0' } }}
+            >
               {othersAvailableOptions.map((option) => (
-                <button
+                <MainButton
                   key={option.type}
-                  className="selectable-option btn btn-primary btn-light my-2"
                   onClick={() => onSelected(option.type)}
+                  sx={{ mb: '1rem', boxShadow: 'none !important' }}
                 >
                   {option.label}
-                </button>
+                </MainButton>
               ))}
-            </div>
+            </Box>
           </Accordion.Collapse>
         </Accordion>
       </div>
-    </>
+    </Box>
   );
 }
