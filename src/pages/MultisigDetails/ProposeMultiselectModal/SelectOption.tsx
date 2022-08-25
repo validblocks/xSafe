@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Accordion, useAccordionToggle } from 'react-bootstrap';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { MainButton } from 'src/components/Theme/StyledComponents';
-import { Box } from '@mui/material';
-import { ArrowDropDownRounded } from '@mui/icons-material';
+import { Box, Typography } from '@mui/material';
+import { ArrowDropDown } from '@mui/icons-material';
 
 interface SelectOptionPropsType {
   onSelected: (option: ProposalsTypes) => void;
@@ -70,14 +70,15 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
             className="expand-icon advanced-options-toggle mb-2"
           >
             <div className="d-flex justify-content-center align-items-center flex-fill">
-              <span className="h6 mb-1" data-testid="delegateTitle">
+              <Typography color="#4c2ffc" className="h6 mb-1" data-testid="delegateTitle">
                 Advanced
-              </span>
-              <ArrowDropDownRounded
+              </Typography>
+              <ArrowDropDown
                 className={expanded ? 'down' : 'up'}
                 sx={{
                   mb: '0.2rem',
                   transition: 'transform .3s linear',
+                  color: '#4c2ffc',
                   '&.up': {
                     transform: 'rotate(-180deg)',
                   },
