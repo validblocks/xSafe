@@ -213,7 +213,7 @@ const ProposeUnstakeTokens = ({
       pb: '.3rem',
       span: {
         color: 'grey',
-        ml: '.5rem',
+        ml: '.35rem',
         fontSize: '13px',
       },
     }}
@@ -280,7 +280,7 @@ const ProposeUnstakeTokens = ({
           {`${t('Amount')}`}
         </label>
 
-        <MaxSendEGLDButton onClick={autocompleteMaxAmount}>
+        <MaxSendEGLDButton disabled={amountError != null} onClick={autocompleteMaxAmount}>
           Max
         </MaxSendEGLDButton>
 
