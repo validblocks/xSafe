@@ -35,7 +35,7 @@ const StakingFormStepOne = ({ enableNextStep = () => null }: Props) => {
 
   const debouncedSearchParam = useDebounce(searchParam, 500);
 
-  const resultOfSetScroll = isScrollToBottom ? 'scrolledToBottom' : 'notScrolledToBottom';
+  const resultOfSetScroll = isScrollToBottom ? 'scrolledToBottom' : '';
 
   return (
     <Box>
@@ -57,18 +57,18 @@ const StakingFormStepOne = ({ enableNextStep = () => null }: Props) => {
         className={`containerOfProvList ${resultOfSetScroll}`}
         sx={{
           position: 'relative',
-          transition: 'background .4s linear',
-          '&.notScrolledToBottom:after': {
+          '&:after': {
             position: 'absolute',
             width: '100%',
             height: '77px',
             content: '""',
             bottom: '0',
             left: '0',
-            background: 'linear-gradient(0deg, rgba(255,255,255,0.8930) 30%, rgba(255,252,252,0) 100%)',
+            background: 'linear-gradient(0deg, rgba(255,255,255,0.8430) 30%, rgba(255,252,252,0) 100%)',
+            transition: 'height .3s linear',
           },
           '&.scrolledToBottom:after': {
-            display: 'none',
+            height: '0px',
           },
         }}
       >
