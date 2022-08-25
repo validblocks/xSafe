@@ -5,47 +5,53 @@ export const MainButton = styled(Button)`
   padding:
     ${(props) => props.theme.padding.value.sm}
     ${(props) => props.theme.padding.value.lg}
-    ${(props) => props.theme.padding.value.xs};
-  color: ${(props) => props.theme.palette.primary.main};
-  font-weight: ${(props) => props.theme.font.weight.lg};
-  text-transform: capitalize;
-  transition: all .15s linear;
+    ${(props) => props.theme.padding.value.xs} !important;
+  color: ${(props) => props.theme.palette.primary.main} !important;
+  font-weight: ${(props) => props.theme.font.weight.lg} !important;
+  text-transform: capitalize !important;
+  transition: all .15s linear !important;
   border: 1px solid
-    ${(props) => props.theme.palette.primary.main};
-  background-color: ${(props) => props.theme.palette.background.main};
+    ${(props) => props.theme.palette.primary.main} !important;
+  background-color: ${(props) => props.theme.palette.background.main} !important;
   box-shadow: 0px 0px 8px
-    ${(props) => props.theme.shadows.main};
+    ${(props) => props.theme.shadows.main} !important;
   &:disabled{
-    background-color: #eee;
-    border-color: #ddd;
+    background-color: #eee !important;
+    border-color: #ddd !important;
+    color: grey !important;
+    box-shadow: none !important;
   }
   &:hover {
     background-color: ${(props) => props.theme.palette.primary.main} !important;
-    color: ${(props) => props.theme.palette.background.white};
+    color: ${(props) => props.theme.palette.background.white} !important;
     & svg path {
-      fill: ${(props) => props.theme.palette.background.white};
-      fill-opacity: 1;
+      fill: ${(props) => props.theme.palette.background.white} !important;
+      fill-opacity: 1 !important;
     }
   }
 `;
 
 export const NewTransactionButton = styled(MainButton)`
-  font-size: 15px;
+  font-size: 15px !important;
   padding:
       ${(props) => props.theme.padding.value.md}
       25px
-      ${(props) => props.theme.padding.value.sm};
-  font-weight: ${(props) => props.theme.font.weight.md};
+      ${(props) => props.theme.padding.value.sm} !important;
+  font-weight: ${(props) => props.theme.font.weight.md} !important;
+`;
+
+export const AccountButton = styled(MainButton)`
+  padding: 10px 18px 9px 10px !important;
 `;
 
 export const ChangeStepButton = styled(MainButton)`
-  font-size: 15px;
+  font-size: 15px !important;
   padding:
       ${(props) => props.theme.padding.value.xs}
-      auto;
-  font-weight: ${(props) => props.theme.font.weight.md};
-  width: 100%;
-  box-shadow: none;
+      auto !important;
+  font-weight: ${(props) => props.theme.font.weight.md} !important;
+  width: 100% !important;
+  box-shadow: none !important;
 `;
 
 export const FinalStepActionButton = styled(ChangeStepButton)`
@@ -59,20 +65,18 @@ export const FinalStepActionButton = styled(ChangeStepButton)`
     background-color: ${(props) => props.theme.palette.primary.main};
   }`;
 
-export const NewTranzationButton = styled(MainButton)`
-  font-size: 15px;
-  padding:
-      ${(props) => props.theme.padding.value.md}
-      25px
-      ${(props) => props.theme.padding.value.sm};
-  font-weight: ${(props) => props.theme.font.weight.md};
-`;
-
 export const AssetActionButton = styled(MainButton)`
-  padding: 1px ${(props) => props.theme.padding.value.lg} 0 0;
+  padding: 1px ${(props) => props.theme.padding.value.lg} 0 0 !important;
   opacity: 0;
   box-shadow: 0px 0px 8px
-    ${(props) => props.theme.shadows.main};
+    ${(props) => props.theme.shadows.main} !important;
+`;
+
+export const WithdrawButton = styled(AccountButton)`
+  height: 30px !important;
+  width: 100% !important;
+  padding: .17rem .5rem 0rem !important;
+  margin-right: 0 !important;
 `;
 
 export const MainSelect = styled(Select)`
@@ -97,12 +101,6 @@ export const AssetValue = styled(Box)`
   color: ${(props) => props.theme.palette.black.main};
   padding: 0;
   margin: 0px;
-`;
-
-export const AccountButton = styled.div`
-  &:hover ${Button} {
-    background-color: red;
-  }
 `;
 
 export const FormSearchInput = styled(Box)`
@@ -247,24 +245,16 @@ export const DepositDoneAction = styled(Button)`
 `;
 
 export const ActionResponseButton = styled(MainButton)`
-  &:hover {
-    text-transform: uppercase;
-    font-size: 11px;
-    padding:
-    ${(props) => props.theme.padding.value.md}
-    ${(props) => props.theme.padding.value.xl}
-    ${(props) => props.theme.padding.value.sm};
-  };
   &.disagree {
-    box-shadow: none;
-    font-weight: ${(props) => props.theme.font.weight.md};
+    box-shadow: none !important;
+    font-weight: ${(props) => props.theme.font.weight.md} !important;
   };
   &.agree {
-    box-shadow: none;
-    border: solid 1px ${(props) => props.theme.palette.background.main};
-    background-color: ${(props) => props.theme.palette.primary.main};
-    color: ${(props) => props.theme.palette.background.white};
-    font-weight: ${(props) => props.theme.font.weight.md};
+    box-shadow: none !important;
+    border: solid 1px ${(props) => props.theme.palette.background.main} !important;
+    background-color: ${(props) => props.theme.palette.primary.main} !important;
+    color: ${(props) => props.theme.palette.background.white} !important;
+    font-weight: ${(props) => props.theme.font.weight.md} !important;
   };
 `;
 
@@ -275,8 +265,8 @@ export const MaxSendEGLDButton = styled(MainButton)`
   right: 112px;
   line-height: 1.4;
   font-weight: ${(props) => props.theme.font.weight.sm};
-  box-shadow: none;
-  border-radius: .2rem;
+  box-shadow: none !important;
+  border-radius: .2rem !important;
 `;
 
 export const StakingSearchBar = styled(TextField)`

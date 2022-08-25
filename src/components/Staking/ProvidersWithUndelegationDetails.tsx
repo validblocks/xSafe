@@ -19,7 +19,7 @@ import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ProviderColumn from './ProviderColumn';
 import { TransactionAccordion } from '../StyledComponents/transactions';
-import { AssetActionButton } from '../Theme/StyledComponents';
+import { WithdrawButton } from '../Theme/StyledComponents';
 import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
 import { HtmlTooltip } from '../Utils/HtmlTooltip';
 import CountdownTimer from '../Utils/CountdownTimer';
@@ -217,7 +217,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                 </div>
               </Grid>
               <Grid item xs={12} md={3} display={'flex'} alignItems={'center'}>
-                <AssetActionButton
+                <WithdrawButton
                   key="0"
                   variant="outlined"
                   sx={{
@@ -236,7 +236,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                       'withdraw');
                   }}
                 > Withdraw
-                </AssetActionButton>
+                </WithdrawButton>
               </Grid>
             </Grid>
           </AccordionSummary>
