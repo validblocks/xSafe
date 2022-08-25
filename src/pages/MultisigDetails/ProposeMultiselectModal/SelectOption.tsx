@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Accordion, useAccordionToggle } from 'react-bootstrap';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { MainButton } from 'src/components/Theme/StyledComponents';
 import { Box } from '@mui/material';
+import { ArrowDropDownRounded } from '@mui/icons-material';
 
 interface SelectOptionPropsType {
   onSelected: (option: ProposalsTypes) => void;
@@ -71,10 +70,19 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
             className="expand-icon advanced-options-toggle mb-2"
           >
             <div className="d-flex justify-content-center align-items-center flex-fill">
-              <span className="h6 mb-1 mr-2" data-testid="delegateTitle">
+              <span className="h6 mb-1" data-testid="delegateTitle">
                 Advanced
               </span>
-              <FontAwesomeIcon icon={expanded ? faChevronUp : faChevronDown} />
+              <ArrowDropDownRounded
+                className={expanded ? 'down' : 'up'}
+                sx={{
+                  mb: '0.2rem',
+                  transition: 'transform .3s linear',
+                  '&.up': {
+                    transform: 'rotate(-180deg)',
+                  },
+                }}
+              />
             </div>
           </Accordion.Toggle>
           <Accordion.Collapse eventKey="0">
