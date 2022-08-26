@@ -62,7 +62,6 @@ export function FormikInputField({
               marginBottom: 0,
               fontSize: '15px',
               left: '-1px',
-              color: '#4c2ffc',
             },
             '&.isError': {
               label: {
