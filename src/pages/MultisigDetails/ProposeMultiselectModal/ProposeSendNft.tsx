@@ -105,6 +105,8 @@ const ProposeSendNft = ({
   const memoizedAddress = useMemo(() => new Address(address), [address]);
   console.log('adresa', memoizedAddress);
 
+  console.log(address);
+
   return (
     <Box>
       <Box sx={{ p: '1rem 2.5rem 0.9rem' }}>
