@@ -12,7 +12,6 @@ import useNft from 'src/utils/useNft';
 import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
 import { Box, Typography } from '@mui/material';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
-import { truncateInTheMiddle } from 'src/utils/addressUtils';
 
 interface ProposeSendNftType {
   handleChange: (proposal: MultisigSendNft) => void;
@@ -110,8 +109,8 @@ const ProposeSendNft = ({
     <Box>
       <Box sx={{ p: '1rem 2.5rem 0.9rem' }}>
         <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>NFT name:</Typography>
-        <div>
-          <img src={searchedNft.url} alt="" width={40} height={40} className="rounded" />
+        <div className="mb-3">
+          <img src={searchedNft.url} alt="" width={40} height={40} className="rounded mr-2" />
           <span className="nftName">{searchedNft.name}</span>
         </div>
         <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>
@@ -127,9 +126,8 @@ const ProposeSendNft = ({
         <FormikInputField
           label={t('Send to')}
           name={'address'}
-          value={truncateInTheMiddle(address, 24)}
+          value=""
           error={addressError}
-          handleChange={formik.handleChange}
           handleBlur={formik.handleBlur}
         />
       </Box>

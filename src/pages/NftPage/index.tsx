@@ -6,6 +6,7 @@ const NftPage = () => (
     sx={{
       width: '100%',
       padding: '2rem',
+      pt: '.7rem',
     }}
   >
     <NftCompmonent />

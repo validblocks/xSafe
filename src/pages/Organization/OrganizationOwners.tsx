@@ -5,7 +5,6 @@ import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 
 import { Avatar } from '@mui/material';
-import Button from '@mui/material/Button';
 import {
   DataGrid,
   GridActionsCellItem,
@@ -19,6 +18,8 @@ import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { RootState } from 'src/redux/store';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { MainButton } from 'src/components/Theme/StyledComponents';
+import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { AccountInfo, AddressBook, Owner } from './types';
 
 const OrganizationsOwnersTable = () => {
@@ -103,26 +104,21 @@ const OrganizationsOwnersTable = () => {
       {
         field: 'address',
         headerName: 'Address',
-        width: 250,
+        width: 280,
         type: 'object',
         /**
          *
          * @todo: add style component for avatar
          */
         renderCell: (params: any) => (
-          <div className="d-flex align-items-center">
+          <div className="d-flex flex-row align-items-center">
+            <Avatar>
+              <div
+                dangerouslySetInnerHTML={{ __html: params.value.identicon }}
+              />
+            </Avatar>
             <div>
-              <Avatar>
-                <div
-                  dangerouslySetInnerHTML={{ __html: params.value.identicon }}
-                />
-              </Avatar>
-              <div>
-                {`${params.value.address.slice(
-                  0,
-                  10,
-                )}...${params.value.address.slice(params.value.length - 10)}`}
-              </div>
+              {truncateInTheMiddle(params.value.address, 12)}
             </div>
           </div>
         ),
@@ -164,15 +160,55 @@ const OrganizationsOwnersTable = () => {
 
   return (
     <>
-      <Button
-        color="primary"
+      <MainButton
         startIcon={<AddIcon />}
         onClick={() => onAddBoardMember()}
+        sx={{ mb: '.9rem !important', boxShadow: 'none !important' }}
       >
         Add new owner
-      </Button>
+      </MainButton>
 
-      <DataGrid autoHeight rowHeight={65} rows={rows} columns={columns} />
+      <DataGrid
+        autoHeight
+        rowHeight={65}
+        rows={rows}
+        columns={columns}
+        sx={{
+          borderRadius: '10px',
+          boxShadow: '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
+          backgroundColor: '#ffff',
+          border: 'none',
+          '& .MuiDataGrid-columnSeparator': {
+            display: 'none',
+          },
+          '& .MuiDataGrid-columnHeader': {
+            padding: '5px 0 0 20px',
+          },
+          '& .MuiDataGrid-row:hover': {
+            backgroundColor: '#F5F7FF',
+            '& .MuiButton-root': {
+              opacity: '1',
+            },
+          },
+          '& p': {
+            margin: 0,
+            color: 'rgba(0, 0, 0, 0.6)',
+          },
+          '& .MuiTablePagination-select': {
+            paddingTop: 0,
+            paddingBottom: 0,
+          },
+          '& .MuiInputBase-root': {
+            margin: '0 8px',
+          },
+          '& .MuiTablePagination-actions': {
+            marginLeft: '15px',
+            '& button svg': {
+              color: 'rgba(76, 47, 252, 0.54)',
+            },
+          },
+        }}
+      />
     </>
   );
 };
