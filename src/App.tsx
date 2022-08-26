@@ -64,17 +64,17 @@ const queryClient = new QueryClient();
 
 export const App = () => (
   <ReduxProvider store={store}>
-    <CssBaseline />
-    <CustomThemeProvider>
-      <DappProvider environment="devnet">
-        <QueryClientProvider client={queryClient}>
-          <OrganizationInfoContextProvider>
-            <>
-              <DappUI.SignTransactionsModals />
-              <DappUI.TransactionsToastList />
-              <DappUI.NotificationModal />
-              <Router basename={process.env.PUBLIC_URL}>
-                <PersistGate loading={null} persistor={persistor}>
+    <PersistGate loading={null} persistor={persistor}>
+      <CssBaseline />
+      <CustomThemeProvider>
+        <DappProvider environment="devnet">
+          <QueryClientProvider client={queryClient}>
+            <OrganizationInfoContextProvider>
+              <>
+                <DappUI.SignTransactionsModals />
+                <DappUI.TransactionsToastList />
+                <DappUI.NotificationModal />
+                <Router basename={process.env.PUBLIC_URL}>
                   <Layout>
                     <Routes>
                       {routes.map((route) => (
@@ -87,12 +87,12 @@ export const App = () => (
                       <Route element={PageNotFound()} />
                     </Routes>
                   </Layout>
-                </PersistGate>
-              </Router>
-            </>
-          </OrganizationInfoContextProvider>
-        </QueryClientProvider>
-      </DappProvider>
-    </CustomThemeProvider>
+                </Router>
+              </>
+            </OrganizationInfoContextProvider>
+          </QueryClientProvider>
+        </DappProvider>
+      </CustomThemeProvider>
+    </PersistGate>
   </ReduxProvider>
 );
