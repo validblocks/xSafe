@@ -216,6 +216,7 @@ const ProposeSendToken = ({
         error={addressError}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
+        className={addressError != null ? 'isError' : ''}
       />
 
       <InputsContainer sx={{ mt: '2.1rem !important', mb: '2.3rem !important' }}>
