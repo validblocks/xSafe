@@ -64,28 +64,32 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
       </div>
       <div className="card select-options-list">
         <Accordion>
-          <Accordion.Toggle
-            eventKey="0"
-            onClick={decoratedOnClick}
-            className="expand-icon advanced-options-toggle mb-2"
-          >
-            <div className="d-flex justify-content-center align-items-center flex-fill">
-              <Typography color="#4c2ffc" className="h6 mb-1" data-testid="delegateTitle">
-                Advanced
-              </Typography>
-              <ArrowDropDown
-                className={expanded ? 'down' : 'up'}
-                sx={{
-                  mb: '0.2rem',
-                  transition: 'transform .3s linear',
-                  color: '#4c2ffc',
-                  '&.up': {
-                    transform: 'rotate(-180deg)',
-                  },
-                }}
-              />
-            </div>
-          </Accordion.Toggle>
+          <Box sx={{ '& button[tabindex="-1"]:focus:not(:focus-visible)': { outline: 'none !important' } }}>
+            <Accordion.Toggle
+              eventKey="0"
+              onClick={decoratedOnClick}
+              className="expand-icon advanced-options-toggle mb-2 shadow-none"
+              tabIndex={-1}
+            >
+              <div className="d-flex justify-content-center align-items-center flex-fill">
+                <Typography color="#4c2ffc" className="h6 mb-1" data-testid="delegateTitle">
+                  Advanced
+                </Typography>
+                <ArrowDropDown
+                  className={expanded ? 'down' : 'up'}
+                  sx={{
+                    mb: '0.2rem',
+                    transition: 'transform .3s linear',
+                    color: '#4c2ffc',
+                    '&.up': {
+                      transform: 'rotate(-180deg)',
+                    },
+                  }}
+                />
+              </div>
+            </Accordion.Toggle>
+          </Box>
+
           <Accordion.Collapse eventKey="0">
             <Box
               className="d-flex flex-column"
