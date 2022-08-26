@@ -224,6 +224,12 @@ export const InputsContainer = styled(Box)`
       height: 26px !important;
       margin: 0;
     }
+    & img {
+      width: 35px !important;
+      height: 35px !important;
+      border-radius: 50%;
+      margin: 0;
+    }
     & > div.MuiBox-root > div.MuiBox-root:nth-of-type(1) {
       padding: .6rem;
       margin: 0;

@@ -40,7 +40,12 @@ const TokenPresentationWithPrice = ({
   } = useSelector<StateType, OrganizationToken>(selector);
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <Box sx={{
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+    }}
+    >
       {withPhoto && (
       <Box
         sx={{
@@ -69,11 +74,11 @@ const TokenPresentationWithPrice = ({
       </Box>
       <Box
         sx={{
-          width: '100px',
+          width: '100%',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'flex-end',
-          ml: '.4rem',
+          alignSelf: 'center',
+          textAlign: 'right',
         }}
       >
         {withTokenAmount && (

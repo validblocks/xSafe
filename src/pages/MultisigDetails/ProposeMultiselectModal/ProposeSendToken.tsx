@@ -269,6 +269,7 @@ const ProposeSendToken = ({
             <MenuItem
               key={token.identifier}
               value={token.identifier}
+              sx={{ width: '230px', pl: '.1rem', pr: '.3rem' }}
             >
               <TokenPresentationWithPrice
                 identifier={token.identifier as string}
