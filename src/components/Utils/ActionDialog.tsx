@@ -60,15 +60,22 @@ export default function ActionDialog({
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle sx={{ fontWeight: '600 !important' }} id="alert-dialog-title" textAlign={'center'}>
+          <DialogTitle
+            sx={{
+              fontWeight: '600 !important',
+              p: '1.2rem 1.4rem',
+            }}
+            id="alert-dialog-title"
+            textAlign={'center'}
+          >
             {t(dialogTitle) as string}
           </DialogTitle>
           <DialogContent>
-            <DialogContentText textAlign={'center'} id="alert-dialog-description">
+            <DialogContentText textAlign={'left'} id="alert-dialog-description">
               {t(dialogContent) as string}
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
+          <DialogActions sx={{ p: '1.4rem 1.8rem 1.4rem 0' }}>
             <ActionResponseButton className="disagree" onClick={handleClose}>Disagree</ActionResponseButton>
             <ActionResponseButton className="agree" onClick={onActionAccepted} autoFocus>
               Agree
