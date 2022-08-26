@@ -295,3 +295,12 @@ export const StakingSearchBar = styled(TextField)`
     }
   }
 `;
+
+export const ProposeAddressInput = styled(TextField)`
+  width: 100%;
+  &.isAddressError {
+    & fieldset {
+      border-color: ${(props) => props.theme.palette.danger.main} !important;
+    };
+  }
+`;

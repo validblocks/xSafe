@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs';
 import { useTranslation } from 'react-i18next';
+import { ProposeAddressInput } from 'src/components/Theme/StyledComponents';
 
 interface ProposeInputAddressType {
   handleParamsChange: (params: Address) => void;
@@ -35,21 +36,17 @@ function ProposeInputAddress({
   };
 
   return (
-    <div className="modal-control-container">
-      <label htmlFor={address}>
-        {t('Address')}
-        {' '}
-      </label>
-      <input
+    <div>
+      <ProposeAddressInput
+        label={`${t('Address')}`}
         id={address}
-        type="text"
         disabled={disabled}
-        className="form-control"
         value={address}
         autoComplete="off"
         onChange={handleAddressChanged}
+        helperText={error ? `${t('Invalid address')}` : ''}
+        className={error ? 'isAddressError' : ''}
       />
-      {error && <p className="text-danger">{t('Invalid address')}</p>}
       {invalidAddress && !error && (
         <p className="text-danger">
           {t('This is not a valid multisig address')}
