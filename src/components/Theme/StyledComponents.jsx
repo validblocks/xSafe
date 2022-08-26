@@ -220,8 +220,8 @@ export const InputsContainer = styled(Box)`
       background-color: transparent;
     }
     & svg {
-      width: 26px;
-      height: 26px;
+      width: 26px !important;
+      height: 26px !important;
       margin: 0;
     }
     & > div.MuiBox-root > div.MuiBox-root:nth-of-type(1) {

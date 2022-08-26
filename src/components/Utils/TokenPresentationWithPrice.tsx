@@ -45,7 +45,8 @@ const TokenPresentationWithPrice = ({
       <Box
         sx={{
           m: '0 .55rem 0 .3rem',
-          '& svg, & img': { width: '35px', height: '35px', m: '0 !important' },
+          '& svg, & img': { width: '35px !important', height: '35px !important', m: '0 !important' },
+          '& img': { borderRadius: '50%' },
         }}
       >
         {tokenPhotoJSX}
