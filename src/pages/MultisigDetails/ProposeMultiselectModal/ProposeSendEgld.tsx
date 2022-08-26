@@ -93,7 +93,7 @@ const ProposeSendEgld = ({
   formik = useFormik({
     initialValues: {
       receiver: '',
-      amount: 0,
+      amount: 1,
       data: '',
     },
     validationSchema,
@@ -144,6 +144,8 @@ const ProposeSendEgld = ({
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;
 
+  console.log(receiverError != null);
+
   return (
     <Box sx={{ p: '1.93rem 2.5rem .3rem' }}>
       <FormikInputField
@@ -153,6 +155,7 @@ const ProposeSendEgld = ({
         error={receiverError}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
+        className={receiverError != null ? 'isError' : ''}
       />
       <Box sx={{ mt: '2.1rem !important' }}>
         <InputTokenPresentation
