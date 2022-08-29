@@ -54,8 +54,6 @@ function Account() {
     () => ({}), [isMainButtonActive],
   );
 
-  console.log(isMainButtonActive);
-
   return (
     <div className="mr-2">
       <Box>
