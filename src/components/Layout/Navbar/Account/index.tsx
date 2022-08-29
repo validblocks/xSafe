@@ -50,21 +50,12 @@ function Account() {
     setIsMainButtonActive(false);
   };
 
-  const MAIN_BUTTON_DEFAULT_STYLE = useMemo(
-    () => ({
-      pr: 1.7,
-      pl: 1,
-      py: 1.2,
-    }),
-    [],
-  );
   const MAIN_BUTTON_VARIABLE_STYLE = useMemo(
-    () => ({
-      backgroundColor: isMainButtonActive ? '#4C2FFC !important' : '',
-      color: isMainButtonActive ? '#FFFF !important' : '',
-    }),
-    [isMainButtonActive],
+    () => ({}), [isMainButtonActive],
   );
+
+  console.log(isMainButtonActive);
+
   return (
     <div className="mr-2">
       <Box>
@@ -72,7 +63,8 @@ function Account() {
           variant="outlined"
           onClick={handleClick}
           size="large"
-          sx={{ ...MAIN_BUTTON_DEFAULT_STYLE, ...MAIN_BUTTON_VARIABLE_STYLE }}
+          className={isMainButtonActive ? 'isActive' : ''}
+          sx={{ ...MAIN_BUTTON_VARIABLE_STYLE }}
         >
           {loggedIn ? (
             <Box className="d-flex">

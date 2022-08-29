@@ -21,7 +21,7 @@ export const MainButton = styled(Button)`
     color: grey !important;
     box-shadow: none !important;
   }
-  &:hover {
+  &:hover, &.isActive {
     background-color: ${(props) => props.theme.palette.primary.main} !important;
     color: ${(props) => props.theme.palette.background.white} !important;
     & svg path {
