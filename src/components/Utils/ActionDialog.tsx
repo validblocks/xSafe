@@ -76,7 +76,7 @@ export default function ActionDialog({
               {t(dialogContent) as string}
             </DialogContentText>
           </DialogContent>
-          <DialogActions sx={{ p: '1.4rem 1.5rem', justifyContent: 'center' }}>
+          <DialogActions sx={{ p: '0.2rem 1.5rem 1.4rem', justifyContent: 'center' }}>
             <ActionResponseButton className="dialogButton" onClick={handleClose}>Disagree</ActionResponseButton>
             <ActionResponseButton className="dialogButton" onClick={onActionAccepted}>
               Agree
