@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useFormik } from 'formik';
 import { FormikInputField } from 'src/helpers/formikFields';
 import * as Yup from 'yup';
@@ -106,6 +106,15 @@ const ProposeSendNft = ({
   console.log('adresa', memoizedAddress);
 
   console.log(address);
+  const [sendTo, setSendTo] = useState('');
+
+  const handle = (e: any) => {
+    console.log({
+      e,
+    });
+    setSendTo(e.target.value);
+    handleChange(e.target.value);
+  };
 
   return (
     <Box>
@@ -128,7 +137,8 @@ const ProposeSendNft = ({
         <FormikInputField
           label={t('Send to')}
           name={'address'}
-          value=""
+          value={sendTo}
+          handleChange={handle}
           error={addressError}
           handleBlur={formik.handleBlur}
         />
