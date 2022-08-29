@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useFormik } from 'formik';
+import React, { useEffect, useMemo } from 'react';
+import { FormikProps, useFormik } from 'formik';
 import { FormikInputField } from 'src/helpers/formikFields';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -18,6 +18,12 @@ interface ProposeSendNftType {
   setSubmitDisabled: (value: boolean) => void;
 }
 
+interface IFormValues {
+  address: string;
+  identifier: string;
+  nonce: string;
+}
+
 function validateRecipient(value?: string) {
   try {
     // eslint-disable-next-line no-new
@@ -33,6 +39,8 @@ const ProposeSendNft = ({
   setSubmitDisabled,
 }: ProposeSendNftType) => {
   const { t } = useTranslation();
+
+  let formik: FormikProps<IFormValues>;
 
   const selectedNft = useSelector(selectedNftToSendSelector);
 
@@ -50,7 +58,8 @@ const ProposeSendNft = ({
     [],
   );
 
-  const formik = useFormik({
+  // eslint-disable-next-line prefer-const
+  formik = useFormik({
     initialValues: {
       address: '',
       identifier: selectedNft?.identifier ?? '',
@@ -60,9 +69,10 @@ const ProposeSendNft = ({
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
-  });
+  } as any);
 
   const queryClient = useQueryClient();
+  console.log({ handleChange });
 
   const { searchedNft } = useNft(queryClient, selectedNft.identifier);
 
@@ -101,20 +111,12 @@ const ProposeSendNft = ({
     refreshProposal();
   }, [address, identifier, nonce]);
 
-  ({ address } = useGetAccountInfo());
-  const memoizedAddress = useMemo(() => new Address(address), [address]);
+  const { address: address2 } = useGetAccountInfo();
+
+  const memoizedAddress = useMemo(() => new Address(address2), [address2]);
   console.log('adresa', memoizedAddress);
 
   console.log(address);
-  const [sendTo, setSendTo] = useState('');
-
-  const handle = (e: any) => {
-    console.log({
-      e,
-    });
-    setSendTo(e.target.value);
-    handleChange(e.target.value);
-  };
 
   return (
     <Box>
@@ -137,8 +139,8 @@ const ProposeSendNft = ({
         <FormikInputField
           label={t('Send to')}
           name={'address'}
-          value={sendTo}
-          handleChange={handle}
+          value={address}
+          handleChange={formik.handleChange}
           error={addressError}
           handleBlur={formik.handleBlur}
         />
