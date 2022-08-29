@@ -251,16 +251,10 @@ export const DepositDoneAction = styled(Button)`
 `;
 
 export const ActionResponseButton = styled(MainButton)`
-  &.disagree {
+  &.dialogButton {
+    width: 100% !important;
+    height: 48px;
     box-shadow: none !important;
-    font-weight: ${(props) => props.theme.font.weight.md} !important;
-  };
-  &.agree {
-    box-shadow: none !important;
-    border: solid 1px ${(props) => props.theme.palette.background.main} !important;
-    background-color: ${(props) => props.theme.palette.primary.main} !important;
-    color: ${(props) => props.theme.palette.background.white} !important;
-    font-weight: ${(props) => props.theme.font.weight.md} !important;
   };
 `;
 
