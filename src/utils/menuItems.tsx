@@ -11,7 +11,10 @@ import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LockIcon from '@mui/icons-material/Lock';
 import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
+import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import { AppIdentifiers } from 'src/pages/Marketplace/appIds';
+import { uniqueContractAddress } from 'src/multisigConfig';
+import routeNames from 'src/routes/routeNames';
 
 export type MenuItem = {
   name: string;
@@ -50,6 +53,14 @@ export const availableApps: MenuItem[] = [
 ];
 
 const topItems: MenuItem[] = [
+  {
+    name: 'Home',
+    link: uniqueContractAddress
+      ? `/multisig/${uniqueContractAddress}`
+      : routeNames.welcome,
+    id: 'home-menu-item',
+    icon: <HomeRoundedIcon />,
+  },
   {
     name: 'Assets',
     link: 'assets',
@@ -134,6 +145,14 @@ const bottomItems = [
 ];
 
 const mobileBottomItems = [
+  {
+    name: 'Home',
+    link: uniqueContractAddress
+      ? `/multisig/${uniqueContractAddress}`
+      : routeNames.welcome,
+    id: 'home-menu-item',
+    icon: <HomeRoundedIcon />,
+  },
   {
     name: 'Assets',
     link: 'assets',

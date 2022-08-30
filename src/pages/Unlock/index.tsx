@@ -13,6 +13,7 @@ import routeNames from 'src/routes/routeNames';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
+import { isMultiWalletModeSelector } from 'src/redux/selectors/accountSelector';
 
 declare global {
   interface Window {
@@ -41,9 +42,12 @@ const Unlock = () => {
   };
 
   const navigate = useNavigate();
+  const isMultiWalletMode = useSelector(isMultiWalletModeSelector);
 
   useEffect(() => {
-    if (isLoggedIn) navigate(`${routeNames.multisig}/${currentContract.address}`);
+    if (isLoggedIn) {
+      if (!isMultiWalletMode) { navigate(`${routeNames.multisig}/${currentContract.address}`); }
+    }
   }, [currentContract?.address, isLoggedIn, navigate]);
 
   if (loginMethod !== '') {

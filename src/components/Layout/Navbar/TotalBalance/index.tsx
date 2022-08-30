@@ -13,7 +13,13 @@ import { setValueInUsd } from 'src/redux/slices/currencySlice';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
 import Divider from '@mui/material/Divider';
-import { setMultisigBalance, setOrganizationTokens, setTokenTableRows, StateType } from 'src/redux/slices/accountSlice';
+import {
+  setMultisigBalance,
+  setOrganizationTokens,
+  setTokenTableRows,
+  setTotalUsdBalance,
+  StateType,
+} from 'src/redux/slices/accountSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
@@ -45,12 +51,19 @@ function TotalBalance() {
     [currentContract, currentContract?.address, proxy],
   );
 
-  // const queryClient = useQueryClient();
-  // useEffect(() => {
-  //   queryClient.invalidateQueries(QueryKeys.ADDRESS_ESDT_TOKENS);
-  // }, [currentContract]);
-
-  console.log('rendering total balance', currentContract?.address);
+  const {
+    data: _nftList,
+  } = useQuery(
+    [
+      QueryKeys.ALL_ORGANIZATION_NFTS,
+    ],
+    () => ElrondApiProvider.fetchOrganizationNFTs(currentContract?.address),
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+      keepPreviousData: true,
+      enabled: !!currentContract?.address,
+    },
+  );
 
   const {
     data: addressTokens,
@@ -85,7 +98,6 @@ function TotalBalance() {
     },
   );
 
-  console.log({ addressTokens });
   useEffect(() => {
     if (!addressTokens) return;
     refetchEgldBalaneDetails();
@@ -142,13 +154,11 @@ function TotalBalance() {
   }, [addressTokens, egldBalanceDetails, egldPrice]);
 
   useEffect(() => {
-    console.log('enter useE');
     if (
       !currentContract?.address
       || !newTokensWithPrices
       || !egldBalanceDetails
     ) {
-      console.log('returning in use effect');
       return;
     }
 
@@ -190,7 +200,6 @@ function TotalBalance() {
 
         const persistedBalance = JSON.stringify(egldBalanceDetails);
 
-        console.log('setting TTR ', newTokensWithPrices);
         dispatch(setMultisigBalance(persistedBalance));
         dispatch(setTokenTableRows(newTokensWithPrices));
         dispatch(setOrganizationTokens(organizationTokens));
@@ -213,6 +222,7 @@ function TotalBalance() {
     setTotalUsdValue(
       totalAssetsValue + totalEgldValue,
     );
+    dispatch(setTotalUsdBalance(totalAssetsValue + totalEgldValue));
   }, [egldBalanceDetails, egldPrice, newTokensWithPrices]);
 
   useEffect(() => {
@@ -235,7 +245,6 @@ function TotalBalance() {
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
 
   const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
-
   console.log({ isInReadOnlyMode });
 
   return (

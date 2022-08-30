@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { transactionServices, useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { transactionServices, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSafeName } from 'src/redux/slices/safeNameSlice';
@@ -50,6 +50,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
   const safeName = useSelector(safeNameStoredSelector);
+  const { isLoggedIn } = useGetLoginInfo();
 
   useEffect(() => {
     dispatch(setSafeName(uniqueContractName?.length > 0 ? uniqueContractName : safeName));
@@ -80,15 +81,18 @@ function OrganizationInfoContextProvider({ children }: Props) {
   }, [allMemberAddresses]);
 
   useEffect(() => {
-    if (!address) {
+    if (!address || !isLoggedIn || !currentContract?.address) {
       setUserRole(-1);
+      setIsInReadOnlyMode(true);
       return;
     }
+
+    console.log('calling user role for address ', address);
     queryUserRole(new Address(address).hex()).then((userRoleResponse) => {
       setUserRole(userRoleResponse);
       dispatch(setIsInReadOnlyMode(userRole !== 2));
     });
-  }, [address, dispatch, userRole]);
+  }, [address, currentContract?.address, dispatch, isLoggedIn, userRole]);
 
   useEffect(() => {
     console.log('setting is read only to ', userRole !== 2);

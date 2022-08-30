@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import QrCode from 'qrcode.react';
 import { Modal } from 'react-bootstrap';
+import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Typography } from '@mui/material';
 import CopyButton from '../CopyButton';
 import { MainButton, DepositDoneAction } from '../Theme/StyledComponents';
@@ -9,8 +10,10 @@ const ReceiveModal = ({
   showQrFromSidebar,
   address,
   handleQr,
+  showQrFromCard = false,
 }: {
   showQrFromSidebar?: boolean;
+  showQrFromCard?: boolean;
   address?: string;
   handleQr?: () => void;
 }) => {
@@ -22,6 +25,8 @@ const ReceiveModal = ({
   useEffect(() => {
     if (showQrFromSidebar !== undefined) setShowModal(showQrFromSidebar);
   }, [showQrFromSidebar]);
+
+  console.log({ showQrFromCard });
 
   if (!address) {
     return null;
@@ -38,8 +43,15 @@ const ReceiveModal = ({
           onClick={handleOpenModal}
           sx={{
             opacity: '1 !important',
+            width: '100%',
+            ...(showQrFromCard && {
+              fontSize: '15px !important',
+              marginTop: '15px !important',
+              fontWeight: 'normal !important',
+            }),
           }}
         >
+          <QrCode2Icon sx={{ marginRight: '5px', fontSize: '16px' }} />
           Receive
         </MainButton>
       )}

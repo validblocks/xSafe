@@ -3,10 +3,7 @@ import { createDeepEqualSelector } from './helpers';
 import { RootState } from '../store';
 import { StateType } from '../slices/accountSlice';
 
-export const accountSelector = (state: RootState) => {
-  console.log({ state222: state });
-  return state.account;
-};
+export const accountSelector = (state: RootState) => state.account;
 
 const DEFAULT_ORGANIZATION_TOKEN = {
   prettyIdentifier: 'ID',
@@ -23,6 +20,11 @@ export const usernameSelector = createDeepEqualSelector(
 export const tokenTableRowsSelector = createDeepEqualSelector(
   accountSelector,
   (state) => state.tokenTableRows,
+);
+
+export const totalUsdValueSelector = createDeepEqualSelector(
+  accountSelector,
+  (state) => state.totalUsdValue,
 );
 
 export const organizationTokensSelector = createDeepEqualSelector(

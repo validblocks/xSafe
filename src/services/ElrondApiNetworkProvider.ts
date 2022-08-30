@@ -57,6 +57,17 @@ export class ElrondApiNetworkProvider extends ApiNetworkProvider {
       return false;
     }
   }
+
+  async fetchOrganizationNFTs(address: string): Promise<boolean> {
+    if (!address) return false;
+
+    try {
+      return this.doGetGeneric(`accounts/${address}/nfts`);
+    } catch (err) {
+      console.error('Error fetching NFTs');
+      return false;
+    }
+  }
 }
 
 export const ElrondApiProvider = new ElrondApiNetworkProvider(

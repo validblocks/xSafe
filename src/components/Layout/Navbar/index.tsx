@@ -19,6 +19,7 @@ import { useLocalStorage } from 'src/utils/useLocalStorage';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
 import { useSelector } from 'react-redux';
+import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 import AccountDetails from './NavbarAccountDetails';
 import './menu.scss';
 import {
@@ -114,6 +115,28 @@ const MiniDrawer = () => {
           <AccountDetails uniqueAddress={walletAddress} />
           <Divider />
         </List>
+        {
+          !currentContract?.address && (
+            <Box
+              marginTop={1}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <VpnKeyRoundedIcon
+                sx={{
+                  border: '1px solid #ddd',
+                  fontSize: '36px',
+                  padding: '5px',
+                  borderRadius: '100%',
+                }}
+                color="disabled"
+              />
+            </Box>
+          )
+        }
         {currentContract?.address && (
           <TopMenu>
             {menuItems.topItems.map((el) => (

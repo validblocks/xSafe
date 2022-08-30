@@ -1,16 +1,24 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Address, Balance } from '@elrondnetwork/erdjs';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
 import ReceiveModal from 'src/components/ReceiveModal';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import {
   currentMultisigContractSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
-import MultisigDetailsAccordion from './MultisigDetailsAccordion';
+import { organizationTokensSelector, totalUsdValueSelector } from 'src/redux/selectors/accountSelector';
+import { useQueryClient } from 'react-query';
+import { Box, Button, Divider, Grid } from '@mui/material';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import AmountWithTitleCard from 'src/components/Utils/AmountWithTitleCard';
+import { MainButton } from 'src/components/Theme/StyledComponents';
+import useCurrencyConversion from 'src/utils/useCurrencyConversion';
+import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
+import routeNames from 'src/routes/routeNames';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 export interface ContractInfo {
@@ -36,147 +44,26 @@ function MultisigDetailsPage() {
 
   const { multisigAddressParam } = useParams<string>();
   const { t }: { t: any } = useTranslation();
-
-  // async function getDashboardInfo() {
-  //   if (currentContract == null) {
-  //     return;
-  //   }
-  //   const proxy = getNetworkProxy();
-  //   try {
-  //     const [
-  //       newTotalBoardMembers,
-  //       newTotalProposers,
-  //       newQuorumSize,
-  //       newUserRole,
-  //       newAllActions,
-  //       account,
-  //       boardMembersAddresses,
-  //       proposersAddresses,
-  //     ] = await Promise.all([
-  //       queryBoardMembersCount(),
-  //       queryProposersCount(),
-  //       queryQuorumCount(),
-  //       queryUserRole(new Address(address).hex()),
-  //       queryAllActions(),
-  //       proxy.getAccount(new Address(currentContract.address)),
-  //       queryBoardMemberAddresses(),
-  //       queryProposerAddresses(),
-  //     ]);
-  //     const accountInfo = await ElrondApiProvider.getAccountData(currentContract.address);
-  //     const newContractInfo: ContractInfo = {
-  //       totalBoardMembers: newTotalBoardMembers,
-  //       totalProposers: newTotalProposers,
-  //       quorumSize: newQuorumSize,
-  //       userRole: newUserRole,
-  //       deployedAt: moment.unix(accountInfo.deployedAt).format('DD MMM YYYY'),
-  //       allActions: newAllActions,
-  //       multisigBalance: account.balance,
-  //       boardMembersAddresses,
-  //       proposersAddresses,
-  //     };
-
-  //     setContractInfo(newContractInfo);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if (!isLoggedIn) {
-  //     navigate(routeNames.unlock);
-  //   }
-  // }, [isLoggedIn, navigate]);
-
-  // useEffect(() => {
-  //   if (!currentContract) return;
-
-  //   console.log('aaaa');
-
-  // const tryParseUrlParams = async () => {
-  //   const parameters = await tryParseTransactionParameter(apiAddress);
-  //   if (parameters === null) {
-  //     return;
-  //   }
-
-  //   if (parameters.receiver.bech32() === currentContract?.address) {
-  //     if (parameters.functionName.startsWith('propose')) {
-  //       if (
-  //         parameters.outputParameters.length === 2 &&
-  //         hexToString(parameters.outputParameters[0]) === 'ok'
-  //       ) {
-  //         const actionId = hexToNumber(parameters.outputParameters[1]);
-  //         if (actionId !== null) {
-  //           onSignOrPropose(actionId);
-  //         }
-  //       }
-  //     } else if (parameters.functionName === 'sign') {
-  //       if (
-  //         parameters.outputParameters.length === 1 &&
-  //         hexToString(parameters.outputParameters[0]) === 'ok'
-  //       ) {
-  //         const actionId = hexToNumber(parameters.inputParameters[0]);
-  //         if (actionId !== null) {
-  //           onSignOrPropose(actionId);
-  //         }
-  //       }
-  //     } else if (parameters.functionName === 'unsign') {
-  //       if (
-  //         parameters.outputParameters.length === 1 &&
-  //         hexToString(parameters.outputParameters[0]) === 'ok'
-  //       ) {
-  //         const actionId = hexToNumber(parameters.inputParameters[0]);
-  //         if (actionId !== null) {
-  //           onUnsign(actionId);
-  //         }
-  //       }
-  //     }
-  //   }
-  // };
-
-  // tryParseUrlParams();
-  //   const parseMultisigAddress = (addressParam: string): Address | null => {
-  //     try {
-  //       return new Address(addressParam);
-  //     } catch {
-  //       return null;
-  //     }
-  //   };
-
-  //   const newMultisigAddressParam = parseMultisigAddress(multisigAddressParam ?? '');
-  //   if (newMultisigAddressParam === null) {
-  //     return;
-  //   }
-
-  //   const isCurrentMultisigAddressNotSet = currentContract == null;
-  //   const isCurrentMultisigAddressDiferentThanParam =
-  //     newMultisigAddressParam != null &&
-  //     currentContract?.address !== newMultisigAddressParam.bech32();
-
-  //   if (
-  //     (isCurrentMultisigAddressNotSet ||
-  //       isCurrentMultisigAddressDiferentThanParam) &&
-  //     newMultisigAddressParam != null
-  //   ) {
-  //     console.log('updating current multsig contract');
-  //     dispatch(setCurrentMultisigContract(newMultisigAddressParam.bech32()));
-  //   } else {
-  //     console.log('calling getDashboardInfo');
-  //     getDashboardInfo();
-  //   }
-  // }, [currentContract?.address, currentMultisigTransactionId, address, currentContract, multisigAddressParam]);
+  const navigate = useNavigate();
 
   const userRoleAsString = useMemo(() => {
     switch (userRole) {
       case 0:
         return 'No rights';
-      case 1:
-        return 'Proposer';
       case 2:
-        return 'Board Member (Propose and Sign)';
+        return 'Board Member';
       default:
         return 'Not logged in';
     }
   }, [userRole]);
+
+  const userRoleDescriptions = useMemo(() => ({
+    'No rights': 'You have no rights',
+    'Board Member': 'Propose and sign',
+    'Not logged in': 'Login to propose',
+  }), [userRoleAsString]);
+
+  const userRoleDescription = useMemo(() => userRoleDescriptions[userRoleAsString], [userRoleAsString]);
 
   const parseMultisigAddress = (addressParam: string): Address | null => {
     try {
@@ -191,41 +78,186 @@ function MultisigDetailsPage() {
     quorumSize,
   }), [quorumSize, totalBoardMembers]);
 
+  const organizationTokens = useSelector(organizationTokensSelector);
+  const [organizatonAssets, setOrganizationAssets] = useState({
+    tokens: 0,
+    NFTs: 0,
+  });
+
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    const nfts = queryClient.getQueryData(QueryKeys.ALL_ORGANIZATION_NFTS) as any;
+    setOrganizationAssets(
+      (assets) => ({ ...assets, tokens: organizationTokens?.length ?? 0, NFTs: nfts?.length ?? 0 }),
+    );
+  }, [organizationTokens, queryClient]);
+
+  const totalUsdValue = useSelector(totalUsdValueSelector);
+  const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
+  const getCurrency = useSelector(selectedCurrencySelector);
+
   if (!parseMultisigAddress(multisigAddressParam ?? '')) {
     return <Navigate to="/multisig" />;
   }
 
   return (
-    <div className="dashboard w-100">
-      <div className="card shadow-lg border-0">
-        <div className="flex-column d-flex align-items-center">
-          <div className="w-100 user-profile">
-            <div className="d-flex profile-meta align-items-center">
-              <div className="user-role d-flex align-items-center">
-                <Text>
-                  <PersonRoundedIcon />
-                  Role:
-                  {' '}
-                  <span className="text">{t(userRoleAsString)}</span>
-                </Text>
-              </div>
+    <>
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', padding: '12px 0', gap: '12px' }}>
+        <Grid container spacing={2}>
+          <Grid item xs={6} md={4} lg={3}>
+            <AmountWithTitleCard
+              needsDollarSign={false}
+              amountValue={''}
+              amountUnityMeasure={t(userRoleAsString)}
+              title={'Your Role'}
+              actionButton={(
+                <Button
+                  disabled
+                  sx={{
+                    background: '#eee !important',
+                    border: '1px solid #ddd !important',
+                    padding: '0.5rem',
+                    marginTop: '1rem',
+                    width: '100%',
+                  }}
+                >
+                  <InfoOutlinedIcon sx={{ marginRight: '5px' }} />
+                  {userRoleDescription}
+                </Button>
+)}
+            />
+          </Grid>
+          <Grid item xs={6} md={4} lg={3}>
+            <AmountWithTitleCard
+              needsDollarSign={false}
+              amountValue={
+            `${(Number(parseFloat(totalUsdValueConverted.toFixed(2))).toLocaleString())} ${getCurrency}`
+          }
+              amountUnityMeasure={''}
+              actionButton={(
+                <ReceiveModal showQrFromCard address={currentContract?.address} />
+)}
+              title={'Organization Funds'}
+            />
+          </Grid>
+        </Grid>
+      </Box>
+      <Divider />
+      <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', padding: '12px 0', gap: '12px' }}>
+        <Grid container spacing={2}>
+          <Grid item xs={6} md={4} lg={3}>
+            <AmountWithTitleCard
+              needsDollarSign={false}
+              amountValue={organizatonAssets.tokens.toString()}
+              amountUnityMeasure={'Tokens'}
+              title={'Organization Tokens'}
+              actionButton={(
+                <MainButton
+                  key="0"
+                  variant="outlined"
+                  size="medium"
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: '400 !important',
+                    paddingLeft: '4px !important',
+                    width: '100%',
+                    marginTop: '1rem',
+                  }}
+                  className="shadow-sm rounded mr-2"
+                  onClick={() =>
+                    navigate(routeNames.assets)
+              }
+                >
+                  <AssetActionIcon width="25px" height="25px" /> View Coins
+                </MainButton>
+)}
+            />
+          </Grid>
+          <Grid item xs={6} md={4} lg={3}>
+            <AmountWithTitleCard
+              needsDollarSign={false}
+              amountValue={
+            organizatonAssets.NFTs.toString()
+          }
+              amountUnityMeasure={'NFTs'}
+              actionButton={(
+                <MainButton
+                  key="0"
+                  variant="outlined"
+                  size="medium"
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: '400 !important',
+                    paddingLeft: '4px !important',
+                    width: '100%',
+                    marginTop: '1rem',
+                  }}
+                  className="shadow-sm rounded mr-2"
+                  onClick={() =>
+                    navigate(routeNames.nft)
+              }
+                >
+                  <AssetActionIcon width="25px" height="25px" /> View NFTs
+                </MainButton>
+)}
+              title={'Organization NFTs'}
+            />
+          </Grid>
+          <Grid item xs={6} md={4} lg={3}>
+            <AmountWithTitleCard
+              needsDollarSign={false}
+              amountValue={contractInfo.totalBoardMembers.toString() ?? '0'}
+              amountUnityMeasure={'Owners'}
+              actionButton={(
+                <MainButton
+                  key="0"
+                  variant="outlined"
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: '400 !important',
+                    paddingLeft: '4px !important',
+                    width: '100%',
+                    marginTop: '1rem',
+                  }}
+                  className="shadow-sm rounded mr-2"
+                  onClick={() => navigate(routeNames.owners)}
+                >
+                  <AssetActionIcon width="25px" height="25px" /> View Owners
+                </MainButton>
+)}
+              title={'Organization Owners'}
+            />
+          </Grid>
+          <Grid item xs={6} md={4} lg={3}>
+            <AmountWithTitleCard
+              needsDollarSign={false}
+              amountValue={`${contractInfo.quorumSize?.toString() ?? '0'}/${contractInfo.totalBoardMembers} `}
+              amountUnityMeasure={'Owners'}
+              actionButton={(
+                <MainButton
+                  key="0"
+                  variant="outlined"
+                  sx={{
+                    fontSize: '14px',
+                    fontWeight: '400 !important',
+                    paddingLeft: '4px !important',
+                    width: '100%',
+                    marginTop: '1rem',
+                  }}
+                  className="shadow-sm rounded mr-2"
+                  onClick={() => navigate(routeNames.cvorum)}
+                >
+                  <AssetActionIcon width="25px" height="25px" /> View Quorum
+                </MainButton>
+)}
+              title={'Organization Quorum'}
+            />
+          </Grid>
+        </Grid>
+      </Box>
 
-            </div>
-          </div>
-          <div className="d-flex flex-column justify-content-center align-items-center action-panel w-100">
-
-            <div className="d-flex justify-content-center">
-              <ReceiveModal address={currentContract?.address} />
-            </div>
-          </div>
-        </div>
-
-        <MultisigDetailsAccordion
-          contractInfo={contractInfo}
-        />
-
-      </div>
-    </div>
+    </>
   );
 }
 

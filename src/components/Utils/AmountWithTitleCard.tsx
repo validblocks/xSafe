@@ -5,7 +5,8 @@ interface Props {
     title: string;
     amountValue: string;
     amountUnityMeasure: string;
-    actionButton?: React.ReactElement | null;
+  actionButton?: React.ReactElement | null;
+  needsDollarSign?: boolean;
 }
 
 const AmountWithTitleCard = ({
@@ -13,6 +14,7 @@ const AmountWithTitleCard = ({
   title = 'Unknown',
   amountUnityMeasure = '',
   actionButton = null,
+  needsDollarSign = true,
 }: Props) => {
   const { t } = useTranslation();
   return (
@@ -21,7 +23,7 @@ const AmountWithTitleCard = ({
     }}
     >
       <Text fontSize="15px" color="black.main" marginBottom="12px">{t(title) as string}:</Text>
-      <Text fontSize="24px" fontWeight="bolder">{amountValue} ${amountUnityMeasure}
+      <Text fontSize="24px" fontWeight="bolder">{amountValue} {needsDollarSign && '$'}{amountUnityMeasure}
       </Text>
       {actionButton}
     </MultisigCard>

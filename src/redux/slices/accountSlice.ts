@@ -21,6 +21,7 @@ export interface StateType {
   isMultiWalletMode: boolean;
   isInReadOnlyMode: boolean;
   multisigBalance: any;
+  totalUsdValue: number;
 }
 
 const initialState: StateType = {
@@ -37,6 +38,7 @@ const initialState: StateType = {
   activeDelegationsRows: [],
   isMultiWalletMode: false,
   isInReadOnlyMode: true,
+  totalUsdValue: 0,
 };
 
 export const accountSlice = createSlice({
@@ -45,6 +47,12 @@ export const accountSlice = createSlice({
   reducers: {
     setAccountData(state: StateType, action: PayloadAction<StateType>) {
       return action.payload;
+    },
+    setTotalUsdBalance(state: StateType, action: PayloadAction<number>) {
+      return {
+        ...state,
+        totalUsdValue: action.payload,
+      };
     },
     setIsMultiWalletMode(state: StateType, action: PayloadAction<boolean>) {
       return {
@@ -100,6 +108,7 @@ export const accountSlice = createSlice({
 
 export const {
   setAccountData,
+  setTotalUsdBalance,
   setTokenTableRows,
   setMultisigBalance,
   setIsInReadOnlyMode,

@@ -52,7 +52,12 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
 
   const safeName = useSelector(safeNameStoredSelector);
   const isMultiWalletMode = useSelector(isMultiWalletModeSelector);
-  console.log({ isMultiWalletMode });
+  const [displayableAddress, setDisplayableAddress] = useState(uniqueAddress);
+
+  useEffect(() => {
+    const result = uniqueAddress.length === 0 ? 'No address' : uniqueAddress;
+    setDisplayableAddress(result);
+  }, [uniqueAddress]);
 
   return (
     <Box>
@@ -81,7 +86,10 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             className="d-flex justify-content-center align-items-center"
           >
             <Text align="center" lineHeight="1">
-              {safeName?.length > 0 ? safeName : uniqueAddress}
+              {safeName?.length > 0
+                ? safeName
+                : displayableAddress
+              }
             </Text>
             {openedSafeSelect === true && (
               <Box
