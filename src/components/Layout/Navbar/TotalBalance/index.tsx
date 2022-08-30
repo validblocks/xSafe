@@ -218,8 +218,6 @@ function TotalBalance() {
   const getCurrency = useSelector(selectedCurrencySelector);
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
 
-  console.log('UITE AICI', totalUsdValueConverted);
-
   return (
     <Box
       sx={{
