@@ -114,9 +114,6 @@ const ProposeSendNft = ({
   const { address: address2 } = useGetAccountInfo();
 
   const memoizedAddress = useMemo(() => new Address(address2), [address2]);
-  console.log('adresa', memoizedAddress);
-
-  console.log(address);
 
   return (
     <Box>
@@ -143,6 +140,7 @@ const ProposeSendNft = ({
           handleChange={formik.handleChange}
           error={addressError}
           handleBlur={formik.handleBlur}
+          className={addressError ? 'isError' : ''}
         />
       </Box>
     </Box>
