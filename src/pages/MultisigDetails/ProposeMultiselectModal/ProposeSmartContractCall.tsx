@@ -18,6 +18,7 @@ import { FormikInputField } from 'src/helpers/formikFields';
 import { denomination } from 'src/config';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { Box } from '@mui/material';
 
 interface ProposeSmartContractCallType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -200,7 +201,7 @@ const ProposeSmartContractCall = ({
     touched.args.every((arg) => arg) &&
     errors.args;
   return (
-    <div>
+    <Box sx={{ p: '1.1rem' }}>
       <FormikInputField
         label={t('Send to')}
         name="receiver"
@@ -208,6 +209,7 @@ const ProposeSmartContractCall = ({
         error={receiverError}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
+        className={receiverError ? 'isError' : ''}
       />
       <div className="modal-control-container">
         <label htmlFor="amount">{t('Amount') as string}</label>
@@ -278,7 +280,7 @@ const ProposeSmartContractCall = ({
           </div>
         </div>
       )}
-    </div>
+    </Box>
   );
 };
 

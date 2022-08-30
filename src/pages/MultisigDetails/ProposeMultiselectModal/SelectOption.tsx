@@ -51,7 +51,7 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
   const decoratedOnClick = useAccordionToggle('0', handleToggleExpanded);
   return (
     <Box sx={{ px: '2.75rem', pt: '1.8rem' }}>
-      <div className="card select-options-list">
+      <Box className="card select-options-list">
         {proposeAvailableOptions.map((option) => (
           <MainButton
             key={option.type}
@@ -61,7 +61,7 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
             {option.label}
           </MainButton>
         ))}
-      </div>
+      </Box>
       <div className="card select-options-list">
         <Accordion>
           <Box sx={{ '& button[tabindex="-1"]:focus:not(:focus-visible)': { outline: 'none !important' } }}>
