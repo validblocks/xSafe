@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import {
@@ -22,7 +21,7 @@ import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeContractFromSource';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
-import { MainButton } from 'src/components/Theme/StyledComponents';
+import { MainButton, ModalContainer } from 'src/components/Theme/StyledComponents';
 import { Box } from '@mui/material';
 import { titles } from '../constants';
 import AttachContractContent from './AttachContractContent';
@@ -269,17 +268,17 @@ const ProposeMultiselectModal = ({
   );
 
   return (
-    <Modal
+    <ModalContainer
       backdrop="static"
       show
       size="lg"
       onHide={handleClose}
-      className="modal-container proposal-modal"
+      className="modal-container proposal-modal isSendTokenModal"
       animation={false}
       centered
     >
       {modalContent}
-    </Modal>
+    </ModalContainer>
   );
 };
 
