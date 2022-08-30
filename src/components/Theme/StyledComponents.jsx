@@ -1,4 +1,5 @@
 import { Button, Typography, Box, Select, TextField } from '@mui/material';
+import { Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
@@ -297,4 +298,10 @@ export const ProposeAddressInput = styled(TextField)`
       border-color: ${(props) => props.theme.palette.danger.main} !important;
     };
   }
+`;
+
+export const ModalContainer = styled(Modal)`
+&.isSendTokenModal ~ .MuiPopover-root > .MuiPaper-root {
+  left: calc(100vw - 50.1%) !important;
+};
 `;
