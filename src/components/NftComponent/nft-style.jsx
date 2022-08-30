@@ -67,10 +67,6 @@ export const CardBox = styled(Card)`
     transition: bottom .2s linear;
   };
   &:hover{
-    transform: scale(1.05);
-    box-shadow: 
-      0px 2px 10px rgba(191, 191, 191, 0.4),
-      0px 3px 12px rgba(191, 191, 191, 0.4);
     & span {
       top: 13px;
       font-size: 15px;
