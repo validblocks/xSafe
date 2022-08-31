@@ -146,7 +146,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
             textAlign: 'center',
             fontSize: '22px',
           }}
-        >Nothing to show
+        >You don't have any funds waiting to be withdrawn at this moment
         </Typography>
       ) : (rows.map((row) => (
         <TransactionAccordion
