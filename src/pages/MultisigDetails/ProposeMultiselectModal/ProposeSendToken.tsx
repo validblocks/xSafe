@@ -19,7 +19,7 @@ import { StateType } from 'src/redux/slices/accountSlice';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import ActionDialog from 'src/components/Utils/ActionDialog';
 import { ProposalsTypes } from 'src/types/Proposals';
-import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
+import { setProposeMultiselectSelectedOption, setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
 import { InputsContainer } from 'src/components/Theme/StyledComponents';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 
@@ -63,8 +63,9 @@ const ProposeSendToken = ({
   };
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
-  const [identifier, setIdentifier] = useState(selectedToken.identifier);
-  const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
+  const [identifier, setIdentifier] = useState(selectedToken?.identifier);
+  let tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
+  tokenTableRows = tokenTableRows.slice(0, 1);
 
   const availableTokensWithBalances = useMemo(
     () =>
@@ -76,7 +77,7 @@ const ProposeSendToken = ({
   );
 
   const selectedTokenBalance = useMemo(
-    () => availableTokensWithBalances.find(
+    () => availableTokensWithBalances?.find(
       (token: TokenTableRowItem) => token?.identifier === identifier,
     )?.balance as string,
     [availableTokensWithBalances, identifier],
@@ -182,6 +183,28 @@ const ProposeSendToken = ({
   const addressError = touched.address && errors.address;
   const [isSendEgldPromptOpen, setIsSendEgldPromptOpen] = useState(false);
 
+  useEffect(() => {
+    console.log({ check: identifier });
+    console.log({ selectedToken });
+    if (!selectedToken?.identifier) {
+      const firstDifferentThanEgld = tokenTableRows.find((item) => item.identifier !== 'EGLD');
+      if (!firstDifferentThanEgld) {
+        setIdentifier('EGLD');
+        setIsSendEgldPromptOpen(true);
+      }
+
+      console.log('setting identifier ', firstDifferentThanEgld?.identifier);
+      setIdentifier(firstDifferentThanEgld?.identifier);
+      dispatch(
+        setSelectedTokenToSend({
+          id: firstDifferentThanEgld?.identifier,
+          identifier: firstDifferentThanEgld?.identifier,
+          balance: firstDifferentThanEgld?.balance,
+        }),
+      );
+    }
+  }, [dispatch, identifier, tokenTableRows]);
+
   const onIdentifierChanged = (event: SelectChangeEvent) => {
     const newIdentifier = event.target.value;
     if (newIdentifier === 'EGLD') {
@@ -239,7 +262,7 @@ const ProposeSendToken = ({
         </Form.Control.Feedback>
         )}
         <Select
-          value={identifier}
+          value={identifier ?? ''}
           fullWidth
           label="Identifier"
           size="small"
@@ -298,6 +321,13 @@ const ProposeSendToken = ({
           const firstDifferentIdentifier = tokenTableRows
             ?.find((token: TokenTableRowItem) => token.identifier !== 'EGLD')?.identifier;
           setIdentifier(firstDifferentIdentifier);
+          // dispatch(
+          //   setSelectedTokenToSend({
+          //     id: token.id,
+          //     identifier: token.identifier,
+          //     balance: token.balance,
+          //   }),
+          // );
         }}
       />
     </Box>
