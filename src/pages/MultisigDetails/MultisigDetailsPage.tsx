@@ -89,10 +89,11 @@ function MultisigDetailsPage() {
 
   useEffect(() => {
     const nfts = queryClient.getQueryData(QueryKeys.ALL_ORGANIZATION_NFTS) as any;
+    console.log('nfts rewatched ', nfts);
     setOrganizationAssets(
       (assets) => ({ ...assets, tokens: organizationTokens?.length ?? 0, NFTs: nfts?.length ?? 0 }),
     );
-  }, [organizationTokens, queryClient]);
+  }, [organizationTokens, queryClient, currentContract?.address]);
 
   const totalUsdValue = useSelector(totalUsdValueSelector);
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);

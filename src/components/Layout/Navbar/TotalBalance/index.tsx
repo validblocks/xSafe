@@ -51,13 +51,19 @@ function TotalBalance() {
     [currentContract, currentContract?.address, proxy],
   );
 
+  const fetchNFTs = useCallback(
+    () => ElrondApiProvider.fetchOrganizationNFTs(currentContract?.address),
+    [currentContract, currentContract?.address, proxy],
+  );
+
   const {
     data: _nftList,
+    refetch: refetchNFTs,
   } = useQuery(
     [
       QueryKeys.ALL_ORGANIZATION_NFTS,
     ],
-    () => ElrondApiProvider.fetchOrganizationNFTs(currentContract?.address),
+    fetchNFTs,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
       keepPreviousData: true,
@@ -67,6 +73,7 @@ function TotalBalance() {
 
   const {
     data: addressTokens,
+    refetch: refetchAddressTokens,
   } = useQuery(
     [
       QueryKeys.ADDRESS_ESDT_TOKENS,
@@ -97,6 +104,20 @@ function TotalBalance() {
       select: (data) => data.balance,
     },
   );
+
+  useEffect(() => {
+    if (!currentContract?.address) return;
+
+    console.log('invalidating queries');
+    refetchAddressTokens();
+    refetchEgldBalaneDetails();
+    refetchNFTs();
+    // queryClient.invalidateQueries([
+    //   QueryKeys.ADDRESS_EGLD_TOKENS,
+    //   QueryKeys.ADDRESS_ESDT_TOKENS,
+    //   QueryKeys.ALL_ORGANIZATION_NFTS,
+    // ]);
+  }, [currentContract?.address]);
 
   useEffect(() => {
     if (!addressTokens) return;

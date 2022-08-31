@@ -16,11 +16,10 @@ import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getIsProviderEqualTo } from '@elrondnetwork/dapp-core';
 import { providerTypes } from 'src/helpers/constants';
-import { faArrowRight, faPlus, faWallet } from '@fortawesome/free-solid-svg-icons';
-import CreateWallet from 'src/assets/img/create-wallet.svg';
-import OpenWallet from 'src/assets/img/open-wallet.svg';
+import { faPlus, faWallet } from '@fortawesome/free-solid-svg-icons';
+// import CreateWallet from 'src/assets/img/create-wallet.svg';
+// import OpenWallet from 'src/assets/img/open-wallet.svg';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
-import wawe from 'src/assets/img/wawe.svg';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
@@ -63,21 +62,40 @@ function Dashboard() {
   }
 
   const deployButton = (
-    <button
+    // <button
+    //   disabled={isWalletProvider}
+    //   onClick={onDeployClicked}
+    //   className="shadow-sm"
+    //   style={{ pointerEvents: isWalletProvider ? 'none' : 'auto' }}
+    // >
+    //   <figure>
+    //     <img src={CreateWallet} alt="create-wallet-icon" />
+    //   </figure>
+    //   <p className="action">
+    //     {t('Create wallet')}
+    //     <FontAwesomeIcon icon={faArrowRight} />
+    //   </p>
+    //   <p className="info-text">Create an organization</p>
+    // </button>
+    <Button
       disabled={isWalletProvider}
-      onClick={onDeployClicked}
-      className="shadow-sm"
-      style={{ pointerEvents: isWalletProvider ? 'none' : 'auto' }}
+      onClick={() => setShowDeployMultisigModal(true)}
+      sx={{
+        width: '100%',
+        background: '#4c2ffc',
+        color: '#fff',
+        borderRadius: 0,
+        padding: '1.5rem',
+        borderTop: '1px solid rgba(76, 47, 252, 0.54)',
+        pointerEvents: isWalletProvider ? 'none' : 'auto',
+        '&:hover': {
+          background: '#4c2ffc',
+          color: '#fff',
+        },
+      }}
     >
-      <figure>
-        <img src={CreateWallet} alt="create-wallet-icon" />
-      </figure>
-      <p className="action">
-        {t('Create wallet')}
-        <FontAwesomeIcon icon={faArrowRight} />
-      </p>
-      <p className="info-text">Create an organization</p>
-    </button>
+      {t('Create a new Safe')}
+    </Button>
   );
 
   const deployButtonContainer = isWalletProvider ? (
@@ -146,100 +164,110 @@ function Dashboard() {
   if (isMultiWalletMode) {
     return (
       <>
-        <Box>
-          <Text fontSize={36} fontWeight={700}>
-            {t(`Welcome to ${dAppName}`)}
-          </Text>
-          <Text fontSize={16} fontWeight={400}>
-            {t(`${dAppName} is the first platform for digital assets management built on the Elrond Network.`)}
-          </Text>
 
-        </Box>
-        <Grid
-          sx={{ width: '100%',
-            borderRadius: '10px',
-            boxShadow: '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
-            backgroundColor: '#ffff',
-            border: 'none',
-            overflow: 'hidden',
-          }}
-          container
-        >
-          {/* <Grid flex={0.5} item>
-            <img height={400} src={BigSafe} alt="Safe" />
-          </Grid> */}
-          <Grid flex={1} item>
-            <Box sx={{ padding: '2rem 3rem', display: 'flex', flexDirection: 'column' }}>
-              <Box marginY={'1rem'}><AddRoundedIcon /></Box>
-              <Text fontSize={24} fontWeight={600} marginY={'1rem'}>{t('Create a new Safe')}</Text>
-              <Text
-                fontSize={17}
-                marginY={'1rem'}
-              >{t('Create a new Safe that is controlled by one or multiple owners.')}
-              </Text>
-              <Text
-                fontSize={17}
-                fontWeight={700}
-              >{t('You will be required to pay a network fee for creating your new Safe.')}
-              </Text>
-            </Box>
-            <Box>
-              <Button sx={{ width: '100%', background: '#4c2ffc', color: '#fff', borderRadius: 0, padding: '1.5rem' }}>
-                {t('Create a new Safe')}
-              </Button>
-            </Box>
-          </Grid>
-          <Grid flex={1} item>
-            <Box sx={{ padding: '2rem 3rem', display: 'flex', flexDirection: 'column' }}>
-              <Box marginY={'1rem'}><FileDownloadRoundedIcon /></Box>
-              <Text fontSize={24} fontWeight={600} marginY={'1rem'}>{t('Load an existing Safe')}</Text>
-              <Text
-                fontSize={17}
-                marginY={'1rem'}
-              >{t('Create a new Safe that is controlled by one or multiple owners.')}
-              </Text>
-              <Text
-                fontSize={17}
-                fontWeight={700}
-              >{t('You will be required to pay a network fee for creating your new Safe.')}
-              </Text>
-            </Box>
-            <Box>
-              <Button sx={{ width: '100%', borderRadius: 0, padding: '1.5rem' }}>
-                {t('Create a new Safe')}
-              </Button>
-            </Box>
-          </Grid>s
-        </Grid>
         <div className="my-wallets">
-          <div className="welcome text-center">
-            <h2>
-              Welcome to Multisig
-              <span>
-                <img src={wawe} alt="wawe-icon" width="36" height="36" />
-              </span>
-            </h2>
-            <p>Create your own organization in a few minutes</p>
-          </div>
-          {multisigContracts?.length === 0 ? (
-            <div className="c-o-wallet-card">
-              <div className="d-flex wallet-spacer">
-                {deployButtonContainer}
 
-                <button onClick={onAddMultisigClicked} className="shadow-sm">
-                  <figure>
-                    <img src={OpenWallet} alt="create-wallet-icon" />
-                  </figure>
-                  <p className="action">
-                    {t('Open wallet')}
-                    <FontAwesomeIcon icon={faArrowRight} />
-                  </p>
-                  <p className="info-text">
-                    Search and explore existing organizations
-                  </p>
-                </button>
-              </div>
-            </div>
+          {multisigContracts?.length === 0 ? (
+            <Grid container gap={3}>
+              <Grid item height={'100%'} display={'flex'} flexDirection={'column'} flex={2} justifyContent={'center'}>
+                <Box>
+                  <Text fontSize={36} fontWeight={700}>
+                    {t(`Welcome to ${dAppName}`)}
+                  </Text>
+                  <Text marginY={3} fontSize={16} fontWeight={400}>
+                    {t(`${dAppName} is the first platform for digital assets management built on the Elrond Network.`)}
+                  </Text>
+                </Box>
+                <Grid
+                  sx={{ width: '100%',
+                    borderRadius: '10px',
+                    boxShadow: '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
+                    backgroundColor: '#ffff',
+                    border: 'none',
+                    overflow: 'hidden',
+                    height: '100%',
+                  }}
+                  container
+                >
+                  <Grid
+                    item
+                    flex={1}
+                    xs={12}
+                    md={6}
+                    display={'flex'}
+                    flexDirection={'column'}
+                    justifyContent={'space-between'}
+                  >
+                    <Box sx={{ padding: '2rem 3rem', display: 'flex', flexDirection: 'column' }}>
+                      <Box marginY={'1rem'}><AddRoundedIcon sx={{ color: 'rgba(76, 47, 252, 0.54)',
+                      }}
+                      />
+                      </Box>
+                      <Text fontSize={24} fontWeight={600} marginY={'1rem'}>{t('Create a new Safe')}</Text>
+                      <Text
+                        fontSize={17}
+                        marginY={'1rem'}
+                      >{t('Create a new Safe that is controlled by one or multiple owners.')}
+                      </Text>
+                      <Text
+                        fontSize={17}
+                        fontWeight={700}
+                      >{t('You will be required to pay a network fee for creating your new Safe.')}
+                      </Text>
+                    </Box>
+                    <Box>
+                      {deployButtonContainer}
+                    </Box>
+                  </Grid>
+                  <Grid
+                    flex={1}
+                    item
+                    xs={12}
+                    md={6}
+                    display={'flex'}
+                    flexDirection={'column'}
+                    justifyContent={'space-between'}
+                    sx={{
+                      borderLeft: '1px solid #F4F6FD',
+                    }}
+                  >
+                    <Box sx={{ padding: '2rem 3rem', display: 'flex', flexDirection: 'column' }}>
+                      <Box marginY={'1rem'}><FileDownloadRoundedIcon sx={{ color: 'rgba(76, 47, 252, 0.54)',
+                      }}
+                      />
+                      </Box>
+                      <Text fontSize={24} fontWeight={600} marginY={'1rem'}>{t('Load an existing Safe')}</Text>
+                      <Text
+                        fontSize={17}
+                        marginY={'.75rem'}
+                      >{t('Already have a Safe or want to access it from a different device?')}
+                      </Text>
+                      <Text
+                        fontSize={17}
+                        fontWeight={700}
+                      >{t('Easily load your Safe using your Safe address.')}
+                      </Text>
+                    </Box>
+                    <Box>
+                      <Button
+                        onClick={() => setShowAddMultisigModal(true)}
+                        sx={{
+                          width: '100%',
+                          borderRadius: 0,
+                          padding: '1.5rem',
+                          boxSizing: 'border-box',
+                          borderTop: '1px solid',
+                          borderColor: 'rgba(76, 47, 252, 0.03)',
+                        }}
+                      >
+                        {t('Load an existing Safe')}
+                      </Button>
+                    </Box>
+                  </Grid>
+                </Grid>
+              </Grid>
+              <Grid item xs={0} lg={4} />
+            </Grid>
           ) : (
             <div className="wallets-section shadow bg-white">
               <div className="top-bar">
