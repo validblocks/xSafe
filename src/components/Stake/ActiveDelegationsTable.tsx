@@ -63,7 +63,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
       key="1"
       onClick={() => {
         mutateSmartContractCall(
-          new Address(params.row),
+          new Address(params.row.provider),
           new BigUIntValue(new BigNumber(0)),
           'claimRewards',
         );
