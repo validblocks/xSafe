@@ -66,6 +66,14 @@ const ProposeSendEgld = ({
     if (newAmount < 0) {
       formik.setFieldValue('amount', 0);
     }
+    if (newAmount === 0) {
+      return (
+        testContext?.createError({
+          message:
+          'The amount should be greater than 0',
+        }) ?? false
+      );
+    }
     if (newAmount > Number(egldBalance)) {
       return (
         testContext?.createError({
