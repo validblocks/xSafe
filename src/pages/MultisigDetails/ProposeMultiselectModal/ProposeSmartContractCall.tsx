@@ -18,7 +18,9 @@ import { FormikInputField } from 'src/helpers/formikFields';
 import { denomination } from 'src/config';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { Box } from '@mui/material';
+import { Box, TextField } from '@mui/material';
+import { InputsContainer } from 'src/components/Theme/StyledComponents';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeSmartContractCallType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -211,39 +213,59 @@ const ProposeSmartContractCall = ({
         handleBlur={formik.handleBlur}
         className={receiverError ? 'isError' : ''}
       />
-      <div className="modal-control-container">
-        <label htmlFor="amount">{t('Amount') as string}</label>
-        <div className="input-wrapper">
-          <Form.Control
-            id="amount"
-            name="amount"
-            isInvalid={amountError != null}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={amount}
-          />
+      <InputsContainer>
+        <Form.Control
+          id="amount"
+          name="amount"
+          isInvalid={amountError != null}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={amount}
+        />
 
-          {amountError != null && (
-            <Form.Control.Feedback type="invalid">
-              {amountError}
-            </Form.Control.Feedback>
-          )}
-        </div>
-        <span>{`Balance: ${denominatedValue} EGLD`}</span>
-      </div>
-      <div className="modal-control-container">
-        <label htmlFor={functionName}>{t('function name (optional)') as string}</label>
-        <div className="input-wrapper">
-          <Form.Control
-            id={functionName}
-            name="functionName"
-            type="functionName"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={functionName}
-          />
-        </div>
-      </div>
+        <label htmlFor="amount">{t('Amount') as string}</label>
+
+        {amountError != null && (
+        <Form.Control.Feedback type="invalid">
+          {amountError}
+        </Form.Control.Feedback>
+        )}
+        <Text
+          fontSize={13}
+          variant="subtitle2"
+          className="availableAmount"
+        >{`${t('Available')}: ${denominatedValue} EGLD`}
+        </Text>
+      </InputsContainer>
+      <Box>
+        <TextField
+          variant="outlined"
+          label={t('Function name (optional)') as string}
+          id={functionName}
+          name="functionName"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={functionName}
+          sx={{
+            width: '100%',
+            m: '0.55rem 0 1.93rem',
+            label: {
+              marginBottom: 0,
+              fontSize: '15px',
+              left: '-1px',
+            },
+            '& .MuiOutlinedInput-root fieldset': {
+              borderColor: 'rgba(76, 47, 252, 0.23)',
+            },
+            '& .MuiOutlinedInput-root.Mui-focused fieldset': {
+              borderColor: '#4c2ffc',
+            },
+            '& label.MuiInputLabel-root.Mui-focused': {
+              color: '#4c2ffc',
+            },
+          }}
+        />
+      </Box>
       {functionName?.length > 0 && (
         <div className="d-flex flex-column ">
           {args.map((arg, idx) => (
