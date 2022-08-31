@@ -64,8 +64,8 @@ const ProposeSendToken = ({
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
   const [identifier, setIdentifier] = useState(selectedToken?.identifier);
-  let tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
-  tokenTableRows = tokenTableRows.slice(0, 1);
+  const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
+  // tokenTableRows = tokenTableRows.slice(0, 1);
 
   const availableTokensWithBalances = useMemo(
     () =>
@@ -182,10 +182,17 @@ const ProposeSendToken = ({
   const amountError = touched.amount && errors.amount;
   const addressError = touched.address && errors.address;
   const [isSendEgldPromptOpen, setIsSendEgldPromptOpen] = useState(false);
+  const [isTokenTableRowsEmpty, setIsTokenTableRowsEmpty] = useState(false);
+
+  const handleIsTokenTableRowsEmpty = () => {
+    if (tokenTableRows.length < 2) return setIsTokenTableRowsEmpty(true);
+    return setIsTokenTableRowsEmpty(false);
+  };
 
   useEffect(() => {
     console.log({ check: identifier });
     console.log({ selectedToken });
+    handleIsTokenTableRowsEmpty();
     if (!selectedToken?.identifier) {
       const firstDifferentThanEgld = tokenTableRows.find((item) => item.identifier !== 'EGLD');
       if (!firstDifferentThanEgld) {
@@ -329,6 +336,7 @@ const ProposeSendToken = ({
           //   }),
           // );
         }}
+        onActionTokenTableRows={isTokenTableRowsEmpty}
       />
     </Box>
   );

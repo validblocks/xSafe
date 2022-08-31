@@ -18,6 +18,7 @@ interface Props {
     dialogContent?: string;
     onActionAccepted?: () => void | null;
     onActionRejected?: () => void | null;
+    onActionTokenTableRows?: boolean;
 }
 
 export default function ActionDialog({
@@ -28,6 +29,7 @@ export default function ActionDialog({
   dialogContent = 'Dialog content',
   onActionAccepted,
   onActionRejected,
+  onActionTokenTableRows,
 }: Props) {
   const [open, setOpen] = useState(isOpen);
 
@@ -77,7 +79,12 @@ export default function ActionDialog({
             </DialogContentText>
           </DialogContent>
           <DialogActions sx={{ p: '0.2rem 1.5rem 1.4rem', justifyContent: 'center' }}>
-            <ActionResponseButton className="dialogButton" onClick={handleClose}>Disagree</ActionResponseButton>
+            <ActionResponseButton
+              className="dialogButton"
+              disabled={onActionTokenTableRows}
+              onClick={handleClose}
+            >Disagree
+            </ActionResponseButton>
             <ActionResponseButton className="dialogButton" onClick={onActionAccepted}>
               Agree
             </ActionResponseButton>
