@@ -70,7 +70,6 @@ export const accountSlice = createSlice({
       state: StateType,
       action: PayloadAction<TokenTableRowItem[]>,
     ) {
-      console.log('state before set ', state);
       return {
         ...state,
         tokenTableRows: action.payload,

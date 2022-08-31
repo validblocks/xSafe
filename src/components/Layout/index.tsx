@@ -65,12 +65,15 @@ function Layout({ children }: { children: React.ReactNode }) {
       return;
     }
     if (isAuthenticated?.isAuthenticated) {
+      console.log({ isAuthenticated });
+      console.log('getting user contracts list');
       const contracts = await getUserMultisigContractsList();
       dispatch(setMultisigContracts(contracts));
     }
   }
 
   useEffect(() => {
+    console.log('trying to read multisig contracts list');
     readMultisigContracts();
   }, [address, isAuthenticated?.isAuthenticated]);
 

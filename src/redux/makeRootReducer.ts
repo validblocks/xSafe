@@ -14,11 +14,11 @@ export default function makeRootReducer() {
     multisigContracts,
     modals,
     economics,
-    account,
     appConfig,
     currency,
     safeName,
     addressBook,
     transactions,
+    account,
   });
 }

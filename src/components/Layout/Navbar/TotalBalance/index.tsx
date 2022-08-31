@@ -264,7 +264,7 @@ function TotalBalance() {
         </CenteredText>
       </Box>
       <Divider orientation="vertical" flexItem />
-      {!isInReadOnlyMode && (
+      {isInReadOnlyMode === false && (
       <Box
         className="d-flex justify-content-center"
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}

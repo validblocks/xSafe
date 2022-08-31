@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import NewDashboard from 'src/pages/NewDashboard';
 import {
@@ -21,6 +21,12 @@ import CreateWallet from 'src/assets/img/create-wallet.svg';
 import OpenWallet from 'src/assets/img/open-wallet.svg';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import wawe from 'src/assets/img/wawe.svg';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { isMultiWalletModeSelector } from 'src/redux/selectors/accountSelector';
+// import BigSafe from 'src/assets/img/BigSafe.png';
+import { dAppName } from 'src/config';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 import MultisigListItem from './MultisigListItem';
@@ -134,9 +140,77 @@ function Dashboard() {
   //   return null;
   // }
 
-  if (invalidMultisigContract) {
+  // multisigContracts = [];
+  const isMultiWalletMode = useSelector(isMultiWalletModeSelector);
+
+  if (isMultiWalletMode) {
     return (
       <>
+        <Box>
+          <Text fontSize={36} fontWeight={700}>
+            {t(`Welcome to ${dAppName}`)}
+          </Text>
+          <Text fontSize={16} fontWeight={400}>
+            {t(`${dAppName} is the first platform for digital assets management built on the Elrond Network.`)}
+          </Text>
+
+        </Box>
+        <Grid
+          sx={{ width: '100%',
+            borderRadius: '10px',
+            boxShadow: '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
+            backgroundColor: '#ffff',
+            border: 'none',
+            overflow: 'hidden',
+          }}
+          container
+        >
+          {/* <Grid flex={0.5} item>
+            <img height={400} src={BigSafe} alt="Safe" />
+          </Grid> */}
+          <Grid flex={1} item>
+            <Box sx={{ padding: '2rem 3rem', display: 'flex', flexDirection: 'column' }}>
+              <Box marginY={'1rem'}><AddRoundedIcon /></Box>
+              <Text fontSize={24} fontWeight={600} marginY={'1rem'}>{t('Create a new Safe')}</Text>
+              <Text
+                fontSize={17}
+                marginY={'1rem'}
+              >{t('Create a new Safe that is controlled by one or multiple owners.')}
+              </Text>
+              <Text
+                fontSize={17}
+                fontWeight={700}
+              >{t('You will be required to pay a network fee for creating your new Safe.')}
+              </Text>
+            </Box>
+            <Box>
+              <Button sx={{ width: '100%', background: '#4c2ffc', color: '#fff', borderRadius: 0, padding: '1.5rem' }}>
+                {t('Create a new Safe')}
+              </Button>
+            </Box>
+          </Grid>
+          <Grid flex={1} item>
+            <Box sx={{ padding: '2rem 3rem', display: 'flex', flexDirection: 'column' }}>
+              <Box marginY={'1rem'}><FileDownloadRoundedIcon /></Box>
+              <Text fontSize={24} fontWeight={600} marginY={'1rem'}>{t('Load an existing Safe')}</Text>
+              <Text
+                fontSize={17}
+                marginY={'1rem'}
+              >{t('Create a new Safe that is controlled by one or multiple owners.')}
+              </Text>
+              <Text
+                fontSize={17}
+                fontWeight={700}
+              >{t('You will be required to pay a network fee for creating your new Safe.')}
+              </Text>
+            </Box>
+            <Box>
+              <Button sx={{ width: '100%', borderRadius: 0, padding: '1.5rem' }}>
+                {t('Create a new Safe')}
+              </Button>
+            </Box>
+          </Grid>s
+        </Grid>
         <div className="my-wallets">
           <div className="welcome text-center">
             <h2>
@@ -147,7 +221,7 @@ function Dashboard() {
             </h2>
             <p>Create your own organization in a few minutes</p>
           </div>
-          {multisigContracts.length === 0 ? (
+          {multisigContracts?.length === 0 ? (
             <div className="c-o-wallet-card">
               <div className="d-flex wallet-spacer">
                 {deployButtonContainer}
@@ -186,7 +260,7 @@ function Dashboard() {
                 )}
               </div>
               <div className="list-wallets">
-                {multisigContracts.map((contract: MultisigContractInfoType) => (
+                {multisigContracts?.map((contract: MultisigContractInfoType) => (
                   <MultisigListItem
                     key={contract.address}
                     contract={contract}
@@ -196,6 +270,26 @@ function Dashboard() {
             </div>
           )}
         </div>
+
+        <AddMultisigModal
+          show={showAddMultisigModal}
+          handleClose={() => {
+            setShowAddMultisigModal(false);
+          }}
+          setNewContracts={(newContracts) => updateMultisigContract(newContracts)}
+        />
+        <DeployStepsModal
+          show={showDeployMultisigModal}
+          handleClose={() => setShowDeployMultisigModal(false)}
+          setNewContracts={(newContracts) => updateMultisigContract(newContracts)}
+        />
+      </>
+    );
+  }
+
+  if (invalidMultisigContract) {
+    return (
+      <>
         <div className="d-flex flex-fill justify-content-center align-items-center flex-column">
           <p className="h2">
             {t(

@@ -45,6 +45,7 @@ function MultisigDetailsPage() {
   const { multisigAddressParam } = useParams<string>();
   const { t }: { t: any } = useTranslation();
   const navigate = useNavigate();
+  console.log({ multisigAddressParam });
 
   const userRoleAsString = useMemo(() => {
     switch (userRole) {
@@ -98,7 +99,8 @@ function MultisigDetailsPage() {
   const getCurrency = useSelector(selectedCurrencySelector);
 
   if (!parseMultisigAddress(multisigAddressParam ?? '')) {
-    return <Navigate to="/multisig" />;
+    navigate('/');
+    return <Navigate to="/" />;
   }
 
   return (
