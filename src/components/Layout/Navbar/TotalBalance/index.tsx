@@ -23,7 +23,7 @@ import {
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
@@ -66,8 +66,6 @@ function TotalBalance() {
     fetchNFTs,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
-      keepPreviousData: true,
-      enabled: !!currentContract?.address,
     },
   );
 
@@ -105,19 +103,15 @@ function TotalBalance() {
     },
   );
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     if (!currentContract?.address) return;
 
-    console.log('invalidating queries');
     refetchAddressTokens();
     refetchEgldBalaneDetails();
     refetchNFTs();
-    // queryClient.invalidateQueries([
-    //   QueryKeys.ADDRESS_EGLD_TOKENS,
-    //   QueryKeys.ADDRESS_ESDT_TOKENS,
-    //   QueryKeys.ALL_ORGANIZATION_NFTS,
-    // ]);
-  }, [currentContract?.address]);
+  }, [currentContract?.address, queryClient, refetchAddressTokens, refetchEgldBalaneDetails, refetchNFTs]);
 
   useEffect(() => {
     if (!addressTokens) return;
@@ -266,7 +260,6 @@ function TotalBalance() {
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
 
   const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
-  console.log({ isInReadOnlyMode });
 
   return (
     <Box

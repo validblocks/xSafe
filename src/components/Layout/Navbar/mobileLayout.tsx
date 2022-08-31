@@ -12,7 +12,8 @@ import menuItems from 'src/utils/menuItems';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { useSelector } from 'react-redux';
-import { isInReadOnlyModeSelector, isMultiWalletModeSelector } from 'src/redux/selectors/accountSelector';
+import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import {
   LogoMenuWrapper,
   MobileMenu,
@@ -33,7 +34,7 @@ const MobileLayout = () => {
   }, [addressShorthand]);
 
   const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
-  const isMultiWalletMode = useSelector(isMultiWalletModeSelector);
+  const { isMultiWalletMode } = useOrganizationInfoContext();
 
   return (
     <Box>

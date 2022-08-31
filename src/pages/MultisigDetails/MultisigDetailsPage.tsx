@@ -40,12 +40,12 @@ function MultisigDetailsPage() {
     boardMembersCount: totalBoardMembers,
     quorumCountState: [quorumSize],
     userRole,
+    nftCount,
   } = useOrganizationInfoContext();
 
   const { multisigAddressParam } = useParams<string>();
   const { t }: { t: any } = useTranslation();
   const navigate = useNavigate();
-  console.log({ multisigAddressParam });
 
   const userRoleAsString = useMemo(() => {
     switch (userRole) {
@@ -86,14 +86,14 @@ function MultisigDetailsPage() {
   });
 
   const queryClient = useQueryClient();
+  const nfts = queryClient.getQueryData(QueryKeys.ALL_ORGANIZATION_NFTS) as any;
 
   useEffect(() => {
-    const nfts = queryClient.getQueryData(QueryKeys.ALL_ORGANIZATION_NFTS) as any;
     console.log('nfts rewatched ', nfts);
     setOrganizationAssets(
-      (assets) => ({ ...assets, tokens: organizationTokens?.length ?? 0, NFTs: nfts?.length ?? 0 }),
+      (assets) => ({ ...assets, tokens: organizationTokens?.length ?? 0, NFTs: nfts?.length }),
     );
-  }, [organizationTokens, queryClient, currentContract?.address]);
+  }, [organizationTokens, queryClient, currentContract.address, nfts]);
 
   const totalUsdValue = useSelector(totalUsdValueSelector);
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
@@ -152,7 +152,7 @@ function MultisigDetailsPage() {
           <Grid item xs={6} md={4} lg={3}>
             <AmountWithTitleCard
               needsDollarSign={false}
-              amountValue={organizatonAssets.tokens.toString()}
+              amountValue={organizatonAssets?.tokens?.toString()}
               amountUnityMeasure={'Tokens'}
               title={'Organization Tokens'}
               actionButton={(
@@ -180,9 +180,7 @@ function MultisigDetailsPage() {
           <Grid item xs={6} md={4} lg={3}>
             <AmountWithTitleCard
               needsDollarSign={false}
-              amountValue={
-            organizatonAssets.NFTs.toString()
-          }
+              amountValue={nftCount.toString()}
               amountUnityMeasure={'NFTs'}
               actionButton={(
                 <MainButton

@@ -17,18 +17,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getIsProviderEqualTo } from '@elrondnetwork/dapp-core';
 import { providerTypes } from 'src/helpers/constants';
 import { faPlus, faWallet } from '@fortawesome/free-solid-svg-icons';
-// import CreateWallet from 'src/assets/img/create-wallet.svg';
-// import OpenWallet from 'src/assets/img/open-wallet.svg';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { isMultiWalletModeSelector } from 'src/redux/selectors/accountSelector';
-// import BigSafe from 'src/assets/img/BigSafe.png';
 import { dAppName } from 'src/config';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 import MultisigListItem from './MultisigListItem';
+import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 function Dashboard() {
   // const multisigContractsFetched = useSelector(
@@ -62,21 +59,6 @@ function Dashboard() {
   }
 
   const deployButton = (
-    // <button
-    //   disabled={isWalletProvider}
-    //   onClick={onDeployClicked}
-    //   className="shadow-sm"
-    //   style={{ pointerEvents: isWalletProvider ? 'none' : 'auto' }}
-    // >
-    //   <figure>
-    //     <img src={CreateWallet} alt="create-wallet-icon" />
-    //   </figure>
-    //   <p className="action">
-    //     {t('Create wallet')}
-    //     <FontAwesomeIcon icon={faArrowRight} />
-    //   </p>
-    //   <p className="info-text">Create an organization</p>
-    // </button>
     <Button
       disabled={isWalletProvider}
       onClick={() => setShowDeployMultisigModal(true)}
@@ -151,15 +133,13 @@ function Dashboard() {
     dispatch(setMultisigContracts(newContracts));
   }
 
-  console.log('rendering dashboardPage');
-
   // if (!multisigContractsFetched) {
   //   console.log('multisigContracts not fetched');
   //   return null;
   // }
 
   // multisigContracts = [];
-  const isMultiWalletMode = useSelector(isMultiWalletModeSelector);
+  const { isMultiWalletMode } = useOrganizationInfoContext();
 
   if (isMultiWalletMode) {
     return (

@@ -1,5 +1,6 @@
 import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
 import { network } from 'src/config';
+import { NFTType } from 'src/types/nfts';
 import { URLSearchParams } from 'url';
 
 export class ElrondApiNetworkProvider extends ApiNetworkProvider {
@@ -58,14 +59,25 @@ export class ElrondApiNetworkProvider extends ApiNetworkProvider {
     }
   }
 
-  async fetchOrganizationNFTs(address: string): Promise<boolean> {
-    if (!address) return false;
+  async fetchOrganizationNFTs(address: string): Promise<NFTType[]> {
+    if (!address) return [];
 
     try {
       return this.doGetGeneric(`accounts/${address}/nfts`);
     } catch (err) {
       console.error('Error fetching NFTs');
-      return false;
+      return [];
+    }
+  }
+
+  async fetchOrganizationNFTCount(address: string): Promise<number> {
+    if (!address) return 0;
+
+    try {
+      return this.doGetGeneric(`accounts/${address}/nfts/count`);
+    } catch (err) {
+      console.error('Error fetching NFTs');
+      return 0;
     }
   }
 }

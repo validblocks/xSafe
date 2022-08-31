@@ -26,8 +26,6 @@ const ReceiveModal = ({
     if (showQrFromSidebar !== undefined) setShowModal(showQrFromSidebar);
   }, [showQrFromSidebar]);
 
-  console.log({ showQrFromCard });
-
   if (!address) {
     return null;
   }

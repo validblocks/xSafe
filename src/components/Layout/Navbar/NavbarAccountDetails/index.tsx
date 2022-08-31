@@ -16,7 +16,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { network } from 'src/config';
 import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
-import { isInReadOnlyModeSelector, isMultiWalletModeSelector } from 'src/redux/selectors/accountSelector';
+import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import {
   Anchor, MembersBox, ReadOnly,
@@ -29,6 +29,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
 
   const {
     membersCountState: [membersCount],
+    isMultiWalletMode,
   } = useOrganizationInfoContext();
 
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
@@ -51,7 +52,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   };
 
   const safeName = useSelector(safeNameStoredSelector);
-  const isMultiWalletMode = useSelector(isMultiWalletModeSelector);
+  console.log({ isMultiWalletMode });
   const [displayableAddress, setDisplayableAddress] = useState(uniqueAddress);
 
   useEffect(() => {

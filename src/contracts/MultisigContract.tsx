@@ -56,8 +56,35 @@ export async function query(functionName: string, ...args: TypedValue[]) {
   return proxy.queryContract(newQuery);
 }
 
+export async function queryOnContract(functionName: string, contractAddress: string, ...args: TypedValue[]) {
+  const smartContract = new SmartContract({
+    address: new Address(contractAddress),
+  });
+  const newQuery = new Query({
+    address: smartContract.getAddress(),
+    func: new ContractFunction(functionName),
+    args,
+  });
+  const proxy = getNetworkProxy();
+  return proxy.queryContract(newQuery);
+}
+
 export async function queryNumber(
   functionName: string,
+  ...args: TypedValue[]
+): Promise<number> {
+  const result = await query(functionName, ...args);
+
+  const codec = new NumericalBinaryCodec();
+  return codec
+    .decodeTopLevel(result.outputUntyped()[0], new U32Type())
+    .valueOf()
+    .toNumber();
+}
+
+export async function queryNumberOnContract(
+  functionName: string,
+  contractAddress: string,
   ...args: TypedValue[]
 ): Promise<number> {
   const result = await query(functionName, ...args);
@@ -355,6 +382,14 @@ export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
 export function queryUserRole(userAddress: string): Promise<number> {
   return queryNumber(
     multisigContractFunctionNames.userRole,
+    new AddressValue(new Address(userAddress)),
+  );
+}
+
+export function queryUserRoleOnContract(userAddress: string, contractAddress: string): Promise<number> {
+  return queryNumberOnContract(
+    multisigContractFunctionNames.userRole,
+    contractAddress,
     new AddressValue(new Address(userAddress)),
   );
 }

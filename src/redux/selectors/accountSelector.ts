@@ -74,15 +74,7 @@ export const activeDelegationsRowsSelector = createDeepEqualSelector(
   (state) => state.activeDelegationsRows,
 );
 
-export const isMultiWalletModeSelector = createDeepEqualSelector(
-  accountSelector,
-  (state) => state.isMultiWalletMode,
-);
-
 export const isInReadOnlyModeSelector = createDeepEqualSelector(
   accountSelector,
-  (state) => {
-    console.log({ state });
-    return state.isInReadOnlyMode;
-  },
+  (state) => state.isInReadOnlyMode,
 );

@@ -13,7 +13,7 @@ import routeNames from 'src/routes/routeNames';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
-import { isMultiWalletModeSelector } from 'src/redux/selectors/accountSelector';
+import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 declare global {
   interface Window {
@@ -42,7 +42,7 @@ const Unlock = () => {
   };
 
   const navigate = useNavigate();
-  const isMultiWalletMode = useSelector(isMultiWalletModeSelector);
+  const { isMultiWalletMode } = useOrganizationInfoContext();
 
   useEffect(() => {
     if (isLoggedIn) {

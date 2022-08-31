@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import {
   Box, Button, Grid, Typography,
@@ -18,6 +18,10 @@ import DeployStepsModal from 'src/pages/Dashboard/DeployMultisigModal';
 import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { useQueryClient } from 'react-query';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import { queryUserRoleOnContract } from 'src/contracts/MultisigContract';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import {
   ActiveWallet,
   AddSafe,
@@ -61,10 +65,16 @@ const SafeOptions = () => {
 
   const currencyConverted = useSelector(currencyConvertedSelector);
   const getCurrency = useSelector(selectedCurrencySelector);
+  const queryClient = useQueryClient();
   const onSafeChange = (newSafeAddress: string) => {
     if (!newSafeAddress) return;
     setSelectedSafe(newSafeAddress);
     dispatch(setCurrentMultisigContract(newSafeAddress));
+    queryClient.invalidateQueries([
+      QueryKeys.ALL_ORGANIZATION_NFTS,
+      QueryKeys.ADDRESS_EGLD_TOKENS,
+      QueryKeys.ADDRESS_ESDT_TOKENS,
+    ]);
     navigate(`/multisig/${newSafeAddress}`);
   };
   const updateMultisigContract = useCallback((
@@ -72,6 +82,22 @@ const SafeOptions = () => {
   ) => {
     dispatch(setMultisigContracts(newContracts));
   }, [dispatch]);
+
+  const { address } = useGetAccountInfo();
+
+  useEffect(() => {
+    if (!address) return;
+
+    console.log('querying user roles');
+    const userRolePromises: Promise<number>[] = [];
+    fetchedMultisigContracts.forEach(
+      (contract: MultisigContractInfoType) => userRolePromises.push(queryUserRoleOnContract(address, contract.address)),
+    );
+
+    Promise.all(userRolePromises).then((userRoleResponse) => {
+      console.log({ userRoleResponse });
+    });
+  }, [address]);
 
   return (
     <SafeOptionsWrapper sx={{ overflow: 'scroll !important', zIndex: '100000 !important' }}>
@@ -87,14 +113,14 @@ const SafeOptions = () => {
       </AddSafeWrapper>
       {
         fetchedMultisigContracts.map((fetchedContract) => (
-          <>
+          <Box key={fetchedContract.address}>
             <Divider />
             <Button sx={{ p: 0, width: '100%' }} onClick={() => onSafeChange(fetchedContract.address)}>
               <Box sx={{ p: 1, width: '100%' }} className="d-flex align-items-center">
-                <Grid sm={3}>
+                <Grid item sm={3}>
                   <img src={Safe} width="60px" height="60px" alt="safe" />
                 </Grid>
-                <Grid sm={7}>
+                <Grid item sm={7}>
                   {selectedSafe === fetchedContract.address ? (
                     <ActiveWallet sx={{ ml: 2 }}>
                       <TypographyBold align="left">{fetchedContract.name}</TypographyBold>
@@ -118,7 +144,7 @@ const SafeOptions = () => {
                 </Grid>
                 {
                   selectedSafe === fetchedContract.address && (
-                  <Grid sm={2}>
+                  <Grid item sm={2}>
                     <Box>
                       <Checkbox {...label} disabled checked />
                     </Box>
@@ -128,7 +154,7 @@ const SafeOptions = () => {
 
               </Box>
             </Button>
-          </>
+          </Box>
         ))
       }
 

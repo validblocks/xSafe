@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { transactionServices, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,11 +14,13 @@ import {
 } from 'src/redux/selectors/multisigContractsSelectors';
 import { uniqueContractAddress, uniqueContractName } from 'src/multisigConfig';
 import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
-import { setIsInReadOnlyMode, setIsMultiWalletMode, StateType } from 'src/redux/slices/accountSlice';
+import { setIsInReadOnlyMode, StateType } from 'src/redux/slices/accountSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
+import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { OrganizationInfoContextType } from './types';
 
 type Props = {
@@ -59,9 +61,25 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const queryClient = useQueryClient();
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
 
+  const fetchNftCount = useCallback(
+    () => ElrondApiProvider.fetchOrganizationNFTCount(currentContract?.address), [currentContract?.address],
+  );
+
+  const {
+    data: nftCount,
+    refetch: refetchNftCount,
+  } = useQuery(['NFT_COUNT'],
+    fetchNftCount,
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+    },
+  );
+
+  const [isMultiWalletMode, setIsMultiWalletMode] = useState(uniqueContractAddress.length > 0);
+
   useEffect(() => {
-    const isSingleWalletMode = uniqueContractAddress.length > 0 || uniqueContractAddress;
-    dispatch(setIsMultiWalletMode(!isSingleWalletMode));
+    const isSingleWalletMode = (uniqueContractAddress as string).length > 0;
+    setIsMultiWalletMode(!isSingleWalletMode);
     if (isSingleWalletMode) {
       const newMultisigAddressParam = parseMultisigAddress(uniqueContractAddress ?? '');
       if (newMultisigAddressParam) { dispatch(setCurrentMultisigContract(newMultisigAddressParam?.bech32())); }
@@ -87,7 +105,6 @@ function OrganizationInfoContextProvider({ children }: Props) {
       return;
     }
 
-    console.log('calling user role for address ', address);
     queryUserRole(new Address(address).hex()).then((userRoleResponse) => {
       setUserRole(userRoleResponse);
       dispatch(setIsInReadOnlyMode(userRole !== 2));
@@ -107,25 +124,26 @@ function OrganizationInfoContextProvider({ children }: Props) {
       };
     }
 
-    (() =>
-      currentContract?.address &&
-      Promise.all([
-        queryBoardMemberAddresses(),
-        queryQuorumCount(),
-      ]).then(
-        ([
-          boardMembersAddresses,
-          quorumCountResponse,
-        ]) => {
-          if (!isMounted) return;
-          setBoardMembers(boardMembersAddresses);
-          setQuorumCount(quorumCountResponse);
-        },
-      ))();
+    refetchNftCount();
+
+    Promise.all([
+      queryBoardMemberAddresses(),
+      queryQuorumCount(),
+    ]).then(
+      ([
+        boardMembersAddresses,
+        quorumCountResponse,
+      ]) => {
+        if (!isMounted) return;
+        setBoardMembers(boardMembersAddresses);
+        setQuorumCount(quorumCountResponse);
+      },
+    );
+
     return () => {
       isMounted = false;
     };
-  }, [address, currentContract, currentContract?.address]);
+  }, [address, currentContract, currentContract?.address, refetchNftCount]);
 
   useEffect(() => {
     let isMounted = true;
@@ -159,6 +177,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
         [
           QueryKeys.ADDRESS_EGLD_TOKENS,
           QueryKeys.ADDRESS_ESDT_TOKENS,
+          QueryKeys.ALL_ORGANIZATION_NFTS,
         ],
       );
     },
@@ -174,8 +193,10 @@ function OrganizationInfoContextProvider({ children }: Props) {
         userRole: userRole as number,
         allMemberAddresses,
         isBoardMemberState: [isBoardMember, setIsBoardMember],
+        nftCount: nftCount ?? 0,
+        isMultiWalletMode,
       }),
-      [membersCount, boardMembers, quorumCount, userRole, allMemberAddresses, isBoardMember])}
+      [membersCount, boardMembers, quorumCount, userRole, allMemberAddresses, isBoardMember, nftCount])}
     >
       {children}
     </OrganizationInfoContext.Provider>

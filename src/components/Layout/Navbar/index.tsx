@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { List, Accordion, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,7 +10,6 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-import { uniqueContractAddress } from 'src/multisigConfig';
 import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
@@ -79,12 +78,6 @@ const MiniDrawer = () => {
 
   const open = true;
 
-  const [walletAddress, setWalletAddress] = useState('');
-
-  useEffect(() => {
-    setWalletAddress(addressShorthand(uniqueContractAddress));
-  }, []);
-
   const [expanded, setExpanded] = useState<string | false>(false);
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -112,7 +105,7 @@ const MiniDrawer = () => {
         </BsNavbar>
         <Divider />
         <List sx={{ mt: 1, pb: 0 }}>
-          <AccountDetails uniqueAddress={walletAddress} />
+          <AccountDetails uniqueAddress={addressShorthand(currentContract?.address ?? '')} />
           <Divider />
         </List>
         {
