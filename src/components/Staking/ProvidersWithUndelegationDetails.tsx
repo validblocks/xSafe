@@ -3,7 +3,7 @@ import {
 } from '@mui/x-data-grid';
 import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
 import { useMemo, useState } from 'react';
-import { AccordionDetails, AccordionSummary, Box, Button, Grid } from '@mui/material';
+import { AccordionDetails, AccordionSummary, Box, Button, Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import { IDelegation, IdentityWithColumns, IUndelegatedFunds } from 'src/types/staking';
@@ -131,9 +131,24 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
       maxHeight={310}
       minHeight={310}
       overflow="scroll"
-      sx={{ padding: '0 !important' }}
+      sx={{
+        padding: '0 !important',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
     >
-      { rows.map((row) => (
+      {rows.length === 0 ? (
+        <Typography
+          sx={{
+            width: '100%',
+            color: 'gray',
+            textAlign: 'center',
+            fontSize: '22px',
+          }}
+        >Nothing to show
+        </Typography>
+      ) : (rows.map((row) => (
         <TransactionAccordion
           key={Math.random()}
           sx={{
@@ -293,7 +308,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
             }
           </AccordionDetails>
         </TransactionAccordion>
-      ))}
+      )))}
 
     </Box>
   );
