@@ -74,8 +74,8 @@ const ProposeUnstakeTokens = ({
         }) ?? false
       );
     }
-    if (newAmount < 1) {
-      formik.setFieldValue('amount', 1);
+    if (newAmount < 0) {
+      formik.setFieldValue('amount', 0.1);
     }
     if (newAmount > Number(selectedStakingProvider?.delegatedColumn?.delegatedAmount ?? 1)) {
       setSubmitDisabled(true);
@@ -91,9 +91,14 @@ const ProposeUnstakeTokens = ({
       setSubmitDisabled(true);
       return (
         testContext?.createError({
-          message: 'The amount should be greater than 1',
+          message: 'The amount should be greater than 0',
         }) ?? false
       );
+    }
+
+    if (newAmount < 1 && newAmount > 0) {
+      setSubmitDisabled(true);
+      return (testContext?.createError({ message: t('There are not enough tokens staked for this proposal') }) ?? false);
     }
 
     setSubmitDisabled(!formik.isValid);
@@ -110,7 +115,7 @@ const ProposeUnstakeTokens = ({
 
   formik = useFormik({
     initialValues: {
-      amount: 1,
+      amount: 0.1,
     },
     validationSchema,
     validateOnChange: true,
@@ -269,7 +274,7 @@ const ProposeUnstakeTokens = ({
         </span>
       </div>
 
-      <InputsContainer>
+      <InputsContainer className={amountError != null ? 'invalid' : ''}>
         <Form.Control
           id={amount}
           name="amount"

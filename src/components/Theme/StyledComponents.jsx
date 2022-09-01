@@ -129,6 +129,9 @@ export const InputsContainer = styled(Box)`
   position: relative;
   background-color: transparent;
   z-index: 0;
+  &.invalid {
+    margin-bottom: 0.7rem;
+  }
   &:focus-within {
     input.form-control {
       border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
@@ -303,5 +306,9 @@ export const ProposeAddressInput = styled(TextField)`
 export const ModalContainer = styled(Modal)`
 &.isSendTokenModal ~ .MuiPopover-root > .MuiPaper-root {
   left: calc(100vw - 50.1%) !important;
+};
+&.isUnstakeTokenModal ~ .MuiPopover-root > .MuiPaper-root {
+  left: calc(50% - 228px) !important;
+  top: calc(50% + 5px) !important;
 };
 `;
