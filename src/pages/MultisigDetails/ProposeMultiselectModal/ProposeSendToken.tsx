@@ -183,10 +183,10 @@ const ProposeSendToken = ({
   const [isSendEgldPromptOpen, setIsSendEgldPromptOpen] = useState(false);
   const [isTokenTableRowsContainsOnlyEGLD, setIsTokenTableRowsCongtainsOnlyEGLD] = useState(false);
 
-  const handleIsTokenTableRowsEmpty = () => setIsTokenTableRowsCongtainsOnlyEGLD(!(tokenTableRows.some((item) => item.identifier !== 'EGLD')));
+  const handleTokenTableRowsContainsOnlyEGLD = () => setIsTokenTableRowsCongtainsOnlyEGLD(!(tokenTableRows.some((item) => item.identifier !== 'EGLD')));
 
   useEffect(() => {
-    handleIsTokenTableRowsEmpty();
+    handleTokenTableRowsContainsOnlyEGLD();
     if (!selectedToken?.identifier) {
       const firstDifferentThanEgld = tokenTableRows.find((item) => item.identifier !== 'EGLD');
       if (!firstDifferentThanEgld) {
@@ -321,13 +321,6 @@ const ProposeSendToken = ({
           const firstDifferentIdentifier = tokenTableRows
             ?.find((token: TokenTableRowItem) => token.identifier !== 'EGLD')?.identifier;
           setIdentifier(firstDifferentIdentifier);
-          // dispatch(
-          //   setSelectedTokenToSend({
-          //     id: token.id,
-          //     identifier: token.identifier,
-          //     balance: token.balance,
-          //   }),
-          // );
         }}
         onActionTokenTableRows={isTokenTableRowsContainsOnlyEGLD}
       />
