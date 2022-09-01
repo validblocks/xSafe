@@ -3,7 +3,6 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useLocation, Link } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { Box, OutlinedInput } from '@mui/material';
-import searchedNfts from 'src/components/NftComponent/SearchedNfts';
 import { FormSearchInput } from 'src/components/Theme/StyledComponents';
 import breadcrumbItems from './BreadcrumbItems';
 import { ReactComponent as SearchIcon } from '../../../assets/img/searchFilled.svg';
@@ -17,18 +16,13 @@ function PageBreadcrumbs() {
   }, [location.pathname]);
 
   // eslint-disable-next-line consistent-return
-  const handleSearch = (text: any) => {
-    if (text !== 'mama mea') return searchedNfts(text);
-  };
-
-  // eslint-disable-next-line consistent-return
   const displaySearch = (val: any) => {
     if (val === 'NFT') {
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <span>{val}</span>
           <Box component="form" noValidate autoComplete="off">
-            <FormSearchInput onChange={() => handleSearch('ceau')}>
+            <FormSearchInput>
               <SearchIcon />
               <OutlinedInput placeholder="Search..." />
             </FormSearchInput>
