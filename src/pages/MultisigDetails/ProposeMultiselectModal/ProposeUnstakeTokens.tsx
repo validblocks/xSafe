@@ -96,11 +96,6 @@ const ProposeUnstakeTokens = ({
       );
     }
 
-    if (newAmount < 1 && newAmount > 0 && Number(selectedStakingProvider?.delegatedColumn?.delegatedAmount ?? 1) === 1) {
-      setSubmitDisabled(true);
-      return (testContext?.createError({ message: t('There are not enough tokens staked for this proposal') }) ?? false);
-    }
-
     setSubmitDisabled(!formik.isValid);
     return true;
   };
