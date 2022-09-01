@@ -7,7 +7,7 @@ import TokenPresentationWithPrice from './TokenPresentationWithPrice';
 
 const InputTokenPresentation = ({
   amount, amountError, egldBalanceString, label, onChange, onBlur, formik }:
-  { amount: any, amountError: any, egldBalanceString: any, label: any, onChange: any, onBlur: any, formik: any }) => {
+  { amount: string, amountError: string | false | undefined, egldBalanceString: any, label: string, onChange: any, onBlur: any, formik: any }) => {
   const egldBalanceNumber = Number(egldBalanceString);
 
   const autocompleteMaxAmount = useCallback(() => {
