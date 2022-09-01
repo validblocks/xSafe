@@ -50,13 +50,17 @@ const AssetsTable = () => {
   const currentContract = useSelector(currentMultisigContractSelector);
   const tokenTableRows = useSelector(tokenTableRowsSelector);
 
-  const getTableActions = useCallback((params: GridRenderCellParams) => (!hasStakingActions ? [
-    <AssetActionButton
-      key="0"
-      className="mr-2"
-      onClick={(_e: any) => (params.row.identifier === 'EGLD'
-        ? handleOptionSelected(ProposalsTypes.send_egld, params.row)
-        : handleOptionSelected(ProposalsTypes.send_token, params.row))
+  const { isLoggedIn } = useGetLoginInfo();
+
+  const getTableActions = useCallback((params: GridRenderCellParams) => {
+    const tableActionButtons = [
+      <AssetActionButton
+        key="0"
+        variant="outlined"
+        className="shadow-sm rounded mr-2"
+        onClick={(_e: any) => (params.row.identifier === 'EGLD'
+          ? handleOptionSelected(ProposalsTypes.send_egld, params.row)
+          : handleOptionSelected(ProposalsTypes.send_token, params.row))
               }
       >
         <AssetActionIcon width="30px" height="30px" /> Send

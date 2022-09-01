@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import {
@@ -52,8 +52,11 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   };
 
   const safeName = useSelector(safeNameStoredSelector);
-  console.log({ isMultiWalletMode });
   const [displayableAddress, setDisplayableAddress] = useState(uniqueAddress);
+
+  const openSafeSelection = useCallback(() => {
+    setOpenedSafeSelect(true);
+  }, []);
 
   useEffect(() => {
     const result = uniqueAddress.length === 0 ? 'No address' : uniqueAddress;
@@ -116,9 +119,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
               >
                 {isMultiWalletMode && (
                 <ArrowDropDownIcon
-                  onClick={() => {
-                    setOpenedSafeSelect(true);
-                  }}
+                  onClick={openSafeSelection}
                 />
                 )}
               </Box>

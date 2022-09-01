@@ -87,7 +87,6 @@ const SafeOptions = () => {
   useEffect(() => {
     if (!address) return;
 
-    console.log('querying user roles');
     const userRolePromises: Promise<number>[] = [];
     fetchedMultisigContracts.forEach(
       (contract: MultisigContractInfoType) => userRolePromises.push(queryUserRoleOnContract(address, contract.address)),

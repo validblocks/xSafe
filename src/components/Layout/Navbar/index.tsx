@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { List, Accordion, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -87,11 +87,11 @@ const MiniDrawer = () => {
   const [pinnedApps, setPinnedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.PINNED_APPS, []);
   const [installedApps, _setInstalledApps] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);
 
-  const installedAndPinnedApps = ([
+  const installedAndPinnedApps = useMemo(() => ([
     ...preinstalledApps,
     ...availableApps
       .filter((app: MenuItem) => installedApps.includes(app.id)),
-  ].filter((app: MenuItem) => pinnedApps.includes(app.id)));
+  ].filter((app: MenuItem) => pinnedApps.includes(app.id))), [installedApps, pinnedApps]);
 
   return (
     <Box sx={{ display: 'flex' }}>
