@@ -31,7 +31,7 @@ function NftCompmonent() {
     isError: isErrorOnFetchNFTs,
   } = useQuery(
     [
-      QueryKeys.ALL_NFTS,
+      QueryKeys.ALL_ORGANIZATION_NFTS,
     ],
     () => fetchNfts(),
     {
@@ -79,11 +79,11 @@ function NftCompmonent() {
   }
 
   const rewriteNftsCollection = (value: string) => {
-    const string1 = value.slice(0, value.indexOf('-'));
-    const string2 = `(${value.slice(value.indexOf('-') + 1, value.length)})`;
+    const categoryNameOfNftsLETTERS = value.slice(0, value.indexOf('-'));
+    const categoryNameOfNftsDIGITS = `(${value.slice(value.indexOf('-') + 1, value.length)})`;
     return (
       <Box sx={{ mt: 0.2, mb: 0.2, pl: 1 }}>
-        <span className="font-weight-bold">{string1}</span> <span className="collectionLight">{string2}</span>
+        <span className="font-weight-bold">{categoryNameOfNftsLETTERS}</span> <span className="collectionLight">{categoryNameOfNftsDIGITS}</span>
       </Box>
     );
   };
