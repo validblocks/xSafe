@@ -3,7 +3,9 @@ import { faQrcode } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import QrCode from 'qrcode.react';
 import { Modal } from 'react-bootstrap';
+import { Typography } from '@mui/material';
 import CopyButton from '../CopyButton';
+import { DepositDoneAction } from '../Theme/StyledComponents';
 
 const ReceiveModal = ({
   showQrFromSidebar,
@@ -56,18 +58,27 @@ const ReceiveModal = ({
               className="h6 mb-spacer copy-address"
               data-testid="delegateSubTitle"
             >
-              <textarea readOnly value={address} className="address" />
-              <span className="copy-btn">
+              <textarea style={{ borderColor: '#4c2ffc' }} readOnly value={address} className="address" />
+              <Typography
+                className="copy-btn"
+                sx={{
+                  backgroundColor: '#4c2ffc1a !important',
+                  borderColor: '#4c2ffc !important',
+                }}
+              >
                 <CopyButton text={address} />
-              </span>
+              </Typography>
             </div>
             <div className="modal-action-btns">
-              <button
+              <DepositDoneAction
                 onClick={handleQr === undefined ? handleCloseModal : handleQr}
-                className="btn btn-primary"
+                sx={{
+                  backgroundColor: '#4c2ffc !important',
+                  border: 'none',
+                }}
               >
                 Done
-              </button>
+              </DepositDoneAction>
             </div>
           </div>
         </div>

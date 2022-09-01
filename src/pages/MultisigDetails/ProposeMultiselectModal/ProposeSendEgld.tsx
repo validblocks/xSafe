@@ -1,16 +1,16 @@
 import { useEffect, useMemo } from 'react';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
 import { FormikProps, useFormik } from 'formik';
-import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
-import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accountSelector';
+import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
 import { FormikInputField } from 'src/helpers/formikFields';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { OrganizationToken } from 'src/pages/Organization/types';
-import { StateType } from 'src/redux/slices/accountSlice';
+import { Box, TextField } from '@mui/material';
+import InputTokenPresentation from 'src/components/Utils/InputTokenPresentation';
 
 interface ProposeSendEgldType {
   handleChange: (proposal: MultisigSendEgld) => void;
@@ -31,9 +31,9 @@ const ProposeSendEgld = ({
 
   const { t }: { t: any } = useTranslation();
 
-  const organizationEgld = useSelector<StateType, OrganizationToken>(organizationTokenByIdentifierSelector('EGLD'));
-
-  const egldBalanceString = useMemo(() => organizationEgld.tokenAmount, [organizationEgld]);
+  const organizationTokens = useSelector(organizationTokensSelector);
+  const egldBalanceString = organizationTokens
+    ?.find((token: OrganizationToken) => token.identifier === 'EGLD').tokenAmount.replaceAll(',', '') ?? 0;
 
   const egldBalance =
   useMemo(() => parseFloat(egldBalanceString.replaceAll(',', '')), [egldBalanceString]);
@@ -66,6 +66,14 @@ const ProposeSendEgld = ({
     if (newAmount < 0) {
       formik.setFieldValue('amount', 0);
     }
+    if (newAmount === 0) {
+      return (
+        testContext?.createError({
+          message:
+          'The amount should be greater than 0',
+        }) ?? false
+      );
+    }
     if (newAmount > Number(egldBalance)) {
       return (
         testContext?.createError({
@@ -93,7 +101,7 @@ const ProposeSendEgld = ({
   formik = useFormik({
     initialValues: {
       receiver: '',
-      amount: 0,
+      amount: 1,
       data: '',
     },
     validationSchema,
@@ -139,12 +147,13 @@ const ProposeSendEgld = ({
   useEffect(() => {
     const hasErrors = Object.keys(formik.errors).length > 0;
     setSubmitDisabled(hasErrors);
-  }, [formik.errors]);
+  }, [formik.errors, setSubmitDisabled]);
 
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;
+
   return (
-    <div>
+    <Box sx={{ p: '1.93rem 2.5rem .3rem' }}>
       <FormikInputField
         label={t('Send to')}
         name="receiver"
@@ -152,39 +161,48 @@ const ProposeSendEgld = ({
         error={receiverError}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
+        className={receiverError != null ? 'isError' : ''}
       />
-      <div className="modal-control-container">
-        <label htmlFor={amount}>{t('Amount')}</label>
-        <div className="input-wrapper">
-          <Form.Control
-            id={amount}
-            name="amount"
-            isInvalid={amountError != null}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={amount}
-          />
-
-          {amountError != null && (
-            <Form.Control.Feedback type="invalid">
-              {amountError}
-            </Form.Control.Feedback>
-          )}
-        </div>
-        <span>{`Balance: ${egldBalanceString} EGLD`}</span>
-      </div>
-      <div className="modal-control-container">
-        <label htmlFor={data}>{t('data (optional)')}</label>
-        <Form.Control
-          id={data}
-          name="data"
-          type="data"
+      <Box sx={{ mt: '2.1rem !important' }}>
+        <InputTokenPresentation
+          amount={amount}
+          amountError={amountError}
+          egldBalanceString={egldBalanceString}
+          label={`${t('Amount')}`}
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
-          value={data}
+          formik={formik}
         />
-      </div>
-    </div>
+      </Box>
+      <Box>
+        <TextField
+          variant="outlined"
+          label={t('Data (optional)')}
+          id={data}
+          name="data"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          sx={{
+            width: '100%',
+            m: '0.55rem 0 1.93rem',
+            label: {
+              marginBottom: 0,
+              fontSize: '15px',
+              left: '-1px',
+            },
+            '& .MuiOutlinedInput-root fieldset': {
+              borderColor: 'rgba(76, 47, 252, 0.23)',
+            },
+            '& .MuiOutlinedInput-root.Mui-focused fieldset': {
+              borderColor: '#4c2ffc',
+            },
+            '& label.MuiInputLabel-root.Mui-focused': {
+              color: '#4c2ffc',
+            },
+          }}
+        />
+      </Box>
+    </Box>
   );
 };
 

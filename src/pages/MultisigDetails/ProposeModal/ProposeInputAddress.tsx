@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs';
 import { useTranslation } from 'react-i18next';
+import { ProposeAddressInput } from 'src/components/Theme/StyledComponents';
 
 interface ProposeInputAddressType {
   handleParamsChange: (params: Address) => void;
@@ -12,6 +13,7 @@ interface ProposeInputAddressType {
 function ProposeInputAddress({
   handleParamsChange,
   setSubmitDisabled,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   invalidAddress,
   disabled,
 }: ProposeInputAddressType) {
@@ -35,26 +37,37 @@ function ProposeInputAddress({
   };
 
   return (
-    <div className="modal-control-container">
-      <label htmlFor={address}>
-        {t('Address')}
-        {' '}
-      </label>
-      <input
+    <div>
+      <ProposeAddressInput
+        error={error}
+        label={`${t('Address')}`}
         id={address}
-        type="text"
         disabled={disabled}
-        className="form-control"
         value={address}
         autoComplete="off"
         onChange={handleAddressChanged}
+        helperText={error ? `${t('This is not a valid multisig address')}` : ''}
+        className={error ? 'isAddressError' : ''}
+        sx={{
+          '&:hover fieldset': {
+            borderColor: '#08041D',
+          },
+          '& p.MuiFormHelperText-root': {
+            ml: '.35rem !important',
+            fontSize: '11.2px',
+          },
+          '& fieldset': {
+            borderColor: '#4c2ffc8a !important',
+          },
+          '&:focus-within': {
+            '& fieldset': { borderColor: '#4c2ffc !important' },
+            '& label': { color: '#4c2ffc' },
+          },
+          '&.isAddressError:focus-within': {
+            '& label': { color: '#e51a3e !important' },
+          },
+        }}
       />
-      {error && <p className="text-danger">{t('Invalid address')}</p>}
-      {invalidAddress && !error && (
-        <p className="text-danger">
-          {t('This is not a valid multisig address')}
-        </p>
-      )}
     </div>
   );
 }

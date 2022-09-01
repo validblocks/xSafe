@@ -1,6 +1,7 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
+import { Link } from '@mui/material';
 import { MouseEvent, useState } from 'react';
 import copyTextToClipboard from './helpers/copyToClipboard';
 
@@ -34,17 +35,25 @@ const CopyButton = ({ text, className = '' }: CopyButtonType) => {
   };
 
   return (
-    <a
+    <Link
       href="/#"
       onClick={handleCopyToClipboard}
-      className={`side-action text-secondary ${className}`}
+      className={`side-action ${className}`}
+      sx={{
+        '& .text-secondary': {
+          color: '#6c757d !important',
+        },
+        '& .copyIcon': {
+          color: '#4c2ffc8a !important',
+        },
+      }}
     >
       {copyResult.default || !copyResult.success ? (
         <CopyAllIcon />
       ) : (
         <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
       )}
-    </a>
+    </Link>
   );
 };
 

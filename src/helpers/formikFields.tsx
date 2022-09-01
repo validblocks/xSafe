@@ -1,3 +1,4 @@
+import { TextField } from '@mui/material';
 import Form from 'react-bootstrap/Form';
 
 interface FormikInputFieldPropsType {
@@ -7,9 +8,9 @@ interface FormikInputFieldPropsType {
   error?: string | boolean;
   handleChange?: (e: any) => void;
   handleBlur?: (e: any) => void;
-  as?: any;
   footer?: React.ReactElement;
   disabled?: boolean;
+  className?: string;
 }
 
 interface FormikCheckboxPropsType {
@@ -28,13 +29,12 @@ export function FormikInputField({
   handleBlur,
   footer,
   disabled,
-  as = 'input',
+  className,
 }: FormikInputFieldPropsType) {
   return (
-    <div className="modal-control-container">
+    <div>
       <div className="input-wrapper">
-        <label htmlFor="form" className="form-label">{label} </label>
-        <Form.Control
+        {/* <Form.Control
           id={name}
           name={name}
           type="text"
@@ -44,8 +44,52 @@ export function FormikInputField({
           onBlur={handleBlur}
           value={value}
           disabled={disabled}
+        /> */}
+        <TextField
+          variant="outlined"
+          label={label}
+          id={name}
+          value={value}
+          name={name}
+          disabled={disabled}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          helperText={error}
+          className={className}
+          sx={{
+            width: '100%',
+            label: {
+              marginBottom: 0,
+              fontSize: '15px',
+              left: '-1px',
+            },
+            '&.isError': {
+              label: {
+                color: '#e51a3e !important',
+              },
+              fieldset: {
+                borderColor: '#e51a3e !important',
+              },
+              '& .MuiOutlinedInput-root + .MuiFormHelperText-root': {
+                color: '#e51a3e !important',
+                m: '3.5px 0 0 4px',
+              },
+              '& .MuiFormHelperText-root:first-letter': {
+                textTransform: 'uppercase',
+              },
+            },
+            '& .MuiOutlinedInput-root fieldset': {
+              borderColor: 'rgba(76, 47, 252, 0.23)',
+            },
+            '& .MuiOutlinedInput-root.Mui-focused fieldset': {
+              borderColor: '#4c2ffc',
+            },
+            '& label.MuiInputLabel-root.Mui-focused': {
+              color: '#4c2ffc',
+            },
+          }}
         />
-        {error && (
+        {error != null && (
           <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
         )}
       </div>

@@ -1,10 +1,9 @@
-import { Box, MenuItem } from '@mui/material';
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { Box } from '@mui/material';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
-import Form from 'react-bootstrap/Form';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
@@ -14,9 +13,8 @@ import { OrganizationToken } from 'src/pages/Organization/types';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import ProviderPresentation from './ProviderPresentation';
 import { useMultistepFormContext } from '../Utils/MultistepForm';
-import { ChangeStepButton, InputsContainer, MaxSendEGLDButton } from '../Theme/StyledComponents';
-import TokenPresentationWithPriceForSendEGLD from '../Utils/TokenPresentationWithPriceForSendEGLD';
-import { Text } from '../StyledComponents/StyledComponents';
+import { ChangeStepButton } from '../Theme/StyledComponents';
+import InputTokenPresentation from '../Utils/InputTokenPresentation';
 
 interface IFormValues {
   amount: string;
@@ -145,13 +143,6 @@ const StakingFormStepTwo = () => {
     setButtonWidth(buttonRef?.current?.offsetWidth);
   }, []);
 
-  const autocompleteMaxAmount = useCallback(() => {
-    if (amountError) {
-      return;
-    }
-    formik.setFieldValue('amount', egldBalanceNumber);
-  }, [amountError, egldBalanceNumber, formik]);
-
   const buttonStyle = useMemo(() => ({
     display: 'flex',
     alignItems: 'center',
@@ -160,7 +151,7 @@ const StakingFormStepTwo = () => {
     justifyContent: 'center',
     gap: buttonWidth > 90 ? 0 : 3,
     background: 'rgba(76, 47, 252, 0.1)',
-    paddingBottom: buttonWidth > 90 ? '10px' : '0 !important',
+    paddingBottom: buttonWidth > 90 ? '9px' : '0 !important',
     borderRadius: '10px',
   }), [buttonWidth]);
 
@@ -170,55 +161,22 @@ const StakingFormStepTwo = () => {
         <Box sx={{ flex: 4 }}>
           <ProviderPresentation provider={selectedProvider} />
         </Box>
-        <Box sx={{ flex: 1 }}>
+        <Box sx={{ width: '100%' }}>
           <ChangeStepButton ref={buttonRef} onClick={proceedToPreviousStep}>
             {t('Change') as string}
           </ChangeStepButton>
         </Box>
       </Box>
-      <Box>
-        <InputsContainer sx={{ marginBottom: '0.35rem !important' }}>
-          <Form.Control
-            id={amount}
-            name="amount"
-            isInvalid={amountError != null}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={amount}
-          />
-
-          <label htmlFor={amount}>
-            {`${t('Amount')}`}
-          </label>
-
-          <MaxSendEGLDButton onClick={autocompleteMaxAmount}>
-            Max
-          </MaxSendEGLDButton>
-
-          <MenuItem
-            key={'EGLD'}
-            value={'EGLD'}
-            sx={{ p: '.25rem .4rem' }}
-          >
-            <TokenPresentationWithPriceForSendEGLD
-              withTokenAmount={false}
-              withTokenValue={false}
-              identifier={'EGLD'}
-            />
-          </MenuItem>
-          <Text
-            fontSize={13}
-            variant="subtitle2"
-            sx={{ marginTop: '.35rem !important' }}
-          >{`${t('Available')}: ${egldBalanceString} EGLD`}
-          </Text>
-
-          {amountError != null && (
-          <Form.Control.Feedback type="invalid">
-            {amountError}
-          </Form.Control.Feedback>
-          )}
-        </InputsContainer>
+      <Box sx={{ mb: '.35rem !important' }}>
+        <InputTokenPresentation
+          amount={amount}
+          amountError={amountError}
+          egldBalanceString={egldBalanceString}
+          label={`${t('Amount')}`}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          formik={formik}
+        />
       </Box>
     </Box>
   );

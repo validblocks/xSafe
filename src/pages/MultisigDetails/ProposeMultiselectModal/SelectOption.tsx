@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Accordion, useAccordionToggle } from 'react-bootstrap';
 import { ProposalsTypes } from 'src/types/Proposals';
+import { MainButton } from 'src/components/Theme/StyledComponents';
+import { Box, Typography } from '@mui/material';
+import { ArrowDropDown } from '@mui/icons-material';
 
 interface SelectOptionPropsType {
   onSelected: (option: ProposalsTypes) => void;
@@ -49,47 +50,64 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
 
   const decoratedOnClick = useAccordionToggle('0', handleToggleExpanded);
   return (
-    <>
-      <div className="card select-options-list modal-action-btns">
+    <Box sx={{ px: '2.75rem', pt: '1.8rem' }}>
+      <div className="card select-options-list">
         {proposeAvailableOptions.map((option) => (
-          <button
+          <MainButton
             key={option.type}
-            className="selectable-option btn btn-primary btn-light"
             onClick={() => onSelected(option.type)}
+            sx={{ mb: '1rem', boxShadow: 'none !important' }}
           >
             {option.label}
-          </button>
+          </MainButton>
         ))}
       </div>
       <div className="card select-options-list">
         <Accordion>
-          <Accordion.Toggle
-            eventKey="0"
-            onClick={decoratedOnClick}
-            className="expand-icon advanced-options-toggle mb-2 mt-4"
-          >
-            <div className="d-flex justify-content-center align-items-center flex-fill">
-              <span className="h6 mb-1 mr-2" data-testid="delegateTitle">
-                Advanced
-              </span>
-              <FontAwesomeIcon icon={expanded ? faChevronUp : faChevronDown} />
-            </div>
-          </Accordion.Toggle>
+          <Box sx={{ '& button[tabindex="-1"]:focus:not(:focus-visible)': { outline: 'none !important' } }}>
+            <Accordion.Toggle
+              eventKey="0"
+              onClick={decoratedOnClick}
+              className="expand-icon advanced-options-toggle mb-2 shadow-none"
+              tabIndex={-1}
+            >
+              <div className="d-flex justify-content-center align-items-center flex-fill">
+                <Typography color="#4c2ffc" className="h6 mb-1" data-testid="delegateTitle">
+                  Advanced
+                </Typography>
+                <ArrowDropDown
+                  className={expanded ? 'down' : 'up'}
+                  sx={{
+                    mb: '0.2rem',
+                    transition: 'transform .3s linear',
+                    color: '#4c2ffc',
+                    '&.up': {
+                      transform: 'rotate(-180deg)',
+                    },
+                  }}
+                />
+              </div>
+            </Accordion.Toggle>
+          </Box>
+
           <Accordion.Collapse eventKey="0">
-            <div className="d-flex flex-column">
+            <Box
+              className="d-flex flex-column"
+              sx={{ '& > button.MuiButton-root:nth-of-type(4)': { mb: '0' } }}
+            >
               {othersAvailableOptions.map((option) => (
-                <button
+                <MainButton
                   key={option.type}
-                  className="selectable-option btn btn-primary btn-light my-2"
                   onClick={() => onSelected(option.type)}
+                  sx={{ mb: '1rem', boxShadow: 'none !important' }}
                 >
                   {option.label}
-                </button>
+                </MainButton>
               ))}
-            </div>
+            </Box>
           </Accordion.Collapse>
         </Accordion>
       </div>
-    </>
+    </Box>
   );
 }

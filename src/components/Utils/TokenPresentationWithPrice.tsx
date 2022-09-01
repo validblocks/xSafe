@@ -40,30 +40,47 @@ const TokenPresentationWithPrice = ({
   } = useSelector<StateType, OrganizationToken>(selector);
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        {withPhoto && (
-        <Box>
-          {tokenPhotoJSX}
-        </Box>
-        )}
-        <Box sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
+    <Box sx={{
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+    }}
+    >
+      {withPhoto && (
+      <Box
+        sx={{
+          m: '0 .55rem 0 .3rem',
+          '& svg, & img': { width: '35px !important', height: '35px !important', m: '0 !important' },
+          '& img': { borderRadius: '50%' },
         }}
-        >
-          <Box>
-            ${prettyIdentifier}
-          </Box>
-          {withPrice && (
+      >
+        {tokenPhotoJSX}
+      </Box>
+      )}
+      <Box sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+      >
+        <Box>
+          {prettyIdentifier}
+        </Box>
+        {withPrice && (
           <Typography variant="subtitle2">
             ${tokenPrice}
           </Typography>
-          )}
-        </Box>
+        )}
       </Box>
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+      <Box
+        sx={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          alignSelf: 'center',
+          textAlign: 'right',
+        }}
+      >
         {withTokenAmount && (
         <Box>
           {tokenAmount}

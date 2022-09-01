@@ -31,7 +31,7 @@ function NftCompmonent() {
     isError: isErrorOnFetchNFTs,
   } = useQuery(
     [
-      QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
+      QueryKeys.ALL_ORGANIZATION_NFTS,
     ],
     () => fetchNfts(),
     {
@@ -78,6 +78,16 @@ function NftCompmonent() {
     );
   }
 
+  const rewriteNftsCollection = (value: string) => {
+    const categoryNameOfNftsLETTERS = value.slice(0, value.indexOf('-'));
+    const categoryNameOfNftsDIGITS = `(${value.slice(value.indexOf('-') + 1, value.length)})`;
+    return (
+      <Box sx={{ mt: 0.2, mb: 0.2, pl: 1 }}>
+        <span className="font-weight-bold">{categoryNameOfNftsLETTERS}</span> <span className="collectionLight">{categoryNameOfNftsDIGITS}</span>
+      </Box>
+    );
+  };
+
   return (
     <Box>
       { (
@@ -88,29 +98,74 @@ function NftCompmonent() {
                 item.collection !== nftListSorted[index - 1].collection) ||
                 index === 0) && (
                 <CollectionName>
-                  <TextDivider textAlign="left">
-                    <Box sx={{ mt: 3, mb: 3 }}>{item.collection}</Box>
+                  <TextDivider>
+                    {rewriteNftsCollection(item.collection)}
                   </TextDivider>
                 </CollectionName>
               )}
-              <Grid xs={12} sm={6} md={4} lg={3} item key={item.name}>
+              <Grid
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                item
+                key={item.name}
+                sx={{
+                  minWidth: '260px',
+                  maxWidth: '270px !important',
+                  p: '0 !important',
+                }}
+              >
                 <CardBox>
-                  <Box>
+                  <Box sx={{
+                    m: '0',
+                    width: '100%',
+                    position: 'relative',
+                    zIndex: '0',
+                    '&:before': {
+                      position: 'absolute',
+                      content: '""',
+                      width: '100%',
+                      height: '100%',
+                      top: 0,
+                      left: 0,
+                      backgroundColor: 'rgba(76, 47, 252, 0.1)',
+                    },
+                  }}
+                  >
                     <CardMedia
                       component="img"
                       height="auto"
-                      image={`${item.media[0].url}?w=164&h=164&fit=crop&auto=format`}
+                      image={`${item.media[0].url}?w=150&h=150&fit=crop&auto=format`}
                       alt="nft"
                     />
                   </Box>
-                  <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                  <CardContent
+                    sx={{
+                      p: '.5rem .8rem 0.95rem !important',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      height: '93px',
+                    }}
+                  >
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="span"
+                    >
                       {item.name}
                     </Typography>
                     <MainButton
-                      sx={{ width: '100%' }}
-                      onClick={() =>
-                        handleOptionSelected(ProposalsTypes.send_nft, item)
+                      sx={{
+                        width: '100%',
+                        fontWeight: '500 !important',
+                        boxShadow: 'none !important',
+                        mt: '.35rem',
+                        fontSize: '13px !important',
+                      }}
+                      onClick={() => {
+                        handleOptionSelected(ProposalsTypes.send_nft, item);
+                      }
                       }
                     >
                       Send NFT

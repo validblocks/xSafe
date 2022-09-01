@@ -3,7 +3,7 @@ import {
 } from '@mui/x-data-grid';
 import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
 import { useMemo, useState } from 'react';
-import { AccordionDetails, AccordionSummary, Box, Button, Grid } from '@mui/material';
+import { AccordionDetails, AccordionSummary, Box, Button, Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import { IDelegation, IdentityWithColumns, IUndelegatedFunds } from 'src/types/staking';
@@ -19,7 +19,7 @@ import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ProviderColumn from './ProviderColumn';
 import { TransactionAccordion } from '../StyledComponents/transactions';
-import { AssetActionButton } from '../Theme/StyledComponents';
+import { WithdrawButton } from '../Theme/StyledComponents';
 import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
 import { HtmlTooltip } from '../Utils/HtmlTooltip';
 import CountdownTimer from '../Utils/CountdownTimer';
@@ -131,9 +131,24 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
       maxHeight={310}
       minHeight={310}
       overflow="scroll"
-      sx={{ padding: '0 !important' }}
+      sx={{
+        padding: '0 !important',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
     >
-      { rows.map((row) => (
+      {rows.length === 0 ? (
+        <Typography
+          sx={{
+            width: '100%',
+            color: 'gray',
+            textAlign: 'center',
+            fontSize: '22px',
+          }}
+        >You don't have any funds waiting to be withdrawn at this moment
+        </Typography>
+      ) : (rows.map((row) => (
         <TransactionAccordion
           key={Math.random()}
           sx={{
@@ -152,8 +167,6 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
             }}
             id="panel1a-header"
             sx={{
-              borderRadius: '10px',
-              border: '1px solid #eee !important',
               outline: 'none !important',
               flexWrap: 'wrap',
               '& .MuiAccordionSummary-expandIconWrapper': {
@@ -163,7 +176,6 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                 alignItems: 'center !important',
                 backgroundColor: '#F3F6FC',
                 padding: '0.25rem',
-                borderTop: '1px solid #eee',
               },
             }}
             className="pl-0 pr-0 m-0 d-flex"
@@ -171,12 +183,31 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
             <Grid
               container
               sx={{
-                padding: '0.5rem 1.25rem 0.75rem',
+                padding: '0.5rem 1.25rem 0.55rem',
                 backgroundColor: '#F3F6FC',
                 width: '100% !important',
+                border: 'solid 1px #eee',
+                borderRadius: '10px',
+                transition: 'all .2s linear',
+                ':hover': {
+                  backgroundColor: '#ffff !important',
+                  borderColor: '#4c2ffc',
+                  boxShadow: 'inset 0px 0px 6px #4c2ffc2e !important',
+                },
               }}
             >
-              <Grid item xs={7} md={5} maxWidth={'50%'} overflow={'scroll'}>
+              <Grid
+                item
+                xs={7}
+                md={5}
+                maxWidth={'50%'}
+                overflow={'scroll'}
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                }}
+              >
                 <ProviderColumn columnData={row.providerColumn} />
               </Grid>
               <Grid
@@ -184,8 +215,13 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                 xs={5}
                 md={4}
                 sx={{
-                  padding: '1rem',
+                  padding: '.5rem 1rem',
                   fontSize: '0.85rem',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  alignItems: 'flex-start',
+                  textAlign: 'left',
                 }}
               >
                 <div>
@@ -196,15 +232,15 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                 </div>
               </Grid>
               <Grid item xs={12} md={3} display={'flex'} alignItems={'center'}>
-                <AssetActionButton
+                <WithdrawButton
                   key="0"
                   variant="outlined"
                   sx={{
                     opacity: '1 !important',
                     height: '30px',
                     width: '100%',
-                    paddingLeft: '0.5rem !important',
-                    marginRight: '0 !important',
+                    p: '.17rem .5rem 0rem !important',
+                    mr: '0 !important',
                   }}
                   disabled={row.withdrawableUndelegationsAmount === 0}
                   className="shadow-sm rounded mr-2"
@@ -215,7 +251,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                       'withdraw');
                   }}
                 > Withdraw
-                </AssetActionButton>
+                </WithdrawButton>
               </Grid>
             </Grid>
           </AccordionSummary>
@@ -272,7 +308,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
             }
           </AccordionDetails>
         </TransactionAccordion>
-      ))}
+      )))}
 
     </Box>
   );

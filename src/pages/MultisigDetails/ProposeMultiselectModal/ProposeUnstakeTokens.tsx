@@ -23,7 +23,7 @@ import { delegationFunctionNames } from 'src/types/staking/delegationFunctionNam
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { useEffectDebugger } from 'src/utils/useEffectDebugger';
 import { InputsContainer, MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
-import TokenPresentationWithPriceForSendEGLD from 'src/components/Utils/TokenPresentationWithPriceForSendEGLD';
+import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 
 interface ProposeUnstakeTokensType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -207,8 +207,21 @@ const ProposeUnstakeTokens = ({
   }, [amountError, formik, selectedStakingProvider?.delegatedColumn?.delegatedAmount]);
 
   return (
-    <div className="px-4 py-3">
-      <div className="modal-control-  container mb-4">
+    <Box sx={{
+      px: '2.5rem',
+      pt: '1.4rem',
+      pb: '.3rem',
+      span: {
+        color: 'grey',
+        ml: '.35rem',
+        fontSize: '13px',
+      },
+      label: {
+        ml: '.3rem !important',
+      },
+    }}
+    >
+      <div className="mb-4">
         <InputLabel id="demo-simple-select-label">Staking Provider</InputLabel>
         <Select
           value={identifier}
@@ -216,11 +229,23 @@ const ProposeUnstakeTokens = ({
           label="Identifier"
           size="small"
           onChange={(e: any) => { onChange(e); formik.handleChange(e); }}
-          className="mb-2"
+          className="mb-0"
           sx={{
+            borderRadius: '.33rem',
+            border: 'solid 1px rgba(76, 47, 252, 0.23)',
+            ':hover': {
+              borderColor: '#08041D',
+            },
+            ':focus-within': {
+              border: 'solid 2px #4c2ffc !important',
+            },
             '.MuiInputBase-input': {
               paddingY: '0 !important',
-            } }}
+            },
+            fieldset: {
+              display: 'none',
+            },
+          }}
         >
           {activeDelegationsRows?.map((activeDelegation: IdentityWithColumns) => (
             <MenuItem
@@ -235,13 +260,13 @@ const ProposeUnstakeTokens = ({
             </MenuItem>
           ))}
         </Select>
-        <div>
+        <span>
           Staked:
           {' '}
           {selectedStakingProvider?.delegatedColumn?.delegatedAmount ?? 'Unknown'}
           {' '}
           $EGLD
-        </div>
+        </span>
       </div>
 
       <InputsContainer>
@@ -258,7 +283,7 @@ const ProposeUnstakeTokens = ({
           {`${t('Amount')}`}
         </label>
 
-        <MaxSendEGLDButton onClick={autocompleteMaxAmount}>
+        <MaxSendEGLDButton disabled={amountError != null} onClick={autocompleteMaxAmount}>
           Max
         </MaxSendEGLDButton>
 
@@ -267,7 +292,7 @@ const ProposeUnstakeTokens = ({
           value={'EGLD'}
           sx={{ p: '.25rem .4rem' }}
         >
-          <TokenPresentationWithPriceForSendEGLD
+          <TokenPresentationWithPrice
             withTokenAmount={false}
             withTokenValue={false}
             identifier={'EGLD'}
@@ -281,7 +306,7 @@ const ProposeUnstakeTokens = ({
         )}
       </InputsContainer>
 
-    </div>
+    </Box>
   );
 };
 

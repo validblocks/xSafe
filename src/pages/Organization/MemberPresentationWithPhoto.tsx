@@ -1,6 +1,6 @@
 import { Address } from '@elrondnetwork/erdjs/out';
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CopyButton from 'src/components/CopyButton';
 import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
 import { network } from 'src/config';
@@ -20,12 +20,12 @@ const MemberPresentationWithPhoto = ({
     className="d-flex align-items-center"
   >
     <img
-      className="mr-3 rounded"
-      src="https://picsum.photos/30/30?random=1"
+      className="rounded"
+      src="https://picsum.photos/40/40?random=1"
       alt="member"
     />
-    <Box>
-      <div>@herotag</div>
+    <Box sx={{ ml: '0.7rem' }}>
+      <Typography sx={{ fontWeight: 600 }}>@herotag</Typography>
       <Box sx={{ display: 'flex' }}>
         <div>
           {truncateInTheMiddle(
@@ -33,14 +33,14 @@ const MemberPresentationWithPhoto = ({
             charactersLeftAfterTruncation,
           )}{' '}
         </div>
-        <CopyButton className="ml-2" text={memberAddress?.toString()} />
+        <CopyButton className="ml-2 copyIcon" text={memberAddress?.toString()} />
         <Anchor
           href={`${
             network.explorerAddress
           }/accounts/${memberAddress?.toString()}`}
           target="_blank"
           rel="noreferrer"
-          color="#6c757d"
+          color="#4c2ffc8a"
           className="ml-2"
         >
           <ContentPasteGoIcon />

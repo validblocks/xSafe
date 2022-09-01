@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import {
@@ -29,6 +29,18 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   } = useOrganizationInfoContext();
 
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
+
+  const reference = useRef(null);
+
+  const handleClickOutside = (e: any) => {
+    if (e.path[0] && reference.current) {
+      setOpenedSafeSelect(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('click', handleClickOutside, true);
+  }, []);
 
   const handleQrModal = () => {
     setShowQr(!showQr);
@@ -72,9 +84,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
                 }}
               >
                 <ArrowDropUpIcon
-                  onClick={() => {
-                    setOpenedSafeSelect(false);
-                  }}
+                  ref={reference}
                 />
                 <SafeOptions />
               </Box>

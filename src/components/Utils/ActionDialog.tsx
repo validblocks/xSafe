@@ -6,6 +6,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ActionResponseButton } from '../Theme/StyledComponents';
 import ReactPortal from './ReactPortal';
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
     dialogContent?: string;
     onActionAccepted?: () => void | null;
     onActionRejected?: () => void | null;
+    onActionTokenTableRows?: boolean;
 }
 
 export default function ActionDialog({
@@ -26,6 +28,7 @@ export default function ActionDialog({
   dialogContent = 'Dialog content',
   onActionAccepted,
   onActionRejected,
+  onActionTokenTableRows,
 }: Props) {
   const [open, setOpen] = useState(isOpen);
 
@@ -59,19 +62,31 @@ export default function ActionDialog({
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title" textAlign={'center'}>
+          <DialogTitle
+            sx={{
+              fontWeight: '600 !important',
+              p: '1.2rem 1.4rem',
+            }}
+            id="alert-dialog-title"
+            textAlign={'center'}
+          >
             {t(dialogTitle) as string}
           </DialogTitle>
           <DialogContent>
-            <DialogContentText textAlign={'center'} id="alert-dialog-description">
+            <DialogContentText textAlign={'left'} id="alert-dialog-description">
               {t(dialogContent) as string}
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Disagree</Button>
-            <Button onClick={onActionAccepted} autoFocus>
+          <DialogActions sx={{ p: '0.2rem 1.5rem 1.4rem', justifyContent: 'center' }}>
+            <ActionResponseButton
+              className="dialogButton"
+              disabled={onActionTokenTableRows}
+              onClick={handleClose}
+            >Disagree
+            </ActionResponseButton>
+            <ActionResponseButton className="dialogButton" onClick={onActionAccepted}>
               Agree
-            </Button>
+            </ActionResponseButton>
           </DialogActions>
         </Dialog>
       </div>

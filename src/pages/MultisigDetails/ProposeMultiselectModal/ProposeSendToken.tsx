@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, Balance } from '@elrondnetwork/erdjs/out';
-import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Box, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -19,7 +19,9 @@ import { StateType } from 'src/redux/slices/accountSlice';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import ActionDialog from 'src/components/Utils/ActionDialog';
 import { ProposalsTypes } from 'src/types/Proposals';
-import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
+import { setProposeMultiselectSelectedOption, setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
+import { InputsContainer } from 'src/components/Theme/StyledComponents';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -61,7 +63,7 @@ const ProposeSendToken = ({
   };
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
-  const [identifier, setIdentifier] = useState(selectedToken.identifier);
+  const [identifier, setIdentifier] = useState(selectedToken?.identifier);
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
 
   const availableTokensWithBalances = useMemo(
@@ -74,7 +76,7 @@ const ProposeSendToken = ({
   );
 
   const selectedTokenBalance = useMemo(
-    () => availableTokensWithBalances.find(
+    () => availableTokensWithBalances?.find(
       (token: TokenTableRowItem) => token?.identifier === identifier,
     )?.balance as string,
     [availableTokensWithBalances, identifier],
@@ -138,7 +140,7 @@ const ProposeSendToken = ({
   formik = useFormik({
     initialValues: {
       address: '',
-      amount: 0,
+      amount: 1,
     },
     validationSchema,
     validateOnChange: true,
@@ -179,6 +181,29 @@ const ProposeSendToken = ({
   const amountError = touched.amount && errors.amount;
   const addressError = touched.address && errors.address;
   const [isSendEgldPromptOpen, setIsSendEgldPromptOpen] = useState(false);
+  const [isTokenTableRowsContainsOnlyEGLD, setIsTokenTableRowsCongtainsOnlyEGLD] = useState(false);
+
+  const handleTokenTableRowsContainsOnlyEGLD = () => setIsTokenTableRowsCongtainsOnlyEGLD(!(tokenTableRows.some((item) => item.identifier !== 'EGLD')));
+
+  useEffect(() => {
+    handleTokenTableRowsContainsOnlyEGLD();
+    if (!selectedToken?.identifier) {
+      const firstDifferentThanEgld = tokenTableRows.find((item) => item.identifier !== 'EGLD');
+      if (!firstDifferentThanEgld) {
+        setIdentifier('EGLD');
+        setIsSendEgldPromptOpen(true);
+      }
+
+      setIdentifier(firstDifferentThanEgld?.identifier);
+      dispatch(
+        setSelectedTokenToSend({
+          id: firstDifferentThanEgld?.identifier,
+          identifier: firstDifferentThanEgld?.identifier,
+          balance: firstDifferentThanEgld?.balance,
+        }),
+      );
+    }
+  }, [dispatch, identifier, tokenTableRows]);
 
   const onIdentifierChanged = (event: SelectChangeEvent) => {
     const newIdentifier = event.target.value;
@@ -206,31 +231,68 @@ const ProposeSendToken = ({
   } = useSelector<StateType, OrganizationToken>(selector);
 
   return (
-    <div>
-      <div className="modal-control-container mb-4">
-        <FormikInputField
-          label={t('Send to')}
-          name="address"
-          value={address}
-          error={addressError}
-          handleChange={formik.handleChange}
-          handleBlur={formik.handleBlur}
+    <Box sx={{ p: '1.93rem 2.5rem .3rem' }}>
+      <FormikInputField
+        label={t('Send to')}
+        name="address"
+        value={address}
+        error={addressError}
+        handleChange={formik.handleChange}
+        handleBlur={formik.handleBlur}
+        className={addressError != null ? 'isError' : ''}
+      />
+
+      <InputsContainer sx={{ mt: '2.1rem !important', mb: '2.3rem !important' }}>
+        <Form.Control
+          id={amount}
+          name="amount"
+          isInvalid={amountError != null}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={amount}
         />
-      </div>
-      <div className="modal-control-container mb-4">
-        <InputLabel id="demo-simple-select-label">Identifier</InputLabel>
+
+        <label htmlFor={amount}>
+          {`${t('Amount')}`}
+        </label>
+
+        {amountError != null && (
+        <Form.Control.Feedback type="invalid">
+          {amountError}
+        </Form.Control.Feedback>
+        )}
         <Select
-          value={identifier}
+          value={identifier ?? ''}
           fullWidth
           label="Identifier"
           size="small"
           onChange={onIdentifierChanged}
-          className="mb-2"
+          sx={{
+            position: 'absolute',
+            top: '0px',
+            right: '0px',
+            height: '56px',
+            width: '145px',
+            border: 'solid 1px rgba(76, 47, 252, 0.23)',
+            borderTopLeftRadius: '2rem',
+            borderBottomLeftRadius: '2rem',
+            fieldset: {
+              border: 'none',
+            },
+            '.MuiSelect-select': {
+              py: '.2rem',
+              pl: '.1rem',
+              '& div.MuiBox-root > div.MuiBox-root:nth-child(3)': {
+                display: 'none',
+              },
+            },
+          }}
         >
           {tokenTableRows?.map((token: TokenTableRowItem) => (
             <MenuItem
               key={token.identifier}
               value={token.identifier}
+              sx={{ width: '230px', pl: '.1rem', pr: '.3rem' }}
             >
               <TokenPresentationWithPrice
                 identifier={token.identifier as string}
@@ -238,33 +300,15 @@ const ProposeSendToken = ({
             </MenuItem>
           ))}
         </Select>
-        <div>
-          Balance:
-          {tokenAmount}
-        </div>
-      </div>
 
-      <div className="modal-control-container">
-        <div className="input-wrapper">
-          <label htmlFor={amount}>
-            {`${t('Amount')}:`}
-          </label>
-          <Form.Control
-            id={amount}
-            name="amount"
-            isInvalid={amountError != null}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={amount}
-          />
+        <Text
+          fontSize={13}
+          variant="subtitle2"
+          className="availableAmount"
+        >{`${t('Available')}: ${tokenAmount} EGLD`}
+        </Text>
+      </InputsContainer>
 
-          {amountError != null && (
-            <Form.Control.Feedback type="invalid">
-              {amountError}
-            </Form.Control.Feedback>
-          )}
-        </div>
-      </div>
       <ActionDialog
         showButton={false}
         isOpen={isSendEgldPromptOpen}
@@ -278,8 +322,9 @@ const ProposeSendToken = ({
             ?.find((token: TokenTableRowItem) => token.identifier !== 'EGLD')?.identifier;
           setIdentifier(firstDifferentIdentifier);
         }}
+        onActionTokenTableRows={isTokenTableRowsContainsOnlyEGLD}
       />
-    </div>
+    </Box>
   );
 };
 

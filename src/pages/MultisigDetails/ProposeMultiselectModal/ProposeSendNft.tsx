@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo } from 'react';
-import { useFormik } from 'formik';
+import { FormikProps, useFormik } from 'formik';
 import { FormikInputField } from 'src/helpers/formikFields';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
@@ -7,10 +7,21 @@ import { useSelector } from 'react-redux';
 import { selectedNftToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { MultisigSendNft } from 'src/types/MultisigSendNft';
+import { useQueryClient } from 'react-query';
+import useNft from 'src/utils/useNft';
+import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
+import { Box, Typography } from '@mui/material';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 
 interface ProposeSendNftType {
   handleChange: (proposal: MultisigSendNft) => void;
   setSubmitDisabled: (value: boolean) => void;
+}
+
+interface IFormValues {
+  address: string;
+  identifier: string;
+  nonce: string;
 }
 
 function validateRecipient(value?: string) {
@@ -29,6 +40,8 @@ const ProposeSendNft = ({
 }: ProposeSendNftType) => {
   const { t } = useTranslation();
 
+  let formik: FormikProps<IFormValues>;
+
   const selectedNft = useSelector(selectedNftToSendSelector);
 
   const validationSchema = useMemo(
@@ -45,7 +58,8 @@ const ProposeSendNft = ({
     [],
   );
 
-  const formik = useFormik({
+  // eslint-disable-next-line prefer-const
+  formik = useFormik({
     initialValues: {
       address: '',
       identifier: selectedNft?.identifier ?? '',
@@ -55,10 +69,15 @@ const ProposeSendNft = ({
     validationSchema,
     validateOnChange: true,
     validateOnMount: true,
-  });
+  } as any);
+
+  const queryClient = useQueryClient();
+
+  const { searchedNft } = useNft(queryClient, selectedNft.identifier);
 
   const { touched, errors, values } = formik;
-  const { address, identifier, nonce } = values;
+  // eslint-disable-next-line prefer-const
+  let { address, identifier, nonce } = values;
 
   const getProposal = (): MultisigSendNft | null => {
     try {
@@ -80,11 +99,7 @@ const ProposeSendNft = ({
   };
 
   const addressError = touched.address && errors.address;
-  const identifierError: any = touched.identifier && errors.identifier;
-
-  useEffect(() => {
-    setSubmitDisabled(!formik.isValid || !formik.dirty);
-  }, [formik.isValid, formik.dirty]);
+  setSubmitDisabled(!formik.isValid || !formik.dirty);
   useEffect(() => {
     setSubmitDisabled(!(formik.isValid && formik.dirty));
   }, [address, identifier, nonce]);
@@ -93,41 +108,39 @@ const ProposeSendNft = ({
     refreshProposal();
   }, [address, identifier, nonce]);
 
+  const { address: address2 } = useGetAccountInfo();
+
+  const memoizedAddress = useMemo(() => new Address(address2), [address2]);
+
   return (
-    <div>
-      <div className="modal-control-container mb-4">
+    <Box>
+      <Box sx={{ p: '1rem 2.5rem 0.9rem' }}>
+        <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>NFT name:</Typography>
+        <div className="mb-3">
+          <img src={searchedNft.url} alt="" width={40} height={40} className="rounded mr-2" />
+          <span className="nftName">{searchedNft.name}</span>
+        </div>
+        <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>
+          Sending from:
+        </Typography>
+        <MemberPresentationWithPhoto
+          memberAddress={memoizedAddress}
+          charactersLeftAfterTruncation={15}
+        />
+      </Box>
+      <hr />
+      <Box sx={{ p: '1.25rem 2.5rem 0', m: ' 0 0 1rem' }}>
         <FormikInputField
           label={t('Send to')}
           name={'address'}
           value={address}
+          handleChange={formik.handleChange}
           error={addressError}
-          handleChange={formik.handleChange}
           handleBlur={formik.handleBlur}
+          className={addressError ? 'isError' : ''}
         />
-      </div>
-      <div className="modal-control-container mb-4">
-        <FormikInputField
-          label={t('Identifier')}
-          name={'identifier'}
-          value={identifier}
-          disabled
-          error={identifierError}
-          handleChange={formik.handleChange}
-          handleBlur={formik.handleBlur}
-        />
-      </div>
-      <div className="modal-control-container mb-4">
-        <FormikInputField
-          label={t('Nonce')}
-          name={'nonce'}
-          value={nonce}
-          error={identifierError}
-          disabled
-          handleChange={formik.handleChange}
-          handleBlur={formik.handleBlur}
-        />
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

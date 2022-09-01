@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useLocation, Link } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
+import { Box, OutlinedInput } from '@mui/material';
+import { FormSearchInput } from 'src/components/Theme/StyledComponents';
 import breadcrumbItems from './BreadcrumbItems';
+import { ReactComponent as SearchIcon } from '../../../assets/img/searchFilled.svg';
 
 function PageBreadcrumbs() {
   const [breadcrumb, setBreadcrumb] = useState([]);
@@ -12,6 +15,24 @@ function PageBreadcrumbs() {
     setBreadcrumb(breadcrumbItems[location.pathname.substring(1)]);
   }, [location.pathname]);
 
+  // eslint-disable-next-line consistent-return
+  const displaySearch = (val: any) => {
+    if (val === 'NFT') {
+      return (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <span>{val}</span>
+          <Box component="form" noValidate autoComplete="off">
+            <FormSearchInput>
+              <SearchIcon />
+              <OutlinedInput placeholder="Search..." />
+            </FormSearchInput>
+          </Box>
+        </Box>
+      );
+    }
+    return `${val}`;
+  };
+
   return (
     <div role="presentation">
       <Breadcrumbs separator="›" aria-label="breadcrumb">
@@ -20,7 +41,7 @@ function PageBreadcrumbs() {
         </Link>
         {breadcrumb?.map((el: any) => (
           <Link key={el.link} color="inherit" to={el.link}>
-            {el.name}
+            {displaySearch(el.name)}
           </Link>
         ))}
       </Breadcrumbs>

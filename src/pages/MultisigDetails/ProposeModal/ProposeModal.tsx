@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
-import { faHandPaper, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faHandPaper } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +14,8 @@ import {
 import { addEntry } from 'src/redux/slices/addressBookSlice';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
+import { MainButton } from 'src/components/Theme/StyledComponents';
+import { Box } from '@mui/material';
 import EditOwner from './EditOwner';
 import ProposeChangeQuorum from './ProposeChangeQuorum';
 import ProposeInputAddress from './ProposeInputAddress';
@@ -154,23 +156,22 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
 
           <div>
             {getModalContent()}
-            <div className="modal-action-btns">
-              <button
+            <Box className="modal-action-btns" sx={{ mt: '24px !important' }}>
+              <MainButton
                 onClick={handleClose}
-                className="btn btn-primary btn-light "
+                sx={{ boxShadow: 'none !important' }}
               >
-                <FontAwesomeIcon icon={faTimes} />
                 {t('Cancel')}
-              </button>
-              <button
+              </MainButton>
+              <MainButton
                 disabled={submitDisabled}
                 onClick={onProposeClicked}
-                className="btn btn-primary "
+                sx={{ gap: '5px !important' }}
               >
                 <FontAwesomeIcon icon={faHandPaper} />
-                {t('Propose')}
-              </button>
-            </div>
+                {t('Add')}
+              </MainButton>
+            </Box>
           </div>
         </div>
       </div>

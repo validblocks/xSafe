@@ -1,4 +1,4 @@
-import { logout } from '@elrondnetwork/dapp-core';
+import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Typography } from '@mui/material';
@@ -13,6 +13,7 @@ import { accessTokenServices } from 'src/services/accessTokenServices';
 import routeNames from 'src/routes/routeNames';
 
 import { network } from 'src/config';
+import { useEffect, useState } from 'react';
 import {
   ConnectItems,
   Anchor,
@@ -35,6 +36,13 @@ const ConnectedAccount = () => {
   const onDisconnectClick = () => {
     logOut();
   };
+  const { address } = useGetAccountInfo();
+
+  const [walletAddress, setWalletAddress] = useState('');
+
+  useEffect(() => {
+    setWalletAddress(addressShorthand(address));
+  }, [address]);
   return (
     <Box>
       <Box
@@ -47,7 +55,7 @@ const ConnectedAccount = () => {
         <Box sx={{ ml: 2 }}>
           <ConnectItems className="d-flex" sx={{ p: 1 }}>
             <Typography sx={{ mr: 2, ml: 1 }}>
-              {addressShorthand(uniqueContractAddress)}
+              {addressShorthand(walletAddress)}
             </Typography>
             <Box sx={{ mr: 2 }}>
               <CopyBtn className="link-color" text={uniqueContractAddress} />
