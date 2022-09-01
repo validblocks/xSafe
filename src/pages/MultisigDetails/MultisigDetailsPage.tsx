@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Address, Balance } from '@elrondnetwork/erdjs';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
 import ReceiveModal from 'src/components/ReceiveModal';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
@@ -32,6 +32,15 @@ export interface ContractInfo {
   boardMembersAddresses?: Address[];
   proposersAddresses?: Address[];
 }
+
+const parseMultisigAddress = (addressParam: string): Address | null => {
+  try {
+    return new Address(addressParam);
+  } catch {
+    return null;
+  }
+};
+
 function MultisigDetailsPage() {
   const currentContract = useSelector(currentMultisigContractSelector);
 
@@ -42,7 +51,6 @@ function MultisigDetailsPage() {
     nftCount,
   } = useOrganizationInfoContext();
 
-  const { multisigAddressParam } = useParams<string>();
   const { t }: { t: any } = useTranslation();
   const navigate = useNavigate();
 
@@ -61,17 +69,9 @@ function MultisigDetailsPage() {
     'No rights': 'You have no rights',
     'Board Member': 'Propose and sign',
     'Not logged in': 'Login to propose',
-  }), [userRoleAsString]);
+  }), []);
 
   const userRoleDescription = useMemo(() => userRoleDescriptions[userRoleAsString], [userRoleAsString]);
-
-  const parseMultisigAddress = (addressParam: string): Address | null => {
-    try {
-      return new Address(addressParam);
-    } catch {
-      return null;
-    }
-  };
 
   const contractInfo = useMemo(() => ({
     totalBoardMembers,
@@ -81,7 +81,6 @@ function MultisigDetailsPage() {
   const organizationTokens = useSelector(organizationTokensSelector);
   const [organizatonAssets, setOrganizationAssets] = useState({
     tokens: 0,
-    NFTs: 0,
   });
 
   const queryClient = useQueryClient();
@@ -90,13 +89,13 @@ function MultisigDetailsPage() {
     setOrganizationAssets(
       (assets) => ({ ...assets, tokens: organizationTokens?.length ?? 0 }),
     );
-  }, [organizationTokens, queryClient, currentContract.address]);
+  }, [organizationTokens, queryClient, currentContract?.address]);
 
   const totalUsdValue = useSelector(totalUsdValueSelector);
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
   const getCurrency = useSelector(selectedCurrencySelector);
 
-  if (!parseMultisigAddress(multisigAddressParam ?? '')) {
+  if (!currentContract?.address || !parseMultisigAddress(currentContract?.address)) {
     navigate('/');
     return <Navigate to="/" />;
   }
