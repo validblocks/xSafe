@@ -6,7 +6,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { NewTransactionButton } from 'src/components/Theme/StyledComponents';
 import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
 import {
-  currencyConvertedSelector,
   selectedCurrencySelector,
 } from 'src/redux/selectors/currencySelector';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
@@ -23,9 +22,10 @@ import { QueryKeys } from 'src/react-query/queryKeys';
 import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
+import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
 import { CenteredText } from '../navbar-style';
 
-const identifierWithoutUniqueHash = (identifier: string) => identifier?.split('-')[0] ?? '';
+export const identifierWithoutUniqueHash = (identifier: string) => identifier?.split('-')[0] ?? '';
 export const DECIMAL_POINTS_UI = 3;
 
 function TotalBalance() {
@@ -45,6 +45,13 @@ function TotalBalance() {
     [currentContract, currentContract?.address, proxy],
   );
 
+  // const queryClient = useQueryClient();
+  // useEffect(() => {
+  //   queryClient.invalidateQueries(QueryKeys.ADDRESS_ESDT_TOKENS);
+  // }, [currentContract]);
+
+  console.log('rendering total balance', currentContract?.address);
+
   const {
     data: addressTokens,
   } = useQuery(
@@ -62,6 +69,7 @@ function TotalBalance() {
 
   const {
     data: egldBalanceDetails,
+    refetch: refetchEgldBalaneDetails,
   } = useQuery(
     [
       QueryKeys.ADDRESS_EGLD_TOKENS,
@@ -77,6 +85,12 @@ function TotalBalance() {
     },
   );
 
+  console.log({ addressTokens });
+  useEffect(() => {
+    if (!addressTokens) return;
+    refetchEgldBalaneDetails();
+  }, [addressTokens, refetchEgldBalaneDetails]);
+
   const egldPrice = useSelector(priceSelector);
 
   const newTokensWithPrices = useMemo(() => {
@@ -85,7 +99,7 @@ function TotalBalance() {
       id: 'EGLD',
       ...egldBalanceDetails?.token,
       tokenIdentifier: egldBalanceDetails?.token.identifier ?? 'EGLD',
-      balance: egldBalanceDetails?.value.toString(),
+      balance: egldBalanceDetails?.value?.toString(),
       presentation: {
         tokenIdentifier: egldBalanceDetails?.token.identifier,
         photoUrl: '',
@@ -93,13 +107,13 @@ function TotalBalance() {
       balanceDetails: {
         identifier: 'EGLD',
         photoUrl: '',
-        amount: egldBalanceDetails?.value.toString(),
+        amount: egldBalanceDetails?.value?.toString(),
         decimals: egldBalanceDetails?.token.decimals as number,
       },
       value: {
         tokenPrice: egldPrice,
         decimals: egldBalanceDetails?.token.decimals as number,
-        amount: egldBalanceDetails?.value.toString(),
+        amount: egldBalanceDetails?.value?.toString(),
       },
     };
     delete egldRow.owner;
@@ -118,7 +132,7 @@ function TotalBalance() {
         decimals: token.decimals as number,
       },
       value: {
-        tokenPrice: parseFloat(token.price.toString()),
+        tokenPrice: parseFloat(token.price?.toString()),
         decimals: token.decimals as number,
         amount: token.balance as string,
       },
@@ -128,11 +142,13 @@ function TotalBalance() {
   }, [addressTokens, egldBalanceDetails, egldPrice]);
 
   useEffect(() => {
+    console.log('enter useE');
     if (
       !currentContract?.address
       || !newTokensWithPrices
       || !egldBalanceDetails
     ) {
+      console.log('returning in use effect');
       return;
     }
 
@@ -174,6 +190,7 @@ function TotalBalance() {
 
         const persistedBalance = JSON.stringify(egldBalanceDetails);
 
+        console.log('setting TTR ', newTokensWithPrices);
         dispatch(setMultisigBalance(persistedBalance));
         dispatch(setTokenTableRows(newTokensWithPrices));
         dispatch(setOrganizationTokens(organizationTokens));
@@ -207,8 +224,7 @@ function TotalBalance() {
     dispatch(setValueInUsd(totalUsdValue));
   }, [dispatch, totalUsdValue]);
 
-  const _currencyConverted = useSelector<StateType, number>(currencyConvertedSelector);
-  const onAddBoardMember = () =>
+  const onNewTransactionClick = () =>
     dispatch(
       setProposeMultiselectSelectedOption({
         option: ProposalsTypes.multiselect_proposal_options,
@@ -217,6 +233,10 @@ function TotalBalance() {
 
   const getCurrency = useSelector(selectedCurrencySelector);
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
+
+  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
+
+  console.log({ isInReadOnlyMode });
 
   return (
     <Box
@@ -235,14 +255,16 @@ function TotalBalance() {
         </CenteredText>
       </Box>
       <Divider orientation="vertical" flexItem />
+      {!isInReadOnlyMode && (
       <Box
         className="d-flex justify-content-center"
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
       >
-        <NewTransactionButton variant="outlined" onClick={onAddBoardMember}>
+        <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>
           New Transaction
         </NewTransactionButton>
       </Box>
+      )}
     </Box>
   );
 }

@@ -1,6 +1,6 @@
 import { RouteType as DappCoreRouteTypes } from '@elrondnetwork/dapp-core';
 import Welcome from 'src/pages/Welcome';
-import Dashboard from 'src/pages/Dashboard/DashboardPage';
+import DashboardPage from 'src/pages/Dashboard/DashboardPage';
 import Decisions from 'src/pages/Decisions';
 import DecisionActions from 'src/pages/DecisionActions';
 import MultisigDetailsPage from 'src/pages/MultisigDetails/MultisigDetailsPage';
@@ -16,6 +16,7 @@ import { dAppName } from 'src/config';
 import withPageTitle from 'src/components/PageTitle';
 import StakingDashboard from 'src/pages/Stake/StakingDashboard';
 import Marketplace from 'src/pages/Marketplace';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import routeNames from './routeNames';
 
 type RouteType = DappCoreRouteTypes & { title: string };
@@ -51,7 +52,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
   dashboard: {
     path: routeNames.dashboard,
     title: 'Dashboard',
-    component: Dashboard,
+    component: DashboardPage,
     authenticatedRoute: true,
   },
   decisions: {
@@ -75,7 +76,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
   multisig: {
     path: '/multisig',
     title: 'Multisig Details',
-    component: Dashboard,
+    component: DashboardPage,
     authenticatedRoute: true,
   },
   unlock: {
@@ -133,7 +134,12 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     title: 'Marketplace',
     component: Marketplace,
   },
-  home: {} as RouteType,
+  home: {
+    title: 'Home',
+    path: '/',
+    component:
+      uniqueContractAddress.length > 0 ? MultisigDetailsPage : DashboardPage,
+  } as RouteType,
 };
 
 const routes: RouteType[] = [

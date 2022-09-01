@@ -13,7 +13,9 @@ export class ElrondApiNetworkProvider extends ApiNetworkProvider {
   }
 
   async getAddressTokens(address: string) {
-    if (!address) return undefined;
+    if (!address) {
+      return undefined;
+    }
     return this.doGetGeneric(`accounts/${address}/tokens`);
   }
 
@@ -35,7 +37,9 @@ export class ElrondApiNetworkProvider extends ApiNetworkProvider {
   }
 
   async getAccountData(address: string) {
-    if (!address) return null;
+    if (!address) {
+      return null;
+    }
     return this.doGetGeneric(`accounts/${address}`);
   }
 

@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import { faQrcode } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import QrCode from 'qrcode.react';
 import { Modal } from 'react-bootstrap';
 import { Typography } from '@mui/material';
 import CopyButton from '../CopyButton';
-import { DepositDoneAction } from '../Theme/StyledComponents';
+import { MainButton, DepositDoneAction } from '../Theme/StyledComponents';
 
 const ReceiveModal = ({
   showQrFromSidebar,
@@ -31,13 +29,19 @@ const ReceiveModal = ({
 
   return (
     <>
+
       {showQrFromSidebar === undefined && (
-        <button onClick={handleOpenModal} className="btn btn-primary">
-          <span className="icon">
-            <FontAwesomeIcon icon={faQrcode} />
-          </span>
-          <span className="name">Deposit</span>
-        </button>
+        <MainButton
+          key="0"
+          variant="outlined"
+          className="shadow-sm rounded mr-2"
+          onClick={handleOpenModal}
+          sx={{
+            opacity: '1 !important',
+          }}
+        >
+          Receive
+        </MainButton>
       )}
       <Modal
         show={showModal}

@@ -11,6 +11,8 @@ import SafeOptions from 'src/components/SafeOptions';
 import menuItems from 'src/utils/menuItems';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import addressShorthand from 'src/helpers/addressShorthand';
+import { useSelector } from 'react-redux';
+import { isInReadOnlyModeSelector, isMultiWalletModeSelector } from 'src/redux/selectors/accountSelector';
 import {
   LogoMenuWrapper,
   MobileMenu,
@@ -30,6 +32,9 @@ const MobileLayout = () => {
     setWalletAddress(addressShorthand(uniqueContractAddress));
   }, [addressShorthand]);
 
+  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
+  const isMultiWalletMode = useSelector(isMultiWalletModeSelector);
+
   return (
     <Box>
       <LogoMenuWrapper>
@@ -47,25 +52,25 @@ const MobileLayout = () => {
               <Typography>{walletAddress}</Typography>
             </Box>
             <Box className="d-flex ml-4">
-              <Typography sx={{ color: '#7A7883' }}>Read-only</Typography>
+              {isInReadOnlyMode && <Typography sx={{ color: '#7A7883' }}>Read-only</Typography>}
               {openedSafeSelect === true && (
-                <Box>
-                  <ArrowDropUpIcon
-                    onClick={() => {
-                      setOpenedSafeSelect(false);
-                    }}
-                  />
-                  <SafeOptions />
-                </Box>
+              <Box>
+                <ArrowDropUpIcon
+                  onClick={() => {
+                    setOpenedSafeSelect(false);
+                  }}
+                />
+                <SafeOptions />
+              </Box>
               )}
-              {openedSafeSelect === false && (
-                <Box>
-                  <ArrowDropDownIcon
-                    onClick={() => {
-                      setOpenedSafeSelect(true);
-                    }}
-                  />
-                </Box>
+              {openedSafeSelect === false && isMultiWalletMode && (
+              <Box>
+                <ArrowDropDownIcon
+                  onClick={() => {
+                    setOpenedSafeSelect(true);
+                  }}
+                />
+              </Box>
               )}
             </Box>
           </Box>

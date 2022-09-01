@@ -18,6 +18,8 @@ export interface StateType {
   tokenTableRows: TokenTableRowItem[];
   organizationTokens: OrganizationToken[];
   activeDelegationsRows: IdentityWithColumns[];
+  isMultiWalletMode: boolean;
+  isInReadOnlyMode: boolean;
   multisigBalance: any;
 }
 
@@ -33,6 +35,8 @@ const initialState: StateType = {
   organizationTokens: [],
   multisigBalance: Balance.Zero() as BalanceType,
   activeDelegationsRows: [],
+  isMultiWalletMode: false,
+  isInReadOnlyMode: true,
 };
 
 export const accountSlice = createSlice({
@@ -42,10 +46,23 @@ export const accountSlice = createSlice({
     setAccountData(state: StateType, action: PayloadAction<StateType>) {
       return action.payload;
     },
+    setIsMultiWalletMode(state: StateType, action: PayloadAction<boolean>) {
+      return {
+        ...state,
+        isMultiWalletMode: action.payload,
+      };
+    },
+    setIsInReadOnlyMode(state: StateType, action: PayloadAction<boolean>) {
+      return {
+        ...state,
+        isInReadOnlyMode: action.payload,
+      };
+    },
     setTokenTableRows(
       state: StateType,
       action: PayloadAction<TokenTableRowItem[]>,
     ) {
+      console.log('state before set ', state);
       return {
         ...state,
         tokenTableRows: action.payload,
@@ -85,6 +102,8 @@ export const {
   setAccountData,
   setTokenTableRows,
   setMultisigBalance,
+  setIsInReadOnlyMode,
+  setIsMultiWalletMode,
   setOrganizationTokens,
   setActiveDelegationRows,
 } = accountSlice.actions;

@@ -36,7 +36,7 @@ function SafeSettings() {
       </Typography>
       <Typography sx={{ mb: 3 }}>
         <NoteSpan>
-          <Span>Note:</Span>
+          <Span>Note: </Span>
           This name is only stored locally. (You&apos;re the only one who&apos;s
           seeing it)
         </NoteSpan>

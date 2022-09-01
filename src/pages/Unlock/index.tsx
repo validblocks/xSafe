@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { DappUI, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { ReactComponent as IconElrond } from 'src/assets/img/elrond-web-wallet.svg';
 import { ReactComponent as IconLedger } from 'src/assets/img/ledger.svg';
 import { ReactComponent as IconMaiar } from 'src/assets/img/maiar-app.svg';
@@ -10,6 +10,9 @@ import { ReactComponent as IconMaiarWallet } from 'src/assets/img/maiar-defi-wal
 import { network } from 'src/config';
 import { accessTokenServices, maiarIdApi } from 'src/services/accessTokenServices';
 import routeNames from 'src/routes/routeNames';
+import { uniqueContractAddress } from 'src/multisigConfig';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { useSelector } from 'react-redux';
 
 declare global {
   interface Window {
@@ -19,7 +22,8 @@ declare global {
 
 const Unlock = () => {
   const [token, setToken] = useState('');
-  const { loginMethod } = useGetLoginInfo();
+  const { loginMethod, isLoggedIn } = useGetLoginInfo();
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   useEffect(() => {
     accessTokenServices?.services?.maiarId
@@ -30,14 +34,26 @@ const Unlock = () => {
   }, []);
 
   const loginParams = {
-    callbackRoute: routeNames.dashboard,
+    callbackRoute: `${routeNames.multisig}/${currentContract?.address}`,
     token,
     logoutRoute: routeNames.welcome,
     buttonClassName: 'btn btn-unlock btn-block',
   };
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) navigate(`${routeNames.multisig}/${currentContract.address}`);
+  }, [currentContract?.address, isLoggedIn, navigate]);
+
   if (loginMethod !== '') {
-    return <Navigate to={routeNames.dashboard} />;
+    return (
+      <Navigate to={uniqueContractAddress
+        ? `/multisig/${uniqueContractAddress}`
+        : routeNames.welcome
+      }
+      />
+    );
   }
 
   return (

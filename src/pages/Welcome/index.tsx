@@ -8,7 +8,7 @@ import routeNames from 'src/routes/routeNames';
 function Welcome() {
   const loggedIn = getIsLoggedIn();
   if (loggedIn) {
-    return <Navigate to={routeNames.tokens} />;
+    return <Navigate to={routeNames.multisigAddress} />;
   }
 
   return (

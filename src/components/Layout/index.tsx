@@ -129,7 +129,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           </AppBar>
           <AuthenticatedRoutesWrapper
             routes={routes}
-            unlockRoute={routeNames.unlock}
+            unlockRoute={routeNames.multisigAddress}
           >
             {children}
           </AuthenticatedRoutesWrapper>

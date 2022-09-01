@@ -48,11 +48,12 @@ const SafeOptions = () => {
   const onEnterClicked = () => {
     navigate(`/multisig/${uniqueContractAddress}`);
   };
-  async function updateMultisigContract(
+  const updateMultisigContract = useCallback((
     newContracts: MultisigContractInfoType[],
-  ) {
+  ) => {
     dispatch(setMultisigContracts(newContracts));
-  }
+  }, [dispatch]);
+
   return (
     <SafeOptionsWrapper>
       <Typography sx={{ p: 2 }} align="left">
@@ -108,7 +109,7 @@ const SafeOptions = () => {
       <DeployStepsModal
         show={showDeployMultisigModal}
         handleClose={() => setShowDeployMultisigModal(false)}
-        setNewContracts={useCallback(updateMultisigContract, [dispatch])}
+        setNewContracts={updateMultisigContract}
       />
     </SafeOptionsWrapper>
   );

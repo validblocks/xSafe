@@ -63,7 +63,7 @@ const ProposeSendToken = ({
   };
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
-  const [identifier, setIdentifier] = useState(selectedToken?.identifier);
+  const [identifier, setIdentifier] = useState(selectedToken?.identifier ?? '');
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
 
   const availableTokensWithBalances = useMemo(
@@ -290,12 +290,12 @@ const ProposeSendToken = ({
         >
           {tokenTableRows?.map((token: TokenTableRowItem) => (
             <MenuItem
-              key={token.identifier}
-              value={token.identifier}
+              key={token?.identifier}
+              value={token?.identifier}
               sx={{ width: '230px', pl: '.1rem', pr: '.3rem' }}
             >
               <TokenPresentationWithPrice
-                identifier={token.identifier as string}
+                identifier={token?.identifier as string}
               />
             </MenuItem>
           ))}
@@ -319,7 +319,7 @@ const ProposeSendToken = ({
           handleOptionSelected(ProposalsTypes.send_token);
           setIsSendEgldPromptOpen(false);
           const firstDifferentIdentifier = tokenTableRows
-            ?.find((token: TokenTableRowItem) => token.identifier !== 'EGLD')?.identifier;
+            ?.find((token: TokenTableRowItem) => token?.identifier !== 'EGLD')?.identifier;
           setIdentifier(firstDifferentIdentifier);
         }}
         onActionTokenTableRows={isTokenTableRowsContainsOnlyEGLD}

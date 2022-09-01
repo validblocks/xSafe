@@ -3,7 +3,10 @@ import { createDeepEqualSelector } from './helpers';
 import { RootState } from '../store';
 import { StateType } from '../slices/accountSlice';
 
-export const accountSelector = (state: RootState) => state.account;
+export const accountSelector = (state: RootState) => {
+  console.log({ state222: state });
+  return state.account;
+};
 
 const DEFAULT_ORGANIZATION_TOKEN = {
   prettyIdentifier: 'ID',
@@ -67,4 +70,17 @@ export const multisigBalanceSelector = createDeepEqualSelector(
 export const activeDelegationsRowsSelector = createDeepEqualSelector(
   accountSelector,
   (state) => state.activeDelegationsRows,
+);
+
+export const isMultiWalletModeSelector = createDeepEqualSelector(
+  accountSelector,
+  (state) => state.isMultiWalletMode,
+);
+
+export const isInReadOnlyModeSelector = createDeepEqualSelector(
+  accountSelector,
+  (state) => {
+    console.log({ state });
+    return state.isInReadOnlyMode;
+  },
 );

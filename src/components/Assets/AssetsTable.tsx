@@ -21,14 +21,11 @@ import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
 import { Typography } from '@mui/material';
 import { Balance } from '@elrondnetwork/erdjs/out';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 
-interface Props {
-  hasStakingActions?: boolean
-}
-
-const AssetsTable = ({ hasStakingActions = false }: Props) => {
+const AssetsTable = () => {
   const dispatch = useDispatch();
   const [showQr, setShowQr] = useState(false);
 
@@ -61,27 +58,23 @@ const AssetsTable = ({ hasStakingActions = false }: Props) => {
         ? handleOptionSelected(ProposalsTypes.send_egld, params.row)
         : handleOptionSelected(ProposalsTypes.send_token, params.row))
               }
-    >
-      <AssetActionIcon width="30px" height="30px" /> Send
-    </AssetActionButton>,
-    <AssetActionButton
-      key="1"
-      onClick={handleQrModal}
-    >
-      <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Deposit
-    </AssetActionButton>,
-  ] : [
-    <AssetActionButton
-      key="0"
-      variant="outlined"
-      className="shadow-sm rounded mr-2"
-      onClick={() =>
-        handleOptionSelected(ProposalsTypes.stake_tokens, params.row)
-              }
-    >
-      <AssetActionIcon width="30px" height="30px" /> Stake
-    </AssetActionButton>,
-  ]), [handleOptionSelected, handleQrModal, hasStakingActions]);
+      >
+        <AssetActionIcon width="30px" height="30px" /> Send
+      </AssetActionButton>,
+      <AssetActionButton
+        key="1"
+        onClick={handleQrModal}
+      >
+        <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Deposit
+      </AssetActionButton>,
+    ];
+
+    if (!isLoggedIn) {
+      tableActionButtons.shift();
+    }
+
+    return tableActionButtons;
+  }, [handleOptionSelected, handleQrModal, isLoggedIn]);
 
   const columns = useMemo(
     () => {

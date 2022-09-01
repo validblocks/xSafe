@@ -1,6 +1,5 @@
 import FactCheckIcon from '@mui/icons-material/FactCheck';
 import GroupsIcon from '@mui/icons-material/Groups';
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import MembersCountInfoCard from './MembersCountInfoCard';
@@ -10,7 +9,6 @@ function MembersCard() {
   const {
     membersCountState: [membersCount],
     quorumCountState: [quorumCount],
-    proposersState: [proposers],
     boardMembersState: [boardMembers],
   } = useOrganizationInfoContext();
 
@@ -23,15 +21,10 @@ function MembersCard() {
       memberCount: boardMembers.length.toString(),
     },
     {
-      icon: <ThumbUpIcon htmlColor="#16d296" fontSize="medium" />,
-      memberTypeTitle: t('Proposers'),
-      memberCount: proposers.length.toString(),
-    },
-    {
       icon: <FactCheckIcon htmlColor="#1390ff" fontSize="medium" />,
       memberTypeTitle: t('Quorum Size'),
       memberCount: `${quorumCount.toString()}/${
-        proposers.length + boardMembers.length
+        boardMembers.length
       }`,
     },
   ];

@@ -7,7 +7,6 @@ import { Button } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import NewDashboard from 'src/pages/NewDashboard';
 import {
-  multisigContractsFetchedSelector,
   multisigContractsSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
@@ -27,9 +26,9 @@ import DeployStepsModal from './DeployMultisigModal';
 import MultisigListItem from './MultisigListItem';
 
 function Dashboard() {
-  const multisigContractsFetched = useSelector(
-    multisigContractsFetchedSelector,
-  );
+  // const multisigContractsFetched = useSelector(
+  //   multisigContractsFetchedSelector,
+  // );
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
   const [showAddMultisigModal, setShowAddMultisigModal] = useState(false);
@@ -128,9 +127,13 @@ function Dashboard() {
     dispatch(setMultisigContracts(newContracts));
   }
 
-  if (!multisigContractsFetched) {
-    return null;
-  }
+  console.log('rendering dashboardPage');
+
+  // if (!multisigContractsFetched) {
+  //   console.log('multisigContracts not fetched');
+  //   return null;
+  // }
+
   if (invalidMultisigContract) {
     return (
       <>
@@ -223,6 +226,7 @@ function Dashboard() {
 
   return (
     <div className="owner w-100 d-flex justify-content-center align-items-center flex-column">
+
       <NewDashboard />
 
       <p className="info-msg">

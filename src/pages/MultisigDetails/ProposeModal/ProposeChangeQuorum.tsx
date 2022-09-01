@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import MultisigDetailsContext from 'src/context/MultisigDetailsContext';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 
 interface ProposeChangeQuorumType {
   handleParamsChange: (params: number) => void;
@@ -16,7 +17,8 @@ function ProposeChangeQuorum({
   handleParamsChange,
   setSubmitDisabled,
 }: ProposeChangeQuorumType) {
-  const { quorumSize, totalBoardMembers } = useContext(MultisigDetailsContext);
+  const { quorumSize } = useContext(MultisigDetailsContext);
+  const { boardMembersCount } = useOrganizationInfoContext();
   const { t }: { t: any } = useTranslation();
 
   const [newQuorumSize, setNewQuorumSize] = useState(1);
@@ -27,7 +29,7 @@ function ProposeChangeQuorum({
     if (Number.isNaN(newQuorum) || newQuorum < 1) {
       setError(errors.invalid);
       setSubmitDisabled(true);
-    } else if (newQuorum > totalBoardMembers || newQuorum < 1) {
+    } else if (newQuorum > boardMembersCount) {
       setError(errors.tooBig);
       setSubmitDisabled(true);
     } else {

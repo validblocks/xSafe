@@ -15,6 +15,9 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { network } from 'src/config';
+import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
+import { isInReadOnlyModeSelector, isMultiWalletModeSelector } from 'src/redux/selectors/accountSelector';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 import {
   Anchor, MembersBox, ReadOnly,
 } from '../navbar-style';
@@ -29,6 +32,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   } = useOrganizationInfoContext();
 
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
+  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
 
   const reference = useRef(null);
 
@@ -45,6 +49,10 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   const handleQrModal = () => {
     setShowQr(!showQr);
   };
+
+  const safeName = useSelector(safeNameStoredSelector);
+  const isMultiWalletMode = useSelector(isMultiWalletModeSelector);
+  console.log({ isMultiWalletMode });
 
   return (
     <Box>
@@ -72,9 +80,9 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             sx={{ ml: 0.5 }}
             className="d-flex justify-content-center align-items-center"
           >
-            <Typography align="center" lineHeight="1">
-              {uniqueAddress}
-            </Typography>
+            <Text align="center" lineHeight="1">
+              {safeName?.length > 0 ? safeName : uniqueAddress}
+            </Text>
             {openedSafeSelect === true && (
               <Box
                 sx={{
@@ -97,11 +105,13 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
                   },
                 }}
               >
+                {isMultiWalletMode && (
                 <ArrowDropDownIcon
                   onClick={() => {
                     setOpenedSafeSelect(true);
                   }}
                 />
+                )}
               </Box>
             )}
           </Box>
@@ -142,11 +152,13 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             handleQr={handleQrModal}
           />
         </Grid>
+        {isInReadOnlyMode && (
         <Grid item sx={{ mt: 1.2, mb: 1.1, paddingTop: '0 !important', paddingLeft: '0 !important' }} sm={8.3}>
           <ReadOnly>
             Read-only
           </ReadOnly>
         </Grid>
+        )}
       </Grid>
       <hr />
       <TotalBalance />

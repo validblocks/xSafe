@@ -1,71 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
-import {
-  getNetworkProxy,
-  useGetAccountInfo,
-  useGetNetworkConfig,
-  transactionServices,
-  useGetLoginInfo,
-} from '@elrondnetwork/dapp-core';
-import { Ui, operations } from '@elrondnetwork/dapp-utils';
+import { useMemo } from 'react';
 import { Address, Balance } from '@elrondnetwork/erdjs';
-import {
-  faUser,
-  faCalendarAlt,
-  faCircleNotch,
-  faHandPaper,
-  faExternalLinkAlt,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import moment from 'moment';
 import { useTranslation } from 'react-i18next';
-import { useSelector, useDispatch } from 'react-redux';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { useConfirmModal } from 'src/components/ConfirmModal/ConfirmModalPayload';
-import Loader from 'src/components/Loader';
-import PerformActionModal from 'src/components/PerformActionModal';
+import { useSelector } from 'react-redux';
+import { Navigate, useParams } from 'react-router-dom';
 import ReceiveModal from 'src/components/ReceiveModal';
-import State from 'src/components/State';
-import TrustedBadge from 'src/components/TrustedBadge';
-import MultisigDetailsContext from 'src/context/MultisigDetailsContext';
-import {
-  queryBoardMembersCount,
-  queryProposersCount,
-  queryQuorumCount,
-  queryUserRole,
-  queryAllActions,
-  queryActionValidSignerCount,
-  mutateDiscardAction,
-  queryBoardMemberAddresses,
-  queryProposerAddresses,
-} from 'src/contracts/MultisigContract';
-import MultisigProposalCard from 'src/pages/MultisigDetails/MultisigProposalCard';
-import { priceSelector } from 'src/redux/selectors/economicsSelector';
-import {
-  proposeModalSelectedOptionSelector,
-  proposeMultiselectModalSelectedOptionSelector,
-  selectedPerformedActionSelector,
-} from 'src/redux/selectors/modalsSelector';
 import {
   currentMultisigContractSelector,
-  currentMultisigTransactionIdSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
-import {
-  setProposeMultiselectSelectedOption,
-  setSelectedPerformedAction,
-} from 'src/redux/slices/modalsSlice';
-import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
-import { ReactComponent as NoPoposalsIcon } from 'src/assets/img/no-proposals-icon.svg';
-import { ReactComponent as WalletLogo } from 'src/assets/img/elrond-wallet-icon.svg';
-import { tryParseTransactionParameter } from 'src/helpers/urlparameters';
-import { hexToNumber, hexToString } from 'src/helpers/converters';
-import { denomination, decimals } from 'src/config';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { ProposalsTypes } from 'src/types/Proposals';
-import routeNames from 'src/routes/routeNames';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import PersonRoundedIcon from '@mui/icons-material/PersonRounded';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 import MultisigDetailsAccordion from './MultisigDetailsAccordion';
-import ProposeModal from './ProposeModal/ProposeModal';
-import ProposeMultiselectModal from './ProposeMultiselectModal/ProposeMultiselectModal';
+import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 export interface ContractInfo {
   totalBoardMembers: number;
@@ -80,212 +26,144 @@ export interface ContractInfo {
   proposersAddresses?: Address[];
 }
 function MultisigDetailsPage() {
-  const [contractInfo, setContractInfo] = useState<ContractInfo>({
-    totalBoardMembers: 0,
-    totalProposers: 0,
-    quorumSize: 0,
-    userRole: 0,
-    multisigBalance: Balance.fromString('0'),
-    multisigName: '',
-    allActions: [],
-    boardMembersAddresses: [],
-    proposersAddresses: [],
-  });
-
-  const [dataFetched, setDataFetched] = useState(false);
-  const selectedAction = useSelector(selectedPerformedActionSelector);
-  const selectedOption = useSelector(proposeModalSelectedOptionSelector);
-  const selectedMultiselectOption = useSelector(
-    proposeMultiselectModalSelectedOptionSelector,
-  );
   const currentContract = useSelector(currentMultisigContractSelector);
-  const { address } = useGetAccountInfo();
-  const { isLoggedIn } = useGetLoginInfo();
-  const navigate = useNavigate();
-  const currentMultisigTransactionId = useSelector(
-    currentMultisigTransactionIdSelector,
-  );
 
   const {
-    totalBoardMembers,
-    quorumSize,
+    boardMembersCount: totalBoardMembers,
+    quorumCountState: [quorumSize],
     userRole,
-    allActions,
-    deployedAt,
-    multisigBalance,
-    multisigName,
-  } = contractInfo;
+  } = useOrganizationInfoContext();
 
-  const {
-    network: { explorerAddress, apiAddress, egldLabel },
-  } = useGetNetworkConfig();
-
-  const dispatch = useDispatch();
   const { multisigAddressParam } = useParams<string>();
-  const confirmModal = useConfirmModal();
-  const egldPrice = useSelector(priceSelector);
   const { t }: { t: any } = useTranslation();
-  const isProposer = userRole !== 0;
-  const isBoardMember = userRole === 2;
 
-  async function getDashboardInfo() {
-    if (currentContract == null) {
-      return;
-    }
-    const proxy = getNetworkProxy();
-    try {
-      const [
-        newTotalBoardMembers,
-        newTotalProposers,
-        newQuorumSize,
-        newUserRole,
-        newAllActions,
-        account,
-        boardMembersAddresses,
-        proposersAddresses,
-      ] = await Promise.all([
-        queryBoardMembersCount(),
-        queryProposersCount(),
-        queryQuorumCount(),
-        queryUserRole(new Address(address).hex()),
-        queryAllActions(),
-        proxy.getAccount(new Address(currentContract.address)),
-        queryBoardMemberAddresses(),
-        queryProposerAddresses(),
-      ]);
-      const accountInfo = await ElrondApiProvider.getAccountData(currentContract.address);
-      const newContractInfo: ContractInfo = {
-        totalBoardMembers: newTotalBoardMembers,
-        totalProposers: newTotalProposers,
-        quorumSize: newQuorumSize,
-        userRole: newUserRole,
-        deployedAt: moment.unix(accountInfo.deployedAt).format('DD MMM YYYY'),
-        allActions: newAllActions,
-        multisigBalance: account.balance,
-        boardMembersAddresses,
-        proposersAddresses,
-      };
+  // async function getDashboardInfo() {
+  //   if (currentContract == null) {
+  //     return;
+  //   }
+  //   const proxy = getNetworkProxy();
+  //   try {
+  //     const [
+  //       newTotalBoardMembers,
+  //       newTotalProposers,
+  //       newQuorumSize,
+  //       newUserRole,
+  //       newAllActions,
+  //       account,
+  //       boardMembersAddresses,
+  //       proposersAddresses,
+  //     ] = await Promise.all([
+  //       queryBoardMembersCount(),
+  //       queryProposersCount(),
+  //       queryQuorumCount(),
+  //       queryUserRole(new Address(address).hex()),
+  //       queryAllActions(),
+  //       proxy.getAccount(new Address(currentContract.address)),
+  //       queryBoardMemberAddresses(),
+  //       queryProposerAddresses(),
+  //     ]);
+  //     const accountInfo = await ElrondApiProvider.getAccountData(currentContract.address);
+  //     const newContractInfo: ContractInfo = {
+  //       totalBoardMembers: newTotalBoardMembers,
+  //       totalProposers: newTotalProposers,
+  //       quorumSize: newQuorumSize,
+  //       userRole: newUserRole,
+  //       deployedAt: moment.unix(accountInfo.deployedAt).format('DD MMM YYYY'),
+  //       allActions: newAllActions,
+  //       multisigBalance: account.balance,
+  //       boardMembersAddresses,
+  //       proposersAddresses,
+  //     };
 
-      setContractInfo(newContractInfo);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setDataFetched(true);
-    }
-  }
+  //     setContractInfo(newContractInfo);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
 
-  transactionServices.useTrackTransactionStatus({
-    transactionId: currentMultisigTransactionId,
-    onSuccess: getDashboardInfo,
-  });
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     navigate(routeNames.unlock);
+  //   }
+  // }, [isLoggedIn, navigate]);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      navigate(routeNames.unlock);
-    }
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   if (!currentContract) return;
 
-  useEffect(() => {
-    const onSignOrPropose = async (actionId: number) => {
-      const validSignerCount = await queryActionValidSignerCount(actionId);
-      const realQuorumSize = await queryQuorumCount();
-      const realUserRole = await queryUserRole(new Address(address).hex());
+  //   console.log('aaaa');
 
-      if (validSignerCount >= realQuorumSize && realUserRole === 2) {
-        const success = await confirmModal.show(
-          t('Confirm Perform Action'),
-          t('Perform Action'),
-        );
-        if (success) {
-          dispatch(setSelectedPerformedAction({ id: actionId }));
-        }
-      }
-    };
-    const onUnsign = async (actionId: number) => {
-      const validSignerCount = await queryActionValidSignerCount(actionId);
-      const realUserRole = await queryUserRole(new Address(address).hex());
+  // const tryParseUrlParams = async () => {
+  //   const parameters = await tryParseTransactionParameter(apiAddress);
+  //   if (parameters === null) {
+  //     return;
+  //   }
 
-      if (validSignerCount === 0 && realUserRole === 2) {
-        const success = await confirmModal.show(
-          t('Confirm Discard Action'),
-          t('Discard Action'),
-        );
-        if (success) {
-          await mutateDiscardAction(actionId);
-        }
-      }
-    };
+  //   if (parameters.receiver.bech32() === currentContract?.address) {
+  //     if (parameters.functionName.startsWith('propose')) {
+  //       if (
+  //         parameters.outputParameters.length === 2 &&
+  //         hexToString(parameters.outputParameters[0]) === 'ok'
+  //       ) {
+  //         const actionId = hexToNumber(parameters.outputParameters[1]);
+  //         if (actionId !== null) {
+  //           onSignOrPropose(actionId);
+  //         }
+  //       }
+  //     } else if (parameters.functionName === 'sign') {
+  //       if (
+  //         parameters.outputParameters.length === 1 &&
+  //         hexToString(parameters.outputParameters[0]) === 'ok'
+  //       ) {
+  //         const actionId = hexToNumber(parameters.inputParameters[0]);
+  //         if (actionId !== null) {
+  //           onSignOrPropose(actionId);
+  //         }
+  //       }
+  //     } else if (parameters.functionName === 'unsign') {
+  //       if (
+  //         parameters.outputParameters.length === 1 &&
+  //         hexToString(parameters.outputParameters[0]) === 'ok'
+  //       ) {
+  //         const actionId = hexToNumber(parameters.inputParameters[0]);
+  //         if (actionId !== null) {
+  //           onUnsign(actionId);
+  //         }
+  //       }
+  //     }
+  //   }
+  // };
 
-    const tryParseUrlParams = async () => {
-      const parameters = await tryParseTransactionParameter(apiAddress);
-      if (parameters === null) {
-        return;
-      }
+  // tryParseUrlParams();
+  //   const parseMultisigAddress = (addressParam: string): Address | null => {
+  //     try {
+  //       return new Address(addressParam);
+  //     } catch {
+  //       return null;
+  //     }
+  //   };
 
-      if (parameters.receiver.bech32() === currentContract?.address) {
-        if (parameters.functionName.startsWith('propose')) {
-          if (
-            parameters.outputParameters.length === 2 &&
-            hexToString(parameters.outputParameters[0]) === 'ok'
-          ) {
-            const actionId = hexToNumber(parameters.outputParameters[1]);
-            if (actionId !== null) {
-              onSignOrPropose(actionId);
-            }
-          }
-        } else if (parameters.functionName === 'sign') {
-          if (
-            parameters.outputParameters.length === 1 &&
-            hexToString(parameters.outputParameters[0]) === 'ok'
-          ) {
-            const actionId = hexToNumber(parameters.inputParameters[0]);
-            if (actionId !== null) {
-              onSignOrPropose(actionId);
-            }
-          }
-        } else if (parameters.functionName === 'unsign') {
-          if (
-            parameters.outputParameters.length === 1 &&
-            hexToString(parameters.outputParameters[0]) === 'ok'
-          ) {
-            const actionId = hexToNumber(parameters.inputParameters[0]);
-            if (actionId !== null) {
-              onUnsign(actionId);
-            }
-          }
-        }
-      }
-    };
+  //   const newMultisigAddressParam = parseMultisigAddress(multisigAddressParam ?? '');
+  //   if (newMultisigAddressParam === null) {
+  //     return;
+  //   }
 
-    tryParseUrlParams();
-    const parseMultisigAddress = (): Address | null => {
-      try {
-        return new Address(multisigAddressParam);
-      } catch {
-        return null;
-      }
-    };
+  //   const isCurrentMultisigAddressNotSet = currentContract == null;
+  //   const isCurrentMultisigAddressDiferentThanParam =
+  //     newMultisigAddressParam != null &&
+  //     currentContract?.address !== newMultisigAddressParam.bech32();
 
-    const newMultisigAddressParam = parseMultisigAddress();
-    if (newMultisigAddressParam === null) {
-      return;
-    }
-
-    const isCurrentMultisigAddressNotSet = currentContract == null;
-    const isCurrentMultisigAddressDiferentThanParam =
-      newMultisigAddressParam != null &&
-      currentContract?.address !== newMultisigAddressParam.bech32();
-
-    if (
-      (isCurrentMultisigAddressNotSet ||
-        isCurrentMultisigAddressDiferentThanParam) &&
-      newMultisigAddressParam != null
-    ) {
-      dispatch(setCurrentMultisigContract(newMultisigAddressParam.bech32()));
-    } else if (address != null) {
-      getDashboardInfo();
-    }
-  }, [currentContract?.address, currentMultisigTransactionId, address]);
+  //   if (
+  //     (isCurrentMultisigAddressNotSet ||
+  //       isCurrentMultisigAddressDiferentThanParam) &&
+  //     newMultisigAddressParam != null
+  //   ) {
+  //     console.log('updating current multsig contract');
+  //     dispatch(setCurrentMultisigContract(newMultisigAddressParam.bech32()));
+  //   } else {
+  //     console.log('calling getDashboardInfo');
+  //     getDashboardInfo();
+  //   }
+  // }, [currentContract?.address, currentMultisigTransactionId, address, currentContract, multisigAddressParam]);
 
   const userRoleAsString = useMemo(() => {
     switch (userRole) {
@@ -294,225 +172,60 @@ function MultisigDetailsPage() {
       case 1:
         return 'Proposer';
       case 2:
-        return 'Proposer / Signer';
+        return 'Board Member (Propose and Sign)';
       default:
-        return 'Unknown';
+        return 'Not logged in';
     }
   }, [userRole]);
 
-  const alreadySigned = (action: MultisigActionDetailed) => {
-    if (!address) {
-      return false;
-    }
-    const typedAddress = new Address(address);
-    for (const signerAddress of action.signers) {
-      if (signerAddress.hex() === typedAddress.hex()) {
-        return true;
-      }
-    }
-
-    return false;
-  };
-
-  const canSign = (action: MultisigActionDetailed) =>
-    isBoardMember && !alreadySigned(action);
-
-  const canUnsign = (action: MultisigActionDetailed) =>
-    isBoardMember && alreadySigned(action);
-
-  const canPerformAction = (action: MultisigActionDetailed) =>
-    isBoardMember &&
-    alreadySigned(action) &&
-    action.signers.length >= quorumSize;
-
-  const canDiscardAction = (action: MultisigActionDetailed) =>
-    isBoardMember && action.signers.length === 0;
-
-  const providerPayload = useMemo(
-    () => ({
-      quorumSize,
-      totalBoardMembers,
-      isProposer,
-      multisigBalance,
-    }),
-    [],
-  );
-
-  const parseMultisigAddress = (): Address | null => {
+  const parseMultisigAddress = (addressParam: string): Address | null => {
     try {
-      return new Address(multisigAddressParam);
+      return new Address(addressParam);
     } catch {
       return null;
     }
   };
 
-  const onSendEgld = () =>
-    dispatch(
-      setProposeMultiselectSelectedOption({
-        option: ProposalsTypes.multiselect_proposal_options,
-      }),
-    );
+  const contractInfo = useMemo(() => ({
+    totalBoardMembers,
+    quorumSize,
+  }), [quorumSize, totalBoardMembers]);
 
-  if (!parseMultisigAddress()) {
+  if (!parseMultisigAddress(multisigAddressParam ?? '')) {
     return <Navigate to="/multisig" />;
   }
 
-  if (!dataFetched) {
-    return <Loader />;
-  }
-
   return (
-    <MultisigDetailsContext.Provider value={providerPayload}>
-      <div className="dashboard w-100">
-        <div className="card shadow-lg border-0">
-          <div className="flex-column d-flex align-items-center">
-            <WalletLogo className="wallet-logo " />
-            <div className="w-100 user-profile">
-              <div className="d-flex profile-meta">
-                <div className="user-role">
-                  <p className="icon">
-                    <FontAwesomeIcon icon={faUser} />
-                    Role:
-                    {' '}
-                    <span className="text">{t(userRoleAsString)}</span>
-                  </p>
-                </div>
-                <div className="wallet-name position-relative">
-                  <h3 className="text-center mb-0">
-                    {multisigName}
-                    {' '}
-                  </h3>
-                </div>
-                {deployedAt != null && (
-                  <div className="created d-flex">
-                    <p className="time">
-                      <FontAwesomeIcon icon={faCalendarAlt} className="icon" />
-                      {' '}
-                      Created:
-                      {' '}
-                      <span className="text">{deployedAt}</span>
-                    </p>
-                  </div>
-                )}
-              </div>
-              {currentContract && (
-                <div className="d-flex flex-column align-items-center">
-                  {currentContract.name && (
-                    <p className="h3 mb-2">{currentContract.name}</p>
-                  )}
-                  <div className="address text-center d-flex align-items-center">
-                    <div className="trust-badge">
-                      <TrustedBadge contractAddress={multisigAddressParam} />
-                    </div>
-                    <Ui.Trim text={currentContract.address} />
-                    <a
-                      href={`${explorerAddress}/accounts/${currentContract.address}`}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="link-second-style"
-                    >
-                      <FontAwesomeIcon icon={faExternalLinkAlt} size="sm" />
-                    </a>
-                  </div>
-                </div>
-              )}
-            </div>
-            <div className="d-flex flex-column action-panel w-100">
-              <div className="balance">
-                <h2 className="text-center">
-                  {operations.denominate({
-                    input: multisigBalance.toString(),
-                    denomination,
-                    decimals,
-                    showLastNonZeroDecimal: true,
-                  })}
+    <div className="dashboard w-100">
+      <div className="card shadow-lg border-0">
+        <div className="flex-column d-flex align-items-center">
+          <div className="w-100 user-profile">
+            <div className="d-flex profile-meta align-items-center">
+              <div className="user-role d-flex align-items-center">
+                <Text>
+                  <PersonRoundedIcon />
+                  Role:
                   {' '}
-                  {egldLabel}
-                </h2>
-                <h5 className="ex-currency text-center">
-                  <Ui.UsdValue
-                    amount={operations.denominate({
-                      input: multisigBalance.toString(),
-                      denomination,
-                      decimals,
-                      showLastNonZeroDecimal: true,
-                      addCommas: false,
-                    })}
-                    usd={egldPrice}
-                  />
-                  {' '}
-                  USD
-                </h5>
+                  <span className="text">{t(userRoleAsString)}</span>
+                </Text>
               </div>
-              <div className="d-flex justify-content-center actions-btns">
-                {isProposer && (
-                  <button onClick={onSendEgld} className="btn btn-primarygit ">
-                    <span className="icon">
-                      <FontAwesomeIcon icon={faHandPaper} />
-                    </span>
 
-                    <span className="name">Propose</span>
-                  </button>
-                )}
-                <ReceiveModal address={currentContract?.address} />
-              </div>
             </div>
           </div>
+          <div className="d-flex flex-column justify-content-center align-items-center action-panel w-100">
 
-          <MultisigDetailsAccordion
-            isProposer={isProposer}
-            contractInfo={contractInfo}
-          />
-
-          <div className="card-body">
-            {!dataFetched ? (
-              <State icon={faCircleNotch} iconClass="fa-spin text-primary" />
-            ) : (
-              <div className="proposals-list">
-                <div className="d-flex flex-wrap align-items-center justify-content-between">
-                  {Object.keys(allActions).length === 0 ? (
-                    <div className="d-flex flex-column align-items-center w-100 no-active-proposals">
-                      <NoPoposalsIcon className=" " />
-                      <p className="mb-3">
-                        {t('Currently there are no active proposals.')}
-                      </p>
-                    </div>
-                  ) : (
-                    allActions.map((action) => (
-                      <MultisigProposalCard
-                        boardMembers={contractInfo.boardMembersAddresses}
-                        key={action.actionId}
-                        type={action.typeNumber()}
-                        actionId={action.actionId}
-                        title={action.title()}
-                        tooltip={action.tooltip()}
-                        value={action.description()}
-                        data={action.getData()}
-                        canSign={canSign(action)}
-                        canUnsign={canUnsign(action)}
-                        canPerformAction={canPerformAction(action)}
-                        canDiscardAction={canDiscardAction(action)}
-                        signers={action.signers}
-                      />
-                    ))
-                  )}
-                </div>
-              </div>
-            )}
+            <div className="d-flex justify-content-center">
+              <ReceiveModal address={currentContract?.address} />
+            </div>
           </div>
         </div>
+
+        <MultisigDetailsAccordion
+          contractInfo={contractInfo}
+        />
+
       </div>
-      {/* this will make sure to wipe out the whole state when the modal closes */}
-      {selectedMultiselectOption != null && (
-        <ProposeMultiselectModal selectedOption={selectedMultiselectOption} />
-      )}
-      {selectedOption != null && (
-        <ProposeModal selectedOption={selectedOption} />
-      )}
-      {selectedAction != null && (
-        <PerformActionModal selectedAction={selectedAction} />
-      )}
-    </MultisigDetailsContext.Provider>
+    </div>
   );
 }
 
