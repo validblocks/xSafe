@@ -6,7 +6,8 @@ interface Props {
     imgUrl?: string;
     title?: string;
     description?: string;
-    actionButtonText?: string;
+  actionButtonText?: string;
+  isInstallable: boolean;
     actionButtonOnClick?: () => void;
 }
 
@@ -14,6 +15,7 @@ const AppCard = ({
   imgUrl,
   title,
   description,
+  isInstallable,
   actionButtonText = 'Click me',
   actionButtonOnClick = () => null,
 }: Props) => (
@@ -35,9 +37,10 @@ const AppCard = ({
       onClick={actionButtonOnClick}
       sx={{ width: '100%' }}
       size="small"
+      disabled={!isInstallable}
       variant="outlined"
       color="primary"
-    >{actionButtonText}
+    >{isInstallable ? actionButtonText : 'Coming Soon...'}
     </Button>
   </Card>
 );

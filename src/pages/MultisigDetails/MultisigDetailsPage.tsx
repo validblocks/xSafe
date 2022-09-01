@@ -13,7 +13,6 @@ import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { organizationTokensSelector, totalUsdValueSelector } from 'src/redux/selectors/accountSelector';
 import { useQueryClient } from 'react-query';
 import { Box, Button, Divider, Grid } from '@mui/material';
-import { QueryKeys } from 'src/react-query/queryKeys';
 import AmountWithTitleCard from 'src/components/Utils/AmountWithTitleCard';
 import { MainButton } from 'src/components/Theme/StyledComponents';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
@@ -86,14 +85,12 @@ function MultisigDetailsPage() {
   });
 
   const queryClient = useQueryClient();
-  const nfts = queryClient.getQueryData(QueryKeys.ALL_ORGANIZATION_NFTS) as any;
 
   useEffect(() => {
-    console.log('nfts rewatched ', nfts);
     setOrganizationAssets(
-      (assets) => ({ ...assets, tokens: organizationTokens?.length ?? 0, NFTs: nfts?.length }),
+      (assets) => ({ ...assets, tokens: organizationTokens?.length ?? 0 }),
     );
-  }, [organizationTokens, queryClient, currentContract.address, nfts]);
+  }, [organizationTokens, queryClient, currentContract.address]);
 
   const totalUsdValue = useSelector(totalUsdValueSelector);
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);

@@ -219,7 +219,7 @@ function Dashboard() {
                       <Text fontSize={24} fontWeight={600} marginY={'1rem'}>{t('Load an existing Safe')}</Text>
                       <Text
                         fontSize={17}
-                        marginY={'.75rem'}
+                        marginY={'1rem'}
                       >{t('Already have a Safe or want to access it from a different device?')}
                       </Text>
                       <Text
@@ -246,7 +246,7 @@ function Dashboard() {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={0} lg={4} />
+              <Grid item xs={0} lg={3} />
             </Grid>
           ) : (
             <div className="wallets-section shadow bg-white">

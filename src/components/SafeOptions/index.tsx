@@ -6,13 +6,8 @@ import {
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { useDispatch, useSelector } from 'react-redux';
-// import OtherSafe from 'src/assets/img/other-safe.png';
 import Safe from 'src/assets/img/safe.png';
 import { TypographyBold } from 'src/components/Theme/StyledComponents';
-import {
-  currencyConvertedSelector,
-  selectedCurrencySelector,
-} from 'src/redux/selectors/currencySelector';
 import { useNavigate } from 'react-router-dom';
 import DeployStepsModal from 'src/pages/Dashboard/DeployMultisigModal';
 import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
@@ -30,42 +25,49 @@ import {
   SafeOptionsWrapper,
 } from './safe-style';
 
+export const userRoleAsString = (roleNumber: number) => {
+  switch (roleNumber) {
+    case 0:
+      return 'No rights';
+    case 2:
+      return 'Board Member';
+    default:
+      return 'Not logged in';
+  }
+};
+
 const fetchedMultisigContracts = [
   {
     name: 'Graffino 1',
     address: 'erd1qqqqqqqqqqqqqpgq5hfs4zxcvp7rgmwgcjvwg6m2zxpdugcvvcts8rj9zw',
+    role: 'Viewer',
   },
   {
     name: 'Graffino 2',
     address: 'erd1qqqqqqqqqqqqqpgqpzrenhspvt95agycr9nzhvrt7ukygwmmvctscqueu7',
+    role: 'Viewer',
   },
   {
     name: 'Graffino 3',
     address: 'erd1qqqqqqqqqqqqqpgqalhsgtumpjmtxnlfnk76984c9xwf0c77vcts47c9u7',
+    role: 'Viewer',
   },
 ];
 
 const SafeOptions = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { address } = useGetAccountInfo();
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
-
-  // useEffect(() => {
-  //   setShortAddress(addressShorthand);
-  // }, [addressShorthand]);
-
+  const currentContract = useSelector(currentMultisigContractSelector);
+  const [selectedSafe, setSelectedSafe] = useState(currentContract?.address);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
 
-  async function onDeployClicked() {
+  function onDeployClicked() {
     setShowDeployMultisigModal(true);
   }
 
-  const currentContract = useSelector(currentMultisigContractSelector);
-  const [selectedSafe, setSelectedSafe] = useState(currentContract?.address);
-
-  const currencyConverted = useSelector(currencyConvertedSelector);
-  const getCurrency = useSelector(selectedCurrencySelector);
-  const queryClient = useQueryClient();
   const onSafeChange = (newSafeAddress: string) => {
     if (!newSafeAddress) return;
     setSelectedSafe(newSafeAddress);
@@ -77,13 +79,10 @@ const SafeOptions = () => {
     ]);
     navigate(`/multisig/${newSafeAddress}`);
   };
-  const updateMultisigContract = useCallback((
-    newContracts: MultisigContractInfoType[],
-  ) => {
-    dispatch(setMultisigContracts(newContracts));
-  }, [dispatch]);
 
-  const { address } = useGetAccountInfo();
+  const updateMultisigContract = useCallback(
+    (newContracts: MultisigContractInfoType[]) => dispatch(setMultisigContracts(newContracts)),
+    [dispatch]);
 
   useEffect(() => {
     if (!address) return;
@@ -96,8 +95,16 @@ const SafeOptions = () => {
 
     Promise.all(userRolePromises).then((userRoleResponse) => {
       console.log({ userRoleResponse });
+      userRoleResponse.forEach((roleNumber: number, index: number) => {
+        fetchedMultisigContracts[index] = {
+          ...fetchedMultisigContracts[index],
+          role: userRoleAsString(roleNumber),
+        };
+      });
+
+      console.log(fetchedMultisigContracts);
     });
-  }, [address]);
+  }, [address, fetchedMultisigContracts]);
 
   return (
     <SafeOptionsWrapper sx={{ overflow: 'scroll !important', zIndex: '100000 !important' }}>
@@ -125,18 +132,14 @@ const SafeOptions = () => {
                     <ActiveWallet sx={{ ml: 2 }}>
                       <TypographyBold align="left">{fetchedContract.name}</TypographyBold>
                       <TypographyBold align="left">
-                        ≈
-                        {currencyConverted.toFixed(2)}
-                        {getCurrency}
+                        {fetchedContract.role}
                       </TypographyBold>
                     </ActiveWallet>
                   ) : (
                     <InactiveWallet sx={{ ml: 2 }}>
                       <TypographyBold align="left">{fetchedContract.name}</TypographyBold>
                       <TypographyBold align="left">
-                        ≈
-                        {currencyConverted.toFixed(2)}
-                        {getCurrency}
+                        {fetchedContract.role}
                       </TypographyBold>
                     </InactiveWallet>
                   )}

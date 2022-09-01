@@ -9,12 +9,13 @@ import MapsHomeWorkRoundedIcon from '@mui/icons-material/MapsHomeWorkRounded';
 import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
-import LockIcon from '@mui/icons-material/Lock';
 import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
 import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import { AppIdentifiers } from 'src/pages/Marketplace/appIds';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import routeNames from 'src/routes/routeNames';
+import StakeAppThumbnail from 'src/assets/img/StakeAppThumbnail.png';
+import OtherAppThumbnail from 'src/assets/img/OtherAppThumbnail.png';
 
 export type MenuItem = {
   name: string;
@@ -23,6 +24,12 @@ export type MenuItem = {
   description?: string;
   id: string;
   submenu?: MenuItem[];
+
+};
+
+export type MarketplaceApp = MenuItem & {
+  imageUrl?: string;
+  isInstallable: boolean
 };
 
 export const preinstalledApps: MenuItem[] = [
@@ -34,21 +41,33 @@ export const preinstalledApps: MenuItem[] = [
   },
 ];
 
-export const availableApps: MenuItem[] = [
+export const availableApps: MarketplaceApp[] = [
   {
     name: 'Stake',
     link: 'stake',
     id: AppIdentifiers.Staking,
     description: 'Stake your tokens, secure the network and earn rewards',
     icon: <DiamondIcon />,
-
+    imageUrl: StakeAppThumbnail,
+    isInstallable: true,
   },
   {
-    name: 'App 2',
-    link: 'app-2',
-    id: 'app-2-menu-sub-item',
-    description: 'Let us make money while teaching you how to make money',
+    name: 'Address Book',
+    link: 'app-coming-soon',
+    id: 'app-coming-soon-2-menu-sub-item',
+    description: 'Save a list of frequently used addresses',
     icon: <DiamondIcon />,
+    imageUrl: OtherAppThumbnail,
+    isInstallable: false,
+  },
+  {
+    name: 'More Apps',
+    link: 'more-apps-coming-soon',
+    id: 'more-apps-coming-soon-2-menu-sub-item',
+    description: 'You will find more community developed apps here',
+    icon: <DiamondIcon />,
+    imageUrl: OtherAppThumbnail,
+    isInstallable: false,
   },
 ];
 
@@ -86,18 +105,6 @@ const topItems: MenuItem[] = [
     link: 'transactions',
     id: 'transactions-menu-item',
     icon: <CompareArrowsOutlinedIcon transform="rotate(90)" />,
-  },
-  {
-    name: 'Address Book',
-    link: 'address-book',
-    id: 'address-book-menu-item',
-    icon: <MenuBookRoundedIcon />,
-  },
-  {
-    name: 'Stake',
-    link: 'stake',
-    id: 'stake-menu-item',
-    icon: <LockIcon />,
   },
   {
     name: 'Apps',
@@ -147,9 +154,7 @@ const bottomItems = [
 const mobileBottomItems = [
   {
     name: 'Home',
-    link: uniqueContractAddress
-      ? `/multisig/${uniqueContractAddress}`
-      : routeNames.welcome,
+    link: `/multisig/${uniqueContractAddress}`,
     id: 'home-menu-item',
     icon: <HomeRoundedIcon />,
   },
