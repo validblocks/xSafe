@@ -6,7 +6,10 @@ export default function useNft(
   queryClient: QueryClient,
   nftIdentifier: string,
 ) {
-  const { state } = useReactQueryStateByKey(queryClient, QueryKeys.ALL_NFTS);
+  const { state } = useReactQueryStateByKey(
+    queryClient,
+    QueryKeys.ALL_ORGANIZATION_NFTS,
+  );
 
   const searchedNft = state.find((nft) => nft.identifier === nftIdentifier);
 
