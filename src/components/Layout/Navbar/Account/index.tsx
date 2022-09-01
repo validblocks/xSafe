@@ -51,7 +51,10 @@ function Account() {
   };
 
   const MAIN_BUTTON_VARIABLE_STYLE = useMemo(
-    () => ({}), [isMainButtonActive],
+    () => ({
+      backgroundColor: isMainButtonActive ? '#4C2FFC !important' : '',
+      color: isMainButtonActive ? '#FFFF !important' : '',
+    }), [isMainButtonActive],
   );
 
   return (
