@@ -82,7 +82,7 @@ const ProposeUnstakeTokens = ({
       return (
         testContext?.createError({
           message:
-        t('There is not enough money in the organization for this transaction'),
+        t('There are not enough tokens staked for this proposal'),
         }) ?? false
       );
     }
