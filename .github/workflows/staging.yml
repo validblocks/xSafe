@@ -50,8 +50,8 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      
-      - uses:  actions/setup-node@v3
+
+      - uses: actions/setup-node@v3
         with:
           node-version: 16
       - name: YARN Install
@@ -97,6 +97,33 @@ jobs:
 
           POST_SCRIPT: |
             cd ~/staging.control.validblocks.com
+            ls
+            echo "Stop at: " $(date -u)
+
+      - name: DeployServer
+        id: DeployServer
+        uses: up9cloud/action-rsync@v1.1
+        if: success()
+        env:
+          HOST: staging.control.validblocks.com
+          USER: graffino
+          KEY: ${{secrets.DEPLOY_SSH_KEY}}
+          SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+
+          VERBOSE: true
+          ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
+
+          TARGET: ~/staging.control.validblocks.com/server/
+          SOURCE: ./server/
+
+          PRE_SCRIPT: |
+            echo "Start at: " $(date -u)
+            cd ~/staging.control.validblocks.com
+            ls
+
+          POST_SCRIPT: |
+            cd ~/staging.control.validblocks.com/server
+            npm install
             ls
             echo "Stop at: " $(date -u)
 
