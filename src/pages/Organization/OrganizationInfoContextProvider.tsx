@@ -112,7 +112,6 @@ function OrganizationInfoContextProvider({ children }: Props) {
   }, [address, currentContract?.address, dispatch, isLoggedIn, userRole]);
 
   useEffect(() => {
-    console.log('setting is read only to ', userRole !== 2);
     dispatch(setIsInReadOnlyMode(userRole !== 2));
   }, [userRole, dispatch]);
 

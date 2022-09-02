@@ -1,14 +1,15 @@
 import { Box, Divider } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { MultisigCard, PerformActionButton, Text } from 'src/components/StyledComponents/StyledComponents';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { useTranslation } from 'react-i18next';
+import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
 const CvorumContainer = () => {
   const dispatch = useDispatch();
-
+  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
   const onChangeQuorum = () =>
     dispatch(
       setProposeModalSelectedOption({
@@ -56,6 +57,7 @@ const CvorumContainer = () => {
         <Divider />
         <Box className="px-4 py-4">
           <PerformActionButton
+            disabled={isInReadOnlyMode}
             size="large"
             onClick={onChangeQuorum}
             sx={{

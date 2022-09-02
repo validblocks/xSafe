@@ -19,6 +19,7 @@ function ThemeColor() {
   return (
     <Box>
       <Autocomplete
+        disabled
         value={theme}
         onChange={onChangeTheme}
         id="themes-states-demo"

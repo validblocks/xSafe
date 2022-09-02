@@ -16,7 +16,9 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import { useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { queryUserRoleOnContract } from 'src/contracts/MultisigContract';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { useTheme } from 'styled-components';
 import {
   ActiveWallet,
   AddSafe,
@@ -81,11 +83,11 @@ const SafeOptions = () => {
   const queryClient = useQueryClient();
   const { address } = useGetAccountInfo();
   const { isLoggedIn } = useGetLoginInfo();
-  const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const currentContract = useSelector(currentMultisigContractSelector);
   const [selectedSafe, setSelectedSafe] = useState(currentContract?.address);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const [attachedMultisigContracts, setAttachedMultisigContracts] = useState(() => fetchedMultisigContracts);
+  const theme: any = useTheme();
 
   function onDeployClicked() {
     setShowDeployMultisigModal(true);
@@ -142,7 +144,7 @@ const SafeOptions = () => {
             Add a new safe
           </AddSafe>
         </AddSafeWrapper>
-        <Box>
+        <Box maxHeight={385} overflow="scroll">
           {
         attachedMultisigContracts.map((fetchedContract) => (
           <Box key={fetchedContract.address}>
@@ -174,12 +176,13 @@ const SafeOptions = () => {
                   selectedSafe === fetchedContract.address && (
                   <Grid item sm={2}>
                     <Box>
-                      <Checkbox {...label} disabled checked />
+                      <Checkbox
+                        icon={<CheckCircleIcon htmlColor={theme.palette.primary.main} />}
+                      />
                     </Box>
                   </Grid>
                   )
                 }
-
               </Box>
             </Button>
           </Box>
