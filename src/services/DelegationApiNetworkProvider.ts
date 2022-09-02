@@ -8,6 +8,4 @@ export class DelegationApiNetworkProvider extends ApiNetworkProvider {
   }
 }
 
-export const DelegationApiProvider = new DelegationApiNetworkProvider(
-  'https://devnet-delegation-api.elrond.com',
-);
+export const DelegationApiProvider = new DelegationApiNetworkProvider('/');
