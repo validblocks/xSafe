@@ -30,7 +30,7 @@ const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
         variant="filled"
         InputProps={{
           startAdornment: (
-            <InputAdornment position="start" sx={{ ml: '3rem', mt: '0 !important' }}>
+            <InputAdornment position="start" sx={{ ml: '2.2rem', mt: '0 !important' }}>
               <SearchRoundedIcon />
             </InputAdornment>
           ),

@@ -155,6 +155,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
           sx={{
             overflow: 'scroll',
             margin: '15px 0 !important',
+            width: '100%',
           }}
           onChange={handleChange(row.identity)}
           expanded={expanded === row.identity}
