@@ -13,33 +13,18 @@ import {
   IdentityWithColumns,
   IUndelegatedFunds,
 } from 'src/types/staking';
-import { Balance, ProxyProvider } from '@elrondnetwork/erdjs';
+import { Balance } from '@elrondnetwork/erdjs';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import { setActiveDelegationRows } from 'src/redux/slices/accountSlice';
-import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers';
 import axios from 'axios';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
 import { MainButton } from '../Theme/StyledComponents';
 import ActiveDelegationsTable from './ActiveDelegationsTable';
-
-export class CustomNetworkProvider extends ApiNetworkProvider {
-  async getDelegations(address: string) {
-    return this.doGetGeneric(
-      `/proxy?route=https://devnet-delegation-api.elrond.com/accounts/${address}/delegations?forceRefresh=true`,
-    );
-  }
-}
-
-const _customNetworkProvider = new CustomNetworkProvider('');
-
-const _proxy = new ProxyProvider('https://devnet-delegation-api.elrond.com', {
-  timeout: 5000,
-});
 
 const MyStake = () => {
   const dispatch = useDispatch();
