@@ -8,7 +8,11 @@ import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { useEffect, useState } from 'react';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { IDelegation, IdentityWithColumns, IUndelegatedFunds } from 'src/types/staking';
+import {
+  IDelegation,
+  IdentityWithColumns,
+  IUndelegatedFunds,
+} from 'src/types/staking';
 import { Balance, ProxyProvider } from '@elrondnetwork/erdjs';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
@@ -24,19 +28,21 @@ import ActiveDelegationsTable from './ActiveDelegationsTable';
 
 export class CustomNetworkProvider extends ApiNetworkProvider {
   async getDelegations(address: string) {
-    return this.doGetGeneric(`accounts/${address}/delegations?forceRefresh=true`);
+    return this.doGetGeneric(
+      `/proxy?route=https://devnet-delegation-api.elrond.com/accounts/${address}/delegations?forceRefresh=true`,
+    );
   }
 }
 
-const customNetworkProvider = new CustomNetworkProvider('https://devnet-delegation-api.elrond.com');
+const customNetworkProvider = new CustomNetworkProvider('');
 
-const _proxy = new ProxyProvider('https://devnet-delegation-api.elrond.com', { timeout: 5000 });
+const _proxy = new ProxyProvider('https://devnet-delegation-api.elrond.com', {
+  timeout: 5000,
+});
 
 const MyStake = () => {
   const dispatch = useDispatch();
-  const handleOptionSelected = (
-    option: ProposalsTypes,
-  ) => {
+  const handleOptionSelected = (option: ProposalsTypes) => {
     dispatch(setProposeMultiselectSelectedOption({ option }));
   };
 
@@ -50,108 +56,152 @@ const MyStake = () => {
   } = useProviderIdentitiesAfterSelection();
 
   const [totalActiveStake, setTotalActiveStake] = useState<string>('0');
-  const [totalClaimableRewards, setTotalClaimableRewards] = useState<string>('0');
-  const [totalUndelegatedFunds, setTotalUndelegatedFunds] = useState<string>('0');
+  const [totalClaimableRewards, setTotalClaimableRewards] =
+    useState<string>('0');
+  const [totalUndelegatedFunds, setTotalUndelegatedFunds] =
+    useState<string>('0');
 
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    customNetworkProvider
-      .getDelegations(currentContract.address);
+    customNetworkProvider.getDelegations(currentContract.address);
 
   const {
     data: fetchedDelegations,
     isFetching: isFetchingDelegations,
     isLoading: isLoadingDelegations,
     isError: isErrorOnFetchDelegations,
-  } = useQuery(
-    [
-      QueryKeys.FETCHED_DELEGATIONS,
-    ],
-    fetchDelegations,
-    {
-      ...USE_QUERY_DEFAULT_CONFIG,
-      keepPreviousData: true,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-    },
-  );
+  } = useQuery([QueryKeys.FETCHED_DELEGATIONS], fetchDelegations, {
+    ...USE_QUERY_DEFAULT_CONFIG,
+    keepPreviousData: true,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
+  });
 
   useEffect(() => {
     if (!fetchedDelegations || !fetchedProviderIdentities) return;
 
-    const totalActiveStake = fetchedDelegations.reduce((totalSum: number, delegation: IDelegation) =>
-      totalSum + parseFloat(Balance.fromString(delegation.userActiveStake).toDenominated()), 0);
+    const totalActiveStake = fetchedDelegations.reduce(
+      (totalSum: number, delegation: IDelegation) =>
+        totalSum +
+        parseFloat(
+          Balance.fromString(delegation.userActiveStake).toDenominated(),
+        ),
+      0,
+    );
 
-    const allClaimableRewards = fetchedDelegations.reduce((totalSum: number, delegation: IDelegation) =>
-      totalSum + parseFloat(Balance.fromString(delegation.claimableRewards).toDenominated()), 0);
+    const allClaimableRewards = fetchedDelegations.reduce(
+      (totalSum: number, delegation: IDelegation) =>
+        totalSum +
+        parseFloat(
+          Balance.fromString(delegation.claimableRewards).toDenominated(),
+        ),
+      0,
+    );
 
     const allClaimableRewardsString = getDenominatedBalance<string>(
-      allClaimableRewards, { precisionAfterComma: 4, needsDenomination: false });
-    setTotalClaimableRewards(
-      allClaimableRewardsString,
+      allClaimableRewards,
+      { precisionAfterComma: 4, needsDenomination: false },
+    );
+    setTotalClaimableRewards(allClaimableRewardsString);
+
+    const contractUndelegations = fetchedDelegations.reduce(
+      (acc: IUndelegatedFunds[], delegation: IDelegation) => [
+        ...acc,
+        ...delegation.userUndelegatedList,
+      ],
+      [],
     );
 
-    const contractUndelegations = fetchedDelegations
-      .reduce((acc: IUndelegatedFunds[], delegation: IDelegation) => [...acc, ...delegation.userUndelegatedList], []);
-
-    const totalUndelegations = contractUndelegations.reduce((totalSum: number, undelegation: IUndelegatedFunds) => {
-      const amount = parseFloat(Balance.fromString(undelegation.amount).toDenominated());
-      return totalSum + amount;
-    }, 0);
+    const totalUndelegations = contractUndelegations.reduce(
+      (totalSum: number, undelegation: IUndelegatedFunds) => {
+        const amount = parseFloat(
+          Balance.fromString(undelegation.amount).toDenominated(),
+        );
+        return totalSum + amount;
+      },
+      0,
+    );
 
     setTotalUndelegatedFunds(
-      getDenominatedBalance<string>(totalUndelegations, { precisionAfterComma: 5, needsDenomination: false }),
+      getDenominatedBalance<string>(totalUndelegations, {
+        precisionAfterComma: 5,
+        needsDenomination: false,
+      }),
     );
 
-    const activeDelegationsRows = fetchedProviderIdentities
-      ?.filter((providerIdentity: IdentityWithColumns) => fetchedDelegations
-        .some((delegation: IDelegation) => delegation.contract === providerIdentity.provider))
-      .map((providerIdentity: IdentityWithColumns) => {
-        const delegation = fetchedDelegations
-          .find((delegation: IDelegation) => delegation.contract === providerIdentity.provider);
+    const activeDelegationsRows =
+      fetchedProviderIdentities
+        ?.filter((providerIdentity: IdentityWithColumns) =>
+          fetchedDelegations.some(
+            (delegation: IDelegation) =>
+              delegation.contract === providerIdentity.provider,
+          ),
+        )
+        .map((providerIdentity: IdentityWithColumns) => {
+          const delegation = fetchedDelegations.find(
+            (delegation: IDelegation) =>
+              delegation.contract === providerIdentity.provider,
+          );
 
-        const delegatedAmount = delegation
-          ? getDenominatedBalance<string>(delegation.userActiveStake, { precisionAfterComma: 4 })
-          : '0';
+          const delegatedAmount = delegation
+            ? getDenominatedBalance<string>(delegation.userActiveStake, {
+                precisionAfterComma: 4,
+              })
+            : '0';
 
-        const claimableRewards = getDenominatedBalance<number>(
-          delegation.claimableRewards, { precisionAfterComma: 4 },
-        ) ?? '0';
+          const claimableRewards =
+            getDenominatedBalance<number>(delegation.claimableRewards, {
+              precisionAfterComma: 4,
+            }) ?? '0';
 
-        return {
-          ...providerIdentity,
-          delegatedColumn: {
-            delegatedAmount,
-          },
-          claimableRewardsColumn: {
-            claimableRewards,
-          },
-        };
-      }) ?? [];
+          return {
+            ...providerIdentity,
+            delegatedColumn: {
+              delegatedAmount,
+            },
+            claimableRewardsColumn: {
+              claimableRewards,
+            },
+          };
+        }) ?? [];
 
     dispatch(setActiveDelegationRows(activeDelegationsRows));
 
     setTotalActiveStake(
-      getDenominatedBalance<string>(totalActiveStake, { precisionAfterComma: 4, needsDenomination: false }),
+      getDenominatedBalance<string>(totalActiveStake, {
+        precisionAfterComma: 4,
+        needsDenomination: false,
+      }),
     );
   }, [dispatch, fetchedDelegations, fetchedProviderIdentities]);
 
-  if (isFetchingDelegations ||
-    isLoadingDelegations) { return <LoadingDataIndicator dataName="delegation" />; }
+  if (isFetchingDelegations || isLoadingDelegations) {
+    return <LoadingDataIndicator dataName="delegation" />;
+  }
 
-  if (isErrorOnFetchDelegations) { return <ErrorOnFetchIndicator dataName="delegation" />; }
+  if (isErrorOnFetchDelegations) {
+    return <ErrorOnFetchIndicator dataName="delegation" />;
+  }
   return (
     <>
-      <Box sx={{ display: 'flex', flexWrap: 'wrap', width: '100%', padding: '12px 0', gap: '12px' }}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          width: '100%',
+          padding: '12px 0',
+          gap: '12px',
+        }}
+      >
         <Grid container spacing={2}>
           <Grid item xs={12} md={6} lg={4}>
             <AmountWithTitleCard
               amountValue={totalActiveStake}
               amountUnityMeasure={'EGLD'}
               title={'My Total Stake'}
-              actionButton={(
+              actionButton={
                 <MainButton
                   key="0"
                   variant="outlined"
@@ -166,20 +216,21 @@ const MyStake = () => {
                   className="shadow-sm rounded mr-2"
                   onClick={() =>
                     handleOptionSelected(ProposalsTypes.stake_tokens)
-              }
+                  }
                 >
                   <AssetActionIcon width="25px" height="25px" /> Stake
                 </MainButton>
-)}
+              }
             />
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
             <AmountWithTitleCard
-              amountValue={
-            getDenominatedBalance(totalClaimableRewards, { needsDenomination: false, precisionAfterComma: 5 })
-          }
+              amountValue={getDenominatedBalance(totalClaimableRewards, {
+                needsDenomination: false,
+                precisionAfterComma: 5,
+              })}
               amountUnityMeasure={'EGLD'}
-              actionButton={(
+              actionButton={
                 <Button
                   disabled
                   sx={{
@@ -193,7 +244,7 @@ const MyStake = () => {
                   <InfoOutlinedIcon sx={{ marginRight: '5px' }} />
                   {`from ${activeDelegationsRows?.length ?? '0'} Providers`}
                 </Button>
-)}
+              }
               title={'My Claimable Rewards'}
             />
           </Grid>
@@ -201,7 +252,7 @@ const MyStake = () => {
             <AmountWithTitleCard
               amountValue={totalUndelegatedFunds}
               amountUnityMeasure={'EGLD'}
-              actionButton={(
+              actionButton={
                 <MainButton
                   key="0"
                   variant="outlined"
@@ -215,11 +266,11 @@ const MyStake = () => {
                   className="shadow-sm rounded mr-2"
                   onClick={() =>
                     handleOptionSelected(ProposalsTypes.withdraw_funds)
-              }
+                  }
                 >
                   <AssetActionIcon width="25px" height="25px" /> Details
                 </MainButton>
-)}
+              }
               title={'My Undelegated Funds'}
             />
           </Grid>
