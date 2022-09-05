@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CloseIcon from '@mui/icons-material/Close';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import CheckIcon from '@mui/icons-material/Check';
 import {
   mutateSign,
@@ -17,6 +17,7 @@ import {
 import { setSelectedPerformedAction } from 'src/redux/slices/modalsSlice';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { DiscardActionButton, PerformActionButton } from 'src/components/StyledComponents/StyledComponents';
+import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
 import useTransactionPermissions from './useTransactionPermissions';
 
 export interface TransactionActionsCardType {
@@ -41,6 +42,7 @@ function TransactionActionsCard({
 }: TransactionActionsCardType) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
   const { canUnsign, canPerformAction, canSign, canDiscardAction } =
     useTransactionPermissions(action);
   const sign = () => {
@@ -55,9 +57,15 @@ function TransactionActionsCard({
   const discardAction = () => {
     mutateDiscardAction(actionId);
   };
+
+  if (isInReadOnlyMode) {
+    return <div>Actions are not allowed in Read-Only Mode.</div>;
+  }
+
   if (!canSign && !canUnsign && !canPerformAction && !canDiscardAction) {
     return <div>You are not allowed to make changes on this action.</div>;
   }
+
   return (
     <>
       <Typography variant="h6" color="black">

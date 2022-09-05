@@ -2,6 +2,7 @@ export interface MultisigContractInfoType {
   address: string;
   name?: string;
   isTrusted?: boolean;
+  role?: string;
 }
 
 export interface PlainMultisigAddressType {

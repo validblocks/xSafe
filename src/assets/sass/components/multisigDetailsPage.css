@@ -8,7 +8,6 @@
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  padding: 100px 0;
 }
 
 .dashboard .wallet-logo {
@@ -27,7 +26,7 @@
 
 .dashboard .card .user-profile {
   border-bottom: 1px solid #e6e8ec;
-  padding: 40px 0 65px;
+  padding: 20px 0 !important;
 }
 
 .dashboard .card .user-profile .wallet {

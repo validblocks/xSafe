@@ -2,12 +2,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: toRem(153) 0;
 
   .wallet-logo {
     position: absolute;
     top: -51px;
   }
+
   .card {
     display: flex;
     max-width: 842px;
@@ -15,7 +15,7 @@
     border-radius: 12px;
     .user-profile {
       border-bottom: 1px solid #e6e8ec;
-      padding: 24px 0 40px;
+      padding: 24px 0 24px;
       .profile-meta {
         padding: 0 40px;
         @include media-breakpoint-down(sm) {

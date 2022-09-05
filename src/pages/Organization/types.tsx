@@ -68,10 +68,12 @@ export type OrganizationInfoContextType = {
   membersCountState: CustomStateType<number>;
   quorumCountState: CustomStateType<number>;
   boardMembersState: CustomStateType<Address[]>;
-  proposersState: CustomStateType<Address[]>;
   userRole: number;
+  boardMembersCount: number;
   allMemberAddresses: MemberAddressTableRow[];
   isBoardMemberState: CustomStateType<boolean>;
+  isMultiWalletMode: boolean;
+  nftCount: number;
 };
 
 export type AddressBook = Record<string, string>;

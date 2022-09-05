@@ -2,14 +2,14 @@ export enum transactionStatuses {
   'pending' = 'pending',
   'signed' = 'signed',
   'failed' = 'failed',
-  'cancelled' = 'cancelled'
+  'cancelled' = 'cancelled',
 }
 
 export enum providerTypes {
   'ledger' = 'ledger',
   'walletconnect' = 'walletconnect',
   'extension' = 'extension',
-  'wallet' = 'wallet'
+  'wallet' = 'wallet',
 }
 
 export const smartContractCode =

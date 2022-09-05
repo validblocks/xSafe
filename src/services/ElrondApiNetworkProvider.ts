@@ -1,5 +1,6 @@
 import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
 import { network } from 'src/config';
+import { NFTType } from 'src/types/nfts';
 import { URLSearchParams } from 'url';
 
 export class ElrondApiNetworkProvider extends ApiNetworkProvider {
@@ -13,7 +14,9 @@ export class ElrondApiNetworkProvider extends ApiNetworkProvider {
   }
 
   async getAddressTokens(address: string) {
-    if (!address) return undefined;
+    if (!address) {
+      return undefined;
+    }
     return this.doGetGeneric(`accounts/${address}/tokens`);
   }
 
@@ -35,7 +38,9 @@ export class ElrondApiNetworkProvider extends ApiNetworkProvider {
   }
 
   async getAccountData(address: string) {
-    if (!address) return null;
+    if (!address) {
+      return null;
+    }
     return this.doGetGeneric(`accounts/${address}`);
   }
 
@@ -51,6 +56,28 @@ export class ElrondApiNetworkProvider extends ApiNetworkProvider {
     } catch (err) {
       console.error('error validating multisig address');
       return false;
+    }
+  }
+
+  async fetchOrganizationNFTs(address: string): Promise<NFTType[]> {
+    if (!address) return [];
+
+    try {
+      return this.doGetGeneric(`accounts/${address}/nfts`);
+    } catch (err) {
+      console.error('Error fetching NFTs');
+      return [];
+    }
+  }
+
+  async fetchOrganizationNFTCount(address: string): Promise<number> {
+    if (!address) return 0;
+
+    try {
+      return this.doGetGeneric(`accounts/${address}/nfts/count`);
+    } catch (err) {
+      console.error('Error fetching NFTs');
+      return 0;
     }
   }
 }

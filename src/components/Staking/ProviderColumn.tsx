@@ -4,11 +4,14 @@ import { IProviderColumn } from 'src/types/staking';
 import { Text } from '../StyledComponents/StyledComponents';
 
 interface Props {
-    columnData: IProviderColumn;
+    columnData?: IProviderColumn;
     withAPR?: boolean;
 }
 
-const ProviderColumn = ({ columnData: { avatar, name, website, apr }, withAPR = false }: Props) => {
+const ProviderColumn = ({
+  columnData: { avatar, name, website, apr } = { avatar: '', name: '', website: '', apr: 0 },
+  withAPR = false,
+}: Props) => {
   if (name.length > 20) {
     name = `${name.substring(0, 20)}...`;
   }

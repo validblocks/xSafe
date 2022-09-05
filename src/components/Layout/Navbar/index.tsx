@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useMemo, useState } from 'react';
 import { List, Accordion, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,13 +10,15 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { styled, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
-import { uniqueContractAddress } from 'src/multisigConfig';
 import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
+import { useSelector } from 'react-redux';
+import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 import AccountDetails from './NavbarAccountDetails';
 import './menu.scss';
 import {
@@ -72,14 +74,9 @@ const Drawer = styled(MuiDrawer, {
 const MiniDrawer = () => {
   const location = useLocation();
   const locationString = location.pathname.substring(1);
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   const open = true;
-
-  const [walletAddress, setWalletAddress] = useState('');
-
-  useEffect(() => {
-    setWalletAddress(addressShorthand(uniqueContractAddress));
-  }, []);
 
   const [expanded, setExpanded] = useState<string | false>(false);
   const handleChange =
@@ -90,29 +87,54 @@ const MiniDrawer = () => {
   const [pinnedApps, setPinnedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.PINNED_APPS, []);
   const [installedApps, _setInstalledApps] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);
 
-  const installedAndPinnedApps = ([
+  const installedAndPinnedApps = useMemo(() => ([
     ...preinstalledApps,
     ...availableApps
       .filter((app: MenuItem) => installedApps.includes(app.id)),
-  ].filter((app: MenuItem) => pinnedApps.includes(app.id)));
+  ].filter((app: MenuItem) => pinnedApps.includes(app.id))), [installedApps, pinnedApps]);
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <Drawer variant="permanent" open={open} className="drawer-wrapper">
-        <BsNavbar className="p-0 px-4">
+        <BsNavbar className="p-0 py-3 px-4 d-flex align-items-center justify-content-center">
           <NavbarLogo />
-          <Nav className="ml-auto align-items-center" />
+          <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
+            <Nav className="ml-auto align-items-center" />
+          </Box>
         </BsNavbar>
         <Divider />
         <List sx={{ mt: 1, pb: 0 }}>
-          <AccountDetails uniqueAddress={walletAddress} />
+          <AccountDetails uniqueAddress={addressShorthand(currentContract?.address ?? '')} />
           <Divider />
         </List>
-        <TopMenu>
-          {menuItems.topItems.map((el) => (
-            <div key={el.id}>
-              {el.submenu && (
+        {
+          !currentContract?.address && (
+            <Box
+              marginTop={1}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <VpnKeyRoundedIcon
+                sx={{
+                  border: '1px solid #ddd',
+                  fontSize: '36px',
+                  padding: '5px',
+                  borderRadius: '100%',
+                }}
+                color="disabled"
+              />
+            </Box>
+          )
+        }
+        {currentContract?.address && (
+          <TopMenu>
+            {menuItems.topItems.map((el) => (
+              <div key={el.id}>
+                {el.submenu && (
                 <Accordion
                   expanded={expanded === `${el.id}`}
                   onChange={handleChange(`${el.id}`)}
@@ -258,9 +280,9 @@ const MiniDrawer = () => {
                     </AccordionDetail>
                   ))}
                 </Accordion>
-              )}
+                )}
 
-              {!el.submenu && (
+                {!el.submenu && (
                 <Link
                   to={el.link}
                   className={
@@ -293,57 +315,58 @@ const MiniDrawer = () => {
 
                   </ListItem>
                 </Link>
-              )}
-              {el.name === 'Apps' && (
-                installedAndPinnedApps.map((app: MenuItem) => (
-                  <Link
-                    to={app.link}
-                    key={app.id}
-                    className={
+                )}
+                {el.name === 'Apps' && (
+                  installedAndPinnedApps.map((app: MenuItem) => (
+                    <Link
+                      to={app.link}
+                      key={app.id}
+                      className={
                     locationString === app.link
                       ? 'active link-decoration'
                       : 'link-decoration'
                   }
-                  >
-                    <ListItem
-                      sx={{
-                        minHeight: 48,
-                        justifyContent: open ? 'initial' : 'center',
-                        px: 2.5,
-                        color: '#08041D',
-                      }}
                     >
-                      <ListItemIcon
+                      <ListItem
                         sx={{
-                          minWidth: 0,
-                          mr: open ? 1 : 'auto',
-                          justifyContent: 'center',
+                          minHeight: 48,
+                          justifyContent: open ? 'initial' : 'center',
+                          px: 2.5,
+                          color: '#08041D',
                         }}
                       >
-                        {app.icon}
-                      </ListItemIcon>
-                      <ListItemText
-                        primary={<Text>{app.name}</Text>}
-                        sx={{ opacity: open ? 1 : 0 }}
-                      />
-                      <div className="pin-icon">
-                        <IconButton
-                          color="secondary"
-                          onClick={() => {
-                            setPinnedApps((apps: string[]) => (
-                              apps.filter((appId) => appId !== app.id)
-                            ));
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: open ? 1 : 'auto',
+                            justifyContent: 'center',
                           }}
                         >
-                          <PushPinRoundedIcon />
-                        </IconButton>
-                      </div>
-                    </ListItem>
-                  </Link>
-                )))}
-            </div>
-          ))}
-        </TopMenu>
+                          {app.icon}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={<Text>{app.name}</Text>}
+                          sx={{ opacity: open ? 1 : 0 }}
+                        />
+                        <div className="pin-icon">
+                          <IconButton
+                            color="secondary"
+                            onClick={() => {
+                              setPinnedApps((apps: string[]) => (
+                                apps.filter((appId) => appId !== app.id)
+                              ));
+                            }}
+                          >
+                            <PushPinRoundedIcon />
+                          </IconButton>
+                        </div>
+                      </ListItem>
+                    </Link>
+                  )))}
+              </div>
+            ))}
+          </TopMenu>
+        )}
         <BottomMenu>
           <Divider sx={{ mt: 1 }} />
           {menuItems.bottomItems.map((el) => (

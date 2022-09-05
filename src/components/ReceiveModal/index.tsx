@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
-import { faQrcode } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import QrCode from 'qrcode.react';
 import { Modal } from 'react-bootstrap';
+import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Typography } from '@mui/material';
 import CopyButton from '../CopyButton';
-import { DepositDoneAction } from '../Theme/StyledComponents';
+import { MainButton, DepositDoneAction } from '../Theme/StyledComponents';
 
 const ReceiveModal = ({
   showQrFromSidebar,
   address,
   handleQr,
+  showQrFromCard = false,
 }: {
   showQrFromSidebar?: boolean;
+  showQrFromCard?: boolean;
   address?: string;
   handleQr?: () => void;
 }) => {
@@ -31,13 +32,26 @@ const ReceiveModal = ({
 
   return (
     <>
+
       {showQrFromSidebar === undefined && (
-        <button onClick={handleOpenModal} className="btn btn-primary">
-          <span className="icon">
-            <FontAwesomeIcon icon={faQrcode} />
-          </span>
-          <span className="name">Deposit</span>
-        </button>
+        <MainButton
+          key="0"
+          variant="outlined"
+          className="shadow-sm rounded mr-2"
+          onClick={handleOpenModal}
+          sx={{
+            opacity: '1 !important',
+            width: '100%',
+            ...(showQrFromCard && {
+              fontSize: '15px !important',
+              marginTop: '15px !important',
+              fontWeight: 'normal !important',
+            }),
+          }}
+        >
+          <QrCode2Icon sx={{ marginRight: '5px', fontSize: '16px' }} />
+          Receive
+        </MainButton>
       )}
       <Modal
         show={showModal}

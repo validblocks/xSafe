@@ -6,6 +6,10 @@ export class DelegationApiNetworkProvider extends ApiNetworkProvider {
       `accounts/${address}/delegations?forceRefresh=true`,
     );
   }
+
+  async getProviderInfo(address: string) {
+    return this.doGetGeneric(`providers/${address}?forceRefresh=true`);
+  }
 }
 
 export const DelegationApiProvider = new DelegationApiNetworkProvider('/');

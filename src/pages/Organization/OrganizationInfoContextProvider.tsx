@@ -1,14 +1,26 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { transactionServices, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSafeName } from 'src/redux/slices/safeNameSlice';
 import {
   queryBoardMemberAddresses,
-  queryProposerAddresses,
   queryQuorumCount,
   queryUserRole,
 } from 'src/contracts/MultisigContract';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import {
+  currentMultisigContractSelector,
+  currentMultisigTransactionIdSelector,
+} from 'src/redux/selectors/multisigContractsSelectors';
+import { uniqueContractAddress, uniqueContractName } from 'src/multisigConfig';
+import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
+import { setIsInReadOnlyMode, StateType } from 'src/redux/slices/accountSlice';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
+import { useQuery, useQueryClient } from 'react-query';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { OrganizationInfoContextType } from './types';
 
 type Props = {
@@ -19,69 +31,118 @@ const OrganizationInfoContext = createContext<OrganizationInfoContextType>(
   {} as OrganizationInfoContextType,
 );
 
+const parseMultisigAddress = (addressParam: string): Address | null => {
+  try {
+    return new Address(addressParam);
+  } catch {
+    return null;
+  }
+};
+
 export const useOrganizationInfoContext = () =>
   useContext(OrganizationInfoContext);
 
 function OrganizationInfoContextProvider({ children }: Props) {
-  const [proposers, setProposers] = useState<Address[]>([]);
   const [quorumCount, setQuorumCount] = useState(0);
+  const [userRole, setUserRole] = useState<number>();
   const [membersCount, setMembersCount] = useState(0);
-  const [boardMembers, setBoardMembers] = useState<Address[]>([]);
   const [isBoardMember, setIsBoardMember] = useState(false);
+  const [boardMembers, setBoardMembers] = useState<Address[]>([]);
 
   const { address } = useGetAccountInfo();
-  const currentContract = useSelector(currentMultisigContractSelector);
+  const dispatch = useDispatch();
+  const safeName = useSelector(safeNameStoredSelector);
+  const { isLoggedIn } = useGetLoginInfo();
+
+  useEffect(() => {
+    dispatch(setSafeName(uniqueContractName?.length > 0 ? uniqueContractName : safeName));
+  }, [dispatch, safeName, uniqueContractName]);
+
+  const queryClient = useQueryClient();
+  const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
+
+  const fetchNftCount = useCallback(
+    () => ElrondApiProvider.fetchOrganizationNFTCount(currentContract?.address), [currentContract?.address],
+  );
+
+  const {
+    data: nftCount,
+    refetch: refetchNftCount,
+  } = useQuery(['NFT_COUNT'],
+    fetchNftCount,
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+    },
+  );
+
+  const [isMultiWalletMode, setIsMultiWalletMode] = useState(uniqueContractAddress.length > 0);
+
+  useEffect(() => {
+    const isSingleWalletMode = (uniqueContractAddress as string).length > 0;
+    setIsMultiWalletMode(!isSingleWalletMode);
+    if (isSingleWalletMode) {
+      const newMultisigAddressParam = parseMultisigAddress(uniqueContractAddress ?? '');
+      if (newMultisigAddressParam) { dispatch(setCurrentMultisigContract(newMultisigAddressParam?.bech32())); }
+    }
+  }, [dispatch]);
 
   const allMemberAddresses = useMemo(
     () =>
       [
         ...boardMembers.map((item) => ({ role: 'Board Member', member: item })),
-        ...proposers.map((item) => ({ role: 'Proposer', member: item })),
       ].map((item, idx) => ({ ...item, id: idx })),
-    [boardMembers, proposers],
+    [boardMembers],
   );
 
   useEffect(() => {
     setMembersCount(allMemberAddresses.length);
   }, [allMemberAddresses]);
 
-  const [userRole, setUserRole] = useState<number>();
+  useEffect(() => {
+    if (!address || !isLoggedIn || !currentContract?.address) {
+      setUserRole(-1);
+      setIsInReadOnlyMode(true);
+      return;
+    }
+
+    queryUserRole(new Address(address).hex()).then((userRoleResponse) => {
+      setUserRole(userRoleResponse);
+      dispatch(setIsInReadOnlyMode(userRole !== 2));
+    });
+  }, [address, currentContract?.address, dispatch, isLoggedIn, userRole]);
+
+  useEffect(() => {
+    dispatch(setIsInReadOnlyMode(userRole !== 2));
+  }, [userRole, dispatch]);
 
   useEffect(() => {
     let isMounted = true;
-    if (!address || !currentContract?.address) {
+    if (!currentContract?.address) {
       return () => {
         isMounted = false;
       };
     }
 
-    (() =>
-      currentContract?.address &&
-    currentContract?.address &&
-      address &&
-      Promise.all([
-        queryBoardMemberAddresses(),
-        queryUserRole(new Address(address).hex()),
-        queryProposerAddresses(),
-        queryQuorumCount(),
-      ]).then(
-        ([
-          boardMembersAddresses,
-          userRoleResponse,
-          proposersAddresses,
-          quorumCountResponse,
-        ]) => {
-          if (!isMounted) return;
-          setBoardMembers(boardMembersAddresses);
-          setProposers(proposersAddresses);
-          setQuorumCount(quorumCountResponse);
-          setUserRole(userRoleResponse);
-        },
-      ))();
+    refetchNftCount();
+
+    Promise.all([
+      queryBoardMemberAddresses(),
+      queryQuorumCount(),
+    ]).then(
+      ([
+        boardMembersAddresses,
+        quorumCountResponse,
+      ]) => {
+        if (!isMounted) return;
+        setBoardMembers(boardMembersAddresses);
+        setQuorumCount(quorumCountResponse);
+      },
+    );
+
     return () => {
       isMounted = false;
     };
-  }, [address, currentContract, currentContract?.address]);
+  }, [address, currentContract, currentContract?.address, refetchNftCount]);
 
   useEffect(() => {
     let isMounted = true;
@@ -106,18 +167,35 @@ function OrganizationInfoContextProvider({ children }: Props) {
     };
   }, [address, boardMembers]);
 
+  const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
+
+  transactionServices.useTrackTransactionStatus({
+    transactionId: currentMultisigTransactionId,
+    onSuccess: () => {
+      queryClient.invalidateQueries(
+        [
+          QueryKeys.ADDRESS_EGLD_TOKENS,
+          QueryKeys.ADDRESS_ESDT_TOKENS,
+          QueryKeys.ALL_ORGANIZATION_NFTS,
+        ],
+      );
+    },
+  });
+
   return (
     <OrganizationInfoContext.Provider
       value={useMemo(() => ({
         membersCountState: [membersCount, setMembersCount],
         boardMembersState: [boardMembers, setBoardMembers],
+        boardMembersCount: boardMembers.length,
         quorumCountState: [quorumCount, setQuorumCount],
-        proposersState: [proposers, setProposers],
         userRole: userRole as number,
         allMemberAddresses,
         isBoardMemberState: [isBoardMember, setIsBoardMember],
+        nftCount: nftCount ?? 0,
+        isMultiWalletMode,
       }),
-      [membersCount, boardMembers, quorumCount, proposers, userRole, allMemberAddresses, isBoardMember])}
+      [membersCount, boardMembers, quorumCount, userRole, allMemberAddresses, isBoardMember, nftCount])}
     >
       {children}
     </OrganizationInfoContext.Provider>

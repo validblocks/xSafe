@@ -22,6 +22,11 @@ export const tokenTableRowsSelector = createDeepEqualSelector(
   (state) => state.tokenTableRows,
 );
 
+export const totalUsdValueSelector = createDeepEqualSelector(
+  accountSelector,
+  (state) => state.totalUsdValue,
+);
+
 export const organizationTokensSelector = createDeepEqualSelector(
   accountSelector,
   (state) => state.organizationTokens,
@@ -67,4 +72,9 @@ export const multisigBalanceSelector = createDeepEqualSelector(
 export const activeDelegationsRowsSelector = createDeepEqualSelector(
   accountSelector,
   (state) => state.activeDelegationsRows,
+);
+
+export const isInReadOnlyModeSelector = createDeepEqualSelector(
+  accountSelector,
+  (state) => state.isInReadOnlyMode,
 );

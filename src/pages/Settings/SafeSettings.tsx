@@ -7,11 +7,13 @@ import { MainButton, TypographyBold } from 'src/components/Theme/StyledComponent
 import ThemeColor from 'src/components/ThemeColor';
 import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
 import { setSafeName } from 'src/redux/slices/safeNameSlice';
+import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
 import { NoteSpan, Span } from './settings-style';
 
 function SafeSettings() {
   const safeName = useSelector(safeNameStoredSelector);
   const [name, setName] = useState('');
+  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
 
   useEffect(() => {
     setName(safeName);
@@ -36,7 +38,7 @@ function SafeSettings() {
       </Typography>
       <Typography sx={{ mb: 3 }}>
         <NoteSpan>
-          <Span>Note:</Span>
+          <Span>Note: </Span>
           This name is only stored locally. (You&apos;re the only one who&apos;s
           seeing it)
         </NoteSpan>
@@ -45,6 +47,7 @@ function SafeSettings() {
         id="outlined-basic"
         label="Safe Name"
         variant="outlined"
+        disabled={isInReadOnlyMode}
         onChange={changeSafeName}
         value={name}
         sx={{ width: 250 }}
@@ -58,7 +61,7 @@ function SafeSettings() {
       </Typography>
       <ChangeCurrency />
       <TypographyBold sx={{ mb: 1, mt: 2, fontSize: '18px' }}>
-        Appearance
+        Appearance (Coming soon...)
       </TypographyBold>
 
       <Typography sx={{ mb: 2 }}>

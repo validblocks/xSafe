@@ -3,13 +3,13 @@ import { IAPRColumn } from 'src/types/staking';
 import PercentageWithIcon from '../Utils/PercentageWithIcon';
 
 interface Props {
-    columnData: IAPRColumn
+    columnData?: IAPRColumn
 }
 
-const APRColumn = ({ columnData: { apr } }: Props) => (
+const APRColumn = ({ columnData: { apr } = { apr: 0 } }: Props) => (
   <PercentageWithIcon
     icon={<MonetizationOnRoundedIcon sx={{ color: 'rgba(8, 4, 29, 0.54)' }} />}
-    percentage={apr.toString()}
+    percentage={apr?.toString()}
   />
 );
 

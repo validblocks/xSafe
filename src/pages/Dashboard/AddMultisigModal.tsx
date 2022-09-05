@@ -9,6 +9,7 @@ import {
 } from 'src/apiCalls/multisigContractsCalls';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import ProposeInputAddress from '../MultisigDetails/ProposeModal/ProposeInputAddress';
 
 interface AddMultisigModalType {
@@ -28,6 +29,7 @@ function AddMultisigModal({
   const [submitDisabled, setSubmitDisabled] = useState(false);
   const [invalidMultisigAddress, setInvalidMultisigAddress] = useState(false);
   const [name, setName] = useState('');
+  const { isLoggedIn } = useGetLoginInfo();
 
   async function onAddressParamChange(newAddress: Address) {
     setInvalidMultisigAddress(false);
@@ -92,11 +94,11 @@ function AddMultisigModal({
               {t('Cancel') as string}
             </button>
             <button
-              disabled={submitDisabled}
+              disabled={submitDisabled || !isLoggedIn}
               onClick={onAddClicked}
               className="btn btn-primary mb-3"
             >
-              {t('Add') as string}
+              {isLoggedIn ? (t('Add') as string) : (t('Login first') as string)}
             </button>
           </div>
         </div>

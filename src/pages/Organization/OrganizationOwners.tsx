@@ -20,12 +20,14 @@ import { RootState } from 'src/redux/store';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { MainButton } from 'src/components/Theme/StyledComponents';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
+import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
 import { AccountInfo, AddressBook, Owner } from './types';
 
 const OrganizationsOwnersTable = () => {
   const [addresses, setAddresses] = useState<Array<Owner>>([]);
 
   const getAddresses = () => queryBoardMemberAddresses();
+  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
 
   // Set the address book
   // Test the address book and herotag
@@ -132,12 +134,14 @@ const OrganizationsOwnersTable = () => {
           <GridActionsCellItem
             key={params.id}
             icon={<DeleteIcon />}
+            disabled={isInReadOnlyMode}
             label="Delete"
             onClick={() => onRemoveUser(new Address(params.id))}
           />,
           <GridActionsCellItem
             key={params.id}
             icon={<EditIcon />}
+            disabled={isInReadOnlyMode}
             label="Edit Owner"
             onClick={() =>
               onEditOwner(
@@ -162,6 +166,7 @@ const OrganizationsOwnersTable = () => {
     <>
       <MainButton
         startIcon={<AddIcon />}
+        disabled={isInReadOnlyMode}
         onClick={() => onAddBoardMember()}
         sx={{ mb: '.9rem !important', boxShadow: 'none !important' }}
       >

@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { availableApps, MenuItem } from 'src/utils/menuItems';
+import { availableApps, MarketplaceApp } from 'src/utils/menuItems';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
 import AppCard from './AppCard';
 import { LOCAL_STORAGE_KEYS } from './localStorageKeys';
@@ -9,12 +9,13 @@ const Marketplace = () => {
   return (
     <Box display={'flex'} alignItems={'center'} gap={2}>
       {
-        availableApps.map((app: MenuItem) => (
+        availableApps.map((app: MarketplaceApp) => (
           <AppCard
             key={app.id}
-            imgUrl={`https://picsum.photos/200/200?random=${Math.random()}`}
+            imgUrl={app.imageUrl}
             title={app.name}
             description={app?.description}
+            isInstallable={app.isInstallable}
             actionButtonText={installedApps.includes(app.id) ? 'Installed' : 'Install'}
             actionButtonOnClick={() => {
               setInstalledApps((apps: string[]) => (

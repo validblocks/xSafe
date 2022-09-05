@@ -17,7 +17,6 @@ export const titles = {
   [ProposalsTypes.upgrade_contract]: 'Upgrade smart contract',
   [ProposalsTypes.upgrade_contract_from_source]:
     'Upgrade smart contract from source',
-
   [ProposalsTypes.attach_contract]: 'Attach contract',
   [ProposalsTypes.replace_owner]: 'Replace owner',
   [ProposalsTypes.edit_owner]: 'Edit owner',

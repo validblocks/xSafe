@@ -2,17 +2,17 @@ import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Typography } from '@mui/material';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { theme } from 'src/components/Theme/createTheme';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import { logoutAction } from 'src/redux/commonActions';
 import addressShorthand from 'src/helpers/addressShorthand';
 import Safe from 'src/assets/img/safe.png';
 import { accessTokenServices } from 'src/services/accessTokenServices';
 import routeNames from 'src/routes/routeNames';
 
 import { network } from 'src/config';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useEffect, useState } from 'react';
 import {
   ConnectItems,
@@ -22,16 +22,17 @@ import {
 } from '../navbar-style';
 
 const ConnectedAccount = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   const logOut = async () => {
     document.cookie = '';
-    dispatch(logoutAction());
+    // dispatch(logoutAction());
     accessTokenServices?.services?.maiarId?.removeToken?.();
     localStorage.clear();
     sessionStorage.clear();
-    logout(routeNames.unlock, (route) => navigate(route!));
+    logout(`${routeNames.multisig}/${currentContract?.address}`, (route) => navigate(route!));
   };
   const onDisconnectClick = () => {
     logOut();
