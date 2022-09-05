@@ -17,7 +17,7 @@ const MemberPresentationWithPhoto = ({
 }: Props) => (
   <div
     key={memberAddress?.bech32()?.toString()}
-    className="d-flex align-items-center"
+    className="d-flex align-items-center w-100"
   >
     <img
       className="rounded"
