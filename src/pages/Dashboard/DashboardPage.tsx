@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, Grid } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import NewDashboard from 'src/pages/NewDashboard';
 import {
   multisigContractsSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
@@ -137,9 +136,7 @@ function Dashboard() {
   if (isMultiWalletMode) {
     return (
       <>
-
         <Box paddingLeft={3}>
-
           {multisigContracts?.length === 0 ? (
             <Grid container gap={3}>
               <Grid item height={'100%'} display={'flex'} flexDirection={'column'} flex={2} justifyContent={'center'}>
@@ -321,9 +318,6 @@ function Dashboard() {
 
   return (
     <div className="owner w-100 d-flex justify-content-center align-items-center flex-column">
-
-      <NewDashboard />
-
       <p className="info-msg">
         New to Multisig?&nbsp;&nbsp;&nbsp;&nbsp;
         <Button variant="text">Learn more</Button>

@@ -14,12 +14,14 @@ import { Box, Grid } from '@mui/material';
 import StakingProviderBasedOnAddress from 'src/components/Staking/StakingProviderBasedOnAddress';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import EastIcon from '@mui/icons-material/East';
-import WestIcon from '@mui/icons-material/West';
+import SouthIcon from '@mui/icons-material/South';
+import NorthIcon from '@mui/icons-material/North';
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
 import { multisigContractFunctionNames } from './multisigFunctionNames';
 import { delegationFunctionNames } from './staking/delegationFunctionNames';
+import { DelegationFunctionTitles } from './types';
+import ProposalAmount from './ProposalAmount';
 
 export class MultisigSmartContractCall extends MultisigAction {
   address: Address;
@@ -80,13 +82,14 @@ export class MultisigSmartContractCall extends MultisigAction {
       case delegationFunctionNames.delegate:
         return i18next.t('Stake Tokens');
       case delegationFunctionNames.reDelegateRewards:
-        return i18next.t('Restake Tokens');
+        return i18next.t(DelegationFunctionTitles.RestakeRewards);
       case delegationFunctionNames.unDelegate:
-        return i18next.t('Unstake Tokens');
+        return i18next.t(DelegationFunctionTitles.UnstakeTokens);
       case delegationFunctionNames.claimRewards:
-        return i18next.t('Claim Rewards');
-      case delegationFunctionNames.withdraw:
-        return i18next.t('Withdraw Rewards');
+        return i18next.t(DelegationFunctionTitles.ClaimRewards);
+      case delegationFunctionNames.withdraw: {
+        return i18next.t(DelegationFunctionTitles.WithdrawRewards);
+      }
       default:
         return 'Unknown function';
     }
@@ -101,15 +104,15 @@ export class MultisigSmartContractCall extends MultisigAction {
       case multisigContractFunctionNames.ESDTNFTTransfer:
         return this.getSendNFTDescription();
       case delegationFunctionNames.delegate:
-        return this.getStakeTokensDescription('Stake to', <EastIcon />);
+        return this.getStakeTokensDescription(DelegationFunctionTitles.StakeTokens, <SouthIcon />);
       case delegationFunctionNames.unDelegate:
-        return this.getStakeTokensDescription('Unstake from', <WestIcon />);
+        return this.getStakeTokensDescription(DelegationFunctionTitles.UnstakeTokens, <NorthIcon />);
       case delegationFunctionNames.withdraw:
-        return this.getStakeTokensDescription('Withdraw rewards', <WestIcon />);
+        return this.getStakeTokensDescription(DelegationFunctionTitles.WithdrawRewards, <NorthIcon />);
       case delegationFunctionNames.claimRewards:
-        return this.getStakeTokensDescription('Claim rewards', <WestIcon />);
+        return this.getStakeTokensDescription(DelegationFunctionTitles.ClaimRewards, <NorthIcon />);
       case delegationFunctionNames.reDelegateRewards:
-        return this.getStakeTokensDescription('Restake rewards', <WestIcon />);
+        return this.getStakeTokensDescription(DelegationFunctionTitles.RestakeRewards, <NorthIcon />);
       default:
         return 'Unknown function';
     }
@@ -142,9 +145,9 @@ export class MultisigSmartContractCall extends MultisigAction {
     );
   }
 
-  getStakeTokensDescription(actionMessage: string, actionIcon: any) {
+  getStakeTokensDescription(actionMessage: DelegationFunctionTitles, actionIcon: any) {
     return (
-      <Grid container display="flex" justifyContent="flex-start" gap={2}>
+      <Grid container display="flex" flexDirection={'column'} alignItems={'start'} justifyContent="flex-start" gap={2}>
         <Grid
           item
           border={'1px solid #DFDFE8'}
@@ -164,13 +167,16 @@ export class MultisigSmartContractCall extends MultisigAction {
           <Text display={'flex'} flexDirection={'column'}>
             <Text fontWeight={500} marginRight={1}> Amount: </Text>
             <Text>
-              {/* {Balance.fromString(this.amount.valueOf().toString()).toDenominated()} $EGLD */}
-              {this.amount.valueOf().toString()} $EGLD
+              <ProposalAmount
+                delegationProposalType={actionMessage}
+                multisigSmartContractCall={this}
+              />
             </Text>
           </Text>
         </Grid>
-        <Grid item display={'flex'} flexDirection={'column'} justifyContent={'center'} alignItems={'center'}>
-          {actionMessage}
+        <Grid item display={'flex'} justifyContent={'center'} alignItems={'center'}>
+          {actionIcon}
+          <Text mx={1}>{actionMessage}</Text>
           {actionIcon}
         </Grid>
         <Grid item>

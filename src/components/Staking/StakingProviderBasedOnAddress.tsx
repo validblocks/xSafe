@@ -13,6 +13,7 @@ interface Props {
 
 const StakingProviderBasedOnAddress = ({ providerAddress }: Props) => {
   const theme: any = useTheme();
+
   const {
     fetchedProviderIdentities,
   } = useProviderIdentitiesAfterSelection();

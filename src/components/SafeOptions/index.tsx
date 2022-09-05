@@ -55,26 +55,6 @@ const fetchedMultisigContracts: MultisigContractInfoType[] = [
     address: 'erd1qqqqqqqqqqqqqpgqalhsgtumpjmtxnlfnk76984c9xwf0c77vcts47c9u7',
     role: '',
   },
-  {
-    name: 'Graffino 2',
-    address: 'erd1qqqqqqqqqqqqqpgqpzrenhspvt95agycr9nzhvrt7ukygwmmvctscqueu7',
-    role: '',
-  },
-  {
-    name: 'Graffino 3',
-    address: 'erd1qqqqqqqqqqqqqpgqalhsgtumpjmtxnlfnk76984c9xwf0c77vcts47c9u7',
-    role: '',
-  },
-  {
-    name: 'Graffino 2',
-    address: 'erd1qqqqqqqqqqqqqpgqpzrenhspvt95agycr9nzhvrt7ukygwmmvctscqueu7',
-    role: '',
-  },
-  {
-    name: 'Graffino 3',
-    address: 'erd1qqqqqqqqqqqqqpgqalhsgtumpjmtxnlfnk76984c9xwf0c77vcts47c9u7',
-    role: '',
-  },
 ];
 
 const SafeOptions = () => {
