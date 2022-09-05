@@ -20,6 +20,7 @@ import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import { setActiveDelegationRows } from 'src/redux/slices/accountSlice';
 import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers';
+import axios from 'axios';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
@@ -34,7 +35,7 @@ export class CustomNetworkProvider extends ApiNetworkProvider {
   }
 }
 
-const customNetworkProvider = new CustomNetworkProvider('');
+const _customNetworkProvider = new CustomNetworkProvider('');
 
 const _proxy = new ProxyProvider('https://devnet-delegation-api.elrond.com', {
   timeout: 5000,
@@ -64,7 +65,10 @@ const MyStake = () => {
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    customNetworkProvider.getDelegations(currentContract.address);
+    axios.get(`/proxy?route=https://devnet-delegation-api.elrond.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => {
+      console.log({ r });
+      return r.data;
+    });
 
   const {
     data: fetchedDelegations,
@@ -147,8 +151,8 @@ const MyStake = () => {
 
           const delegatedAmount = delegation
             ? getDenominatedBalance<string>(delegation.userActiveStake, {
-                precisionAfterComma: 4,
-              })
+              precisionAfterComma: 4,
+            })
             : '0';
 
           const claimableRewards =
@@ -201,7 +205,7 @@ const MyStake = () => {
               amountValue={totalActiveStake}
               amountUnityMeasure={'EGLD'}
               title={'My Total Stake'}
-              actionButton={
+              actionButton={(
                 <MainButton
                   key="0"
                   variant="outlined"
@@ -220,7 +224,7 @@ const MyStake = () => {
                 >
                   <AssetActionIcon width="25px" height="25px" /> Stake
                 </MainButton>
-              }
+              )}
             />
           </Grid>
           <Grid item xs={12} md={6} lg={4}>
@@ -230,7 +234,7 @@ const MyStake = () => {
                 precisionAfterComma: 5,
               })}
               amountUnityMeasure={'EGLD'}
-              actionButton={
+              actionButton={(
                 <Button
                   disabled
                   sx={{
@@ -244,7 +248,7 @@ const MyStake = () => {
                   <InfoOutlinedIcon sx={{ marginRight: '5px' }} />
                   {`from ${activeDelegationsRows?.length ?? '0'} Providers`}
                 </Button>
-              }
+              )}
               title={'My Claimable Rewards'}
             />
           </Grid>
@@ -252,7 +256,7 @@ const MyStake = () => {
             <AmountWithTitleCard
               amountValue={totalUndelegatedFunds}
               amountUnityMeasure={'EGLD'}
-              actionButton={
+              actionButton={(
                 <MainButton
                   key="0"
                   variant="outlined"
@@ -270,7 +274,7 @@ const MyStake = () => {
                 >
                   <AssetActionIcon width="25px" height="25px" /> Details
                 </MainButton>
-              }
+              )}
               title={'My Undelegated Funds'}
             />
           </Grid>

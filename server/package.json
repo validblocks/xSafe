@@ -1,16 +1,16 @@
 {
-  "name": "multisig-proxy",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "scripts": {
-    "start": "node index.js"
-  },
   "dependencies": {
     "axios": "^0.27.2",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "http-proxy-middleware": "^2.0.6",
     "morgan": "^1.10.0"
-  }
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "name": "multisig-proxy",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "version": "1.0.0"
 }
