@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { transactionServices } from '@elrondnetwork/dapp-core';
+import { transactionServices, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
@@ -27,6 +27,7 @@ function DeployStepsModal({
   const { t } = useTranslation();
 
   const [name, setName] = useState('');
+  const { isLoggedIn } = useGetLoginInfo();
 
   const [pendingDeploymentContractData, setPendingDeploymentContractData] =
     useState<PendingDeploymentContractData | null>(null);
@@ -93,8 +94,8 @@ function DeployStepsModal({
               <FontAwesomeIcon icon={faTimes} />
               {t('Cancel') as string}
             </button>
-            <button onClick={onDeploy} className="btn btn-primary mb-3">
-              Sign and Deploy
+            <button disabled={!isLoggedIn} onClick={onDeploy} className="btn btn-primary mb-3">
+              {isLoggedIn ? 'Sign and Deploy' : 'Login first'}
             </button>
           </div>
         </div>

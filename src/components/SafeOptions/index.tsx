@@ -16,7 +16,7 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import { useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { queryUserRoleOnContract } from 'src/contracts/MultisigContract';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import {
   ActiveWallet,
   AddSafe,
@@ -24,6 +24,7 @@ import {
   InactiveWallet,
   SafeOptionsWrapper,
 } from './safe-style';
+import { Text } from '../StyledComponents/StyledComponents';
 
 export const userRoleAsString = (roleNumber: number) => {
   switch (roleNumber) {
@@ -36,21 +37,41 @@ export const userRoleAsString = (roleNumber: number) => {
   }
 };
 
-const fetchedMultisigContracts = [
+const fetchedMultisigContracts: MultisigContractInfoType[] = [
   {
     name: 'Graffino 1',
     address: 'erd1qqqqqqqqqqqqqpgq5hfs4zxcvp7rgmwgcjvwg6m2zxpdugcvvcts8rj9zw',
-    role: 'Viewer',
+    role: '',
   },
   {
     name: 'Graffino 2',
     address: 'erd1qqqqqqqqqqqqqpgqpzrenhspvt95agycr9nzhvrt7ukygwmmvctscqueu7',
-    role: 'Viewer',
+    role: '',
   },
   {
     name: 'Graffino 3',
     address: 'erd1qqqqqqqqqqqqqpgqalhsgtumpjmtxnlfnk76984c9xwf0c77vcts47c9u7',
-    role: 'Viewer',
+    role: '',
+  },
+  {
+    name: 'Graffino 2',
+    address: 'erd1qqqqqqqqqqqqqpgqpzrenhspvt95agycr9nzhvrt7ukygwmmvctscqueu7',
+    role: '',
+  },
+  {
+    name: 'Graffino 3',
+    address: 'erd1qqqqqqqqqqqqqpgqalhsgtumpjmtxnlfnk76984c9xwf0c77vcts47c9u7',
+    role: '',
+  },
+  {
+    name: 'Graffino 2',
+    address: 'erd1qqqqqqqqqqqqqpgqpzrenhspvt95agycr9nzhvrt7ukygwmmvctscqueu7',
+    role: '',
+  },
+  {
+    name: 'Graffino 3',
+    address: 'erd1qqqqqqqqqqqqqpgqalhsgtumpjmtxnlfnk76984c9xwf0c77vcts47c9u7',
+    role: '',
   },
 ];
 
@@ -59,10 +80,12 @@ const SafeOptions = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { address } = useGetAccountInfo();
+  const { isLoggedIn } = useGetLoginInfo();
   const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
   const currentContract = useSelector(currentMultisigContractSelector);
   const [selectedSafe, setSelectedSafe] = useState(currentContract?.address);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
+  const [attachedMultisigContracts, setAttachedMultisigContracts] = useState(() => fetchedMultisigContracts);
 
   function onDeployClicked() {
     setShowDeployMultisigModal(true);
@@ -77,6 +100,7 @@ const SafeOptions = () => {
       QueryKeys.ADDRESS_EGLD_TOKENS,
       QueryKeys.ADDRESS_ESDT_TOKENS,
     ]);
+
     navigate(`/multisig/${newSafeAddress}`);
   };
 
@@ -85,7 +109,7 @@ const SafeOptions = () => {
     [dispatch]);
 
   useEffect(() => {
-    if (!address) return;
+    if (!address || !isLoggedIn) return;
 
     const userRolePromises: Promise<number>[] = [];
     fetchedMultisigContracts.forEach(
@@ -93,32 +117,34 @@ const SafeOptions = () => {
     );
 
     Promise.all(userRolePromises).then((userRoleResponse) => {
-      console.log({ userRoleResponse });
+      const walletAttachedContracts: MultisigContractInfoType[] = [];
       userRoleResponse.forEach((roleNumber: number, index: number) => {
-        fetchedMultisigContracts[index] = {
+        walletAttachedContracts.push({
           ...fetchedMultisigContracts[index],
           role: userRoleAsString(roleNumber),
-        };
+        });
       });
-
-      console.log(fetchedMultisigContracts);
+      setAttachedMultisigContracts(walletAttachedContracts);
     });
-  }, [address, fetchedMultisigContracts]);
+  }, [address, isLoggedIn]);
 
   return (
-    <SafeOptionsWrapper sx={{ overflow: 'scroll !important', zIndex: '100000 !important' }}>
+    <SafeOptionsWrapper sx={{ overflow: 'scroll !important', zIndex: '1000 !important' }}>
       <Typography sx={{ p: 2 }} align="left">
         Safe Options
       </Typography>
       <Divider />
-      <AddSafeWrapper sx={{ p: 2, pl: 0 }}>
-        <AddSafe onClick={() => onDeployClicked()}>
-          <AddIcon sx={{ mr: 1 }} />
-          Add a new safe
-        </AddSafe>
-      </AddSafeWrapper>
-      {
-        fetchedMultisigContracts.map((fetchedContract) => (
+      {isLoggedIn && (
+      <Box>
+        <AddSafeWrapper sx={{ p: 2, pl: 0 }}>
+          <AddSafe onClick={() => onDeployClicked()}>
+            <AddIcon sx={{ mr: 1 }} />
+            Add a new safe
+          </AddSafe>
+        </AddSafeWrapper>
+        <Box>
+          {
+        attachedMultisigContracts.map((fetchedContract) => (
           <Box key={fetchedContract.address}>
             <Divider />
             <Button sx={{ p: 0, width: '100%' }} onClick={() => onSafeChange(fetchedContract.address)}>
@@ -129,17 +155,17 @@ const SafeOptions = () => {
                 <Grid item sm={7}>
                   {selectedSafe === fetchedContract.address ? (
                     <ActiveWallet sx={{ ml: 2 }}>
-                      <TypographyBold align="left">{fetchedContract.name}</TypographyBold>
-                      <TypographyBold align="left">
+                      <TypographyBold textTransform={'none'} align="left">{fetchedContract.name}</TypographyBold>
+                      <Typography textTransform={'none'} align="left">
                         {fetchedContract.role}
-                      </TypographyBold>
+                      </Typography>
                     </ActiveWallet>
                   ) : (
                     <InactiveWallet sx={{ ml: 2 }}>
-                      <TypographyBold align="left">{fetchedContract.name}</TypographyBold>
-                      <TypographyBold align="left">
+                      <Typography textTransform={'none'} align="left">{fetchedContract.name}</Typography>
+                      <Typography textTransform={'none'} align="left">
                         {fetchedContract.role}
-                      </TypographyBold>
+                      </Typography>
                     </InactiveWallet>
                   )}
 
@@ -158,7 +184,15 @@ const SafeOptions = () => {
             </Button>
           </Box>
         ))
-      }
+        }
+        </Box>
+      </Box>
+      )}
+      {isLoggedIn === false && (
+        <Box minHeight={200} display={'flex'} justifyContent={'center'} alignItems={'center'}>
+          <Text>Login first</Text>
+        </Box>
+      )}
 
       <DeployStepsModal
         show={showDeployMultisigModal}

@@ -1,7 +1,6 @@
 import { dAppName } from 'src/config';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { useNavigate } from 'react-router-dom';
-import routeNames from 'src/routes/routeNames';
 import { ReactComponent as ControlLightLogo } from 'src/assets/img/ControlLogoLight.svg';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { NavLogo } from '../navbar-style';
@@ -9,9 +8,7 @@ import { NavLogo } from '../navbar-style';
 const NavbarLogo = () => {
   const navigate = useNavigate();
   const handleRedirectToHome = () => {
-    const route = uniqueContractAddress
-      ? `/multisig/${uniqueContractAddress}`
-      : routeNames.welcome;
+    const route = `/multisig/${uniqueContractAddress}`;
     navigate(route);
   };
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import {
@@ -9,7 +9,6 @@ import Safe from 'src/assets/img/safe.png';
 import CopyButton from 'src/components/CopyButton';
 import ReceiveModal from 'src/components/ReceiveModal';
 import SafeOptions from 'src/components/SafeOptions';
-import { uniqueContractAddress } from 'src/multisigConfig';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -18,6 +17,7 @@ import { network } from 'src/config';
 import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
 import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import {
   Anchor, MembersBox, ReadOnly,
 } from '../navbar-style';
@@ -35,18 +35,6 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
   const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
 
-  const reference = useRef(null);
-
-  const handleClickOutside = (e: any) => {
-    if (e.path[0] && reference.current) {
-      setOpenedSafeSelect(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true);
-  }, []);
-
   const handleQrModal = () => {
     setShowQr(!showQr);
   };
@@ -58,8 +46,10 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
     setOpenedSafeSelect(true);
   }, []);
 
+  const { isLoggedIn } = useGetLoginInfo();
+
   useEffect(() => {
-    const result = uniqueAddress.length === 0 ? 'No address' : uniqueAddress;
+    const result = uniqueAddress.length === 0 ? 'No safe' : uniqueAddress;
     setDisplayableAddress(result);
   }, [uniqueAddress]);
 
@@ -87,7 +77,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
         <Grid sx={{ pl: 0 }}>
           <Box
             sx={{ ml: 0.5 }}
-            className="d-flex justify-content-center align-items-center"
+            className="d-flex justify-content-start align-items-center"
           >
             <Text align="center" lineHeight="1">
               {safeName?.length > 0
@@ -97,15 +87,14 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
             </Text>
             {openedSafeSelect === true && (
               <Box
+                onClick={() => setOpenedSafeSelect(false)}
                 sx={{
                   '& .css-i4bv87-MuiSvgIcon-root': {
                     color: 'rgba(76, 47, 252, 0.54) !important',
                   },
                 }}
               >
-                <ArrowDropUpIcon
-                  ref={reference}
-                />
+                <ArrowDropUpIcon />
                 <SafeOptions />
               </Box>
             )}
@@ -117,7 +106,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
                   },
                 }}
               >
-                {isMultiWalletMode && (
+                {isMultiWalletMode && isLoggedIn && (
                 <ArrowDropDownIcon
                   onClick={openSafeSelection}
                 />
@@ -143,11 +132,11 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
               <QrCode2Icon />
             </Box>
             <Box sx={{ mr: 1.85, ml: 0.35 }}>
-              <CopyButton text={uniqueContractAddress} />
+              <CopyButton text={currentContract?.address} />
             </Box>
             <Box>
               <Anchor
-                href={`${network.explorerAddress}/accounts/${uniqueContractAddress}`}
+                href={`${network.explorerAddress}/accounts/${currentContract?.address}`}
                 target="_blank"
                 rel="noreferrer"
                 color="#6c757d"

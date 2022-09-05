@@ -10,7 +10,6 @@ import { ReactComponent as IconMaiarWallet } from 'src/assets/img/maiar-defi-wal
 import { network } from 'src/config';
 import { accessTokenServices, maiarIdApi } from 'src/services/accessTokenServices';
 import routeNames from 'src/routes/routeNames';
-import { uniqueContractAddress } from 'src/multisigConfig';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
@@ -37,7 +36,7 @@ const Unlock = () => {
   const loginParams = {
     callbackRoute: `${routeNames.multisig}/${currentContract?.address}`,
     token,
-    logoutRoute: routeNames.welcome,
+    logoutRoute: `${routeNames.multisig}/${currentContract?.address}`,
     buttonClassName: 'btn btn-unlock btn-block',
   };
 
@@ -46,17 +45,13 @@ const Unlock = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      if (!isMultiWalletMode) { navigate(`${routeNames.multisig}/${currentContract.address}`); }
+      if (!isMultiWalletMode) { navigate(`${routeNames.multisig}/${currentContract?.address}`); }
     }
-  }, [currentContract?.address, isLoggedIn, navigate]);
+  }, [currentContract?.address, isLoggedIn, isMultiWalletMode, navigate]);
 
   if (loginMethod !== '') {
     return (
-      <Navigate to={uniqueContractAddress
-        ? `/multisig/${uniqueContractAddress}`
-        : routeNames.welcome
-      }
-      />
+      <Navigate to={`${routeNames.multisig}/${currentContract?.address}`} />
     );
   }
 

@@ -87,7 +87,8 @@ export async function queryNumberOnContract(
   contractAddress: string,
   ...args: TypedValue[]
 ): Promise<number> {
-  const result = await query(functionName, ...args);
+  if (!contractAddress) return Promise.resolve(-1);
+  const result = await queryOnContract(functionName, contractAddress, ...args);
 
   const codec = new NumericalBinaryCodec();
   return codec
@@ -387,6 +388,7 @@ export function queryUserRole(userAddress: string): Promise<number> {
 }
 
 export function queryUserRoleOnContract(userAddress: string, contractAddress: string): Promise<number> {
+  if (!userAddress || !contractAddress) return Promise.resolve(-1);
   return queryNumberOnContract(
     multisigContractFunctionNames.userRole,
     contractAddress,

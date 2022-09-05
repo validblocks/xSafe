@@ -132,20 +132,13 @@ function Dashboard() {
   ) {
     dispatch(setMultisigContracts(newContracts));
   }
-
-  // if (!multisigContractsFetched) {
-  //   console.log('multisigContracts not fetched');
-  //   return null;
-  // }
-
-  // multisigContracts = [];
   const { isMultiWalletMode } = useOrganizationInfoContext();
 
   if (isMultiWalletMode) {
     return (
       <>
 
-        <div className="my-wallets">
+        <Box paddingLeft={3}>
 
           {multisigContracts?.length === 0 ? (
             <Grid container gap={3}>
@@ -277,7 +270,7 @@ function Dashboard() {
               </div>
             </div>
           )}
-        </div>
+        </Box>
 
         <AddMultisigModal
           show={showAddMultisigModal}
