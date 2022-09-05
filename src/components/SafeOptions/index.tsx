@@ -12,7 +12,10 @@ import { useNavigate } from 'react-router-dom';
 import DeployStepsModal from 'src/pages/Dashboard/DeployMultisigModal';
 import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import {
+  currentMultisigContractSelector,
+  multisigContractsSelector,
+} from 'src/redux/selectors/multisigContractsSelectors';
 import { useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { queryUserRoleOnContract } from 'src/contracts/MultisigContract';
@@ -39,7 +42,7 @@ export const userRoleAsString = (roleNumber: number) => {
   }
 };
 
-const fetchedMultisigContracts: MultisigContractInfoType[] = [
+const _fetchedMultisigContracts: MultisigContractInfoType[] = [
   {
     name: 'Graffino 1',
     address: 'erd1qqqqqqqqqqqqqpgq5hfs4zxcvp7rgmwgcjvwg6m2zxpdugcvvcts8rj9zw',
@@ -66,7 +69,9 @@ const SafeOptions = () => {
   const currentContract = useSelector(currentMultisigContractSelector);
   const [selectedSafe, setSelectedSafe] = useState(currentContract?.address);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
+  const fetchedMultisigContracts = useSelector(multisigContractsSelector);
   const [attachedMultisigContracts, setAttachedMultisigContracts] = useState(() => fetchedMultisigContracts);
+
   const theme: any = useTheme();
 
   function onDeployClicked() {
@@ -126,7 +131,7 @@ const SafeOptions = () => {
         </AddSafeWrapper>
         <Box maxHeight={385} overflow="scroll">
           {
-        attachedMultisigContracts.map((fetchedContract) => (
+        attachedMultisigContracts.map((fetchedContract: any) => (
           <Box key={fetchedContract.address}>
             <Divider />
             <Button sx={{ p: 0, width: '100%' }} onClick={() => onSafeChange(fetchedContract.address)}>
@@ -137,14 +142,18 @@ const SafeOptions = () => {
                 <Grid item sm={7}>
                   {selectedSafe === fetchedContract.address ? (
                     <ActiveWallet sx={{ ml: 2 }}>
-                      <TypographyBold textTransform={'none'} align="left">{fetchedContract.name}</TypographyBold>
+                      <TypographyBold textTransform={'none'} align="left">
+                        {fetchedContract.name.length > 0 ? fetchedContract.name : 'No name'}
+                      </TypographyBold>
                       <Typography textTransform={'none'} align="left">
                         {fetchedContract.role}
                       </Typography>
                     </ActiveWallet>
                   ) : (
                     <InactiveWallet sx={{ ml: 2 }}>
-                      <Typography textTransform={'none'} align="left">{fetchedContract.name}</Typography>
+                      <Typography textTransform={'none'} align="left">
+                        {fetchedContract.name.length > 0 ? fetchedContract.name : 'No name'}
+                      </Typography>
                       <Typography textTransform={'none'} align="left">
                         {fetchedContract.role}
                       </Typography>

@@ -33,8 +33,6 @@ const ProposalAmount = ({
 }: Props) => {
   const data = useMemo(() => multisigSmartContractCall.getData() ?? '', [multisigSmartContractCall]);
 
-  console.log({ delegationProposalType });
-
   const getAmountToDisplay = useCallback(() => {
     if (transactionsWithNoDataParams.includes(delegationProposalType)) { return 'All $EGLD Rewards'; }
 

@@ -2,20 +2,15 @@
 import { useEffect, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Box, Button, Grid } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import {
-  multisigContractsSelector,
-} from 'src/redux/selectors/multisigContractsSelectors';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { storageApi } from 'src/services/accessTokenServices';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getIsProviderEqualTo } from '@elrondnetwork/dapp-core';
 import { providerTypes } from 'src/helpers/constants';
-import { faPlus, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
@@ -23,7 +18,6 @@ import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { dAppName } from 'src/config';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
-import MultisigListItem from './MultisigListItem';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 function Dashboard() {
@@ -36,7 +30,6 @@ function Dashboard() {
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const [invalidMultisigContract, setInvalidMultisigContract] = useState(false);
   const isWalletProvider = getIsProviderEqualTo(providerTypes.wallet);
-  const multisigContracts = useSelector(multisigContractsSelector);
 
   async function checkSingleContractValidity() {
     if (uniqueContractAddress || !storageApi) {
@@ -47,14 +40,6 @@ function Dashboard() {
         setInvalidMultisigContract(true);
       }
     }
-  }
-
-  async function onDeployClicked() {
-    setShowDeployMultisigModal(true);
-  }
-
-  function onAddMultisigClicked() {
-    setShowAddMultisigModal(true);
   }
 
   const deployButton = (
@@ -95,33 +80,6 @@ function Dashboard() {
     deployButton
   );
 
-  const deployButtonSecondary = (
-    <button
-      className="btn btn-light d-flex flex-row align-items-center"
-      onClick={onDeployClicked}
-      disabled={isWalletProvider}
-    >
-      <FontAwesomeIcon icon={faPlus} size="lg" />
-      <div className="navbar-address  d-lg-block">Create</div>
-    </button>
-  );
-
-  const deployButtonSecondaryContainer = isWalletProvider ? (
-    <OverlayTrigger
-      placement="top"
-      delay={{ show: 250, hide: 400 }}
-      overlay={(props) => (
-        <Tooltip id="deploy-button-tooltip" {...props}>
-          {t('Please use another login method to deploy a contract')}
-        </Tooltip>
-      )}
-    >
-      <span className="d-inline-block">{deployButtonSecondary}</span>
-    </OverlayTrigger>
-  ) : (
-    deployButtonSecondary
-  );
-
   useEffect(() => {
     checkSingleContractValidity();
   }, []);
@@ -137,7 +95,7 @@ function Dashboard() {
     return (
       <>
         <Box paddingLeft={3}>
-          {multisigContracts?.length === 0 ? (
+          { (
             <Grid container gap={3}>
               <Grid item height={'100%'} display={'flex'} flexDirection={'column'} flex={2} justifyContent={'center'}>
                 <Box>
@@ -238,35 +196,7 @@ function Dashboard() {
               </Grid>
               <Grid item xs={0} lg={3} />
             </Grid>
-          ) : (
-            <div className="wallets-section shadow bg-white">
-              <div className="top-bar">
-                <h3 className="title">
-                  {uniqueContractAddress ? 'My wallet' : 'My wallets'}
-                </h3>
-                {!uniqueContractAddress && (
-                <div className="create-btns d-flex">
-                  {deployButtonSecondaryContainer}
-                  <button
-                    className="btn address-btn btn-light d-flex flex-row align-items-center"
-                    onClick={onAddMultisigClicked}
-                  >
-                    <FontAwesomeIcon icon={faWallet} size="lg" />
-                    <div className="navbar-address ml-2 d-lg-block">Open</div>
-                  </button>
-                </div>
-                )}
-              </div>
-              <div className="list-wallets">
-                {multisigContracts?.map((contract: MultisigContractInfoType) => (
-                  <MultisigListItem
-                    key={contract.address}
-                    contract={contract}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+          ) }
         </Box>
 
         <AddMultisigModal

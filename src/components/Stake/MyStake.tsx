@@ -50,10 +50,7 @@ const MyStake = () => {
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    axios.get(`/proxy?route=https://devnet-delegation-api.elrond.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => {
-      console.log({ r });
-      return r.data;
-    });
+    axios.get(`/proxy?route=https://devnet-delegation-api.elrond.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
 
   const {
     data: fetchedDelegations,

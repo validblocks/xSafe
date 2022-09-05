@@ -128,6 +128,26 @@ export async function updateMultisigContractOnServer(
   return newContracts;
 }
 
+export const test = async () => {
+  await multisigAxiosInstance.post(contractsInfoStorageEndpoint, [
+    {
+      name: 'Graffino 1',
+      address: 'erd1qqqqqqqqqqqqqpgq5hfs4zxcvp7rgmwgcjvwg6m2zxpdugcvvcts8rj9zw',
+      role: '',
+    },
+    {
+      name: 'Graffino 2',
+      address: 'erd1qqqqqqqqqqqqqpgqpzrenhspvt95agycr9nzhvrt7ukygwmmvctscqueu7',
+      role: '',
+    },
+    {
+      name: 'Graffino 3',
+      address: 'erd1qqqqqqqqqqqqqpgqalhsgtumpjmtxnlfnk76984c9xwf0c77vcts47c9u7',
+      role: '',
+    },
+  ]);
+};
+
 export async function removeContractFromMultisigContractsList(
   deletedContractAddress: string,
 ): Promise<MultisigContractInfoType[]> {

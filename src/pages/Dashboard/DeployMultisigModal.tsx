@@ -1,71 +1,69 @@
-import { useState } from 'react';
-import { transactionServices, useGetLoginInfo } from '@elrondnetwork/dapp-core';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
-import { addContractToMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
-import { deployMultisigContract } from 'src/contracts/ManagerContract';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import MultistepForm from 'src/components/Utils/MultistepForm';
+import { createContext, useContext, useMemo, useState } from 'react';
+import DeployMultisigStepOne from './DeployMultisigStepOne';
+import DeployMultisigStepTwo from './DeployMultisigStepTwo';
 
-interface DeployStepsModalType {
+export interface DeployStepsModalType {
   show: boolean;
   handleClose: () => void;
   setNewContracts: (contracts: MultisigContractInfoType[]) => void;
 }
 
-interface PendingDeploymentContractData {
+export interface PendingDeploymentContractData {
   multisigAddress: string;
   transactionId: string | null;
 }
+
+interface IMultisigCreationFormContextType {
+    pendingDeploymentData: any
+}
+
+const MultisigCreationFormContext = createContext<IMultisigCreationFormContextType>(
+  {} as IMultisigCreationFormContextType,
+);
+
+export const useMultisigCreationFormContext = () =>
+  useContext(MultisigCreationFormContext);
 
 function DeployStepsModal({
   show,
   handleClose,
   setNewContracts,
 }: DeployStepsModalType) {
-  const { t } = useTranslation();
-
-  const [name, setName] = useState('');
-  const { isLoggedIn } = useGetLoginInfo();
+  const steps = [
+    <DeployMultisigStepOne
+      handleClose={handleClose}
+      setNewContracts={setNewContracts}
+    />,
+    <DeployMultisigStepTwo
+      handleClose={handleClose}
+    />,
+  ];
 
   const [pendingDeploymentContractData, setPendingDeploymentContractData] =
     useState<PendingDeploymentContractData | null>(null);
 
-  async function onAddMultisigFinished() {
-    const { multisigAddress } = pendingDeploymentContractData!;
-    const newContracts = await addContractToMultisigContractsList({
-      address: multisigAddress,
-      name,
-    });
-    setNewContracts(newContracts);
-    handleClose();
-  }
-
-  transactionServices.useTrackTransactionStatus({
-    transactionId: pendingDeploymentContractData?.transactionId || null,
-    onSuccess: onAddMultisigFinished,
-  });
-
-  async function onDeploy() {
-    const { multisigAddress, sessionId } = await deployMultisigContract();
-    setPendingDeploymentContractData({
-      multisigAddress,
-      transactionId: sessionId,
-    });
-    setName('');
-    handleClose();
-  }
-
   return (
-    <Modal
-      show={show}
-      onHide={handleClose}
-      className="modal-container"
-      animation={false}
-      centered
+    <MultisigCreationFormContext.Provider
+      value={useMemo(() => ({
+        pendingDeploymentData: { pendingDeploymentContractData, setPendingDeploymentContractData },
+      }),
+      [pendingDeploymentContractData])}
     >
-      <div className="card">
+      <Modal
+        show={show}
+        onHide={handleClose}
+        className="modal-container"
+        animation={false}
+        centered
+      >
+        <MultistepForm
+          finalActionText="Create Multisig"
+          steps={steps}
+        />
+        {/* <div className="card">
         <div className="card-body p-spacer ">
           <p className="h3 text-center" data-testid="delegateTitle">
             {t('Multisig Deployment') as string}
@@ -99,8 +97,9 @@ function DeployStepsModal({
             </button>
           </div>
         </div>
-      </div>
-    </Modal>
+      </div> */}
+      </Modal>
+    </MultisigCreationFormContext.Provider>
   );
 }
 
