@@ -341,3 +341,25 @@ export const DepositDoneAction = styled(Button)`
   border: none;
   color: #ffff;
 `;
+
+export const ActionResponseButton = styled(MainButton)`
+  &:hover {
+    text-transform: uppercase;
+    font-size: 11px;
+    padding:
+    ${(props) => props.theme.padding.value.md}
+    ${(props) => props.theme.padding.value.xl}
+    ${(props) => props.theme.padding.value.sm};
+  };
+  &.disagree {
+    box-shadow: none;
+    font-weight: ${(props) => props.theme.font.weight.md};
+  };
+  &.agree {
+    box-shadow: none;
+    border: solid 1px ${(props) => props.theme.palette.background.main};
+    background-color: ${(props) => props.theme.palette.primary.main};
+    color: ${(props) => props.theme.palette.background.white};
+    font-weight: ${(props) => props.theme.font.weight.md};
+  };
+`;
