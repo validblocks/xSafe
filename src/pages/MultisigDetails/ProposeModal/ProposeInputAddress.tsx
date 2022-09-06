@@ -21,6 +21,25 @@ function ProposeInputAddress({
   const [address, setAddress] = useState('');
   const [error, setError] = useState(false);
   const { t }: { t: any } = useTranslation();
+  const [_isLengthError, setLengthError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const validateAddress = (value?: string) => {
+    if (value == null) {
+      return true;
+    } if (value.length < 2) {
+      setSubmitDisabled(true);
+      setLengthError(true);
+      setErrorMessage('Too short!');
+      return errorMessage;
+    } if (value.length > 7) {
+      setSubmitDisabled(true);
+      setLengthError(true);
+      setErrorMessage('Too long!');
+      return errorMessage;
+    }
+    return true;
+  };
 
   const handleAddressChanged = (event: any) => {
     const newAddress = String(event.target.value);
@@ -30,6 +49,7 @@ function ProposeInputAddress({
       setAddress(newAddress);
       handleParamsChange(parsedValue);
       setSubmitDisabled(false);
+      validateAddress(newAddress);
     } catch (err) {
       setSubmitDisabled(true);
       setAddress(newAddress);
@@ -51,7 +71,7 @@ function ProposeInputAddress({
         value={address}
         autoComplete="off"
         onChange={handleAddressChanged}
-        helperText={error ? `${t('This is not a valid multisig address')}` : ''}
+        helperText={error ? `${errorMessage}` : ''}
         className={error ? 'isAddressError' : ''}
         sx={{
           '&:hover fieldset': {
