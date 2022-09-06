@@ -13,7 +13,6 @@ import { addEntry } from 'src/redux/slices/addressBookSlice';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import { MainButton } from 'src/components/Theme/StyledComponents';
-import { Box } from '@mui/material';
 import EditOwner from './EditOwner';
 import ProposeChangeQuorum from './ProposeChangeQuorum';
 import ProposeInputAddress from './ProposeInputAddress';
@@ -154,10 +153,9 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
 
           <div>
             {getModalContent()}
-            <Box className="modal-action-btns" sx={{ mt: '24px !important' }}>
+            <div className="modal-action-btns">
               <MainButton
                 onClick={handleClose}
-                sx={{ boxShadow: 'none !important' }}
               >
                 {t('Cancel')}
               </MainButton>
@@ -168,7 +166,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
               >
                 {t('Add')}
               </MainButton>
-            </Box>
+            </div>
           </div>
         </div>
       </div>

@@ -13,7 +13,6 @@ interface ProposeInputAddressType {
 function ProposeInputAddress({
   handleParamsChange,
   setSubmitDisabled,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   invalidAddress,
   disabled,
 }: ProposeInputAddressType) {
@@ -39,35 +38,20 @@ function ProposeInputAddress({
   return (
     <div>
       <ProposeAddressInput
-        error={error}
         label={`${t('Address')}`}
         id={address}
         disabled={disabled}
         value={address}
         autoComplete="off"
         onChange={handleAddressChanged}
-        helperText={error ? `${t('This is not a valid multisig address')}` : ''}
+        helperText={error ? `${t('Invalid address')}` : ''}
         className={error ? 'isAddressError' : ''}
-        sx={{
-          '&:hover fieldset': {
-            borderColor: '#08041D',
-          },
-          '& p.MuiFormHelperText-root': {
-            ml: '.35rem !important',
-            fontSize: '11.2px',
-          },
-          '& fieldset': {
-            borderColor: '#4c2ffc8a !important',
-          },
-          '&:focus-within': {
-            '& fieldset': { borderColor: '#4c2ffc !important' },
-            '& label': { color: '#4c2ffc' },
-          },
-          '&.isAddressError:focus-within': {
-            '& label': { color: '#e51a3e !important' },
-          },
-        }}
       />
+      {invalidAddress && !error && (
+        <p className="text-danger">
+          {t('This is not a valid multisig address')}
+        </p>
+      )}
     </div>
   );
 }
