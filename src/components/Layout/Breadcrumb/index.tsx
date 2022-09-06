@@ -18,7 +18,6 @@ function PageBreadcrumbs() {
 
   // eslint-disable-next-line consistent-return
   const handleSearch = (text: any) => {
-    console.log('AICI', searchedNfts(text));
     if (text !== 'mama mea') return searchedNfts(text);
   };
 
