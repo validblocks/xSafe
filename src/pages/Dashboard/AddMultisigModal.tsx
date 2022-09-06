@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import {
@@ -10,6 +8,10 @@ import {
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { Box } from '@mui/material';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { useTheme } from 'styled-components';
+import { FinalStepActionButton, MainButton, ProposeAddressInput } from 'src/components/Theme/StyledComponents';
 import ProposeInputAddress from '../MultisigDetails/ProposeModal/ProposeInputAddress';
 
 interface AddMultisigModalType {
@@ -53,6 +55,9 @@ function AddMultisigModal({
     }
   }
 
+  const theme: any = useTheme();
+  console.log({ theme });
+
   return (
     <Modal
       size="lg"
@@ -62,11 +67,13 @@ function AddMultisigModal({
       animation={false}
       centered
     >
-      <div className="card">
-        <div className="card-body ">
-          <p className="h3 text-center" data-testid="delegateTitle">
+      <Box>
+        <Box py={2} px={4} borderBottom={`1px solid ${theme.palette.divider.main}`}>
+          <Text fontSize={24} textAlign={'left'}>
             {t('Add Multisig') as string}
-          </p>
+          </Text>
+        </Box>
+        <Box py={2} px={4} mt={2}>
           <ProposeInputAddress
             invalidAddress={invalidMultisigAddress}
             setSubmitDisabled={setSubmitDisabled}
@@ -74,35 +81,51 @@ function AddMultisigModal({
               onAddressParamChange(newAddress)
             }
           />
-          <div className="modal-control-container">
-            <label htmlFor={name}>{t('Name (optional)') as string}</label>
-            <input
+          <Box mt={3}>
+            <ProposeAddressInput
+              label={`${t('Contract name')}`}
               id={name}
-              type="text"
-              className="form-control"
               value={name}
               autoComplete="off"
-              onChange={onContractNameChange}
+              onChange={(e) => onContractNameChange(e)}
+              sx={{
+                '&:hover fieldset': {
+                  borderColor: '#08041D',
+                },
+                '& p.MuiFormHelperText-root': {
+                  ml: '.35rem !important',
+                  fontSize: '11.2px',
+                },
+                '& fieldset': {
+                  borderColor: '#4c2ffc8a !important',
+                },
+                '&:focus-within': {
+                  '& fieldset': { borderColor: '#4c2ffc !important' },
+                  '& label': { color: '#4c2ffc' },
+                },
+                '&.isAddressError:focus-within': {
+                  '& label': { color: '#e51a3e !important' },
+                },
+              }}
             />
-          </div>
-          <div className="modal-action-btns">
-            <button
+          </Box>
+          <Box className="modal-action-btns">
+            <MainButton
               onClick={handleClose}
-              className="btn btn-primary btn-light "
+              sx={{ boxShadow: 'none !important' }}
             >
-              <FontAwesomeIcon icon={faTimes} />
               {t('Cancel') as string}
-            </button>
-            <button
-              disabled={submitDisabled || !isLoggedIn}
-              onClick={onAddClicked}
-              className="btn btn-primary mb-3"
+            </MainButton>
+
+            <FinalStepActionButton
+              disabled={(submitDisabled || !isLoggedIn)}
+              onClick={() => onAddClicked()}
             >
               {isLoggedIn ? (t('Add') as string) : (t('Login first') as string)}
-            </button>
-          </div>
-        </div>
-      </div>
+            </FinalStepActionButton>
+          </Box>
+        </Box>
+      </Box>
     </Modal>
   );
 }

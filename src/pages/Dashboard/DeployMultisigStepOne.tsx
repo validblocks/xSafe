@@ -31,7 +31,6 @@ const DeployMultisigStepOne = ({
   const [name, setName] = useState('');
   const { isLoggedIn } = useGetLoginInfo();
   const theme: any = useTheme();
-  console.log({ theme });
 
   const { pendingDeploymentData: { pendingDeploymentContractData, setPendingDeploymentContractData } } =
         useMultisigCreationFormContext();
@@ -70,7 +69,7 @@ const DeployMultisigStepOne = ({
       >
         <CloseRoundedIcon />
       </IconButton>
-      <Text width="100%" textAlign={'center'} py={2} fontSize={24} borderBottom={'1px solid #eee'}>
+      <Text pl={5} width="100%" textAlign={'left'} py={2} fontSize={24} borderBottom={'1px solid #eee'}>
         {t('Multisig Deployment') as string}
       </Text>
       <Box px={5}>
@@ -78,7 +77,7 @@ const DeployMultisigStepOne = ({
           <Text
             width="100%"
             color={theme.palette.grey['700']}
-            textAlign={'center'}
+            textAlign={'left'}
             mb={1}
             fontSize={15}
             fontWeight={600}
@@ -105,10 +104,12 @@ const DeployMultisigStepOne = ({
           <Box my={1} display={'flex'}>
             <Text display={'flex'} flex={1} alignItems="center">{t('Initial Owner') as string}:</Text>
             <Box flex={3} border={'1px solid #eee'} borderRadius={'10px'} p={1}>
-              <MemberPresentationWithPhoto
-                charactersLeftAfterTruncation={10}
-                memberAddress={new Address(address ?? '')}
-              />
+              {address ? (
+                <MemberPresentationWithPhoto
+                  charactersLeftAfterTruncation={10}
+                  memberAddress={new Address(address ?? '')}
+                />
+              ) : 'Not logged in'}
             </Box>
           </Box>
           <Box my={3}>

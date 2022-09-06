@@ -1,6 +1,6 @@
+import DashboardPage from 'src/pages/Dashboard/DashboardPage';
 import { RouteType as DappCoreRouteTypes } from '@elrondnetwork/dapp-core';
 import Welcome from 'src/pages/Welcome';
-import DashboardPage from 'src/pages/Dashboard/DashboardPage';
 import Decisions from 'src/pages/Decisions';
 import DecisionActions from 'src/pages/DecisionActions';
 import MultisigDetailsPage from 'src/pages/MultisigDetails/MultisigDetailsPage';
