@@ -305,7 +305,7 @@ export const ProposeAddressInput = styled(TextField)`
 
 export const ModalContainer = styled(Modal)`
 &.isSendTokenModal ~ .MuiPopover-root > .MuiPaper-root {
-  left: calc(100vw - 50.1%) !important;
+  left: calc(50% - 1px) !important;
 };
 &.isUnstakeTokenModal ~ .MuiPopover-root > .MuiPaper-root {
   left: calc(50% - 228px) !important;
