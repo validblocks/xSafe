@@ -168,13 +168,14 @@ const ProvidersList = ({ searchParam }: Props) => {
               height: '32px',
               border: 'solid 1px #dfdfe8',
               borderRadius: '50%',
+              pt: '0.1rem',
               '& path': {
                 fill: 'transparent',
               },
             },
             '& svg[data-testid="CheckBoxIcon"]': {
               backgroundColor: 'white',
-              boxShadow: 'inset 0px 0px 1px #4c2ffc, inset 1px 0px 1px #4c2ffc, inset 2px 0px 1px #4c2ffc, inset 3px 0px 1px #4c2ffc, inset 4px 0px 1px #4c2ffc, inset 5px 0px 1px #4c2ffc, inset 0px 1px 1px #4c2ffc, inset 0px 2px 1px #4c2ffc, inset 0px 3px 1px #4c2ffc, inset 0px 4px 1px #4c2ffc, inset 0px 5px 1px #4c2ffc, inset -1px 0px 1px #4c2ffc, inset -2px 0px 1px #4c2ffc, inset -3px 0px 1px #4c2ffc, inset -4px 0px 1px #4c2ffc, inset -5px 0px 1px #4c2ffc, inset 0px -1px 1px #4c2ffc, inset 0px -2px 1px #4c2ffc, inset 0px -3px 1px #4c2ffc, inset 0px -4px 1px #4c2ffc, inset 0px -5px 1px #4c2ffc',
+              boxShadow: 'inset 0px 0px 1px #4c2ffc, inset 1px 0px 1px #4c2ffc, inset 2px 0px 1px #4c2ffc, inset 3px 0px 1px #4c2ffc, inset 4px 0px 1px #4c2ffc, inset 5px 0px 1px #4c2ffc, inset 0px 1px 1px #4c2ffc, inset 0px 2px 1px #4c2ffc, inset 0px 3px 1px #4c2ffc, inset 0px 4px 1px #4c2ffc, inset 0px 5px 1px #4c2ffc,inset 0px 6px 1px #4c2ffc, inset -1px 0px 1px #4c2ffc, inset -2px 0px 1px #4c2ffc, inset -3px 0px 1px #4c2ffc, inset -4px 0px 1px #4c2ffc, inset -5px 0px 1px #4c2ffc, inset 0px -1px 1px #4c2ffc, inset 0px -2px 1px #4c2ffc, inset 0px -3px 1px #4c2ffc, inset 0px -4px 1px #4c2ffc, inset 0px -5px 1px #4c2ffc',
               '& path': {
                 fill: '#4c2ffc',
               },
