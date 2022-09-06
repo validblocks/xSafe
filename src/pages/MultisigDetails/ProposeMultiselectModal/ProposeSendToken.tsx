@@ -257,6 +257,9 @@ const ProposeSendToken = ({
             '.MuiSelect-select': {
               py: '.2rem',
               pl: '.1rem',
+              '& div.MuiBox-root > div.MuiBox-root:nth-child(3)': {
+                display: 'none',
+              },
             },
           }}
         >
