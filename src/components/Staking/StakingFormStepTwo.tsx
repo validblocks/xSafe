@@ -155,6 +155,8 @@ const StakingFormStepTwo = () => {
     borderRadius: '10px',
   }), [buttonWidth]);
 
+  console.log('amount', amount);
+
   return (
     <Box sx={{ padding: '2rem 3rem 0', display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Box sx={buttonStyle}>
