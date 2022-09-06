@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import {
@@ -21,7 +22,7 @@ import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeContractFromSource';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
-import { MainButton, ModalContainer } from 'src/components/Theme/StyledComponents';
+import { MainButton } from 'src/components/Theme/StyledComponents';
 import { Box } from '@mui/material';
 import { titles } from '../constants';
 import AttachContractContent from './AttachContractContent';
@@ -229,7 +230,7 @@ const ProposeMultiselectModal = ({
       onClick={onProposeClicked}
       sx={{ boxShadow: 'none !important', width: '100%' }}
     >
-      {t('Send')}
+      {t('Send NFT')}
     </MainButton>
   );
 
@@ -268,17 +269,17 @@ const ProposeMultiselectModal = ({
   );
 
   return (
-    <ModalContainer
+    <Modal
       backdrop="static"
       show
       size="lg"
       onHide={handleClose}
-      className="modal-container proposal-modal isSendTokenModal"
+      className="modal-container proposal-modal"
       animation={false}
       centered
     >
       {modalContent}
-    </ModalContainer>
+    </Modal>
   );
 };
 
