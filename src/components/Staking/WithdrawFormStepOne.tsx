@@ -1,11 +1,10 @@
-import { Box, InputAdornment } from '@mui/material';
+import { Box, InputAdornment, TextField } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import { useEffect, useState } from 'react';
 import useDebounce from 'src/utils/useDebounce';
 import ProvidersWithUndelegationDetails from './ProvidersWithUndelegationDetails';
-import { StakingSearchBar } from '../Theme/StyledComponents';
 
 interface Props {
     enableNextStep?: (enabled: boolean) => ReturnType<React.Dispatch<React.SetStateAction<Record<number, boolean>>>>;
@@ -23,14 +22,25 @@ const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
   const debouncedSearchParam = useDebounce(searchParam, 500);
   return (
     <Box>
-      <StakingSearchBar
+      <TextField
+        sx={{
+          width: '100%',
+          '& .MuiInput-root:before': { borderBottom: '1px solid #DFDFE8' },
+          '& .MuiInput-root:after': { borderColor: '#4c2ffc' },
+          '& .MuiInput-input': {
+            padding: '1rem 0',
+          },
+          '&:hover': {
+            '& .MuiInput-root:before': { borderColor: '#4c2ffc8a' },
+          },
+        }}
         placeholder="Search for a provider"
         onChange={(e) => setSearchParam(e.target.value)}
         value={searchParam}
-        variant="filled"
+        variant="standard"
         InputProps={{
           startAdornment: (
-            <InputAdornment position="start" sx={{ ml: '3rem', mt: '0 !important' }}>
+            <InputAdornment position="start" sx={{ marginLeft: '3rem' }}>
               <SearchRoundedIcon />
             </InputAdornment>
           ),
