@@ -63,6 +63,12 @@ export const AssetActionButton = styled(MainButton)`
   padding: 1px ${(props) => props.theme.padding.value.lg} 0 0;
   opacity: 0;
   transition: all .3s;
+  box-shadow: 0px 0px 8px
+    ${(props) => props.theme.shadows.main};
+  &:hover {
+    border-color: ${(props) => props.theme.palette.primary.main};
+    background-color: ${(props) => props.theme.palette.background.default};
+  };
 `;
 
 export const MainSelect = styled(Select)`
