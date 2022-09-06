@@ -146,7 +146,7 @@ const ProposeSendEgld = ({
   const receiverError = touched.receiver && errors.receiver;
   const amountError = touched.amount && errors.amount;
   return (
-    <Box sx={{ p: '1.3rem 2.5rem .3rem' }}>
+    <Box sx={{ p: '1.93rem 2.5rem .3rem' }}>
       <FormikInputField
         label={t('Send to')}
         name="receiver"
@@ -155,25 +155,27 @@ const ProposeSendEgld = ({
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
       />
-      <SendInputs>
+      <SendInputs sx={{ mt: '1.2rem !important' }}>
         <label htmlFor={amount}>{t('Amount')}</label>
-        <Form.Control
-          id={amount}
-          name="amount"
-          isInvalid={amountError != null}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={amount}
-        />
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          <Form.Control
+            id={amount}
+            name="amount"
+            isInvalid={amountError != null}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={amount}
+          />
 
-        {amountError != null && (
-        <Form.Control.Feedback type="invalid">
-          {amountError}
-        </Form.Control.Feedback>
-        )}
-        <span>{`Balance: ${egldBalanceString} EGLD`}</span>
+          {amountError != null && (
+          <Form.Control.Feedback type="invalid">
+            {amountError}
+          </Form.Control.Feedback>
+          )}
+          <span>{`Balance: ${egldBalanceString} EGLD`}</span>
+        </Box>
       </SendInputs>
-      <SendInputs sx={{ my: '1rem !important' }}>
+      <SendInputs>
         <label htmlFor={data}>{t('Data (optional)')}</label>
         <Form.Control
           id={data}
