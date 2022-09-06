@@ -21,6 +21,7 @@ import ActionDialog from 'src/components/Utils/ActionDialog';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { InputsContainer } from 'src/components/Theme/StyledComponents';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken) => void;
@@ -139,7 +140,7 @@ const ProposeSendToken = ({
   formik = useFormik({
     initialValues: {
       address: '',
-      amount: 0,
+      amount: 1,
     },
     validationSchema,
     validateOnChange: true,
@@ -274,10 +275,13 @@ const ProposeSendToken = ({
             </MenuItem>
           ))}
         </Select>
-        <span>
-          Balance:
-          {tokenAmount}
-        </span>
+
+        <Text
+          fontSize={13}
+          variant="subtitle2"
+          className="availableAmount"
+        >{`${t('Available')}: ${tokenAmount} EGLD`}
+        </Text>
       </InputsContainer>
 
       <ActionDialog
