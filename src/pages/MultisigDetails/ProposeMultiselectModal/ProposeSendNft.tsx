@@ -72,11 +72,8 @@ const ProposeSendNft = ({
   } as any);
 
   const queryClient = useQueryClient();
-  console.log({ handleChange });
 
   const { searchedNft } = useNft(queryClient, selectedNft.identifier);
-
-  console.log({ searchedNft });
 
   const { touched, errors, values } = formik;
   // eslint-disable-next-line prefer-const
