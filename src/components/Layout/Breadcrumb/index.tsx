@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useLocation, Link } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import { Box, OutlinedInput } from '@mui/material';
-import { FormSearchInput } from 'src/components/Theme/StyledComponents';
+import { Box, FormControl, OutlinedInput } from '@mui/material';
 import breadcrumbItems from './BreadcrumbItems';
 import { ReactComponent as SearchIcon } from '../../../assets/img/searchFilled.svg';
 
@@ -22,10 +21,27 @@ function PageBreadcrumbs() {
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <span>{val}</span>
           <Box component="form" noValidate autoComplete="off">
-            <FormSearchInput>
+            <FormControl sx={{
+              width: '23ch',
+              ml: '.93rem',
+              p: '.12rem .5rem',
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              borderRadius: '.3rem',
+              backgroundColor: 'rgba(76, 47, 252, 0.06)',
+              '& input': {
+                p: '.25rem',
+                fontSize: '14px',
+              },
+              '& fieldset': {
+                border: 'none',
+              },
+            }}
+            >
               <SearchIcon />
               <OutlinedInput placeholder="Search..." />
-            </FormSearchInput>
+            </FormControl>
           </Box>
         </Box>
       );
