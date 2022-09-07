@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
-import { faHandPaper } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -168,7 +166,6 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
                 onClick={onProposeClicked}
                 sx={{ gap: '5px !important' }}
               >
-                <FontAwesomeIcon icon={faHandPaper} />
                 {t('Add')}
               </MainButton>
             </Box>

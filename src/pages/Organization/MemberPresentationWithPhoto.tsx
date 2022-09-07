@@ -2,9 +2,12 @@ import { Address } from '@elrondnetwork/erdjs/out';
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import { Box, Typography } from '@mui/material';
 import CopyButton from 'src/components/CopyButton';
+import { toSvg } from 'jdenticon';
 import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
 import { network } from 'src/config';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
+import { useSelector } from 'react-redux';
+import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
 
 type Props = {
   memberAddress: Address;
@@ -14,40 +17,43 @@ type Props = {
 const MemberPresentationWithPhoto = ({
   memberAddress,
   charactersLeftAfterTruncation = 5,
-}: Props) => (
-  <div
-    key={memberAddress?.bech32()?.toString()}
-    className="d-flex align-items-center w-100"
-  >
-    <img
-      className="rounded"
-      src="https://picsum.photos/40/40?random=1"
-      alt="member"
-    />
-    <Box sx={{ ml: '0.7rem' }}>
-      <Typography sx={{ fontWeight: 600 }}>@herotag</Typography>
-      <Box sx={{ display: 'flex' }}>
-        <div>
-          {truncateInTheMiddle(
-            memberAddress?.bech32() ?? '',
-            charactersLeftAfterTruncation,
-          )}{' '}
-        </div>
-        <CopyButton className="ml-2 copyIcon" text={memberAddress?.toString()} />
-        <Anchor
-          href={`${
-            network.explorerAddress
-          }/accounts/${memberAddress?.toString()}`}
-          target="_blank"
-          rel="noreferrer"
-          color="#4c2ffc8a"
-          className="ml-2"
-        >
-          <ContentPasteGoIcon />
-        </Anchor>
+}: Props) => {
+  const addressBook = useSelector(addressBookSelector);
+  return (
+    <div
+      key={memberAddress?.bech32()?.toString()}
+      className="d-flex align-items-center w-100"
+    >
+      {
+        <div
+          dangerouslySetInnerHTML={{ __html: toSvg(memberAddress?.bech32(), 40) }}
+        />
+    }
+      <Box sx={{ ml: '0.7rem' }}>
+        <Typography sx={{ fontWeight: 600 }}>@herotag</Typography>
+        <Box sx={{ display: 'flex' }}>
+          <div>
+            {addressBook[memberAddress?.bech32()] ?? truncateInTheMiddle(
+              memberAddress?.bech32() ?? '',
+              charactersLeftAfterTruncation,
+            )}{' '}
+          </div>
+          <CopyButton className="ml-2 copyIcon" text={memberAddress?.toString()} />
+          <Anchor
+            href={`${
+              network.explorerAddress
+            }/accounts/${memberAddress?.toString()}`}
+            target="_blank"
+            rel="noreferrer"
+            color="#4c2ffc8a"
+            className="ml-2"
+          >
+            <ContentPasteGoIcon />
+          </Anchor>
+        </Box>
       </Box>
-    </Box>
-  </div>
-);
+    </div>
+  );
+};
 
 export default MemberPresentationWithPhoto;

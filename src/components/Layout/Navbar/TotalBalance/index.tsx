@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { Address, Balance } from '@elrondnetwork/erdjs/out';
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { NewTransactionButton } from 'src/components/Theme/StyledComponents';
 import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
@@ -260,6 +260,13 @@ function TotalBalance() {
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
 
   const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
+  const [multisigAllCoinsValue, setMultisigAllCoinsValue] = useState('0');
+
+  useEffect(() => {
+    const totalValue = (Number(parseFloat(totalUsdValueConverted.toFixed(2))).toLocaleString());
+    console.log({ totalValue });
+    setMultisigAllCoinsValue(totalValue);
+  }, [totalUsdValueConverted]);
 
   return (
     <Box
@@ -274,7 +281,9 @@ function TotalBalance() {
       <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
         <CenteredText fontSize="14px">Your Total Balance:</CenteredText>
         <CenteredText fontSize="16px" fontWeight="bolder">
-          {(Number(parseFloat(totalUsdValueConverted.toFixed(2))).toLocaleString())} {getCurrency}
+          {
+            Number.isNaN(multisigAllCoinsValue) ? <CircularProgress /> : `${multisigAllCoinsValue} ${getCurrency}`
+          }
         </CenteredText>
       </Box>
       <Divider orientation="vertical" flexItem />

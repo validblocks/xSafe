@@ -1,6 +1,7 @@
 import { Ui } from '@elrondnetwork/dapp-utils';
 import { Box } from '@mui/material';
 import dayjs from 'dayjs';
+import { toSvg } from 'jdenticon';
 import { capitalizeString } from 'src/utils/stringUtils';
 import { getDate } from 'src/utils/transactionUtils';
 import { PairOfTransactionAndDecodedAction } from './TransactionHistory';
@@ -64,10 +65,9 @@ function TransactionSummary({
             <strong>Executed by:</strong>
           </div>
           <div className="d-flex align-items-center mt-1">
-            <img
-              className="mr-2 rounded"
-              src="https://picsum.photos/20/20?random=1"
-              alt="sender"
+            <div
+              className="mr-1"
+              dangerouslySetInnerHTML={{ __html: toSvg(transaction.sender, 20) }}
             />
             <Ui.Trim text={transaction.sender} />
           </div>
