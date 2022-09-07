@@ -49,7 +49,7 @@ const CopyButton = ({ text, className = '' }: CopyButtonType) => {
       }}
     >
       {copyResult.default || !copyResult.success ? (
-        <CopyAllIcon sx={{ color: 'rgba(76, 47, 252, 0.54)' }} />
+        <CopyAllIcon />
       ) : (
         <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
       )}
