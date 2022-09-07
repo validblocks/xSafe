@@ -312,3 +312,10 @@ export const ModalContainer = styled(Modal)`
   top: calc(50% + 5px) !important;
 };
 `;
+
+export const RemoveItemsButton = styled(MainButton)`
+padding: 0 !important;
+min-width: 40px !important;
+height: 56px !important;
+box-shadow: none !important;
+`;
