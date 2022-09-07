@@ -27,7 +27,7 @@ const Unlock = () => {
 
   useEffect(() => {
     accessTokenServices?.services?.maiarId
-      ?.init({ maiarIdApi })
+      ?.init({ maiarIdApi: `/proxy?route=${maiarIdApi}` })
       .then((loginToken: string) => {
         setToken(loginToken);
       });

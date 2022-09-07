@@ -18,6 +18,13 @@ app.get('/proxy', (req, res, _next) => {
   });
 });
 
+app.post('/proxy', (req, res, _next) => {
+  const { route } = req.query;
+  axios.post(route).then((response) => {
+    res.send(response.data);
+  });
+});
+
 app.listen(PORT, HOST, () => {
   console.log(`Starting Proxy at ${HOST}:${PORT}`);
 });
