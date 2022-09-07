@@ -40,7 +40,6 @@ export const currencySlice = createSlice({
   },
 });
 
-export const { setTotalValueConverted, setSelectedCurrency, setValueInUsd } =
-  currencySlice.actions;
+export const { setTotalValueConverted, setSelectedCurrency, setValueInUsd } = currencySlice.actions;
 
 export default currencySlice.reducer;
