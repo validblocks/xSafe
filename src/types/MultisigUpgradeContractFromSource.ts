@@ -42,7 +42,8 @@ export class MultisigUpgradeContractFromSource extends MultisigAction {
   }
 
   title() {
-    const hasArgs = this.args.length > 1 && this.args[0].valueOf().toString().length > 0;
+    const hasArgs =
+      this.args.length > 1 && this.args[0].valueOf().toString().length > 0;
     return `${i18next.t('Upgrade Contract')} ${
       this.address
     } from ${this.source.bech32()} ${
