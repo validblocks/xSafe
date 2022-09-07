@@ -6,7 +6,7 @@ import {
   BigUIntValue,
   BytesValue,
 } from '@elrondnetwork/erdjs/out';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormikProps, useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
@@ -19,7 +19,7 @@ import { denomination } from 'src/config';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Box, TextField } from '@mui/material';
-import { InputsContainer } from 'src/components/Theme/StyledComponents';
+import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeSmartContractCallType {
@@ -213,7 +213,7 @@ const ProposeSmartContractCall = ({
         handleBlur={formik.handleBlur}
         className={receiverError ? 'isError' : ''}
       />
-      <InputsContainer mt={'1.6rem !important'}>
+      <InputsContainer mt={'2.3rem !important'}>
         <Form.Control
           id="amount"
           name="amount"
@@ -267,13 +267,10 @@ const ProposeSmartContractCall = ({
         />
       </Box>
       {functionName?.length > 0 && (
-        <div className="d-flex flex-column ">
+        <Box>
           {args.map((arg, idx) => (
-            <div key={arg} className="modal-control-container mb-3">
-              <label htmlFor={`args[${idx}]`}>
-                {`${t('argument')} ${idx + 1}`}
-              </label>
-              <div className="d-flex align-items-stretch my-0">
+            <div key={arg}>
+              <InputsContainer className="d-flex align-items-stretch my-0">
                 <Form.Control
                   id={`args[${idx}]`}
                   name={`args[${idx}]`}
@@ -282,25 +279,26 @@ const ProposeSmartContractCall = ({
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={arg}
+                  isInvalid={argsError != null}
                 />
 
-                <button
+                <label htmlFor={`args[${idx}]`}>
+                  {`${t('Argument')} ${idx + 1}`}
+                </label>
+
+                <RemoveItemsButton
                   onClick={() => removeArg(idx)}
-                  className="action-remove action remove"
                 >
                   <FontAwesomeIcon className="mx-2" icon={faMinus as IconProp} />
-                </button>
-              </div>
+                </RemoveItemsButton>
+              </InputsContainer>
             </div>
           ))}
-          {argsError && <small className="text-danger">{argsError}</small>}
-          <div className="modal-action-btns">
-            <button onClick={addNewArgsField} className="btn btn-primary ">
-              <FontAwesomeIcon className="mx-2" icon={faPlus as IconProp} />
-              <span className="name">Add argument</span>
-            </button>
-          </div>
-        </div>
+          {argsError && <small className="text-danger mx-2">{argsError}</small>}
+          <MainButton sx={{ width: '100%', mb: '10px !important', mt: '5px' }} onClick={addNewArgsField}>
+            Add argument
+          </MainButton>
+        </Box>
       )}
     </Box>
   );
