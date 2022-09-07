@@ -5,7 +5,7 @@ interface FormikInputFieldPropsType {
   label: string;
   name: string;
   value: any;
-  error?: string | boolean;
+  error?: string | boolean | string[];
   handleChange?: (e: any) => void;
   handleBlur?: (e: any) => void;
   footer?: React.ReactElement;
