@@ -19,10 +19,8 @@ const PendingActionSummary = ({ action }: Props) => {
   } = useOrganizationInfoContext();
 
   const addressBook = useSelector(addressBookSelector);
-  console.log({ addressBook });
 
   const theme: any = useTheme();
-  console.log({ theme });
   return (
     <>
       <Box className="d-flex">

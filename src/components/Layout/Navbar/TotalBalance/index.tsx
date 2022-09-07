@@ -264,7 +264,6 @@ function TotalBalance() {
 
   useEffect(() => {
     const totalValue = (Number(parseFloat(totalUsdValueConverted.toFixed(2))).toLocaleString());
-    console.log({ totalValue });
     setMultisigAllCoinsValue(totalValue);
   }, [totalUsdValueConverted]);
 

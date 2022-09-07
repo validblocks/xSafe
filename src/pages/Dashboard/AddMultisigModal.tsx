@@ -56,7 +56,6 @@ function AddMultisigModal({
   }
 
   const theme: any = useTheme();
-  console.log({ theme });
 
   return (
     <Modal
