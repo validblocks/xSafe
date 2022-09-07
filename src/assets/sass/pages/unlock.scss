@@ -24,7 +24,7 @@
 
     .btn-unlock {
       color: $body-color;
-      padding: 1.2rem 21px;
+      padding: 1.2rem;
       margin: 0 !important;
       margin-bottom: 0.7rem !important;
       font-size: 1rem;
@@ -38,15 +38,6 @@
       &:hover {
         background-color: #4c2ffc !important;
         color: #ffff !important;
-        path:nth-child(1) {
-          fill: #ffff;
-        }
-        path:nth-child(2) {
-          fill: #1f43f7 !important;
-        }
-        path:nth-child(3) {
-          fill: #1f43f7 !important;
-        }
         .arrow {
           color: #1392ff;
           opacity: 1;
