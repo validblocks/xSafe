@@ -38,7 +38,7 @@ function ProposeInputAddress({
       if (newAddress.length < 3) {
         setErrorMessage('Too short!');
       } else {
-        setErrorMessage('This is not a multisig valid address!');
+        setErrorMessage('Address is invalid!');
       }
       if (newAddress.length > 500) {
         setErrorMessage('Too long!');
