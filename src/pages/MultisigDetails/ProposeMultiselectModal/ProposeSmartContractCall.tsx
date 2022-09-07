@@ -203,7 +203,7 @@ const ProposeSmartContractCall = ({
     touched.args.every((arg) => arg) &&
     errors.args;
   return (
-    <Box sx={{ p: '1.1rem' }}>
+    <Box sx={{ p: '1.9rem 2.5rem 0rem' }}>
       <FormikInputField
         label={t('Send to')}
         name="receiver"
@@ -213,7 +213,7 @@ const ProposeSmartContractCall = ({
         handleBlur={formik.handleBlur}
         className={receiverError ? 'isError' : ''}
       />
-      <InputsContainer>
+      <InputsContainer mt={'1.6rem !important'}>
         <Form.Control
           id="amount"
           name="amount"
