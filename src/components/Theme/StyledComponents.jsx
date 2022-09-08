@@ -329,7 +329,7 @@ export const FormikRoundedCheckBox = styled(Box)`
     width: 25px;
     height: 25px;
     border: solid 1px ${(props) => props.theme.palette.divider.main};
-    border-radius: 50%;
+    border-radius: .2rem;
     position: relative;
   }
   & input[type="checkbox"]:focus {
