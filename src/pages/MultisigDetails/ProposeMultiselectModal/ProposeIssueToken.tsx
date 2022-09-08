@@ -5,6 +5,7 @@ import * as Yup from 'yup';
 import { TestContext } from 'yup';
 import { FormikCheckbox, FormikInputField } from 'src/helpers/formikFields';
 import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
+import { Box } from '@mui/material';
 
 interface ProposeIssueTokenType {
   handleChange: (proposal: MultisigIssueToken) => void;
@@ -142,7 +143,7 @@ const ProposeIssueToken = ({
   ]);
 
   return (
-    <div>
+    <Box sx={{ p: '1.9rem 2.5rem 0rem' }}>
       <FormikInputField
         label={t('Name')}
         name="name"
@@ -150,6 +151,7 @@ const ProposeIssueToken = ({
         error={nameError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
+        className={nameError ? 'isError' : ''}
       />
 
       <FormikInputField
@@ -159,6 +161,7 @@ const ProposeIssueToken = ({
         error={identifierError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
+        className={identifierError ? 'isError' : ''}
       />
       <FormikInputField
         label={t('Mint Amount')}
@@ -167,6 +170,7 @@ const ProposeIssueToken = ({
         error={amountError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
+        className={amountError ? 'isError' : ''}
       />
       <FormikInputField
         label={t('Decimals')}
@@ -175,6 +179,7 @@ const ProposeIssueToken = ({
         error={decimalsError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
+        className={decimalsError ? 'isError' : ''}
       />
       <FormikCheckbox
         label={t('Can Freeze')}
@@ -221,7 +226,7 @@ const ProposeIssueToken = ({
         checked={canUpgrade}
         handleChange={formik.handleChange}
       />
-    </div>
+    </Box>
   );
 };
 
