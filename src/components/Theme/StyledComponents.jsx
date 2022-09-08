@@ -319,3 +319,43 @@ height: 56px !important;
 padding: 0 !important;
 box-shadow: none !important;
 `;
+
+export const FormikRoundedCheckBox = styled(Box)`
+  margin: 7px 0;
+  display: flex;
+  align-items: center;
+  & input[type="checkbox"] {
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border: solid 1px ${(props) => props.theme.palette.divider.main};
+    border-radius: 50%;
+    position: relative;
+  }
+  & input[type="checkbox"]:focus {
+    outline: none;
+  }
+  & input[type="checkbox"]:checked {
+    background-color: ${(props) => props.theme.palette.primary.main};
+    border-color: ${(props) => props.theme.palette.primary.main};
+  }
+  input[type="checkbox"]:before {
+  position: absolute;  
+  content: "";
+  width: 12px;
+  height: 12px;
+  top: 6px;
+  left: 5px;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em ${(props) => props.theme.palette.background.white};
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  }
+  input[type="checkbox"]:checked::before {
+  transform: scale(1);
+  }
+  & label {
+    margin-left: 5px;
+    font-size: 15px;
+  }
+`;
