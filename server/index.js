@@ -11,6 +11,10 @@ const HOST = 'localhost';
 app.use(cors());
 app.use(morgan('dev'));
 
+app.get('/hello', (req, res, _next) => {
+  res.send('Alive');
+});
+
 app.get('/proxy', (req, res, _next) => {
   const { route } = req.query;
   axios.get(route).then((response) => {

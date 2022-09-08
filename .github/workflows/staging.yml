@@ -96,8 +96,9 @@ jobs:
             ls
 
           POST_SCRIPT: |
-            cd ~/staging.control.validblocks.com
+            cd ~/staging.control.validblocks.com/server
             ls
+            yarn start
             echo "Stop at: " $(date -u)
 
       - name: DeployServer
