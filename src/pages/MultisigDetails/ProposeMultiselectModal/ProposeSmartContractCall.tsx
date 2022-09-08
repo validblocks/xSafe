@@ -269,12 +269,15 @@ const ProposeSmartContractCall = ({
       {functionName?.length > 0 && (
         <Box>
           {args.map((arg, idx) => (
-            <div key={arg}>
-              <InputsContainer className="d-flex align-items-stretch my-0">
+            <Box key={arg} display={'flex'}>
+              <InputsContainer
+                width={'100%'}
+                className={argsError ? 'invalid' : ''}
+                sx={{ '.invalid': { mb: '1rem' } }}
+              >
                 <Form.Control
                   id={`args[${idx}]`}
                   name={`args[${idx}]`}
-                  className="my-0 mr-3"
                   type="text"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -286,15 +289,16 @@ const ProposeSmartContractCall = ({
                   {`${t('Argument')} ${idx + 1}`}
                 </label>
 
-                <RemoveItemsButton
-                  onClick={() => removeArg(idx)}
-                >
-                  <FontAwesomeIcon className="mx-2" icon={faMinus as IconProp} />
-                </RemoveItemsButton>
+                {argsError && <small className="text-danger mx-1">{argsError}</small>}
               </InputsContainer>
-            </div>
+              <RemoveItemsButton
+                onClick={() => removeArg(idx)}
+                sx={{ alignSelf: 'flex-start', mt: '9px', ml: '7px' }}
+              >
+                <FontAwesomeIcon className="mx-2" icon={faMinus as IconProp} />
+              </RemoveItemsButton>
+            </Box>
           ))}
-          {argsError && <small className="text-danger mx-2">{argsError}</small>}
           <MainButton sx={{ width: '100%', mb: '10px !important', mt: '5px' }} onClick={addNewArgsField}>
             Add argument
           </MainButton>
