@@ -1,5 +1,6 @@
 import { TextField } from '@mui/material';
 import Form from 'react-bootstrap/Form';
+import { FormikRoundedCheckBox } from 'src/components/Theme/StyledComponents';
 
 interface FormikInputFieldPropsType {
   label: string;
@@ -34,17 +35,6 @@ export function FormikInputField({
   return (
     <div>
       <div className="input-wrapper">
-        {/* <Form.Control
-          id={name}
-          name={name}
-          type="text"
-          as={as}
-          isInvalid={error != null}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={value}
-          disabled={disabled}
-        /> */}
         <TextField
           variant="outlined"
           label={label}
@@ -105,20 +95,17 @@ export function FormikCheckbox({
   handleChange,
 }: FormikCheckboxPropsType) {
   return (
-    <div className="modal-control-container my-2">
-      <div className="form-check form-check-inline">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          id={name}
-          name={name}
-          checked={checked}
-          onChange={handleChange}
-        />
-        <label className="form-check-label" htmlFor="upgradeableCheckBox">
-          {label}
-        </label>
-      </div>
-    </div>
+    <FormikRoundedCheckBox>
+      <input
+        type="checkbox"
+        id={name}
+        name={name}
+        checked={checked}
+        onChange={handleChange}
+      />
+      <label className="form-check-label" htmlFor="upgradeableCheckBox">
+        {label}
+      </label>
+    </FormikRoundedCheckBox>
   );
 }
