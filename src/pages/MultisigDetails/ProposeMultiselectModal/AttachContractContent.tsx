@@ -3,8 +3,6 @@ import {
   transactionServices,
 } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs';
-import { faArrowLeft, faLink } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
@@ -15,6 +13,7 @@ import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigCont
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { validateContractAddressOwner } from 'src/helpers/validation';
 import { ProposalsTypes } from 'src/types/Proposals';
+import { InputsContainer, MainButton } from 'src/components/Theme/StyledComponents';
 
 const gasLimit = 10_000_000;
 
@@ -75,49 +74,50 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
 
   return (
     <div className="card attach-contract-content">
-      <div className="card-body">
-        <p className="h3 mb-spacer text-center" data-testid="delegateTitle">
-          {t('Attach smart contract')}
-        </p>
+      <p className="h3" data-testid="delegateTitle">
+        {t('Attach smart contract')}
+      </p>
 
-        <div className="modal-control-container">
+      <div>
+        <InputsContainer
+          width={'100%'}
+          className={contractAddressError ? 'invalid' : ''}
+          sx={{ '.invalid': { mb: '1rem' } }}
+        >
+
+          <Form.Control
+            id={formik.values.contractAddress}
+            name="contractAddress"
+            type="text"
+            isInvalid={contractAddressError != null}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.contractAddress}
+          />
+
           <label htmlFor={formik.values.contractAddress}>
             {t('Contract address')}
           </label>
-          <div className="input-wrapper">
-            <Form.Control
-              id={formik.values.contractAddress}
-              name="contractAddress"
-              type="text"
-              isInvalid={contractAddressError != null}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.contractAddress}
-            />
-            {contractAddressError != null && (
-              <Form.Control.Feedback type="invalid">
-                {contractAddressError}
-              </Form.Control.Feedback>
-            )}
-          </div>
-        </div>
+
+          {contractAddressError != null && (
+          <Form.Control.Feedback type="invalid">
+            {contractAddressError}
+          </Form.Control.Feedback>
+          )}
+        </InputsContainer>
       </div>
-      <div className="modal-action-btns">
-        <button
+      <div>
+        <MainButton
           onClick={onGoBackClicked}
-          className="btn btn-primary btn-light "
         >
-          <FontAwesomeIcon icon={faArrowLeft} />
           {t('Back')}
-        </button>
-        <button
+        </MainButton>
+        <MainButton
           disabled={contractAddressError != null}
           onClick={() => formik.handleSubmit()}
-          className="btn btn-primary "
         >
-          <FontAwesomeIcon icon={faLink} />
           {t('Attach')}
-        </button>
+        </MainButton>
       </div>
     </div>
   );
