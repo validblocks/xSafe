@@ -146,7 +146,7 @@ const ProposeIssueToken = ({
     <Box sx={{
       p: '1.9rem 2.5rem 0rem',
       '& div.input-wrapper': {
-        mb: '10px !important',
+        mb: '12px !important',
       },
     }}
     >
@@ -187,51 +187,59 @@ const ProposeIssueToken = ({
         handleBlur={formik.handleBlur}
         className={decimalsError ? 'isError' : ''}
       />
-      <FormikCheckbox
-        label={t('Can Freeze')}
-        name="canFreeze"
-        checked={canFreeze}
-        handleChange={formik.handleChange}
-      />
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: '130px 200px',
+        mb: '10px',
+      }}
+      >
+        <FormikCheckbox
+          label={t('Can Freeze')}
+          name="canFreeze"
+          checked={canFreeze}
+          handleChange={formik.handleChange}
+        />
 
-      <FormikCheckbox
-        label={t('Can Wipe')}
-        name="canWipe"
-        checked={canWipe}
-        handleChange={formik.handleChange}
-      />
+        <FormikCheckbox
+          label={t('Can Wipe')}
+          name="canWipe"
+          checked={canWipe}
+          handleChange={formik.handleChange}
+        />
 
-      <FormikCheckbox
-        label={t('Can Pause')}
-        name="canPause"
-        checked={canPause}
-        handleChange={formik.handleChange}
-      />
-      <FormikCheckbox
-        label={t('Can Mint')}
-        name="canMint"
-        checked={canMint}
-        handleChange={formik.handleChange}
-      />
+        <FormikCheckbox
+          label={t('Can Pause')}
+          name="canPause"
+          checked={canPause}
+          handleChange={formik.handleChange}
+        />
+        <FormikCheckbox
+          label={t('Can Mint')}
+          name="canMint"
+          checked={canMint}
+          handleChange={formik.handleChange}
+        />
 
-      <FormikCheckbox
-        label={t('Can Burn')}
-        name="canBurn"
-        checked={canBurn}
-        handleChange={formik.handleChange}
-      />
-      <FormikCheckbox
-        label={t('Can Change Owner')}
-        name="canChangeOwner"
-        checked={canChangeOwner}
-        handleChange={formik.handleChange}
-      />
-      <FormikCheckbox
-        label={t('Can Upgrade')}
-        name="canUpgrade"
-        checked={canUpgrade}
-        handleChange={formik.handleChange}
-      />
+        <FormikCheckbox
+          label={t('Can Burn')}
+          name="canBurn"
+          checked={canBurn}
+          handleChange={formik.handleChange}
+        />
+        <FormikCheckbox
+          label={t('Can Change Owner')}
+          name="canChangeOwner"
+          checked={canChangeOwner}
+          handleChange={formik.handleChange}
+        />
+        <FormikCheckbox
+          label={t('Can Upgrade')}
+          name="canUpgrade"
+          checked={canUpgrade}
+          handleChange={formik.handleChange}
+        />
+      </Box>
+
     </Box>
   );
 };
