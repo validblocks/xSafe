@@ -76,7 +76,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
 
   return (
     <Box padding={'1.5rem 2.5rem 1.9rem'}>
-      <p className="h3" data-testid="delegateTitle">
+      <p className="h3 mb-4" data-testid="delegateTitle">
         {t('Attach smart contract')}
       </p>
 
