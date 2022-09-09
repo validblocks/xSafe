@@ -20,8 +20,7 @@ setup:
 
 .PHONY: restart-proxy
 restart-proxy:
-	cd ./server
-	/usr/bin/pm2 restart index || /usr/bin/pm2 start index.js --watch --ignore-watch="node_modules" || true
+	/usr/bin/pm2 restart index || /usr/bin/pm2 start ./server/index.js --watch --ignore-watch="node_modules" || true
 
 .PHONY: setup-wallet
 setup-wallet:

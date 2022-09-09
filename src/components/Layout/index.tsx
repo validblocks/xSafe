@@ -10,12 +10,11 @@ import MuiAppBar, { AppBarProps } from '@mui/material/AppBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
 import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
-import { uniqueContractAddress, uniqueContractName } from 'src/multisigConfig';
 import { setAccountData } from 'src/redux/slices/accountSlice';
 import { setEconomics } from 'src/redux/slices/economicsSlice';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import routes from 'src/routes';
-import { accessTokenServices, storageApi } from 'src/services/accessTokenServices';
+import { accessTokenServices } from 'src/services/accessTokenServices';
 import { Main } from 'src/components/Theme/StyledComponents';
 import routeNames from 'src/routes/routeNames';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
@@ -55,24 +54,14 @@ function Layout({ children }: { children: React.ReactNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loggedIn]);
 
-  async function readMultisigContracts() {
-    if (uniqueContractAddress || storageApi == null) {
-      dispatch(
-        setMultisigContracts([
-          { address: uniqueContractAddress, name: uniqueContractName ?? '' },
-        ]),
-      );
-      return;
-    }
-    if (isAuthenticated?.isAuthenticated) {
-      const contracts = await getUserMultisigContractsList();
-      dispatch(setMultisigContracts(contracts));
-    }
-  }
-
   useEffect(() => {
-    readMultisigContracts();
-  }, [address, isAuthenticated?.isAuthenticated]);
+    if (isLoggedIn) {
+      (async function getContracts() {
+        const contracts = await getUserMultisigContractsList();
+        dispatch(setMultisigContracts(contracts));
+      }());
+    }
+  }, [isLoggedIn, address, isAuthenticated?.isAuthenticated]);
 
   async function fetchEconomics() {
     const economics = await ElrondApiProvider.getEconomicsData();
