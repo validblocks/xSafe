@@ -80,12 +80,11 @@ export default function ActionDialog({
           </DialogContent>
           <DialogActions sx={{ p: '0.2rem 1.5rem 1.4rem', justifyContent: 'center' }}>
             <ActionResponseButton
-              className="dialogButton"
               disabled={onActionTokenTableRows}
               onClick={handleClose}
             >Disagree
             </ActionResponseButton>
-            <ActionResponseButton className="dialogButton" onClick={onActionAccepted}>
+            <ActionResponseButton onClick={onActionAccepted}>
               Agree
             </ActionResponseButton>
           </DialogActions>
