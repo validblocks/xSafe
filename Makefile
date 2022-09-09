@@ -20,19 +20,15 @@ setup:
 
 .PHONY: restart-proxy
 restart-proxy:
-	/usr/bin/pm2 restart index || /usr/bin/pm2 start ./server/index.js --watch --ignore-watch="node_modules" || true
+	/usr/bin/pm2 restart index || /usr/bin/pm2 start ./server/index.js --watch --ignore-watch="node_modules"
 
 .PHONY: setup-wallet
 setup-wallet:
 	rm -f .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
-
 	rm -f ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
-
 	cp -p ./src/config.devnet.ts ./src/config.ts
-
 	rm -f ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
-
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 
