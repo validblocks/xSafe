@@ -30,6 +30,7 @@ import {
   SafeOptionsWrapper,
 } from './safe-style';
 import { Text } from '../StyledComponents/StyledComponents';
+import ReactPortal from '../Utils/ReactPortal';
 
 export const userRoleAsString = (roleNumber: number) => {
   switch (roleNumber) {
@@ -41,24 +42,6 @@ export const userRoleAsString = (roleNumber: number) => {
       return 'Not logged in';
   }
 };
-
-const _fetchedMultisigContracts: MultisigContractInfoType[] = [
-  {
-    name: 'Graffino 1',
-    address: 'erd1qqqqqqqqqqqqqpgq5hfs4zxcvp7rgmwgcjvwg6m2zxpdugcvvcts8rj9zw',
-    role: '',
-  },
-  {
-    name: 'Graffino 2',
-    address: 'erd1qqqqqqqqqqqqqpgqpzrenhspvt95agycr9nzhvrt7ukygwmmvctscqueu7',
-    role: '',
-  },
-  {
-    name: 'Graffino 3',
-    address: 'erd1qqqqqqqqqqqqqpgqalhsgtumpjmtxnlfnk76984c9xwf0c77vcts47c9u7',
-    role: '',
-  },
-];
 
 const SafeOptions = () => {
   const dispatch = useDispatch();
@@ -73,10 +56,6 @@ const SafeOptions = () => {
   const [attachedMultisigContracts, setAttachedMultisigContracts] = useState(() => fetchedMultisigContracts);
 
   const theme: any = useTheme();
-
-  function onDeployClicked() {
-    setShowDeployMultisigModal(true);
-  }
 
   const onSafeChange = (newSafeAddress: string) => {
     if (!newSafeAddress) return;
@@ -116,7 +95,7 @@ const SafeOptions = () => {
   }, [address, isLoggedIn]);
 
   return (
-    <SafeOptionsWrapper sx={{ overflow: 'scroll !important', zIndex: '1000 !important' }}>
+    <SafeOptionsWrapper sx={{ zIndex: '1000 !important' }}>
       <Typography sx={{ p: 2 }} align="left">
         Safe Options
       </Typography>
@@ -124,7 +103,7 @@ const SafeOptions = () => {
       {isLoggedIn && (
       <Box>
         <AddSafeWrapper sx={{ p: 2, pl: 0 }}>
-          <AddSafe onClick={() => onDeployClicked()}>
+          <AddSafe onClick={() => setShowDeployMultisigModal(true)}>
             <AddIcon sx={{ mr: 1 }} />
             Add a new safe
           </AddSafe>
@@ -185,12 +164,13 @@ const SafeOptions = () => {
           <Text>Login first</Text>
         </Box>
       )}
-
-      <DeployStepsModal
-        show={showDeployMultisigModal}
-        handleClose={() => setShowDeployMultisigModal(false)}
-        setNewContracts={updateMultisigContract}
-      />
+      <ReactPortal wrapperId="root-portal">
+        <DeployStepsModal
+          show={showDeployMultisigModal}
+          handleClose={() => setShowDeployMultisigModal(false)}
+          setNewContracts={(newContracts) => updateMultisigContract(newContracts)}
+        />
+      </ReactPortal>
     </SafeOptionsWrapper>
   );
 };

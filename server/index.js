@@ -47,7 +47,7 @@ app.options('/proxy', cors(corsOptions));
 app.post(
   '/login',
   createProxyMiddleware({
-    target: 'https://devnet-id.maiar.com/api/v1`',
+    target: 'https://devnet-id.maiar.com/api/v1',
     changeOrigin: true,
   }),
 );

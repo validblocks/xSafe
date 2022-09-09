@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -49,7 +50,7 @@ export default function ActionDialog({
 
   return (
     <ReactPortal wrapperId="root-portal">
-      <div>
+      <Box>
         { showButton && (
           <Button variant="outlined" onClick={handleClickOpen}>
             {t(openButtonText) as string}
@@ -89,7 +90,7 @@ export default function ActionDialog({
             </ActionResponseButton>
           </DialogActions>
         </Dialog>
-      </div>
+      </Box>
     </ReactPortal>
   );
 }

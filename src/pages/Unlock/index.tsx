@@ -34,7 +34,9 @@ const Unlock = () => {
   }, []);
 
   const loginParams = {
-    callbackRoute: `${routeNames.multisig}/${currentContract?.address}`,
+    callbackRoute: currentContract?.address
+      ? `${routeNames.multisig}/${currentContract?.address}`
+      : `${routeNames.multisig}`,
     token,
     logoutRoute: `${routeNames.multisig}/${currentContract?.address}`,
     buttonClassName: 'btn btn-unlock btn-block',
