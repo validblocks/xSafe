@@ -4,7 +4,7 @@ import {
 } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs';
 import { useFormik } from 'formik';
-import Form from 'react-bootstrap/Form';
+// import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -13,8 +13,9 @@ import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigCont
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { validateContractAddressOwner } from 'src/helpers/validation';
 import { ProposalsTypes } from 'src/types/Proposals';
-import { ActionResponseButton, InputsContainer } from 'src/components/Theme/StyledComponents';
+import { ActionResponseButton } from 'src/components/Theme/StyledComponents';
 import { Box } from '@mui/material';
+import { FormikInputField } from 'src/helpers/formikFields';
 
 const gasLimit = 10_000_000;
 
@@ -79,34 +80,22 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
         {t('Attach smart contract')}
       </p>
 
-      <div>
-        <InputsContainer
-          width={'100%'}
-          className={contractAddressError ? 'invalid' : ''}
-          sx={{ '.invalid': { mb: '1rem' } }}
-        >
+      <Box
+        mb={'25px'}
+        sx={{ '&.invalid': { mb: '5px' } }}
+        className={contractAddressError ? 'invalid' : ''}
+      >
+        <FormikInputField
+          label={t('Contract address')}
+          name="contractAddress"
+          value={formik.values.contractAddress}
+          error={contractAddressError}
+          handleChange={formik.handleChange}
+          handleBlur={formik.handleBlur}
+          className={contractAddressError ? 'isError' : ''}
+        />
 
-          <Form.Control
-            id={formik.values.contractAddress}
-            name="contractAddress"
-            type="text"
-            isInvalid={contractAddressError != null}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.contractAddress}
-          />
-
-          <label htmlFor={formik.values.contractAddress}>
-            {t('Contract address')}
-          </label>
-
-          {contractAddressError != null && (
-          <Form.Control.Feedback type="invalid">
-            {contractAddressError}
-          </Form.Control.Feedback>
-          )}
-        </InputsContainer>
-      </div>
+      </Box>
       <div className="d-flex">
         <ActionResponseButton
           onClick={onGoBackClicked}
