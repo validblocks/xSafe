@@ -18,10 +18,6 @@ setup:
 	docker network create proxy || true
 	docker compose up --build -d
 
-.PHONY: restart-proxy
-restart-proxy:
-	/usr/bin/pm2 restart index || /usr/bin/pm2 start ./server/index.js --watch --ignore-watch="node_modules"
-
 .PHONY: setup-wallet
 setup-wallet:
 	rm -f .npmrc && touch .npmrc
