@@ -255,11 +255,9 @@ export const DepositDoneAction = styled(Button)`
 `;
 
 export const ActionResponseButton = styled(MainButton)`
-  &.dialogButton {
-    width: 100% !important;
-    height: 48px;
-    box-shadow: none !important;
-  };
+  width: 100% !important;
+  height: 48px;
+  box-shadow: none !important;
 `;
 
 export const MaxSendEGLDButton = styled(MainButton)`

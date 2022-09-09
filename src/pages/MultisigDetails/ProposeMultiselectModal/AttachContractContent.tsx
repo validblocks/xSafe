@@ -13,7 +13,8 @@ import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigCont
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { validateContractAddressOwner } from 'src/helpers/validation';
 import { ProposalsTypes } from 'src/types/Proposals';
-import { InputsContainer, MainButton } from 'src/components/Theme/StyledComponents';
+import { ActionResponseButton, InputsContainer } from 'src/components/Theme/StyledComponents';
+import { Box } from '@mui/material';
 
 const gasLimit = 10_000_000;
 
@@ -73,7 +74,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
     touched.contractAddress && errors.contractAddress;
 
   return (
-    <div className="card attach-contract-content">
+    <Box padding={'1.5rem 2.5rem 1.9rem'}>
       <p className="h3" data-testid="delegateTitle">
         {t('Attach smart contract')}
       </p>
@@ -106,20 +107,22 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
           )}
         </InputsContainer>
       </div>
-      <div>
-        <MainButton
+      <div className="d-flex">
+        <ActionResponseButton
           onClick={onGoBackClicked}
+          sx={{ mr: '10px' }}
         >
           {t('Back')}
-        </MainButton>
-        <MainButton
+        </ActionResponseButton>
+        <ActionResponseButton
           disabled={contractAddressError != null}
           onClick={() => formik.handleSubmit()}
+          sx={{ ml: '10px' }}
         >
           {t('Attach')}
-        </MainButton>
+        </ActionResponseButton>
       </div>
-    </div>
+    </Box>
   );
 };
 
