@@ -137,7 +137,7 @@ const ProposeDeployContractFromSource = ({
     <Box sx={{
       p: '1.9rem 2.5rem 0rem',
       '& div.input-wrapper': {
-        mb: '25px !important',
+        mb: '12px !important',
       },
     }}
     >
@@ -159,7 +159,7 @@ const ProposeDeployContractFromSource = ({
         handleBlur={formik.handleBlur}
         className={amountError ? 'isError' : ''}
       />
-      <div className="mt-4">
+      <div className="mt-4 mb-3">
         <FormikCheckbox
           label={t('Upgradeable')}
           name="upgradeable"
