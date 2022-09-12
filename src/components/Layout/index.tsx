@@ -55,7 +55,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   }, [loggedIn]);
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && isAuthenticated?.isAuthenticated) {
       (async function getContracts() {
         const contracts = await getUserMultisigContractsList();
         dispatch(setMultisigContracts(contracts));

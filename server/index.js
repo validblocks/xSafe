@@ -7,13 +7,14 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 const app = express();
 
 // Configuration
-const corsOptions = {
-  origin: 'http://localhost:3001',
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+// const corsOptions = {
+//   origin: 'http://localhost:3001',
+//   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+// };
+
 const PORT = 3000;
 const HOST = 'localhost';
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(morgan('dev'));
 
 app.get('/hello', (req, res, _next) => {
@@ -27,7 +28,7 @@ app.get('/proxy', (req, res, _next) => {
   });
 });
 
-app.post('/proxy', cors(corsOptions), (req, res, _next) => {
+app.post('/proxy', cors(), (req, res, _next) => {
   try {
     const { route } = req.query;
 
@@ -42,7 +43,7 @@ app.post('/proxy', cors(corsOptions), (req, res, _next) => {
   }
 });
 
-app.options('/proxy', cors(corsOptions));
+app.options('/proxy', cors());
 
 app.post(
   '/login',
