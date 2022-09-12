@@ -1,5 +1,4 @@
 import {
-  maiarIdApi,
   accessTokenServices,
   storageApi,
 } from 'src/services/accessTokenServices';
@@ -23,7 +22,7 @@ multisigAxiosInstance.interceptors.request.use(
         const token =
           await accessTokenServices?.services?.maiarId?.getAccessToken({
             address,
-            maiarIdApi,
+            maiarIdApi: '',
           });
         config.headers.Authorization = `Bearer ${token.accessToken}`;
       }

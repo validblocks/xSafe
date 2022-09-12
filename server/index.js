@@ -28,6 +28,8 @@ app.get('/proxy', (req, res, _next) => {
   });
 });
 
+app.options('/proxy', cors());
+
 app.post('/proxy', cors(), (req, res, _next) => {
   try {
     const { route } = req.query;
@@ -43,10 +45,16 @@ app.post('/proxy', cors(), (req, res, _next) => {
   }
 });
 
-app.options('/proxy', cors());
-
 app.post(
   '/login',
+  createProxyMiddleware({
+    target: 'https://devnet-id.maiar.com/api/v1',
+    changeOrigin: true,
+  }),
+);
+
+app.post(
+  '/login/access-token-generate',
   createProxyMiddleware({
     target: 'https://devnet-id.maiar.com/api/v1',
     changeOrigin: true,
