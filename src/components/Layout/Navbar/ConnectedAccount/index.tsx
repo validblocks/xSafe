@@ -22,13 +22,11 @@ import {
 } from '../navbar-style';
 
 const ConnectedAccount = () => {
-  // const dispatch = useDispatch();
   const navigate = useNavigate();
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const logOut = async () => {
     document.cookie = '';
-    // dispatch(logoutAction());
     accessTokenServices?.services?.maiarId?.removeToken?.();
     localStorage.clear();
     sessionStorage.clear();

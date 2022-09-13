@@ -21,9 +21,6 @@ import DeployStepsModal from './DeployMultisigModal';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 function Dashboard() {
-  // const multisigContractsFetched = useSelector(
-  //   multisigContractsFetchedSelector,
-  // );
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
   const [showAddMultisigModal, setShowAddMultisigModal] = useState(false);
