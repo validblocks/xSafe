@@ -6,7 +6,7 @@ function IconState({
   iconSize = '3x',
 }: {
   icon: any;
-  className?: string; // text-white
+  className?: string;
   iconSize?: '2x' | '3x' | '5x';
 }) {
   return (
