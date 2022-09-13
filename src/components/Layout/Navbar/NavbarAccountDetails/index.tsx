@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import {
@@ -23,30 +23,29 @@ import {
 } from '../navbar-style';
 import TotalBalance from '../TotalBalance';
 
-const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
+const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: string }) => {
+  const { isLoggedIn } = useGetLoginInfo();
+
+  const safeName = useSelector(safeNameStoredSelector);
+  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
   const currentContract = useSelector(currentMultisigContractSelector);
+
   const [showQr, setShowQr] = useState(false);
+  const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
+  const [displayableAddress, setDisplayableAddress] = useState(uniqueAddress);
 
   const {
     membersCountState: [membersCount],
     isMultiWalletMode,
   } = useOrganizationInfoContext();
 
-  const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
-  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
-
   const handleQrModal = () => {
     setShowQr(!showQr);
   };
 
-  const safeName = useSelector(safeNameStoredSelector);
-  const [displayableAddress, setDisplayableAddress] = useState(uniqueAddress);
-
   const openSafeSelection = useCallback(() => {
     setOpenedSafeSelect(true);
   }, []);
-
-  const { isLoggedIn } = useGetLoginInfo();
 
   useEffect(() => {
     const result = uniqueAddress.length === 0 ? 'No safe' : uniqueAddress;
@@ -55,6 +54,7 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
 
   return (
     <Box>
+
       <Grid
         container
         spacing={1}
@@ -85,16 +85,22 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
                 : displayableAddress
               }
             </Text>
+
             {openedSafeSelect === true && (
-              <Box
-                onClick={() => setOpenedSafeSelect(false)}
-                sx={{
-                  '& .css-i4bv87-MuiSvgIcon-root': {
-                    color: 'rgba(76, 47, 252, 0.54) !important',
-                  },
-                }}
-              >
-                <ArrowDropUpIcon />
+              <Box>
+                <Box
+                  onClick={() => {
+                    console.log('closing sfe select');
+                    setOpenedSafeSelect(false);
+                  }}
+                  sx={{
+                    '& .css-i4bv87-MuiSvgIcon-root': {
+                      color: 'rgba(76, 47, 252, 0.54) !important',
+                    },
+                  }}
+                >
+                  <ArrowDropUpIcon />
+                </Box>
                 <SafeOptions />
               </Box>
             )}
@@ -163,6 +169,6 @@ const NavbarAccountDetails = ({ uniqueAddress }: { uniqueAddress: string }) => {
       <TotalBalance />
     </Box>
   );
-};
+});
 
 export default NavbarAccountDetails;

@@ -1,17 +1,16 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import {
   Box, Button, Grid, Typography,
 } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { setMultisigContracts, setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Safe from 'src/assets/img/safe.png';
 import { TypographyBold } from 'src/components/Theme/StyledComponents';
 import { useNavigate } from 'react-router-dom';
-import DeployStepsModal from 'src/pages/Dashboard/DeployMultisigModal';
-import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
-import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import {
   currentMultisigContractSelector,
   multisigContractsSelector,
@@ -22,6 +21,7 @@ import { queryUserRoleOnContract } from 'src/contracts/MultisigContract';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { useTheme } from 'styled-components';
+import DeployStepsModal from 'src/pages/Dashboard/DeployMultisigModal';
 import {
   ActiveWallet,
   AddSafe,
@@ -30,7 +30,6 @@ import {
   SafeOptionsWrapper,
 } from './safe-style';
 import { Text } from '../StyledComponents/StyledComponents';
-import ReactPortal from '../Utils/ReactPortal';
 
 export const userRoleAsString = (roleNumber: number) => {
   switch (roleNumber) {
@@ -44,18 +43,17 @@ export const userRoleAsString = (roleNumber: number) => {
 };
 
 const SafeOptions = () => {
+  const theme: any = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { address } = useGetAccountInfo();
   const { isLoggedIn } = useGetLoginInfo();
   const currentContract = useSelector(currentMultisigContractSelector);
-  const [selectedSafe, setSelectedSafe] = useState(currentContract?.address);
-  const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const fetchedMultisigContracts = useSelector(multisigContractsSelector);
+  const [selectedSafe, setSelectedSafe] = useState(currentContract?.address);
   const [attachedMultisigContracts, setAttachedMultisigContracts] = useState(() => fetchedMultisigContracts);
-
-  const theme: any = useTheme();
+  const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
 
   const onSafeChange = (newSafeAddress: string) => {
     if (!newSafeAddress) return;
@@ -70,9 +68,10 @@ const SafeOptions = () => {
     navigate(`/multisig/${newSafeAddress}`);
   };
 
-  const updateMultisigContract = useCallback(
-    (newContracts: MultisigContractInfoType[]) => dispatch(setMultisigContracts(newContracts)),
-    [dispatch]);
+  const openDeployNewContractModal = useCallback(() => {
+    console.log('setting modal to true');
+    setShowDeployMultisigModal(true);
+  }, []);
 
   useEffect(() => {
     if (!address || !isLoggedIn) return;
@@ -94,16 +93,25 @@ const SafeOptions = () => {
     });
   }, [address, isLoggedIn]);
 
+  const updateMultisigContract = useCallback(
+    (newContracts: MultisigContractInfoType[]) => dispatch(setMultisigContracts(newContracts)),
+    [dispatch]);
+
   return (
-    <SafeOptionsWrapper sx={{ zIndex: '1000 !important' }}>
+    <SafeOptionsWrapper sx={{ zIndex: '100000 !important' }}>
       <Typography sx={{ p: 2 }} align="left">
         Safe Options
       </Typography>
+      <DeployStepsModal
+        show={showDeployMultisigModal}
+        handleClose={() => setShowDeployMultisigModal(false)}
+        setNewContracts={(newContracts) => updateMultisigContract(newContracts)}
+      />
       <Divider />
       {isLoggedIn && (
       <Box>
         <AddSafeWrapper sx={{ p: 2, pl: 0 }}>
-          <AddSafe onClick={() => setShowDeployMultisigModal(true)}>
+          <AddSafe onClick={openDeployNewContractModal}>
             <AddIcon sx={{ mr: 1 }} />
             Add a new safe
           </AddSafe>
@@ -164,13 +172,7 @@ const SafeOptions = () => {
           <Text>Login first</Text>
         </Box>
       )}
-      <ReactPortal wrapperId="root-portal">
-        <DeployStepsModal
-          show={showDeployMultisigModal}
-          handleClose={() => setShowDeployMultisigModal(false)}
-          setNewContracts={(newContracts) => updateMultisigContract(newContracts)}
-        />
-      </ReactPortal>
+
     </SafeOptionsWrapper>
   );
 };
