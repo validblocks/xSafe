@@ -6,21 +6,22 @@ import {
   BigUIntValue,
   BytesValue,
 } from '@elrondnetwork/erdjs/out';
-import { faMinus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormikProps, useFormik } from 'formik';
-import Form from 'react-bootstrap/Form';
+// import { faMinus } from '@fortawesome/free-solid-svg-icons';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FormikProps, useFormik, Formik, Form, FieldArray } from 'formik';
+// import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
 import MultisigDetailsContext from 'src/context/MultisigDetailsContext';
-import { FormikInputField } from 'src/helpers/formikFields';
+// import { FormikInputField } from 'src/helpers/formikFields';
 import { denomination } from 'src/config';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+// import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Box, TextField } from '@mui/material';
-import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { InputsContainer } from 'src/components/Theme/StyledComponents';
+// import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
+// import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeSmartContractCallType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -65,6 +66,7 @@ const ProposeSmartContractCall = ({
 }: ProposeSmartContractCallType) => {
   const { multisigBalance } = useContext(MultisigDetailsContext);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation();
 
   let formik: FormikProps<IFormValues>;
@@ -125,7 +127,7 @@ const ProposeSmartContractCall = ({
     setSubmitDisabled(true);
   }, []);
 
-  const denominatedValue = useMemo(
+  const _denominatedValue = useMemo(
     () =>
       operations.denominate({
         input: multisigBalance.toString(),
@@ -137,6 +139,7 @@ const ProposeSmartContractCall = ({
   );
 
   const { touched, errors, values } = formik;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { amount, receiver, functionName, args } = values;
   const getProposal = (): MultisigSmartContractCall | null => {
     try {
@@ -183,28 +186,29 @@ const ProposeSmartContractCall = ({
     setSubmitDisabled(hasErrors);
   }, [formik.errors]);
 
-  const addNewArgsField = () => {
+  const _addNewArgsField = () => {
     const nextArgNumber = args.length;
     formik.setFieldValue(`args[${nextArgNumber}]`, '');
   };
 
-  const removeArg = (removeIdx: number) => {
+  const _removeArg = (removeIdx: number) => {
     formik.setFieldValue(
       'args',
       args.filter((_, index: number) => index !== removeIdx),
     );
   };
 
-  const receiverError = touched.receiver && errors.receiver;
-  const amountError = touched.amount && errors.amount;
-  const argsError =
+  const _receiverError = touched.receiver && errors.receiver;
+  const _amountError = touched.amount && errors.amount;
+  const _argsError =
     Array.isArray(touched?.args) &&
     touched.args.length === args.length &&
     touched.args.every((arg) => arg) &&
     errors.args;
+
   return (
     <Box sx={{ p: '1.9rem 2.5rem 0rem' }}>
-      <FormikInputField
+      {/* <FormikInputField
         label={t('Send to')}
         name="receiver"
         value={receiver}
@@ -303,7 +307,74 @@ const ProposeSmartContractCall = ({
             Add argument
           </MainButton>
         </Box>
-      )}
+      )} */}
+
+      <div>
+        <h1>Just testing</h1>
+        <Formik
+          initialValues={{ args: ['jared'] }}
+          onSubmit={(values) =>
+            // setTimeout(() => {
+            //   alert(JSON.stringify(values, null, 2));
+            // }, 500)
+            console.log(values)
+      }
+        >
+          {({ values }) => (
+            <Form>
+              <FieldArray
+                name="friends"
+                render={(arrayHelpers) => (
+                  <div>
+                    {values.args && values.args.length > 0 ? (
+                      values.args.map((args, index) => (
+                        // eslint-disable-next-line react/no-array-index-key
+                        <div key={index}>
+                          <InputsContainer
+                            width={'100%'}
+                            className={_argsError ? 'invalid' : ''}
+                            sx={{ '.invalid': { mb: '1rem' } }}
+                          >
+                            <TextField
+                              id={`args.${index}`}
+                              name={`args.${index}`}
+                              type="text"
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={_argsError != null}
+                            />
+                          </InputsContainer>
+                          <button
+                            type="button"
+                            onClick={() => _removeArg(index)}
+                          >
+                            -
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => arrayHelpers.insert(index, '')}
+                          >
+                            +
+                          </button>
+                        </div>
+                      ))
+                    ) : (
+                      <button type="button" onClick={() => arrayHelpers.push('')}>
+                        {/* show this when user has removed all friends from the list */}
+                        Add a friend
+                      </button>
+                    )}
+                    <div>
+                      <button type="submit">Submit</button>
+                    </div>
+                  </div>
+                )}
+              />
+            </Form>
+          )}
+        </Formik>
+      </div>
+
     </Box>
   );
 };
