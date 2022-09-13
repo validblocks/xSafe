@@ -18,7 +18,6 @@ import { accessTokenServices } from 'src/services/accessTokenServices';
 import { Main } from 'src/components/Theme/StyledComponents';
 import routeNames from 'src/routes/routeNames';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
-import { maiarIdApi } from 'src/multisigExtrasConfig';
 import { TokenWrapper } from '../TokenWrapper';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
@@ -34,7 +33,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
   const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
     address,
-    `/proxy?route=${maiarIdApi}`,
+    '',
     isLoggedIn,
   );
 
