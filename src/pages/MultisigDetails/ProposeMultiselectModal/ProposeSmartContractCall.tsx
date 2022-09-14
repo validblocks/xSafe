@@ -312,7 +312,7 @@ const ProposeSmartContractCall = ({
       <div>
         <h1>Just testing</h1>
         <Formik
-          initialValues={{ args: ['jared'] }}
+          initialValues={{ friends: ['jared'] }}
           onSubmit={(values) =>
             // setTimeout(() => {
             //   alert(JSON.stringify(values, null, 2));
@@ -326,8 +326,8 @@ const ProposeSmartContractCall = ({
                 name="friends"
                 render={(arrayHelpers) => (
                   <div>
-                    {values.args && values.args.length > 0 ? (
-                      values.args.map((args, index) => (
+                    {values.friends && values.friends.length > 0 ? (
+                      values.friends.map((friend, index) => (
                         // eslint-disable-next-line react/no-array-index-key
                         <div key={index}>
                           <InputsContainer
@@ -336,8 +336,8 @@ const ProposeSmartContractCall = ({
                             sx={{ '.invalid': { mb: '1rem' } }}
                           >
                             <TextField
-                              id={`args.${index}`}
-                              name={`args.${index}`}
+                              id={`firends.${index}`}
+                              name={`firends.${index}`}
                               type="text"
                               onChange={formik.handleChange}
                               onBlur={formik.handleBlur}
@@ -346,7 +346,7 @@ const ProposeSmartContractCall = ({
                           </InputsContainer>
                           <button
                             type="button"
-                            onClick={() => _removeArg(index)}
+                            onClick={() => arrayHelpers.remove(index)}
                           >
                             -
                           </button>
