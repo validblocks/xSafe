@@ -48,10 +48,14 @@ export function FormikInputField({
           className={className}
           sx={{
             width: '100%',
+            transition: 'margin-bottom .5s linear',
             label: {
               marginBottom: 0,
               fontSize: '15px',
               left: '-1px',
+            },
+            fieldset: {
+              transition: 'all .3s linear',
             },
             '&.isError': {
               label: {
@@ -73,6 +77,7 @@ export function FormikInputField({
             },
             '& .MuiOutlinedInput-root.Mui-focused fieldset': {
               borderColor: '#4c2ffc',
+              borderWidth: '1px',
             },
             '& label.MuiInputLabel-root.Mui-focused': {
               color: '#4c2ffc',
