@@ -163,17 +163,15 @@ const ProposeSendEgld = ({
         handleBlur={formik.handleBlur}
         className={receiverError != null ? 'isError' : ''}
       />
-      <Box sx={{ mt: '2.1rem !important' }}>
-        <InputTokenPresentation
-          amount={amount}
-          amountError={amountError}
-          egldBalanceString={egldBalanceString}
-          label={`${t('Amount')}`}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          formik={formik}
-        />
-      </Box>
+      <InputTokenPresentation
+        amount={amount}
+        amountError={amountError}
+        egldBalanceString={egldBalanceString}
+        label={`${t('Amount')}`}
+        onChange={formik.handleChange}
+        onBlur={formik.handleBlur}
+        formik={formik}
+      />
       <Box>
         <TextField
           variant="outlined"
@@ -184,17 +182,20 @@ const ProposeSendEgld = ({
           onBlur={formik.handleBlur}
           sx={{
             width: '100%',
-            m: '0.55rem 0 1.93rem',
+            m: '0.48rem 0 1.93rem',
             label: {
               marginBottom: 0,
               fontSize: '15px',
               left: '-1px',
             },
             '& .MuiOutlinedInput-root fieldset': {
+              transition: 'all .3s linear',
               borderColor: 'rgba(76, 47, 252, 0.23)',
             },
             '& .MuiOutlinedInput-root.Mui-focused fieldset': {
+              transition: 'all .3s linear',
               borderColor: '#4c2ffc',
+              borderWidth: '1px',
             },
             '& label.MuiInputLabel-root.Mui-focused': {
               color: '#4c2ffc',
