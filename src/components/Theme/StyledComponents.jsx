@@ -132,16 +132,18 @@ export const InputsContainer = styled(Box)`
   &.invalid {
     margin-bottom: 0.7rem;
   }
+  & input.form-control,
+  & label,
+  & li,
+  & div.MuiOutlinedInput-root {
+    transition: all .3s linear;
+  }
   &:focus-within {
     input.form-control {
-      border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
+      border: solid 1px ${(props) => props.theme.palette.primary.main} !important;
     }
     li, div.MuiOutlinedInput-root {
-      height: 58px;
-      border: solid 2px ${(props) => props.theme.palette.primary.main} !important;
-    }
-    .MuiButton-root {
-      top: 16px;
+      border: solid 1px ${(props) => props.theme.palette.primary.main} !important;
     }
   };
   &:hover {
@@ -178,7 +180,6 @@ export const InputsContainer = styled(Box)`
     background-color: transparent;
     border: solid 1px rgba(76, 47, 252, 0.23);
     border-radius: .3rem;
-    transition: border-color 0s;
   };
   & input.form-control.is-invalid {
     background: none;
@@ -186,7 +187,7 @@ export const InputsContainer = styled(Box)`
   }
   & input.form-control.is-invalid:focus {
     background: none;
-    border: solid 2px ${(props) => props.theme.palette.danger.main} !important;
+    border: solid 1px ${(props) => props.theme.palette.danger.main} !important;
   }
   & input.form-control.is-invalid ~ li,
     input.form-control.is-invalid ~ div.MuiOutlinedInput-root {
@@ -194,11 +195,11 @@ export const InputsContainer = styled(Box)`
   }
   & input.form-control.is-invalid:focus ~ li,
     input.form-control.is-invalid:focus ~ div.MuiOutlinedInput-root {
-    border: solid 2px ${(props) => props.theme.palette.danger.main} !important;
+    border: solid 1px ${(props) => props.theme.palette.danger.main} !important;
   }
   & input.form-control:focus {
     outline: none;
-    border: solid 2px ${(props) => props.theme.palette.primary.main};
+    border: solid 1px ${(props) => props.theme.palette.primary.main};
     box-shadow: none;
   };
   & h6.availableAmount {
