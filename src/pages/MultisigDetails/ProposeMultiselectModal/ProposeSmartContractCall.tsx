@@ -6,22 +6,21 @@ import {
   BigUIntValue,
   BytesValue,
 } from '@elrondnetwork/erdjs/out';
-// import { faMinus } from '@fortawesome/free-solid-svg-icons';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { FormikProps, useFormik, Formik, Form, FieldArray } from 'formik';
-// import Form from 'react-bootstrap/Form';
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FormikProps, useFormik } from 'formik';
+import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
 import MultisigDetailsContext from 'src/context/MultisigDetailsContext';
-// import { FormikInputField } from 'src/helpers/formikFields';
+import { FormikInputField } from 'src/helpers/formikFields';
 import { denomination } from 'src/config';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
-// import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { Box, TextField } from '@mui/material';
-import { InputsContainer } from 'src/components/Theme/StyledComponents';
-// import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
-// import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeSmartContractCallType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -127,7 +126,7 @@ const ProposeSmartContractCall = ({
     setSubmitDisabled(true);
   }, []);
 
-  const _denominatedValue = useMemo(
+  const denominatedValue = useMemo(
     () =>
       operations.denominate({
         input: multisigBalance.toString(),
@@ -186,21 +185,21 @@ const ProposeSmartContractCall = ({
     setSubmitDisabled(hasErrors);
   }, [formik.errors]);
 
-  const _addNewArgsField = () => {
+  const addNewArgsField = () => {
     const nextArgNumber = args.length;
     formik.setFieldValue(`args[${nextArgNumber}]`, '');
   };
 
-  const _removeArg = (removeIdx: number) => {
+  const removeArg = (removeIdx: number) => {
     formik.setFieldValue(
       'args',
       args.filter((_, index: number) => index !== removeIdx),
     );
   };
 
-  const _receiverError = touched.receiver && errors.receiver;
-  const _amountError = touched.amount && errors.amount;
-  const _argsError =
+  const receiverError = touched.receiver && errors.receiver;
+  const amountError = touched.amount && errors.amount;
+  const argsError =
     Array.isArray(touched?.args) &&
     touched.args.length === args.length &&
     touched.args.every((arg) => arg) &&
@@ -208,7 +207,7 @@ const ProposeSmartContractCall = ({
 
   return (
     <Box sx={{ p: '1.9rem 2.5rem 0rem' }}>
-      {/* <FormikInputField
+      <FormikInputField
         label={t('Send to')}
         name="receiver"
         value={receiver}
@@ -307,9 +306,9 @@ const ProposeSmartContractCall = ({
             Add argument
           </MainButton>
         </Box>
-      )} */}
+      )}
 
-      <div>
+      {/* <div>
         <h1>Just testing</h1>
         <Formik
           initialValues={{ friends: ['jared'] }}
@@ -360,7 +359,6 @@ const ProposeSmartContractCall = ({
                       ))
                     ) : (
                       <button type="button" onClick={() => arrayHelpers.push('')}>
-                        {/* show this when user has removed all friends from the list */}
                         Add a friend
                       </button>
                     )}
@@ -373,7 +371,7 @@ const ProposeSmartContractCall = ({
             </Form>
           )}
         </Formik>
-      </div>
+      </div> */}
 
     </Box>
   );
