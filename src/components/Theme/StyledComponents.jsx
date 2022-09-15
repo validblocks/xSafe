@@ -125,12 +125,13 @@ export const FormSearchInput = styled(Box)`
 `;
 
 export const InputsContainer = styled(Box)`
-  margin: .67rem 0 1.93rem;
+  margin: 10px 0 20px;
   position: relative;
   background-color: transparent;
+  transition: all .3s linear;
   z-index: 0;
   &.invalid {
-    margin-bottom: 0.7rem;
+    margin-bottom: 22px;
   }
   & input.form-control,
   & label,
@@ -245,8 +246,11 @@ export const InputsContainer = styled(Box)`
     }
   };
   & div.invalid-feedback {
-    margin-left: 4px;
+    margin: 1px 0 0 4px;
   };
+  &.invalid h6.availableAmount {
+    bottom: -15px;
+  }
 `;
 
 export const DepositDoneAction = styled(Button)`
