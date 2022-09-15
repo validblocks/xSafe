@@ -18,7 +18,7 @@ const InputTokenPresentation = ({
   }, [amountError, egldBalanceNumber, formik]);
 
   return (
-    <InputsContainer>
+    <InputsContainer className={amountError != null ? 'invalid' : ''}>
       <Form.Control
         id={amount}
         name="amount"
