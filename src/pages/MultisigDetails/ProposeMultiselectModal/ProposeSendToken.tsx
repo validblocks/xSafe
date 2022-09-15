@@ -242,7 +242,7 @@ const ProposeSendToken = ({
         className={addressError != null ? 'isError' : ''}
       />
 
-      <InputsContainer sx={{ mt: '2.1rem !important', mb: '2.3rem !important' }}>
+      <InputsContainer sx={{ mb: '2.3rem !important' }}>
         <Form.Control
           id={amount}
           name="amount"
