@@ -145,9 +145,6 @@ const ProposeIssueToken = ({
   return (
     <Box sx={{
       p: '1.9rem 2.5rem 0rem',
-      '& div.input-wrapper': {
-        mb: '12px !important',
-      },
     }}
     >
       <FormikInputField
