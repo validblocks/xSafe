@@ -216,7 +216,7 @@ const ProposeSmartContractCall = ({
         handleBlur={formik.handleBlur}
         className={receiverError ? 'isError' : ''}
       />
-      <InputsContainer mt={'2.3rem !important'}>
+      <InputsContainer className={amountError != null ? 'invalid' : ''}>
         <Form.Control
           id="amount"
           name="amount"
@@ -251,17 +251,20 @@ const ProposeSmartContractCall = ({
           value={functionName}
           sx={{
             width: '100%',
-            m: '0.55rem 0 1.93rem',
+            m: '0.48rem 0 1.93rem',
             label: {
               marginBottom: 0,
               fontSize: '15px',
               left: '-1px',
             },
             '& .MuiOutlinedInput-root fieldset': {
+              transition: 'all .3s linear',
               borderColor: 'rgba(76, 47, 252, 0.23)',
             },
             '& .MuiOutlinedInput-root.Mui-focused fieldset': {
+              transition: 'all .3s linear',
               borderColor: '#4c2ffc',
+              borderWidth: '1px',
             },
             '& label.MuiInputLabel-root.Mui-focused': {
               color: '#4c2ffc',
