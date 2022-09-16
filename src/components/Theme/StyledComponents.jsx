@@ -329,11 +329,12 @@ export const FormikRoundedCheckBox = styled(Box)`
   align-items: center;
   & input[type="checkbox"] {
     appearance: none;
+    position: relative;
     width: 25px;
     height: 25px;
     border: solid 1px ${(props) => props.theme.palette.divider.main};
     border-radius: .2rem;
-    position: relative;
+    transition: 300ms all ease-in-out;
   }
   & input[type="checkbox"]:focus {
     outline: none;
@@ -350,11 +351,11 @@ export const FormikRoundedCheckBox = styled(Box)`
   top: 6px;
   left: 5px;
   transform: scale(0);
-  transition: 120ms transform ease-in-out;
+  transition: 300ms all ease-in-out;
   box-shadow: inset 1em 1em ${(props) => props.theme.palette.background.white};
   clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
   }
-  input[type="checkbox"]:checked::before {
+  input[type="checkbox"]:checked:before {
   transform: scale(1);
   }
   & label {
