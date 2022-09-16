@@ -81,8 +81,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
       </p>
 
       <Box
-        mb={'25px'}
-        sx={{ '&.invalid': { mb: '5px' } }}
+        mb={'10px'}
         className={contractAddressError ? 'invalid' : ''}
       >
         <FormikInputField
