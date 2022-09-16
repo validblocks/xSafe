@@ -1,5 +1,4 @@
 import { TextField } from '@mui/material';
-// import Form from 'react-bootstrap/Form';
 import { FormikRoundedCheckBox } from 'src/components/Theme/StyledComponents';
 
 interface FormikInputFieldPropsType {
@@ -57,6 +56,7 @@ export function FormikInputField({
             },
             fieldset: {
               transition: 'all .3s linear',
+              borderColor: 'rgba(76, 47, 252, 0.23)',
             },
             '&.isError': {
               marginBottom: '14px',
@@ -69,13 +69,11 @@ export function FormikInputField({
               '& .MuiOutlinedInput-root + .MuiFormHelperText-root': {
                 color: '#e51a3e !important',
                 m: '1px 0 0 4px',
+                transition: 'all 2s linear',
               },
               '& .MuiFormHelperText-root:first-letter': {
                 textTransform: 'uppercase',
               },
-            },
-            '& .MuiOutlinedInput-root fieldset': {
-              borderColor: 'rgba(76, 47, 252, 0.23)',
             },
             '& .MuiOutlinedInput-root.Mui-focused fieldset': {
               borderColor: '#4c2ffc',
