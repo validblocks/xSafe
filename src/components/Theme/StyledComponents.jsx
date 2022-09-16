@@ -366,3 +366,24 @@ export const FormikRoundedCheckBox = styled(Box)`
     font-size: 15px;
   }
 `;
+
+export const InputWrapper = styled.div`
+position: relative;
+& > div.MuiFormControl-root ~ span.errorMessage {
+  position: absolute;
+  content: '';
+  display: table;
+  left: 5px;
+  bottom: 16px;
+  line-height: 0;
+  font-size: 0px;
+  transition: font-size .3s linear;
+  color: ${(props) => props.theme.palette.danger.main};
+}
+& > span.errorMessage:first-letter {
+  text-transform: uppercase;
+}
+& > div.MuiFormControl-root.isError ~ span.errorMessage {
+  font-size: 10.5px;
+}
+`;
