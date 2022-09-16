@@ -336,6 +336,9 @@ export const FormikRoundedCheckBox = styled(Box)`
     border-radius: .2rem;
     transition: 300ms all ease-in-out;
   }
+  & input[type="checkbox"]:hover {
+    border-color:  ${(props) => props.theme.palette.primary.main};
+  }
   & input[type="checkbox"]:focus {
     outline: none;
   }
