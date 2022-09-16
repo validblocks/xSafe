@@ -1,5 +1,5 @@
 import { TextField } from '@mui/material';
-import { FormikRoundedCheckBox } from 'src/components/Theme/StyledComponents';
+import { FormikRoundedCheckBox, InputWrapper } from 'src/components/Theme/StyledComponents';
 
 interface FormikInputFieldPropsType {
   label: string;
@@ -33,7 +33,7 @@ export function FormikInputField({
 }: FormikInputFieldPropsType) {
   return (
     <div>
-      <div className="input-wrapper">
+      <InputWrapper className="input-wrapper">
         <TextField
           variant="outlined"
           label={label}
@@ -43,11 +43,10 @@ export function FormikInputField({
           disabled={disabled}
           onChange={handleChange}
           onBlur={handleBlur}
-          helperText={error}
           className={className}
           sx={{
             width: '100%',
-            transition: 'margin-bottom .5s linear',
+            transition: 'margin-bottom .3s linear',
             marginBottom: '12px',
             label: {
               marginBottom: 0,
@@ -59,7 +58,7 @@ export function FormikInputField({
               borderColor: 'rgba(76, 47, 252, 0.23)',
             },
             '&.isError': {
-              marginBottom: '14px',
+              marginBottom: '24px',
               label: {
                 color: '#e51a3e !important',
               },
@@ -69,7 +68,6 @@ export function FormikInputField({
               '& .MuiOutlinedInput-root + .MuiFormHelperText-root': {
                 color: '#e51a3e !important',
                 m: '1px 0 0 4px',
-                transition: 'all 2s linear',
               },
               '& .MuiFormHelperText-root:first-letter': {
                 textTransform: 'uppercase',
@@ -84,7 +82,8 @@ export function FormikInputField({
             },
           }}
         />
-      </div>
+        <span className="errorMessage">{error}</span>
+      </InputWrapper>
       {footer != null && footer}
     </div>
   );
