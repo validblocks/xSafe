@@ -84,7 +84,6 @@ const PaginationWithItemsPerPage = ({
             onChange={handleChangeOnActionsPerPage}
             displayEmpty
             inputProps={{ 'aria-label': 'Without label' }}
-            // eslint-disable-next-line react/jsx-curly-brace-presence
             input={<OutlinedInput />}
           >
             <MenuItem value={10}>10</MenuItem>
