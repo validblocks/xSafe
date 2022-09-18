@@ -38,6 +38,7 @@ export default function useMultisigDetailsCards() {
     quorumCountState: [quorumSize],
     userRole,
     nftCount,
+    isInReadOnlyMode,
   } = useOrganizationInfoContext();
 
   const contractInfo = useMemo(() => ({
@@ -94,6 +95,7 @@ export default function useMultisigDetailsCards() {
         title={'Your Role'}
         actionButton={(
           <Styled.CardButton
+            disabled={isInReadOnlyMode}
             onClick={onNewTransactionClick}
           >
             <AssetActionIcon width="25px" height="25px" /> {userRoleDescription}
@@ -110,7 +112,7 @@ export default function useMultisigDetailsCards() {
         title={'Organization Funds'}
       />,
     ],
-    [currentContract?.address, getCurrency, onNewTransactionClick, t, totalOrganizationValueToDisplay, userRoleAsString],
+    [currentContract?.address, getCurrency, isInReadOnlyMode, onNewTransactionClick, t, totalOrganizationValueToDisplay, userRoleAsString, userRoleDescription],
   );
 
   const bottomSectionCards = useMemo(
