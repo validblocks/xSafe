@@ -28,7 +28,7 @@ import { QueryKeys } from 'src/react-query/queryKeys';
 import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
-import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { CenteredText } from '../navbar-style';
 
 export const identifierWithoutUniqueHash = (identifier: string) => identifier?.split('-')[0] ?? '';
@@ -259,7 +259,7 @@ function TotalBalance() {
   const getCurrency = useSelector(selectedCurrencySelector);
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
 
-  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
   const [multisigAllCoinsValue, setMultisigAllCoinsValue] = useState('0');
 
   useEffect(() => {

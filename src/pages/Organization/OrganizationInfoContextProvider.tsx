@@ -14,7 +14,7 @@ import {
 } from 'src/redux/selectors/multisigContractsSelectors';
 import { uniqueContractAddress, uniqueContractName } from 'src/multisigConfig';
 import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
-import { setIsInReadOnlyMode, StateType } from 'src/redux/slices/accountSlice';
+import { StateType } from 'src/redux/slices/accountSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { useQuery, useQueryClient } from 'react-query';
@@ -48,17 +48,19 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const [membersCount, setMembersCount] = useState(0);
   const [isBoardMember, setIsBoardMember] = useState(false);
   const [boardMembers, setBoardMembers] = useState<Address[]>([]);
+  const [isInReadOnlyMode, setIsInReadOnlyMode] = useState<boolean>(true);
+  const [isMultiWalletMode, setIsMultiWalletMode] = useState(uniqueContractAddress.length > 0);
 
-  const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
-  const safeName = useSelector(safeNameStoredSelector);
+  const queryClient = useQueryClient();
+  const { address } = useGetAccountInfo();
   const { isLoggedIn } = useGetLoginInfo();
+  const safeName = useSelector(safeNameStoredSelector);
 
   useEffect(() => {
     dispatch(setSafeName(uniqueContractName?.length > 0 ? uniqueContractName : safeName));
   }, [dispatch, safeName, uniqueContractName]);
 
-  const queryClient = useQueryClient();
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
 
   const fetchNftCount = useCallback(
@@ -74,8 +76,6 @@ function OrganizationInfoContextProvider({ children }: Props) {
       ...USE_QUERY_DEFAULT_CONFIG,
     },
   );
-
-  const [isMultiWalletMode, setIsMultiWalletMode] = useState(uniqueContractAddress.length > 0);
 
   useEffect(() => {
     const isSingleWalletMode = (uniqueContractAddress as string).length > 0;
@@ -107,13 +107,13 @@ function OrganizationInfoContextProvider({ children }: Props) {
 
     queryUserRole(new Address(address).hex()).then((userRoleResponse) => {
       setUserRole(userRoleResponse);
-      dispatch(setIsInReadOnlyMode(userRole !== 2));
+      setIsInReadOnlyMode(userRole !== 2);
     });
   }, [address, currentContract?.address, dispatch, isLoggedIn, userRole]);
 
   useEffect(() => {
-    dispatch(setIsInReadOnlyMode(userRole !== 2));
-  }, [userRole, dispatch]);
+    setIsInReadOnlyMode(userRole !== 2);
+  }, [userRole]);
 
   useEffect(() => {
     let isMounted = true;
@@ -194,6 +194,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
         isBoardMemberState: [isBoardMember, setIsBoardMember],
         nftCount: nftCount ?? 0,
         isMultiWalletMode,
+        isInReadOnlyMode,
       }),
       [membersCount, boardMembers, quorumCount, userRole, allMemberAddresses, isBoardMember, nftCount])}
     >

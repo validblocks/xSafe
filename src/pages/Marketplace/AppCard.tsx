@@ -1,8 +1,7 @@
 import { Button, Card } from '@mui/material';
 import { Box } from '@mui/system';
-import { useSelector } from 'react-redux';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
+import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 interface Props {
     imgUrl?: string;
@@ -21,7 +20,7 @@ const AppCard = ({
   actionButtonText = 'Click me',
   actionButtonOnClick = () => null,
 }: Props) => {
-  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
 
   return (
     <Card sx={{ padding: '1rem', width: '250px' }}>

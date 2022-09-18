@@ -17,14 +17,14 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import { StateType } from 'src/redux/slices/accountSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
-import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 
 function NftCompmonent() {
   const dispatch = useDispatch();
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
-  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
 
   const fetchNFTs = useCallback(
     () => ElrondApiProvider.fetchOrganizationNFTs(currentContract?.address),
