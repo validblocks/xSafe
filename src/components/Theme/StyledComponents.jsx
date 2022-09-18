@@ -8,7 +8,6 @@ export const MainButton = styled(Button)`
     ${(props) => props.theme.padding.value.lg}
     ${(props) => props.theme.padding.value.xs} !important;
   color: ${(props) => props.theme.palette.primary.main} !important;
-  font-weight: ${(props) => props.theme.font.weight.lg} !important;
   text-transform: capitalize !important;
   transition: all .15s linear !important;
   border: 1px solid

@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { useEffect, useState } from 'react';
-
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Box, Button, Grid } from '@mui/material';
@@ -23,10 +22,10 @@ import { useOrganizationInfoContext } from '../Organization/OrganizationInfoCont
 function Dashboard() {
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
+  const isWalletProvider = getIsProviderEqualTo(providerTypes.wallet);
   const [showAddMultisigModal, setShowAddMultisigModal] = useState(false);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const [invalidMultisigContract, setInvalidMultisigContract] = useState(false);
-  const isWalletProvider = getIsProviderEqualTo(providerTypes.wallet);
 
   async function checkSingleContractValidity() {
     if (uniqueContractAddress || !storageApi) {

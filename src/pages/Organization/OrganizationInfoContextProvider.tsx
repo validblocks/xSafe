@@ -21,6 +21,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import { parseMultisigAddress } from 'src/utils/addressUtils';
 import { OrganizationInfoContextType } from './types';
 
 type Props = {
@@ -30,14 +31,6 @@ type Props = {
 const OrganizationInfoContext = createContext<OrganizationInfoContextType>(
   {} as OrganizationInfoContextType,
 );
-
-const parseMultisigAddress = (addressParam: string): Address | null => {
-  try {
-    return new Address(addressParam);
-  } catch {
-    return null;
-  }
-};
 
 export const useOrganizationInfoContext = () =>
   useContext(OrganizationInfoContext);
