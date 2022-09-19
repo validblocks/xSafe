@@ -33,7 +33,7 @@ export function FormikInputField({
 }: FormikInputFieldPropsType) {
   return (
     <div>
-      <InputWrapper className="input-wrapper">
+      <InputWrapper className={error != null ? 'input-wrapper invalid' : 'input-wrapper'}>
         <TextField
           variant="outlined"
           label={label}
@@ -47,7 +47,6 @@ export function FormikInputField({
           sx={{
             width: '100%',
             transition: 'margin-bottom .3s linear',
-            marginBottom: '12px',
             label: {
               marginBottom: 0,
               fontSize: '15px',
@@ -58,7 +57,6 @@ export function FormikInputField({
               borderColor: 'rgba(76, 47, 252, 0.23)',
             },
             '&.isError': {
-              marginBottom: '24px',
               label: {
                 color: '#e51a3e !important',
               },
