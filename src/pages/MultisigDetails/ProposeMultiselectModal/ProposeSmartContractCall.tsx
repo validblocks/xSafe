@@ -216,7 +216,9 @@ const ProposeSmartContractCall = ({
         handleBlur={formik.handleBlur}
         className={receiverError ? 'isError' : ''}
       />
-      <InputsContainer className={amountError != null ? 'invalid' : ''}>
+      <InputsContainer
+        className={amountError != null ? 'hasAvailableAmount invalid' : 'hasAvailableAmount'}
+      >
         <Form.Control
           id="amount"
           name="amount"
@@ -228,11 +230,8 @@ const ProposeSmartContractCall = ({
 
         <label htmlFor="amount">{t('Amount') as string}</label>
 
-        {amountError != null && (
-        <Form.Control.Feedback type="invalid">
-          {amountError}
-        </Form.Control.Feedback>
-        )}
+        <span className="errorMessage">{amountError}</span>
+
         <Text
           fontSize={13}
           variant="subtitle2"
