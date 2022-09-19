@@ -131,7 +131,10 @@ export const InputsContainer = styled(Box)`
   transition: all .3s linear;
   z-index: 0;
   &.invalid {
-    margin-bottom: 22px;
+    margin-bottom: 26px;
+  }
+  &.invalid.hasAvailableAmount {
+    margin-bottom: 34px;
   }
   & input.form-control,
   & label,
@@ -210,6 +213,7 @@ export const InputsContainer = styled(Box)`
     display: table;
     font-size: 12px;
     color: grey;
+    transition: bottom .23s linear;
   };
   & li {
     position: absolute;
@@ -245,12 +249,27 @@ export const InputsContainer = styled(Box)`
       border-radius: 50%;
     }
   };
-  & div.invalid-feedback {
-    margin: 1px 0 0 4px;
+  & > span.errorMessage {
+    position: absolute;
+    display: table;
+    content: '';
+    left: 4px;
+    bottom: -10px;
+    line-height: 0;
+    color: ${(props) => props.theme.palette.danger.main};
+    transition: transform .3s linear, opacity .3s linear;
+    font-size: 10.5px;
+    transform: translateY(-7px);
+    opacity: 0;
+  };
+  &.invalid > span.errorMessage {
+    transform: translateY(0px);
+    opacity: 1;
   };
   &.invalid h6.availableAmount {
-    bottom: -15px;
-  }
+    transition: bottom .3s linear;
+    bottom: -36px;
+  };
 `;
 
 export const DepositDoneAction = styled(Button)`
@@ -369,21 +388,30 @@ export const FormikRoundedCheckBox = styled(Box)`
 
 export const InputWrapper = styled.div`
 position: relative;
+margin-bottom: 14px;
+transition: margin-bottom .3s linear;
+&.invalid {
+  margin-bottom: 26px;
+}
 & > div.MuiFormControl-root ~ span.errorMessage {
   position: absolute;
   content: '';
   display: table;
   left: 5px;
-  bottom: 16px;
-  line-height: 0;
-  font-size: 0px;
-  transition: font-size .3s linear;
+  bottom: -9px;
   color: ${(props) => props.theme.palette.danger.main};
+  line-height: 0;
+  font-size: 10.5px;
+  transform: translateY(-7px);
+  transition: transform .3s linear, opacity .3s linear;
+  opacity: 0;
 }
 & > span.errorMessage:first-letter {
   text-transform: uppercase;
 }
 & > div.MuiFormControl-root.isError ~ span.errorMessage {
   font-size: 10.5px;
+  transform: translateY(0);
+  opacity: 1;
 }
 `;
