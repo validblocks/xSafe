@@ -7,7 +7,7 @@ import TokenPresentationWithPrice from './TokenPresentationWithPrice';
 
 const InputTokenPresentation = ({
   amount, amountError, egldBalanceString, label, onChange, onBlur, formik }:
-  { amount: string, amountError: string | false | undefined, egldBalanceString: any, label: string, onChange: any, onBlur: any, formik: any }) => {
+  { amount: string, amountError: string | false | undefined, egldBalanceString: any, label: string, onChange: any, onBlur: any, formik: any, }) => {
   const egldBalanceNumber = Number(egldBalanceString);
 
   const autocompleteMaxAmount = useCallback(() => {
@@ -18,7 +18,9 @@ const InputTokenPresentation = ({
   }, [amountError, egldBalanceNumber, formik]);
 
   return (
-    <InputsContainer className={amountError != null ? 'invalid' : ''}>
+    <InputsContainer
+      className={amountError != null ? 'hasAvailableAmount invalid' : 'hasAvailableAmount'}
+    >
       <Form.Control
         id={amount}
         name="amount"
@@ -48,6 +50,8 @@ const InputTokenPresentation = ({
         />
       </MenuItem>
 
+      <span className="errorMessage">{amountError}</span>
+
       <Text
         fontSize={13}
         variant="subtitle2"
@@ -56,11 +60,6 @@ const InputTokenPresentation = ({
       >{`${'Available'}: ${egldBalanceString} EGLD`}
       </Text>
 
-      {amountError != null && (
-      <Form.Control.Feedback type="invalid">
-        {amountError}
-      </Form.Control.Feedback>
-      )}
     </InputsContainer>
   );
 };
