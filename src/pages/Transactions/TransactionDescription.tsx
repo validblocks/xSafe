@@ -26,7 +26,7 @@ type Props = Partial<{
   signers: Address[];
   child1?: React.ReactElement;
   child2?: React.ReactElement;
-  child3?: React.ReactElement;
+  bottomLeftChild?: React.ReactElement;
 }>;
 
 const StyledDot = withStyles({ root: { backgroundColor: '#4c2ffc' } })(
@@ -43,7 +43,7 @@ function TransactionDescription({
   signers = [],
   child1,
   child2,
-  child3,
+  bottomLeftChild,
 }: Props) {
   const isSmallScreen = useMediaQuery('(max-width:850px)');
 
@@ -98,7 +98,7 @@ function TransactionDescription({
           {(child1 || action?.description()) ?? 'Action description missing'}
         </Box>
         <Box>
-          {child3 || <TransactionTechnicalDetails transaction={transaction} />}
+          {bottomLeftChild || <TransactionTechnicalDetails transaction={transaction} />}
         </Box>
       </Box>
       <Box className={classes.child2}>

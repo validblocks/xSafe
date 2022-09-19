@@ -20,14 +20,14 @@ import { RootState } from 'src/redux/store';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { MainButton } from 'src/components/Theme/StyledComponents';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
-import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
 import { AccountInfo, AddressBook, Owner } from './types';
+import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
 const OrganizationsOwnersTable = () => {
   const [addresses, setAddresses] = useState<Array<Owner>>([]);
 
   const getAddresses = () => queryBoardMemberAddresses();
-  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
 
   // Set the address book
   // Test the address book and herotag

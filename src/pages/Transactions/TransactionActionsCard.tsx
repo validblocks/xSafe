@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CloseIcon from '@mui/icons-material/Close';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import CheckIcon from '@mui/icons-material/Check';
 import {
   mutateSign,
@@ -17,8 +17,8 @@ import {
 import { setSelectedPerformedAction } from 'src/redux/slices/modalsSlice';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { DiscardActionButton, PerformActionButton } from 'src/components/StyledComponents/StyledComponents';
-import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
 import useTransactionPermissions from './useTransactionPermissions';
+import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 export interface TransactionActionsCardType {
   type: number;
@@ -42,7 +42,7 @@ function TransactionActionsCard({
 }: TransactionActionsCardType) {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
   const { canUnsign, canPerformAction, canSign, canDiscardAction } =
     useTransactionPermissions(action);
   const sign = () => {

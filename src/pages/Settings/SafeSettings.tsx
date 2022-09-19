@@ -7,13 +7,13 @@ import { MainButton, TypographyBold } from 'src/components/Theme/StyledComponent
 import ThemeColor from 'src/components/ThemeColor';
 import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
 import { setSafeName } from 'src/redux/slices/safeNameSlice';
-import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
 import { NoteSpan, Span } from './settings-style';
+import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 function SafeSettings() {
   const safeName = useSelector(safeNameStoredSelector);
   const [name, setName] = useState('');
-  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
 
   useEffect(() => {
     setName(safeName);

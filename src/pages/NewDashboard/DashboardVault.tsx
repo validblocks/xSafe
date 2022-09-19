@@ -32,7 +32,7 @@ function DashboardVault() {
           gridColumn: '2 / 3',
           minHeight: '5.5rem',
         },
-        child3: {
+        bottomLeftChild: {
           gridRow: '2 / 3',
           gridColumn: '2 / 3',
         },
@@ -64,7 +64,7 @@ function DashboardVault() {
             </p>
           </div>
         </Box>
-        <Box className={classes.child3}>
+        <Box className={classes.bottomLeftChild}>
           <div
             style={{ backgroundColor: '#F3FDFA' }}
             className="shadow-sm w-100 h-100 rounded d-flex flex-column align-items-center justify-content-center"

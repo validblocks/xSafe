@@ -15,7 +15,6 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { network } from 'src/config';
 import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
-import { isInReadOnlyModeSelector } from 'src/redux/selectors/accountSelector';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import {
@@ -27,7 +26,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   const { isLoggedIn } = useGetLoginInfo();
 
   const safeName = useSelector(safeNameStoredSelector);
-  const isInReadOnlyMode = useSelector(isInReadOnlyModeSelector);
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const [showQr, setShowQr] = useState(false);

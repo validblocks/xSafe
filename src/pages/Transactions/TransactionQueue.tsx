@@ -121,7 +121,7 @@ const TransactionQueue = () => {
               action={action}
               signers={action.signers}
               description={action.description()}
-              child3={(
+              bottomLeftChild={(
                 <TransactionActionsCard
                   boardMembers={boardMembers}
                   key={action.actionId}

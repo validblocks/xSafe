@@ -14,17 +14,18 @@ const StyledTypography = withStyles({
   },
 })(Typography);
 
-interface IMultisigSmartContractCallPresentationProps {
+interface ISendTokenProposalPresentationProps {
     address: Address;
     amount: BigNumber;
     identifier: string;
+    title: string;
 }
 
-const MultisigSmartContractCallPresentation = (
-  { address, amount, identifier }: IMultisigSmartContractCallPresentationProps) => (
+const SendTokenProposalPresentation = (
+  { address, amount, identifier, title }: ISendTokenProposalPresentationProps) => (
     <Box>
       <h4>
-        <strong>Send Token</strong>
+        <strong>{title}</strong>
       </h4>
       <Box sx={{ py: '1rem' }}>
         <TokenPresentationWithPrice identifier={identifier} withTokenAmount={false} withTokenValue={false} />
@@ -59,4 +60,4 @@ const MultisigSmartContractCallPresentation = (
     </Box>
 );
 
-export default MultisigSmartContractCallPresentation;
+export default SendTokenProposalPresentation;

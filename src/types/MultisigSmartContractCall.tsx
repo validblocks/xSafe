@@ -9,7 +9,6 @@ import {
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
 import i18next from 'i18next';
 import startCase from 'lodash/startCase';
-import MultisigSmartContractCallPresentation from 'src/types/MultisigSmartContractCallPresentation';
 import { Box, Grid } from '@mui/material';
 import StakingProviderBasedOnAddress from 'src/components/Staking/StakingProviderBasedOnAddress';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
@@ -22,6 +21,7 @@ import { multisigContractFunctionNames } from './multisigFunctionNames';
 import { delegationFunctionNames } from './staking/delegationFunctionNames';
 import { DelegationFunctionTitles } from './types';
 import ProposalAmount from './ProposalAmount';
+import SendTokenProposalPresentation from './SendTokenProposalPresentation';
 
 export class MultisigSmartContractCall extends MultisigAction {
   address: Address;
@@ -112,7 +112,7 @@ export class MultisigSmartContractCall extends MultisigAction {
       case delegationFunctionNames.claimRewards:
         return this.getStakeTokensDescription(DelegationFunctionTitles.ClaimRewards, <NorthIcon />);
       case delegationFunctionNames.reDelegateRewards:
-        return this.getStakeTokensDescription(DelegationFunctionTitles.RestakeRewards, <NorthIcon />);
+        return this.getStakeTokensDescription(DelegationFunctionTitles.RestakeRewards, <SouthIcon />);
       default:
         return 'Unknown function';
     }
@@ -141,7 +141,12 @@ export class MultisigSmartContractCall extends MultisigAction {
       .valueOf();
 
     return (
-      <MultisigSmartContractCallPresentation identifier={identifier} amount={amount} address={this.address} />
+      <SendTokenProposalPresentation
+        title="Send Token"
+        identifier={identifier}
+        amount={amount}
+        address={this.address}
+      />
     );
   }
 

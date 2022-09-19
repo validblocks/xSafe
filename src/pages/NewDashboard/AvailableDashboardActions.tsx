@@ -28,7 +28,7 @@ function AvailableDashboardActions() {
           gridRow: isSmallScreen ? '2 / 3' : '1 / 2',
           gridColumn: isSmallScreen ? '1 / 2' : '2 / 3',
         },
-        child3: {
+        bottomLeftChild: {
           gridRow: isSmallScreen ? '3 / 4' : '1 / 2',
           gridColumn: isSmallScreen ? '1 / 2' : '3 / 4',
         },
