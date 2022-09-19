@@ -242,7 +242,10 @@ const ProposeSendToken = ({
         className={addressError != null ? 'isError' : ''}
       />
 
-      <InputsContainer sx={{ mb: '2.3rem !important' }}>
+      <InputsContainer
+        className={amountError != null ? 'invalid' : ''}
+        sx={{ mb: '30px !important', '&.invalid': { mb: '36px !important' } }}
+      >
         <Form.Control
           id={amount}
           name="amount"
@@ -256,11 +259,6 @@ const ProposeSendToken = ({
           {`${t('Amount')}`}
         </label>
 
-        {amountError != null && (
-        <Form.Control.Feedback type="invalid">
-          {amountError}
-        </Form.Control.Feedback>
-        )}
         <Select
           value={identifier ?? ''}
           fullWidth
@@ -300,6 +298,8 @@ const ProposeSendToken = ({
             </MenuItem>
           ))}
         </Select>
+
+        <span className="errorMessage">{amountError}</span>
 
         <Text
           fontSize={13}
