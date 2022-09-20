@@ -250,7 +250,7 @@ const ProposeSmartContractCall = ({
           value={functionName}
           sx={{
             width: '100%',
-            m: '0.48rem 0 1.93rem',
+            m: '4px 0 20px',
             label: {
               marginBottom: 0,
               fontSize: '15px',
@@ -278,7 +278,6 @@ const ProposeSmartContractCall = ({
               <InputsContainer
                 width={'100%'}
                 className={argsError ? 'invalid' : ''}
-                sx={{ '.invalid': { mb: '1rem' } }}
               >
                 <Form.Control
                   id={`args[${idx}]`}
@@ -294,11 +293,12 @@ const ProposeSmartContractCall = ({
                   {`${t('Argument')} ${idx + 1}`}
                 </label>
 
-                {argsError && <small className="text-danger mx-1">{argsError}</small>}
+                <span className="errorMessage">{argsError}</span>
+
               </InputsContainer>
               <RemoveItemsButton
                 onClick={() => removeArg(idx)}
-                sx={{ alignSelf: 'flex-start', mt: '9px', ml: '7px' }}
+                sx={{ alignSelf: 'flex-start', mt: '10px', ml: '7px' }}
               >
                 <FontAwesomeIcon className="mx-2" icon={faMinus as IconProp} />
               </RemoveItemsButton>
