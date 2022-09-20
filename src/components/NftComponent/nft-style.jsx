@@ -12,7 +12,8 @@ export const CollectionName = styled.div`
 `;
 
 export const TextDivider = styled.div`
-  margin-top: 1rem;
+  margin-top: 0;
+  margin-bottom: 2rem;
   position: relative;
   & .collectionLight{
     font-weight: 500;
@@ -42,6 +43,7 @@ export const TextDivider = styled.div`
 export const CardBox = styled(Card)`
   height: ${(props) => props.height};
   width: 250px;
+  margin: 0 auto 1.6rem auto !important;
   border-radius: .7rem;
   box-shadow: none;
   transition: all .2s linear;

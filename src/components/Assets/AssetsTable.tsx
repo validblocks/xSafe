@@ -196,9 +196,6 @@ const AssetsTable = () => {
               color: 'rgba(76, 47, 252, 0.54)',
             },
           },
-          'div.MuiDataGrid-cell-withRenderer': {
-            backgroundColor: 'red',
-          },
         }}
       />
       <ReceiveModal

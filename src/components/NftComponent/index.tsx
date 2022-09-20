@@ -103,7 +103,19 @@ function NftCompmonent() {
                   </TextDivider>
                 </CollectionName>
               )}
-              <Grid xs={12} sm={6} md={4} lg={3} item key={item.name}>
+              <Grid
+                xs={12}
+                sm={6}
+                md={4}
+                lg={3}
+                item
+                key={item.name}
+                sx={{
+                  minWidth: '260px',
+                  maxWidth: '270px !important',
+                  p: '0 !important',
+                }}
+              >
                 <CardBox>
                   <Box sx={{
                     m: '0',
