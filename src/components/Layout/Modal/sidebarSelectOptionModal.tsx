@@ -77,6 +77,6 @@ const SidebarSelectOptionModal = () => {
       </Modal>
     </div>
   );
-}
+};
 
 export default SidebarSelectOptionModal;

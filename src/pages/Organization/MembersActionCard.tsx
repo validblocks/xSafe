@@ -1,6 +1,4 @@
-import { icon } from '@fortawesome/fontawesome-svg-core';
 import { Card, IconButton } from '@mui/material';
-import { title } from 'process';
 
 type Props = {
   title: string;

@@ -150,6 +150,6 @@ const MobileLayout = () => {
       </MobileSecondaryMenu>
     </Box>
   );
-}
+};
 
 export default MobileLayout;

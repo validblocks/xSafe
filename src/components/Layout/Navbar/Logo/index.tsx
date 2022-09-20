@@ -28,6 +28,6 @@ const NavbarLogo = () => {
       </Text>
     </NavLogo>
   );
-}
+};
 
 export default NavbarLogo;
