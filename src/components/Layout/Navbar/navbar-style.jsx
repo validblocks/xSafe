@@ -30,11 +30,20 @@ export const DisconnectButton = styled(Button)`
   color: ${(props) => props.theme.palette.danger.main};
   border: 1px solid
     ${(props) => props.theme.palette.danger.main};
-  padding: 10px 16px;
+  padding: 10px 16px 8px;
   margin-top: 0px;
-  top: 15px;
+  top: 16px;
   border-radius: ${(props) => props.theme.shape.radius};
   background: ${(props) => props.theme.palette.background.danger};
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+  &:hover {
+    color: ${(props) => props.theme.palette.background.white};
+    background-color: ${(props) => props.theme.palette.danger.main};
+    border-color: ${(props) => props.theme.palette.danger.main};
+  }
 `;
 
 export const ReadOnly = styled(Text)`
