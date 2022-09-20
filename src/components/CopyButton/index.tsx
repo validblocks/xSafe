@@ -55,6 +55,6 @@ const CopyButton = ({ text, className = '' }: CopyButtonType) => {
       )}
     </Link>
   );
-};
+}
 
 export default CopyButton;
