@@ -262,6 +262,9 @@ export const InputsContainer = styled(Box)`
     transform: translateY(-7px);
     opacity: 0;
   };
+  & > span.errorMessage:first-letter {
+    text-transform: uppercase !important;
+  }
   &.invalid > span.errorMessage {
     transform: translateY(0px);
     opacity: 1;
@@ -406,7 +409,7 @@ transition: margin-bottom .3s linear;
   transition: transform .3s linear, opacity .3s linear;
   opacity: 0;
 }
-& > span.errorMessage:first-letter {
+& > div.MuiFormControl-root ~ span:first-letter {
   text-transform: uppercase;
 }
 & > div.MuiFormControl-root.isError ~ span.errorMessage {
