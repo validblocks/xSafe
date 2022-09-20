@@ -182,7 +182,6 @@ const ProposeDeployContractFromSource = ({
             <InputsContainer
               width={'100%'}
               className={argsError ? 'invalid' : ''}
-              sx={{ '.invalid': { mb: '1rem' } }}
             >
               <Form.Control
                 id={`args[${idx}]`}
@@ -198,11 +197,11 @@ const ProposeDeployContractFromSource = ({
                 {`${t('Argument')} ${idx + 1}`}
               </label>
 
-              {argsError && <small className="text-danger mx-1">{argsError as string}</small>}
+              <span className="errorMessage">{argsError as string}</span>
             </InputsContainer>
             <RemoveItemsButton
               onClick={() => removeArg(idx)}
-              sx={{ alignSelf: 'flex-start', mt: '9px', ml: '7px' }}
+              sx={{ alignSelf: 'flex-start', mt: '10px', ml: '7px' }}
             >
               <FontAwesomeIcon className="mx-2" icon={faMinus as IconProp} />
             </RemoveItemsButton>
