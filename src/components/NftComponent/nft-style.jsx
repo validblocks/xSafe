@@ -23,11 +23,26 @@ export const TextDivider = styled.div`
     background: #DFDFE8;
   }
   border-top: solid 1px #DFDFE8;
+  & .collectionLight{
+    font-weight: 500;
+    font-size: 11px;
+    color: #7A7883; 
+  }
+  & div {
+    display: flex;
+    align-items: center;
+    span:nth-child(1){
+      font-size: 16px;
+    }
+    span:nth-child(2){
+      margin-left: .4rem;
+    }
+  }
 `;
 
 export const CardBox = styled(Card)`
   height: ${(props) => props.height};
-  width: 265px;
+  width: 250px;
   border-radius: .7rem;
   box-shadow: none;
   transition: transform .2s linear;

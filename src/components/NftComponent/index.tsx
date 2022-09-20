@@ -85,11 +85,19 @@ function NftCompmonent() {
   }
 
   const rewriteNftsCollection = (value: string) => {
+<<<<<<< HEAD
     const categoryNameOfNftsLETTERS = value.slice(0, value.indexOf('-'));
     const categoryNameOfNftsDIGITS = `(${value.slice(value.indexOf('-') + 1, value.length)})`;
     return (
       <Box sx={{ mt: 0.2, mb: 0.2, pl: 1 }}>
         <span className="font-weight-bold">{categoryNameOfNftsLETTERS}</span> <span className="collectionLight">{categoryNameOfNftsDIGITS}</span>
+=======
+    const string1 = value.slice(0, value.indexOf('-'));
+    const string2 = `(${value.slice(value.indexOf('-') + 1, value.length)})`;
+    return (
+      <Box sx={{ mt: 0.2, mb: 0.2, pl: 1 }}>
+        <span className="font-weight-bold">{string1}</span> <span className="collectionLight">{string2}</span>
+>>>>>>> b3cb847 (restyle: nfts category)
       </Box>
     );
   };
