@@ -1,12 +1,10 @@
-import { Fragment } from 'react';
+import { Fragment, useCallback } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { MainButton } from 'src/components/Theme/StyledComponents';
-import { network } from 'src/config';
-import { uniqueContractAddress } from 'src/multisigConfig';
 import { ProposalsTypes } from 'src/types/Proposals';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   setProposeMultiselectSelectedOption,
   setSelectedNftToSend,
@@ -14,16 +12,25 @@ import {
 import { useQuery } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
-import axios from 'axios';
 import { NFTType } from 'src/types/nfts';
-import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { StateType } from 'src/redux/slices/accountSlice';
+import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
-
-const fetchNfts = () => axios
-  .get(`${network.apiAddress}/accounts/${uniqueContractAddress}/nfts`)
-  .then((res) => res.data);
+import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 
 function NftCompmonent() {
+  const dispatch = useDispatch();
+  const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
+
+  const fetchNFTs = useCallback(
+    () => ElrondApiProvider.fetchOrganizationNFTs(currentContract?.address),
+    [currentContract],
+  );
+
   const {
     data: nftList,
     isFetching: isFetchingNFTs,
@@ -33,13 +40,12 @@ function NftCompmonent() {
     [
       QueryKeys.ALL_ORGANIZATION_NFTS,
     ],
-    () => fetchNfts(),
+    () => fetchNFTs(),
     {
       ...USE_QUERY_DEFAULT_CONFIG,
       keepPreviousData: true,
     },
   );
-  const dispatch = useDispatch();
 
   const nftListSorted = nftList?.sort((a: NFTType, b: NFTType) => a.collection.localeCompare(b.collection));
 
@@ -156,6 +162,7 @@ function NftCompmonent() {
                       {item.name}
                     </Typography>
                     <MainButton
+                      disabled={isInReadOnlyMode}
                       sx={{
                         width: '100%',
                         fontWeight: '500 !important',
