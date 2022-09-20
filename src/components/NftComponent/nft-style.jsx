@@ -45,14 +45,35 @@ export const CardBox = styled(Card)`
   border-radius: .7rem;
   box-shadow: none;
   transition: transform .2s linear;
+  transform: scale(1);
+  overflow: hidden;
+  & span {
+    display: table;
+    width: 100% !important;
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    transform: translateY(25px);
+    transition: font-size .2s linear, transform .2s linear;
+  };
+  & button {
+    position: absolute;
+    width: 225.63px;
+    bottom: -50px;
+    left: 11.2px;
+    transition: bottom .2s linear;
+  };
   &:hover{
     transform: scale(1.05);
     box-shadow: 
       0px 2px 10px rgba(191, 191, 191, 0.4),
       0px 3px 12px rgba(191, 191, 191, 0.4);
-    & .nftHover{
-      transform: translateY(0px);
+    & span {
+      transform: translateY(0);
       font-size: 15px;
+    };
+    & button {
+      bottom: 15px;
     };
   };
 `;

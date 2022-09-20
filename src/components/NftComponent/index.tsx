@@ -1,10 +1,12 @@
-import { Fragment, useCallback } from 'react';
+import { Fragment } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { MainButton } from 'src/components/Theme/StyledComponents';
+import { network } from 'src/config';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import { ProposalsTypes } from 'src/types/Proposals';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   setProposeMultiselectSelectedOption,
   setSelectedNftToSend,
@@ -12,25 +14,16 @@ import {
 import { useQuery } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import axios from 'axios';
 import { NFTType } from 'src/types/nfts';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { StateType } from 'src/redux/slices/accountSlice';
-import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
-import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
 import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
-import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
+
+const fetchNfts = () => axios
+  .get(`${network.apiAddress}/accounts/${uniqueContractAddress}/nfts`)
+  .then((res) => res.data);
 
 function NftCompmonent() {
-  const dispatch = useDispatch();
-  const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
-  const { isInReadOnlyMode } = useOrganizationInfoContext();
-
-  const fetchNFTs = useCallback(
-    () => ElrondApiProvider.fetchOrganizationNFTs(currentContract?.address),
-    [currentContract],
-  );
-
   const {
     data: nftList,
     isFetching: isFetchingNFTs,
@@ -38,14 +31,15 @@ function NftCompmonent() {
     isError: isErrorOnFetchNFTs,
   } = useQuery(
     [
-      QueryKeys.ALL_ORGANIZATION_NFTS,
+      QueryKeys.ALL_NFTS,
     ],
-    () => fetchNFTs(),
+    () => fetchNfts(),
     {
       ...USE_QUERY_DEFAULT_CONFIG,
       keepPreviousData: true,
     },
   );
+  const dispatch = useDispatch();
 
   const nftListSorted = nftList?.sort((a: NFTType, b: NFTType) => a.collection.localeCompare(b.collection));
 
@@ -85,19 +79,11 @@ function NftCompmonent() {
   }
 
   const rewriteNftsCollection = (value: string) => {
-<<<<<<< HEAD
-    const categoryNameOfNftsLETTERS = value.slice(0, value.indexOf('-'));
-    const categoryNameOfNftsDIGITS = `(${value.slice(value.indexOf('-') + 1, value.length)})`;
-    return (
-      <Box sx={{ mt: 0.2, mb: 0.2, pl: 1 }}>
-        <span className="font-weight-bold">{categoryNameOfNftsLETTERS}</span> <span className="collectionLight">{categoryNameOfNftsDIGITS}</span>
-=======
     const string1 = value.slice(0, value.indexOf('-'));
     const string2 = `(${value.slice(value.indexOf('-') + 1, value.length)})`;
     return (
       <Box sx={{ mt: 0.2, mb: 0.2, pl: 1 }}>
         <span className="font-weight-bold">{string1}</span> <span className="collectionLight">{string2}</span>
->>>>>>> b3cb847 (restyle: nfts category)
       </Box>
     );
   };
@@ -117,19 +103,7 @@ function NftCompmonent() {
                   </TextDivider>
                 </CollectionName>
               )}
-              <Grid
-                xs={12}
-                sm={6}
-                md={4}
-                lg={3}
-                item
-                key={item.name}
-                sx={{
-                  minWidth: '260px',
-                  maxWidth: '270px !important',
-                  p: '0 !important',
-                }}
-              >
+              <Grid xs={12} sm={6} md={4} lg={3} item key={item.name}>
                 <CardBox>
                   <Box sx={{
                     m: '0',
@@ -170,7 +144,6 @@ function NftCompmonent() {
                       {item.name}
                     </Typography>
                     <MainButton
-                      disabled={isInReadOnlyMode}
                       sx={{
                         width: '100%',
                         fontWeight: '500 !important',
