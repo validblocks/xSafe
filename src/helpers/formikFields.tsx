@@ -67,9 +67,6 @@ export function FormikInputField({
                 color: '#e51a3e !important',
                 m: '1px 0 0 4px',
               },
-              '& .MuiFormHelperText-root:first-letter': {
-                textTransform: 'uppercase',
-              },
             },
             '& .MuiOutlinedInput-root.Mui-focused fieldset': {
               borderColor: '#4c2ffc',
