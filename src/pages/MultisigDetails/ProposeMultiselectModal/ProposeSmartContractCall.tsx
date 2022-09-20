@@ -66,8 +66,6 @@ const ProposeSmartContractCall = ({
 
   let formik: FormikProps<IFormValues>;
 
-  let formik: FormikProps<IFormValues>;
-
   function validateAmount(value?: string, testContext?: TestContext) {
     if (value == null) {
       return true;
