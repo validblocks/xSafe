@@ -28,9 +28,17 @@ export const TextDivider = styled.div`
 export const CardBox = styled(Card)`
   height: ${(props) => props.height};
   width: 265px;
-  padding: 1.25rem .65rem 0;
   border-radius: .7rem;
-  box-shadow:
-    0px 2px 10px rgba(76, 47, 252, 0.03),
-    0px 3px 12px rgba(76, 47, 252, 0.03);
+  box-shadow: none;
+  transition: transform .2s linear;
+  &:hover{
+    transform: scale(1.05);
+    box-shadow: 
+      0px 2px 10px rgba(191, 191, 191, 0.4),
+      0px 3px 12px rgba(191, 191, 191, 0.4);
+    & .nftHover{
+      transform: translateY(0px);
+      font-size: 15px;
+    };
+  };
 `;
