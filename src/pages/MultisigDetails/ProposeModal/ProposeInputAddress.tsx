@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs';
 import { useTranslation } from 'react-i18next';
 import { ProposeAddressInput } from 'src/components/Theme/StyledComponents';
+import { Typography } from '@mui/material';
 
 interface ProposeInputAddressType {
   handleParamsChange: (params: Address) => void;
@@ -20,6 +21,7 @@ function ProposeInputAddress({
   const [address, setAddress] = useState('');
   const [error, setError] = useState(false);
   const { t }: { t: any } = useTranslation();
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleAddressChanged = (event: any) => {
     const newAddress = String(event.target.value);
@@ -33,11 +35,23 @@ function ProposeInputAddress({
       setSubmitDisabled(true);
       setAddress(newAddress);
       setError(true);
+      if (newAddress.length < 3) {
+        setErrorMessage('Too short!');
+      } else {
+        setErrorMessage('Address is invalid!');
+      }
+      if (newAddress.length > 500) {
+        setErrorMessage('Too long!');
+      }
     }
   };
 
   return (
     <div>
+      <Typography fontSize={24} pb={'21px'} lineHeight={1}>
+        Add a new owner
+      </Typography>
+
       <ProposeAddressInput
         error={error}
         label={`${t('Address')}`}
@@ -46,7 +60,7 @@ function ProposeInputAddress({
         value={address}
         autoComplete="off"
         onChange={handleAddressChanged}
-        helperText={error ? `${t('This is not a valid multisig address')}` : ''}
+        helperText={error ? errorMessage : null}
         className={error ? 'isAddressError' : ''}
         sx={{
           '&:hover fieldset': {

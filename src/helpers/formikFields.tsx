@@ -1,11 +1,11 @@
 import { TextField } from '@mui/material';
-import Form from 'react-bootstrap/Form';
+import { FormikRoundedCheckBox, InputWrapper } from 'src/components/Theme/StyledComponents';
 
 interface FormikInputFieldPropsType {
   label: string;
   name: string;
   value: any;
-  error?: string | boolean;
+  error?: string | boolean | string[];
   handleChange?: (e: any) => void;
   handleBlur?: (e: any) => void;
   footer?: React.ReactElement;
@@ -33,18 +33,7 @@ export function FormikInputField({
 }: FormikInputFieldPropsType) {
   return (
     <div>
-      <div className="input-wrapper">
-        {/* <Form.Control
-          id={name}
-          name={name}
-          type="text"
-          as={as}
-          isInvalid={error != null}
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={value}
-          disabled={disabled}
-        /> */}
+      <InputWrapper className={error != null ? 'input-wrapper invalid' : 'input-wrapper'}>
         <TextField
           variant="outlined"
           label={label}
@@ -54,14 +43,18 @@ export function FormikInputField({
           disabled={disabled}
           onChange={handleChange}
           onBlur={handleBlur}
-          helperText={error}
           className={className}
           sx={{
             width: '100%',
+            transition: 'margin-bottom .3s linear',
             label: {
               marginBottom: 0,
               fontSize: '15px',
               left: '-1px',
+            },
+            fieldset: {
+              transition: 'all .3s linear',
+              borderColor: 'rgba(76, 47, 252, 0.23)',
             },
             '&.isError': {
               label: {
@@ -72,27 +65,20 @@ export function FormikInputField({
               },
               '& .MuiOutlinedInput-root + .MuiFormHelperText-root': {
                 color: '#e51a3e !important',
-                m: '3.5px 0 0 4px',
+                m: '1px 0 0 4px',
               },
-              '& .MuiFormHelperText-root:first-letter': {
-                textTransform: 'uppercase',
-              },
-            },
-            '& .MuiOutlinedInput-root fieldset': {
-              borderColor: 'rgba(76, 47, 252, 0.23)',
             },
             '& .MuiOutlinedInput-root.Mui-focused fieldset': {
               borderColor: '#4c2ffc',
+              borderWidth: '1px',
             },
             '& label.MuiInputLabel-root.Mui-focused': {
               color: '#4c2ffc',
             },
           }}
         />
-        {error != null && (
-          <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
-        )}
-      </div>
+        <span className="errorMessage">{error}</span>
+      </InputWrapper>
       {footer != null && footer}
     </div>
   );
@@ -105,20 +91,17 @@ export function FormikCheckbox({
   handleChange,
 }: FormikCheckboxPropsType) {
   return (
-    <div className="modal-control-container my-2">
-      <div className="form-check form-check-inline">
-        <input
-          className="form-check-input"
-          type="checkbox"
-          id={name}
-          name={name}
-          checked={checked}
-          onChange={handleChange}
-        />
-        <label className="form-check-label" htmlFor="upgradeableCheckBox">
-          {label}
-        </label>
-      </div>
-    </div>
+    <FormikRoundedCheckBox>
+      <input
+        type="checkbox"
+        id={name}
+        name={name}
+        checked={checked}
+        onChange={handleChange}
+      />
+      <label className="form-check-label" htmlFor="upgradeableCheckBox">
+        {label}
+      </label>
+    </FormikRoundedCheckBox>
   );
 }

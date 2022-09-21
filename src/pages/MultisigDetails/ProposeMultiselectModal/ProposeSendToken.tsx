@@ -63,7 +63,7 @@ const ProposeSendToken = ({
   };
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
-  const [identifier, setIdentifier] = useState(selectedToken?.identifier ?? '');
+  const [identifier, setIdentifier] = useState(selectedToken?.identifier);
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
 
   const availableTokensWithBalances = useMemo(
@@ -242,7 +242,10 @@ const ProposeSendToken = ({
         className={addressError != null ? 'isError' : ''}
       />
 
-      <InputsContainer sx={{ mt: '2.1rem !important', mb: '2.3rem !important' }}>
+      <InputsContainer
+        className={amountError != null ? 'invalid' : ''}
+        sx={{ mb: '30px !important', '&.invalid': { mb: '36px !important' } }}
+      >
         <Form.Control
           id={amount}
           name="amount"
@@ -256,11 +259,6 @@ const ProposeSendToken = ({
           {`${t('Amount')}`}
         </label>
 
-        {amountError != null && (
-        <Form.Control.Feedback type="invalid">
-          {amountError}
-        </Form.Control.Feedback>
-        )}
         <Select
           value={identifier ?? ''}
           fullWidth
@@ -290,16 +288,18 @@ const ProposeSendToken = ({
         >
           {tokenTableRows?.map((token: TokenTableRowItem) => (
             <MenuItem
-              key={token?.identifier}
-              value={token?.identifier}
+              key={token.identifier}
+              value={token.identifier}
               sx={{ width: '230px', pl: '.1rem', pr: '.3rem' }}
             >
               <TokenPresentationWithPrice
-                identifier={token?.identifier as string}
+                identifier={token.identifier as string}
               />
             </MenuItem>
           ))}
         </Select>
+
+        <span className="errorMessage">{amountError}</span>
 
         <Text
           fontSize={13}
@@ -319,7 +319,7 @@ const ProposeSendToken = ({
           handleOptionSelected(ProposalsTypes.send_token);
           setIsSendEgldPromptOpen(false);
           const firstDifferentIdentifier = tokenTableRows
-            ?.find((token: TokenTableRowItem) => token?.identifier !== 'EGLD')?.identifier;
+            ?.find((token: TokenTableRowItem) => token.identifier !== 'EGLD')?.identifier;
           setIdentifier(firstDifferentIdentifier);
         }}
         onActionTokenTableRows={isTokenTableRowsContainsOnlyEGLD}

@@ -139,10 +139,11 @@ export const MenuAccordion = styled(AccordionSummary)`
       color: ${(props) => props.theme.palette.primary.main} !important;
     };
     .css-yw020d-MuiAccordionSummary-expandIconWrapper {
-      color: rgba(76, 47, 252, 0.54);
+      color: rgba(76, 47, 252, 0.54) !important;
     }
   }
   &.Mui-expanded {
+    min-height: 48px !important;
     border-right: solid 2px #4c2ffc;
     background-color: #e4eaff;
     .MuiTypography-root {
@@ -152,7 +153,7 @@ export const MenuAccordion = styled(AccordionSummary)`
       color: ${(props) => props.theme.palette.primary.main} !important;
     };
     .css-yw020d-MuiAccordionSummary-expandIconWrapper {
-      color: rgba(76, 47, 252, 0.54);
+      color: rgba(76, 47, 252, 0.54) !important;
     }
   }
 `;

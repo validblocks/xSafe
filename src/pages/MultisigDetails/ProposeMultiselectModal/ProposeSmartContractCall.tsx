@@ -6,7 +6,7 @@ import {
   BigUIntValue,
   BytesValue,
 } from '@elrondnetwork/erdjs/out';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormikProps, useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
@@ -18,6 +18,9 @@ import { FormikInputField } from 'src/helpers/formikFields';
 import { denomination } from 'src/config';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { Box, TextField } from '@mui/material';
+import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeSmartContractCallType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -62,6 +65,7 @@ const ProposeSmartContractCall = ({
 }: ProposeSmartContractCallType) => {
   const { multisigBalance } = useContext(MultisigDetailsContext);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation();
 
   let formik: FormikProps<IFormValues>;
@@ -134,6 +138,7 @@ const ProposeSmartContractCall = ({
   );
 
   const { touched, errors, values } = formik;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { amount, receiver, functionName, args } = values;
   const getProposal = (): MultisigSmartContractCall | null => {
     try {
@@ -199,8 +204,9 @@ const ProposeSmartContractCall = ({
     touched.args.length === args.length &&
     touched.args.every((arg) => arg) &&
     errors.args;
+
   return (
-    <div>
+    <Box sx={{ p: '1.9rem 2.5rem 0rem' }}>
       <FormikInputField
         label={t('Send to')}
         name="receiver"
@@ -208,77 +214,168 @@ const ProposeSmartContractCall = ({
         error={receiverError}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
+        className={receiverError ? 'isError' : ''}
       />
-      <div className="modal-control-container">
-        <label htmlFor="amount">{t('Amount') as string}</label>
-        <div className="input-wrapper">
-          <Form.Control
-            id="amount"
-            name="amount"
-            isInvalid={amountError != null}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={amount}
-          />
+      <InputsContainer
+        className={amountError != null ? 'hasAvailableAmount invalid' : 'hasAvailableAmount'}
+      >
+        <Form.Control
+          id="amount"
+          name="amount"
+          isInvalid={amountError != null}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={amount}
+        />
 
-          {amountError != null && (
-            <Form.Control.Feedback type="invalid">
-              {amountError}
-            </Form.Control.Feedback>
-          )}
-        </div>
-        <span>{`Balance: ${denominatedValue} EGLD`}</span>
-      </div>
-      <div className="modal-control-container">
-        <label htmlFor={functionName}>{t('function name (optional)') as string}</label>
-        <div className="input-wrapper">
-          <Form.Control
-            id={functionName}
-            name="functionName"
-            type="functionName"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={functionName}
-          />
-        </div>
-      </div>
+        <label htmlFor="amount">{t('Amount') as string}</label>
+
+        <span className="errorMessage">{amountError}</span>
+
+        <Text
+          fontSize={13}
+          variant="subtitle2"
+          className="availableAmount"
+        >{`${t('Available')}: ${denominatedValue} EGLD`}
+        </Text>
+      </InputsContainer>
+      <Box>
+        <TextField
+          variant="outlined"
+          label={t('Function name (optional)') as string}
+          id={functionName}
+          name="functionName"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={functionName}
+          sx={{
+            width: '100%',
+            m: '4px 0 20px',
+            label: {
+              marginBottom: 0,
+              fontSize: '15px',
+              left: '-1px',
+            },
+            '& .MuiOutlinedInput-root fieldset': {
+              transition: 'all .3s linear',
+              borderColor: 'rgba(76, 47, 252, 0.23)',
+            },
+            '& .MuiOutlinedInput-root.Mui-focused fieldset': {
+              transition: 'all .3s linear',
+              borderColor: '#4c2ffc',
+              borderWidth: '1px',
+            },
+            '& label.MuiInputLabel-root.Mui-focused': {
+              color: '#4c2ffc',
+            },
+          }}
+        />
+      </Box>
       {functionName?.length > 0 && (
-        <div className="d-flex flex-column ">
+        <Box>
           {args.map((arg, idx) => (
-            <div key={arg} className="modal-control-container mb-3">
-              <label htmlFor={`args[${idx}]`}>
-                {`${t('argument')} ${idx + 1}`}
-              </label>
-              <div className="d-flex align-items-stretch my-0">
+            <Box key={arg} display={'flex'}>
+              <InputsContainer
+                width={'100%'}
+                className={argsError ? 'invalid' : ''}
+              >
                 <Form.Control
                   id={`args[${idx}]`}
                   name={`args[${idx}]`}
-                  className="my-0 mr-3"
                   type="text"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={arg}
+                  isInvalid={argsError != null}
                 />
 
-                <button
-                  onClick={() => removeArg(idx)}
-                  className="action-remove action remove"
-                >
-                  <FontAwesomeIcon className="mx-2" icon={faMinus as IconProp} />
-                </button>
-              </div>
-            </div>
+                <label htmlFor={`args[${idx}]`}>
+                  {`${t('Argument')} ${idx + 1}`}
+                </label>
+
+                <span className="errorMessage">{argsError}</span>
+
+              </InputsContainer>
+              <RemoveItemsButton
+                onClick={() => removeArg(idx)}
+                sx={{ alignSelf: 'flex-start', mt: '10px', ml: '7px' }}
+              >
+                <FontAwesomeIcon className="mx-2" icon={faMinus as IconProp} />
+              </RemoveItemsButton>
+            </Box>
           ))}
-          {argsError && <small className="text-danger">{argsError}</small>}
-          <div className="modal-action-btns">
-            <button onClick={addNewArgsField} className="btn btn-primary ">
-              <FontAwesomeIcon className="mx-2" icon={faPlus as IconProp} />
-              <span className="name">Add argument</span>
-            </button>
-          </div>
-        </div>
+          <MainButton sx={{ width: '100%', mb: '10px !important', mt: '5px' }} onClick={addNewArgsField}>
+            Add argument
+          </MainButton>
+        </Box>
       )}
-    </div>
+
+      {/* <div>
+        <h1>Just testing</h1>
+        <Formik
+          initialValues={{ friends: ['jared'] }}
+          onSubmit={(values) =>
+            // setTimeout(() => {
+            //   alert(JSON.stringify(values, null, 2));
+            // }, 500)
+            console.log(values)
+      }
+        >
+          {({ values }) => (
+            <Form>
+              <FieldArray
+                name="friends"
+                render={(arrayHelpers) => (
+                  <div>
+                    {values.friends && values.friends.length > 0 ? (
+                      values.friends.map((friend, index) => (
+                        // eslint-disable-next-line react/no-array-index-key
+                        <div key={index}>
+                          <InputsContainer
+                            width={'100%'}
+                            className={_argsError ? 'invalid' : ''}
+                            sx={{ '.invalid': { mb: '1rem' } }}
+                          >
+                            <TextField
+                              id={`firends.${index}`}
+                              name={`firends.${index}`}
+                              type="text"
+                              onChange={formik.handleChange}
+                              onBlur={formik.handleBlur}
+                              error={_argsError != null}
+                            />
+                          </InputsContainer>
+                          <button
+                            type="button"
+                            onClick={() => arrayHelpers.remove(index)}
+                          >
+                            -
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => arrayHelpers.insert(index, '')}
+                          >
+                            +
+                          </button>
+                        </div>
+                      ))
+                    ) : (
+                      <button type="button" onClick={() => arrayHelpers.push('')}>
+                        Add a friend
+                      </button>
+                    )}
+                    <div>
+                      <button type="submit">Submit</button>
+                    </div>
+                  </div>
+                )}
+              />
+            </Form>
+          )}
+        </Formik>
+      </div> */}
+
+    </Box>
   );
 };
 

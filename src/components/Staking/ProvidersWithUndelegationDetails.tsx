@@ -134,7 +134,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
       sx={{
         padding: '0 !important',
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'center',
       }}
     >
@@ -142,6 +142,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
         <Typography
           sx={{
             width: '100%',
+            mt: 'calc(50% - 100px)',
             color: 'gray',
             textAlign: 'center',
             fontSize: '22px',
@@ -154,6 +155,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
           sx={{
             overflow: 'scroll',
             margin: '15px 0 !important',
+            width: '100%',
           }}
           onChange={handleChange(row.identity)}
           expanded={expanded === row.identity}

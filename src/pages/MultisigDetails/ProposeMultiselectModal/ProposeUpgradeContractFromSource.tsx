@@ -4,7 +4,7 @@ import {
   BigUIntValue,
   BytesValue,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormik } from 'formik';
 import Form from 'react-bootstrap/Form';
@@ -17,6 +17,8 @@ import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigCont
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FormikCheckbox, FormikInputField } from 'src/helpers/formikFields';
 import { validateAddressIsContract, validateContractAddressOwner } from 'src/helpers/validation';
+import { Box } from '@mui/material';
+import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
 
 interface ProposeDeployContractType {
   handleChange: (proposal: MultisigUpgradeContractFromSource) => void;
@@ -143,7 +145,10 @@ const ProposeDeployContract = ({
     errors.args;
 
   return (
-    <div>
+    <Box sx={{
+      p: '1.9rem 2.5rem 0rem',
+    }}
+    >
       <FormikInputField
         label={t('Address')}
         name="address"
@@ -151,6 +156,7 @@ const ProposeDeployContract = ({
         error={addressError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
+        className={addressError ? 'isError' : ''}
       />
       <FormikInputField
         label={t('Amount')}
@@ -159,6 +165,7 @@ const ProposeDeployContract = ({
         error={amountError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
+        className={amountError ? 'isError' : ''}
       />
       <FormikInputField
         label={t('Source')}
@@ -167,8 +174,9 @@ const ProposeDeployContract = ({
         error={sourceError as string}
         handleChange={formik.handleChange}
         handleBlur={formik.handleBlur}
+        className={sourceError ? 'isError' : ''}
       />
-      <div className="mt-4">
+      <div className="mb-3">
         <FormikCheckbox
           label={t('Upgradeable')}
           name="upgradeable"
@@ -190,40 +198,40 @@ const ProposeDeployContract = ({
       </div>
       <div className="d-flex flex-column">
         {args.map((arg: string, idx: number) => (
-          <div key={arg} className="modal-control-container my-3">
-            <label htmlFor={`args[${idx}]`}>
-              {`${t('argument')} 
-              ${idx + 1}`}
-            </label>
-            <div className="d-flex align-items-stretch my-0">
+          <Box key={arg} display={'flex'}>
+            <InputsContainer
+              width={'100%'}
+              className={argsError ? 'invalid' : ''}
+            >
               <Form.Control
                 id={`args[${idx}]`}
                 name={`args[${idx}]`}
-                className="my-0 mr-3"
                 type="text"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={arg}
+                isInvalid={argsError != null}
               />
 
-              <button
-                onClick={() => removeArg(idx)}
-                className="action-remove action remove"
-              >
-                <FontAwesomeIcon className="mx-2" icon={faMinus as IconProp} />
-              </button>
-            </div>
-          </div>
+              <label htmlFor={`args[${idx}]`}>
+                {`${t('Argument')} ${idx + 1}`}
+              </label>
+
+              <span className="errorMessage">{argsError as string}</span>
+            </InputsContainer>
+            <RemoveItemsButton
+              onClick={() => removeArg(idx)}
+              sx={{ alignSelf: 'flex-start', mt: '10px', ml: '7px' }}
+            >
+              <FontAwesomeIcon className="mx-2" icon={faMinus as IconProp} />
+            </RemoveItemsButton>
+          </Box>
         ))}
-        {argsError && <small className="text-danger">{argsError as string}</small>}
-        <div className="modal-action-btns">
-          <button onClick={addNewArgsField} className="btn btn-primary ">
-            <FontAwesomeIcon className="mx-2" icon={faPlus as IconProp} />
-            <span className="name">Add argument</span>
-          </button>
-        </div>
+        <MainButton sx={{ width: '100%', mb: '10px !important', mt: '5px' }} onClick={addNewArgsField}>
+          Add argument
+        </MainButton>
       </div>
-    </div>
+    </Box>
   );
 };
 
