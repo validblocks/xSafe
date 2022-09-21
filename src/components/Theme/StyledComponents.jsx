@@ -6,28 +6,28 @@ export const MainButton = styled(Button)`
   padding:
     ${(props) => props.theme.padding.value.sm}
     ${(props) => props.theme.padding.value.lg}
-    ${(props) => props.theme.padding.value.xs} !important;
-  color: ${(props) => props.theme.palette.primary.main} !important;
-  font-weight: ${(props) => props.theme.font.weight.lg} !important;
-  text-transform: capitalize !important;
-  transition: all .15s linear !important;
+    ${(props) => props.theme.padding.value.xs};
+  color: ${(props) => props.theme.palette.primary.main};
+  font-weight: ${(props) => props.theme.font.weight.lg};
+  text-transform: capitalize;
+  transition: all .15s linear;
   border: 1px solid
-    ${(props) => props.theme.palette.primary.main} !important;
-  background-color: ${(props) => props.theme.palette.background.main} !important;
+    ${(props) => props.theme.palette.primary.main};
+  background-color: ${(props) => props.theme.palette.background.main};
   box-shadow: 0px 0px 8px
-    ${(props) => props.theme.shadows.main} !important;
+    ${(props) => props.theme.shadows.main};
   &:disabled{
-    background-color: #eee !important;
-    border-color: #ddd !important;
-    color: grey !important;
-    box-shadow: none !important;
+    background-color: #eee;
+    border-color: #ddd;
+    color: grey;
+    box-shadow: none;
   }
   &:hover, &.isActive {
-    background-color: ${(props) => props.theme.palette.primary.main} !important;
-    color: ${(props) => props.theme.palette.background.white} !important;
+    background-color: ${(props) => props.theme.palette.primary.main};
+    color: ${(props) => props.theme.palette.background.white};
     & svg path {
-      fill: ${(props) => props.theme.palette.background.white} !important;
-      fill-opacity: 1 !important;
+      fill: ${(props) => props.theme.palette.background.white};
+      fill-opacity: 1;
     }
   }
 `;
@@ -288,15 +288,29 @@ export const ActionResponseButton = styled(MainButton)`
 `;
 
 export const MaxSendEGLDButton = styled(MainButton)`
-  position: absolute;
+  // position: absolute;
   min-width: 30px;
-  top: 15px;
-  right: 112px;
+  // top: 15px;
+  // right: 112px;
   line-height: 1.4;
   font-weight: ${(props) => props.theme.font.weight.sm};
-  box-shadow: none !important;
-  border-radius: .2rem !important;
+  box-shadow: none;
+  border-radius: .2rem;
 `;
+
+// const MaxSendEGLDButtonProps = (theme) => ({
+//   minWidth: '30px',
+//   // top: '15px',
+//   // right: '112px',
+//   lineHeight: '1.4',
+//   fontWeight: theme.font.weight.sm,
+//   boxShadow: 'none',
+//   borderRadius: '.2rem',
+// });
+// export const MaxSendEGLDButton2 = styled()(({ theme }) => ({
+//   ...MainButton,
+//   ...MaxSendEGLDButtonProps(theme),
+// }));
 
 export const StakingSearchBar = styled(TextField)`
   & .MuiFilledInput-root {
@@ -347,74 +361,74 @@ box-shadow: none !important;
 
 export const FormikRoundedCheckBox = styled(Box)`
   margin: 7px 0;
-  display: flex;
-  align-items: center;
+  display: flex !important;
+  align-items: center !important;
   & input[type="checkbox"] {
-    appearance: none;
-    position: relative;
-    width: 25px;
-    height: 25px;
-    border: solid 1px ${(props) => props.theme.palette.divider.main};
-    border-radius: .2rem;
-    transition: 300ms all ease-in-out;
+    appearance: none !important;
+    position: relative !important;
+    width: 25px !important;
+    height: 25px !important;
+    border: solid 1px ${(props) => props.theme.palette.divider.main} !important;
+    border-radius: .2rem !important;
+    transition: 300ms all ease-in-out !important;
   }
   & input[type="checkbox"]:hover {
-    border-color:  ${(props) => props.theme.palette.primary.main};
+    border-color:  ${(props) => props.theme.palette.primary.main} !important;
   }
   & input[type="checkbox"]:focus {
-    outline: none;
+    outline: none !important;
   }
   & input[type="checkbox"]:checked {
-    background-color: ${(props) => props.theme.palette.primary.main};
-    border-color: ${(props) => props.theme.palette.primary.main};
+    background-color: ${(props) => props.theme.palette.primary.main} !important;
+    border-color: ${(props) => props.theme.palette.primary.main} !important;
   }
   input[type="checkbox"]:before {
-  position: absolute;  
-  content: "";
-  width: 12px;
-  height: 12px;
-  top: 6px;
-  left: 5px;
-  transform: scale(0);
-  transition: 300ms all ease-in-out;
-  box-shadow: inset 1em 1em ${(props) => props.theme.palette.background.white};
-  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  position: absolute !important;  
+  content: "" !important;
+  width: 12px !important;
+  height: 12px !important;
+  top: 6px !important;
+  left: 5px !important;
+  transform: scale(0) !important;
+  transition: 300ms all ease-in-out !important;
+  box-shadow: inset 1em 1em ${(props) => props.theme.palette.background.white} !important;
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%) !important;
   }
   input[type="checkbox"]:checked:before {
-  transform: scale(1);
+  transform: scale(1) !important;
   }
   & label {
-    margin-left: 5px;
-    font-size: 15px;
+    margin-left: 5px !important;
+    font-size: 15px !important;
   }
 `;
 
 export const InputWrapper = styled.div`
-position: relative;
-margin-bottom: 14px;
-transition: margin-bottom .3s linear;
+position: relative !important;
+margin-bottom: 14px !important;
+transition: margin-bottom .3s linear !important;
 &.invalid {
-  margin-bottom: 26px;
+  margin-bottom: 26px !important;
 }
 & > div.MuiFormControl-root ~ span.errorMessage {
-  position: absolute;
-  content: '';
-  display: table;
+  position: absolute !important;
+  content: '' !important;
+  display: table !important;
   left: 5px;
   bottom: -9px;
-  color: ${(props) => props.theme.palette.danger.main};
-  line-height: 0;
-  font-size: 10.5px;
-  transform: translateY(-7px);
-  transition: transform .3s linear, opacity .3s linear;
-  opacity: 0;
+  color: ${(props) => props.theme.palette.danger.main} !important;
+  line-height: 0 !important;
+  font-size: 10.5px !important;
+  transform: translateY(-7px) !important;
+  transition: transform .3s linear, opacity .3s linear !important;
+  opacity: 0 !important;
 }
 & > div.MuiFormControl-root ~ span:first-letter {
-  text-transform: uppercase;
+  text-transform: uppercase !important;
 }
 & > div.MuiFormControl-root.isError ~ span.errorMessage {
-  font-size: 10.5px;
-  transform: translateY(0);
-  opacity: 1;
+  font-size: 10.5px !important;
+  transform: translateY(0) !important;
+  opacity: 1 !important;
 }
 `;
