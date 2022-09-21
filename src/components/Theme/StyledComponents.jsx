@@ -2,35 +2,30 @@ import { Button, Typography, Box, Select, TextField } from '@mui/material';
 import { Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
-export const MainButton = styled(Button)`
-  padding:
-    ${(props) => props.theme.padding.value.sm}
-    ${(props) => props.theme.padding.value.lg}
-    ${(props) => props.theme.padding.value.xs};
-  color: ${(props) => props.theme.palette.primary.main};
-  font-weight: ${(props) => props.theme.font.weight.lg};
-  text-transform: capitalize;
-  transition: all .15s linear;
-  border: 1px solid
-    ${(props) => props.theme.palette.primary.main};
-  background-color: ${(props) => props.theme.palette.background.main};
-  box-shadow: 0px 0px 8px
-    ${(props) => props.theme.shadows.main};
-  &:disabled{
-    background-color: #eee;
-    border-color: #ddd;
-    color: grey;
-    box-shadow: none;
-  }
-  &:hover, &.isActive {
-    background-color: ${(props) => props.theme.palette.primary.main};
-    color: ${(props) => props.theme.palette.background.white};
-    & svg path {
-      fill: ${(props) => props.theme.palette.background.white};
-      fill-opacity: 1;
-    }
-  }
-`;
+export const MainButton = styled(Button)(({ theme }) => ({
+  padding: `${theme.padding.value.sm} ${theme.padding.value.lg} ${theme.padding.value.xs}`,
+  color: theme.palette.primary.main,
+  fontWeight: theme.font.weight.lg,
+  textTransform: 'capitalize',
+  transition: 'all .15s linear',
+  border: `1px solid ${theme.palette.primary.main}`,
+  backgroundColor: theme.palette.background.main,
+  boxShadow: `0px 0px 8px ${theme.shadows.main}`,
+  '&:disabled': {
+    backgroundColor: '#eee',
+    borderColor: '#ddd',
+    color: 'grey',
+    boxShadow: 'none',
+  },
+  '&:hover, &.isActive': {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.background.white,
+    '& svg path': {
+      fill: theme.palette.background.white,
+      fillOpacity: '1',
+    },
+  },
+}));
 
 export const NewTransactionButton = styled(MainButton)`
   font-size: 15px !important;
@@ -287,16 +282,16 @@ export const ActionResponseButton = styled(MainButton)`
   box-shadow: none !important;
 `;
 
-export const MaxSendEGLDButton = styled(MainButton)`
-  // position: absolute;
-  min-width: 30px;
-  // top: 15px;
-  // right: 112px;
-  line-height: 1.4;
-  font-weight: ${(props) => props.theme.font.weight.sm};
-  box-shadow: none;
-  border-radius: .2rem;
-`;
+export const MaxSendEGLDButton = styled(MainButton)(({ theme }) => ({
+  position: 'absolute',
+  minWidth: '30px',
+  top: '15px',
+  right: '112px',
+  lineHeight: '1.4',
+  fontWeight: theme.font.weight.sm,
+  boxShadow: 'none',
+  borderRadius: '.2rem',
+}));
 
 // const MaxSendEGLDButtonProps = (theme) => ({
 //   minWidth: '30px',
