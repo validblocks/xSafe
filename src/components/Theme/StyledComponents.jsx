@@ -301,96 +301,96 @@ export const MaxSendEGLDButton = styled(MainButton)(({ theme }) => ({
 //   ...MaxSendEGLDButtonProps(theme),
 // }));
 
-export const StakingSearchBar = styled(TextField)`
-  & .MuiFilledInput-root {
-    background-color: transparent;
-  }
-  width: 100%;
-  & .MuiFilledInput-root:before { 
-    border-bottom: 1px solid ${(props) => props.theme.palette.divider.main};
-  }
-  & .MuiFilledInput-root:after {
-    border-color: ${(props) => props.theme.palette.primary.main};
-  }
-  & .MuiFilledInput-input {
-    padding: 1rem 0;
-  }
-  &:hover {
-    & .MuiFilledInput-root:before {
-      border-color: ${(props) => props.theme.palette.secondary.main} !important;
-    }
-  }
-`;
+export const StakingSearchBar = styled(TextField)(({ theme }) => ({
+  width: '100%',
+  '& .MuiFilledInput-root': {
+    backgroundColor: 'transparent',
+  },
+  '& .MuiFilledInput-root:before': {
+    borderBottom: `1px solid ${theme.palette.divider.main}`,
+  },
+  '& .MuiFilledInput-root:after': {
+    borderColor: theme.palette.primary.main,
+  },
+  '& .MuiFilledInput-input': {
+    padding: '1rem 0',
+  },
+  '&:hover': {
+    '& .MuiFilledInput-root:before': {
+      borderColor: theme.palette.secondary.main,
+    },
+  },
+}));
 
-export const ProposeAddressInput = styled(TextField)`
-  width: 100%;
-  &.isAddressError {
-    & fieldset {
-      border-color: ${(props) => props.theme.palette.danger.main} !important;
-    };
-  }
-`;
+export const ProposeAddressInput = styled(TextField)(({ theme }) => ({
+  width: '100%',
+  '&.isAddressError': {
+    '& fieldset': {
+      borderColor: theme.palette.danger.main,
+    },
+  },
+}));
 
-export const ModalContainer = styled(Modal)`
-&.isSendTokenModal ~ .MuiPopover-root > .MuiPaper-root {
-  left: calc(50% - 1px) !important;
-};
-&.isUnstakeTokenModal ~ .MuiPopover-root > .MuiPaper-root {
-  left: calc(50% - 228px) !important;
-  top: calc(50% + 5px) !important;
-};
-`;
+export const ModalContainer = styled(Modal)(() => ({
+  '&.isSendTokenModal ~ .MuiPopover-root > .MuiPaper-root': {
+    left: 'calc(50% - 1px)',
+  },
+  '&.isUnstakeTokenModal ~ .MuiPopover-root > .MuiPaper-root': {
+    left: 'calc(50% - 228px)',
+    top: 'calc(50% + 5px)',
+  },
+}));
 
-export const RemoveItemsButton = styled(MainButton)`
-min-width: 56px !important;
-height: 56px !important;
-padding: 0 !important;
-box-shadow: none !important;
-`;
+export const RemoveItemsButton = styled(MainButton)(() => ({
+  minWidth: '56px',
+  height: '56px',
+  padding: 0,
+  boxShadow: 'none',
+}));
 
-export const FormikRoundedCheckBox = styled(Box)`
-  margin: 7px 0;
-  display: flex !important;
-  align-items: center !important;
-  & input[type="checkbox"] {
-    appearance: none !important;
-    position: relative !important;
-    width: 25px !important;
-    height: 25px !important;
-    border: solid 1px ${(props) => props.theme.palette.divider.main} !important;
-    border-radius: .2rem !important;
-    transition: 300ms all ease-in-out !important;
-  }
-  & input[type="checkbox"]:hover {
-    border-color:  ${(props) => props.theme.palette.primary.main} !important;
-  }
-  & input[type="checkbox"]:focus {
-    outline: none !important;
-  }
-  & input[type="checkbox"]:checked {
-    background-color: ${(props) => props.theme.palette.primary.main} !important;
-    border-color: ${(props) => props.theme.palette.primary.main} !important;
-  }
-  input[type="checkbox"]:before {
-  position: absolute !important;  
-  content: "" !important;
-  width: 12px !important;
-  height: 12px !important;
-  top: 6px !important;
-  left: 5px !important;
-  transform: scale(0) !important;
-  transition: 300ms all ease-in-out !important;
-  box-shadow: inset 1em 1em ${(props) => props.theme.palette.background.white} !important;
-  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%) !important;
-  }
-  input[type="checkbox"]:checked:before {
-  transform: scale(1) !important;
-  }
-  & label {
-    margin-left: 5px !important;
-    font-size: 15px !important;
-  }
-`;
+export const FormikRoundedCheckBox = styled(Box)(({ theme }) => ({
+  margin: '7px 0',
+  display: 'flex',
+  alignItems: 'center',
+  '& input[type="checkbox"]': {
+    appearance: 'none',
+    position: 'relative',
+    width: '25px',
+    height: '25px',
+    border: `solid 1px ${theme.palette.divider.main}`,
+    borderRadius: '.2rem',
+    transition: '300ms all ease-in-out',
+  },
+  '& input[type="checkbox"]:hover': {
+    borderColor: theme.palette.primary.main,
+  },
+  '& input[type="checkbox"]:focus': {
+    outline: 'none',
+  },
+  '& input[type="checkbox"]:checked': {
+    backgroundColor: theme.palette.primary.main,
+    borderColor: theme.palette.primary.main,
+  },
+  'input[type="checkbox"]:before': {
+    position: 'absolute',
+    content: '""',
+    width: '12px',
+    height: '12px',
+    top: '6px',
+    left: '5px',
+    transform: 'scale(0)',
+    transition: '300ms all ease-in-out',
+    boxShadow: `inset 1em 1em ${theme.palette.background.white}`,
+    clipPath: 'polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%)',
+  },
+  'input[type="checkbox"]:checked:before': {
+    transform: 'scale(1)',
+  },
+  '& label': {
+    marginLeft: '5px',
+    fontSize: '15px',
+  },
+}));
 
 export const InputWrapper = styled.div`
 position: relative !important;
