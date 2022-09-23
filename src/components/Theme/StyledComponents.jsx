@@ -3,7 +3,9 @@ import { Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)(({ theme }) => ({
-  padding: `${theme.padding.value.sm} ${theme.padding.value.lg} ${theme.padding.value.xs}`,
+  padding: `${theme.padding.value.sm} 
+            ${theme.padding.value.lg}
+            ${theme.padding.value.xs}`,
   color: theme.palette.primary.main,
   fontWeight: theme.font.weight.lg,
   textTransform: 'capitalize',
@@ -27,28 +29,25 @@ export const MainButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-export const NewTransactionButton = styled(MainButton)`
-  font-size: 15px !important;
-  padding:
-      ${(props) => props.theme.padding.value.md}
-      25px
-      ${(props) => props.theme.padding.value.sm} !important;
-  font-weight: ${(props) => props.theme.font.weight.md} !important;
-`;
+export const NewTransactionButton = styled(MainButton)(({ theme }) => ({
+  padding: `${theme.padding.value.md}
+            25px
+            ${theme.padding.value.sm}`,
+  fontSize: '15px',
+  fontWeight: theme.font.weight.md,
+}));
 
-export const AccountButton = styled(MainButton)`
-  padding: 10px 18px 9px 10px !important;
-`;
+export const AccountButton = styled(MainButton)(() => ({
+  padding: '10px 18px 9px 10px',
+}));
 
-export const ChangeStepButton = styled(MainButton)`
-  font-size: 15px !important;
-  padding:
-      ${(props) => props.theme.padding.value.xs}
-      auto !important;
-  font-weight: ${(props) => props.theme.font.weight.md} !important;
-  width: 100% !important;
-  box-shadow: none !important;
-`;
+export const ChangeStepButton = styled(MainButton)(({ theme }) => ({
+  width: '100%',
+  padding: `${theme.padding.value.xs} auto`,
+  fontSize: '15px !important',
+  fontWeight: theme.font.weight.md,
+  boxShadow: 'none',
+}));
 
 export const FinalStepActionButton = styled(ChangeStepButton)`
   color: ${(props) => props.theme.palette.background.default};
