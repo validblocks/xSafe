@@ -118,25 +118,27 @@ export const AssetValue = styled(Box)`
 }
 `;
 
-export const FormSearchInput = styled(Box)(() => ({
-  width: '23ch',
-  marginLeft: '.93rem',
-  padding: '.12rem .5rem',
-  display: 'flex',
-  flexDirection: 'row',
-  alingItems: 'center',
-  borderRadius: '.3rem',
-  backgroundColor: 'rgba(76,47,252, 0.06)',
-  '& input': {
-    padding: '.25rem',
-  },
-  '& fieldset': {
-    border: 'none',
-  },
-  '& svg': {
-    marginTop: '2px',
-  },
-}));
+export const FormSearchInput = styled(Box)`
+&&& { 
+  width: 23ch;
+  margin-left: .93rem;
+  padding: .12rem .5rem;
+  display: flex;
+  flex-direction: row;
+  aling-items: center;
+  border-radius: .3rem;
+  background-color: rgba(76,47,252, 0.06);
+  & input {
+    padding: .25rem;
+  };
+  & fieldset {
+    border: none;
+  };
+  & svg {
+    margin-top: 2px;
+  };
+}
+`;
 
 export const InputsContainer = styled(Box)(({ theme }) => ({
   margin: '10px 0 20px',
@@ -284,28 +286,34 @@ export const InputsContainer = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const DepositDoneAction = styled(Button)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  border: 'none',
-  color: '#ffff',
-}));
+export const DepositDoneAction = styled(Button)`
+&&& {
+  background-color: ${(props) => props.theme.palette.primary.main};
+  border: none;
+  color: #ffff;
+}
+`;
 
-export const ActionResponseButton = styled(MainButton)(() => ({
-  width: '100%',
-  height: '48px',
-  boxShadow: 'none',
-}));
+export const ActionResponseButton = styled(MainButton)`
+&&& {
+  width: 100%;
+  height: 48px;
+  box-shadow: none;
+}
+`;
 
-export const MaxSendEGLDButton = styled(MainButton)(({ theme }) => ({
-  position: 'absolute',
-  minWidth: '30px',
-  top: '15px',
-  right: '112px',
-  lineHeight: '1.4',
-  fontWeight: theme.font.weight.sm,
-  boxShadow: 'none',
-  borderRadius: '.2rem',
-}));
+export const MaxSendEGLDButton = styled(MainButton)`
+&&& {
+  position: absolute;
+  minWidth: 30px;
+  top: 15px;
+  right: 112px;
+  line-height: 1.4;
+  font-weight: ${(props) => props.theme.font.weight.sm};
+  box-shadow: none;
+  border-radius: .2rem;
+}
+`;
 
 // const MaxSendEGLDButtonProps = (theme) => ({
 //   minWidth: '30px',
@@ -321,52 +329,60 @@ export const MaxSendEGLDButton = styled(MainButton)(({ theme }) => ({
 //   ...MaxSendEGLDButtonProps(theme),
 // }));
 
-export const StakingSearchBar = styled(TextField)(({ theme }) => ({
-  width: '100%',
-  '& .MuiFilledInput-root': {
-    backgroundColor: 'transparent',
-  },
-  '& .MuiFilledInput-root:before': {
-    borderBottom: `1px solid ${theme.palette.divider.main}`,
-  },
-  '& .MuiFilledInput-root:after': {
-    borderColor: theme.palette.primary.main,
-  },
-  '& .MuiFilledInput-input': {
-    padding: '1rem 0',
-  },
-  '&:hover': {
-    '& .MuiFilledInput-root:before': {
-      borderColor: theme.palette.secondary.main,
-    },
-  },
-}));
+export const StakingSearchBar = styled(TextField)`
+&&& {
+  width: 100%;
+  & .MuiFilledInput-root {
+    backgroundColor: transparent;
+  };
+  & .MuiFilledInput-root:before {
+    borderBottom: 1px solid ${(props) => props.theme.palette.divider.main};
+  };
+  & .MuiFilledInput-root:after {
+    borderColor: ${(props) => props.theme.palette.primary.main};
+  };
+  & .MuiFilledInput-input {
+    padding: 1rem 0;
+  };
+  &:hover {
+    & .MuiFilledInput-root:before {
+      borderColor: ${(props) => props.theme.palette.secondary.main};
+    };
+  };
+}
+`;
 
-export const ProposeAddressInput = styled(TextField)(({ theme }) => ({
-  width: '100%',
-  '&.isAddressError': {
-    '& fieldset': {
-      borderColor: theme.palette.danger.main,
-    },
-  },
-}));
+export const ProposeAddressInput = styled(TextField)`
+&&& {
+  width: 100%;
+  &.isAddressError {
+    & fieldset {
+      borderColor: ${(props) => props.theme.palette.danger.main};
+    };
+  };
+}
+`;
 
-export const ModalContainer = styled(Modal)(() => ({
-  '&.isSendTokenModal ~ .MuiPopover-root > .MuiPaper-root': {
-    left: 'calc(50% - 1px)',
-  },
-  '&.isUnstakeTokenModal ~ .MuiPopover-root > .MuiPaper-root': {
-    left: 'calc(50% - 228px)',
-    top: 'calc(50% + 5px)',
-  },
-}));
+export const ModalContainer = styled(Modal)`
+&&& {
+  &.isSendTokenModal ~ .MuiPopover-root > .MuiPaper-root {
+    left: calc(50% - 1px);
+  };
+  &.isUnstakeTokenModal ~ .MuiPopover-root > .MuiPaper-root {
+    left: calc(50% - 228px);
+    top: calc(50% + 5px);
+  };
+}
+`;
 
-export const RemoveItemsButton = styled(MainButton)(() => ({
-  minWidth: '56px',
-  height: '56px',
-  padding: 0,
-  boxShadow: 'none',
-}));
+export const RemoveItemsButton = styled(MainButton)`
+&&& {
+  min-width: 56px;
+  height: 56px;
+  padding: 0;
+  box-shadow: none;
+}
+`;
 
 export const FormikRoundedCheckBox = styled(Box)(({ theme }) => ({
   margin: '7px 0',
@@ -413,31 +429,33 @@ export const FormikRoundedCheckBox = styled(Box)(({ theme }) => ({
 }));
 
 export const InputWrapper = styled.div`
-position: relative !important;
-margin-bottom: 14px !important;
-transition: margin-bottom .3s linear !important;
-&.invalid {
-  margin-bottom: 26px !important;
-}
-& > div.MuiFormControl-root ~ span.errorMessage {
-  position: absolute !important;
-  content: '' !important;
-  display: table !important;
-  left: 5px;
-  bottom: -9px;
-  color: ${(props) => props.theme.palette.danger.main} !important;
-  line-height: 0 !important;
-  font-size: 10.5px !important;
-  transform: translateY(-7px) !important;
-  transition: transform .3s linear, opacity .3s linear !important;
-  opacity: 0 !important;
-}
-& > div.MuiFormControl-root ~ span:first-letter {
-  text-transform: uppercase !important;
-}
-& > div.MuiFormControl-root.isError ~ span.errorMessage {
-  font-size: 10.5px !important;
-  transform: translateY(0) !important;
-  opacity: 1 !important;
+&&& {
+  position: relative;
+  margin-bottom: 14px;
+  transition: margin-bottom .3s linear;
+  &.invalid {
+    margin-bottom: 26px;
+  };
+  & > div.MuiFormControl-root ~ span.errorMessage {
+    position: absolute;
+    content: '';
+    display: table;
+    left: 5px;
+    bottom: -9px;
+    color: ${(props) => props.theme.palette.danger.main};
+    line-height: 0;
+    font-size: 10.5px;
+    transform: translateY(-7px);
+    transition: transform .3s linear, opacity .3s linear;
+    opacity: 0;
+  };
+  & > div.MuiFormControl-root ~ span:first-letter {
+    text-transform: uppercase;
+  };
+  & > div.MuiFormControl-root.isError ~ span.errorMessage {
+    font-size: 10.5px;
+    transform: translateY(0);
+    opacity: 1;
+  };
 }
 `;
