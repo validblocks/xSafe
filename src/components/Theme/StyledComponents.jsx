@@ -71,42 +71,52 @@ export const FinalStepActionButton = styled(ChangeStepButton)`
 }
 `;
 
-export const AssetActionButton = styled(MainButton)(({ theme }) => ({
-  padding: `1px ${(props) => props.theme.padding.value.lg} 0 0`,
-  opacity: 0,
-  boxShadow: `0px 0px 8px ${theme.shadows.main}`,
-}));
+export const AssetActionButton = styled(MainButton)`
+&&& {
+  padding: 1px ${(props) => props.theme.padding.value.lg} 0 0;
+  opacity: 0;
+  box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+}
+`;
 
-export const WithdrawButton = styled(AccountButton)(() => ({
-  height: '30px',
-  width: '100%',
-  padding: '.17rem .5rem 0rem',
-  marginRight: 0,
-}));
+export const WithdrawButton = styled(AccountButton)`
+&&& {
+  height: 30px;
+  width: 100%;
+  padding: .17rem .5rem 0rem;
+  margin-right: 0;
+}
+`;
 
-export const MainSelect = styled(Select)(({ theme }) => ({
-  color: theme.palette.primary.main,
-  border: `1px solid ${theme.palette.primary.main}`,
-  backgroundColor: theme.palette.background.main,
-  boxShadow: `0px 0px 8px ${theme.shadows.main}`,
-  borderRadius: '4px',
-  padding: '0.25rem 0.75rem',
-}));
+export const MainSelect = styled(Select)`
+&&& {
+  color: ${(props) => props.theme.palette.primary.main};
+  border: 1px solid ${(props) => props.theme.palette.primary.main};
+  background-color: ${(props) => props.theme.palette.background.main};
+  box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+}
+`;
 
-export const TypographyBold = styled(Typography)(({ theme }) => ({
-  fontWeight: theme.typography.bold,
-}));
+export const TypographyBold = styled(Typography)`
+&&& {
+  font-weight: ${(props) => props.theme.typography.bold};
+}
+`;
 
 export const Main = styled.main`
   background-color: ${(props) => props.theme.palette.background.default};
 `;
 
-export const AssetValue = styled(Box)(({ theme }) => ({
-  fontSize: '13px',
-  color: theme.palette.black.main,
-  padding: 0,
-  margin: '0px',
-}));
+export const AssetValue = styled(Box)`
+&&& {
+  font-size: 13px;
+  color: ${(props) => props.theme.palette.black.main};
+  padding: 0;
+  margin: 0px;
+}
+`;
 
 export const FormSearchInput = styled(Box)(() => ({
   width: '23ch',
