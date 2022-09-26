@@ -4,10 +4,9 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { toSvg } from 'jdenticon';
 import { theme } from 'src/components/Theme/createTheme';
-import { uniqueContractAddress } from 'src/multisigConfig';
 import addressShorthand from 'src/helpers/addressShorthand';
-import Safe from 'src/assets/img/safe.png';
 import { accessTokenServices } from 'src/services/accessTokenServices';
 import routeNames from 'src/routes/routeNames';
 
@@ -48,26 +47,31 @@ const ConnectedAccount = () => {
         sx={{ mt: 2, mb: 2 }}
         className="d-flex justify-content-center align-items-center"
       >
-        <Box>
-          <img src={Safe} alt="safe" />
-        </Box>
+        <Box
+          sx={{ borderRadius: '10px', overflow: 'hidden' }}
+          dangerouslySetInnerHTML={{
+            __html: toSvg(address, 98, { padding: 0 }),
+          }}
+        />
         <Box sx={{ ml: 2 }}>
-          <ConnectItems className="d-flex" sx={{ p: 1 }}>
+          <ConnectItems className="d-flex justify-content-between" sx={{ p: 1 }}>
             <Typography sx={{ mr: 2, ml: 1 }}>
               {addressShorthand(walletAddress)}
             </Typography>
-            <Box sx={{ mr: 2 }}>
-              <CopyBtn className="link-color" text={uniqueContractAddress} />
-            </Box>
-            <Box sx={{ mr: 1 }}>
-              <Anchor
-                href={`${network.explorerAddress}/accounts/${uniqueContractAddress}`}
-                target="_blank"
-                rel="noreferrer"
-                color={theme.palette.secondary.main}
-              >
-                <ContentPasteGoIcon />
-              </Anchor>
+            <Box className="d-flex">
+              <Box sx={{ mr: 2 }}>
+                <CopyBtn className="link-color" text={address} />
+              </Box>
+              <Box sx={{ mr: 1 }}>
+                <Anchor
+                  href={`${network.explorerAddress}/accounts/${address}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  color={theme.palette.secondary.main}
+                >
+                  <ContentPasteGoIcon />
+                </Anchor>
+              </Box>
             </Box>
           </ConnectItems>
           <DisconnectButton

@@ -67,17 +67,10 @@ function Account() {
           className={isMainButtonActive ? 'isActive' : ''}
           sx={{ ...MAIN_BUTTON_VARIABLE_STYLE }}
         >
-          {loggedIn ? (
-            <Box className="d-flex">
-              <BoltIcon />
-              <Typography sx={{ textTransform: 'lowercase' }}>{walletAddress}</Typography>
-            </Box>
-          ) : (
-            <Box className="d-flex" sx={{ textTransform: 'capitalize' }}>
-              <BoltIcon />
-              <Typography>Connect</Typography>
-            </Box>
-          )}
+          <Box className="d-flex">
+            <BoltIcon />
+            <Typography sx={{ textTransform: loggedIn ? 'lowercase' : 'none' }}>{loggedIn ? walletAddress : 'Connect'}</Typography>
+          </Box>
         </AccountButton>
       </Box>
       <ConnectDropdown

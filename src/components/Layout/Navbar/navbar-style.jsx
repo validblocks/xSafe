@@ -14,7 +14,7 @@ import CopyButton from 'src/components/CopyButton';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 export const ConnectDropdown = styled(Menu)`
-  top: 20px;
+  top: 20px !important;
 `;
 
 export const ConnectItems = styled(Box)`
@@ -26,25 +26,24 @@ export const CopyBtn = styled(CopyButton)`
   color: ${(props) => props.theme.palette.anchor.main} !important;
 `;
 
-export const DisconnectButton = styled(Button)`
-  color: ${(props) => props.theme.palette.danger.main};
-  border: 1px solid
-    ${(props) => props.theme.palette.danger.main};
-  padding: 10px 16px 8px;
-  margin-top: 0px;
-  top: 16px;
-  border-radius: ${(props) => props.theme.shape.radius};
-  background: ${(props) => props.theme.palette.background.danger};
-  & > div {
-    display: flex;
-    align-items: center;
-  }
-  &:hover {
-    color: ${(props) => props.theme.palette.background.white};
-    background-color: ${(props) => props.theme.palette.danger.main};
-    border-color: ${(props) => props.theme.palette.danger.main};
-  }
-`;
+export const DisconnectButton = styled(Button)(({ theme }) => ({
+  color: `${theme.palette.danger.main} !important`,
+  border: `1px solid ${theme.palette.danger.main} !important`,
+  padding: '10px 16px 8px !important',
+  marginTop: '0px !important',
+  top: '16px !important',
+  borderRadius: `${theme.shape.radius} !important`,
+  background: `${theme.palette.background.danger} !important`,
+  '& > div': {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  '&:hover': {
+    color: `${theme.palette.background.white} !important`,
+    backgroundColor: `${theme.palette.danger.main} !important`,
+    borderColor: `${theme.palette.danger.main} !important`,
+  },
+}));
 
 export const ReadOnly = styled(Text)`
   border-radius: .4rem;
