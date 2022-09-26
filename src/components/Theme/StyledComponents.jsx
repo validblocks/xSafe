@@ -2,64 +2,74 @@ import { Button, Typography, Box, Select, TextField } from '@mui/material';
 import { Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
-export const MainButton = styled(Button)(({ theme }) => ({
-  padding: `${theme.padding.value.sm} 
-            ${theme.padding.value.lg}
-            ${theme.padding.value.xs} !important`,
-  color: `${theme.palette.primary.main} !important`,
-  fontWeight: `${theme.font.weight.lg} !important`,
-  textTransform: 'capitalize !important',
-  transition: 'all .15s linear !important',
-  border: `1px solid ${theme.palette.primary.main} !important`,
-  backgroundColor: `${theme.palette.background.main} !important`,
-  boxShadow: `0px 0px 8px ${theme.shadows.main} !important`,
-  '&:disabled': {
-    backgroundColor: '#eee !important',
-    borderColor: '#ddd !important',
-    color: 'grey !important',
-    boxShadow: 'none !important',
-  },
-  '&:hover, &.isActive': {
-    backgroundColor: `${theme.palette.primary.main} !important`,
-    color: `${theme.palette.background.white} !important`,
-    '& svg path': {
-      fill: `${theme.palette.background.white} !important`,
-      fillOpacity: '1 !important',
-    },
-  },
-}));
+export const MainButton = styled(Button)`
+&&& {
+  padding: ${(props) => props.theme.padding.value.sm} 
+            ${(props) => props.theme.padding.value.lg}
+            ${(props) => props.theme.padding.value.xs};
+  color: ${(props) => props.theme.palette.primary.main};
+  font-weight: ${(props) => props.theme.font.weight.lg};
+  text-transform: capitalize;
+  transition: all .15s linear;
+  border: 1px solid ${(props) => props.theme.palette.primary.main};
+  background-color: ${(props) => props.theme.palette.background.main};
+  box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+  &:disabled {
+    background-color: #eee;
+    border-color: #ddd;
+    color: grey;
+    box-shadow: none;
+  };
+  &:hover, &.isActive {
+    background-color: ${(props) => props.theme.palette.primary.main};
+    color: ${(props) => props.theme.palette.background.white};
+    & svg path {
+      fill: ${(props) => props.theme.palette.background.white};
+      fill-opacity: 1;
+    };
+  };
+}
+`;
 
-export const NewTransactionButton = styled(MainButton)(({ theme }) => ({
-  padding: `${theme.padding.value.md}
+export const NewTransactionButton = styled(MainButton)`
+&&& {
+  padding: ${(props) => props.theme.padding.value.md}
             25px
-            ${theme.padding.value.sm} !important`,
-  fontSize: '15px',
-  fontWeight: `${theme.font.weight.md} !important`,
-}));
+            ${(props) => props.theme.padding.value.sm};
+  font-size: 15px;
+  font-weight: ${(props) => props.theme.font.weight.md};
+}
+`;
 
-export const AccountButton = styled(MainButton)(() => ({
-  padding: '10px 18px 9px 10px !important',
-}));
+export const AccountButton = styled(MainButton)`
+&&& {
+  padding: 10px 18px 9px 10px;
+}
+`;
 
-export const ChangeStepButton = styled(MainButton)(({ theme }) => ({
-  width: '100%',
-  padding: `${theme.padding.value.xs} auto`,
-  fontSize: '15px !important',
-  fontWeight: theme.font.weight.md,
-  boxShadow: 'none',
-}));
+export const ChangeStepButton = styled(MainButton)`
+&&& {
+  width: 100%;
+  padding: ${(props) => props.theme.padding.value.xs} auto;
+  font-size: 15px;
+  font-weight: ${(props) => props.theme.font.weight.md};
+  box-shadow: none;
+}
+`;
 
-export const FinalStepActionButton = styled(ChangeStepButton)(({ theme }) => ({
-  color: theme.palette.background.default,
-  border: `1px solid ${theme.palette.primary.main}`,
-  backgroundColor: theme.palette.primary.main,
-  '&:hover': {
-    boxShadow: `0px 0px 8px ${theme.shadows.main}`,
-    color: theme.palette.background.default,
-    border: `1px solid ${theme.palette.primary.main}`,
-    backgroundColor: theme.palette.primary.main,
-  },
-}));
+export const FinalStepActionButton = styled(ChangeStepButton)`
+&&& {
+  color: ${(props) => props.theme.palette.background.default};
+  border: 1px solid ${(props) => props.theme.palette.primary.main};
+  background-color: ${(props) => props.theme.palette.primary.main};
+  &:hover {
+    box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+    color: ${(props) => props.theme.palette.background.default};
+    border: 1px solid ${(props) => props.theme.palette.primary.main};
+    background-color: ${(props) => props.theme.palette.primary.main};
+  };
+}
+`;
 
 export const AssetActionButton = styled(MainButton)(({ theme }) => ({
   padding: `1px ${(props) => props.theme.padding.value.lg} 0 0`,
