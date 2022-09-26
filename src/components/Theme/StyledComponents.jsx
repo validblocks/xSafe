@@ -5,26 +5,26 @@ import styled from 'styled-components';
 export const MainButton = styled(Button)(({ theme }) => ({
   padding: `${theme.padding.value.sm} 
             ${theme.padding.value.lg}
-            ${theme.padding.value.xs}`,
-  color: theme.palette.primary.main,
-  fontWeight: theme.font.weight.lg,
-  textTransform: 'capitalize',
-  transition: 'all .15s linear',
-  border: `1px solid ${theme.palette.primary.main}`,
-  backgroundColor: theme.palette.background.main,
-  boxShadow: `0px 0px 8px ${theme.shadows.main}`,
+            ${theme.padding.value.xs} !important`,
+  color: `${theme.palette.primary.main} !important`,
+  fontWeight: `${theme.font.weight.lg} !important`,
+  textTransform: 'capitalize !important',
+  transition: 'all .15s linear !important',
+  border: `1px solid ${theme.palette.primary.main} !important`,
+  backgroundColor: `${theme.palette.background.main} !important`,
+  boxShadow: `0px 0px 8px ${theme.shadows.main} !important`,
   '&:disabled': {
-    backgroundColor: '#eee',
-    borderColor: '#ddd',
-    color: 'grey',
-    boxShadow: 'none',
+    backgroundColor: '#eee !important',
+    borderColor: '#ddd !important',
+    color: 'grey !important',
+    boxShadow: 'none !important',
   },
   '&:hover, &.isActive': {
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.background.white,
+    backgroundColor: `${theme.palette.primary.main} !important`,
+    color: `${theme.palette.background.white} !important`,
     '& svg path': {
-      fill: theme.palette.background.white,
-      fillOpacity: '1',
+      fill: `${theme.palette.background.white} !important`,
+      fillOpacity: '1 !important',
     },
   },
 }));
@@ -32,13 +32,13 @@ export const MainButton = styled(Button)(({ theme }) => ({
 export const NewTransactionButton = styled(MainButton)(({ theme }) => ({
   padding: `${theme.padding.value.md}
             25px
-            ${theme.padding.value.sm}`,
+            ${theme.padding.value.sm} !important`,
   fontSize: '15px',
-  fontWeight: theme.font.weight.md,
+  fontWeight: `${theme.font.weight.md} !important`,
 }));
 
 export const AccountButton = styled(MainButton)(() => ({
-  padding: '10px 18px 9px 10px',
+  padding: '10px 18px 9px 10px !important',
 }));
 
 export const ChangeStepButton = styled(MainButton)(({ theme }) => ({
