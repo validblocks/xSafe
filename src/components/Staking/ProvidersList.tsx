@@ -25,6 +25,7 @@ interface Props {
 const ProvidersList = ({ searchParam }: Props) => {
   const config = useMemo(() => ({ searchParam }), [searchParam]);
   const dispatch = useDispatch();
+  const [pageSize, setPageSize] = useState(10);
 
   const {
     fetchedProviderIdentities,
@@ -83,8 +84,6 @@ const ProvidersList = ({ searchParam }: Props) => {
     setSelectionModel([newSelectedProvider]);
     dispatch(setSelectedStakingProvider(newSelectedProvider));
   }, [dispatch]);
-
-  const [pageSize, setPageSize] = useState(10);
 
   if (isFetchingProviderIdentities || isLoadingProviderIdentities) {
     return (

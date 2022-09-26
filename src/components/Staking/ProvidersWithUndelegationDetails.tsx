@@ -3,7 +3,7 @@ import {
 } from '@mui/x-data-grid';
 import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
 import { useMemo, useState } from 'react';
-import { AccordionDetails, AccordionSummary, Box, Button, Grid, Typography } from '@mui/material';
+import { AccordionDetails, Box, Button, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import { IDelegation, IdentityWithColumns, IUndelegatedFunds } from 'src/types/staking';
@@ -18,11 +18,11 @@ import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ProviderColumn from './ProviderColumn';
-import { TransactionAccordion } from '../StyledComponents/transactions';
 import { WithdrawButton } from '../Theme/StyledComponents';
 import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
 import { HtmlTooltip } from '../Utils/HtmlTooltip';
 import CountdownTimer from '../Utils/CountdownTimer';
+import * as Styled from './styled';
 
 interface Props {
     searchParam?: string;
@@ -119,7 +119,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
         maxHeight={310}
         minHeight={310}
         sx={{ paddingTop: '2rem' }}
-      ><LoadingDataIndicator dataName="provider" />
+      ><LoadingDataIndicator dataName="withdrawal" />
       </Box>
     );
   }
@@ -127,40 +127,17 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
   if (isErrorOnFetchingProviderIdentities) return <ErrorOnFetchIndicator dataName="provider" />;
 
   return (
-    <Box
-      maxHeight={310}
-      minHeight={310}
-      overflow="scroll"
-      sx={{
-        padding: '0 !important',
-        display: 'flex',
-        alignItems: 'flex-start',
-        justifyContent: 'center',
-      }}
-    >
+    <Styled.UndelegationContainer>
       {rows.length === 0 ? (
-        <Typography
-          sx={{
-            width: '100%',
-            mt: 'calc(50% - 100px)',
-            color: 'gray',
-            textAlign: 'center',
-            fontSize: '22px',
-          }}
-        >You don't have any funds waiting to be withdrawn at this moment
-        </Typography>
+        <Styled.NoUndelegationsTypography>No funds waiting to be withdrawn at this moment
+        </Styled.NoUndelegationsTypography>
       ) : (rows.map((row) => (
-        <TransactionAccordion
-          key={Math.random()}
-          sx={{
-            overflow: 'scroll',
-            margin: '15px 0 !important',
-            width: '100%',
-          }}
+        <Styled.UndelegationAccordion
+          key={row.id}
           onChange={handleChange(row.identity)}
           expanded={expanded === row.identity}
         >
-          <AccordionSummary
+          <Styled.UndelegationAccordionSummary
             expandIcon={<GridExpandMoreIcon />}
             aria-controls="panel1a-content"
             classes={{
@@ -169,34 +146,14 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
             }}
             id="panel1a-header"
             sx={{
-              outline: 'none !important',
-              flexWrap: 'wrap',
               '& .MuiAccordionSummary-expandIconWrapper': {
-                width: '100% !important',
                 display: row.withdrawableUndelegationsAmount === row.totalRequestedUndelegations ? 'none' : 'flex',
-                justifyContent: 'center !important',
-                alignItems: 'center !important',
-                backgroundColor: '#F3F6FC',
-                padding: '0.25rem',
+
               },
             }}
-            className="pl-0 pr-0 m-0 d-flex"
           >
-            <Grid
+            <Styled.UndelegationGridContainer
               container
-              sx={{
-                padding: '0.5rem 1.25rem 0.55rem',
-                backgroundColor: '#F3F6FC',
-                width: '100% !important',
-                border: 'solid 1px #eee',
-                borderRadius: '10px',
-                transition: 'all .2s linear',
-                ':hover': {
-                  backgroundColor: '#ffff !important',
-                  borderColor: '#4c2ffc',
-                  boxShadow: 'inset 0px 0px 6px #4c2ffc2e !important',
-                },
-              }}
             >
               <Grid
                 item
@@ -255,8 +212,8 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                 > Withdraw
                 </WithdrawButton>
               </Grid>
-            </Grid>
-          </AccordionSummary>
+            </Styled.UndelegationGridContainer>
+          </Styled.UndelegationAccordionSummary>
           <AccordionDetails sx={{ padding: '0', backgroundColor: '#F3F6FC' }}>
             {
                 row.pendingWithdrawals?.map((withdrawal: IUndelegatedFunds) => (
@@ -309,10 +266,10 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                 ))
             }
           </AccordionDetails>
-        </TransactionAccordion>
+        </Styled.UndelegationAccordion>
       )))}
 
-    </Box>
+    </Styled.UndelegationContainer>
   );
 };
 

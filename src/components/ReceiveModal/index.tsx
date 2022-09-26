@@ -43,7 +43,7 @@ const ReceiveModal = ({
             opacity: '1 !important',
             width: '100%',
             ...(showQrFromCard && {
-              fontSize: '15px !important',
+              fontSize: '14px !important',
               marginTop: '15px !important',
             }),
           }}

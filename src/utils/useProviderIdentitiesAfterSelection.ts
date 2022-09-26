@@ -1,8 +1,7 @@
-import { operations } from '@elrondnetwork/dapp-utils';
+import { Balance } from '@elrondnetwork/erdjs/out';
 import axios from 'axios';
 import { useCallback } from 'react';
 import { useQuery } from 'react-query';
-import { denomination, decimals } from 'src/config';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import {
@@ -10,6 +9,7 @@ import {
   IProvider,
   IProviderIdentity,
 } from 'src/types/staking';
+import { getDenominatedBalance } from './balanceUtils';
 import pipe from './compose';
 
 interface InputParams {
@@ -41,39 +41,40 @@ export default function useProviderIdentitiesAfterSelection({
     (data: IProviderIdentity[]): IdentityWithColumns[] =>
       data.map((provider: IProviderIdentity) => {
         const stakedAmount = Number(
-          operations
-            .denominate({
-              input: provider.locked,
-              denomination,
-              decimals,
-              showLastNonZeroDecimal: true,
-            })
-            .replaceAll(',', ''),
+          Balance.fromString(provider.locked).toDenominated(),
         );
+        console.log({ data });
 
         const providerBeforeIdentityFetch = fetchedProviders?.find(
           (p) => p.identity === provider.identity,
         );
+        const providerDelegationCap = Number(
+          Balance.fromString(
+            providerBeforeIdentityFetch?.delegationCap ?? '0',
+          ).toDenominated(),
+        );
 
-        const delegationCap = providerBeforeIdentityFetch?.delegationCap;
+        let filledPercentage = 0;
+        if (providerDelegationCap !== 0) {
+          filledPercentage = stakedAmount / providerDelegationCap;
+        }
 
-        const denominatedDelegationCap = operations.denominate({
-          input: delegationCap ?? '1',
-          denomination,
-          decimals,
-          showLastNonZeroDecimal: true,
+        const shortenedPercentage = getDenominatedBalance<number>(
+          (filledPercentage * 100).toString(),
+          {
+            precisionAfterComma: 1,
+            needsDenomination: false,
+          },
+        );
+
+        if (shortenedPercentage.toString() === 'NaN') {
+          console.log({ BAD: provider });
+        }
+        console.log({ provider });
+        console.log({ shortenedPercentage });
+        console.log({
+          fetchedProviders: fetchedProviders?.filter((p) => !p.identity),
         });
-
-        const delegationCapForCalculations = Number(
-          denominatedDelegationCap.replaceAll(',', ''),
-        );
-
-        let filledPercentage = Number(
-          Number((stakedAmount / delegationCapForCalculations) * 100).toFixed(
-            1,
-          ),
-        );
-        if (filledPercentage > 100) filledPercentage = 100;
 
         return {
           ...provider,
@@ -90,7 +91,7 @@ export default function useProviderIdentitiesAfterSelection({
             apr: provider.apr ?? 0,
           },
           filledColumn: {
-            filledPercentage,
+            filledPercentage: shortenedPercentage,
           },
         };
       }),
@@ -115,35 +116,31 @@ export default function useProviderIdentitiesAfterSelection({
           ?.filter((p) => !p.identity)
           .map((provider) => {
             const stakedAmount = Number(
-              operations
-                .denominate({
-                  input: provider.locked,
-                  denomination,
-                  decimals,
-                  showLastNonZeroDecimal: true,
-                })
-                .replaceAll(',', ''),
+              Balance.fromString(provider.locked).toDenominated(),
+            );
+            console.log({ data });
+
+            const providerBeforeIdentityFetch = fetchedProviders?.find(
+              (p) => p.identity === provider.identity,
+            );
+            const providerDelegationCap = Number(
+              Balance.fromString(
+                providerBeforeIdentityFetch?.delegationCap ?? '0',
+              ).toDenominated(),
             );
 
-            const delegationCap = provider?.delegationCap;
+            let filledPercentage = 0;
+            if (providerDelegationCap !== 0) {
+              filledPercentage = stakedAmount / providerDelegationCap;
+            }
 
-            const denominatedDelegationCap = operations.denominate({
-              input: delegationCap ?? '1',
-              denomination,
-              decimals,
-              showLastNonZeroDecimal: true,
-            });
-
-            const delegationCapForCalculations = Number(
-              denominatedDelegationCap.replaceAll(',', ''),
+            const shortenedPercentage = getDenominatedBalance<number>(
+              (filledPercentage * 100).toString(),
+              {
+                precisionAfterComma: 1,
+                needsDenomination: false,
+              },
             );
-
-            let filledPercentage = Number(
-              Number(
-                (stakedAmount / delegationCapForCalculations) * 100,
-              ).toFixed(1),
-            );
-            if (filledPercentage > 100) filledPercentage = 100;
 
             return {
               ...provider,
@@ -151,14 +148,14 @@ export default function useProviderIdentitiesAfterSelection({
               providerColumn: {
                 avatar: '#',
                 name: provider.provider,
-                website: 'Unknown',
+                website: '',
                 apr: provider.apr ?? 0,
               },
               aprColumn: {
                 apr: provider.apr ?? 0,
               },
               filledColumn: {
-                filledPercentage,
+                filledPercentage: shortenedPercentage,
               },
             };
           }) ?? [];
