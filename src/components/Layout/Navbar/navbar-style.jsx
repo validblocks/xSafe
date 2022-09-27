@@ -66,6 +66,10 @@ export const MembersBox = styled(Box)`
   color: ${(props) => props.theme.palette.primary.main};
 `;
 
+export const SmallWarningBox = styled(MembersBox)`
+  background-color: #ffecec;
+`;
+
 export const CenteredText = styled(Text)`
   @media (max-width: 600px) {
     text-align: left;
