@@ -144,7 +144,7 @@ export const InputsContainer = styled(Box)`
 &&& {
   margin: 10px 0 20px;
   position: relative;
-  backgroundColor: transparent;
+  background-color: transparent;
   transition: all .3s linear;
   z-index: 0;
   &.invalid {
@@ -161,14 +161,14 @@ export const InputsContainer = styled(Box)`
       border: solid 1px ${(props) => props.theme.palette.primary.main};
     };
     li, div.MuiOutlinedInput-root {
-      border: solid 1px ${(props) => props.theme.palette.primary.main};
+      border: solid 1px ${(props) => props.theme.palette.primary.main} !important;
     };
   };
   &:hover {
     input.form-control {
       border-color: ${(props) => props.theme.palette.black.main};
     };
-    li: {
+    li {
       border-color: ${(props) => props.theme.palette.black.main};
     };
     div.MuiOutlinedInput-root {
@@ -186,7 +186,7 @@ export const InputsContainer = styled(Box)`
     left: 10px;
     color: ${(props) => props.theme.palette.primary.main};
     font-size: 12px;
-    background-solor: #ffff;
+    background-color: #ffff;
   };
   & input.form-control.is-invalid ~ label {
     color: ${(props) => props.theme.palette.danger.main};
@@ -307,7 +307,7 @@ export const ActionResponseButton = styled(MainButton)`
 export const MaxSendEGLDButton = styled(MainButton)`
 &&& {
   position: absolute;
-  minWidth: 30px;
+  min-width: 30px;
   top: 15px;
   right: 112px;
   line-height: 1.4;
