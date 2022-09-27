@@ -43,7 +43,6 @@ export default function useProviderIdentitiesAfterSelection({
         const stakedAmount = Number(
           Balance.fromString(provider.locked).toDenominated(),
         );
-        console.log({ data });
 
         const providerBeforeIdentityFetch = fetchedProviders?.find(
           (p) => p.identity === provider.identity,
@@ -66,15 +65,6 @@ export default function useProviderIdentitiesAfterSelection({
             needsDenomination: false,
           },
         );
-
-        if (shortenedPercentage.toString() === 'NaN') {
-          console.log({ BAD: provider });
-        }
-        console.log({ provider });
-        console.log({ shortenedPercentage });
-        console.log({
-          fetchedProviders: fetchedProviders?.filter((p) => !p.identity),
-        });
 
         return {
           ...provider,
@@ -118,7 +108,6 @@ export default function useProviderIdentitiesAfterSelection({
             const stakedAmount = Number(
               Balance.fromString(provider.locked).toDenominated(),
             );
-            console.log({ data });
 
             const providerBeforeIdentityFetch = fetchedProviders?.find(
               (p) => p.identity === provider.identity,

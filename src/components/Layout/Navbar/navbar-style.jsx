@@ -67,7 +67,7 @@ export const MembersBox = styled(Box)`
 `;
 
 export const SmallWarningBox = styled(MembersBox)`
-  background-color: #ffecec;
+  background-color: #ffececb1;
 `;
 
 export const CenteredText = styled(Text)`
