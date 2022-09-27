@@ -23,34 +23,38 @@ export const ConnectItems = styled(Box)`
   border-radius: ${(props) => props.theme.shape.radius};
 `;
 export const CopyBtn = styled(CopyButton)`
-  color: ${(props) => props.theme.palette.anchor.main} !important;
+&&& {
+  color: ${(props) => props.theme.palette.anchor.main};
+}
 `;
 
-export const DisconnectButton = styled(Button)(({ theme }) => ({
-  color: `${theme.palette.danger.main} !important`,
-  border: `1px solid ${theme.palette.danger.main} !important`,
-  padding: '10px 16px 8px !important',
-  marginTop: '0px !important',
-  top: '16px !important',
-  borderRadius: `${theme.shape.radius} !important`,
-  background: `${theme.palette.background.danger} !important`,
-  '& > div': {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  '&:hover': {
-    color: `${theme.palette.background.white} !important`,
-    backgroundColor: `${theme.palette.danger.main} !important`,
-    borderColor: `${theme.palette.danger.main} !important`,
-  },
-}));
+export const DisconnectButton = styled(Button)`
+  color: ${(props) => props.theme.palette.danger.main};
+  border: 1px solid ${(props) => props.theme.palette.danger.main};
+  padding: 10px 16px 8px;
+  margin-top: 0px;
+  top: 16px;
+  border-radius: ${(props) => props.theme.shape.radius};
+  background: ${(props) => props.theme.palette.background.danger};
+  & > div {
+    display: flex;
+    align-items: center;
+  };
+  &:hover {
+    color: ${(props) => props.theme.palette.background.white};
+    background-color: ${(props) => props.theme.palette.danger.main};
+    border-color: ${(props) => props.theme.palette.danger.main};
+  };
+`;
 
 export const ReadOnly = styled(Text)`
+&&& {
   border-radius: .4rem;
   background: rgba(8, 4, 29, 0.1);
   color: #7a7883;
   font-size: 14px;
   padding: 2px 9px;
+}
 `;
 
 export const Anchor = styled.a`
@@ -58,12 +62,14 @@ export const Anchor = styled.a`
 `;
 
 export const MembersBox = styled(Box)`
+&&& {
   width: 17px;
   margin: auto;
   background-color: #E4DFFF;
   border-radius: 4px;
   margin-top: 10px;
   color: ${(props) => props.theme.palette.primary.main};
+}
 `;
 
 export const CenteredText = styled(Text)`
@@ -77,9 +83,11 @@ export const CenteredText = styled(Text)`
 `;
 
 export const TopHeader = styled(Box)`
+&&& {
   position: absolute;
   z-index: 1;
   background: ${(props) => props.theme.palette.background.default};
+}
 `;
 
 export const NavLogo = styled(NavItem)`
@@ -111,23 +119,25 @@ export const TopMenu = styled(Box)`
 `;
 
 export const ListItem = styled(ListItemButton)`
+&&& {
   .pin-icon {
     opacity: 0;
   }
   &:hover {
     color: ${(props) => props.theme.palette.primary.main};
-    background-color: #f5f7ff !important;
+    background-color: #f5f7ff;
     .css-hgjmvv-MuiListItemIcon-root {
-      color: ${(props) => props.theme.palette.primary.main} !important
+      color: ${(props) => props.theme.palette.primary.main};
     };
-  }
+  };
   &:hover .pin-icon {
     opacity: 1;
-    color: ${(props) => props.theme.palette.primary.main} !important;
-  }
+    color: ${(props) => props.theme.palette.primary.main};
+  };
   &:hover .pin-icon * {
-    color: ${(props) => props.theme.palette.primary.main} !important;
-  }
+    color: ${(props) => props.theme.palette.primary.main};
+  };
+}
 `;
 
 export const BreadcrumbsWrapper = styled(Box)`
@@ -135,35 +145,37 @@ export const BreadcrumbsWrapper = styled(Box)`
 `;
 
 export const MenuAccordion = styled(AccordionSummary)`
+&&& {
   .MuiAccordionSummary-content {
     margin: 0px;
-  }
+  };
   &:hover {
-    background-color: #f5f7ff !important;
+    background-color: #f5f7ff;
     .MuiTypography-root {
-      color: ${(props) => props.theme.palette.primary.main} !important;
+      color: ${(props) => props.theme.palette.primary.main};
     };
     .css-hgjmvv-MuiListItemIcon-root {
-      color: ${(props) => props.theme.palette.primary.main} !important;
+      color: ${(props) => props.theme.palette.primary.main};
     };
     .css-yw020d-MuiAccordionSummary-expandIconWrapper {
-      color: rgba(76, 47, 252, 0.54) !important;
-    }
-  }
+      color: rgba(76, 47, 252, 0.54);
+    };
+  };
   &.Mui-expanded {
-    min-height: 48px !important;
+    min-height: 48px;
     border-right: solid 2px #4c2ffc;
     background-color: #e4eaff;
     .MuiTypography-root {
-      color: ${(props) => props.theme.palette.primary.main} !important;
+      color: ${(props) => props.theme.palette.primary.main};
     };
     .css-hgjmvv-MuiListItemIcon-root {
-      color: ${(props) => props.theme.palette.primary.main} !important;
+      color: ${(props) => props.theme.palette.primary.main};
     };
     .css-yw020d-MuiAccordionSummary-expandIconWrapper {
-      color: rgba(76, 47, 252, 0.54) !important;
-    }
-  }
+      color: rgba(76, 47, 252, 0.54);
+    };
+  };
+}
 `;
 
 export const AccordionDetail = styled(AccordionDetails)`
