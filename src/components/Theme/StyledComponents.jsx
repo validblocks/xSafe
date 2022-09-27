@@ -111,10 +111,10 @@ export const Main = styled.main`
 
 export const AssetValue = styled(Box)`
 &&& {
-  font-size: 13px;
-  color: ${(props) => props.theme.palette.black.main};
   padding: 0;
   margin: 0px;
+  font-size: 13px;
+  color: ${(props) => props.theme.palette.black.main};
 }
 `;
 
@@ -140,151 +140,153 @@ export const FormSearchInput = styled(Box)`
 }
 `;
 
-export const InputsContainer = styled(Box)(({ theme }) => ({
-  margin: '10px 0 20px',
-  position: 'relative',
-  backgroundColor: 'transparent',
-  transition: 'all .3s linear',
-  zIndex: 0,
-  '&.invalid': {
-    marginBottom: '26px',
-  },
-  '&.invalid.hasAvailableAmount': {
-    marginBottom: '34px',
-  },
-  '& input.form-control, & label, & li, & div.MuiOutlinedInput-root': {
-    transition: 'all .3s linear',
-  },
-  '&:focus-within': {
-    'input.form-control': {
-      border: `solid 1px ${theme.palette.primary.main}`,
-    },
-    'li, div.MuiOutlinedInput-root': {
-      border: `solid 1px ${theme.palette.primary.main}`,
-    },
-  },
-  '&:hover': {
-    'input.form-control': {
-      borderColor: theme.palette.black.main,
-    },
+export const InputsContainer = styled(Box)`
+&&& {
+  margin: 10px 0 20px;
+  position: relative;
+  backgroundColor: transparent;
+  transition: all .3s linear;
+  z-index: 0;
+  &.invalid {
+    margin-bottom: 26px;
+  };
+  &.invalid.hasAvailableAmount {
+    margin-bottom: 34px;
+  };
+  & input.form-control, & label, & li, & div.MuiOutlinedInput-root {
+    transition: all .3s linear;
+  };
+  &:focus-within {
+    input.form-control {
+      border: solid 1px ${(props) => props.theme.palette.primary.main};
+    };
+    li, div.MuiOutlinedInput-root {
+      border: solid 1px ${(props) => props.theme.palette.primary.main};
+    };
+  };
+  &:hover {
+    input.form-control {
+      border-color: ${(props) => props.theme.palette.black.main};
+    };
     li: {
-      borderColor: theme.palette.black.main,
-    },
-    'div.MuiOutlinedInput-root': {
-      borderColor: theme.palette.black.main,
-    },
-  },
-  '& div.MuiOutlinedInput-root.Mui-focused': {
-    height: '56px',
-    border: 'solid 1px rgba(76, 47, 252, 0.23)',
-  },
-  '& label': {
-    position: 'absolute',
-    padding: '0 3px',
-    top: '-10px',
-    left: '10px',
-    color: theme.palette.primary.main,
-    fontSize: '12px',
-    backgroundColor: '#ffff',
-  },
-  '& input.form-control.is-invalid ~ label': {
-    color: theme.palette.danger.main,
-  },
-  '& input.form-control': {
-    width: '100%',
-    height: 'auto',
-    padding: '16.5px 14px',
-    backgroundColor: 'transparent',
-    border: 'solid 1px rgba(76, 47, 252, 0.23)',
-    borderRadius: '.3rem',
-  },
-  '& input.form-control.is-invalid': {
-    background: 'none',
-    border: `solid 1px ${theme.palette.danger.main}`,
-  },
-  '& input.form-control.is-invalid:focus': {
-    background: 'none',
-    border: `solid 1px ${theme.palette.danger.main}`,
-  },
-  '& input.form-control.is-invalid ~ li, input.form-control.is-invalid ~ div.MuiOutlinedInput-root': {
-    borderColor: theme.palette.danger.main,
-  },
-  '& input.form-control.is-invalid:focus ~ li, input.form-control.is-invalid:focus ~ div.MuiOutlinedInput-root': {
-    border: `solid 1px ${(props) => props.theme.palette.danger.main}`,
-  },
-  '& input.form-control:focus': {
-    outline: 'none',
-    border: `solid 1px ${theme.palette.primary.main}`,
-    boxShadow: 'none',
-  },
-  '& h6.availableAmount': {
-    position: 'absolute',
-    bottom: '-20px',
-    left: '4px',
-    display: 'table',
-    fontSize: '12px',
-    color: 'grey',
-    transition: 'bottom .23s linear',
-  },
-  '& li': {
-    position: 'absolute',
-    width: '103.56px',
-    height: '56px',
-    top: 0,
-    right: 0,
-    border: 'solid 1px rgba(76, 47, 252, 0.23)',
-    borderRadius: '.3rem',
-    borderTopLeftRadius: '2rem',
-    borderBottomLeftRadius: '2rem',
-    zIndex: '-1',
-    '&:hover': {
-      backgroundColor: 'transparent',
-    },
-    '& svg': {
-      width: '26px',
-      height: '26px',
-      margin: 0,
-    },
-    '& img': {
-      width: '35px',
-      height: '35px',
-      borderRadius: '50%',
-      margin: 0,
-    },
-    '& > div.MuiBox-root > div.MuiBox-root:nth-of-type(1)': {
-      padding: '.6rem',
-      margin: 0,
-      marginRight: '.55rem',
-      backgroundColor: 'rgba(76, 47, 252, 0.1)',
-      border: 'solid 1px #ddd',
-      borderRadius: '50%',
-    },
-  },
-  '& > span.errorMessage': {
-    position: 'absolute',
-    display: 'table',
-    content: '""',
-    left: '4px',
-    bottom: '-10px',
-    lineHeight: 0,
-    color: theme.palette.danger.main,
-    transition: 'transform .3s linear, opacity .3s linear',
-    fontSize: '10.5px',
-    transform: 'translateY(-7px)',
-    opacity: 0,
-  },
-  '& > span.errorMessage:first-letter': {
-    textTransform: 'uppercase',
-  },
-  '&.invalid > span.errorMessage': {
-    transform: 'translateY(0px)',
-    opacity: 1,
-  },
-  '&.invalid h6.availableAmount': {
-    transition: 'bottom .3s linear',
-    bottom: '-36px',
-  },
-}));
+      border-color: ${(props) => props.theme.palette.black.main};
+    };
+    div.MuiOutlinedInput-root {
+      border-color: ${(props) => props.theme.palette.black.main};
+    };
+  };
+  & div.MuiOutlinedInput-root.Mui-focused {
+    height: 56px;
+    border: solid 1px rgba(76, 47, 252, 0.23);
+  };
+  & label {
+    position: absolute;
+    padding: 0 3px;
+    top: -10px;
+    left: 10px;
+    color: ${(props) => props.theme.palette.primary.main};
+    font-size: 12px;
+    background-solor: #ffff;
+  };
+  & input.form-control.is-invalid ~ label {
+    color: ${(props) => props.theme.palette.danger.main};
+  };
+  & input.form-control {
+    width: 100%;
+    height: auto;
+    padding: 16.5px 14px;
+    background-color: transparent;
+    border: solid 1px rgba(76, 47, 252, 0.23);
+    border-radius: .3rem;
+  };
+  & input.form-control.is-invalid {
+    background: none;
+    border: solid 1px ${(props) => props.theme.palette.danger.main};
+  };
+  & input.form-control.is-invalid:focus {
+    background: none;
+    border: solid 1px ${(props) => props.theme.palette.danger.main};
+  };
+  & input.form-control.is-invalid ~ li, input.form-control.is-invalid ~ div.MuiOutlinedInput-root {
+    border-color: ${(props) => props.theme.palette.danger.main};
+  };
+  & input.form-control.is-invalid:focus ~ li, input.form-control.is-invalid:focus ~ div.MuiOutlinedInput-root {
+    border: solid 1px ${(props) => props.theme.palette.danger.main};
+  };
+  & input.form-control:focus {
+    outline: none;
+    border: solid 1px ${(props) => props.theme.palette.primary.main};
+    box-shadow: none;
+  };
+  & h6.availableAmount {
+    position: absolute;
+    bottom: -20px;
+    left: 4px;
+    display: table;
+    font-size: 12px;
+    color: grey;
+    transition: bottom .23s linear;
+  };
+  & li {
+    position: absolute;
+    width: 103.56px;
+    height: 56px;
+    top: 0;
+    right: 0;
+    border: solid 1px rgba(76, 47, 252, 0.23);
+    border-radius: .3rem;
+    border-top-left-radius: 2rem;
+    border-bottom-left-radius: 2rem;
+    z-Index: -1;
+    &:hover {
+      background-color: transparent;
+    };
+    & svg {
+      width: 26px;
+      height: 26px;
+      margin: 0;
+    };
+    & img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      margin: 0;
+    };
+    & > div.MuiBox-root > div.MuiBox-root:nth-of-type(1) {
+      padding: .6rem;
+      margin: 0;
+      margin-right: .55rem;
+      background-color: rgba(76, 47, 252, 0.1);
+      border: solid 1px #ddd;
+      border-radius: 50%;
+    };
+  };
+  & > span.errorMessage {
+    position: absolute;
+    display: table;
+    content: "";
+    left: 4px;
+    bottom: -10px;
+    line-height: 0;
+    color: ${(props) => props.theme.palette.danger.main};
+    transition: transform .3s linear, opacity .3s linear;
+    font-size: 10.5px;
+    transform: translateY(-7px);
+    opacity: 0;
+  };
+  & > span.errorMessage:first-letter {
+    text-transform: uppercase;
+  };
+  &.invalid > span.errorMessage {
+    transform: translateY(0px);
+    opacity: 1;
+  };
+  &.invalid h6.availableAmount {
+    transition: bottom .3s linear;
+    bottom: -36px;
+  };
+}
+`;
 
 export const DepositDoneAction = styled(Button)`
 &&& {
@@ -314,20 +316,6 @@ export const MaxSendEGLDButton = styled(MainButton)`
   border-radius: .2rem;
 }
 `;
-
-// const MaxSendEGLDButtonProps = (theme) => ({
-//   minWidth: '30px',
-//   // top: '15px',
-//   // right: '112px',
-//   lineHeight: '1.4',
-//   fontWeight: theme.font.weight.sm,
-//   boxShadow: 'none',
-//   borderRadius: '.2rem',
-// });
-// export const MaxSendEGLDButton2 = styled()(({ theme }) => ({
-//   ...MainButton,
-//   ...MaxSendEGLDButtonProps(theme),
-// }));
 
 export const StakingSearchBar = styled(TextField)`
 &&& {
@@ -384,49 +372,51 @@ export const RemoveItemsButton = styled(MainButton)`
 }
 `;
 
-export const FormikRoundedCheckBox = styled(Box)(({ theme }) => ({
-  margin: '7px 0',
-  display: 'flex',
-  alignItems: 'center',
-  '& input[type="checkbox"]': {
-    appearance: 'none',
-    position: 'relative',
-    width: '25px',
-    height: '25px',
-    border: `solid 1px ${theme.palette.divider.main}`,
-    borderRadius: '.2rem',
-    transition: '300ms all ease-in-out',
-  },
-  '& input[type="checkbox"]:hover': {
-    borderColor: theme.palette.primary.main,
-  },
-  '& input[type="checkbox"]:focus': {
-    outline: 'none',
-  },
-  '& input[type="checkbox"]:checked': {
-    backgroundColor: theme.palette.primary.main,
-    borderColor: theme.palette.primary.main,
-  },
-  'input[type="checkbox"]:before': {
-    position: 'absolute',
-    content: '""',
-    width: '12px',
-    height: '12px',
-    top: '6px',
-    left: '5px',
-    transform: 'scale(0)',
-    transition: '300ms all ease-in-out',
-    boxShadow: `inset 1em 1em ${theme.palette.background.white}`,
-    clipPath: 'polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%)',
-  },
-  'input[type="checkbox"]:checked:before': {
-    transform: 'scale(1)',
-  },
-  '& label': {
-    marginLeft: '5px',
-    fontSize: '15px',
-  },
-}));
+export const FormikRoundedCheckBox = styled(Box)`
+&&& {
+  margin: 7px 0;
+  display: flex;
+  align-items: center;
+  & input[type="checkbox"] {
+    appearance: none;
+    position: relative;
+    width: 25px;
+    height: 25px;
+    border: solid 1px ${(props) => props.theme.palette.divider.main};
+    border-radius: .2rem;
+    transition: 300ms all ease-in-out;
+  };
+  & input[type="checkbox"]:hover {
+    border-color: ${(props) => props.theme.palette.primary.main};
+  };
+  & input[type="checkbox"]:focus {
+    outline: none;
+  };
+  & input[type="checkbox"]:checked {
+    background-color: ${(props) => props.theme.palette.primary.main};
+    border-color: ${(props) => props.theme.palette.primary.main};
+  };
+  input[type="checkbox"]:before {
+    position: absolute;
+    content: "";
+    width: 12px;
+    height: 12px;
+    top: 6px;
+    left: 5px;
+    transform: scale(0);
+    transition: 300ms all ease-in-out;
+    box-shadow: inset 1em 1em ${(props) => props.theme.palette.background.white};
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  };
+  input[type="checkbox"]:checked:before {
+    transform: scale(1);
+  };
+  & label {
+    margin-left: 5px;
+    font-size: 15px;
+  };
+}
+`;
 
 export const InputWrapper = styled.div`
 &&& {
