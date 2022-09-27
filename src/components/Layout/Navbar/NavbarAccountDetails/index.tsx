@@ -48,9 +48,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   useEffect(() => {
     ((async function checkContractOwnership() {
       const contractDetails = await ElrondApiProvider.getAccountDetails(currentContract?.address);
-      console.log({ contractDetails });
       const isItsOwnOwner = contractDetails?.ownerAddress === contractDetails?.address;
-      console.log({ isItsOwnOwner });
       setDisplayOwnershipWarning(!isItsOwnOwner);
     })());
   }, [currentContract?.address]);
@@ -107,7 +105,6 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
               <Box>
                 <Box
                   onClick={() => {
-                    console.log('closing sfe select');
                     setOpenedSafeSelect(false);
                   }}
                   sx={{

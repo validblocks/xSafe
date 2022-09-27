@@ -69,7 +69,6 @@ const SafeOptions = () => {
   };
 
   const openDeployNewContractModal = useCallback(() => {
-    console.log('setting modal to true');
     setShowDeployMultisigModal(true);
   }, []);
 
