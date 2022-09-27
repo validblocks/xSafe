@@ -29,6 +29,7 @@ export const CopyBtn = styled(CopyButton)`
 `;
 
 export const DisconnectButton = styled(Button)`
+&&& {
   color: ${(props) => props.theme.palette.danger.main};
   border: 1px solid ${(props) => props.theme.palette.danger.main};
   padding: 10px 16px 8px;
@@ -45,6 +46,7 @@ export const DisconnectButton = styled(Button)`
     background-color: ${(props) => props.theme.palette.danger.main};
     border-color: ${(props) => props.theme.palette.danger.main};
   };
+}
 `;
 
 export const ReadOnly = styled(Text)`
@@ -126,7 +128,7 @@ export const ListItem = styled(ListItemButton)`
   &:hover {
     color: ${(props) => props.theme.palette.primary.main};
     background-color: #f5f7ff;
-    .css-hgjmvv-MuiListItemIcon-root {
+    .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
   };
@@ -154,10 +156,10 @@ export const MenuAccordion = styled(AccordionSummary)`
     .MuiTypography-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
-    .css-hgjmvv-MuiListItemIcon-root {
+    .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
-    .css-yw020d-MuiAccordionSummary-expandIconWrapper {
+    .MuiAccordionSummary-expandIconWrapper {
       color: rgba(76, 47, 252, 0.54);
     };
   };
@@ -168,10 +170,10 @@ export const MenuAccordion = styled(AccordionSummary)`
     .MuiTypography-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
-    .css-hgjmvv-MuiListItemIcon-root {
+    .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
-    .css-yw020d-MuiAccordionSummary-expandIconWrapper {
+    .MuiAccordionSummary-expandIconWrapper {
       color: rgba(76, 47, 252, 0.54);
     };
   };
