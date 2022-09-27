@@ -4,6 +4,7 @@ import QrCode2Icon from '@mui/icons-material/QrCode2';
 import {
   Box, Typography, Grid,
 } from '@mui/material';
+import Grow from '@mui/material/Grow';
 import { useSelector } from 'react-redux';
 import Safe from 'src/assets/img/safe.png';
 import CopyButton from 'src/components/CopyButton';
@@ -17,10 +18,12 @@ import { network } from 'src/config';
 import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import {
   Anchor, MembersBox, ReadOnly,
 } from '../navbar-style';
 import TotalBalance from '../TotalBalance';
+import UnknownOwner from './UnknownOwner';
 
 const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: string }) => {
   const { isLoggedIn } = useGetLoginInfo();
@@ -28,7 +31,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   const safeName = useSelector(safeNameStoredSelector);
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const currentContract = useSelector(currentMultisigContractSelector);
-
+  const [displayOwnershipWarning, setDisplayOwnershipWarning] = useState(false);
   const [showQr, setShowQr] = useState(false);
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
   const [displayableAddress, setDisplayableAddress] = useState(uniqueAddress);
@@ -41,6 +44,16 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   const handleQrModal = () => {
     setShowQr(!showQr);
   };
+
+  useEffect(() => {
+    ((async function checkContractOwnership() {
+      const contractDetails = await ElrondApiProvider.getAccountDetails(currentContract?.address);
+      console.log({ contractDetails });
+      const isItsOwnOwner = contractDetails?.ownerAddress === contractDetails?.address;
+      console.log({ isItsOwnOwner });
+      setDisplayOwnershipWarning(!isItsOwnOwner);
+    })());
+  }, [currentContract?.address]);
 
   const openSafeSelection = useCallback(() => {
     setOpenedSafeSelect(true);
@@ -67,6 +80,11 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
           <Box display="table">
             <img src={Safe} alt="safe" width="60px" height="60px" />
           </Box>
+          <Grow in={displayOwnershipWarning}>
+            <div>
+              <UnknownOwner />
+            </div>
+          </Grow>
           <Box position="absolute" top="-1.4rem" left="-.5rem">
             <MembersBox>
               <Typography>{membersCount}</Typography>

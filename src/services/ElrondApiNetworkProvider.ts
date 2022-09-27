@@ -20,6 +20,13 @@ export class ElrondApiNetworkProvider extends ApiNetworkProvider {
     return this.doGetGeneric(`accounts/${address}/tokens`);
   }
 
+  async getAccountDetails(contractAddress: string) {
+    if (!contractAddress) {
+      return undefined;
+    }
+    return this.doGetGeneric(`accounts/${contractAddress}`);
+  }
+
   async getTokenDetailsForIdentifiers(tokenIdentifiers: string[]) {
     if (!tokenIdentifiers || tokenIdentifiers.length === 0) return undefined;
     return this.doGetGeneric(
