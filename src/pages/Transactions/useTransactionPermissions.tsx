@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
@@ -14,7 +14,7 @@ export default function useTransactionPermissions(
   } = useOrganizationInfoContext();
   const { address } = useGetAccountInfo();
 
-  const alreadySigned = (multisigAction: MultisigActionDetailed) => {
+  const alreadySigned = useCallback((multisigAction: MultisigActionDetailed) => {
     if (!address) {
       return false;
     }
@@ -26,7 +26,7 @@ export default function useTransactionPermissions(
     }
 
     return false;
-  };
+  }, [address]);
 
   const [canSign, setCanSign] = useState(false);
   const [canPerformAction, setCanPerformAction] = useState(false);
@@ -35,7 +35,6 @@ export default function useTransactionPermissions(
 
   useEffect(() => {
     setCanUnsign(isBoardMember && !!alreadySigned(action));
-
     setCanPerformAction(
       isBoardMember &&
         !!alreadySigned(action) &&
@@ -44,7 +43,7 @@ export default function useTransactionPermissions(
     setCanSign(isBoardMember && !alreadySigned(action));
 
     setCanDiscardAction(isBoardMember && action.signers.length === 0);
-  }, [isBoardMember, userRole, quorumCount]);
+  }, [isBoardMember, userRole, quorumCount, alreadySigned, action]);
 
   return {
     canUnsign,

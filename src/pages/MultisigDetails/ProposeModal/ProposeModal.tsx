@@ -140,6 +140,16 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
     }
   };
 
+  const getActionButtonText = (): string => {
+    switch (selectedOption?.option) {
+      case (ProposalsTypes.change_quorum): {
+        return 'Edit';
+      }
+      default:
+        return 'Add';
+    }
+  };
+
   return (
     <Modal
       show
@@ -166,7 +176,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
                 onClick={onProposeClicked}
                 sx={{ gap: '5px !important' }}
               >
-                {t('Add')}
+                {t(getActionButtonText())}
               </MainButton>
             </Box>
           </div>
