@@ -321,20 +321,20 @@ export const StakingSearchBar = styled(TextField)`
 &&& {
   width: 100%;
   & .MuiFilledInput-root {
-    backgroundColor: transparent;
+    background-color: transparent;
   };
   & .MuiFilledInput-root:before {
-    borderBottom: 1px solid ${(props) => props.theme.palette.divider.main};
+    border-bottom: 1px solid ${(props) => props.theme.palette.divider.main};
   };
   & .MuiFilledInput-root:after {
-    borderColor: ${(props) => props.theme.palette.primary.main};
+    border-color: ${(props) => props.theme.palette.primary.main};
   };
   & .MuiFilledInput-input {
     padding: 1rem 0;
   };
   &:hover {
     & .MuiFilledInput-root:before {
-      borderColor: ${(props) => props.theme.palette.secondary.main};
+      border-color: ${(props) => props.theme.palette.secondary.main};
     };
   };
 }
