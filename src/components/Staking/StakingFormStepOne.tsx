@@ -46,7 +46,7 @@ const StakingFormStepOne = ({ enableNextStep = () => null }: Props) => {
         variant="filled"
         InputProps={{
           startAdornment: (
-            <InputAdornment position="start" sx={{ ml: '3rem', mt: '0 !important' }}>
+            <InputAdornment position="start" sx={{ ml: '2rem', mt: '0 !important' }}>
               <SearchRoundedIcon />
             </InputAdornment>
           ),
@@ -60,11 +60,11 @@ const StakingFormStepOne = ({ enableNextStep = () => null }: Props) => {
           '&:after': {
             position: 'absolute',
             width: '100%',
-            height: '77px',
+            height: '38px',
             content: '""',
             bottom: '0',
             left: '0',
-            background: 'linear-gradient(0deg, rgba(255,255,255,0.8430) 30%, rgba(255,252,252,0) 100%)',
+            background: 'linear-gradient(0deg, rgba(255,255,255,0.8430) 0%, rgba(255,252,252,0) 100%)',
             transition: 'height .3s linear',
           },
           '&.scrolledToBottom:after': {
