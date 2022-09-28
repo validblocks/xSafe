@@ -22,7 +22,7 @@ multisigAxiosInstance.interceptors.request.use(
         const token =
           await accessTokenServices?.services?.maiarId?.getAccessToken({
             address,
-            maiarIdApi: 'http://localhost:3000',
+            maiarIdApi: '',
           });
         config.headers.Authorization = `Bearer ${token.accessToken}`;
       }
