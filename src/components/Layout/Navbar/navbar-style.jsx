@@ -122,8 +122,12 @@ export const TopMenu = styled(Box)`
 
 export const ListItem = styled(ListItemButton)`
 &&& {
+  transition: all 300ms linear;
   .pin-icon {
     opacity: 0;
+  }
+  & .MuiListItemIcon-root {
+    transition: all 300ms linear;
   }
   &:hover {
     color: ${(props) => props.theme.palette.primary.main};
@@ -148,8 +152,12 @@ export const BreadcrumbsWrapper = styled(Box)`
 
 export const MenuAccordion = styled(AccordionSummary)`
 &&& {
-  .MuiAccordionSummary-content {
+  transition: all 300ms linear;
+  & .MuiAccordionSummary-content {
     margin: 0px;
+  };
+  & .MuiAccordionSummary-expandIconWrapper,& .MuiTypography-root,& .MuiListItemIcon-root {
+    transition: color 300ms linear;
   };
   &:hover {
     background-color: #f5f7ff;
@@ -175,6 +183,9 @@ export const MenuAccordion = styled(AccordionSummary)`
     };
     .MuiAccordionSummary-expandIconWrapper {
       color: rgba(76, 47, 252, 0.54);
+    };
+    .MuiListItemButton-root {
+      background-color: #e4eaff;
     };
   };
 }
