@@ -8,9 +8,14 @@ on:
 
 jobs:
   deploy-staging:
-    runs-on: [self-hosted]
+    runs-on: [self-hosted, graffino, php8]
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14]
+
     steps:
       - uses: act10ns/slack@v1
         with:
