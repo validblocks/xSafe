@@ -134,6 +134,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
       sx={{
         padding: '0 !important',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'flex-start',
         justifyContent: 'center',
       }}
