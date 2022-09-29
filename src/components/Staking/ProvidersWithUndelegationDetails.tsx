@@ -128,15 +128,19 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
   return (
     <Box
-      maxHeight={310}
-      minHeight={310}
-      overflow="scroll"
+      maxHeight={rows.length <= 2 ? 271 : 310}
+      minHeight={rows.length <= 2 ? 271 : 310}
+      padding={rows.length <= 2 ? 0 : '38px 0'}
+      justifyContent={rows.length <= 2 ? 'center' : 'flex-start'}
       sx={{
-        padding: '0 !important',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'flex-start',
-        justifyContent: 'center',
+        overflow: 'scroll',
+        scrollSnapAlign: 'start',
+        '& > .MuiPaper-root:last-child': {
+          mb: '0 !important',
+        },
       }}
     >
       {rows.length === 0 ? (
@@ -154,8 +158,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
         <TransactionAccordion
           key={Math.random()}
           sx={{
-            overflow: 'scroll',
-            margin: '15px 0 !important',
+            margin: '0 0 12px 0 !important',
             width: '100%',
           }}
           onChange={handleChange(row.identity)}
@@ -310,6 +313,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                 ))
             }
           </AccordionDetails>
+
         </TransactionAccordion>
       )))}
 
