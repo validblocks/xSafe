@@ -142,8 +142,12 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
 
   const getActionButtonText = (): string => {
     switch (selectedOption?.option) {
+      case (ProposalsTypes.edit_owner):
       case (ProposalsTypes.change_quorum): {
         return 'Edit';
+      }
+      case (ProposalsTypes.remove_user): {
+        return 'Remove';
       }
       default:
         return 'Add';
