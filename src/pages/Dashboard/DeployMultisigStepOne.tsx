@@ -3,7 +3,6 @@ import { Box, IconButton, Input } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { addContractToMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
-import EastIcon from '@mui/icons-material/East';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { FinalStepActionButton } from 'src/components/Theme/StyledComponents';
@@ -11,7 +10,6 @@ import { deployMultisigContract } from 'src/contracts/ManagerContract';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { useTheme } from 'styled-components';
 import { Address } from '@elrondnetwork/erdjs/out';
-import CreateIcon from '@mui/icons-material/Create';
 import { useMultisigCreationFormContext } from './DeployMultisigModal';
 import MemberPresentationWithPhoto from '../Organization/MemberPresentationWithPhoto';
 
@@ -91,7 +89,7 @@ const DeployMultisigStepOne = ({
             This is what will happen: After signing this, a brand new Multisig Smart Contract will be deployed on the blockchain.
           </Text>
 
-          <Box display={'flex'} justifyContent={'space-between'} my={3}>
+          <Box display={'flex'} flexDirection={'column'} justifyContent={'space-between'} my={3}>
             <Text display={'flex'} flex={1} alignItems="center">{t('Contract Name') as string}:</Text>
             <Box flex={2}>
               <Input
@@ -101,7 +99,7 @@ const DeployMultisigStepOne = ({
               />
             </Box>
           </Box>
-          <Box my={1} display={'flex'}>
+          <Box my={1} display={'flex'} flexDirection={'column'}>
             <Text display={'flex'} flex={1} alignItems="center">{t('Initial Owner') as string}:</Text>
             <Box flex={3} border={'1px solid #eee'} borderRadius={'10px'} p={1}>
               {address ? (
@@ -117,24 +115,6 @@ const DeployMultisigStepOne = ({
           </Box>
 
           <Box display={'flex'} gap={2} alignItems={'center'}>
-            <Box
-              borderTop={`3px solid ${theme.palette.grey['300']}`}
-              borderBottom={`3px solid ${theme.palette.grey['300']}`}
-              width={'100%'}
-              display={'flex'}
-              alignItems={'center'}
-              justifyContent={'center'}
-              flex={1}
-              py={0.5}
-            >
-              <CreateIcon htmlColor={theme.palette.grey['400']} />
-              <Text ml={1}>
-                Sign
-              </Text>
-            </Box>
-            <Box>
-              <EastIcon htmlColor={theme.palette.grey['400']} />
-            </Box>
 
             <Box flex={1}>
               <FinalStepActionButton

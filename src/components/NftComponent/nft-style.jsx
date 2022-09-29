@@ -41,9 +41,10 @@ export const TextDivider = styled.div`
 `;
 
 export const CardBox = styled(Card)`
+&&& {
   height: ${(props) => props.height};
   width: 250px;
-  margin: 0 auto 1.6rem auto !important;
+  margin: 0 auto 1.6rem auto;
   border-radius: .7rem;
   box-shadow: none;
   transition: all .2s linear;
@@ -75,4 +76,5 @@ export const CardBox = styled(Card)`
       bottom: 15px;
     };
   };
+}
 `;
