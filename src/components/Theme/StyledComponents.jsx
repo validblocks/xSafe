@@ -354,12 +354,13 @@ export const ProposeAddressInput = styled(TextField)`
 export const ModalContainer = styled(Modal)`
 &&& {
   &.isSendTokenModal ~ .MuiPopover-root > .MuiPaper-root {
-    left: calc(50% - 1px);
+    top: calc(50% + 68px) !important;
+    left: calc(50% - 1px) !important;
   };
-  &.isUnstakeTokenModal ~ .MuiPopover-root > .MuiPaper-root {
-    left: calc(50% - 228px);
-    top: calc(50% + 5px);
-  };
+  // &.isUnstakeTokenModal ~ .MuiPopover-root > .MuiPaper-root {
+  //   left: calc(50% - 228px);
+  //   top: calc(50% + 5px);
+  // };
 }
 `;
 
