@@ -13,6 +13,7 @@ export const theme = createTheme({
     },
     background: {
       main: '#4c2ffc1a',
+      secondary: '#fff',
       white: '#FFFFFF',
       danger: '#e51a3e1a',
       default: '#F4F6FD',
@@ -78,5 +79,30 @@ export const darkTheme = createTheme({
   ...theme,
   palette: {
     mode: 'dark',
+    primary: {
+      main: '#4c2ffc',
+    },
+    secondary: {
+      main: '#4c2ffc8a',
+    },
+    black: {
+      main: '#08041D',
+    },
+    background: {
+      main: '#4c2ffc1a',
+      secondary: '#1E1D2A',
+      white: '#FFFFFF',
+      danger: '#e51a3e1a',
+      default: '#F4F6FD',
+    },
+    danger: {
+      main: '#e51a3e',
+    },
+    anchor: {
+      main: '#4c2ffc8a',
+    },
+    divider: {
+      main: '#DFDFE8',
+    },
   },
 });
