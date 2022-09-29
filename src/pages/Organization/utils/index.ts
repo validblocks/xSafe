@@ -23,14 +23,6 @@ export const useOwnerManipulationFunctions = () => {
       }),
     );
 
-  const onReplaceOwner = (owner: Owner) =>
-    dispatch(
-      setProposeModalSelectedOption({
-        option: ProposalsTypes.replace_owner,
-        currentOwner: owner,
-      }),
-    );
-
   const onAddBoardMember = () =>
     dispatch(
       setProposeModalSelectedOption({
@@ -41,7 +33,6 @@ export const useOwnerManipulationFunctions = () => {
   return {
     onRemoveUser,
     onEditOwner,
-    onReplaceOwner,
     onAddBoardMember,
   };
 };

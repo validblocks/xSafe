@@ -54,7 +54,6 @@ const OrganizationsOwnersTable = () => {
   const {
     onRemoveUser,
     onEditOwner,
-    onReplaceOwner,
     onAddBoardMember,
   } = useOwnerManipulationFunctions();
 
@@ -123,7 +122,7 @@ const OrganizationsOwnersTable = () => {
         ],
       },
     ],
-    [onRemoveUser, onEditOwner, onReplaceOwner],
+    [isInReadOnlyMode, onRemoveUser, onEditOwner, addresses],
   );
 
   const rows = addresses.map((owner: Owner) => ({
