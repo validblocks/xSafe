@@ -54,18 +54,6 @@ export const accountSlice = createSlice({
         totalUsdValue: action.payload,
       };
     },
-    setIsMultiWalletMode(state: StateType, action: PayloadAction<boolean>) {
-      return {
-        ...state,
-        isMultiWalletMode: action.payload,
-      };
-    },
-    setIsInReadOnlyMode(state: StateType, action: PayloadAction<boolean>) {
-      return {
-        ...state,
-        isInReadOnlyMode: action.payload,
-      };
-    },
     setTokenTableRows(
       state: StateType,
       action: PayloadAction<TokenTableRowItem[]>,
@@ -110,8 +98,6 @@ export const {
   setTotalUsdBalance,
   setTokenTableRows,
   setMultisigBalance,
-  setIsInReadOnlyMode,
-  setIsMultiWalletMode,
   setOrganizationTokens,
   setActiveDelegationRows,
 } = accountSlice.actions;

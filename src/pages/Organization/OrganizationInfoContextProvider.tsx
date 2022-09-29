@@ -43,6 +43,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const [boardMembers, setBoardMembers] = useState<Address[]>([]);
   const [isInReadOnlyMode, setIsInReadOnlyMode] = useState<boolean>(true);
   const [isMultiWalletMode, setIsMultiWalletMode] = useState(uniqueContractAddress.length > 0);
+  const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
 
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
@@ -50,11 +51,25 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const { isLoggedIn } = useGetLoginInfo();
   const safeName = useSelector(safeNameStoredSelector);
 
+  const fetchMemberDetails = useCallback((isMounted: boolean) => {
+    Promise.all([
+      queryBoardMemberAddresses(),
+      queryQuorumCount(),
+    ]).then(
+      ([
+        boardMembersAddresses,
+        quorumCountResponse,
+      ]) => {
+        if (!isMounted) return;
+        setBoardMembers(boardMembersAddresses);
+        setQuorumCount(quorumCountResponse);
+      },
+    );
+  }, []);
+
   useEffect(() => {
     dispatch(setSafeName(uniqueContractName?.length > 0 ? uniqueContractName : safeName));
   }, [dispatch, safeName, uniqueContractName]);
-
-  const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
 
   const fetchNftCount = useCallback(
     () => ElrondApiProvider.fetchOrganizationNFTCount(currentContract?.address), [currentContract?.address],
@@ -63,11 +78,9 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const {
     data: nftCount,
     refetch: refetchNftCount,
-  } = useQuery(['NFT_COUNT'],
+  } = useQuery([QueryKeys.NFT_COUNT],
     fetchNftCount,
-    {
-      ...USE_QUERY_DEFAULT_CONFIG,
-    },
+    USE_QUERY_DEFAULT_CONFIG,
   );
 
   useEffect(() => {
@@ -81,9 +94,8 @@ function OrganizationInfoContextProvider({ children }: Props) {
 
   const allMemberAddresses = useMemo(
     () =>
-      [
-        ...boardMembers.map((item) => ({ role: 'Board Member', member: item })),
-      ].map((item, idx) => ({ ...item, id: idx })),
+      boardMembers.map((item) => ({ role: 'Board Member', member: item }))
+        .map((item, idx) => ({ ...item, id: idx })),
     [boardMembers],
   );
 
@@ -117,20 +129,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
     }
 
     refetchNftCount();
-
-    Promise.all([
-      queryBoardMemberAddresses(),
-      queryQuorumCount(),
-    ]).then(
-      ([
-        boardMembersAddresses,
-        quorumCountResponse,
-      ]) => {
-        if (!isMounted) return;
-        setBoardMembers(boardMembersAddresses);
-        setQuorumCount(quorumCountResponse);
-      },
-    );
+    fetchMemberDetails(isMounted);
 
     return () => {
       isMounted = false;
@@ -145,9 +144,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
       };
     }
 
-    const boardMembersAddressHex = boardMembers.map((memberAddress) =>
-      memberAddress.hex(),
-    );
+    const boardMembersAddressHex = boardMembers.map((memberAddress) => memberAddress.hex());
 
     if (isMounted) {
       setIsBoardMember(
@@ -165,6 +162,8 @@ function OrganizationInfoContextProvider({ children }: Props) {
   transactionServices.useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
     onSuccess: () => {
+      fetchMemberDetails(true);
+
       queryClient.invalidateQueries(
         [
           QueryKeys.ADDRESS_EGLD_TOKENS,
@@ -189,7 +188,17 @@ function OrganizationInfoContextProvider({ children }: Props) {
         isMultiWalletMode,
         isInReadOnlyMode,
       }),
-      [membersCount, boardMembers, quorumCount, userRole, allMemberAddresses, isBoardMember, nftCount])}
+      [
+        membersCount,
+        boardMembers,
+        quorumCount,
+        userRole,
+        allMemberAddresses,
+        isBoardMember,
+        nftCount,
+        isMultiWalletMode,
+        isInReadOnlyMode,
+      ])}
     >
       {children}
     </OrganizationInfoContext.Provider>
