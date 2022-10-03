@@ -15,8 +15,8 @@ import AddressBook from 'src/pages/AddressBook';
 import { dAppName } from 'src/config';
 import withPageTitle from 'src/components/PageTitle';
 import StakingDashboard from 'src/pages/Stake/StakingDashboard';
-import Marketplace from 'src/pages/Marketplace';
 import { uniqueContractAddress } from 'src/multisigConfig';
+import AppsPage from 'src/pages/Apps';
 import routeNames from './routeNames';
 
 type RouteType = DappCoreRouteTypes & { title: string };
@@ -131,7 +131,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
   marketplace: {
     path: '/marketplace',
     title: 'Marketplace',
-    component: Marketplace,
+    component: AppsPage,
   },
   home: {
     title: 'Home',

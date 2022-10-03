@@ -29,15 +29,19 @@ export type MenuItem = {
 
 export type MarketplaceApp = MenuItem & {
   imageUrl?: string;
-  isInstallable: boolean
+  isInstalled?: boolean;
+  isInstallable: boolean;
 };
 
-export const preinstalledApps: MenuItem[] = [
+export const preinstalledApps: MarketplaceApp[] = [
   {
     name: 'Marketplace',
     link: 'marketplace',
     id: AppIdentifiers.Marketplace,
     icon: <GetAppRoundedIcon />,
+    description: 'Boost your user experience by installing apps with one click.',
+    imageUrl: StakeAppThumbnail,
+    isInstallable: true,
   },
 ];
 
@@ -46,7 +50,7 @@ export const availableApps: MarketplaceApp[] = [
     name: 'Stake',
     link: 'stake',
     id: AppIdentifiers.Staking,
-    description: 'Stake your tokens, secure the network and earn rewards',
+    description: 'Stake your tokens, secure the network and earn rewards.',
     icon: <DiamondIcon />,
     imageUrl: StakeAppThumbnail,
     isInstallable: true,
@@ -55,7 +59,7 @@ export const availableApps: MarketplaceApp[] = [
     name: 'Address Book',
     link: 'app-coming-soon',
     id: 'app-coming-soon-2-menu-sub-item',
-    description: 'Save a list of frequently used addresses',
+    description: 'Save a list of frequently used addresses. They will be available for further use.',
     icon: <DiamondIcon />,
     imageUrl: OtherAppThumbnail,
     isInstallable: false,
@@ -64,7 +68,7 @@ export const availableApps: MarketplaceApp[] = [
     name: 'More Apps',
     link: 'more-apps-coming-soon',
     id: 'more-apps-coming-soon-2-menu-sub-item',
-    description: 'You will find more community developed apps here',
+    description: 'You will find more community developed apps here very soon!',
     icon: <DiamondIcon />,
     imageUrl: OtherAppThumbnail,
     isInstallable: false,
@@ -113,7 +117,6 @@ const topItems: MenuItem[] = [
     icon: <AppsIcon />,
     submenu: [
       ...preinstalledApps,
-
     ],
   },
   {

@@ -1,33 +1,33 @@
-import { Box } from '@mui/material';
-import { availableApps, MarketplaceApp } from 'src/utils/menuItems';
-import { useLocalStorage } from 'src/utils/useLocalStorage';
+import { Grid } from '@mui/material';
+import { MarketplaceApp } from 'src/utils/menuItems';
+import { useApps } from 'src/utils/useApps';
 import AppCard from './AppCard';
-import { LOCAL_STORAGE_KEYS } from './localStorageKeys';
 
 const Marketplace = () => {
-  const [installedApps, setInstalledApps] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);
+  const {
+    installApp,
+    allMarketplaceApps,
+  } = useApps();
+
   return (
-    <Box display={'flex'} alignItems={'center'} gap={2}>
+    <Grid container gap={2}>
       {
-        availableApps.map((app: MarketplaceApp) => (
-          <AppCard
-            key={app.id}
-            imgUrl={app.imageUrl}
-            title={app.name}
-            description={app?.description}
-            isInstallable={app.isInstallable}
-            actionButtonText={installedApps.includes(app.id) ? 'Installed' : 'Install'}
-            actionButtonOnClick={() => {
-              setInstalledApps((apps: string[]) => (
-                apps.includes(app.id)
-                  ? apps
-                  : [...apps, app.id]
-              ));
-            }}
-          />
+        allMarketplaceApps.map((app: MarketplaceApp) => (
+          <Grid item xs={12} sm={6} md={4} lg={3}>
+            <AppCard
+              key={app.id}
+              imgUrl={app.imageUrl}
+              title={app.name}
+              description={app?.description}
+              isInstallable={app.isInstallable}
+              isInstalled={app?.isInstalled ?? false}
+              actionButtonText={app.isInstalled ? 'App Installed' : 'Install App'}
+              actionButtonOnClick={() => installApp(app)}
+            />
+          </Grid>
         ))
         }
-    </Box>
+    </Grid>
   );
 };
 

@@ -1,7 +1,7 @@
-import { Button, Card } from '@mui/material';
-import { Box } from '@mui/system';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { useTheme } from 'styled-components';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
+import * as Styled from './styled';
 
 interface Props {
     imgUrl?: string;
@@ -9,6 +9,7 @@ interface Props {
     description?: string;
   actionButtonText?: string;
   isInstallable: boolean;
+  isInstalled: boolean;
     actionButtonOnClick?: () => void;
 }
 
@@ -17,36 +18,35 @@ const AppCard = ({
   title,
   description,
   isInstallable,
+  isInstalled,
   actionButtonText = 'Click me',
   actionButtonOnClick = () => null,
 }: Props) => {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
+  const theme: any = useTheme();
 
   return (
-    <Card sx={{ padding: '1rem', width: '250px' }}>
-      <Box>
-        <img
-          className="mr-3 rounded w-100"
-          src={imgUrl}
-          alt="member"
-        />
-      </Box>
-      <Box key={title} display="flex" flexDirection={'column'} marginY={1}>
-        <Text fontSize={16} fontWeight={500}>{title}</Text>
-      </Box>
-      <Box key={description} display="flex" flexDirection={'column'} marginY={1}>
-        {description}
-      </Box>
-      <Button
+    <Styled.AppCard>
+      <img
+        className="mr-3 rounded w-100"
+        src={imgUrl}
+        alt="member"
+      />
+      <Text fontSize={20} fontWeight={500} marginBottom="-5px">{title}</Text>
+      <Text fontSize={15} fontWeight={400}>{description}</Text>
+      <Styled.InstallButton
         onClick={actionButtonOnClick}
-        sx={{ width: '100%' }}
-        size="small"
-        disabled={!isInstallable || isInReadOnlyMode}
-        variant="outlined"
-        color="primary"
+        sx={{
+          ...(isInstalled && {
+            color: `${theme.palette.text.primary} !important`,
+            backgroundColor: `${theme.palette.primary.main} !important`,
+            border: `1px solid ${theme.palette.primary.main} !important`,
+          }),
+        }}
+        disabled={!isInstallable || isInReadOnlyMode || title === 'Marketplace'}
       >{isInstallable ? actionButtonText : 'Coming Soon...'}
-      </Button>
-    </Card>
+      </Styled.InstallButton>
+    </Styled.AppCard>
   );
 };
 
