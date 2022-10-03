@@ -36,7 +36,24 @@ const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
           ),
         }}
       />
-      <Box padding="0 3rem">
+      <Box
+        padding={'0 3rem'}
+        sx={{
+          position: 'relative',
+          '&:after': {
+            position: 'absolute',
+            width: '470px',
+            height: '20px',
+            content: '""',
+            bottom: '-20px',
+            left: '25px',
+            transition: 'height .3s linear',
+            borderRadius: '12px',
+            boxShadow: '0px -10px 30px 25px rgba(255,255,255, .867)',
+            background: 'transparent',
+          },
+        }}
+      >
         <ProvidersWithUndelegationDetails searchParam={debouncedSearchParam} />
       </Box>
     </Box>

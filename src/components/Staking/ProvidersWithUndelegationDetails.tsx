@@ -134,6 +134,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
       justifyContent={rows.length <= 2 ? 'center' : 'flex-start'}
       sx={{
         display: 'flex',
+        position: 'relative',
         flexDirection: 'column',
         alignItems: 'flex-start',
         overflow: 'scroll',
