@@ -13,7 +13,7 @@ const Marketplace = () => {
     <Grid container gap={2}>
       {
         allMarketplaceApps.map((app: MarketplaceApp) => (
-          <Grid item xs={12} sm={6} md={4} lg={3}>
+          <Grid item minWidth={310} xs={12} sm={6} md={4} lg={3}>
             <AppCard
               key={app.id}
               imgUrl={app.imageUrl}
