@@ -353,14 +353,26 @@ export const ProposeAddressInput = styled(TextField)`
 
 export const ModalContainer = styled(Modal)`
 &&& {
-  &.isSendTokenModal ~ .MuiPopover-root > .MuiPaper-root {
-    top: calc(50% + 68px) !important;
-    left: calc(50% - 1px) !important;
+  & ~ .MuiPopover-root.UnstakeTokenListOpened > .MuiPaper-root {
+    width: 460px;
+    top: calc(50% + 8px) !important;
+    left: calc(50% - 230px) !important;
   };
-  // &.isUnstakeTokenModal ~ .MuiPopover-root > .MuiPaper-root {
-  //   left: calc(50% - 228px);
-  //   top: calc(50% + 5px);
-  // };
+  & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
+    top: calc(50% + 68px) !important;
+    left: 50% !important;
+  };
+  @media (max-width: 991px) {
+    & ~ .MuiPopover-root.UnstakeTokenListOpened > .MuiPaper-root {
+    width: 421px;
+    top: calc(50% + 8px) !important;
+    left: calc(50% - 213px) !important;
+    };
+    & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
+    top: calc(50% + 68px) !important;
+    left: calc(50% - 15px) !important;
+    };
+  }
 }
 `;
 
