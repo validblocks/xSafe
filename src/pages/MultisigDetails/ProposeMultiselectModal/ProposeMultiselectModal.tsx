@@ -269,7 +269,6 @@ const ProposeMultiselectModal = ({
 
   return (
     <ModalContainer
-      backdrop="static"
       show
       size="lg"
       onHide={handleClose}
