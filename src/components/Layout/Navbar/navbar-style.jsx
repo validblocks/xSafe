@@ -135,7 +135,7 @@ export const ListItem = styled(ListItemButton)`
   }
   &:hover {
     color: ${(props) => props.theme.palette.primary.main};
-    background-color: #f5f7ff;
+    background-color: ${(props) => props.theme.palette.background.secondary};
     .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
@@ -164,7 +164,7 @@ export const MenuAccordion = styled(AccordionSummary)`
     transition: color 300ms linear;
   };
   &:hover {
-    background-color: #f5f7ff;
+    background-color: ${(props) => props.theme.palette.background.secondary};
     .MuiTypography-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
@@ -178,7 +178,7 @@ export const MenuAccordion = styled(AccordionSummary)`
   &.Mui-expanded {
     min-height: 48px;
     border-right: solid 2px #4c2ffc;
-    background-color: #e4eaff;
+    background-color: ${(props) => props.theme.palette.background.secondary};
     .MuiTypography-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
@@ -189,7 +189,7 @@ export const MenuAccordion = styled(AccordionSummary)`
       color: rgba(76, 47, 252, 0.54);
     };
     .MuiListItemButton-root {
-      background-color: #e4eaff;
+      background-color:${(props) => props.theme.palette.background.secondary}
     };
   };
 }
