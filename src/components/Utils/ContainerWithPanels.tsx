@@ -1,6 +1,7 @@
 import { Box, Tab, Tabs } from '@mui/material';
 import { TabPanel } from 'src/pages/Transactions/TransactionsPage';
 import { useState } from 'react';
+import * as Styled from './styled';
 
 interface IPanel {
     title: string;
@@ -26,43 +27,35 @@ const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
   }
 
   return (
-    <Box
-      sx={{
-        width: '100%',
-        padding: '0 1rem',
-      }}
-    >
+    <Styled.ContainerWithPanelsTopBox>
       <Box>
-        <Box
-          sx={{
-            display: 'flex',
-            width: '100%',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
+        <Styled.TabContainerBox>
           <Tabs
             value={selectedTab}
             onChange={handleChange}
-            aria-label="basic tabs example"
           >
-            {
-                panels.map((panel, index) =>
-                  <Tab key={panel.title} label={panel.title} {...a11yProps(index)} />,
-                )
+            {panels.map((panel, index) => (
+              <Tab
+                sx={{ paddingX: '2rem', textTransform: 'none', fontSize: '15px', fontWeight: '500' }}
+                key={panel.title}
+                label={panel.title}
+                {...a11yProps(index)}
+              />
+            ))
             }
           </Tabs>
-        </Box>
-        {panels.map((panel, index) => (
-          <TabPanel key={panel.title} value={selectedTab} index={index}>
-            {panel.content}
-          </TabPanel>
-        ),
-        )
+        </Styled.TabContainerBox>
+        <Box paddingTop={'12px'}>
+          {panels.map((panel, index) => (
+            <TabPanel key={panel.title} value={selectedTab} index={index}>
+              {panel.content}
+            </TabPanel>
+          ),
+          )
         }
-
+        </Box>
       </Box>
-    </Box>
+    </Styled.ContainerWithPanelsTopBox>
   );
 };
 

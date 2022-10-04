@@ -18,6 +18,9 @@ export const theme = createTheme({
       danger: '#e51a3e1a',
       default: '#F4F6FD',
     },
+    text: {
+      primary: '#FFF',
+    },
     danger: {
       main: '#e51a3e',
     },
@@ -34,6 +37,7 @@ export const theme = createTheme({
   shadows: {
     main: '#4c2ffc2e',
     secondary: '#4c2ffc36',
+    reducedOpacity: '0px 14px 24px rgba(76, 47, 252, 0.03)',
   },
   typography: {
     fontFamily: [
