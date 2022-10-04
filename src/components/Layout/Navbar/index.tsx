@@ -3,11 +3,9 @@ import { List, Accordion, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-import MuiDrawer from '@mui/material/Drawer';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { styled, Theme, CSSObject } from '@mui/material/styles';
 import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
@@ -29,47 +27,7 @@ import {
   BottomMenu,
 } from './navbar-style';
 import NavbarLogo from './Logo';
-
-const drawerWidth = 255;
-
-const openedMixin = (theme: Theme): CSSObject => ({
-  width: drawerWidth,
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
-
-const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  zIndex: 1,
-  whiteSpace: 'nowrap',
-  boxSizing: 'border-box',
-  ...(open && {
-    ...openedMixin(theme),
-    '& .MuiDrawer-paper': openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    '& .MuiDrawer-paper': closedMixin(theme),
-  }),
-}));
+import * as Styled from './styled';
 
 const MiniDrawer = () => {
   const location = useLocation();
@@ -96,7 +54,7 @@ const MiniDrawer = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Drawer variant="permanent" open={open} className="drawer-wrapper">
+      <Styled.Drawer variant="permanent" open={open} className="drawer-wrapper">
         <BsNavbar className="p-0 py-3 px-4 d-flex align-items-center justify-content-center">
           <NavbarLogo />
           <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
@@ -403,7 +361,7 @@ const MiniDrawer = () => {
             </Link>
           ))}
         </BottomMenu>
-      </Drawer>
+      </Styled.Drawer>
     </Box>
   );
 };

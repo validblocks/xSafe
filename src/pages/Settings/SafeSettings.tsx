@@ -7,6 +7,7 @@ import { MainButton, TypographyBold } from 'src/components/Theme/StyledComponent
 import ThemeColor from 'src/components/ThemeColor';
 import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
 import { setSafeName } from 'src/redux/slices/safeNameSlice';
+import { useTheme } from 'styled-components';
 import { NoteSpan, Span } from './settings-style';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
@@ -28,6 +29,8 @@ function SafeSettings() {
     dispatch(setSafeName(name));
   };
 
+  const theme: any = useTheme();
+
   return (
     <Box>
       <TypographyBold sx={{ mb: 1, fontSize: '18px' }}>
@@ -44,12 +47,19 @@ function SafeSettings() {
         </NoteSpan>
       </Typography>
       <TextField
-        id="outlined-basic"
         label="Safe Name"
         variant="outlined"
         disabled={isInReadOnlyMode}
         onChange={changeSafeName}
         value={name}
+        inputProps={{
+          sx: {
+            border: `1px solid ${theme.palette.divider.main}`,
+            borderRadius: '10px',
+            outline: 'none',
+            color: 'red !important',
+          },
+        }}
         sx={{ width: 250 }}
       />
       <TypographyBold sx={{ mb: 1, mt: 2, fontSize: '18px' }}>
@@ -61,7 +71,7 @@ function SafeSettings() {
       </Typography>
       <ChangeCurrency />
       <TypographyBold sx={{ mb: 1, mt: 2, fontSize: '18px' }}>
-        Appearance (Coming soon...)
+        Appearance
       </TypographyBold>
 
       <Typography sx={{ mb: 2 }}>

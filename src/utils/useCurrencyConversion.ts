@@ -18,7 +18,7 @@ export default function useCurrencyConversion(amount: number) {
     if (toCurrency === fromCurrency || toCurrency === SupportedCurrencies.USD) {
       return amount;
     }
-    if (amount !== 0) {
+    if (amount !== 0 && toCurrency) {
       return axios
         .get(
           `https://api.frankfurter.app/latest?amount=${amount}&from=USD&to=${toCurrency}`,

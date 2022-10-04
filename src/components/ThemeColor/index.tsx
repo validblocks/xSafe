@@ -7,19 +7,18 @@ import { selectedThemeSelector } from 'src/redux/selectors/appConfigSelector';
 import { setSelectedTheme } from 'src/redux/slices/appConfigSlice';
 
 function ThemeColor() {
+  const dispatch = useDispatch();
   const themesList: string[] = ['Light', 'Dark'];
   const theme = useSelector(selectedThemeSelector);
-  const dispatch = useDispatch();
 
   const onChangeTheme = useCallback((_event: any, newTheme: string | null) => {
     if (!newTheme) return;
     dispatch(setSelectedTheme(newTheme as 'Light' | 'Dark'));
-  }, []);
+  }, [dispatch]);
 
   return (
     <Box>
       <Autocomplete
-        disabled
         value={theme}
         onChange={onChangeTheme}
         id="themes-states-demo"

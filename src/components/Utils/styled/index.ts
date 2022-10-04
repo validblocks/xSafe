@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Autocomplete, Box } from '@mui/material';
 import styled from 'styled-components';
 
 export const ContainerWithPanelsTopBox = styled(Box)(({ theme: _ }) => ({
@@ -15,5 +15,12 @@ export const TabContainerBox = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottom: `2px solid ${theme.palette.divider.main} !important`,
+  },
+}));
+
+export const MultisigAutocomplete = styled(Autocomplete)(({ theme }) => ({
+  '&&&': {
+    backgroundColor: theme.palette.background.secondary,
+    color: theme.palette.text.primary,
   },
 }));
