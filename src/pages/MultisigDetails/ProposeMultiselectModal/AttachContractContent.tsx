@@ -16,6 +16,7 @@ import { ProposalsTypes } from 'src/types/Proposals';
 import { ActionResponseButton } from 'src/components/Theme/StyledComponents';
 import { Box } from '@mui/material';
 import { FormikInputField } from 'src/helpers/formikFields';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 const gasLimit = 10_000_000;
 
@@ -76,10 +77,12 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
 
   return (
     <Box padding={'1.5rem 2.5rem 1.9rem'}>
-      <p className="h3 mb-4" data-testid="delegateTitle">
-        {t('Attach smart contract')}
-      </p>
-
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
+        <p className="h3 mb-4" data-testid="delegateTitle">
+          {t('Attach smart contract')}
+        </p>
+        <CloseRoundedIcon onClick={handleClose} sx={{ mb: '1.5rem', cursor: 'pointer' }} />
+      </Box>
       <Box
         mb={'10px'}
         className={contractAddressError ? 'invalid' : ''}

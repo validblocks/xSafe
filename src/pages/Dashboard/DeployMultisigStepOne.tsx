@@ -61,7 +61,7 @@ const DeployMultisigStepOne = ({
     <Box>
       <IconButton
         onClick={handleClose}
-        sx={{ position: 'absolute', right: '10px', top: '20px' }}
+        sx={{ position: 'absolute', right: '32px', top: '20px' }}
         size="small"
         aria-label="close"
       >
