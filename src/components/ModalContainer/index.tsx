@@ -41,7 +41,6 @@ function ModalContainer({
   ) : (
     <Modal
       show
-      backdrop="static"
       onHide={handleClose}
       className={`modal-container ${className || ''}`}
       animation={false}
