@@ -71,7 +71,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
     return () => {
       document.removeEventListener('mousedown', handler);
     };
-  });
+  }, []);
 
   return (
     <Box>
@@ -119,7 +119,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                     setOpenedSafeSelect(false);
                   }}
                   sx={{
-                    '& .css-i4bv87-MuiSvgIcon-root': {
+                    '& .MuiSvgIcon-root': {
                       color: 'rgba(76, 47, 252, 0.54) !important',
                     },
                   }}
@@ -134,7 +134,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
             {openedSafeSelect === false && (
               <Box
                 sx={{
-                  '& .css-i4bv87-MuiSvgIcon-root': {
+                  '& .MuiSvgIcon-root': {
                     color: 'rgba(76, 47, 252, 0.54) !important',
                   },
                 }}
