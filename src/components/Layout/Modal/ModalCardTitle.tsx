@@ -1,6 +1,6 @@
 import { ModalCardTitleContainer, Text } from 'src/components/StyledComponents/StyledComponents';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, IconButton } from '@mui/material';
 
 interface IProps {
     title: React.ReactNode;
@@ -16,7 +16,13 @@ const ModalCardTitle = ({ title, handleClose, activeStepNumber = 0, totalSteps =
         {totalSteps > 0 && <Text color="black.main" fontSize="12px"> Step {activeStepNumber} of {totalSteps}</Text>}
       </Typography>
     </Box>
-    <CloseRoundedIcon onClick={handleClose} sx={{ mt: '0.25rem' }} />
+    <IconButton
+      onClick={handleClose}
+      size="small"
+      aria-label="close"
+    >
+      <CloseRoundedIcon />
+    </IconButton>
   </ModalCardTitleContainer>
 );
 

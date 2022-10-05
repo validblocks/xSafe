@@ -14,8 +14,9 @@ import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlic
 import { validateContractAddressOwner } from 'src/helpers/validation';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { ActionResponseButton } from 'src/components/Theme/StyledComponents';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { FormikInputField } from 'src/helpers/formikFields';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 const gasLimit = 10_000_000;
 
@@ -76,10 +77,19 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
 
   return (
     <Box padding={'1.5rem 2.5rem 1.9rem'}>
-      <p className="h3 mb-4" data-testid="delegateTitle">
-        {t('Attach smart contract')}
-      </p>
-
+      <Box>
+        <p className="h3 mb-4" data-testid="delegateTitle">
+          {t('Attach smart contract')}
+        </p>
+        <IconButton
+          onClick={handleClose}
+          sx={{ position: 'absolute', right: '32px', top: '20px' }}
+          size="small"
+          aria-label="close"
+        >
+          <CloseRoundedIcon />
+        </IconButton>
+      </Box>
       <Box
         mb={'10px'}
         className={contractAddressError ? 'invalid' : ''}

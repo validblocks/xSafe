@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import {
   Box, Button, Grid, Typography,
@@ -42,7 +42,7 @@ export const userRoleAsString = (roleNumber: number) => {
   }
 };
 
-const SafeOptions = () => {
+const SafeOptions = React.forwardRef((props, ref) => {
   const theme: any = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -97,7 +97,7 @@ const SafeOptions = () => {
     [dispatch]);
 
   return (
-    <SafeOptionsWrapper sx={{ zIndex: '100000 !important' }}>
+    <SafeOptionsWrapper ref={ref} sx={{ zIndex: '100000 !important' }}>
       <Typography sx={{ p: 2 }} align="left">
         Safe Options
       </Typography>
@@ -174,6 +174,6 @@ const SafeOptions = () => {
 
     </SafeOptionsWrapper>
   );
-};
+});
 
 export default SafeOptions;

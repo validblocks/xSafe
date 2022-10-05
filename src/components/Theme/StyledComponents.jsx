@@ -28,6 +28,9 @@ export const MainButton = styled(Button)`
       fill-opacity: 1;
     };
   };
+  &:focus{
+    display: none;
+  }
 }
 `;
 
