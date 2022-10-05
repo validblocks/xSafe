@@ -71,7 +71,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
     return () => {
       document.removeEventListener('mousedown', handler);
     };
-  });
+  }, []);
 
   return (
     <Box>
