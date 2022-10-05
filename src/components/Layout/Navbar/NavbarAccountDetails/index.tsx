@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import {
@@ -35,6 +35,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   const [showQr, setShowQr] = useState(false);
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
   const [displayableAddress, setDisplayableAddress] = useState(uniqueAddress);
+  const menuRef = useRef<HTMLElement>();
 
   const {
     membersCountState: [membersCount],
@@ -61,6 +62,16 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
     const result = uniqueAddress.length === 0 ? 'No safe' : uniqueAddress;
     setDisplayableAddress(result);
   }, [uniqueAddress]);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      if (!menuRef.current?.contains(e.target)) setOpenedSafeSelect(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+    };
+  });
 
   return (
     <Box>
@@ -115,7 +126,9 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                 >
                   <ArrowDropUpIcon />
                 </Box>
-                <SafeOptions />
+                {openedSafeSelect === true && (
+                <SafeOptions ref={menuRef} />
+                )}
               </Box>
             )}
             {openedSafeSelect === false && (
