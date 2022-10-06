@@ -68,7 +68,11 @@ const MultistepForm = ({
         <Box>
           {activeStepJSX}
         </Box>
-        <Box display={'flex'} gap={2} padding="2rem 3rem">
+        <Box
+          display={'flex'}
+          gap={2}
+          padding={activeStepNumber > 1 || activeStepNumber < finalStep ? '2rem 3rem' : '0'}
+        >
           {activeStepNumber > 1 && (
           <ChangeStepButton onClick={proceedToPreviousStep}>
             {t('Back') as string}

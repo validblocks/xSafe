@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { memo, useCallback, useMemo, useState } from 'react';
 import {
-  DataGrid,
   GridRenderCellParams,
   GridSelectionModel,
 } from '@mui/x-data-grid';
@@ -24,6 +23,7 @@ import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import DelegatedColumn from '../Staking/DelegatedColumn';
 import ClaimableRewardsColumn from '../Staking/ClaimableRewardsColumn';
+import * as Styled from '../../pages/Organization/styled';
 
 interface Props {
     isFetching?: boolean;
@@ -149,7 +149,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
     <Box
       sx={{ padding: '0 !important' }}
     >
-      <DataGrid
+      <Styled.MainTable
         autoHeight
         rowHeight={68}
         rows={rows ?? []}
@@ -161,41 +161,6 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
         selectionModel={selectionModel}
         pageSize={pageSize}
         onPageSizeChange={onPageSizeChange}
-        sx={{
-          borderRadius: '10px',
-          boxShadow: '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
-          backgroundColor: '#ffff',
-          border: 'none',
-          '& .MuiDataGrid-columnSeparator': {
-            display: 'none',
-          },
-          '& .MuiDataGrid-columnHeader': {
-            padding: '5px 0 0 20px',
-          },
-          '& .MuiDataGrid-row:hover': {
-            backgroundColor: '#F5F7FF',
-            '& .MuiButton-root': {
-              opacity: '1',
-            },
-          },
-          '& p': {
-            margin: 0,
-            color: 'rgba(0, 0, 0, 0.6)',
-          },
-          '& .MuiTablePagination-select': {
-            paddingTop: 0,
-            paddingBottom: 0,
-          },
-          '& .MuiInputBase-root': {
-            margin: '0 8px',
-          },
-          '& .MuiTablePagination-actions': {
-            marginLeft: '15px',
-            '& button svg': {
-              color: 'rgba(76, 47, 252, 0.54)',
-            },
-          },
-        }}
       />
     </Box>
   );

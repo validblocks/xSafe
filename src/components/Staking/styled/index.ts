@@ -4,14 +4,14 @@ import { TransactionAccordion } from 'src/components/StyledComponents/transactio
 import styled from 'styled-components';
 
 export const UndelegationContainer = styled(Box)`
-  padding: 0 !important;
+  position: relative;
   display: flex;
   align-items: flex-start;
-  justify-content: center;
   flex-direction: column;
-  max-height: 310;
-  min-height: 310;
   overflow: scroll;
+  & > .MuiPaper-root:last-child {
+    margin-bottom: 0 !important;
+  }
 `;
 
 export const NoUndelegationsTypography = styled(Typography)`
@@ -24,7 +24,7 @@ export const NoUndelegationsTypography = styled(Typography)`
 
 export const UndelegationAccordion = styled(TransactionAccordion)`
   overflow: scroll;
-  margin: 15px 0 !important;
+  margin: 0 0 12px 0 !important;
   width: 100%;
 `;
 
@@ -32,7 +32,8 @@ export const UndelegationAccordionSummary = styled(AccordionSummary)(
   ({ theme: _ }) => ({
     outline: 'none !important',
     flexWrap: 'wrap',
-    width: '100 %',
+    width: '100%',
+    padding: '0',
     '& .MuiAccordionSummary-expandIconWrapper': {
       width: '100% !important',
       justifyContent: 'center !important',

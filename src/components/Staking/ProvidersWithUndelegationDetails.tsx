@@ -127,7 +127,12 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
   if (isErrorOnFetchingProviderIdentities) return <ErrorOnFetchIndicator dataName="provider" />;
 
   return (
-    <Styled.UndelegationContainer>
+    <Styled.UndelegationContainer
+      maxHeight={rows.length <= 2 ? 271 : 310}
+      minHeight={rows.length <= 2 ? 271 : 310}
+      padding={rows.length <= 2 ? 0 : '38px 0'}
+      justifyContent={rows.length <= 2 ? 'center' : 'flex-start'}
+    >
       {rows.length === 0 ? (
         <Styled.NoUndelegationsTypography>No funds waiting to be withdrawn at this moment
         </Styled.NoUndelegationsTypography>

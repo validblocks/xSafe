@@ -228,6 +228,7 @@ const ProposeUnstakeTokens = ({
           fullWidth
           label="Identifier"
           size="small"
+          MenuProps={{ className: 'UnstakeTokenListOpened' }}
           onChange={(e: any) => { onChange(e); formik.handleChange(e); }}
           className="mb-0"
           sx={{

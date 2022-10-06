@@ -160,6 +160,10 @@ const ProvidersList = ({ searchParam }: Props) => {
           '& .MuiInputBase-root': {
             margin: '0 8px',
           },
+          '& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within, & .MuiDataGrid-cell:focus-visible, & .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within, & .MuiDataGrid-columnHeader:focus-visible':
+          {
+            outline: 'transparent',
+          },
           '& .MuiDataGrid-cellCheckbox > span.MuiCheckbox-root': {
             p: '0',
             '& svg': {

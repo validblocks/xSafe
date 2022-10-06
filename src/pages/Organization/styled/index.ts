@@ -1,7 +1,7 @@
 import { DataGrid } from '@mui/x-data-grid';
 import styled from 'styled-components';
 
-export const OwnersTable = styled(DataGrid)(({ theme }) => ({
+export const MainTable = styled(DataGrid)(({ theme }) => ({
   '&&&': {
     borderRadius: '10px',
     boxShadow:
@@ -24,6 +24,10 @@ export const OwnersTable = styled(DataGrid)(({ theme }) => ({
       margin: 0,
       color: 'rgba(0, 0, 0, 0.6)',
     },
+    '& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within, & .MuiDataGrid-cell:focus-visible, & .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within, & .MuiDataGrid-columnHeader:focus-visible':
+      {
+        outline: 'transparent',
+      },
     '& .MuiTablePagination-select': {
       paddingTop: 0,
       paddingBottom: 0,
