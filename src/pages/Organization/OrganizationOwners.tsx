@@ -142,7 +142,7 @@ const OrganizationsOwnersTable = () => {
         Add new owner
       </MainButton>
 
-      <Styled.OwnersTable
+      <Styled.MainTable
         autoHeight
         rowHeight={65}
         rows={rows}

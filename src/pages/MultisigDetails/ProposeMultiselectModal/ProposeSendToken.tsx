@@ -264,6 +264,7 @@ const ProposeSendToken = ({
           fullWidth
           label="Identifier"
           size="small"
+          MenuProps={{ className: 'SendTokenListOpened' }}
           onChange={onIdentifierChanged}
           sx={{
             position: 'absolute',

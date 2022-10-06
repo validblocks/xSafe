@@ -272,7 +272,7 @@ const ProposeMultiselectModal = ({
       show
       size="lg"
       onHide={handleClose}
-      className="modal-container proposal-modal isSendTokenModal isUnstakeTokenModal"
+      className="modal-container proposal-modal"
       animation={false}
       centered
     >
