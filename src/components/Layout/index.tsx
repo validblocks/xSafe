@@ -28,7 +28,7 @@ import MobileLayout from './Navbar/mobileLayout';
 import Navbar from './Navbar/index';
 
 function Layout({ children }: { children: React.ReactNode }) {
-  const { loginMethod, isLoggedIn } = useGetLoginInfo();
+  const { isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
   const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
@@ -36,8 +36,6 @@ function Layout({ children }: { children: React.ReactNode }) {
     '',
     isLoggedIn,
   );
-
-  const loggedIn = loginMethod !== '';
 
   async function fetchAccountData() {
     const accountData = await ElrondApiProvider.getAccountData(address);
@@ -47,21 +45,15 @@ function Layout({ children }: { children: React.ReactNode }) {
   }
 
   useEffect(() => {
-    if (loggedIn) {
-      refreshAccount();
-      fetchAccountData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedIn]);
-
-  useEffect(() => {
-    if (isLoggedIn && isAuthenticated?.isAuthenticated) {
+    if (isLoggedIn) {
       (async function getContracts() {
+        await refreshAccount();
+        await fetchAccountData();
         const contracts = await getUserMultisigContractsList();
         dispatch(setMultisigContracts(contracts));
       }());
     }
-  }, [isLoggedIn, address, isAuthenticated?.isAuthenticated]);
+  }, [isLoggedIn, address, isAuthenticated?.isAuthenticated, dispatch]);
 
   async function fetchEconomics() {
     const economics = await ElrondApiProvider.getEconomicsData();
