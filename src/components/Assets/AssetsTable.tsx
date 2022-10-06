@@ -22,6 +22,7 @@ import { Typography } from '@mui/material';
 import { Balance } from '@elrondnetwork/erdjs/out';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import * as Styled from '../../pages/Organization/styled';
+import { Text } from '../StyledComponents/StyledComponents';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 
@@ -107,9 +108,9 @@ const AssetsTable = () => {
                 className="mr-3"
               />
               )}
-              <p className="mb-0">
+              <Text className="mb-0">
                 {params.value.tokenIdentifier?.split('-')[0] ?? 'unknown'}
-              </p>
+              </Text>
             </div>
           ),
         },
@@ -119,7 +120,7 @@ const AssetsTable = () => {
           flex: 1.2,
           type: 'string',
           renderCell: (params: GridRenderCellParams) => (
-            <h6 className="text-center mb-0 font-weight-normal">
+            <Text>
               {
                 Number(operations.denominate({
                   input: Balance.fromString(params.value?.amount).toString(),
@@ -128,7 +129,7 @@ const AssetsTable = () => {
                   showLastNonZeroDecimal: true,
                 }).replaceAll(',', '')).toLocaleString()
             } ${params.value.identifier}
-            </h6>
+            </Text>
           ),
         },
         {

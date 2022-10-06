@@ -48,7 +48,7 @@ export const MultisigCard = styled(Box)`
 `;
 
 export const Text = styled(Typography)`
-  color: ${(props) => props.theme.palette.text.primary};
+  color: ${(props) => props.theme.palette.text.primary} !important;
   font-family: 'IBM Plex Sans', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
     'Courier New', monospace !important;
 `;

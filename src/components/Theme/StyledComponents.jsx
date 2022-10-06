@@ -11,17 +11,23 @@ export const MainButton = styled(Button)`
   font-weight: ${(props) => props.theme.font.weight.lg};
   text-transform: capitalize;
   transition: all .15s linear;
-  border: 1px solid ${(props) => props.theme.palette.primary.main};
+  border: 1px solid #4c2FFC;
   background-color: ${(props) => props.theme.palette.background.main};
   box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+  & svg path {
+    fill: ${(props) => props.theme.palette.background.svg};
+    fill-opacity: 1;
+  };
   &:disabled {
     background-color: #eee;
     border-color: #ddd;
     color: grey;
     box-shadow: none;
   };
+
   &:hover, &.isActive {
-    background-color: ${(props) => props.theme.palette.primary.main};
+    background-color: ${(props) => props.theme.palette.background.button};
+    border-color: ${(props) => props.theme.palette.background.button};
     color: ${(props) => props.theme.palette.background.white};
     & svg path {
       fill: ${(props) => props.theme.palette.background.white};
@@ -79,6 +85,11 @@ export const AssetActionButton = styled(MainButton)`
   padding: 1px ${(props) => props.theme.padding.value.lg} 0 0;
   opacity: 0;
   box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+  background-color: ${(props) => props.theme.palette.background.main};
+  color: ${(props) => props.theme.palette.text.button};
+  '& svg': {
+    color: ${(props) => props.theme.palette.text.svg}
+  }
 }
 `;
 
@@ -117,7 +128,7 @@ export const AssetValue = styled(Box)`
   padding: 0;
   margin: 0px;
   font-size: 13px;
-  color: ${(props) => props.theme.palette.black.main};
+  color: ${(props) => props.theme.palette.text.primary};
 }
 `;
 

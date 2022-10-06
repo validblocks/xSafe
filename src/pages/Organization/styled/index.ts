@@ -15,14 +15,26 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
       padding: '5px 0 0 20px',
     },
     '& .MuiDataGrid-row:hover': {
-      backgroundColor: '#F5F7FF',
+      backgroundColor: theme.palette.background.hover,
       '& .MuiButton-root': {
         opacity: '1',
       },
     },
+    '& div': {
+      color: theme.palette.text.primary,
+    },
     '& p': {
       margin: 0,
-      color: 'rgba(0, 0, 0, 0.6)',
+      color: theme.palette.text.primary,
+    },
+    '& svg': {
+      color: theme.palette.text.primary,
+    },
+    '& .MuiDataGrid-columnHeaders, & .MuiDataGrid-cell': {
+      borderBottomColor: theme.palette.divider.secondary,
+    },
+    '& .MuiDataGrid-footerContainer': {
+      borderTop: 'none',
     },
     '& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within, & .MuiDataGrid-cell:focus-visible, & .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within, & .MuiDataGrid-columnHeader:focus-visible':
       {

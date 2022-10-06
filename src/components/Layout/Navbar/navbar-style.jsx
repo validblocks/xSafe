@@ -157,6 +157,7 @@ export const BreadcrumbsWrapper = styled(Box)`
 export const MenuAccordion = styled(AccordionSummary)`
 &&& {
   transition: all 300ms linear;
+  background-color: ${(props) => props.theme.palette.background.secondary};
   & .MuiAccordionSummary-content {
     margin: 0px;
   };

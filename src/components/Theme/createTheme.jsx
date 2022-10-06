@@ -17,9 +17,14 @@ export const theme = createTheme({
       white: '#FFFFFF',
       danger: '#e51a3e1a',
       default: '#F4F6FD',
+      hover: '#F5F7FF',
+      svg: '#4C2FFC',
+      button: '#4c2FFC',
     },
     text: {
       primary: '#08041D',
+      secondary: '#F0F6FF',
+      button: '#4c2FFC',
     },
     danger: {
       main: '#e51a3e',
@@ -29,6 +34,7 @@ export const theme = createTheme({
     },
     divider: {
       main: '#DFDFE8',
+      secondary: '#E0E0E0',
     },
   },
   shape: {
@@ -163,23 +169,27 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#4c2FFC',
+      main: '#ffff',
     },
     secondary: {
       main: '#4c2FFC8a',
     },
     text: {
       primary: '#FFF',
+      button: '#FFF',
     },
     black: {
       main: '#08041D',
     },
     background: {
-      main: '#4c2FFC1a',
+      main: '#4c2FFC',
       secondary: '#1E1D2A',
       white: '#FFFFFF',
       danger: '#e51a3e1a',
       default: '#14131C',
+      hover: '#211F33',
+      svg: '#F0F6FF',
+      button: '#2d12d0',
     },
     danger: {
       main: '#e51a3e',
@@ -189,6 +199,7 @@ export const darkTheme = createTheme({
     },
     divider: {
       main: '#DFDFE8',
+      secondary: '#14131C',
     },
   },
 });
