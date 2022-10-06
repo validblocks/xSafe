@@ -112,7 +112,6 @@ const MiniDrawer = () => {
                         minHeight: 48,
                         justifyContent: open ? 'initial' : 'center',
                         px: 2.5,
-                        color: '#08041D',
                       }}
                     >
                       <ListItemIcon
@@ -129,7 +128,6 @@ const MiniDrawer = () => {
                         primary={<Text> {el.name}</Text>}
                         sx={{
                           opacity: open ? 1 : 0,
-                          color: '#08041D',
                         }}
                       />
                     </ListItem>
