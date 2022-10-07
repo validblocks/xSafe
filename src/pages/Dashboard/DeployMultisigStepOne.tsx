@@ -31,7 +31,7 @@ const DeployMultisigStepOne = ({
   const theme: any = useTheme();
 
   const { pendingDeploymentData: { pendingDeploymentContractData, setPendingDeploymentContractData } } =
-        useMultisigCreationFormContext();
+  useMultisigCreationFormContext();
   const { address } = useGetAccountInfo();
 
   async function onAddMultisigFinished() {

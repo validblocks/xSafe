@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import {
   Box, Button, Grid, Typography,
@@ -6,7 +6,7 @@ import {
 import Checkbox from '@mui/material/Checkbox';
 import Divider from '@mui/material/Divider';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { setMultisigContracts, setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
+import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Safe from 'src/assets/img/safe.png';
 import { TypographyBold } from 'src/components/Theme/StyledComponents';
@@ -21,7 +21,6 @@ import { queryUserRoleOnContract } from 'src/contracts/MultisigContract';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { useTheme } from 'styled-components';
-import DeployStepsModal from 'src/pages/Dashboard/DeployMultisigModal';
 import {
   ActiveWallet,
   AddSafe,
@@ -30,6 +29,7 @@ import {
   SafeOptionsWrapper,
 } from './safe-style';
 import { Text } from '../StyledComponents/StyledComponents';
+import { useDeployStepsContext } from '../Layout/Navbar/NavbarAccountDetails';
 
 export const userRoleAsString = (roleNumber: number) => {
   switch (roleNumber) {
@@ -53,7 +53,6 @@ const SafeOptions = React.forwardRef((props, ref) => {
   const fetchedMultisigContracts = useSelector(multisigContractsSelector);
   const [selectedSafe, setSelectedSafe] = useState(currentContract?.address);
   const [attachedMultisigContracts, setAttachedMultisigContracts] = useState(() => fetchedMultisigContracts);
-  const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
 
   const onSafeChange = (newSafeAddress: string) => {
     if (!newSafeAddress) return;
@@ -67,10 +66,6 @@ const SafeOptions = React.forwardRef((props, ref) => {
 
     navigate(`/multisig/${newSafeAddress}`);
   };
-
-  const openDeployNewContractModal = useCallback(() => {
-    setShowDeployMultisigModal(true);
-  }, []);
 
   useEffect(() => {
     if (!address || !isLoggedIn) return;
@@ -92,20 +87,16 @@ const SafeOptions = React.forwardRef((props, ref) => {
     });
   }, [address, isLoggedIn]);
 
-  const updateMultisigContract = useCallback(
-    (newContracts: MultisigContractInfoType[]) => dispatch(setMultisigContracts(newContracts)),
-    [dispatch]);
+  const {
+    openDeployNewContractModal,
+  } = useDeployStepsContext();
 
   return (
     <SafeOptionsWrapper ref={ref} sx={{ zIndex: '100000 !important' }}>
       <Typography sx={{ p: 2 }} align="left">
         Safe Options
       </Typography>
-      <DeployStepsModal
-        show={showDeployMultisigModal}
-        handleClose={() => setShowDeployMultisigModal(false)}
-        setNewContracts={(newContracts) => updateMultisigContract(newContracts)}
-      />
+
       <Divider />
       {isLoggedIn && (
       <Box>
