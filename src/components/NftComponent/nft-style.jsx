@@ -9,6 +9,7 @@ export const EmptyList = styled.p`
 
 export const CollectionName = styled.div`
   width: 100%;
+  color: ${(props) => props.theme.palette.text.primary}
 `;
 
 export const TextDivider = styled.div`
@@ -50,6 +51,7 @@ export const CardBox = styled(Card)`
   transition: all .2s linear;
   transform: scale(1);
   overflow: hidden;
+  background-color: ${(props) => props.theme.palette.background.secondary};
   & span {
     position: absolute;
     width: 100%;

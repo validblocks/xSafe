@@ -18,10 +18,12 @@ import { StateType } from 'src/redux/slices/accountSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { useTheme } from 'styled-components';
 import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 
 function NftCompmonent() {
+  const theme: any = useTheme();
   const dispatch = useDispatch();
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
   const { isInReadOnlyMode } = useOrganizationInfoContext();
@@ -158,6 +160,7 @@ function NftCompmonent() {
                       gutterBottom
                       variant="h6"
                       component="span"
+                      sx={{ color: theme.palette.text.primary }}
                     >
                       {item.name}
                     </Typography>
