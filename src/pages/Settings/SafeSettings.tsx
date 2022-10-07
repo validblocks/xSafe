@@ -5,15 +5,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import ChangeCurrency from 'src/components/ChangeCurrency';
 import { MainButton, TypographyBold } from 'src/components/Theme/StyledComponents';
 import ThemeColor from 'src/components/ThemeColor';
-import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
+import { currentSafeNameSelector } from 'src/redux/selectors/safeNameSelector';
 import { setSafeName } from 'src/redux/slices/safeNameSlice';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { NoteSpan, Span } from './settings-style';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 function SafeSettings() {
-  const safeName = useSelector(safeNameStoredSelector);
-  const [name, setName] = useState('');
+  const safeName = useSelector(currentSafeNameSelector);
+  const [name, setName] = useState(safeName);
   const { isInReadOnlyMode } = useOrganizationInfoContext();
+
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   useEffect(() => {
     setName(safeName);
@@ -25,7 +28,10 @@ function SafeSettings() {
   };
 
   const saveUpdates = () => {
-    dispatch(setSafeName(name));
+    dispatch(setSafeName({
+      address: currentContract?.address,
+      newSafeName: name,
+    }));
   };
 
   return (

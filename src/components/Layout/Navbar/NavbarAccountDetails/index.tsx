@@ -17,7 +17,7 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { network } from 'src/config';
-import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
+import { currentSafeNameSelector } from 'src/redux/selectors/safeNameSelector';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
@@ -45,6 +45,7 @@ export const useDeployStepsContext = () =>
 const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: string }) => {
   const { isLoggedIn } = useGetLoginInfo();
 
+  const safeName = useSelector(currentSafeNameSelector);
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const [showQr, setShowQr] = useState(false);
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
@@ -53,7 +54,6 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
 
   const dispatch = useDispatch();
-  const safeName = useSelector(safeNameStoredSelector);
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const menuRef = useRef<HTMLElement>();
