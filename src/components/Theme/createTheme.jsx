@@ -20,11 +20,13 @@ export const theme = createTheme({
       hover: '#F5F7FF',
       svg: '#4C2FFC',
       button: '#4c2FFC',
+      disabled: '#eee',
     },
     text: {
       primary: '#08041D',
       secondary: '#F0F6FF',
       button: '#4c2FFC',
+      disabled: '#A9A9A9',
     },
     danger: {
       main: '#e51a3e',
@@ -177,6 +179,7 @@ export const darkTheme = createTheme({
     text: {
       primary: '#FFF',
       button: '#FFF',
+      disabled: '#8680A9',
     },
     black: {
       main: '#08041D',
@@ -190,6 +193,7 @@ export const darkTheme = createTheme({
       hover: '#211F33',
       svg: '#F0F6FF',
       button: '#2d12d0',
+      disabled: '#D6CFFF1A',
     },
     danger: {
       main: '#e51a3e',

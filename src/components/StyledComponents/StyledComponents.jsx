@@ -15,14 +15,17 @@ export const CenteredBox = styled(Box)`
 export const PerformActionButton = styled(Button)`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-  background: transparent !important;
-  color: ${(props) => props.theme.palette.secondary} !important;
-  padding: 0 1rem !important;
+  background-color: ${(props) => props.theme.palette.background.main};
+  box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+  color: ${(props) => props.theme.palette.primary.main};
   border: 1px solid ${(props) => props.theme.palette.secondary.main} !important;
+  padding: 10px;
+  font-size: 14px;
+  text-transform: none;
   &:hover {
-    background: ${(props) => props.theme.palette.background.main} !important;
-    border: 1px solid ${(props) => props.theme.palette.primary.main} !important;
-    box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main} !important;
+    background-color: ${(props) => props.theme.palette.background.button};
+    border-color: ${(props) => props.theme.palette.background.button};
+    color: ${(props) => props.theme.palette.background.white};
   }
 `;
 

@@ -38,7 +38,6 @@ const AppCard = ({
         onClick={actionButtonOnClick}
         sx={{
           ...(isInstalled && {
-            color: `${theme.palette.text.primary} !important`,
             backgroundColor: `${theme.palette.primary.main} !important`,
             border: `1px solid ${theme.palette.primary.main} !important`,
           }),

@@ -4,9 +4,11 @@ import { MultisigCard, PerformActionButton, Text } from 'src/components/StyledCo
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from 'styled-components';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
 const CvorumContainer = () => {
+  const theme: any = useTheme();
   const dispatch = useDispatch();
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const onChangeQuorum = () =>
@@ -32,13 +34,14 @@ const CvorumContainer = () => {
         <Box minHeight={'60vh'} className="px-4 py-4">
           <Text fontSize={21} fontWeight={450}>Required Confirmations</Text>
           <Box fontSize={14} marginTop={2}>
-            Performing an action requires the confirmation of:
+            <Text>Performing an action requires the confirmation of:</Text>
           </Box>
           <Box marginY={2}>
             <Box
               component={'span'}
               fontSize={16}
               fontWeight={500}
+              sx={{ color: theme.palette.text.primary }}
             ><strong>{quorumCount}</strong>
               <Box
                 component={'span'}
@@ -59,9 +62,6 @@ const CvorumContainer = () => {
             disabled={isInReadOnlyMode}
             size="large"
             onClick={onChangeQuorum}
-            sx={{
-              padding: '1rem !important',
-            }}
           >
             {t('Change Quorum') as string}
           </PerformActionButton>

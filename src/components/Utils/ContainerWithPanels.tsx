@@ -1,6 +1,7 @@
 import { Box, Tab, Tabs } from '@mui/material';
 import { TabPanel } from 'src/pages/Transactions/TransactionsPage';
 import { useState } from 'react';
+import { useTheme } from 'styled-components';
 import * as Styled from './styled';
 
 interface IPanel {
@@ -14,6 +15,7 @@ interface ContainerWithPanelProps {
 
 const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
   const [selectedTab, setSelectedTab] = useState(0);
+  const theme: any = useTheme();
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setSelectedTab(newValue);
@@ -36,7 +38,7 @@ const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
           >
             {panels.map((panel, index) => (
               <Tab
-                sx={{ paddingX: '2rem', textTransform: 'none', fontSize: '15px', fontWeight: '500' }}
+                sx={{ paddingX: '2rem', textTransform: 'none', fontSize: '15px', fontWeight: '500', color: theme.palette.text.primary }}
                 key={panel.title}
                 label={panel.title}
                 {...a11yProps(index)}
