@@ -21,6 +21,7 @@ export const theme = createTheme({
       svg: '#4C2FFC',
       button: '#4c2FFC',
       disabled: '#eee',
+      border: '#000000',
     },
     text: {
       primary: '#08041D',
@@ -37,6 +38,9 @@ export const theme = createTheme({
     divider: {
       main: '#DFDFE8',
       secondary: '#E0E0E0',
+    },
+    borders: {
+      active: '#2196f3',
     },
   },
   shape: {
@@ -194,6 +198,7 @@ export const darkTheme = createTheme({
       svg: '#F0F6FF',
       button: '#2d12d0',
       disabled: '#D6CFFF1A',
+      border: '#6B6B6B',
     },
     danger: {
       main: '#e51a3e',
@@ -204,6 +209,9 @@ export const darkTheme = createTheme({
     divider: {
       main: '#DFDFE8',
       secondary: '#14131C',
+    },
+    borders: {
+      active: '#4C2FFC',
     },
   },
 });

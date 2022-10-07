@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeCurrency from 'src/components/ChangeCurrency';
 import { MainButton, TypographyBold } from 'src/components/Theme/StyledComponents';
 import ThemeColor from 'src/components/ThemeColor';
 import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
 import { setSafeName } from 'src/redux/slices/safeNameSlice';
-import { useTheme } from 'styled-components';
+import { SettingsInput } from 'src/components/StyledComponents/settings';
 import { NoteSpan, Span } from './settings-style';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
@@ -29,8 +28,6 @@ function SafeSettings() {
     dispatch(setSafeName(name));
   };
 
-  const theme: any = useTheme();
-
   return (
     <Box>
       <TypographyBold sx={{ mb: 1, fontSize: '18px' }}>
@@ -46,20 +43,12 @@ function SafeSettings() {
           seeing it)
         </NoteSpan>
       </Typography>
-      <TextField
+      <SettingsInput
         label="Safe Name"
         variant="outlined"
         disabled={isInReadOnlyMode}
         onChange={changeSafeName}
         value={name}
-        inputProps={{
-          sx: {
-            border: `1px solid ${theme.palette.divider.main}`,
-            borderRadius: '10px',
-            outline: 'none',
-            color: 'red !important',
-          },
-        }}
         sx={{ width: 250 }}
       />
       <TypographyBold sx={{ mb: 1, mt: 2, fontSize: '18px' }}>

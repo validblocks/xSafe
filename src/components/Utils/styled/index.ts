@@ -20,7 +20,20 @@ export const TabContainerBox = styled(Box)(({ theme }) => ({
 
 export const MultisigAutocomplete = styled(Autocomplete)(({ theme }) => ({
   '&&&': {
-    backgroundColor: theme.palette.background.secondary,
-    color: theme.palette.text.primary,
+    '& .MuiOutlinedInput-root': {
+      color: theme.palette.text.primary,
+      '& fieldset': {
+        borderColor: theme.palette.background.border,
+      },
+      '&:hover fieldset': {
+        borderColor: theme.palette.borders.active,
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: theme.palette.borders.active,
+      },
+    },
+    '& .MuiInputLabel-root,& .MuiInputLabel-formControl': {
+      color: theme.palette.text.primary,
+    },
   },
 }));
