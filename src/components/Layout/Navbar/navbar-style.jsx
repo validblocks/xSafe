@@ -126,6 +126,7 @@ export const TopMenu = styled(Box)`
 
 export const ListItem = styled(ListItemButton)`
 &&& {
+  background-color: ${(props) => props.theme.palette.background.secondary};
   transition: all 300ms linear;
   .pin-icon {
     opacity: 0;
@@ -134,8 +135,8 @@ export const ListItem = styled(ListItemButton)`
     transition: all 300ms linear;
   }
   &:hover {
-    color: ${(props) => props.theme.palette.primary.main};
-    background-color: ${(props) => props.theme.palette.background.secondary};
+    color: ${(props) => props.theme.palette.primary.main} !important;
+    background-color: ${(props) => props.theme.palette.background.hover};
     .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
@@ -165,7 +166,7 @@ export const MenuAccordion = styled(AccordionSummary)`
     transition: color 300ms linear;
   };
   &:hover {
-    background-color: ${(props) => props.theme.palette.background.secondary};
+    background-color: ${(props) => props.theme.palette.background.hover};
     .MuiTypography-root {
       color: ${(props) => props.theme.palette.primary.main};
     };

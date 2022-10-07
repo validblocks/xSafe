@@ -10,7 +10,6 @@ import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
 import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
 import addressShorthand from 'src/helpers/addressShorthand';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
 import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
@@ -125,7 +124,7 @@ const MiniDrawer = () => {
                         {el.icon}
                       </ListItemIcon>
                       <ListItemText
-                        primary={<Text> {el.name}</Text>}
+                        primary={<span> {el.name}</span>}
                         sx={{
                           opacity: open ? 1 : 0,
                         }}
@@ -161,7 +160,7 @@ const MiniDrawer = () => {
                             }}
                           />
                           <ListItemText
-                            primary={<Text>{subEl.name}</Text>}
+                            primary={<span>{subEl.name}</span>}
                             sx={{ opacity: open ? 1 : 0 }}
                           />
                           {el.name === 'Apps' && (
@@ -217,7 +216,7 @@ const MiniDrawer = () => {
                             }}
                           />
                           <ListItemText
-                            primary={<Text>{subEl.name}</Text>}
+                            primary={<span>{subEl.name}</span>}
                             sx={{ opacity: open ? 1 : 0 }}
                           />
                           {el.name === 'Apps' && (
@@ -272,7 +271,7 @@ const MiniDrawer = () => {
                       {el.icon}
                     </ListItemIcon>
                     <ListItemText
-                      primary={<Text>{el.name}</Text>}
+                      primary={<span>{el.name}</span>}
                       sx={{ opacity: open ? 1 : 0 }}
                     />
 
@@ -309,7 +308,7 @@ const MiniDrawer = () => {
                           {app.icon}
                         </ListItemIcon>
                         <ListItemText
-                          primary={<Text>{app.name}</Text>}
+                          primary={<span>{app.name}</span>}
                           sx={{ opacity: open ? 1 : 0 }}
                         />
                         <div className="pin-icon">
@@ -361,7 +360,7 @@ const MiniDrawer = () => {
                   {el.icon}
                 </ListItemIcon>
                 <ListItemText
-                  primary={<Text>{el.name}</Text>}
+                  primary={<span>{el.name}</span>}
                   sx={{ opacity: open ? 1 : 0 }}
                 />
               </ListItem>
