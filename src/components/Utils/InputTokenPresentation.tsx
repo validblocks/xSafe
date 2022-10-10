@@ -6,8 +6,8 @@ import { Text } from '../StyledComponents/StyledComponents';
 import TokenPresentationWithPrice from './TokenPresentationWithPrice';
 
 const InputTokenPresentation = ({
-  amount, amountError, egldBalanceString, label, onChange, onBlur, formik }:
-  { amount: string, amountError: string | false | undefined, egldBalanceString: any, label: string, onChange: any, onBlur: any, formik: any, }) => {
+  amount, amountError, egldBalanceString, label, onChange, onBlur, formik, id }:
+  { amount: string, amountError: string | false | undefined, egldBalanceString: any, label: string, onChange: any, onBlur: any, formik: any, id?: string }) => {
   const egldBalanceNumber = Number(egldBalanceString);
 
   const autocompleteMaxAmount = useCallback(() => {
@@ -22,7 +22,7 @@ const InputTokenPresentation = ({
       className={amountError != null ? 'hasAvailableAmount invalid' : 'hasAvailableAmount'}
     >
       <Form.Control
-        id={amount}
+        id={id}
         name="amount"
         isInvalid={amountError != null}
         onChange={onChange}
@@ -30,7 +30,7 @@ const InputTokenPresentation = ({
         value={amount}
       />
 
-      <label htmlFor={amount}>
+      <label htmlFor={id}>
         {label}
       </label>
 
