@@ -7,12 +7,12 @@ export const currentSafeNameSelector = createDeepEqualSelector(
   (state) => {
     const currentContract = state.multisigContracts.currentMultisigContract;
     const currentContractName =
-      state.safeName.safeNames?.[currentContract.address];
+      state.safeName.safeNames?.[currentContract?.address];
 
     const displayableName =
       currentContractName ??
-      currentContract.name ??
-      currentContract.address.slice(0, 5);
+      currentContract?.name ??
+      currentContract?.address.slice(0, 5);
 
     return displayableName;
   },
