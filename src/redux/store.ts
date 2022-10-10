@@ -8,7 +8,7 @@ const persistConfig = {
   key: 'multisig-root',
   storage: localStorage,
   whitelist: [
-    'account',
+    'accountGeneralInfo',
     'appConfig',
     'multisigContracts',
     'economics',

@@ -19,7 +19,7 @@ import {
   setTokenTableRows,
   setTotalUsdBalance,
   StateType,
-} from 'src/redux/slices/accountSlice';
+} from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';

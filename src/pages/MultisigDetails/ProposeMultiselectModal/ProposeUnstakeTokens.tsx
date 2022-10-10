@@ -13,7 +13,7 @@ import {
 } from 'src/redux/selectors/accountSelector';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import { TestContext } from 'yup';
-import { StateType } from 'src/redux/slices/accountSlice';
+import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { setSelectedStakingProvider } from 'src/redux/slices/modalsSlice';
 import { IdentityWithColumns } from 'src/types/staking';
 import ProviderColumn from 'src/components/Staking/ProviderColumn';

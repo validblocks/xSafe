@@ -1,9 +1,9 @@
 import { OrganizationToken } from 'src/pages/Organization/types';
 import { createDeepEqualSelector } from './helpers';
 import { RootState } from '../store';
-import { StateType } from '../slices/accountSlice';
+import { StateType } from '../slices/accountGeneralInfoSlice';
 
-export const accountSelector = (state: RootState) => state.account;
+export const accountSelector = (state: RootState) => state.accountGeneralInfo;
 
 const DEFAULT_ORGANIZATION_TOKEN = {
   prettyIdentifier: 'ID',
