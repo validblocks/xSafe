@@ -105,11 +105,23 @@ export const WithdrawButton = styled(AccountButton)`
 export const MainSelect = styled(Select)`
 &&& {
   color: ${(props) => props.theme.palette.primary.main};
-  border: 1px solid ${(props) => props.theme.palette.primary.main};
+  border: 1px solid #4c2FFC;
   background-color: ${(props) => props.theme.palette.background.main};
   box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
   border-radius: 4px;
   padding: 0.25rem 0.75rem;
+  & svg path {
+    fill: ${(props) => props.theme.palette.background.svg};
+    fill-opacity: 1;
+  };
+  &:before {
+    display: none;
+  }
+  &:hover {
+    border-color: ${(props) => props.theme.palette.background.button};
+    background-color: ${(props) => props.theme.palette.background.button};
+    color: ${(props) => props.theme.palette.background.white};
+  }
 }
 `;
 

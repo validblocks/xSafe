@@ -5,6 +5,7 @@ import CopyButton from 'src/components/CopyButton';
 import { toSvg } from 'jdenticon';
 import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
 import { network } from 'src/config';
+import { useTheme } from 'styled-components';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { useSelector } from 'react-redux';
 import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
@@ -18,6 +19,7 @@ const MemberPresentationWithPhoto = ({
   memberAddress,
   charactersLeftAfterTruncation = 5,
 }: Props) => {
+  const theme: any = useTheme();
   const addressBook = useSelector(addressBookSelector);
   return (
     <div
@@ -30,14 +32,14 @@ const MemberPresentationWithPhoto = ({
         />
     }
       <Box sx={{ ml: '0.7rem' }}>
-        <Typography sx={{ fontWeight: 600 }}>@herotag</Typography>
+        <Typography sx={{ fontWeight: 600, color: theme.palette.text.primary }}>@herotag</Typography>
         <Box sx={{ display: 'flex' }}>
-          <div>
+          <Box sx={{ color: theme.palette.text.primary }}>
             {addressBook[memberAddress?.bech32()] ?? truncateInTheMiddle(
               memberAddress?.bech32() ?? '',
               charactersLeftAfterTruncation,
             )}{' '}
-          </div>
+          </Box>
           <CopyButton className="ml-2 copyIcon" text={memberAddress?.toString()} />
           <Anchor
             href={`${

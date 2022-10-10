@@ -26,7 +26,7 @@ const ProviderColumn = ({
       />
       <Box>
         <Text
-          sx={{ color: '#08041D !important', letterSpacing: '-0.01em' }}
+          sx={{ letterSpacing: '-0.01em' }}
           fontWeight={500}
           fontSize={17}
           noWrap

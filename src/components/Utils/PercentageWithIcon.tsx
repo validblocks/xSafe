@@ -9,7 +9,7 @@ interface PercentageWithIconProps {
 const PercentageWithIcon = ({ icon, percentage }: PercentageWithIconProps) => (
   <Box sx={{ display: 'flex', gap: '2px' }}>
     {icon}
-    <Text fontSize={15} fontWeight={500} sx={{ color: '#08041D !important' }}>{percentage}%</Text>
+    <Text fontSize={15} fontWeight={500}>{percentage}%</Text>
   </Box>
 );
 
