@@ -10,7 +10,7 @@ import MuiAppBar, { AppBarProps } from '@mui/material/AppBar';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch } from 'react-redux';
 import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
-import { setAccountData } from 'src/redux/slices/accountSlice';
+import { setAccountData } from 'src/redux/slices/accountGeneralInfoSlice';
 import { setEconomics } from 'src/redux/slices/economicsSlice';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import routes from 'src/routes';

@@ -14,7 +14,7 @@ import {
 } from 'src/redux/selectors/multisigContractsSelectors';
 import { uniqueContractAddress, uniqueContractName } from 'src/multisigConfig';
 import { currentSafeNameSelector } from 'src/redux/selectors/safeNameSelector';
-import { StateType } from 'src/redux/slices/accountSlice';
+import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { useQuery, useQueryClient } from 'react-query';

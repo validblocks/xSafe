@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getTokenPhotoUrlById, accountSelector } from 'src/redux/selectors/accountSelector';
 import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
-import { StateType } from 'src/redux/slices/accountSlice';
+import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 
 interface IUseTokenPhotoOptions {

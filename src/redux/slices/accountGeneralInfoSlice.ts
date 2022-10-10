@@ -41,12 +41,15 @@ const initialState: StateType = {
   totalUsdValue: 0,
 };
 
-export const accountSlice = createSlice({
-  name: 'accountSlice',
+export const accountGeneralInfoSlice = createSlice({
+  name: 'accountGeneralInfoSlice',
   initialState,
   reducers: {
     setAccountData(state: StateType, action: PayloadAction<StateType>) {
-      return action.payload;
+      return {
+        ...state,
+        ...action.payload,
+      };
     },
     setTotalUsdBalance(state: StateType, action: PayloadAction<number>) {
       return {
@@ -58,6 +61,7 @@ export const accountSlice = createSlice({
       state: StateType,
       action: PayloadAction<TokenTableRowItem[]>,
     ) {
+      console.log({ STATE: state });
       return {
         ...state,
         tokenTableRows: action.payload,
@@ -100,6 +104,6 @@ export const {
   setMultisigBalance,
   setOrganizationTokens,
   setActiveDelegationRows,
-} = accountSlice.actions;
+} = accountGeneralInfoSlice.actions;
 
-export default accountSlice.reducer;
+export default accountGeneralInfoSlice.reducer;

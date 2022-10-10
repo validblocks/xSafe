@@ -14,7 +14,7 @@ import { QueryKeys } from 'src/react-query/queryKeys';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { NFTType } from 'src/types/nfts';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { StateType } from 'src/redux/slices/accountSlice';
+import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
