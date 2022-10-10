@@ -68,6 +68,12 @@ export const CardBox = styled(Card)`
     bottom: -50px;
     left: 11.2px;
     transition: bottom .2s linear;
+
+    &:disabled {
+      background-color: ${(props) => props.theme.palette.background.disabled};
+      border-color: ${(props) => props.theme.palette.background.disabled};
+      color: ${(props) => props.theme.palette.text.disabled};
+    },
   };
   &:hover{
     & span {
