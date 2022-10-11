@@ -85,6 +85,7 @@ const PaginationWithItemsPerPage = ({
             displayEmpty
             inputProps={{ 'aria-label': 'Without label' }}
             input={<OutlinedInput />}
+            sx={{ color: '#fff !important' }}
           >
             <MenuItem value={10}>10</MenuItem>
             <MenuItem value={15}>15</MenuItem>

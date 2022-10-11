@@ -19,9 +19,9 @@ export const MainButton = styled(Button)`
     fill-opacity: 1;
   };
   &:disabled {
-    background-color: #eee;
-    border-color: #ddd;
-    color: grey;
+    background-color: ${(props) => props.theme.palette.background.disabled};
+    border-color: ${(props) => props.theme.palette.background.disabled};
+    color: ${(props) => props.theme.palette.text.disabled};
     box-shadow: none;
   };
 
@@ -181,21 +181,22 @@ export const InputsContainer = styled(Box)`
   };
   & input.form-control, & label, & li, & div.MuiOutlinedInput-root {
     transition: all .3s linear;
+    color: ${(props) => props.theme.palette.text.primary};
   };
   &:focus-within {
     input.form-control {
       border: solid 1px ${(props) => props.theme.palette.primary.main};
     };
     li, div.MuiOutlinedInput-root {
-      border: solid 1px ${(props) => props.theme.palette.primary.main} !important;
+      border: solid 1px ${(props) => props.theme.palette.borders.active};
     };
   };
   &:hover {
     input.form-control {
-      border-color: ${(props) => props.theme.palette.black.main};
+      border-color: ${(props) => props.theme.palette.borders.active};
     };
     li {
-      border-color: ${(props) => props.theme.palette.black.main};
+      border-color: ${(props) => props.theme.palette.borders.active};
     };
     div.MuiOutlinedInput-root {
       border-color: ${(props) => props.theme.palette.black.main};
@@ -210,9 +211,8 @@ export const InputsContainer = styled(Box)`
     padding: 0 3px;
     top: -10px;
     left: 10px;
-    color: ${(props) => props.theme.palette.primary.main};
+    color: ${(props) => props.theme.palette.text.primary};
     font-size: 12px;
-    background-color: #ffff;
   };
   & input.form-control.is-invalid ~ label {
     color: ${(props) => props.theme.palette.danger.main};
@@ -222,7 +222,7 @@ export const InputsContainer = styled(Box)`
     height: auto;
     padding: 16.5px 14px;
     background-color: transparent;
-    border: solid 1px rgba(76, 47, 252, 0.23);
+    border: solid 1px ${(props) => props.theme.palette.borders.secondary};
     border-radius: .3rem;
   };
   & input.form-control.is-invalid {
@@ -241,7 +241,7 @@ export const InputsContainer = styled(Box)`
   };
   & input.form-control:focus {
     outline: none;
-    border: solid 1px ${(props) => props.theme.palette.primary.main};
+    border: solid 1px ${(props) => props.theme.palette.borders.active};
     box-shadow: none;
   };
   & h6.availableAmount {
@@ -259,7 +259,8 @@ export const InputsContainer = styled(Box)`
     height: 56px;
     top: 0;
     right: 0;
-    border: solid 1px rgba(76, 47, 252, 0.23);
+    border: solid 1px ${(props) => props.theme.palette.borders.secondary};
+    color: ${(props) => props.theme.palette.text.primary};
     border-radius: .3rem;
     border-top-left-radius: 2rem;
     border-bottom-left-radius: 2rem;
@@ -399,6 +400,10 @@ export const ModalContainer = styled(Modal)`
     top: calc(50% + 68px) !important;
     left: calc(50% - 15px) !important;
     };
+  }
+
+  & .modal-content {
+    background-color: ${(props) => props.theme.palette.background.secondary};
   }
 
 }

@@ -28,7 +28,7 @@ const StakingProviderBasedOnAddress = ({ providerAddress }: Props) => {
       display={'flex'}
       justifyContent={'space-between'}
       alignItems={'center'}
-      border={`1px solid ${theme.palette.background.border}`}
+      border={`1px solid ${theme.palette.borders.secondary}`}
       padding={'0 1rem'}
       borderRadius={'10px'}
     >

@@ -5,7 +5,7 @@ export const SettingsInput = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
     color: theme.palette.text.primary,
     '& fieldset': {
-      borderColor: theme.palette.background.border,
+      borderColor: theme.palette.borders.secondary,
     },
     '&:hover fieldset': {
       borderColor: theme.palette.borders.active,
@@ -23,7 +23,7 @@ export const MultisigAutocomplete = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-root': {
     color: theme.palette.text.primary,
     '& fieldset': {
-      borderColor: theme.palette.background.border,
+      borderColor: theme.palette.borders.secondary,
     },
     '&:hover fieldset': {
       borderColor: theme.palette.borders.active,

@@ -10,6 +10,7 @@ export const CenteredBox = styled(Box)`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: ${(props) => props.theme.palette.text.primary}
 `;
 
 export const PerformActionButton = styled(Button)`
@@ -57,8 +58,7 @@ export const Text = styled(Typography)`
 `;
 
 export const ModalCardTitleContainer = styled(Box)`
-  border-bottom: 1px solid ${(props) => props.theme.palette.divider.main};
+  border-bottom: 1px solid ${(props) => props.theme.palette.divider.secondary};
   border-radius: 10px 10px 0 0;
   padding: 1.5rem 3rem;
-
 `;

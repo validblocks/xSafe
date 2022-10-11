@@ -14,6 +14,7 @@ import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationI
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import { useTheme } from 'styled-components';
 import { network } from 'src/config';
 import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
@@ -26,6 +27,7 @@ import TotalBalance from '../TotalBalance';
 import UnknownOwner from './UnknownOwner';
 
 const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: string }) => {
+  const theme: any = useTheme();
   const { isLoggedIn } = useGetLoginInfo();
 
   const safeName = useSelector(safeNameStoredSelector);
@@ -162,7 +164,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                 cursor: 'pointer',
               }}
             >
-              <QrCode2Icon />
+              <QrCode2Icon sx={{ color: theme.palette.button.qr }} />
             </Box>
             <Box sx={{ mr: 1.85, ml: 0.35 }}>
               <CopyButton text={currentContract?.address} />

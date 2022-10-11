@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
+import { useTheme } from 'styled-components';
 import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
 import { FormikInputField } from 'src/helpers/formikFields';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
@@ -31,6 +32,7 @@ const ProposeSendEgld = ({
 
   const { t }: { t: any } = useTranslation();
 
+  const theme: any = useTheme();
   const organizationTokens = useSelector(organizationTokensSelector);
   const egldBalanceString = organizationTokens
     ?.find((token: OrganizationToken) => token.identifier === 'EGLD').tokenAmount.replaceAll(',', '') ?? 0;
@@ -187,18 +189,27 @@ const ProposeSendEgld = ({
               marginBottom: 0,
               fontSize: '15px',
               left: '-1px',
+              color: theme.palette.text.primary,
             },
             '& .MuiOutlinedInput-root fieldset': {
               transition: 'all .3s linear',
-              borderColor: 'rgba(76, 47, 252, 0.23)',
+              borderColor: theme.palette.borders.secondary,
+            },
+            '& .MuiOutlinedInput-root': {
+              '&:hover fieldset': {
+                borderColor: theme.palette.borders.active,
+              },
+            },
+            '& .MuiOutlinedInput-input': {
+              color: theme.palette.text.primary,
             },
             '& .MuiOutlinedInput-root.Mui-focused fieldset': {
               transition: 'all .3s linear',
-              borderColor: '#4c2ffc',
+              borderColor: theme.palette.borders.active,
               borderWidth: '1px',
             },
             '& label.MuiInputLabel-root.Mui-focused': {
-              color: '#4c2ffc',
+              color: theme.palette.borders.active,
             },
           }}
         />

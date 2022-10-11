@@ -21,7 +21,6 @@ export const theme = createTheme({
       svg: '#4C2FFC',
       button: '#4c2FFC',
       disabled: '#eee',
-      border: '#000000',
       timeline: '#4C2FFC',
     },
     text: {
@@ -29,7 +28,7 @@ export const theme = createTheme({
       secondary: '#F0F6FF',
       button: '#4c2FFC',
       disabled: '#A9A9A9',
-      success: '#08041D',
+      success: '#fff',
     },
     danger: {
       main: '#e51a3e',
@@ -43,10 +42,13 @@ export const theme = createTheme({
     },
     borders: {
       active: '#2196f3',
+      secondary: '#0000003B',
     },
     button: {
-      success: '#2FFCBE',
+      success: '#3BE292',
       pending: '#fff',
+      copy: '#1392ff',
+      qr: '#08041D',
     },
     svg: {
       secondary: '#08041D',
@@ -208,7 +210,6 @@ export const darkTheme = createTheme({
       svg: '#F0F6FF',
       button: '#2d12d0',
       disabled: '#D6CFFF1A',
-      border: '#6B6B6B',
       timeline: '#2FFCBE',
     },
     danger: {
@@ -223,10 +224,13 @@ export const darkTheme = createTheme({
     },
     borders: {
       active: '#4C2FFC',
+      secondary: '#6B6B6B',
     },
     button: {
       success: '#2FFCBE40',
       pending: '#684D0C',
+      copy: '#6c757d',
+      qr: '#6c757d',
     },
     svg: {
       secondary: '#fff',

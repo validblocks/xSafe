@@ -3,11 +3,13 @@ import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useLocation, Link } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { Box, OutlinedInput } from '@mui/material';
+import { useTheme } from 'styled-components';
 import { FormSearchInput } from 'src/components/Theme/StyledComponents';
 import breadcrumbItems from './BreadcrumbItems';
 import { ReactComponent as SearchIcon } from '../../../assets/img/searchFilled.svg';
 
 function PageBreadcrumbs() {
+  const theme: any = useTheme();
   const [breadcrumb, setBreadcrumb] = useState([]);
 
   const location = useLocation();
@@ -35,7 +37,7 @@ function PageBreadcrumbs() {
 
   return (
     <div role="presentation">
-      <Breadcrumbs separator="›" aria-label="breadcrumb">
+      <Breadcrumbs separator="›" aria-label="breadcrumb" sx={{ color: theme.palette.text.primary }}>
         <Link color="inherit" to={`/multisig/${uniqueContractAddress}`}>
           Home
         </Link>

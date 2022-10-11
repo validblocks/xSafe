@@ -21,7 +21,7 @@ const PendingActionSummary = ({ action }: Props) => {
     <>
       <Box className="d-flex">
         <Styled.ActionIdBox>
-          <Text fontWeight={700}>{action?.actionId}</Text>
+          <Text>{action?.actionId}</Text>
         </Styled.ActionIdBox>
 
         <Styled.ActionTitleBox>

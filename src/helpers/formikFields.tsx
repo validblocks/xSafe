@@ -1,4 +1,5 @@
 import { TextField } from '@mui/material';
+import { useTheme } from 'styled-components';
 import { FormikRoundedCheckBox, InputWrapper } from 'src/components/Theme/StyledComponents';
 
 interface FormikInputFieldPropsType {
@@ -31,6 +32,7 @@ export function FormikInputField({
   disabled,
   className,
 }: FormikInputFieldPropsType) {
+  const theme: any = useTheme();
   return (
     <div>
       <InputWrapper className={error != null ? 'input-wrapper invalid' : 'input-wrapper'}>
@@ -51,10 +53,19 @@ export function FormikInputField({
               marginBottom: 0,
               fontSize: '15px',
               left: '-1px',
+              color: theme.palette.text.primary,
             },
             fieldset: {
               transition: 'all .3s linear',
-              borderColor: 'rgba(76, 47, 252, 0.23)',
+              borderColor: theme.palette.borders.secondary,
+            },
+            '& .MuiOutlinedInput-input': {
+              color: theme.palette.text.primary,
+            },
+            '& .MuiOutlinedInput-root': {
+              '&:hover fieldset': {
+                borderColor: theme.palette.borders.active,
+              },
             },
             '&.isError': {
               label: {
@@ -63,17 +74,24 @@ export function FormikInputField({
               fieldset: {
                 borderColor: '#e51a3e !important',
               },
+              '& .MuiOutlinedInput-input': {
+                color: '#fff',
+              },
               '& .MuiOutlinedInput-root + .MuiFormHelperText-root': {
                 color: '#e51a3e !important',
                 m: '1px 0 0 4px',
               },
             },
+            '&:hover fieldset': {
+              borderColor: theme.palette.borders.active,
+            },
             '& .MuiOutlinedInput-root.Mui-focused fieldset': {
-              borderColor: '#4c2ffc',
+              color: '#fff',
+              borderColor: theme.palette.borders.active,
               borderWidth: '1px',
             },
             '& label.MuiInputLabel-root.Mui-focused': {
-              color: '#4c2ffc',
+              color: theme.palette.borders.active,
             },
           }}
         />

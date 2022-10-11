@@ -36,7 +36,7 @@ function TransactionSummary({
             minWidth: '230px',
           }}
         >
-          <Text>{action?.title()}</Text>
+          <Text fontWeight={700}>{action?.title()}</Text>
         </Box>
 
         <Box
@@ -52,9 +52,9 @@ function TransactionSummary({
           }}
         >
           <div>
-            <strong><Text>Execution Time:</Text></strong>
+            <strong><Text fontSize={12} fontWeight={700}>Execution Time:</Text></strong>
           </div>
-          <Text>{dayjs(getDate(transaction.timestamp)).format('H:mm A')}</Text>
+          <Text fontSize={12}>{dayjs(getDate(transaction.timestamp)).format('H:mm A')}</Text>
         </Box>
 
         <Box
@@ -65,7 +65,7 @@ function TransactionSummary({
           }}
         >
           <div>
-            <Text><strong>Executed by:</strong></Text>
+            <Text fontSize={12} fontWeight={700}><strong>Executed by:</strong></Text>
           </div>
           <div className="d-flex align-items-center mt-1">
             <div
@@ -93,7 +93,7 @@ function TransactionSummary({
               fontWeight: 'bold',
             }}
           >
-            <Text sx={{ color: `${theme.palette.text.success} !important`, fontWeight: '500' }}>{capitalizeString(transaction.status)}</Text>
+            <Text sx={{ color: `${theme.palette.text.success} !important`, fontWeight: '700' }}>{capitalizeString(transaction.status)}</Text>
           </Box>
         </div>
       </Box>
