@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import NftCompmonent from 'src/components/NftComponent';
+import NftComponent from 'src/components/NftComponent';
 
 const NftPage = () => (
   <Box
@@ -9,7 +9,7 @@ const NftPage = () => (
       pt: '.7rem',
     }}
   >
-    <NftCompmonent />
+    <NftComponent />
   </Box>
 );
 

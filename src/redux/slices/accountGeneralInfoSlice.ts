@@ -61,7 +61,6 @@ export const accountGeneralInfoSlice = createSlice({
       state: StateType,
       action: PayloadAction<TokenTableRowItem[]>,
     ) {
-      console.log({ STATE: state });
       return {
         ...state,
         tokenTableRows: action.payload,

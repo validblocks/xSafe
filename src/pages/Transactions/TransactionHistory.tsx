@@ -80,10 +80,7 @@ const TransactionHistory = () => {
       globalIntervalEndTimestamp,
     ],
     () => fetchTransactions(cursor),
-    {
-      ...USE_QUERY_DEFAULT_CONFIG,
-      keepPreviousData: true,
-    },
+    USE_QUERY_DEFAULT_CONFIG,
   );
 
   const queryClient = useQueryClient();
