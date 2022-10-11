@@ -84,6 +84,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="bg-light flex-row flex-fill wrapper page-wrapper">
       {width ? <Navbar /> : <MobileLayout />}
+
       <Main
         className="flex-row flex-fill position-relative justify-center"
         style={{ paddingLeft: '10px', paddingRight: '10px' }}
@@ -102,7 +103,6 @@ function Layout({ children }: { children: React.ReactNode }) {
                   <PageBreadcrumbs />
                 </Box>
                 <Account />
-                {/* <Network /> */}
               </TopHeader>
             ) : (
               ''

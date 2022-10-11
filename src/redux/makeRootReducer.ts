@@ -8,6 +8,7 @@ import modals from './slices/modalsSlice';
 import multisigContracts from './slices/multisigContractsSlice';
 import safeName from './slices/safeNameSlice';
 import transactions from './slices/transactionsSlice';
+import search from './slices/searchSlice';
 
 export default function makeRootReducer() {
   return combineReducers({
@@ -20,5 +21,6 @@ export default function makeRootReducer() {
     addressBook,
     transactions,
     accountGeneralInfo,
+    search,
   });
 }

@@ -1,19 +1,34 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useLocation, Link } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { Box, OutlinedInput } from '@mui/material';
 import { FormSearchInput } from 'src/components/Theme/StyledComponents';
+import { useDispatch } from 'react-redux';
+import { setNavbarSearchParam } from 'src/redux/slices/searchSlice';
+import useDebounce from 'src/utils/useDebounce';
 import breadcrumbItems from './BreadcrumbItems';
 import { ReactComponent as SearchIcon } from '../../../assets/img/searchFilled.svg';
 
 function PageBreadcrumbs() {
+  const dispatch = useDispatch();
+  const location = useLocation();
   const [breadcrumb, setBreadcrumb] = useState([]);
 
-  const location = useLocation();
   useEffect(() => {
     setBreadcrumb(breadcrumbItems[location.pathname.substring(1)]);
   }, [location.pathname]);
+
+  const [searchParam, setSearchParam] = useState('');
+  const debouncedSearchParam = useDebounce(searchParam, 500);
+
+  const handleSearchInputChange = useCallback(
+    (e: any) => setSearchParam(e.target.value),
+    []);
+
+  useEffect(() => {
+    dispatch(setNavbarSearchParam(debouncedSearchParam));
+  }, [dispatch, debouncedSearchParam]);
 
   // eslint-disable-next-line consistent-return
   const displaySearch = (val: any) => {
@@ -24,7 +39,7 @@ function PageBreadcrumbs() {
           <Box component="form" noValidate autoComplete="off">
             <FormSearchInput>
               <SearchIcon />
-              <OutlinedInput placeholder="Search..." />
+              <OutlinedInput onChange={handleSearchInputChange} placeholder="Search..." />
             </FormSearchInput>
           </Box>
         </Box>

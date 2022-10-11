@@ -32,7 +32,6 @@ export default function useProviderIdentitiesAfterSelection({
     fetchProviders,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
-      keepPreviousData: true,
       refetchOnMount: false,
     },
   );
@@ -210,7 +209,6 @@ export default function useProviderIdentitiesAfterSelection({
     fetchProviderIdentities,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
-      keepPreviousData: true,
       enabled: !!fetchedProviders,
       refetchOnMount: false,
       select,
