@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 
 import { Avatar } from '@mui/material';
@@ -134,7 +133,6 @@ const OrganizationsOwnersTable = () => {
   return (
     <>
       <MainButton
-        startIcon={<AddIcon />}
         disabled={isInReadOnlyMode}
         onClick={() => onAddBoardMember()}
         sx={{ mb: '.9rem !important', boxShadow: 'none !important' }}
@@ -147,6 +145,26 @@ const OrganizationsOwnersTable = () => {
         rowHeight={65}
         rows={rows}
         columns={columns}
+        sx={{
+          '&&&': {
+            '& .MuiDataGrid-cell': {
+              pl: '16px',
+              '.MuiAvatar-root': {
+                mr: '7px',
+              },
+            },
+            '& .MuiDataGrid-cell > .MuiDataGrid-actionsCell': {
+              ml: '14px',
+              gridGap: '2px',
+              '.MuiButtonBase-root, .MuiButtonBase-root > svg': {
+                transition: 'all 300ms linear',
+              },
+            },
+            '& .MuiDataGrid-cell .MuiButtonBase-root:hover > svg': {
+              fill: '#4c2ffc',
+            },
+          },
+        }}
       />
     </>
   );
