@@ -18,6 +18,7 @@ import { dAppName } from 'src/config';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
+import * as Styled from './styled';
 
 function Dashboard() {
   const dispatch = useDispatch();
@@ -39,25 +40,13 @@ function Dashboard() {
   }
 
   const deployButton = (
-    <Button
+    <Styled.CreateNewSafeButton
       disabled={isWalletProvider}
       onClick={() => setShowDeployMultisigModal(true)}
-      sx={{
-        width: '100%',
-        background: '#4c2ffc',
-        color: '#fff',
-        borderRadius: 0,
-        padding: '1.5rem',
-        borderTop: '1px solid rgba(76, 47, 252, 0.54)',
-        pointerEvents: isWalletProvider ? 'none' : 'auto',
-        '&:hover': {
-          background: '#4c2ffc',
-          color: '#fff',
-        },
-      }}
+      sx={{ pointerEvents: isWalletProvider ? 'none' : 'auto' }}
     >
       {t('Create a new Safe')}
-    </Button>
+    </Styled.CreateNewSafeButton>
   );
 
   const deployButtonContainer = isWalletProvider ? (
@@ -172,21 +161,11 @@ function Dashboard() {
                       >{t('Easily load your Safe using your Safe address.')}
                       </Text>
                     </Box>
-                    <Box>
-                      <Button
-                        onClick={() => setShowAddMultisigModal(true)}
-                        sx={{
-                          width: '100%',
-                          borderRadius: 0,
-                          padding: '1.5rem',
-                          boxSizing: 'border-box',
-                          borderTop: '1px solid',
-                          borderColor: 'rgba(76, 47, 252, 0.03)',
-                        }}
-                      >
-                        {t('Load an existing Safe')}
-                      </Button>
-                    </Box>
+                    <Styled.LoadSafeButton
+                      onClick={() => setShowAddMultisigModal(true)}
+                    >
+                      {t('Load an existing Safe')}
+                    </Styled.LoadSafeButton>
                   </Grid>
                 </Grid>
               </Grid>
