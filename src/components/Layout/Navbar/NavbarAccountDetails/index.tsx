@@ -34,60 +34,47 @@ interface IDeployStepsContextType {
   openDeployNewContractModal: () => void;
   updateMultisigContract: (newContracts: MultisigContractInfoType[]) => any
 }
-
 const DeployStepsContext = createContext<IDeployStepsContextType>(
   {} as IDeployStepsContextType,
 );
-
 export const useDeployStepsContext = () =>
   useContext(DeployStepsContext);
-
 const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: string }) => {
   const { isLoggedIn } = useGetLoginInfo();
-
+  const safeName = useSelector(currentSafeNameSelector);
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const [showQr, setShowQr] = useState(false);
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
   const [displayableAddress, setDisplayableAddress] = useState(uniqueAddress);
   const [displayOwnershipWarning, setDisplayOwnershipWarning] = useState(false);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
-
   const dispatch = useDispatch();
-  const safeName = useSelector(safeNameStoredSelector);
   const currentContract = useSelector(currentMultisigContractSelector);
-
   const menuRef = useRef<HTMLElement>();
-
   const updateMultisigContract = useCallback(
     (newContracts: MultisigContractInfoType[]) => dispatch(setMultisigContracts(newContracts)),
     [dispatch]);
   const openDeployNewContractModal = useCallback(() => {
     setShowDeployMultisigModal(true);
   }, []);
-
   const contextValue = useMemo(() => ({
     showDeployMultisigModalState: [showDeployMultisigModal, setShowDeployMultisigModal] as CustomStateType<boolean>,
     openDeployNewContractModal,
     updateMultisigContract,
   }), [showDeployMultisigModal, openDeployNewContractModal, updateMultisigContract]);
-
   const closeDeployModal = useCallback(() => {
     setShowDeployMultisigModal(false);
   }, []);
-
   const openSafeSelection = useCallback(() => {
     setOpenedSafeSelect(true);
   }, []);
-
   const {
     membersCountState: [membersCount],
     isMultiWalletMode,
   } = useOrganizationInfoContext();
-
   const handleQrModal = () => {
     setShowQr(!showQr);
   };
-
   useEffect(() => {
     ((async function checkContractOwnership() {
       const contractDetails = await ElrondApiProvider.getAccountDetails(currentContract?.address);
@@ -95,12 +82,10 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
       setDisplayOwnershipWarning(!isItsOwnOwner);
     })());
   }, [currentContract?.address]);
-
   useEffect(() => {
     const result = uniqueAddress.length === 0 ? 'No safe' : uniqueAddress;
     setDisplayableAddress(result);
   }, [uniqueAddress]);
-
   useEffect(() => {
     const handler = (e: any) => {
       if (!menuRef.current?.contains(e.target) && !showDeployMultisigModal) {
@@ -112,7 +97,6 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
       document.removeEventListener('mousedown', handler);
     };
   }, [showDeployMultisigModal]);
-
   return (
     <DeployStepsContext.Provider value={contextValue}>
       <Box>
@@ -156,7 +140,6 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   : displayableAddress
               }
               </Text>
-
               {openedSafeSelect === true && (
               <Box>
                 <Box
@@ -217,7 +200,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   href={`${network.explorerAddress}/accounts/${currentContract?.address}`}
                   target="_blank"
                   rel="noreferrer"
-                  color="#6c757d"
+                  color="#6C757D"
                 >
                   <ContentPasteGoOutlinedIcon />
                 </Anchor>
@@ -239,10 +222,8 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
         </Grid>
         <hr />
         <TotalBalance />
-
       </Box>
     </DeployStepsContext.Provider>
   );
 });
-
 export default NavbarAccountDetails;
