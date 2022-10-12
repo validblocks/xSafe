@@ -190,7 +190,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   cursor: 'pointer',
                 }}
               >
-                <QrCode2Icon />
+                <QrCode2Icon sx={{ color: '#6c757d !important' }} />
               </Box>
               <Box sx={{ mr: 1.85, ml: 0.35 }}>
                 <CopyButton text={currentContract?.address} />

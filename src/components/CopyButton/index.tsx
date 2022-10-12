@@ -40,10 +40,10 @@ const CopyButton = ({ text, className = '' }: CopyButtonType) => {
       onClick={handleCopyToClipboard}
       className={`side-action ${className}`}
       sx={{
-        '& .text-secondary': {
+        '&.MuiTypography-root': {
           color: '#6c757d !important',
         },
-        '& .copyIcon': {
+        '&.MuiTypography-root.icon-purple': {
           color: '#4c2ffc8a !important',
         },
       }}
