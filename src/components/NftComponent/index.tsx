@@ -1,5 +1,5 @@
-import { Fragment } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
+import { motion } from 'framer-motion';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { ProposalsTypes } from 'src/types/Proposals';
@@ -13,6 +13,7 @@ import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationI
 import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
 import { useTranslation } from 'react-i18next';
 import { useContractNFTs } from 'src/utils/useContractNFTs';
+import { Fragment } from 'react';
 import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import { NftCollectionTitle } from './NftCollectionTitle';
@@ -69,8 +70,8 @@ function NftComponent() {
 
   return (
     <Box>
-      { (
-        <Grid container spacing={2}>
+      {(
+        <Grid layout exit={{ opacity: 0 }} component={motion.div} container spacing={2}>
           {contractNfts?.map((item: NFTType, index: number) => (
             <Fragment key={item.identifier}>
               {((index > 0 &&
@@ -88,6 +89,11 @@ function NftComponent() {
                 md={4}
                 lg={3}
                 item
+                component={motion.div}
+                layout
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
                 key={item.name}
                 sx={{
                   minWidth: '260px',
