@@ -13,8 +13,8 @@ import {
   currentMultisigTransactionIdSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
 import { uniqueContractAddress, uniqueContractName } from 'src/multisigConfig';
-import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
-import { StateType } from 'src/redux/slices/accountSlice';
+import { currentSafeNameSelector } from 'src/redux/selectors/safeNameSelector';
+import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { useQuery, useQueryClient } from 'react-query';
@@ -49,7 +49,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const queryClient = useQueryClient();
   const { address } = useGetAccountInfo();
   const { isLoggedIn } = useGetLoginInfo();
-  const safeName = useSelector(safeNameStoredSelector);
+  const safeName = useSelector(currentSafeNameSelector);
 
   const fetchMemberDetails = useCallback((isMounted: boolean) => {
     Promise.all([
@@ -68,8 +68,11 @@ function OrganizationInfoContextProvider({ children }: Props) {
   }, []);
 
   useEffect(() => {
-    dispatch(setSafeName(uniqueContractName?.length > 0 ? uniqueContractName : safeName));
-  }, [dispatch, safeName, uniqueContractName]);
+    dispatch(setSafeName({
+      address: currentContract?.address,
+      newSafeName: uniqueContractName?.length > 0 ? uniqueContractName : safeName,
+    }));
+  }, [currentContract?.address, dispatch, safeName]);
 
   const fetchNftCount = useCallback(
     () => ElrondApiProvider.fetchOrganizationNFTCount(currentContract?.address), [currentContract?.address],

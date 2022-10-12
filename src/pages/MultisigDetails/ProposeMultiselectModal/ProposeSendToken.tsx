@@ -15,7 +15,7 @@ import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
 import { TestContext } from 'yup';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
-import { StateType } from 'src/redux/slices/accountSlice';
+import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import ActionDialog from 'src/components/Utils/ActionDialog';
 import { ProposalsTypes } from 'src/types/Proposals';

@@ -18,7 +18,7 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
-import { setActiveDelegationRows } from 'src/redux/slices/accountSlice';
+import { setActiveDelegationRows } from 'src/redux/slices/accountGeneralInfoSlice';
 import axios from 'axios';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';

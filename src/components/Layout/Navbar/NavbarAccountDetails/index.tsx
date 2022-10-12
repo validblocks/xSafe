@@ -17,7 +17,7 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { network } from 'src/config';
-import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
+import { currentSafeNameSelector } from 'src/redux/selectors/safeNameSelector';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';

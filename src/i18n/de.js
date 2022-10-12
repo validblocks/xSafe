@@ -67,6 +67,7 @@ export const germanTranslations = {
   'Welcome to our platform!': 'Willkommen zu unserer Plattform!',
   Balance: 'Saldo',
   Transactions: 'Transaktionen',
+  'No NFTs to show': 'Keine NFTs verfügbar',
   'Loading actions': 'Aktionen werden geladen',
   'An error occured while fetching actions':
     'Beim Laden der Aktionen ist ein Fehler aufgetreten',
