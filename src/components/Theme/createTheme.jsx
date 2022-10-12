@@ -22,6 +22,8 @@ export const theme = createTheme({
       button: '#4c2FFC',
       disabled: '#eee',
       timeline: '#4C2FFC',
+      pagination: '#00000014',
+      checked: '#4c2FFC',
     },
     text: {
       primary: '#08041D',
@@ -41,7 +43,7 @@ export const theme = createTheme({
       secondary: '#E0E0E0',
     },
     borders: {
-      active: '#2196f3',
+      active: '#4C2FFC',
       secondary: '#0000003B',
     },
     button: {
@@ -49,9 +51,13 @@ export const theme = createTheme({
       pending: '#fff',
       copy: '#1392ff',
       qr: '#08041D',
+      paste: '#4c2ffc8a',
     },
     svg: {
       secondary: '#08041D',
+    },
+    hover: {
+      select: '#08041D',
     },
   },
   shape: {
@@ -211,6 +217,8 @@ export const darkTheme = createTheme({
       button: '#2d12d0',
       disabled: '#D6CFFF1A',
       timeline: '#2FFCBE',
+      pagination: '#D6CFFF1A',
+      checked: '#D6CFFF1A',
     },
     danger: {
       main: '#e51a3e',
@@ -231,9 +239,13 @@ export const darkTheme = createTheme({
       pending: '#684D0C',
       copy: '#6c757d',
       qr: '#6c757d',
+      paste: '#6c757d',
     },
     svg: {
       secondary: '#fff',
+    },
+    hover: {
+      select: '#A9A9A9',
     },
   },
 });

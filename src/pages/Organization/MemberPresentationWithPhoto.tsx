@@ -50,7 +50,7 @@ const MemberPresentationWithPhoto = ({
             color="#4c2ffc8a"
             className="ml-2"
           >
-            <ContentPasteGoIcon />
+            <ContentPasteGoIcon sx={{ color: theme.palette.button.paste }} />
           </Anchor>
         </Box>
       </Box>

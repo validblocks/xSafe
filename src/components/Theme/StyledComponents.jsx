@@ -1,4 +1,4 @@
-import { Button, Typography, Box, Select, TextField } from '@mui/material';
+import { Button, Typography, Box, Select, TextField, Pagination } from '@mui/material';
 import { Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
@@ -183,9 +183,12 @@ export const InputsContainer = styled(Box)`
     transition: all .3s linear;
     color: ${(props) => props.theme.palette.text.primary};
   };
+  div.MuiOutlinedInput-root {
+    border: solid 1px ${(props) => props.theme.palette.borders.secondary};
+  };
   &:focus-within {
     input.form-control {
-      border: solid 1px ${(props) => props.theme.palette.primary.main};
+      border-color: ${(props) => props.theme.palette.borders.active};
     };
     li, div.MuiOutlinedInput-root {
       border: solid 1px ${(props) => props.theme.palette.borders.active};
@@ -199,12 +202,12 @@ export const InputsContainer = styled(Box)`
       border-color: ${(props) => props.theme.palette.borders.active};
     };
     div.MuiOutlinedInput-root {
-      border-color: ${(props) => props.theme.palette.black.main};
+      border-color: ${(props) => props.theme.palette.borders.active};
     };
   };
   & div.MuiOutlinedInput-root.Mui-focused {
     height: 56px;
-    border: solid 1px rgba(76, 47, 252, 0.23);
+    border-color: ${(props) => props.theme.palette.borders.active};
   };
   & label {
     position: absolute;
@@ -423,24 +426,25 @@ export const FormikRoundedCheckBox = styled(Box)`
   margin: 7px 0;
   display: flex;
   align-items: center;
+  color: ${(props) => props.theme.palette.text.primary};
   & input[type="checkbox"] {
     appearance: none;
     position: relative;
     width: 25px;
     height: 25px;
-    border: solid 1px ${(props) => props.theme.palette.divider.main};
+    border: solid 1px ${(props) => props.theme.palette.borders.secondary};
     border-radius: .2rem;
     transition: 300ms all ease-in-out;
   };
   & input[type="checkbox"]:hover {
-    border-color: ${(props) => props.theme.palette.primary.main};
+    border-color: ${(props) => props.theme.palette.borders.active};
   };
   & input[type="checkbox"]:focus {
     outline: none;
   };
   & input[type="checkbox"]:checked {
-    background-color: ${(props) => props.theme.palette.primary.main};
-    border-color: ${(props) => props.theme.palette.primary.main};
+    background-color: #4c2FFC;
+    border-color: #4c2FFC;
   };
   input[type="checkbox"]:before {
     position: absolute;
@@ -492,6 +496,49 @@ export const InputWrapper = styled.div`
     font-size: 10.5px;
     transform: translateY(0);
     opacity: 1;
+  };
+}
+`;
+
+export const StyledPagination = styled(Pagination)`
+  & li {
+    & button {
+      color: ${(props) => props.theme.palette.text.primary};
+    }
+    & .Mui-selected {
+      background-color: ${(props) => props.theme.palette.background.pagination}
+    }
+  }
+`;
+
+export const PaginationSelect = styled(Select)`
+&&& {
+  color: ${(props) => props.theme.palette.text.primary};
+  & svg path {
+    fill: ${(props) => props.theme.palette.text.primary};
+    fill-opacity: 1;
+  };
+  & fieldset {
+    border-color: ${(props) => props.theme.palette.borders.secondary};
+  };
+  &:hover fieldset{
+    border-color: ${(props) => props.theme.palette.hover.select};
+  };
+}
+`;
+
+export const TokenSelect = styled(Select)`
+&&& {
+  color: ${(props) => props.theme.palette.text.primary};
+  & svg path {
+    fill: ${(props) => props.theme.palette.text.primary};
+    fill-opacity: 1;
+  };
+  & fieldset {
+    border-color: ${(props) => props.theme.palette.borders.secondary};
+  };
+  &:hover fieldset{
+    border-color: ${(props) => props.theme.palette.borders.active};
   };
 }
 `;

@@ -1,6 +1,7 @@
 import { Link } from '@mui/material';
 import { Box } from '@mui/system';
 import { IProviderColumn } from 'src/types/staking';
+import { useTheme } from 'styled-components';
 import { Text } from '../StyledComponents/StyledComponents';
 
 interface Props {
@@ -12,6 +13,7 @@ const ProviderColumn = ({
   columnData: { avatar, name, website, apr } = { avatar: '', name: '', website: '', apr: 0 },
   withAPR = false,
 }: Props) => {
+  const theme: any = useTheme();
   if (name.length > 20) {
     name = `${name.substring(0, 20)}...`;
   }
@@ -40,7 +42,7 @@ const ProviderColumn = ({
             fontWeight={400}
             fontSize={12}
             href={website}
-            sx={{ color: '#08041D !important', opacity: 0.5 }}
+            sx={{ color: `${theme.palette.text.primary} !important`, opacity: 0.5 }}
             target="_blank"
             rel="noreferrer"
           >{website}
