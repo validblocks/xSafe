@@ -50,12 +50,24 @@ function PageBreadcrumbs() {
 
   return (
     <div role="presentation">
-      <Breadcrumbs separator="›" aria-label="breadcrumb">
-        <Link color="inherit" to={`/multisig/${uniqueContractAddress}`}>
+      <Breadcrumbs
+        separator="›"
+        aria-label="breadcrumb"
+        sx={{
+          color: 'rgba(0, 0, 0, 0.54)',
+          '& .MuiBreadcrumbs-separator': {
+            fontSize: '35px',
+            maxHeight: '30px',
+            alignItems: 'center',
+            pb: '5px',
+          },
+        }}
+      >
+        <Link style={{ color: 'rgba(0, 0, 0, 0.6)' }} to={`/multisig/${uniqueContractAddress}`}>
           Home
         </Link>
         {breadcrumb?.map((el: any) => (
-          <Link key={el.link} color="inherit" to={el.link}>
+          <Link key={el.link} style={{ color: 'rgba(0, 0, 0, 0.87)' }} to={el.link}>
             {displaySearch(el.name)}
           </Link>
         ))}
