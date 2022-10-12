@@ -17,6 +17,7 @@ import {
 } from '@elrondnetwork/dapp-core';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
+import ErrorOnFetchIndicator from 'src/components/Utils/ErrorOnFetchIndicator';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
@@ -63,14 +64,14 @@ const TransactionQueue = () => {
     },
   );
 
-  const reversedActions = useMemo(() => actionsForCurrentPage.slice().reverse(), [actionsForCurrentPage]);
-
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 
   const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
+
+  const untruncatedData = useMemo(() => allPendingActions?.slice().reverse() ?? [], [allPendingActions]);
 
   transactionServices.useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
@@ -84,12 +85,12 @@ const TransactionQueue = () => {
   }
 
   if (isError || !allPendingActions) {
-    return <div>Error while retrieving pending actions!</div>;
+    return <ErrorOnFetchIndicator dataName="proposal" />;
   }
 
   return (
     <>
-      {reversedActions.map((action) => (
+      {actionsForCurrentPage.map((action) => (
         <TransactionAccordion
           key={action.actionId}
           sx={{
@@ -140,7 +141,7 @@ const TransactionQueue = () => {
         </TransactionAccordion>
       ))}
       <PaginationWithItemsPerPage
-        data={allPendingActions}
+        data={untruncatedData}
         setParentCurrentPage={setCurrentPage}
         setParentItemsPerPage={setActionsPerPage}
         setParentDataForCurrentPage={setActionsForCurrentPage}

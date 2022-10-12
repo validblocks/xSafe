@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import {
   Box,
   FormControl,
@@ -22,7 +22,7 @@ type Props = {
   totalPages: number;
 };
 
-const PaginationWithItemsPerPage = ({
+const PaginationWithItemsPerPage = memo(({
   data,
   setParentItemsPerPage,
   setParentCurrentPage,
@@ -45,12 +45,13 @@ const PaginationWithItemsPerPage = ({
     );
 
     setParentDataForCurrentPage(currentData);
-  }, [data, currentPage, itemsPerPage]);
+  }, [data, currentPage, itemsPerPage, setParentDataForCurrentPage],
+  );
 
   useEffect(() => {
     if (!data) return;
     setParentTotalPages(Math.ceil(data.length / itemsPerPage));
-  }, [data, itemsPerPage]);
+  }, [data, itemsPerPage, setParentTotalPages]);
 
   const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
     setParentCurrentPage(value);
@@ -60,6 +61,7 @@ const PaginationWithItemsPerPage = ({
     setParentCurrentPage(1);
     setParentItemsPerPage(Number(event.target.value));
   };
+
   return (
     <CenteredBox
       sx={{
@@ -95,6 +97,6 @@ const PaginationWithItemsPerPage = ({
       </CenteredBox>
     </CenteredBox>
   );
-};
+});
 
 export default PaginationWithItemsPerPage;
