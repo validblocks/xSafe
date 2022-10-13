@@ -135,7 +135,10 @@ export const ListItem = styled(ListItemButton)`
     transition: all 300ms linear;
   }
   &:hover {
-    color: ${(props) => props.theme.palette.primary.main} !important;
+    & .MuiTypography-root,& .MuiSvgIcon-root {
+      color: #4c2FFC !important;
+      transition: all 300ms linear;
+    }
     background-color: ${(props) => props.theme.palette.background.hover};
     .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
@@ -165,8 +168,17 @@ export const MenuAccordion = styled(AccordionSummary)`
   & .MuiAccordionSummary-expandIconWrapper,& .MuiTypography-root,& .MuiListItemIcon-root {
     transition: color 300ms linear;
   };
+  & svg {
+    color: ${(props) => props.theme.palette.text.primary};
+  };
   &:hover {
     background-color: ${(props) => props.theme.palette.background.hover};
+    .MuiListItemButton-root {
+      background-color: ${(props) => props.theme.palette.background.hover};
+    }
+    .MuiSvgIcon-root {
+      color: #4c2FFC !important;
+    }
     .MuiTypography-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
@@ -180,18 +192,22 @@ export const MenuAccordion = styled(AccordionSummary)`
   &.Mui-expanded {
     min-height: 48px;
     border-right: solid 2px #4c2ffc;
-    background-color: ${(props) => props.theme.palette.background.secondary};
+    background-color: ${(props) => props.theme.palette.background.menu};
     .MuiTypography-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
     .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
+    & .MuiTypography-root,& .MuiSvgIcon-root {
+      color: #4c2FFC !important;
+      transition: color 300ms linear;
+    }
     .MuiAccordionSummary-expandIconWrapper {
       color: rgba(76, 47, 252, 0.54);
     };
     .MuiListItemButton-root {
-      background-color:${(props) => props.theme.palette.background.secondary}
+      background-color:${(props) => props.theme.palette.background.menu}
     };
   };
 }

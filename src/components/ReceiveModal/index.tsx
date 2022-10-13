@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import QrCode from 'qrcode.react';
 import { Modal } from 'react-bootstrap';
 import QrCode2Icon from '@mui/icons-material/QrCode2';
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
+import { useTheme } from 'styled-components';
 import CopyButton from '../CopyButton';
 import { MainButton, DepositDoneAction } from '../Theme/StyledComponents';
+import { Text } from '../StyledComponents/StyledComponents';
 
 const ReceiveModal = ({
   showQrFromSidebar,
@@ -17,6 +19,7 @@ const ReceiveModal = ({
   address?: string;
   handleQr?: () => void;
 }) => {
+  const theme: any = useTheme();
   const [showModal, setShowModal] = useState<boolean | undefined>(false);
 
   const handleOpenModal = () => setShowModal(true);
@@ -61,9 +64,9 @@ const ReceiveModal = ({
         centered
       >
         <div className="card">
-          <div className="card-body text-center receive">
+          <Box className="card-body text-center receive" sx={{ backgroundColor: theme.palette.background.secondary, borderRadius: '10px' }}>
             <p className="h3 mb-spacer title" data-testid="delegateTitle">
-              Deposit
+              <Text fontSize={24}>Deposit</Text>
             </p>
 
             <QrCode value={address} size={256} />
@@ -71,7 +74,7 @@ const ReceiveModal = ({
               className="h6 mb-spacer copy-address"
               data-testid="delegateSubTitle"
             >
-              <textarea style={{ borderColor: '#4c2ffc' }} readOnly value={address} className="address" />
+              <textarea style={{ borderColor: '#4c2ffc', backgroundColor: theme.palette.background.secondary }} readOnly value={address} className="address" />
               <Typography
                 className="copy-btn"
                 sx={{
@@ -93,7 +96,7 @@ const ReceiveModal = ({
                 Done
               </DepositDoneAction>
             </div>
-          </div>
+          </Box>
         </div>
       </Modal>
     </>

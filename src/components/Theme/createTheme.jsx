@@ -25,6 +25,7 @@ export const theme = createTheme({
       pagination: '#00000014',
       checked: '#4c2FFC',
       safe: '#E4DFFF',
+      menu: '#E4EAFF',
     },
     text: {
       primary: '#08041D',
@@ -221,6 +222,7 @@ export const darkTheme = createTheme({
       pagination: '#D6CFFF1A',
       checked: '#D6CFFF1A',
       safe: '#A2A2A2',
+      menu: '#181626',
     },
     danger: {
       main: '#e51a3e',

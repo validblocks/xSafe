@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import MultisigDetailsContext from 'src/context/MultisigDetailsContext';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { useTheme } from 'styled-components';
 
 interface ProposeChangeQuorumType {
   handleParamsChange: (params: number) => void;
@@ -17,6 +18,7 @@ function ProposeChangeQuorum({
   handleParamsChange,
   setSubmitDisabled,
 }: ProposeChangeQuorumType) {
+  const theme: any = useTheme();
   const { quorumSize } = useContext(MultisigDetailsContext);
   const { boardMembersCount } = useOrganizationInfoContext();
   const { t }: { t: any } = useTranslation();
@@ -50,7 +52,12 @@ function ProposeChangeQuorum({
         <label htmlFor="newQuorumSize">{t('Quorum Size')}:</label>
         <input
           id="newQuorumSize"
-          style={{ width: 250 }}
+          style={{
+            width: 250,
+            backgroundColor: theme.palette.background.secondary,
+            color: theme.palette.text.primary,
+            borderColor: theme.palette.borders.secondary,
+          }}
           className="form-control"
           value={newQuorumSize}
           autoComplete="off"

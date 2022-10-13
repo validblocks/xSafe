@@ -122,7 +122,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   }}
                   sx={{
                     '& .MuiSvgIcon-root': {
-                      color: `${theme.palette.text.primary} !important`,
+                      color: '#4c2FFC !important',
                     },
                   }}
                 >
@@ -137,7 +137,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
               <Box
                 sx={{
                   '& .MuiSvgIcon-root': {
-                    color: `${theme.palette.text.primary} !important`,
+                    color: '#4c2FFC !important',
                   },
                 }}
               >
