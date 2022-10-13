@@ -46,6 +46,7 @@ const ReceiveModal = ({
               fontSize: '14px !important',
               marginTop: '15px !important',
             }),
+            fontWeight: '500 !important',
           }}
         >
           <QrCode2Icon sx={{ marginRight: '5px', fontSize: '16px' }} />
