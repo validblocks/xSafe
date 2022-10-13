@@ -11,6 +11,7 @@ export const ContainerWithPanelsTopBox = styled(Box)(({ theme: _ }) => ({
 export const TabContainerBox = styled(Box)(({ theme }) => ({
   '&&&': {
     width: '100%',
+    height: '46px',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',

@@ -1,7 +1,8 @@
-import { Box, Tab, Tabs } from '@mui/material';
+import { Box, Tab } from '@mui/material';
 import { TabPanel } from 'src/pages/Transactions/TransactionsPage';
 import { useState } from 'react';
 import * as Styled from './styled';
+import * as Custom from '../../pages/Transactions/styled/index';
 
 interface IPanel {
     title: string;
@@ -30,7 +31,7 @@ const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
     <Styled.ContainerWithPanelsTopBox>
       <Box>
         <Styled.TabContainerBox>
-          <Tabs
+          <Custom.MainTab
             value={selectedTab}
             onChange={handleChange}
           >
@@ -43,7 +44,7 @@ const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
               />
             ))
             }
-          </Tabs>
+          </Custom.MainTab>
         </Styled.TabContainerBox>
         <Box paddingTop={'12px'}>
           {panels.map((panel, index) => (

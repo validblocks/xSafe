@@ -120,8 +120,8 @@ export default function TransactionsPage() {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="queue" {...a11yProps(0)} />
-            <Tab label="history" {...a11yProps(1)} />
+            <Tab label="QUEUE" {...a11yProps(0)} />
+            <Tab label="HISTORY" {...a11yProps(1)} />
           </Styled.MainTab>
           {value === 1 && (
             <Box>
