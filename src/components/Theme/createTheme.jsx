@@ -24,6 +24,7 @@ export const theme = createTheme({
       timeline: '#4C2FFC',
       pagination: '#00000014',
       checked: '#4c2FFC',
+      safe: '#E4DFFF',
     },
     text: {
       primary: '#08041D',
@@ -219,6 +220,7 @@ export const darkTheme = createTheme({
       timeline: '#2FFCBE',
       pagination: '#D6CFFF1A',
       checked: '#D6CFFF1A',
+      safe: '#A2A2A2',
     },
     danger: {
       main: '#e51a3e',

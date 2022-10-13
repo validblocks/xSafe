@@ -39,6 +39,7 @@ function ChangeCurrency() {
           id="country-select-demo"
           sx={{ width: 250 }}
           options={currencyList}
+          PopperComponent={Styled.MultisigPopper}
           autoHighlight
           getOptionLabel={(option: any) => option.label}
           renderOption={(props, option: any) => (

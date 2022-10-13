@@ -21,6 +21,7 @@ function ThemeColor() {
       <Styled.MultisigAutocomplete
         value={theme}
         onChange={onChangeTheme as any}
+        PopperComponent={Styled.MultisigPopper}
         id="themes-states-demo"
         options={themesList}
         sx={{ width: 250 }}

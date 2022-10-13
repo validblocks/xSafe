@@ -10,6 +10,7 @@ import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { getIsProviderEqualTo } from '@elrondnetwork/dapp-core';
 import { providerTypes } from 'src/helpers/constants';
+import { useTheme } from 'styled-components';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
@@ -20,6 +21,7 @@ import DeployStepsModal from './DeployMultisigModal';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 function Dashboard() {
+  const theme: any = useTheme();
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
   const isWalletProvider = getIsProviderEqualTo(providerTypes.wallet);
@@ -51,8 +53,9 @@ function Dashboard() {
         borderTop: '1px solid rgba(76, 47, 252, 0.54)',
         pointerEvents: isWalletProvider ? 'none' : 'auto',
         '&:hover': {
-          background: '#4c2ffc',
-          color: '#fff',
+          backgroundColor: theme.palette.background.button,
+          borderColor: theme.palette.background.button,
+          color: theme.palette.background.white,
         },
       }}
     >
@@ -106,7 +109,7 @@ function Dashboard() {
                   sx={{ width: '100%',
                     borderRadius: '10px',
                     boxShadow: '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
-                    backgroundColor: '#ffff',
+                    backgroundColor: theme.palette.background.secondary,
                     border: 'none',
                     overflow: 'hidden',
                     height: '100%',
@@ -152,7 +155,7 @@ function Dashboard() {
                     flexDirection={'column'}
                     justifyContent={'space-between'}
                     sx={{
-                      borderLeft: '1px solid #F4F6FD',
+                      borderLeft: `1px solid ${theme.palette.divider.secondary} `,
                     }}
                   >
                     <Box sx={{ padding: '2rem 3rem', display: 'flex', flexDirection: 'column' }}>

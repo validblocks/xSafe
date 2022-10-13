@@ -67,7 +67,7 @@ export const MembersBox = styled(Box)`
 &&& {
   width: 17px;
   margin: auto;
-  background-color: #E4DFFF;
+  background-color: ${(props) => props.theme.palette.background.safe};
   border-radius: 4px;
   margin-top: 10px;
   color: ${(props) => props.theme.palette.primary.main};

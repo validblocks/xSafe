@@ -4,6 +4,7 @@ import BoltIcon from '@mui/icons-material/Bolt';
 import { Box } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import Typography from '@mui/material/Typography';
+import { useTheme } from 'styled-components';
 import ConnectedAccount from 'src/components/Layout/Navbar/ConnectedAccount';
 import { AccountButton } from 'src/components/Theme/StyledComponents';
 import Unlock from 'src/pages/Unlock';
@@ -11,6 +12,7 @@ import addressShorthand from 'src/helpers/addressShorthand';
 import { ConnectDropdown } from '../navbar-style';
 
 function Account() {
+  const theme: any = useTheme();
   const { address } = useGetAccountInfo();
   const loggedIn = getIsLoggedIn();
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
@@ -79,6 +81,7 @@ function Account() {
           sx: {
             borderRadius: '10px',
             boxShadow: '0px 8px 24px rgba(76, 47, 252, 0.13)',
+            backgroundColor: theme.palette.background.secondary,
           },
         }}
         open={open}

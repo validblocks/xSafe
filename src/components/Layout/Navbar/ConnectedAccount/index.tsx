@@ -5,7 +5,7 @@ import { Box, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toSvg } from 'jdenticon';
-import { theme } from 'src/components/Theme/createTheme';
+import { useTheme } from 'styled-components';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { accessTokenServices } from 'src/services/accessTokenServices';
 import routeNames from 'src/routes/routeNames';
@@ -21,6 +21,7 @@ import {
 } from '../navbar-style';
 
 const ConnectedAccount = () => {
+  const theme: any = useTheme();
   const navigate = useNavigate();
   const currentContract = useSelector(currentMultisigContractSelector);
 
@@ -69,7 +70,7 @@ const ConnectedAccount = () => {
                   rel="noreferrer"
                   color={theme.palette.secondary.main}
                 >
-                  <ContentPasteGoIcon />
+                  <ContentPasteGoIcon sx={{ color: theme.palette.button.paste }} />
                 </Anchor>
               </Box>
             </Box>

@@ -99,7 +99,7 @@ const SafeOptions = React.forwardRef((props, ref) => {
   return (
     <SafeOptionsWrapper ref={ref} sx={{ zIndex: '100000 !important' }}>
       <Typography sx={{ p: 2 }} align="left">
-        Safe Options
+        <Text>Safe Options</Text>
       </Typography>
       <DeployStepsModal
         show={showDeployMultisigModal}
@@ -129,19 +129,19 @@ const SafeOptions = React.forwardRef((props, ref) => {
                   {selectedSafe === fetchedContract.address ? (
                     <ActiveWallet sx={{ ml: 2 }}>
                       <TypographyBold textTransform={'none'} align="left">
-                        {fetchedContract.name.length > 0 ? fetchedContract.name : 'No name'}
+                        <Text>{fetchedContract.name.length > 0 ? fetchedContract.name : 'No name'}</Text>
                       </TypographyBold>
                       <Typography textTransform={'none'} align="left">
-                        {fetchedContract.role}
+                        <Text>{fetchedContract.role}</Text>
                       </Typography>
                     </ActiveWallet>
                   ) : (
                     <InactiveWallet sx={{ ml: 2 }}>
                       <Typography textTransform={'none'} align="left">
-                        {fetchedContract.name.length > 0 ? fetchedContract.name : 'No name'}
+                        <Text>{fetchedContract.name.length > 0 ? fetchedContract.name : 'No name'}</Text>
                       </Typography>
                       <Typography textTransform={'none'} align="left">
-                        {fetchedContract.role}
+                        <Text>{fetchedContract.role}</Text>
                       </Typography>
                     </InactiveWallet>
                   )}
