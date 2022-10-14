@@ -1,6 +1,7 @@
 import { Box } from '@mui/material';
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Text } from '../StyledComponents/StyledComponents';
 import { FinalStepActionButton, ChangeStepButton } from '../Theme/StyledComponents';
 
 interface IMultistepFormProps {
@@ -66,7 +67,7 @@ const MultistepForm = ({
     >
       <Box>
         <Box>
-          {activeStepJSX}
+          <Text>{activeStepJSX}</Text>
         </Box>
         <Box
           display={'flex'}
@@ -75,7 +76,7 @@ const MultistepForm = ({
         >
           {activeStepNumber > 1 && (
           <ChangeStepButton onClick={proceedToPreviousStep}>
-            {t('Back') as string}
+            <Text>{t('Back') as string}</Text>
           </ChangeStepButton>
           )}
           {activeStepNumber < finalStep ? (
@@ -87,18 +88,14 @@ const MultistepForm = ({
               disabled={!isNextButtonActive}
               onClick={proceedToNextStep}
             >
-              {t('Next') as string}
+              <Text>{t('Next') as string}</Text>
             </ChangeStepButton>
           ) : hasFinalActionButton && (
             <FinalStepActionButton
               disabled={!isFinalStepButtonActive}
               onClick={builtFinalActionHandler}
-              sx={{ ...(!isFinalStepButtonActive && {
-                background: '#eee !important',
-                border: '1px solid #ddd !important',
-              }) }}
             >
-              {t(finalActionText) as string}
+              <Text>{t(finalActionText) as string}</Text>
             </FinalStepActionButton>
           )}
         </Box>

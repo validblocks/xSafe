@@ -63,19 +63,31 @@ export const ChangeStepButton = styled(MainButton)`
   font-size: 15px;
   font-weight: ${(props) => props.theme.font.weight.md};
   box-shadow: none;
+  &:disabled {
+    background-color: ${(props) => props.theme.palette.background.disabled} !important;
+    border-color: ${(props) => props.theme.palette.background.disabled} !important;
+    box-shadow: none;
+    & p {
+      color: ${(props) => props.theme.palette.text.disabled} !important;
+    }
+  };
 }
 `;
 
 export const FinalStepActionButton = styled(ChangeStepButton)`
 &&& {
-  color: ${(props) => props.theme.palette.background.default};
-  border: 1px solid ${(props) => props.theme.palette.primary.main};
-  background-color: ${(props) => props.theme.palette.primary.main};
-  &:hover {
-    box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
-    color: ${(props) => props.theme.palette.background.default};
-    border: 1px solid ${(props) => props.theme.palette.primary.main};
-    background-color: ${(props) => props.theme.palette.primary.main};
+  color: ${(props) => props.theme.palette.primary.main};
+  border: 1px solid #4c2FFC;
+  background-color: ${(props) => props.theme.palette.background.main};
+  box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+  &:hover, &.isActive {
+    background-color: ${(props) => props.theme.palette.background.button};
+    border-color: ${(props) => props.theme.palette.background.button};
+    color: ${(props) => props.theme.palette.background.white};
+    & svg path {
+      fill: ${(props) => props.theme.palette.background.white};
+      fill-opacity: 1;
+    };
   };
 }
 `;
@@ -154,14 +166,19 @@ export const FormSearchInput = styled(Box)`
   aling-items: center;
   border-radius: .3rem;
   background-color: rgba(76,47,252, 0.06);
+  & svg {
+    margin-top: 4px;
+    color: ${(props) => props.theme.palette.text.primary} !important;
+  };
+  & .MuiOutlinedInput-root {
+    text-transform: none;
+    color: ${(props) => props.theme.palette.text.primary} !important;
+  }
   & input {
     padding: .25rem;
   };
   & fieldset {
     border: none;
-  };
-  & svg {
-    margin-top: 2px;
   };
 }
 `;
@@ -352,19 +369,23 @@ export const StakingSearchBar = styled(TextField)`
   width: 100%;
   & .MuiFilledInput-root {
     background-color: transparent;
+    color: ${(props) => props.theme.palette.text.primary} !important;
   };
   & .MuiFilledInput-root:before {
-    border-bottom: 1px solid ${(props) => props.theme.palette.divider.main};
+    border-bottom: 1px solid ${(props) => props.theme.palette.divider.secondary};
   };
   & .MuiFilledInput-root:after {
-    border-color: ${(props) => props.theme.palette.primary.main};
+    border-color: ${(props) => props.theme.palette.borders.active};
   };
   & .MuiFilledInput-input {
     padding: 1rem 0;
   };
+  & .MuiSvgIcon-root {
+    color: ${(props) => props.theme.palette.text.primary};
+  }
   &:hover {
     & .MuiFilledInput-root:before {
-      border-color: ${(props) => props.theme.palette.secondary.main};
+      border-color: ${(props) => props.theme.palette.borders.active};
     };
   };
 }

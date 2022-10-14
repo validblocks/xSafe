@@ -12,6 +12,7 @@ import { accessTokenServices, maiarIdApi } from 'src/services/accessTokenService
 import routeNames from 'src/routes/routeNames';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 declare global {
@@ -81,7 +82,7 @@ const Unlock = () => {
             <div className="d-flex justify-content-between align-items-center">
               <div className="d-flex flex-row method">
                 <IconMaiarWallet />
-                <div className="title">Maiar DeFi Wallet</div>
+                <Text className="title" marginBottom={'0 !important'} fontWeight={600}>Maiar DeFi Wallet</Text>
               </div>
 
               <FontAwesomeIcon icon={faArrowRight} className="arrow" />
@@ -93,7 +94,7 @@ const Unlock = () => {
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <IconMaiar />
-              <div className="title">Maiar App</div>
+              <Text className="title" marginBottom={'0 !important'} fontWeight={600}>Maiar App</Text>
             </div>
           </div>
         </DappUI.WalletConnectLoginButton>
@@ -102,16 +103,16 @@ const Unlock = () => {
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <IconLedger />
-              <div className="title">Ledger</div>
+              <Text className="title" marginBottom={'0 !important'} fontWeight={600}>Ledger</Text>
             </div>
           </div>
         </DappUI.LedgerLoginButton>
 
-        <DappUI.WebWalletLoginButton {...loginParams}>
+        <DappUI.WebWalletLoginButton {...loginParams} sx={{ color: '#d2d4 !important' }}>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <IconElrond />
-              <div className="title">Elrond Web Wallet</div>
+              <Text className="title" marginBottom={'0 !important'} fontWeight={600}>Elrond Web Wallet</Text>
             </div>
           </div>
         </DappUI.WebWalletLoginButton>
@@ -120,7 +121,7 @@ const Unlock = () => {
       <hr />
 
       <div className="mt-3">
-        <span>New to Elrond?</span>
+        <Text><span>New to Elrond?</span></Text>
       </div>
       <div className="mt-1 mb-1">
         <a

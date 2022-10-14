@@ -29,30 +29,32 @@ export const UndelegationAccordion = styled(TransactionAccordion)`
 `;
 
 export const UndelegationAccordionSummary = styled(AccordionSummary)(
-  ({ theme: _ }) => ({
+  ({ theme }) => ({
     outline: 'none !important',
     flexWrap: 'wrap',
     width: '100%',
     padding: '0',
+    '& .MuiSvgIcon-root': {
+      color: theme.palette.text.primary,
+    },
     '& .MuiAccordionSummary-expandIconWrapper': {
       width: '100% !important',
       justifyContent: 'center !important',
       alignItems: 'center !important',
-      backgroundColor: '#F3F6FC',
+      backgroundColor: theme.palette.background.expand,
       padding: '0.25rem',
     },
   }),
 );
 
-export const UndelegationGridContainer = styled(Grid)(({ theme: _ }) => ({
+export const UndelegationGridContainer = styled(Grid)(({ theme }) => ({
   padding: '0.5rem 1.25rem 0.55rem',
-  backgroundColor: '#F3F6FC',
+  backgroundColor: theme.palette.background.secondary,
   width: '100% !important',
-  border: 'solid 1px #eee',
+  border: `solid 1px ${theme.palette.borders.expand}`,
   borderRadius: '10px',
   transition: 'all .2s linear',
   ':hover': {
-    backgroundColor: '#ffff !important',
     borderColor: '#4c2ffc',
     boxShadow: 'inset 0px 0px 6px #4c2ffc2e !important',
   },

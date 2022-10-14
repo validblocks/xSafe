@@ -102,14 +102,14 @@ const OrganizationsOwnersTable = () => {
         getActions: (params: any) => [
           <GridActionsCellItem
             key={params.id}
-            icon={<DeleteIcon />}
+            icon={<DeleteIcon sx={{ opacity: '0.54' }} />}
             disabled={isInReadOnlyMode}
             label="Delete"
             onClick={() => onRemoveUser(new Address(params.id))}
           />,
           <GridActionsCellItem
             key={params.id}
-            icon={<EditIcon />}
+            icon={<EditIcon sx={{ opacity: '0.54' }} />}
             disabled={isInReadOnlyMode}
             label="Edit Owner"
             onClick={() =>

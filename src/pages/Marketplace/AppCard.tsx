@@ -38,8 +38,8 @@ const AppCard = ({
         onClick={actionButtonOnClick}
         sx={{
           ...(isInstalled && {
-            backgroundColor: `${theme.palette.primary.main} !important`,
-            border: `1px solid ${theme.palette.primary.main} !important`,
+            backgroundColor: `${theme.palette.background.button} !important`,
+            border: `1px solid ${theme.palette.background.button} !important`,
           }),
         }}
         disabled={!isInstallable || isInReadOnlyMode || title === 'Marketplace'}

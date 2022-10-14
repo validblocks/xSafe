@@ -5,8 +5,8 @@ import { uniqueContractAddress } from 'src/multisigConfig';
 import { Box, OutlinedInput } from '@mui/material';
 import { useTheme } from 'styled-components';
 import { FormSearchInput } from 'src/components/Theme/StyledComponents';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import breadcrumbItems from './BreadcrumbItems';
-import { ReactComponent as SearchIcon } from '../../../assets/img/searchFilled.svg';
 
 function PageBreadcrumbs() {
   const theme: any = useTheme();
@@ -25,7 +25,7 @@ function PageBreadcrumbs() {
           <span>{val}</span>
           <Box component="form" noValidate autoComplete="off">
             <FormSearchInput>
-              <SearchIcon />
+              <SearchRoundedIcon />
               <OutlinedInput placeholder="Search..." />
             </FormSearchInput>
           </Box>

@@ -10,6 +10,7 @@ import useTokenPhoto from 'src/utils/useTokenPhoto';
 import { StateType } from 'src/redux/slices/accountSlice';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import { useMemo } from 'react';
+import { Text } from '../StyledComponents/StyledComponents';
 
 type TokenPresentationConfig = {
     withPhoto: boolean;
@@ -64,11 +65,13 @@ const TokenPresentationWithPrice = ({
       }}
       >
         <Box>
-          {prettyIdentifier}
+          <Text>{prettyIdentifier}</Text>
         </Box>
         {withPrice && (
           <Typography variant="subtitle2">
-            ${tokenPrice}
+            <Text fontSize={12}>
+              ${tokenPrice}
+            </Text>
           </Typography>
         )}
       </Box>
@@ -83,12 +86,12 @@ const TokenPresentationWithPrice = ({
       >
         {withTokenAmount && (
         <Box>
-          {tokenAmount}
+          <Text>{tokenAmount}</Text>
         </Box>
         )}
         {withTokenValue && (
         <Box>
-          ${tokenValue}
+          <Text fontSize={12}>${tokenValue}</Text>
         </Box>
         )}
       </Box>

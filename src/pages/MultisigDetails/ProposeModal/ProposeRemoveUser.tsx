@@ -1,7 +1,9 @@
 import { Address } from '@elrondnetwork/erdjs';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from 'styled-components';
 import { SelectedOptionType } from 'src/types/Proposals';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeRemoveUserType {
   selectedOption: SelectedOptionType;
@@ -12,6 +14,7 @@ function ProposeRemoveUser({
   selectedOption,
   handleSetAddress,
 }: ProposeRemoveUserType) {
+  const theme: any = useTheme();
   const { t } = useTranslation();
   const address = 'address' in selectedOption! ? selectedOption?.address : '';
 
@@ -26,13 +29,13 @@ function ProposeRemoveUser({
 
   return (
     <div className="modal-control-container">
-      <label htmlFor="delegateSubTitle">{t('Address') as string}</label>
+      <label htmlFor="delegateSubTitle"><Text>{t('Address') as string}</Text></label>
       <div
         id="delegateSubTitle"
         className="h6 mb-spacer text-break remove-user"
         data-testid="delegateSubTitle"
       >
-        <p className="address">{address}</p>
+        <Text className="address" sx={{ borderColor: `${theme.palette.borders.secondary} !important` }}>{address}</Text>
       </div>
     </div>
   );

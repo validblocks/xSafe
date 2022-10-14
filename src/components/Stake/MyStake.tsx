@@ -7,6 +7,7 @@ import { QueryKeys } from 'src/react-query/queryKeys';
 import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { useEffect, useState } from 'react';
+import { useTheme } from 'styled-components';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import {
   IDelegation,
@@ -27,6 +28,7 @@ import { MainButton } from '../Theme/StyledComponents';
 import ActiveDelegationsTable from './ActiveDelegationsTable';
 
 const MyStake = () => {
+  const theme: any = useTheme();
   const dispatch = useDispatch();
   const handleOptionSelected = (option: ProposalsTypes) => {
     dispatch(setProposeMultiselectSelectedOption({ option }));
@@ -50,7 +52,7 @@ const MyStake = () => {
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    axios.get(`/proxy?route=https://devnet-delegation-api.elrond.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
+    axios.get(`http://localhost:3000/proxy?route=https://devnet-delegation-api.elrond.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
 
   const {
     data: fetchedDelegations,
@@ -220,8 +222,10 @@ const MyStake = () => {
                 <Button
                   disabled
                   sx={{
-                    background: '#eee !important',
-                    border: '1px solid #ddd !important',
+                    backgroundColor: theme.palette.background.disabled,
+                    borderColor: theme.palette.background.disabled,
+                    color: `${theme.palette.text.disabled} !important`,
+                    boxShadow: 'none',
                     padding: '0.5rem',
                     marginTop: '1rem',
                     width: '100%',
