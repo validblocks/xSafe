@@ -26,6 +26,7 @@ export const theme = createTheme({
     },
     anchor: {
       main: '#4c2ffc8a',
+      secondary: '#6C757D',
     },
     divider: {
       main: '#DFDFE8',
@@ -104,6 +105,7 @@ export const darkTheme = createTheme({
     },
     anchor: {
       main: '#4c2ffc8a',
+      secondary: '#6C757D',
     },
     divider: {
       main: '#DFDFE8',

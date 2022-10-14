@@ -1,4 +1,4 @@
-import { Box, Tabs } from '@mui/material';
+import { Box } from '@mui/material';
 import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
 import styled from 'styled-components';
 
@@ -47,19 +47,4 @@ export const PendingContainerBox = styled(Box)`
   border-radius: 4px;
   padding: 0.5rem 0.675rem;
   font-weight: bold;
-`;
-
-export const MainTab = styled(Tabs)`
-&&& {
-  & .MuiButtonBase-root {
-    color: ${(props) => props.theme.palette.primary.main};
-    font-weight: ${(props) => props.theme.font.weight.lg};
-    font-size: 13px;
-    text-transform: capitalize;
-  };
-  & .MuiTabs-indicator {
-    background-color: ${(props) => props.theme.palette.primary.main};
-    box-shadow: 0px 0px 2px ${(props) => props.theme.palette.primary.main};
-  }
-}
 `;

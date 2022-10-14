@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef, createContext, useContext, useMemo } from 'react';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
-import QrCode2Icon from '@mui/icons-material/QrCode2';
 import {
   Box, Typography, Grid,
 } from '@mui/material';
@@ -28,6 +27,7 @@ import {
 } from '../navbar-style';
 import TotalBalance from '../TotalBalance';
 import UnknownOwner from './UnknownOwner';
+import * as Styled from '../../../Utils/styled/index';
 
 interface IDeployStepsContextType {
   showDeployMultisigModalState: CustomStateType<boolean>;
@@ -190,7 +190,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   cursor: 'pointer',
                 }}
               >
-                <QrCode2Icon sx={{ color: '#6c757d !important' }} />
+                <Styled.QrCodeReceive />
               </Box>
               <Box sx={{ mr: 1.85, ml: 0.35 }}>
                 <CopyButton text={currentContract?.address} />
@@ -200,7 +200,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   href={`${network.explorerAddress}/accounts/${currentContract?.address}`}
                   target="_blank"
                   rel="noreferrer"
-                  color="#6C757D"
+                  className="color-grey"
                 >
                   <ContentPasteGoOutlinedIcon />
                 </Anchor>

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import QrCode from 'qrcode.react';
 import { Modal } from 'react-bootstrap';
-import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Typography } from '@mui/material';
 import CopyButton from '../CopyButton';
 import { MainButton, DepositDoneAction } from '../Theme/StyledComponents';
+import * as Styled from '../Utils/styled/index';
 
 const ReceiveModal = ({
   showQrFromSidebar,
@@ -49,7 +49,7 @@ const ReceiveModal = ({
             fontWeight: '500 !important',
           }}
         >
-          <QrCode2Icon sx={{ marginRight: '5px', fontSize: '16px' }} />
+          <Styled.QrCodeReceive className="details-card" />
           Receive
         </MainButton>
       )}

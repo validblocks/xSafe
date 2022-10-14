@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
 import ReceiveModal from 'src/components/ReceiveModal';
 import AmountWithTitleCard from 'src/components/Utils/AmountWithTitleCard';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
@@ -98,7 +97,7 @@ export default function useMultisigDetailsCards() {
             disabled={isInReadOnlyMode}
             onClick={onNewTransactionClick}
           >
-            <AssetActionIcon width="25px" height="25px" /> {userRoleDescription}
+            {userRoleDescription}
           </Styled.CardButton>
         )}
       />,
@@ -126,7 +125,7 @@ export default function useMultisigDetailsCards() {
           <Styled.CardButton
             onClick={() => navigate(routeNames.assets)}
           >
-            <AssetActionIcon width="25px" height="25px" /> View Coins
+            View Coins
           </Styled.CardButton>
         )}
       />,
@@ -138,7 +137,7 @@ export default function useMultisigDetailsCards() {
           <Styled.CardButton
             onClick={() => navigate(routeNames.nft)}
           >
-            <AssetActionIcon width="25px" height="25px" /> View NFTs
+            View NFTs
           </Styled.CardButton>
         )}
         title={'Organization NFTs'}
@@ -154,7 +153,7 @@ export default function useMultisigDetailsCards() {
             className="shadow-sm rounded mr-2"
             onClick={() => navigate(routeNames.owners)}
           >
-            <AssetActionIcon width="25px" height="25px" /> View Owners
+            View Owners
           </Styled.CardButton>
         )}
         title={'Organization Owners'}
@@ -172,7 +171,7 @@ export default function useMultisigDetailsCards() {
             className="shadow-sm rounded mr-2"
             onClick={() => navigate(routeNames.cvorum)}
           >
-            <AssetActionIcon width="25px" height="25px" /> View Quorum
+            View Quorum
           </Styled.CardButton>
         )}
         title={'Organization Quorum'}

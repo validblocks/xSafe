@@ -17,7 +17,7 @@ import {
   HISTORY_INTERVALS,
 } from './TransactionHistoryIntervals';
 import TransactionQueue from './TransactionQueue';
-import * as Styled from './styled/index';
+import * as Styled from '../../components/Utils/styled/index';
 
 export interface TabPanelProps {
   children?: React.ReactNode;

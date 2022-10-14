@@ -60,7 +60,12 @@ export const ReadOnly = styled(Text)`
 `;
 
 export const Anchor = styled.a`
-  color: ${(props) => props.color} !important;
+  &.color-grey svg {
+    fill: ${(props) => props.theme.palette.anchor.secondary}
+  }
+  &.color-purple svg {
+    fill: ${(props) => props.theme.palette.anchor.main}
+  }
 `;
 
 export const MembersBox = styled(Box)`

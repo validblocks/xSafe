@@ -34,6 +34,12 @@ export const MainButton = styled(Button)`
 }
 `;
 
+export const MainButtonNoShadow = styled(MainButton)`
+&&& {
+  box-shadow: none;
+}
+`;
+
 export const NewTransactionButton = styled(MainButton)`
 &&& {
   padding: ${(props) => props.theme.padding.value.md}

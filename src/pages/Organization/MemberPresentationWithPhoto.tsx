@@ -45,8 +45,7 @@ const MemberPresentationWithPhoto = ({
             }/accounts/${memberAddress?.toString()}`}
             target="_blank"
             rel="noreferrer"
-            color="#4c2ffc8a"
-            className="ml-2"
+            className="ml-2 color-purple"
           >
             <ContentPasteGoIcon />
           </Anchor>

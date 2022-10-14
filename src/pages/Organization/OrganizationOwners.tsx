@@ -15,7 +15,7 @@ import { MainButton } from 'src/components/Theme/StyledComponents';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { AccountInfo, AddressBook, Owner } from './types';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
-import * as Styled from './styled';
+import * as Styled from '../../components/Utils/styled/index';
 import { useOwnerManipulationFunctions } from './utils';
 
 const OrganizationsOwnersTable = () => {
@@ -145,26 +145,7 @@ const OrganizationsOwnersTable = () => {
         rowHeight={65}
         rows={rows}
         columns={columns}
-        sx={{
-          '&&&': {
-            '& .MuiDataGrid-cell': {
-              pl: '16px',
-              '.MuiAvatar-root': {
-                mr: '7px',
-              },
-            },
-            '& .MuiDataGrid-cell > .MuiDataGrid-actionsCell': {
-              ml: '14px',
-              gridGap: '2px',
-              '.MuiButtonBase-root, .MuiButtonBase-root > svg': {
-                transition: 'all 300ms linear',
-              },
-            },
-            '& .MuiDataGrid-cell .MuiButtonBase-root:hover > svg': {
-              fill: '#4c2ffc',
-            },
-          },
-        }}
+        className="organization-owners"
       />
     </>
   );

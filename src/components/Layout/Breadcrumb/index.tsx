@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from 'react';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
 import { useLocation, Link } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { Box, OutlinedInput } from '@mui/material';
@@ -9,6 +8,7 @@ import { setNavbarSearchParam } from 'src/redux/slices/searchSlice';
 import useDebounce from 'src/utils/useDebounce';
 import breadcrumbItems from './BreadcrumbItems';
 import { ReactComponent as SearchIcon } from '../../../assets/img/searchFilled.svg';
+import * as Styled from './styled/index';
 
 function PageBreadcrumbs() {
   const dispatch = useDispatch();
@@ -50,18 +50,9 @@ function PageBreadcrumbs() {
 
   return (
     <div role="presentation">
-      <Breadcrumbs
+      <Styled.BreadcrumbsElement
         separator="›"
         aria-label="breadcrumb"
-        sx={{
-          color: 'rgba(0, 0, 0, 0.54)',
-          '& .MuiBreadcrumbs-separator': {
-            fontSize: '35px',
-            maxHeight: '30px',
-            alignItems: 'center',
-            pb: '5px',
-          },
-        }}
       >
         <Link style={{ color: 'rgba(0, 0, 0, 0.6)' }} to={`/multisig/${uniqueContractAddress}`}>
           Home
@@ -71,7 +62,7 @@ function PageBreadcrumbs() {
             {displaySearch(el.name)}
           </Link>
         ))}
-      </Breadcrumbs>
+      </Styled.BreadcrumbsElement>
     </div>
   );
 }

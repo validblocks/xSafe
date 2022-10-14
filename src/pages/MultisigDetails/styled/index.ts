@@ -1,8 +1,8 @@
 import { Box } from '@mui/material';
-import { MainButton } from 'src/components/Theme/StyledComponents';
+import { MainButtonNoShadow } from 'src/components/Theme/StyledComponents';
 import styled from 'styled-components';
 
-export const CardButton = styled(MainButton)`
+export const CardButton = styled(MainButtonNoShadow)`
   &&& {
     width: 100%;
     font-size: 14px;
