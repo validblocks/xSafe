@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { Box, OutlinedInput } from '@mui/material';
 import { FormSearchInput } from 'src/components/Theme/StyledComponents';
@@ -54,13 +54,13 @@ function PageBreadcrumbs() {
         separator="›"
         aria-label="breadcrumb"
       >
-        <Link style={{ color: 'rgba(0, 0, 0, 0.6)' }} to={`/multisig/${uniqueContractAddress}`}>
+        <Styled.MainBreadcrumbsLink to={`/multisig/${uniqueContractAddress}`}>
           Home
-        </Link>
+        </Styled.MainBreadcrumbsLink>
         {breadcrumb?.map((el: any) => (
-          <Link key={el.link} style={{ color: 'rgba(0, 0, 0, 0.87)' }} to={el.link}>
+          <Styled.SecondaryBreadcrumbsLink key={el.link} to={el.link}>
             {displaySearch(el.name)}
-          </Link>
+          </Styled.SecondaryBreadcrumbsLink>
         ))}
       </Styled.BreadcrumbsElement>
     </div>

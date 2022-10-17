@@ -1,16 +1,17 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
-import { MouseEvent, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import copyTextToClipboard from './helpers/copyToClipboard';
 import * as Styled from '../Utils/styled/index';
 
 interface CopyButtonType {
   text: string;
   className?: string;
+  color?: 'grey' | 'purple' | string;
 }
 
-const CopyButton = ({ text, className = '' }: CopyButtonType) => {
+const CopyButton = ({ text, color = '', className = '' }: CopyButtonType) => {
   const [copyResult, setCopyResut] = useState({
     default: true,
     success: false,
@@ -33,6 +34,44 @@ const CopyButton = ({ text, className = '' }: CopyButtonType) => {
       });
     }, 1000);
   };
+
+  const [iconColor, setIconColor] = useState(color);
+
+  useEffect(() => {
+    setIconColor(color);
+  }, [iconColor]);
+
+  if (iconColor === 'grey') {
+    console.log(iconColor);
+    return (
+      <Styled.CopyIconLink
+        href="/#"
+        onClick={handleCopyToClipboard}
+        className={`side-action ${className}`}
+      >
+        {copyResult.default || !copyResult.success ? (
+          <CopyAllIcon />
+        ) : (
+          <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
+        )}
+      </Styled.CopyIconLink>
+    );
+  } if (iconColor === 'purple') {
+    console.log(iconColor);
+    return (
+      <Styled.CopyIconLinkPurple
+        href="/#"
+        onClick={handleCopyToClipboard}
+        className={`side-action ${className}`}
+      >
+        {copyResult.default || !copyResult.success ? (
+          <CopyAllIcon />
+        ) : (
+          <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
+        )}
+      </Styled.CopyIconLinkPurple>
+    );
+  }
 
   return (
     <Styled.CopyIconLink

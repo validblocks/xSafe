@@ -49,7 +49,7 @@ const ReceiveModal = ({
             fontWeight: '500 !important',
           }}
         >
-          <Styled.QrCodeReceive className="details-card" />
+          <Styled.QrCodeReceivePurple />
           Receive
         </MainButton>
       )}

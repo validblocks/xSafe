@@ -12,28 +12,31 @@ export const ContainerWithPanelsTopBox = styled(Box)(({ theme: _ }) => ({
 
 export const CopyIconLink = styled(Link)(({ theme: _ }) => ({
   '&.MuiTypography-root': {
-    color: '#6c757d !important',
+    color: `${_.palette.anchor.secondary} !important`,
   },
-  '&.MuiTypography-root.icon-purple': {
-    color: '#4c2ffc8a !important',
+}));
+
+export const CopyIconLinkPurple = styled(CopyIconLink)(({ theme: _ }) => ({
+  '&.MuiTypography-root': {
+    color: `${_.palette.secondary.main} !important`,
   },
 }));
 
 export const QrCodeReceive = styled(QrCode2Icon)(({ theme: _ }) => ({
-  color: `${_.palette.anchor.secondary}`,
-  '&.details-card': {
-    margin: '0 5px 1px 0',
-    fontSize: '16px',
-    color: `${_.palette.primary.main}`,
-  },
+  color: _.palette.anchor.secondary,
 }));
 
-export const MainTable = styled(DataGrid)(({ theme }) => ({
+export const QrCodeReceivePurple = styled(QrCode2Icon)(({ theme: _ }) => ({
+  margin: '0 5px 1px 0',
+  fontSize: _.font.size.xxxl,
+  color: _.palette.primary.main,
+}));
+
+export const MainTable = styled(DataGrid)(({ theme: _ }) => ({
   '&&&': {
     borderRadius: '10px',
-    boxShadow:
-      '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
-    backgroundColor: theme.palette.background.secondary,
+    boxShadow: `${_.shadows.reducedOpacityIcons}, ${_.shadows.reducedOpacityIcons}`,
+    backgroundColor: _.palette.background.secondary,
     border: 'none',
     '& .MuiDataGrid-columnSeparator': {
       display: 'none',
@@ -42,14 +45,14 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
       padding: '5px 0 0 20px',
     },
     '& .MuiDataGrid-row:hover': {
-      backgroundColor: '#F5F7FF',
+      backgroundColor: _.hover.table.rows,
       '& .MuiButton-root': {
         opacity: '1',
       },
     },
     '& p': {
       margin: 0,
-      color: 'rgba(0, 0, 0, 0.6)',
+      color: _.palette.black.reducedOpacity,
     },
     '& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within, & .MuiDataGrid-cell:focus-visible, & .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within, & .MuiDataGrid-columnHeader:focus-visible':
       {
@@ -65,27 +68,28 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
     '& .MuiTablePagination-actions': {
       marginLeft: '15px',
       '& button svg': {
-        color: 'rgba(76, 47, 252, 0.54)',
+        color: _.palette.secondary.main,
       },
     },
-    '&.organization-owners': {
-      '& .MuiDataGrid-cell': {
-        paddingLeft: '16px',
-        '.MuiAvatar-root': {
-          marginRight: '7px',
-        },
-      },
-      '& .MuiDataGrid-cell > .MuiDataGrid-actionsCell': {
-        marginLeft: '14px',
-        gridGap: '2px',
-        '.MuiButtonBase-root, .MuiButtonBase-root > svg': {
-          transition: 'all 300ms linear',
-        },
-      },
-      '& .MuiDataGrid-cell .MuiButtonBase-root:hover > svg': {
-        fill: `${theme.palette.primary.main}`,
-      },
+  },
+}));
+
+export const OwnersTable = styled(MainTable)(({ theme: _ }) => ({
+  '& .MuiDataGrid-cell': {
+    paddingLeft: '16px',
+    '.MuiAvatar-root': {
+      marginRight: '7px',
     },
+  },
+  '& .MuiDataGrid-cell > .MuiDataGrid-actionsCell': {
+    marginLeft: '14px',
+    gridGap: '2px',
+    '.MuiButtonBase-root, .MuiButtonBase-root > svg': {
+      transition: 'all 300ms linear',
+    },
+  },
+  '& .MuiDataGrid-cell .MuiButtonBase-root:hover > svg': {
+    fill: _.palette.primary.main,
   },
 }));
 
@@ -103,13 +107,13 @@ export const TabContainerBox = styled(Box)(({ theme }) => ({
 export const MainTab = styled(Tabs)(({ theme: _ }) => ({
   '&&&': {
     '& .MuiButtonBase-root': {
-      color: `${_.palette.primary.main}`,
-      fontWeight: `${_.font.weight.lg}`,
-      fontSize: '13px',
+      color: _.palette.primary.main,
+      fontWeight: _.font.weight.lg,
+      fontSize: _.font.size.lg,
       textTransform: 'capitalize',
     },
     '& .MuiTabs-indicator': {
-      backgroundColor: `${_.palette.primary.main}`,
+      backgroundColor: _.palette.primary.main,
       boxShadow: `0px 0px 2px ${_.palette.primary.main}`,
     },
   },
