@@ -67,7 +67,7 @@ export const Anchor = styled.a`
 
 export const AnchorPurple = styled.a(({ theme: _ }) => ({
   '& svg': {
-    fill: _.theme.palette.anchor.main,
+    fill: _.palette.anchor.main,
   },
 }));
 
