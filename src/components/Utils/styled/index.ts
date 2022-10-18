@@ -75,21 +75,23 @@ export const MainTable = styled(DataGrid)(({ theme: _ }) => ({
 }));
 
 export const OwnersTable = styled(MainTable)(({ theme: _ }) => ({
-  '& .MuiDataGrid-cell': {
-    paddingLeft: '16px',
-    '.MuiAvatar-root': {
-      marginRight: '7px',
+  '&&&': {
+    '& .MuiDataGrid-cell': {
+      paddingLeft: '16px',
+      '.MuiAvatar-root': {
+        marginRight: '7px',
+      },
     },
-  },
-  '& .MuiDataGrid-cell > .MuiDataGrid-actionsCell': {
-    marginLeft: '14px',
-    gridGap: '2px',
-    '.MuiButtonBase-root, .MuiButtonBase-root > svg': {
-      transition: 'all 300ms linear',
+    '& .MuiDataGrid-cell > .MuiDataGrid-actionsCell': {
+      marginLeft: '14px',
+      gridGap: '2px',
+      '.MuiButtonBase-root, .MuiButtonBase-root > svg': {
+        transition: 'all 300ms linear',
+      },
     },
-  },
-  '& .MuiDataGrid-cell .MuiButtonBase-root:hover > svg': {
-    fill: _.palette.primary.main,
+    '& .MuiDataGrid-cell .MuiButtonBase-root:hover > svg': {
+      fill: _.palette.primary.main,
+    },
   },
 }));
 
