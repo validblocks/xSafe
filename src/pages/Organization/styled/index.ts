@@ -27,6 +27,10 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
       margin: 0,
       color: `${theme.palette.text.primary} !important`,
     },
+    '& span': {
+      fontSize: '12px',
+      color: `${theme.palette.text.secondary} !important`,
+    },
     '& svg': {
       color: theme.palette.text.primary,
     },

@@ -108,9 +108,9 @@ const AssetsTable = () => {
                 className="mr-3"
               />
               )}
-              <Text className="mb-0">
+              <span>
                 {params.value.tokenIdentifier?.split('-')[0] ?? 'unknown'}
-              </Text>
+              </span>
             </div>
           ),
         },

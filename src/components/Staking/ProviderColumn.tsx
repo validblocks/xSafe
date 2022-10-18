@@ -35,7 +35,7 @@ const ProviderColumn = ({
         >
           {name}
         </Text>
-        {withAPR ? <Text>{apr}%</Text> : (
+        {withAPR ? <span>{apr}%</span> : (
           <Link
             underline="none"
             color="grey"

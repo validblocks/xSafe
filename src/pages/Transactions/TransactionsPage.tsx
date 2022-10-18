@@ -121,8 +121,8 @@ export default function TransactionsPage() {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="QUEUE" {...a11yProps(0)} sx={{ color: theme.palette.text.primary }} />
-            <Tab label="HISTORY" {...a11yProps(1)} sx={{ color: theme.palette.text.primary }} />
+            <Tab label="QUEUE" {...a11yProps(0)} sx={{ color: theme.palette.text.secondary }} />
+            <Tab label="HISTORY" {...a11yProps(1)} sx={{ color: theme.palette.text.secondary }} />
           </Tabs>
           {value === 1 && (
             <Box>

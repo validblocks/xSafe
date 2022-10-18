@@ -32,7 +32,7 @@ export const theme = createTheme({
     },
     text: {
       primary: '#08041D',
-      secondary: '#F0F6FF',
+      secondary: '#00000099',
       button: '#4c2FFC',
       disabled: '#A9A9A9',
       success: '#fff',
@@ -205,6 +205,7 @@ export const darkTheme = createTheme({
     },
     text: {
       primary: '#FFF',
+      secondary: '#fff',
       button: '#FFF',
       disabled: '#8680A9',
       success: '#2FFCBE',

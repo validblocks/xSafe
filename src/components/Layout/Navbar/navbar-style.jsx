@@ -133,6 +133,7 @@ export const ListItem = styled(ListItemButton)`
   }
   & .MuiListItemIcon-root {
     transition: all 300ms linear;
+    color: ${(props) => props.theme.palette.text.secondary};
   }
   &:hover {
     & .MuiTypography-root,& .MuiSvgIcon-root {
@@ -169,7 +170,7 @@ export const MenuAccordion = styled(AccordionSummary)`
     transition: color 300ms linear;
   };
   & svg {
-    color: ${(props) => props.theme.palette.text.primary};
+    color: ${(props) => props.theme.palette.text.secondary};
   };
   &:hover {
     background-color: ${(props) => props.theme.palette.background.hover};

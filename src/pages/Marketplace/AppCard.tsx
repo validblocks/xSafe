@@ -40,6 +40,7 @@ const AppCard = ({
           ...(isInstalled && {
             backgroundColor: `${theme.palette.background.button} !important`,
             border: `1px solid ${theme.palette.background.button} !important`,
+            color: '#fff !important',
           }),
         }}
         disabled={!isInstallable || isInReadOnlyMode || title === 'Marketplace'}
