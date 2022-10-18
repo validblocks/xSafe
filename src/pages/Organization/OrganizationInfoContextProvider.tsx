@@ -1,5 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { transactionServices, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import {
+  SignedTransactionsBodyType,
+  transactionServices,
+  useGetAccountInfo,
+  useGetLoginInfo,
+} from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSafeName } from 'src/redux/slices/safeNameSlice';
@@ -22,6 +27,7 @@ import { QueryKeys } from 'src/react-query/queryKeys';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { parseMultisigAddress } from 'src/utils/addressUtils';
+import { setIntervalEndTimestamp } from 'src/redux/slices/transactionsSlice';
 import { OrganizationInfoContextType } from './types';
 
 type Props = {
@@ -137,7 +143,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
     return () => {
       isMounted = false;
     };
-  }, [address, currentContract, currentContract?.address, refetchNftCount]);
+  }, [address, currentContract, currentContract?.address, fetchMemberDetails, refetchNftCount]);
 
   useEffect(() => {
     let isMounted = true;
@@ -174,8 +180,26 @@ function OrganizationInfoContextProvider({ children }: Props) {
           QueryKeys.ALL_ORGANIZATION_NFTS,
         ],
       );
+
+      dispatch(setIntervalEndTimestamp(Math.floor(new Date().getTime() / 1000)));
+
+      setTimeout(() => {
+        transactionServices.removeSignedTransaction(currentMultisigTransactionId);
+      }, 15_000);
     },
   });
+
+  const { pendingTransactionsArray } = transactionServices.useGetPendingTransactions();
+
+  useEffect(() => {
+    pendingTransactionsArray.forEach((pendingTransaction) => {
+      const [sessionId, { transactions }] = pendingTransaction;
+      if (transactions
+        .every((transaction: SignedTransactionsBodyType) => transaction.status === 'success')) {
+        setTimeout(() => transactionServices.removeSignedTransaction(sessionId), 15_000);
+      }
+    });
+  }, [pendingTransactionsArray]);
 
   return (
     <OrganizationInfoContext.Provider
