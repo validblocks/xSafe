@@ -203,7 +203,7 @@ const ProposeUnstakeTokens = ({
     if (amountError) {
       return;
     }
-    formik.setFieldValue('amount', selectedStakingProvider?.delegatedColumn?.delegatedAmount);
+    formik.setFieldValue('amount', +selectedStakingProvider?.delegatedColumn?.delegatedAmount - 1);
   }, [amountError, formik, selectedStakingProvider?.delegatedColumn?.delegatedAmount]);
 
   return (
