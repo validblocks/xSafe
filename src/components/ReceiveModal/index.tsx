@@ -32,7 +32,6 @@ const ReceiveModal = ({
 
   return (
     <>
-
       {showQrFromSidebar === undefined && (
         <MainButton
           key="0"

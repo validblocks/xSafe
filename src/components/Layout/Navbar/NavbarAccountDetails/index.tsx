@@ -200,7 +200,6 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   href={`${network.explorerAddress}/accounts/${currentContract?.address}`}
                   target="_blank"
                   rel="noreferrer"
-                  className="color-grey"
                 >
                   <ContentPasteGoOutlinedIcon />
                 </Anchor>

@@ -17,5 +17,5 @@ export const MainBreadcrumbsLink = styled(Link)(({ theme: _ }) => ({
 }));
 
 export const SecondaryBreadcrumbsLink = styled(Link)(({ theme: _ }) => ({
-  color: _.palette.black.lowReducedOpacity,
+  color: _.palette.black.minorlyReducedOpacity,
 }));

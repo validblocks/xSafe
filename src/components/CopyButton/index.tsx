@@ -1,7 +1,7 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
-import { MouseEvent, useEffect, useState } from 'react';
+import { MouseEvent, useState } from 'react';
 import copyTextToClipboard from './helpers/copyToClipboard';
 import * as Styled from '../Utils/styled/index';
 
@@ -35,14 +35,7 @@ const CopyButton = ({ text, color = '', className = '' }: CopyButtonType) => {
     }, 1000);
   };
 
-  const [iconColor, setIconColor] = useState(color);
-
-  useEffect(() => {
-    setIconColor(color);
-  }, [iconColor]);
-
-  if (iconColor === 'grey') {
-    console.log(iconColor);
+  if (color === 'grey') {
     return (
       <Styled.CopyIconLink
         href="/#"
@@ -56,8 +49,8 @@ const CopyButton = ({ text, color = '', className = '' }: CopyButtonType) => {
         )}
       </Styled.CopyIconLink>
     );
-  } if (iconColor === 'purple') {
-    console.log(iconColor);
+  }
+  if (color === 'purple') {
     return (
       <Styled.CopyIconLinkPurple
         href="/#"

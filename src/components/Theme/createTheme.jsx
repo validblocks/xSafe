@@ -11,7 +11,7 @@ export const theme = createTheme({
     black: {
       main: '#08041D',
       reducedOpacity: 'rgba(0, 0, 0, 0.6)',
-      lowReducedOpacity: 'rgba(0, 0, 0, 0.87)',
+      minorlyReducedOpacity: 'rgba(0, 0, 0, 0.87)',
       mediumReducedOpacity: 'rgba(0, 0, 0, 0.54)',
     },
     background: {
