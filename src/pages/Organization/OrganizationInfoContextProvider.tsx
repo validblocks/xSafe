@@ -28,6 +28,7 @@ import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { parseMultisigAddress } from 'src/utils/addressUtils';
 import { setIntervalEndTimestamp } from 'src/redux/slices/transactionsSlice';
+import { toastDisappearDelay } from 'src/helpers/constants';
 import { OrganizationInfoContextType } from './types';
 
 type Props = {
@@ -170,6 +171,11 @@ function OrganizationInfoContextProvider({ children }: Props) {
 
   transactionServices.useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
+    onTimedOut: () => {
+      setTimeout(() => {
+        transactionServices.removeSignedTransaction(currentMultisigTransactionId);
+      }, toastDisappearDelay);
+    },
     onSuccess: () => {
       fetchMemberDetails(true);
 
@@ -178,14 +184,14 @@ function OrganizationInfoContextProvider({ children }: Props) {
           QueryKeys.ADDRESS_EGLD_TOKENS,
           QueryKeys.ADDRESS_ESDT_TOKENS,
           QueryKeys.ALL_ORGANIZATION_NFTS,
+          QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
         ],
       );
 
       dispatch(setIntervalEndTimestamp(Math.floor(new Date().getTime() / 1000)));
-
       setTimeout(() => {
         transactionServices.removeSignedTransaction(currentMultisigTransactionId);
-      }, 15_000);
+      }, toastDisappearDelay);
     },
   });
 
@@ -196,7 +202,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
       const [sessionId, { transactions }] = pendingTransaction;
       if (transactions
         .every((transaction: SignedTransactionsBodyType) => transaction.status === 'success')) {
-        setTimeout(() => transactionServices.removeSignedTransaction(sessionId), 15_000);
+        setTimeout(() => transactionServices.removeSignedTransaction(sessionId), toastDisappearDelay);
       }
     });
   }, [pendingTransactionsArray]);
