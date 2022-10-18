@@ -40,8 +40,7 @@ function TransactionTechnicalDetails({ transaction }: Props) {
           href={`${network.explorerAddress}/transactions/${transaction?.txHash}`}
           target="_blank"
           rel="noreferrer"
-          color="#6c757d"
-          className="ml-2"
+          className="ml-2 color-grey"
         >
           <ContentPasteGoIcon />
         </Anchor>

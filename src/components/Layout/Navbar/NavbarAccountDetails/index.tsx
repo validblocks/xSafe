@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef, createContext, useContext, useMemo } from 'react';
 import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
-import QrCode2Icon from '@mui/icons-material/QrCode2';
 import {
   Box, Typography, Grid,
 } from '@mui/material';
@@ -28,23 +27,20 @@ import {
 } from '../navbar-style';
 import TotalBalance from '../TotalBalance';
 import UnknownOwner from './UnknownOwner';
+import * as Styled from '../../../Utils/styled/index';
 
 interface IDeployStepsContextType {
   showDeployMultisigModalState: CustomStateType<boolean>;
   openDeployNewContractModal: () => void;
   updateMultisigContract: (newContracts: MultisigContractInfoType[]) => any
 }
-
 const DeployStepsContext = createContext<IDeployStepsContextType>(
   {} as IDeployStepsContextType,
 );
-
 export const useDeployStepsContext = () =>
   useContext(DeployStepsContext);
-
 const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: string }) => {
   const { isLoggedIn } = useGetLoginInfo();
-
   const safeName = useSelector(currentSafeNameSelector);
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const [showQr, setShowQr] = useState(false);
@@ -52,42 +48,33 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   const [displayableAddress, setDisplayableAddress] = useState(uniqueAddress);
   const [displayOwnershipWarning, setDisplayOwnershipWarning] = useState(false);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
-
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
-
   const menuRef = useRef<HTMLElement>();
-
   const updateMultisigContract = useCallback(
     (newContracts: MultisigContractInfoType[]) => dispatch(setMultisigContracts(newContracts)),
     [dispatch]);
   const openDeployNewContractModal = useCallback(() => {
     setShowDeployMultisigModal(true);
   }, []);
-
   const contextValue = useMemo(() => ({
     showDeployMultisigModalState: [showDeployMultisigModal, setShowDeployMultisigModal] as CustomStateType<boolean>,
     openDeployNewContractModal,
     updateMultisigContract,
   }), [showDeployMultisigModal, openDeployNewContractModal, updateMultisigContract]);
-
   const closeDeployModal = useCallback(() => {
     setShowDeployMultisigModal(false);
   }, []);
-
   const openSafeSelection = useCallback(() => {
     setOpenedSafeSelect(true);
   }, []);
-
   const {
     membersCountState: [membersCount],
     isMultiWalletMode,
   } = useOrganizationInfoContext();
-
   const handleQrModal = () => {
     setShowQr(!showQr);
   };
-
   useEffect(() => {
     ((async function checkContractOwnership() {
       const contractDetails = await ElrondApiProvider.getAccountDetails(currentContract?.address);
@@ -95,12 +82,10 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
       setDisplayOwnershipWarning(!isItsOwnOwner);
     })());
   }, [currentContract?.address]);
-
   useEffect(() => {
     const result = uniqueAddress.length === 0 ? 'No safe' : uniqueAddress;
     setDisplayableAddress(result);
   }, [uniqueAddress]);
-
   useEffect(() => {
     const handler = (e: any) => {
       if (!menuRef.current?.contains(e.target) && !showDeployMultisigModal) {
@@ -112,7 +97,6 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
       document.removeEventListener('mousedown', handler);
     };
   }, [showDeployMultisigModal]);
-
   return (
     <DeployStepsContext.Provider value={contextValue}>
       <Box>
@@ -156,7 +140,6 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   : displayableAddress
               }
               </Text>
-
               {openedSafeSelect === true && (
               <Box>
                 <Box
@@ -207,17 +190,16 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   cursor: 'pointer',
                 }}
               >
-                <QrCode2Icon />
+                <Styled.QrCodeReceive />
               </Box>
               <Box sx={{ mr: 1.85, ml: 0.35 }}>
-                <CopyButton text={currentContract?.address} />
+                <CopyButton text={currentContract?.address} color="grey" />
               </Box>
               <Box>
                 <Anchor
                   href={`${network.explorerAddress}/accounts/${currentContract?.address}`}
                   target="_blank"
                   rel="noreferrer"
-                  color="#6c757d"
                 >
                   <ContentPasteGoOutlinedIcon />
                 </Anchor>
@@ -239,10 +221,8 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
         </Grid>
         <hr />
         <TotalBalance />
-
       </Box>
     </DeployStepsContext.Provider>
   );
 });
-
 export default NavbarAccountDetails;

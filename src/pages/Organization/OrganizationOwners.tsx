@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 
 import { Avatar } from '@mui/material';
@@ -16,7 +15,7 @@ import { MainButton } from 'src/components/Theme/StyledComponents';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { AccountInfo, AddressBook, Owner } from './types';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
-import * as Styled from './styled';
+import * as Styled from '../../components/Utils/styled/index';
 import { useOwnerManipulationFunctions } from './utils';
 
 const OrganizationsOwnersTable = () => {
@@ -134,7 +133,6 @@ const OrganizationsOwnersTable = () => {
   return (
     <>
       <MainButton
-        startIcon={<AddIcon />}
         disabled={isInReadOnlyMode}
         onClick={() => onAddBoardMember()}
         sx={{ mb: '.9rem !important', boxShadow: 'none !important' }}
@@ -142,7 +140,7 @@ const OrganizationsOwnersTable = () => {
         Add new owner
       </MainButton>
 
-      <Styled.MainTable
+      <Styled.OwnersTable
         autoHeight
         rowHeight={65}
         rows={rows}

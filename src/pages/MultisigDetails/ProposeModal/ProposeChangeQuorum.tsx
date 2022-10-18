@@ -1,6 +1,6 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import MultisigDetailsContext from 'src/context/MultisigDetailsContext';
+import { InputsContainer } from 'src/components/Theme/StyledComponents';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 
 interface ProposeChangeQuorumType {
@@ -17,7 +17,6 @@ function ProposeChangeQuorum({
   handleParamsChange,
   setSubmitDisabled,
 }: ProposeChangeQuorumType) {
-  const { quorumSize } = useContext(MultisigDetailsContext);
   const { boardMembersCount } = useOrganizationInfoContext();
   const { t }: { t: any } = useTranslation();
 
@@ -40,25 +39,20 @@ function ProposeChangeQuorum({
     setNewQuorumSize(newQuorum);
   };
 
-  useEffect(() => {
-    setNewQuorumSize(quorumSize);
-  }, [quorumSize]);
-
   return (
-    <div className="d-flex flex-column modal-control-container">
-      <div className="group-center">
-        <label htmlFor="newQuorumSize">{t('Quorum Size')}:</label>
-        <input
-          id="newQuorumSize"
-          style={{ width: 250 }}
-          className="form-control"
-          value={newQuorumSize}
-          autoComplete="off"
-          onChange={handleNewQuorumSizeChanged}
-        />
-        {error != null && <p className="text-danger">{error}</p>}
-      </div>
-    </div>
+    <InputsContainer
+      className={error != null ? 'hasAvailableAmount invalid' : 'hasAvailableAmount'}
+    >
+      <input
+        id="newQuorumSize"
+        className={error != null ? 'form-control is-invalid' : 'form-control'}
+        value={newQuorumSize}
+        autoComplete="off"
+        onChange={handleNewQuorumSizeChanged}
+      />
+      <label htmlFor="newQuorumSize">{t('Quorum Size')}</label>
+      <span className="errorMessage">{error}</span>
+    </InputsContainer>
   );
 }
 

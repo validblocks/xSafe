@@ -16,7 +16,7 @@ export const UndelegationContainer = styled(Box)`
 
 export const NoUndelegationsTypography = styled(Typography)`
   width: 100%;
-  margin-top: calc(50% - 100px);
+  margin-bottom: 20px;
   color: gray;
   text-align: center;
   font-size: 22px;

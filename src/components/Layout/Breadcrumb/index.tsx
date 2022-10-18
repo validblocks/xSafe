@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { Box, OutlinedInput } from '@mui/material';
 import { FormSearchInput } from 'src/components/Theme/StyledComponents';
@@ -9,6 +8,7 @@ import { setNavbarSearchParam } from 'src/redux/slices/searchSlice';
 import useDebounce from 'src/utils/useDebounce';
 import breadcrumbItems from './BreadcrumbItems';
 import { ReactComponent as SearchIcon } from '../../../assets/img/searchFilled.svg';
+import * as Styled from './styled/index';
 
 function PageBreadcrumbs() {
   const dispatch = useDispatch();
@@ -50,16 +50,19 @@ function PageBreadcrumbs() {
 
   return (
     <div role="presentation">
-      <Breadcrumbs separator="›" aria-label="breadcrumb">
-        <Link color="inherit" to={`/multisig/${uniqueContractAddress}`}>
+      <Styled.BreadcrumbsElement
+        separator="›"
+        aria-label="breadcrumb"
+      >
+        <Styled.MainBreadcrumbsLink to={`/multisig/${uniqueContractAddress}`}>
           Home
-        </Link>
+        </Styled.MainBreadcrumbsLink>
         {breadcrumb?.map((el: any) => (
-          <Link key={el.link} color="inherit" to={el.link}>
+          <Styled.SecondaryBreadcrumbsLink key={el.link} to={el.link}>
             {displaySearch(el.name)}
-          </Link>
+          </Styled.SecondaryBreadcrumbsLink>
         ))}
-      </Breadcrumbs>
+      </Styled.BreadcrumbsElement>
     </div>
   );
 }

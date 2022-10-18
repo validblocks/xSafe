@@ -21,7 +21,7 @@ import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
 import { Typography } from '@mui/material';
 import { Balance } from '@elrondnetwork/erdjs/out';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
-import * as Styled from '../../pages/Organization/styled';
+import * as Styled from '../Utils/styled/index';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 

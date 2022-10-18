@@ -3,9 +3,9 @@ import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { Box, Typography, IconButton } from '@mui/material';
 
 interface IProps {
-    title: React.ReactNode;
-    handleClose: () => void;
-    activeStepNumber: number;
+    title?: React.ReactNode | string;
+    handleClose?: () => void;
+    activeStepNumber?: number;
     totalSteps?: number;
 }
 const ModalCardTitle = ({ title, handleClose, activeStepNumber = 0, totalSteps = 0 }: IProps) => (

@@ -14,6 +14,7 @@ import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import { MainButton } from 'src/components/Theme/StyledComponents';
 import { Box } from '@mui/material';
+import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import EditOwner from './EditOwner';
 import ProposeChangeQuorum from './ProposeChangeQuorum';
 import ProposeInputAddress from './ProposeInputAddress';
@@ -163,28 +164,26 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
       animation={false}
       centered
     >
+      <ModalCardTitle title="Change Quorum" handleClose={handleClose} />
       <div className="card">
-        <div className="card-body">
-
-          <div>
-            {getModalContent()}
-            <Box className="modal-action-btns" sx={{ mt: '24px !important' }}>
-              <MainButton
-                onClick={handleClose}
-                sx={{ boxShadow: 'none !important' }}
-              >
-                {t('Cancel')}
-              </MainButton>
-              <MainButton
-                disabled={submitDisabled}
-                onClick={onProposeClicked}
-                sx={{ gap: '5px !important' }}
-              >
-                {t(getActionButtonText())}
-              </MainButton>
-            </Box>
-          </div>
-        </div>
+        <Box sx={{ padding: '21px 40px 40px' }}>
+          {getModalContent()}
+          <Box className="modal-action-btns" sx={{ mt: '24px !important' }}>
+            <MainButton
+              onClick={handleClose}
+              sx={{ boxShadow: 'none !important' }}
+            >
+              {t('Cancel')}
+            </MainButton>
+            <MainButton
+              disabled={submitDisabled}
+              onClick={onProposeClicked}
+              sx={{ gap: '5px !important', boxShadow: 'none !important' }}
+            >
+              {t(getActionButtonText())}
+            </MainButton>
+          </Box>
+        </Box>
       </div>
     </Modal>
   );
