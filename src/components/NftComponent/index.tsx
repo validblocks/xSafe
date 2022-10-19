@@ -1,55 +1,39 @@
-import { Fragment, useCallback } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
+import { motion } from 'framer-motion';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { MainButton } from 'src/components/Theme/StyledComponents';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   setProposeMultiselectSelectedOption,
   setSelectedNftToSend,
 } from 'src/redux/slices/modalsSlice';
-import { useQuery } from 'react-query';
-import { QueryKeys } from 'src/react-query/queryKeys';
-import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { NFTType } from 'src/types/nfts';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { StateType } from 'src/redux/slices/accountSlice';
-import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { useTheme } from 'styled-components';
+import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
+import { useTranslation } from 'react-i18next';
+import { useContractNFTs } from 'src/utils/useContractNFTs';
+import { Fragment } from 'react';
 import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
+import { NftCollectionTitle } from './NftCollectionTitle';
+import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
+import * as Styled from './styled';
 
-function NftCompmonent() {
+function NftComponent() {
   const theme: any = useTheme();
+  const { t } = useTranslation();
   const dispatch = useDispatch();
-  const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
   const { isInReadOnlyMode } = useOrganizationInfoContext();
-
-  const fetchNFTs = useCallback(
-    () => ElrondApiProvider.fetchOrganizationNFTs(currentContract?.address),
-    [currentContract],
-  );
+  const navbarSearchParam = useSelector(navbarSearchSelector);
 
   const {
-    data: nftList,
-    isFetching: isFetchingNFTs,
-    isLoading: isLoadingNFTs,
-    isError: isErrorOnFetchNFTs,
-  } = useQuery(
-    [
-      QueryKeys.ALL_ORGANIZATION_NFTS,
-    ],
-    () => fetchNFTs(),
-    {
-      ...USE_QUERY_DEFAULT_CONFIG,
-      keepPreviousData: true,
-    },
-  );
-
-  const nftListSorted = nftList?.sort((a: NFTType, b: NFTType) => a.collection.localeCompare(b.collection));
+    isFetchingNFTs,
+    isLoadingNFTs,
+    isErrorOnFetchNFTs,
+    contractNfts,
+  } = useContractNFTs({ withSearchFilter: true, searchParam: navbarSearchParam });
 
   const handleOptionSelected = (option: ProposalsTypes, nft: any) => {
     dispatch(setProposeMultiselectSelectedOption({ option }));
@@ -62,14 +46,14 @@ function NftCompmonent() {
   };
 
   if (isErrorOnFetchNFTs) {
-    return <div>Error while retrieving account NFTs</div>;
+    return <ErrorOnFetchIndicator dataName="NFT" />;
   }
 
   if (isLoadingNFTs || isFetchingNFTs) {
-    return <LoadingDataIndicator dataName="nft" />;
+    return <LoadingDataIndicator dataName="NFT" />;
   }
 
-  if (nftListSorted?.length === 0) {
+  if (contractNfts?.length === 0) {
     return (
       <Grid container>
         <Grid xs={3} item>
@@ -78,7 +62,7 @@ function NftCompmonent() {
             sx={{ height: '300px' }}
           >
             <CardContent>
-              <EmptyList>You don&apos;t have any NFTs yet.</EmptyList>
+              <EmptyList>{ t('No NFTs to show') as string}</EmptyList>
             </CardContent>
           </CardBox>
         </Grid>
@@ -86,28 +70,18 @@ function NftCompmonent() {
     );
   }
 
-  const rewriteNftsCollection = (value: string) => {
-    const categoryNameOfNftsLETTERS = value.slice(0, value.indexOf('-'));
-    const categoryNameOfNftsDIGITS = `(${value.slice(value.indexOf('-') + 1, value.length)})`;
-    return (
-      <Box sx={{ mt: 0.2, mb: 0.2, pl: 1 }}>
-        <span className="font-weight-bold">{categoryNameOfNftsLETTERS}</span> <span className="collectionLight">{categoryNameOfNftsDIGITS}</span>
-      </Box>
-    );
-  };
-
   return (
     <Box>
-      { (
-        <Grid container spacing={2}>
-          {nftListSorted?.map((item: NFTType, index: number) => (
+      {(
+        <Grid layout exit={{ opacity: 0 }} component={motion.div} container spacing={2}>
+          {contractNfts?.map((item: NFTType, index: number) => (
             <Fragment key={item.identifier}>
               {((index > 0 &&
-                item.collection !== nftListSorted[index - 1].collection) ||
+                item.collection !== contractNfts[index - 1].collection) ||
                 index === 0) && (
                 <CollectionName>
                   <TextDivider>
-                    {rewriteNftsCollection(item.collection)}
+                    {<NftCollectionTitle value={item.collection} />}
                   </TextDivider>
                 </CollectionName>
               )}
@@ -117,6 +91,11 @@ function NftCompmonent() {
                 md={4}
                 lg={3}
                 item
+                component={motion.div}
+                layout
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0 }}
                 key={item.name}
                 sx={{
                   minWidth: '260px',
@@ -148,14 +127,7 @@ function NftCompmonent() {
                       alt="nft"
                     />
                   </Box>
-                  <CardContent
-                    sx={{
-                      p: '.5rem .8rem 0.95rem !important',
-                      position: 'relative',
-                      overflow: 'hidden',
-                      height: '93px',
-                    }}
-                  >
+                  <Styled.NftCardContent>
                     <Typography
                       gutterBottom
                       variant="h6"
@@ -164,23 +136,13 @@ function NftCompmonent() {
                     >
                       {item.name}
                     </Typography>
-                    <MainButton
+                    <Styled.SendNFTButton
                       disabled={isInReadOnlyMode}
-                      sx={{
-                        width: '100%',
-                        fontWeight: '500 !important',
-                        boxShadow: 'none !important',
-                        mt: '.35rem',
-                        fontSize: '13px !important',
-                      }}
-                      onClick={() => {
-                        handleOptionSelected(ProposalsTypes.send_nft, item);
-                      }
-                      }
+                      onClick={() => handleOptionSelected(ProposalsTypes.send_nft, item)}
                     >
                       Send NFT
-                    </MainButton>
-                  </CardContent>
+                    </Styled.SendNFTButton>
+                  </Styled.NftCardContent>
                 </CardBox>
               </Grid>
             </Fragment>
@@ -191,4 +153,4 @@ function NftCompmonent() {
   );
 }
 
-export default NftCompmonent;
+export default NftComponent;

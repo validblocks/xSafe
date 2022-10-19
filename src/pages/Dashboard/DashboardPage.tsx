@@ -19,6 +19,7 @@ import { dAppName } from 'src/config';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
+import * as Styled from './styled';
 
 function Dashboard() {
   const theme: any = useTheme();
@@ -41,7 +42,7 @@ function Dashboard() {
   }
 
   const deployButton = (
-    <Button
+    <Styled.CreateNewSafeButton
       disabled={isWalletProvider}
       onClick={() => setShowDeployMultisigModal(true)}
       sx={{
@@ -60,7 +61,7 @@ function Dashboard() {
       }}
     >
       {t('Create a new Safe')}
-    </Button>
+    </Styled.CreateNewSafeButton>
   );
 
   const deployButtonContainer = isWalletProvider ? (
@@ -175,21 +176,11 @@ function Dashboard() {
                       >{t('Easily load your Safe using your Safe address.')}
                       </Text>
                     </Box>
-                    <Box>
-                      <Button
-                        onClick={() => setShowAddMultisigModal(true)}
-                        sx={{
-                          width: '100%',
-                          borderRadius: 0,
-                          padding: '1.5rem',
-                          boxSizing: 'border-box',
-                          borderTop: '1px solid',
-                          borderColor: 'rgba(76, 47, 252, 0.03)',
-                        }}
-                      >
-                        {t('Load an existing Safe')}
-                      </Button>
-                    </Box>
+                    <Styled.LoadSafeButton
+                      onClick={() => setShowAddMultisigModal(true)}
+                    >
+                      {t('Load an existing Safe')}
+                    </Styled.LoadSafeButton>
                   </Grid>
                 </Grid>
               </Grid>

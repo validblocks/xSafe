@@ -3,7 +3,7 @@ import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import { Box, Typography } from '@mui/material';
 import CopyButton from 'src/components/CopyButton';
 import { toSvg } from 'jdenticon';
-import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
+import { AnchorPurple } from 'src/components/Layout/Navbar/navbar-style';
 import { network } from 'src/config';
 import { useTheme } from 'styled-components';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
@@ -40,18 +40,17 @@ const MemberPresentationWithPhoto = ({
               charactersLeftAfterTruncation,
             )}{' '}
           </Box>
-          <CopyButton className="ml-2 copyIcon" text={memberAddress?.toString()} />
-          <Anchor
+          <CopyButton className="ml-2" color="purple" text={memberAddress?.toString()} />
+          <AnchorPurple
             href={`${
               network.explorerAddress
             }/accounts/${memberAddress?.toString()}`}
             target="_blank"
             rel="noreferrer"
-            color="#4c2ffc8a"
             className="ml-2"
           >
             <ContentPasteGoIcon sx={{ color: theme.palette.button.paste }} />
-          </Anchor>
+          </AnchorPurple>
         </Box>
       </Box>
     </div>

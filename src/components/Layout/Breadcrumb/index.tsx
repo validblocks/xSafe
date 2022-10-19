@@ -1,21 +1,35 @@
-import { useState, useEffect } from 'react';
-import Breadcrumbs from '@mui/material/Breadcrumbs';
-import { useLocation, Link } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { useLocation } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { Box, OutlinedInput } from '@mui/material';
 import { useTheme } from 'styled-components';
 import { FormSearchInput } from 'src/components/Theme/StyledComponents';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import { useDispatch } from 'react-redux';
+import { setNavbarSearchParam } from 'src/redux/slices/searchSlice';
+import useDebounce from 'src/utils/useDebounce';
 import breadcrumbItems from './BreadcrumbItems';
+import { ReactComponent as SearchIcon } from '../../../assets/img/searchFilled.svg';
+import * as Styled from './styled/index';
 
 function PageBreadcrumbs() {
-  const theme: any = useTheme();
+  const dispatch = useDispatch();
+  const location = useLocation();
   const [breadcrumb, setBreadcrumb] = useState([]);
 
-  const location = useLocation();
   useEffect(() => {
     setBreadcrumb(breadcrumbItems[location.pathname.substring(1)]);
   }, [location.pathname]);
+
+  const [searchParam, setSearchParam] = useState('');
+  const debouncedSearchParam = useDebounce(searchParam, 500);
+
+  const handleSearchInputChange = useCallback(
+    (e: any) => setSearchParam(e.target.value),
+    []);
+
+  useEffect(() => {
+    dispatch(setNavbarSearchParam(debouncedSearchParam));
+  }, [dispatch, debouncedSearchParam]);
 
   // eslint-disable-next-line consistent-return
   const displaySearch = (val: any) => {
@@ -25,8 +39,8 @@ function PageBreadcrumbs() {
           <span>{val}</span>
           <Box component="form" noValidate autoComplete="off">
             <FormSearchInput>
-              <SearchRoundedIcon />
-              <OutlinedInput placeholder="Search..." />
+              <SearchIcon />
+              <OutlinedInput onChange={handleSearchInputChange} placeholder="Search..." />
             </FormSearchInput>
           </Box>
         </Box>
@@ -37,16 +51,19 @@ function PageBreadcrumbs() {
 
   return (
     <div role="presentation">
-      <Breadcrumbs separator="›" aria-label="breadcrumb" sx={{ color: theme.palette.text.primary }}>
-        <Link color="inherit" to={`/multisig/${uniqueContractAddress}`}>
+      <Styled.BreadcrumbsElement
+        separator="›"
+        aria-label="breadcrumb"
+      >
+        <Styled.MainBreadcrumbsLink to={`/multisig/${uniqueContractAddress}`}>
           Home
-        </Link>
+        </Styled.MainBreadcrumbsLink>
         {breadcrumb?.map((el: any) => (
-          <Link key={el.link} color="inherit" to={el.link}>
+          <Styled.SecondaryBreadcrumbsLink key={el.link} to={el.link}>
             {displaySearch(el.name)}
-          </Link>
+          </Styled.SecondaryBreadcrumbsLink>
         ))}
-      </Breadcrumbs>
+      </Styled.BreadcrumbsElement>
     </div>
   );
 }

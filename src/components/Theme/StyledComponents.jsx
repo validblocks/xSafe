@@ -40,13 +40,27 @@ export const MainButton = styled(Button)`
 }
 `;
 
+export const MainButtonNoShadow = styled(MainButton)`
+&&& {
+  box-shadow: none;
+}
+`;
+
 export const NewTransactionButton = styled(MainButton)`
 &&& {
   padding: ${(props) => props.theme.padding.value.md}
-            25px
-            ${(props) => props.theme.padding.value.sm};
+  25px
+  ${(props) => props.theme.padding.value.sm};
   font-size: 15px;
   font-weight: ${(props) => props.theme.font.weight.md};
+}
+`;
+
+export const ChangeQuorumButton = styled(NewTransactionButton)`
+&&& {
+  padding: ${(props) => props.theme.padding.value.md}
+  25px
+  ${(props) => props.theme.padding.value.sm};
 }
 `;
 
@@ -426,11 +440,9 @@ export const ModalContainer = styled(Modal)`
     left: calc(50% - 15px) !important;
     };
   }
-
   & .modal-content {
     background-color: ${(props) => props.theme.palette.background.secondary};
   }
-
 }
 `;
 

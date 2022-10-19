@@ -27,11 +27,11 @@ const MultisigCreationFormContext = createContext<IMultisigCreationFormContextTy
 export const useMultisigCreationFormContext = () =>
   useContext(MultisigCreationFormContext);
 
-function DeployStepsModal({
+const DeployStepsModal = ({
   show,
   handleClose,
   setNewContracts,
-}: DeployStepsModalType) {
+}: DeployStepsModalType) => {
   const steps = [
     <DeployMultisigStepOne
       handleClose={handleClose}
@@ -66,6 +66,6 @@ function DeployStepsModal({
       </Modal>
     </MultisigCreationFormContext.Provider>
   );
-}
+};
 
 export default DeployStepsModal;

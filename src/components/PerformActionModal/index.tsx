@@ -1,5 +1,3 @@
-import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal, Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { mutatePerformAction } from 'src/contracts/MultisigContract';
@@ -10,6 +8,9 @@ import {
 import { gasLimit as defaultGasLimit, maxGasLimit } from 'src/config';
 import { MultisigActionType } from 'src/types/MultisigActionType';
 import { useState } from 'react';
+import { Box } from '@mui/system';
+import { InputsContainer, MainButton } from '../Theme/StyledComponents';
+import ModalCardTitle from '../Layout/Modal/ModalCardTitle';
 
 export const gasLimits = {
   [MultisigActionType.Nothing]: 10_000_000,
@@ -92,49 +93,37 @@ const PerformActionModal = ({
       animation={false}
       centered
     >
-      <div className="card">
-        <div className="card-body">
-          <div className="modal-control-container">
-            <p className="h3 mb-spacer text-center">Perform</p>
-            <div className="group-center ">
-              <label htmlFor="gasLimit">Select gas limit:</label>
-              <Form.Control
-                id="gasLimit"
-                className="form-control"
-                value={selectedGasLimit}
-                autoComplete="off"
-                isInvalid={error != null}
-                onChange={handleChangeGasLimit}
-              />
-              {error != null && (
-                <Form.Control.Feedback type="invalid">
-                  {error}
-                </Form.Control.Feedback>
-              )}
-            </div>
-          </div>
-          <div>
-            <div className="modal-action-btns">
-              <button
-                onClick={handleClose}
-                className="btn btn-primary btn-light "
-              >
-                <FontAwesomeIcon icon={faTimes} />
-                Cancel
-              </button>
+      <ModalCardTitle title="Perform" handleClose={handleClose} />
+      <Box sx={{ padding: '21px 40px 40px' }}>
+        <InputsContainer>
+          <Form.Control
+            id="gasLimit"
+            className="form-control"
+            value={selectedGasLimit}
+            autoComplete="off"
+            isInvalid={error != null}
+            onChange={handleChangeGasLimit}
+          />
+          <label htmlFor="gasLimit">Select gas limit</label>
+          <span className="errorMessage">{error}</span>
+        </InputsContainer>
+        <div className="modal-action-btns mt-0">
+          <MainButton
+            onClick={handleClose}
+            sx={{ boxShadow: 'none !important' }}
+          >
+            Cancel
+          </MainButton>
 
-              <button
-                onClick={onPerformAction}
-                disabled={error != null}
-                className="btn btn-primary"
-              >
-                <FontAwesomeIcon icon={faCheck} />
-                Perform
-              </button>
-            </div>
-          </div>
+          <MainButton
+            onClick={onPerformAction}
+            disabled={error != null}
+            sx={{ boxShadow: 'none !important' }}
+          >
+            Perform
+          </MainButton>
         </div>
-      </div>
+      </Box>
     </Modal>
   );
 };

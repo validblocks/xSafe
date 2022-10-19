@@ -10,6 +10,9 @@ export const theme = createTheme({
     },
     black: {
       main: '#08041D',
+      reducedOpacity: 'rgba(0, 0, 0, 0.6)',
+      minorlyReducedOpacity: 'rgba(0, 0, 0, 0.87)',
+      mediumReducedOpacity: 'rgba(0, 0, 0, 0.54)',
     },
     background: {
       main: '#4c2FFC1a',
@@ -41,7 +44,8 @@ export const theme = createTheme({
       main: '#e51a3e',
     },
     anchor: {
-      main: '#4c2FFC8a',
+      main: '#4c2ffc8a',
+      secondary: '#6C757D',
     },
     divider: {
       main: '#DFDFE8',
@@ -73,6 +77,10 @@ export const theme = createTheme({
     main: '#4c2FFC2e',
     secondary: '#4c2FFC36',
     reducedOpacity: '0px 14px 24px rgba(76, 47, 252, 0.03)',
+    reducedOpacityIcons: '0 5px 10px rgba(76, 47, 252, 0.03)',
+  },
+  hover: {
+    table: { rows: '#F5F7FF' },
   },
   typography: {
     fontFamily: [
@@ -100,6 +108,15 @@ export const theme = createTheme({
       lg: 600,
       xl: 700,
       xxl: 800,
+    },
+    size: {
+      xs: '10px',
+      sm: '11px',
+      md: '12px',
+      lg: '13px',
+      xl: '14px',
+      xxl: '15px',
+      xxxl: '16px',
     },
   },
   padding: {
@@ -139,7 +156,8 @@ const _lightThemeConfig = {
       main: '#e51a3e',
     },
     anchor: {
-      main: '#4c2FFC8a',
+      main: '#4c2ffc8a',
+      secondary: '#6C757D',
     },
     divider: {
       main: '#DFDFE8',

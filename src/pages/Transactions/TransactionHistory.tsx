@@ -17,7 +17,7 @@ import {
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { getDate } from 'src/utils/transactionUtils';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
-import { StateType } from 'src/redux/slices/accountSlice';
+import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { parseInt } from 'lodash';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
@@ -80,10 +80,7 @@ const TransactionHistory = () => {
       globalIntervalEndTimestamp,
     ],
     () => fetchTransactions(cursor),
-    {
-      ...USE_QUERY_DEFAULT_CONFIG,
-      keepPreviousData: true,
-    },
+    USE_QUERY_DEFAULT_CONFIG,
   );
 
   const queryClient = useQueryClient();

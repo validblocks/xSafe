@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import QrCode from 'qrcode.react';
 import { Modal } from 'react-bootstrap';
-import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { Typography, Box } from '@mui/material';
 import { useTheme } from 'styled-components';
 import CopyButton from '../CopyButton';
 import { MainButton, DepositDoneAction } from '../Theme/StyledComponents';
 import { Text } from '../StyledComponents/StyledComponents';
+import * as Styled from '../Utils/styled/index';
 
 const ReceiveModal = ({
   showQrFromSidebar,
@@ -35,7 +35,6 @@ const ReceiveModal = ({
 
   return (
     <>
-
       {showQrFromSidebar === undefined && (
         <MainButton
           key="0"
@@ -49,9 +48,10 @@ const ReceiveModal = ({
               fontSize: '14px !important',
               marginTop: '15px !important',
             }),
+            fontWeight: '500 !important',
           }}
         >
-          <QrCode2Icon sx={{ marginRight: '5px', fontSize: '16px' }} />
+          <Styled.QrCodeReceivePurple />
           Receive
         </MainButton>
       )}
@@ -82,7 +82,7 @@ const ReceiveModal = ({
                   borderColor: '#4c2ffc !important',
                 }}
               >
-                <CopyButton text={address} />
+                <CopyButton text={address} className="icon-purple" />
               </Typography>
             </div>
             <div className="modal-action-btns">

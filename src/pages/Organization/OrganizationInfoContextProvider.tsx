@@ -1,5 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { transactionServices, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import {
+  SignedTransactionsBodyType,
+  transactionServices,
+  useGetAccountInfo,
+  useGetLoginInfo,
+} from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSafeName } from 'src/redux/slices/safeNameSlice';
@@ -13,8 +18,8 @@ import {
   currentMultisigTransactionIdSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
 import { uniqueContractAddress, uniqueContractName } from 'src/multisigConfig';
-import { safeNameStoredSelector } from 'src/redux/selectors/safeNameSelector';
-import { StateType } from 'src/redux/slices/accountSlice';
+import { currentSafeNameSelector } from 'src/redux/selectors/safeNameSelector';
+import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { useQuery, useQueryClient } from 'react-query';
@@ -22,6 +27,8 @@ import { QueryKeys } from 'src/react-query/queryKeys';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { parseMultisigAddress } from 'src/utils/addressUtils';
+import { setIntervalEndTimestamp } from 'src/redux/slices/transactionsSlice';
+import { toastDisappearDelay } from 'src/helpers/constants';
 import { OrganizationInfoContextType } from './types';
 
 type Props = {
@@ -49,7 +56,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const queryClient = useQueryClient();
   const { address } = useGetAccountInfo();
   const { isLoggedIn } = useGetLoginInfo();
-  const safeName = useSelector(safeNameStoredSelector);
+  const safeName = useSelector(currentSafeNameSelector);
 
   const fetchMemberDetails = useCallback((isMounted: boolean) => {
     Promise.all([
@@ -68,8 +75,11 @@ function OrganizationInfoContextProvider({ children }: Props) {
   }, []);
 
   useEffect(() => {
-    dispatch(setSafeName(uniqueContractName?.length > 0 ? uniqueContractName : safeName));
-  }, [dispatch, safeName, uniqueContractName]);
+    dispatch(setSafeName({
+      address: currentContract?.address,
+      newSafeName: uniqueContractName?.length > 0 ? uniqueContractName : safeName,
+    }));
+  }, [currentContract?.address, dispatch, safeName]);
 
   const fetchNftCount = useCallback(
     () => ElrondApiProvider.fetchOrganizationNFTCount(currentContract?.address), [currentContract?.address],
@@ -134,7 +144,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
     return () => {
       isMounted = false;
     };
-  }, [address, currentContract, currentContract?.address, refetchNftCount]);
+  }, [address, currentContract, currentContract?.address, fetchMemberDetails, refetchNftCount]);
 
   useEffect(() => {
     let isMounted = true;
@@ -161,6 +171,11 @@ function OrganizationInfoContextProvider({ children }: Props) {
 
   transactionServices.useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
+    onTimedOut: () => {
+      setTimeout(() => {
+        transactionServices.removeSignedTransaction(currentMultisigTransactionId);
+      }, toastDisappearDelay);
+    },
     onSuccess: () => {
       fetchMemberDetails(true);
 
@@ -169,10 +184,28 @@ function OrganizationInfoContextProvider({ children }: Props) {
           QueryKeys.ADDRESS_EGLD_TOKENS,
           QueryKeys.ADDRESS_ESDT_TOKENS,
           QueryKeys.ALL_ORGANIZATION_NFTS,
+          QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
         ],
       );
+
+      dispatch(setIntervalEndTimestamp(Math.floor(new Date().getTime() / 1000)));
+      setTimeout(() => {
+        transactionServices.removeSignedTransaction(currentMultisigTransactionId);
+      }, toastDisappearDelay);
     },
   });
+
+  const { pendingTransactionsArray } = transactionServices.useGetPendingTransactions();
+
+  useEffect(() => {
+    pendingTransactionsArray.forEach((pendingTransaction) => {
+      const [sessionId, { transactions }] = pendingTransaction;
+      if (transactions
+        .every((transaction: SignedTransactionsBodyType) => transaction.status === 'success')) {
+        setTimeout(() => transactionServices.removeSignedTransaction(sessionId), toastDisappearDelay);
+      }
+    });
+  }, [pendingTransactionsArray]);
 
   return (
     <OrganizationInfoContext.Provider

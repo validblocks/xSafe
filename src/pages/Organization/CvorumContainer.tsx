@@ -1,10 +1,11 @@
 import { Box, Divider } from '@mui/material';
 import { useDispatch } from 'react-redux';
-import { MultisigCard, PerformActionButton, Text } from 'src/components/StyledComponents/StyledComponents';
+import { MultisigCard, Text } from 'src/components/StyledComponents/StyledComponents';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
+import { ChangeQuorumButton } from 'src/components/Theme/StyledComponents';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
 const CvorumContainer = () => {
@@ -58,13 +59,13 @@ const CvorumContainer = () => {
         </Box>
         <Divider />
         <Box className="px-4 py-4">
-          <PerformActionButton
+          <ChangeQuorumButton
             disabled={isInReadOnlyMode}
             size="large"
             onClick={onChangeQuorum}
           >
             {t('Change Quorum') as string}
-          </PerformActionButton>
+          </ChangeQuorumButton>
         </Box>
       </MultisigCard>
     </Box>

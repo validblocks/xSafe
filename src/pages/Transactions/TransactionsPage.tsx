@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, MenuItem, SelectChangeEvent, Tab, Tabs } from '@mui/material';
+import { Box, MenuItem, SelectChangeEvent, Tab } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { MainSelect } from 'src/components/Theme/StyledComponents';
@@ -18,6 +18,7 @@ import {
   HISTORY_INTERVALS,
 } from './TransactionHistoryIntervals';
 import TransactionQueue from './TransactionQueue';
+import * as Styled from '../../components/Utils/styled/index';
 
 export interface TabPanelProps {
   children?: React.ReactNode;
@@ -116,14 +117,14 @@ export default function TransactionsPage() {
             alignItems: 'center',
           }}
         >
-          <Tabs
+          <Styled.MainTab
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
             <Tab label="QUEUE" {...a11yProps(0)} sx={{ color: theme.palette.text.secondary }} />
             <Tab label="HISTORY" {...a11yProps(1)} sx={{ color: theme.palette.text.secondary }} />
-          </Tabs>
+          </Styled.MainTab>
           {value === 1 && (
             <Box>
               <MainSelect

@@ -7,7 +7,7 @@ import {
   getTokenPhotoById,
   accountSelector } from 'src/redux/selectors/accountSelector';
 import useTokenPhoto from 'src/utils/useTokenPhoto';
-import { StateType } from 'src/redux/slices/accountSlice';
+import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import { useMemo } from 'react';
 import { Text } from '../StyledComponents/StyledComponents';
