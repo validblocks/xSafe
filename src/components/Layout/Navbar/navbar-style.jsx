@@ -126,11 +126,15 @@ export const DappName = styled.span`
   }
 `;
 
-export const TopMenu = styled(Box)`
-  overflow-y: scroll;
-  height: 100%;
-  z-index: 0;
-`;
+export const TopMenu = styled(Box)(({ theme: _ }) => ({
+  overflowY: 'scroll',
+  height: '100%',
+  zndex: 0,
+  '& a.active svg > path': {
+    fill: _.palette.primary.main,
+    fillOpacity: 1,
+  },
+}));
 
 export const ListItem = styled(ListItemButton)`
 &&& {
@@ -209,6 +213,9 @@ export const MenuAccordion = styled(AccordionSummary)`
 export const AccordionDetail = styled(AccordionDetails)`
   .link-hover {
     padding-left: 43px;
+  }
+  & a.active svg > path {
+    fill: red;
   }
 `;
 
