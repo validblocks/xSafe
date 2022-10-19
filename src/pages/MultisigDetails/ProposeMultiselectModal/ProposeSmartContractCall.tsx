@@ -257,7 +257,7 @@ const ProposeSmartContractCall = ({
               marginBottom: 0,
               fontSize: '15px',
               left: '-1px',
-              color: theme.palette.text.primary,
+              color: theme.palette.text.secondary,
             },
             '& .MuiOutlinedInput-input': {
               color: theme.palette.text.primary,

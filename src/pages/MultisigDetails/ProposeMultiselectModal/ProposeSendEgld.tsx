@@ -189,7 +189,7 @@ const ProposeSendEgld = ({
               marginBottom: 0,
               fontSize: '15px',
               left: '-1px',
-              color: theme.palette.text.primary,
+              color: theme.palette.text.secondary,
             },
             '& .MuiOutlinedInput-root fieldset': {
               transition: 'all .3s linear',

@@ -231,8 +231,9 @@ export const InputsContainer = styled(Box)`
     padding: 0 3px;
     top: -10px;
     left: 10px;
-    color: ${(props) => props.theme.palette.text.primary};
+    color: ${(props) => props.theme.palette.text.secondary};
     font-size: 12px;
+    background-color: ${(props) => props.theme.palette.background.secondary};
   };
   & input.form-control.is-invalid ~ label {
     color: ${(props) => props.theme.palette.danger.main};

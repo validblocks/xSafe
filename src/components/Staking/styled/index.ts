@@ -49,7 +49,7 @@ export const UndelegationAccordionSummary = styled(AccordionSummary)(
 
 export const UndelegationGridContainer = styled(Grid)(({ theme }) => ({
   padding: '0.5rem 1.25rem 0.55rem',
-  backgroundColor: theme.palette.background.secondary,
+  backgroundColor: 'theme.palette.background.secondary',
   width: '100% !important',
   border: `solid 1px ${theme.palette.borders.expand}`,
   borderRadius: '10px',
