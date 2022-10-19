@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef, createContext, useContext, useMemo } from 'react';
-import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Box, Typography, Grid,
 } from '@mui/material';
@@ -28,6 +28,7 @@ import {
 import TotalBalance from '../TotalBalance';
 import UnknownOwner from './UnknownOwner';
 import * as Styled from '../../../Utils/styled/index';
+import { ActionIconsBox } from './styled/index';
 
 interface IDeployStepsContextType {
   showDeployMultisigModalState: CustomStateType<boolean>;
@@ -175,24 +176,16 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
               </Box>
               )}
             </Box>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                mb: 0.7,
-              }}
-            >
+            <ActionIconsBox>
               <Box
                 onClick={handleQrModal}
                 sx={{
-                  mr: 1.7,
-                  ml: 0.2,
                   cursor: 'pointer',
                 }}
               >
                 <Styled.QrCodeReceive />
               </Box>
-              <Box sx={{ mr: 1.85, ml: 0.35 }}>
+              <Box>
                 <CopyButton text={currentContract?.address} color="grey" />
               </Box>
               <Box>
@@ -201,10 +194,10 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <ContentPasteGoOutlinedIcon />
+                  <SearchIcon />
                 </Anchor>
               </Box>
-            </Box>
+            </ActionIconsBox>
             <ReceiveModal
               showQrFromSidebar={showQr}
               address={currentContract?.address}
