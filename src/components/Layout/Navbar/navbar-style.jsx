@@ -140,7 +140,7 @@ export const ListItem = styled(ListItemButton)`
     opacity: 0;
     transition: opacity 300ms linear;
   }
-  & .MuiListItemIcon-root {
+  & .MuiListItemIcon-root, & .MuiListItemIcon-root svg > path {
     transition: all 300ms linear;
   }
   &:hover {

@@ -26,6 +26,10 @@
     display: block;
     background: #e4eaff;
     color: #4c2ffc !important;
+    .MuiListItemIcon-root svg > path {
+      fill: #4c2ffc;
+      fill-opacity: 1;
+    }
   }
 }
 @media (max-width: 600px) {
