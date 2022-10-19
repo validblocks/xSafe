@@ -53,7 +53,7 @@ export function FormikInputField({
               marginBottom: 0,
               fontSize: '15px',
               left: '-1px',
-              color: theme.palette.text.primary,
+              color: theme.palette.text.secondary,
             },
             fieldset: {
               transition: 'all .3s linear',
