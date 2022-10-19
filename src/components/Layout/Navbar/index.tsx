@@ -99,7 +99,18 @@ const MiniDrawer = () => {
                 <Accordion
                   expanded={expanded === `${el.id}`}
                   onChange={handleChange(`${el.id}`)}
-                  sx={{ boxShadow: 'none', backgroundColor: theme.palette.background.hover }}
+                  sx={{ boxShadow: 'none',
+                    backgroundColor: theme.palette.background.hover,
+                    '& .MuiCollapse-entered': {
+                      display: 'block !important',
+                      '& .active': {
+                        display: 'block',
+                        '& div': {
+                          backgroundColor: `${theme.palette.background.hover} !important`,
+                        },
+                      },
+                    },
+                  }}
                 >
                   <MenuAccordion
                     aria-controls="panel1a-content"

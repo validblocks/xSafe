@@ -1,7 +1,6 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CopyAllIcon from '@mui/icons-material/CopyAll';
-import { Link } from '@mui/material';
 import { useTheme } from 'styled-components';
 import { MouseEvent, useState } from 'react';
 import copyTextToClipboard from './helpers/copyToClipboard';
@@ -14,6 +13,7 @@ interface CopyButtonType {
 }
 
 const CopyButton = ({ text, color = '', className = '' }: CopyButtonType) => {
+  const theme: any = useTheme();
   const [copyResult, setCopyResut] = useState({
     default: true,
     success: false,

@@ -67,11 +67,11 @@ const DeployMultisigStepOne = ({
       >
         <CloseRoundedIcon />
       </IconButton>
-      <Text pl={5} width="100%" textAlign={'left'} py={2} fontSize={24} borderBottom={'1px solid #eee'}>
+      <Text pl={5} width="100%" textAlign={'left'} py={2} fontSize={24} borderBottom={`1px solid ${theme.palette.borders.secondary}`}>
         {t('Multisig Deployment') as string}
       </Text>
       <Box px={5}>
-        <Box mt={1} border={'1px solid #eee'} borderRadius={'10px'} padding={'1rem'}>
+        <Box mt={1} border={`1px solid ${theme.palette.borders.secondary}`} borderRadius={'10px'} padding={'1rem'}>
           <Text
             width="100%"
             color={theme.palette.grey['700']}
@@ -96,6 +96,7 @@ const DeployMultisigStepOne = ({
                 fullWidth
                 placeholder="Complete Contract Name"
                 onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setName(e.target.value)}
+                sx={{ color: theme.palette.text.primary }}
               />
             </Box>
           </Box>

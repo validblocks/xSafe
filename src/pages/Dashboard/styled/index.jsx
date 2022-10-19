@@ -20,11 +20,12 @@ export const LoadSafeButton = styled(Button)`
 
 export const CreateNewSafeButton = styled(LoadSafeButton)`
 &&& {
-  color: ${(props) => props.theme.palette.background.secondary};
-  background: ${(props) => props.theme.palette.primary.main};
+  color: #fff;
+  background: ${(props) => props.theme.palette.background.button};
   &:hover {
-    color: ${(props) => props.theme.palette.background.secondary};
-    background: ${(props) => props.theme.palette.primary.main};
+    background-color: ${(props) => props.theme.palette.background.button};
+    border-color: ${(props) => props.theme.palette.background.button};
+    color: ${(props) => props.theme.palette.background.white};
   };
 }
 `;

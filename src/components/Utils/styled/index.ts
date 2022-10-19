@@ -9,6 +9,7 @@ import {
 import QrCode2Icon from '@mui/icons-material/QrCode2';
 import { DataGrid } from '@mui/x-data-grid';
 import styled from 'styled-components';
+import _ from 'lodash';
 
 export const ContainerWithPanelsTopBox = styled(Box)(({ theme: _ }) => ({
   '&&&': {
@@ -109,7 +110,7 @@ export const TabContainerBox = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottom: `2px solid ${theme.palette.divider.main} !important`,
+    borderBottom: `2px solid ${theme.palette.divider.secondary} !important`,
   },
 }));
 
@@ -164,6 +165,15 @@ export const MainTab = styled(Tabs)(({ theme: _ }) => ({
     '& .MuiTabs-indicator': {
       backgroundColor: _.palette.primary.main,
       boxShadow: `0px 0px 2px ${_.palette.primary.main}`,
+    },
+  },
+}));
+
+export const MultistepForm = styled(Box)(({ theme }) => ({
+  '&&&': {
+    backgroundColor: theme.palette.background.secondary,
+    '& .MuiSvgIcon-root': {
+      color: theme.palette.text.primary,
     },
   },
 }));

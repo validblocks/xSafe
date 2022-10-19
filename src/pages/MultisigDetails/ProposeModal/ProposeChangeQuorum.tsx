@@ -52,7 +52,6 @@ function ProposeChangeQuorum({
         autoComplete="off"
         onChange={handleNewQuorumSizeChanged}
         style={{
-          width: 250,
           backgroundColor: theme.palette.background.secondary,
           color: theme.palette.text.primary,
           borderColor: theme.palette.borders.secondary,

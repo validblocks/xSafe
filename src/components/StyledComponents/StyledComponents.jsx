@@ -59,6 +59,7 @@ export const Text = styled(Typography)`
 
 export const ModalCardTitleContainer = styled(Box)`
   border-bottom: 1px solid ${(props) => props.theme.palette.divider.secondary};
+  background-color: ${(props) => props.theme.palette.background.secondary};
   border-radius: 10px 10px 0 0;
   padding: 1.5rem 3rem;
 `;

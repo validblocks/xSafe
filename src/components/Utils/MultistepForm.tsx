@@ -1,8 +1,10 @@
 import { Box } from '@mui/material';
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from 'styled-components';
 import { Text } from '../StyledComponents/StyledComponents';
 import { FinalStepActionButton, ChangeStepButton } from '../Theme/StyledComponents';
+import * as Styled from './styled';
 
 interface IMultistepFormProps {
     steps: React.ReactElement[];
@@ -30,6 +32,7 @@ const MultistepForm = ({
   finalActionText = 'Proceed',
   hasFinalActionButton = true,
   emitStepChange = () => null }: IMultistepFormProps) => {
+  const theme: any = useTheme();
   const [activeStepNumber, setActiveStepNumber] = useState(1);
   const [isNextButtonActive, setIsNextButtonActive] = useState(false);
   const [isFinalStepButtonActive, setIsFinalStepButtonActive] = useState(false);
@@ -65,7 +68,7 @@ const MultistepForm = ({
     }),
     [activeStepNumber, proceedToPreviousStep])}
     >
-      <Box>
+      <Styled.MultistepForm sx={{ backgroundColor: theme.palette.background.secondary }} className="modal-content">
         <Box>
           <Text>{activeStepJSX}</Text>
         </Box>
@@ -99,7 +102,7 @@ const MultistepForm = ({
             </FinalStepActionButton>
           )}
         </Box>
-      </Box>
+      </Styled.MultistepForm>
     </MultistepFormContext.Provider>
   );
 };

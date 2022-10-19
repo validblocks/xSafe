@@ -15,7 +15,6 @@ import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationI
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { useTheme } from 'styled-components';
 import { network } from 'src/config';
 import { currentSafeNameSelector } from 'src/redux/selectors/safeNameSelector';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
@@ -41,7 +40,6 @@ const DeployStepsContext = createContext<IDeployStepsContextType>(
 export const useDeployStepsContext = () =>
   useContext(DeployStepsContext);
 const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: string }) => {
-  const theme: any = useTheme();
   const { isLoggedIn } = useGetLoginInfo();
   const safeName = useSelector(currentSafeNameSelector);
   const { isInReadOnlyMode } = useOrganizationInfoContext();

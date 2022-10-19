@@ -171,7 +171,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
         <Box
           sx={{ padding: '21px 40px 40px',
             backgroundColor: theme.palette.background.secondary,
-            borderRadius: '10px' }}
+            borderRadius: '0 0 10px 10px' }}
         >
           {getModalContent()}
           <Box className="modal-action-btns" sx={{ mt: '24px !important' }}>

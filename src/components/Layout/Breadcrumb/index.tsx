@@ -12,6 +12,7 @@ import { ReactComponent as SearchIcon } from '../../../assets/img/searchFilled.s
 import * as Styled from './styled/index';
 
 function PageBreadcrumbs() {
+  const theme: any = useTheme();
   const dispatch = useDispatch();
   const location = useLocation();
   const [breadcrumb, setBreadcrumb] = useState([]);
@@ -54,6 +55,7 @@ function PageBreadcrumbs() {
       <Styled.BreadcrumbsElement
         separator="›"
         aria-label="breadcrumb"
+        sx={{ color: theme.palette.text.primary }}
       >
         <Styled.MainBreadcrumbsLink to={`/multisig/${uniqueContractAddress}`}>
           Home
