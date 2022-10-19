@@ -135,8 +135,10 @@ export const TopMenu = styled(Box)`
 export const ListItem = styled(ListItemButton)`
 &&& {
   transition: all 300ms linear;
-  .pin-icon {
+  .pin-icon * {
+    color: ${(props) => props.theme.palette.primary.main};
     opacity: 0;
+    transition: opacity 300ms linear;
   }
   & .MuiListItemIcon-root {
     transition: all 300ms linear;
@@ -147,13 +149,14 @@ export const ListItem = styled(ListItemButton)`
     .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
-  };
-  &:hover .pin-icon {
-    opacity: 1;
-    color: ${(props) => props.theme.palette.primary.main};
+    .MuiListItemIcon-root svg > path {
+      fill: ${(props) => props.theme.palette.primary.main};
+      fill-opacity: 1;
+    };
   };
   &:hover .pin-icon * {
     color: ${(props) => props.theme.palette.primary.main};
+    opacity: 1;
   };
 }
 `;

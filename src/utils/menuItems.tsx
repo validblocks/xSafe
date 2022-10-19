@@ -9,13 +9,14 @@ import MapsHomeWorkRoundedIcon from '@mui/icons-material/MapsHomeWorkRounded';
 import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
-import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
-import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
+import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
+import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 import { AppIdentifiers } from 'src/pages/Marketplace/appIds';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import routeNames from 'src/routes/routeNames';
 import StakeAppThumbnail from 'src/assets/img/StakeAppThumbnail.png';
 import OtherAppThumbnail from 'src/assets/img/OtherAppThumbnail.png';
+import { ReactComponent as StakingIcon } from '../assets/img/staking.svg';
 
 export type MenuItem = {
   name: string;
@@ -38,7 +39,7 @@ export const preinstalledApps: MarketplaceApp[] = [
     name: 'Marketplace',
     link: 'marketplace',
     id: AppIdentifiers.Marketplace,
-    icon: <GetAppRoundedIcon />,
+    icon: <StorefrontOutlinedIcon />,
     description: 'Boost your user experience by installing apps with one click.',
     imageUrl: StakeAppThumbnail,
     isInstallable: true,
@@ -51,7 +52,7 @@ export const availableApps: MarketplaceApp[] = [
     link: 'stake',
     id: AppIdentifiers.Staking,
     description: 'Stake your tokens, secure the network and earn rewards.',
-    icon: <DiamondIcon />,
+    icon: <StakingIcon />,
     imageUrl: StakeAppThumbnail,
     isInstallable: true,
   },
@@ -77,12 +78,12 @@ export const availableApps: MarketplaceApp[] = [
 
 const topItems: MenuItem[] = [
   {
-    name: 'Home',
+    name: 'Dashboard',
     link: uniqueContractAddress
       ? `/multisig/${uniqueContractAddress}`
       : routeNames.welcome,
     id: 'home-menu-item',
-    icon: <HomeRoundedIcon />,
+    icon: <GridViewOutlinedIcon />,
   },
   {
     name: 'Assets',
@@ -156,10 +157,10 @@ const bottomItems = [
 
 const mobileBottomItems = [
   {
-    name: 'Home',
+    name: 'Dashboard',
     link: `/multisig/${uniqueContractAddress}`,
     id: 'home-menu-item',
-    icon: <HomeRoundedIcon />,
+    icon: <GridViewOutlinedIcon />,
   },
   {
     name: 'Assets',
