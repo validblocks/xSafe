@@ -129,7 +129,7 @@ export const DappName = styled.span`
 export const TopMenu = styled(Box)(({ theme: _ }) => ({
   overflowY: 'scroll',
   height: '100%',
-  zndex: 0,
+  zIndex: 0,
   '& a.active svg > path': {
     fill: _.palette.primary.main,
     fillOpacity: 1,
