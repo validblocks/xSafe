@@ -214,9 +214,6 @@ export const AccordionDetail = styled(AccordionDetails)`
   .link-hover {
     padding-left: 43px;
   }
-  & a.active svg > path {
-    fill: red;
-  }
 `;
 
 export const BottomMenu = styled(List)`
