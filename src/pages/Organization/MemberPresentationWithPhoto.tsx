@@ -1,5 +1,5 @@
 import { Address } from '@elrondnetwork/erdjs/out';
-import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
+import SearchIcon from '@mui/icons-material/Search';
 import { Box, Typography } from '@mui/material';
 import CopyButton from 'src/components/CopyButton';
 import { toSvg } from 'jdenticon';
@@ -47,7 +47,7 @@ const MemberPresentationWithPhoto = ({
             rel="noreferrer"
             className="ml-2"
           >
-            <ContentPasteGoIcon />
+            <SearchIcon />
           </AnchorPurple>
         </Box>
       </Box>
