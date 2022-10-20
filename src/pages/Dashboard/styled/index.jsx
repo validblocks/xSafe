@@ -7,13 +7,13 @@ export const LoadSafeButton = styled(Button)`
   width: 100%;
   height: 64px;
   padding: 23px 24px 19px;
-  color: ${(props) => props.theme.palette.secondary.main};
+  color:${(props) => props.theme.palette.text.primary} ;
   border-radius: 0;
   border-top: solid 1px rgba(76, 47, 252, 0.03);
   transition: all 300ms linear;
+  background: ${(props) => props.theme.palette.button.safe};
   &:hover {
-    color: ${(props) => props.theme.palette.primary.main};
-    background-color: #ded9ff;
+    background-color: ${(props) => props.theme.palette.background.button};
   };
 }
 `;

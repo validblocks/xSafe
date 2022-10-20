@@ -62,6 +62,7 @@ export const theme = createTheme({
       copy: '#1392ff',
       qr: '#08041D',
       paste: '#4c2ffc8a',
+      safe: '#DED9FF',
     },
     svg: {
       secondary: '#08041D',
@@ -272,6 +273,7 @@ export const darkTheme = createTheme({
       copy: '#6c757d',
       qr: '#6c757d',
       paste: '#6c757d',
+      safe: '#281E68',
     },
     svg: {
       secondary: '#fff',

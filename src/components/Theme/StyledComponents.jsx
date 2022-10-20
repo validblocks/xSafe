@@ -26,8 +26,8 @@ export const MainButton = styled(Button)`
   };
 
   &:hover, &.isActive {
-    background-color: ${(props) => props.theme.palette.background.button};
-    border-color: ${(props) => props.theme.palette.background.button};
+    background-color: ${(props) => props.theme.palette.background.button} !important;
+    border-color: ${(props) => props.theme.palette.background.button} !important;
     color: ${(props) => props.theme.palette.background.white};
     & svg path {
       fill: ${(props) => props.theme.palette.background.white};
@@ -424,6 +424,10 @@ export const ModalContainer = styled(Modal)`
     width: 460px;
     top: calc(50% + 8px) !important;
     left: calc(50% - 230px) !important;
+    background-color: ${(props) => props.theme.palette.background.secondary};
+    & .MuiTypography-root {
+      color: ${(props) => props.theme.palette.text.primary} !important;
+    }
   };
   & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
     top: calc(50% + 68px) !important;

@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, Select } from '@mui/material';
 import { MainButtonNoShadow } from 'src/components/Theme/StyledComponents';
 import styled from 'styled-components';
 
@@ -18,4 +18,26 @@ export const DetailsCardContainerBox = styled(Box)`
   width: 100%;
   padding: 12px 0;
   gap: 12px;
+`;
+
+export const StyledSelect = styled(Select)`
+  border-radius: 0.33rem;
+  border: solid 1px ${(props) => props.theme.palette.borders.secondary};
+  &:hover {
+    transition: all 0.3s linear;
+    border-color: ${(props) => props.theme.palette.borders.active};
+  }
+  & .MuiInputBase-input {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  & fieldset {
+    display: none;
+  }
+  & .MuiTypography-root {
+    color: ${(props) => props.theme.palette.text.primary} !important;
+  }
+  & .MuiSvgIcon-root {
+    color: ${(props) => props.theme.palette.text.primary} !important;
+  }
 `;
