@@ -173,7 +173,7 @@ const MiniDrawer = () => {
                           />
                           <ListItemText
                             primary={<Text>{subEl.name}</Text>}
-                            sx={{ opacity: open ? 1 : 0 }}
+                            sx={{ opacity: open ? 1 : 0, ml: open ? '20px' : 0 }}
                           />
                           {el.name === 'Apps' && (
                           <div className="pin-icon">
@@ -229,7 +229,7 @@ const MiniDrawer = () => {
                           />
                           <ListItemText
                             primary={<Text>{subEl.name}</Text>}
-                            sx={{ opacity: open ? 1 : 0 }}
+                            sx={{ opacity: open ? 1 : 0, ml: open ? '20px' : 0 }}
                           />
                           {el.name === 'Apps' && (
                           <div className="pin-icon">

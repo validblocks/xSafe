@@ -126,20 +126,26 @@ export const DappName = styled.span`
   }
 `;
 
-export const TopMenu = styled(Box)`
-  overflow-y: scroll;
-  height: 100%;
-  z-index: 0;
-`;
+export const TopMenu = styled(Box)(({ theme: _ }) => ({
+  overflowY: 'scroll',
+  height: '100%',
+  zIndex: 0,
+  '& a.active svg > path': {
+    fill: _.palette.primary.main,
+    fillOpacity: 1,
+  },
+}));
 
 export const ListItem = styled(ListItemButton)`
 &&& {
   background-color: ${(props) => props.theme.palette.background.secondary};
   transition: all 300ms linear;
-  .pin-icon {
+  .pin-icon * {
+    color: ${(props) => props.theme.palette.primary.main};
     opacity: 0;
+    transition: opacity 300ms linear;
   }
-  & .MuiListItemIcon-root {
+  & .MuiListItemIcon-root, & .MuiListItemIcon-root svg > path {
     transition: all 300ms linear;
     color: ${(props) => props.theme.palette.text.secondary};
   }
@@ -152,13 +158,14 @@ export const ListItem = styled(ListItemButton)`
     .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
-  };
-  &:hover .pin-icon {
-    opacity: 1;
-    color: ${(props) => props.theme.palette.primary.main};
+    .MuiListItemIcon-root svg > path {
+      fill: ${(props) => props.theme.palette.primary.main};
+      fill-opacity: 1;
+    };
   };
   &:hover .pin-icon * {
     color: ${(props) => props.theme.palette.primary.main};
+    opacity: 1;
   };
 }
 `;

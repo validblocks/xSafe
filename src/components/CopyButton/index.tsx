@@ -1,7 +1,7 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import CopyAllIcon from '@mui/icons-material/CopyAll';
 import { useTheme } from 'styled-components';
+import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import { MouseEvent, useState } from 'react';
 import copyTextToClipboard from './helpers/copyToClipboard';
 import * as Styled from '../Utils/styled/index';
@@ -45,7 +45,7 @@ const CopyButton = ({ text, color = '', className = '' }: CopyButtonType) => {
         className={`side-action ${className}`}
       >
         {copyResult.default || !copyResult.success ? (
-          <CopyAllIcon />
+          <ContentCopyRoundedIcon />
         ) : (
           <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
         )}
@@ -60,7 +60,7 @@ const CopyButton = ({ text, color = '', className = '' }: CopyButtonType) => {
         className={`side-action ${className}`}
       >
         {copyResult.default || !copyResult.success ? (
-          <CopyAllIcon />
+          <ContentCopyRoundedIcon />
         ) : (
           <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
         )}
@@ -86,7 +86,7 @@ const CopyButton = ({ text, color = '', className = '' }: CopyButtonType) => {
       }}
     >
       {copyResult.default || !copyResult.success ? (
-        <CopyAllIcon />
+        <ContentCopyRoundedIcon />
       ) : (
         <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
       )}

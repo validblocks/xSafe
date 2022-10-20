@@ -6,7 +6,7 @@ import {
   Link,
   Tabs,
 } from '@mui/material';
-import QrCode2Icon from '@mui/icons-material/QrCode2';
+import QrCodeIcon from '@mui/icons-material/QrCode';
 import { DataGrid } from '@mui/x-data-grid';
 import styled from 'styled-components';
 import _ from 'lodash';
@@ -30,11 +30,11 @@ export const CopyIconLinkPurple = styled(CopyIconLink)(({ theme: _ }) => ({
   },
 }));
 
-export const QrCodeReceive = styled(QrCode2Icon)(({ theme: _ }) => ({
+export const QrCodeReceive = styled(QrCodeIcon)(({ theme: _ }) => ({
   color: _.palette.anchor.secondary,
 }));
 
-export const QrCodeReceivePurple = styled(QrCode2Icon)(({ theme: _ }) => ({
+export const QrCodeReceivePurple = styled(QrCodeIcon)(({ theme: _ }) => ({
   margin: '0 5px 1px 0',
   fontSize: _.font.size.xxxl,
   color: _.palette.primary.main,
