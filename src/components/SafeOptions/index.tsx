@@ -24,7 +24,6 @@ import { useTheme } from 'styled-components';
 import {
   ActiveWallet,
   AddSafe,
-  AddSafeWrapper,
   InactiveWallet,
   SafeOptionsWrapper,
 } from './safe-style';
@@ -92,20 +91,18 @@ const SafeOptions = React.forwardRef((props, ref) => {
   } = useDeployStepsContext();
 
   return (
-    <SafeOptionsWrapper ref={ref} sx={{ zIndex: '100000 !important' }}>
-      <Typography sx={{ p: 2 }} align="left">
+    <SafeOptionsWrapper ref={ref}>
+      <Typography sx={{ p: 2 }} align="left" fontWeight={600}>
         Safe Options
       </Typography>
 
       <Divider />
       {isLoggedIn && (
       <Box>
-        <AddSafeWrapper sx={{ p: 2, pl: 0 }}>
-          <AddSafe onClick={openDeployNewContractModal}>
-            <AddIcon sx={{ mr: 1 }} />
-            Add a new safe
-          </AddSafe>
-        </AddSafeWrapper>
+        <AddSafe onClick={openDeployNewContractModal}>
+          <AddIcon />
+          Add a new safe
+        </AddSafe>
         <Box maxHeight={385} overflow="scroll">
           {
         attachedMultisigContracts.map((fetchedContract: any) => (

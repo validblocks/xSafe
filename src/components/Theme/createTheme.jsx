@@ -20,6 +20,7 @@ export const theme = createTheme({
       white: '#FFFFFF',
       danger: '#e51a3e1a',
       default: '#F4F6FD',
+      purple: '#e4e3fd',
     },
     text: {
       primary: '#FFF',
