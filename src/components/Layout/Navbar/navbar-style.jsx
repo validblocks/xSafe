@@ -131,8 +131,10 @@ export const TopMenu = styled(Box)(({ theme: _ }) => ({
   height: '100%',
   zIndex: 0,
   '& a.active svg > path': {
-    fill: _.palette.primary.main,
-    fillOpacity: 1,
+    color: '#4c2FFC !important',
+  },
+  '& a.active .MuiListItemButton-root': {
+    backgroundColor: `${_.palette.background.menu}`,
   },
 }));
 
@@ -140,12 +142,10 @@ export const ListItem = styled(ListItemButton)`
 &&& {
   background-color: ${(props) => props.theme.palette.background.secondary};
   transition: all 300ms linear;
-  .pin-icon * {
-    color: ${(props) => props.theme.palette.primary.main};
+  .pin-icon {
     opacity: 0;
-    transition: opacity 300ms linear;
   }
-  & .MuiListItemIcon-root, & .MuiListItemIcon-root svg > path {
+  & .MuiListItemIcon-root {
     transition: all 300ms linear;
     color: ${(props) => props.theme.palette.text.secondary};
   }
@@ -158,14 +158,13 @@ export const ListItem = styled(ListItemButton)`
     .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
-    .MuiListItemIcon-root svg > path {
-      fill: ${(props) => props.theme.palette.primary.main};
-      fill-opacity: 1;
-    };
+  };
+  &:hover .pin-icon {
+    opacity: 1;
+    color: ${(props) => props.theme.palette.primary.main};
   };
   &:hover .pin-icon * {
     color: ${(props) => props.theme.palette.primary.main};
-    opacity: 1;
   };
 }
 `;
