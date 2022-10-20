@@ -34,7 +34,7 @@ function Account() {
 
   useEffect(() => {
     setWalletAddress(addressShorthand(address));
-  }, []);
+  }, [isLoggedIn, address]);
 
   useEffect(logoutOnSessionExpire, [isLoggedIn]);
 
@@ -69,7 +69,9 @@ function Account() {
         >
           <Box className="d-flex">
             <BoltIcon />
-            <Typography sx={{ textTransform: loggedIn ? 'lowercase' : 'none' }}>{loggedIn ? walletAddress : 'Connect'}</Typography>
+            <Typography sx={{ textTransform: loggedIn ? 'lowercase' : 'none' }}>
+              {loggedIn ? walletAddress : 'Connect'}
+            </Typography>
           </Box>
         </AccountButton>
       </Box>

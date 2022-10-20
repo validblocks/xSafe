@@ -1,8 +1,7 @@
-import { logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { logout, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toSvg } from 'jdenticon';
 import { theme } from 'src/components/Theme/createTheme';
@@ -11,8 +10,9 @@ import { accessTokenServices } from 'src/services/accessTokenServices';
 import routeNames from 'src/routes/routeNames';
 
 import { network } from 'src/config';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useEffect, useState } from 'react';
+import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
+import { useDispatch } from 'react-redux';
 import {
   ConnectItems,
   Anchor,
@@ -22,25 +22,31 @@ import {
 
 const ConnectedAccount = () => {
   const navigate = useNavigate();
-  const currentContract = useSelector(currentMultisigContractSelector);
+  const dispatch = useDispatch();
 
   const logOut = async () => {
     document.cookie = '';
     accessTokenServices?.services?.maiarId?.removeToken?.();
     localStorage.clear();
     sessionStorage.clear();
-    logout(`${routeNames.multisig}/${currentContract?.address}`, (route) => navigate(route!));
+    logout(`${routeNames.multisig}`, (route) => {
+      navigate(route!);
+      dispatch(setCurrentMultisigContract(''));
+    });
   };
+
   const onDisconnectClick = () => {
     logOut();
   };
   const { address } = useGetAccountInfo();
+  const { isLoggedIn } = useGetLoginInfo();
 
   const [walletAddress, setWalletAddress] = useState('');
 
   useEffect(() => {
     setWalletAddress(addressShorthand(address));
-  }, [address]);
+  }, [address, isLoggedIn]);
+
   return (
     <Box>
       <Box

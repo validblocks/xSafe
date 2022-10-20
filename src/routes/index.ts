@@ -71,12 +71,12 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     path: '/multisig/:multisigAddressParam',
     title: 'Multisig',
     component: MultisigDetailsPage,
+    authenticatedRoute: true,
   },
   multisig: {
     path: '/multisig',
     title: 'Multisig Details',
     component: DashboardPage,
-    authenticatedRoute: true,
   },
   unlock: {
     path: '/unlock',

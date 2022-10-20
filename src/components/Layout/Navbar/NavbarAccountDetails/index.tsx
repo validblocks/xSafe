@@ -98,6 +98,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
       document.removeEventListener('mousedown', handler);
     };
   }, [showDeployMultisigModal]);
+
   return (
     <DeployStepsContext.Provider value={contextValue}>
       <Box>

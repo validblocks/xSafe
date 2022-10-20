@@ -3,16 +3,15 @@ import { List, Accordion, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-import MuiDrawer from '@mui/material/Drawer';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { styled, Theme, CSSObject } from '@mui/material/styles';
-import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
+
 import { Link, useLocation } from 'react-router-dom';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
 import addressShorthand from 'src/helpers/addressShorthand';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';
 import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
@@ -27,49 +26,8 @@ import {
   MenuAccordion,
   AccordionDetail,
   BottomMenu,
+  SidebarDrawer,
 } from './navbar-style';
-import NavbarLogo from './Logo';
-
-const drawerWidth = 255;
-
-const openedMixin = (theme: Theme): CSSObject => ({
-  width: drawerWidth,
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: 'hidden',
-});
-
-const closedMixin = (theme: Theme): CSSObject => ({
-  transition: theme.transitions.create('width', {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: 'hidden',
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up('sm')]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  zIndex: 1,
-  whiteSpace: 'nowrap',
-  boxSizing: 'border-box',
-  ...(open && {
-    ...openedMixin(theme),
-    '& .MuiDrawer-paper': openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    '& .MuiDrawer-paper': closedMixin(theme),
-  }),
-}));
 
 const MiniDrawer = () => {
   const location = useLocation();
@@ -77,6 +35,8 @@ const MiniDrawer = () => {
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const open = true;
+
+  const { isLoggedIn } = useGetLoginInfo();
 
   const [expanded, setExpanded] = useState<string | false>(false);
   const handleChange =
@@ -96,41 +56,36 @@ const MiniDrawer = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Drawer variant="permanent" open={open} className="drawer-wrapper">
-        <BsNavbar className="p-0 py-3 px-4 d-flex align-items-center justify-content-center">
-          <NavbarLogo />
-          <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
-            <Nav className="ml-auto align-items-center" />
-          </Box>
-        </BsNavbar>
-        <Divider />
+      <SidebarDrawer
+        variant="permanent"
+        open={open}
+      >
+
+        {(currentContract?.address || isLoggedIn) && <Divider />}
+        {(currentContract?.address || isLoggedIn) && (
         <List sx={{ mt: 1, pb: 0 }}>
           <AccountDetails uniqueAddress={addressShorthand(currentContract?.address ?? '')} />
           <Divider />
         </List>
+        )}
         {
-          !currentContract?.address && (
-            <Box
-              marginTop={1}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
+          (!currentContract?.address && !isLoggedIn) && (
+            <CenteredBox
+              marginTop={4}
             >
               <VpnKeyRoundedIcon
                 sx={{
                   border: '1px solid #ddd',
-                  fontSize: '36px',
+                  fontSize: '40px',
                   padding: '5px',
                   borderRadius: '100%',
                 }}
                 color="disabled"
               />
-            </Box>
+            </CenteredBox>
           )
         }
-        {currentContract?.address && (
+        {(currentContract?.address || isLoggedIn) && (
           <TopMenu>
             {menuItems.topItems.map((el) => (
               <div key={el.id}>
@@ -403,7 +358,7 @@ const MiniDrawer = () => {
             </Link>
           ))}
         </BottomMenu>
-      </Drawer>
+      </SidebarDrawer>
     </Box>
   );
 };
