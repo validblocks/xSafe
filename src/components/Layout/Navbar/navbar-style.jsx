@@ -195,7 +195,7 @@ export const MenuAccordion = styled(AccordionSummary)`
       color: #4c2FFC !important;
     }
     .MuiTypography-root {
-      color: ${(props) => props.theme.palette.primary.main};
+      color: #4c2ffc !important;
     };
     .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
@@ -234,11 +234,14 @@ export const AccordionDetail = styled(AccordionDetails)`
   }
 `;
 
-export const BottomMenu = styled(List)`
-  bottom: 10px;
-  width: 100%;
-  z-index: 9;
-`;
+export const BottomMenu = styled(List)(({ theme: _ }) => ({
+  bottom: '10px',
+  width: '100%',
+  zIndex: '9',
+  '& a.active .MuiListItemButton-root': {
+    backgroundColor: `${_.palette.background.menu}`,
+  },
+}));
 
 // Mobile Layout
 

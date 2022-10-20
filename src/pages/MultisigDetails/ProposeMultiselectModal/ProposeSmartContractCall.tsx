@@ -230,7 +230,7 @@ const ProposeSmartContractCall = ({
           value={amount}
         />
 
-        <label htmlFor="amount" style={{ color: '#4c2FFC' }}>{t('Amount') as string}</label>
+        <label htmlFor="amount">{t('Amount') as string}</label>
 
         <span className="errorMessage">{amountError}</span>
 

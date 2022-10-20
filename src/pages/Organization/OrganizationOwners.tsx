@@ -89,7 +89,7 @@ const OrganizationsOwnersTable = () => {
               />
             </Avatar>
             <div>
-              <Text fontSize={12}>{truncateInTheMiddle(params.value.address, 12)}</Text>
+              <Text fontSize={12} marginLeft={'10px !important'}>{truncateInTheMiddle(params.value.address, 12)}</Text>
             </div>
           </div>
         ),

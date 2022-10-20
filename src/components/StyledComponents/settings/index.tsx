@@ -14,6 +14,12 @@ export const SettingsInput = styled(TextField)(({ theme }) => ({
       borderColor: theme.palette.borders.active,
     },
   },
+  '& .Mui-disabled': {
+    WebkitTextFillColor: '#6c757d',
+    '& fieldset': {
+      borderColor: `${theme.palette.borders.secondary} !important`,
+    },
+  },
   '& .MuiInputLabel-root,& .MuiInputLabel-formControl': {
     color: theme.palette.text.primary,
   },

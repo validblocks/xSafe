@@ -194,7 +194,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <SearchIcon />
+                  <SearchIcon sx={{ color: '#6C757D !important' }} />
                 </Anchor>
               </Box>
             </ActionIconsBox>

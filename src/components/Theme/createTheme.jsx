@@ -67,6 +67,7 @@ export const theme = createTheme({
       secondary: '#08041D',
     },
     hover: {
+      secondary: 'rgba(0, 0, 0, 0.04)',
       select: '#08041D',
     },
   },
@@ -254,7 +255,7 @@ export const darkTheme = createTheme({
       main: '#e51a3e',
     },
     anchor: {
-      main: '#4c2FFC8a',
+      main: '#6C757D',
     },
     divider: {
       main: '#DFDFE8',
@@ -276,6 +277,7 @@ export const darkTheme = createTheme({
       secondary: '#fff',
     },
     hover: {
+      secondary: '#181626',
       select: '#A9A9A9',
     },
   },

@@ -102,7 +102,7 @@ const DeployMultisigStepOne = ({
           </Box>
           <Box my={1} display={'flex'} flexDirection={'column'}>
             <Text display={'flex'} flex={1} alignItems="center">{t('Initial Owner') as string}:</Text>
-            <Box flex={3} border={'1px solid #eee'} borderRadius={'10px'} p={1}>
+            <Box flex={3} border={`1px solid ${theme.palette.borders.secondary}`} borderRadius={'10px'} p={1}>
               {address ? (
                 <MemberPresentationWithPhoto
                   charactersLeftAfterTruncation={10}

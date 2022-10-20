@@ -428,6 +428,7 @@ export const ModalContainer = styled(Modal)`
   & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
     top: calc(50% + 68px) !important;
     left: 50% !important;
+    background-color: ${(props) => props.theme.palette.background.secondary};
   };
   @media (max-width: 991px) {
     & ~ .MuiPopover-root.UnstakeTokenListOpened > .MuiPaper-root {

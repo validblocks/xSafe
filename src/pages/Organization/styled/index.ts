@@ -20,6 +20,14 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
         opacity: '1',
       },
     },
+    '& .MuiButtonBase-root:hover': {
+      backgroundColor: theme.palette.hover.secondary,
+      '& svg': {
+        fill: '#4C2FFC',
+        opacity: '1 !important',
+        transition: 'none',
+      },
+    },
     '& div': {
       color: theme.palette.text.primary,
     },

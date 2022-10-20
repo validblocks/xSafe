@@ -20,7 +20,7 @@ export const ContainerWithPanelsTopBox = styled(Box)(({ theme: _ }) => ({
 
 export const CopyIconLink = styled(Link)(({ theme: _ }) => ({
   '&.MuiTypography-root': {
-    color: `${_.palette.anchor.secondary} !important`,
+    color: '#6C757D !important',
   },
 }));
 
@@ -31,7 +31,7 @@ export const CopyIconLinkPurple = styled(CopyIconLink)(({ theme: _ }) => ({
 }));
 
 export const QrCodeReceive = styled(QrCodeIcon)(({ theme: _ }) => ({
-  color: _.palette.anchor.secondary,
+  color: '#6C757D !important',
 }));
 
 export const QrCodeReceivePurple = styled(QrCodeIcon)(({ theme: _ }) => ({

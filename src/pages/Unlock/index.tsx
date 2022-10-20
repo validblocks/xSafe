@@ -108,7 +108,7 @@ const Unlock = () => {
           </div>
         </DappUI.LedgerLoginButton>
 
-        <DappUI.WebWalletLoginButton {...loginParams} sx={{ color: '#d2d4 !important' }}>
+        <DappUI.WebWalletLoginButton {...loginParams}>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <IconElrond />
