@@ -13,6 +13,7 @@ import { network } from 'src/config';
 import { useEffect, useState } from 'react';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { useDispatch } from 'react-redux';
+import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountGeneralInfoSlice';
 import {
   ConnectItems,
   Anchor,
@@ -32,6 +33,9 @@ const ConnectedAccount = () => {
     sessionStorage.clear();
     logout(`${routeNames.multisig}`, (route) => {
       navigate(route!);
+      dispatch(setMultisigBalance('0'));
+      dispatch(setTokenTableRows([]));
+      dispatch(setOrganizationTokens([]));
       dispatch(setCurrentMultisigContract(''));
     });
   };

@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import { setAccountData } from 'src/redux/slices/accountGeneralInfoSlice';
 import { setEconomics } from 'src/redux/slices/economicsSlice';
-import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
+import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import routes from 'src/routes';
 import { accessTokenServices } from 'src/services/accessTokenServices';
 import { Main } from 'src/components/Theme/StyledComponents';
@@ -57,6 +57,12 @@ function Layout({ children }: { children: React.ReactNode }) {
         await fetchAccountData();
         const contracts = await getUserMultisigContractsList();
         dispatch(setMultisigContracts(contracts));
+
+        if (contracts.length > 0) {
+          const [firstContract] = contracts;
+          console.log({ contracts });
+          dispatch(setCurrentMultisigContract(firstContract.address));
+        }
       }());
     }
   }, [isLoggedIn, address, isAuthenticated?.isAuthenticated, dispatch]);
