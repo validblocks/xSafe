@@ -16,7 +16,7 @@ import {
 } from 'src/contracts/MultisigContract';
 import { setSelectedPerformedAction } from 'src/redux/slices/modalsSlice';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { DiscardActionButton, PerformActionButton } from 'src/components/StyledComponents/StyledComponents';
+import { DiscardActionButton, PerformActionButton, Text } from 'src/components/StyledComponents/StyledComponents';
 import useTransactionPermissions from './useTransactionPermissions';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
@@ -59,11 +59,11 @@ function TransactionActionsCard({
   };
 
   if (isInReadOnlyMode) {
-    return <div>Actions are not allowed in Read-Only Mode.</div>;
+    return <Text>Actions are not allowed in Read-Only Mode.</Text>;
   }
 
   if (!canSign && !canUnsign && !canPerformAction && !canDiscardAction) {
-    return <div>You are not allowed to make changes on this action.</div>;
+    return <Text>You are not allowed to make changes on this action.</Text>;
   }
 
   return (
