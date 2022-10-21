@@ -21,7 +21,7 @@ const calculatePrice = (balanceDetails: BalanceDetails) => {
     addCommas: false,
   }));
 
-  const tokenPriceValue = parseFloat(tokenPrice.toString());
+  const tokenPriceValue = parseFloat(tokenPrice?.toString());
 
   const price = Number(tokenAmount * tokenPriceValue).toFixed(2);
   return price;
@@ -35,6 +35,6 @@ const DisplayTokenPrice = ({ balanceDetails }: Props) => {
     _setTotalValue(calculatePrice(balanceDetails));
   }, [balanceDetails]);
 
-  return (<AssetValue>{Number(convertedValue).toLocaleString() ?? '0'} {activeCurrency}</AssetValue>);
+  return (<AssetValue>{Number(convertedValue ?? 0).toLocaleString() ?? '0'} {activeCurrency}</AssetValue>);
 };
 export default DisplayTokenPrice;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getIsLoggedIn, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { Box } from '@mui/material';
@@ -15,30 +15,13 @@ function Account() {
   const theme: any = useTheme();
   const { address } = useGetAccountInfo();
   const loggedIn = getIsLoggedIn();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
-  const intervalRef = useRef<any>();
-  const logoutOnSessionExpire = () => {
-    intervalRef.current = setInterval(() => {
-      const loggedIn = getIsLoggedIn();
-      if (!loggedIn && isLoggedIn === true) {
-        window.location.reload();
-      }
-      if (loggedIn) {
-        setIsLoggedIn(true);
-      }
-    }, 2000);
-    return () => {
-      clearInterval(intervalRef.current);
-    };
-  };
+  const [isLoggedIn] = useState<boolean>();
 
   const [walletAddress, setWalletAddress] = useState('');
 
   useEffect(() => {
     setWalletAddress(addressShorthand(address));
-  }, []);
-
-  useEffect(logoutOnSessionExpire, [isLoggedIn]);
+  }, [isLoggedIn, address]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isMainButtonActive, setIsMainButtonActive] = useState(false);
@@ -71,7 +54,9 @@ function Account() {
         >
           <Box className="d-flex">
             <BoltIcon />
-            <Typography sx={{ textTransform: loggedIn ? 'lowercase' : 'none' }}>{loggedIn ? walletAddress : 'Connect'}</Typography>
+            <Typography sx={{ textTransform: loggedIn ? 'lowercase' : 'none' }}>
+              {loggedIn ? walletAddress : 'Connect'}
+            </Typography>
           </Box>
         </AccountButton>
       </Box>

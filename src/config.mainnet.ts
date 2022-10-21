@@ -1,6 +1,6 @@
 import { object, string, InferType } from 'yup';
 
-export const dAppName = 'Multisig';
+export const dAppName = 'xSafe';
 export const decimals = 2;
 export const denomination = 18;
 export const gasPrice = 1000000000;

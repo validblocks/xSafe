@@ -5,10 +5,14 @@ import { useDispatch } from 'react-redux';
 import { Box, Button, Grid } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
-import { storageApi } from 'src/services/accessTokenServices';
+import { accessTokenServices, storageApi } from 'src/services/accessTokenServices';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { getIsProviderEqualTo } from '@elrondnetwork/dapp-core';
+import { getIsProviderEqualTo,
+  refreshAccount,
+  useGetAccountInfo,
+  useGetLoginInfo,
+} from '@elrondnetwork/dapp-core';
 import { providerTypes } from 'src/helpers/constants';
 import { useTheme } from 'styled-components';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
@@ -29,6 +33,20 @@ function Dashboard() {
   const [showAddMultisigModal, setShowAddMultisigModal] = useState(false);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const [invalidMultisigContract, setInvalidMultisigContract] = useState(false);
+
+  const { isLoggedIn } = useGetLoginInfo();
+  const { address } = useGetAccountInfo();
+  const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
+    address,
+    '',
+    isLoggedIn,
+  );
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      refreshAccount();
+    }
+  }, [isLoggedIn, address, isAuthenticated?.isAuthenticated, dispatch]);
 
   async function checkSingleContractValidity() {
     if (uniqueContractAddress || !storageApi) {
@@ -94,7 +112,7 @@ function Dashboard() {
   if (isMultiWalletMode) {
     return (
       <>
-        <Box paddingLeft={3}>
+        <Box>
           { (
             <Grid container gap={3}>
               <Grid item height={'100%'} display={'flex'} flexDirection={'column'} flex={2} justifyContent={'center'}>
@@ -102,8 +120,9 @@ function Dashboard() {
                   <Text fontSize={36} fontWeight={700}>
                     {t(`Welcome to ${dAppName}`)}
                   </Text>
-                  <Text marginY={3} fontSize={16} fontWeight={400}>
-                    {t(`${dAppName} is the first platform for digital assets management built on the Elrond Network.`)}
+                  <Text marginY={2} fontSize={16} fontWeight={400}>
+                    <strong>{dAppName}</strong>
+                    {t(' is the first platform for digital assets management built on the Elrond Network.')}
                   </Text>
                 </Box>
                 <Grid
@@ -121,24 +140,31 @@ function Dashboard() {
                     item
                     flex={1}
                     xs={12}
+                    sm={6}
                     md={6}
                     display={'flex'}
                     flexDirection={'column'}
                     justifyContent={'space-between'}
                   >
-                    <Box sx={{ padding: '2rem 3rem', display: 'flex', flexDirection: 'column' }}>
-                      <Box marginY={'1rem'}><AddRoundedIcon sx={{ color: 'rgba(76, 47, 252, 0.54)',
+                    <Box sx={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
+                      <Box marginY={'12px'}><AddRoundedIcon sx={{ color: 'rgba(76, 47, 252, 0.54)',
                       }}
                       />
                       </Box>
-                      <Text fontSize={24} fontWeight={600} marginY={'1rem'}>{t('Create a new Safe')}</Text>
                       <Text
-                        fontSize={17}
-                        marginY={'1rem'}
+                        fontSize={22}
+                        lineHeight={'30px'}
+                        fontWeight={600}
+                        marginY="8px"
+                      >{t('Create Safe')}
+                      </Text>
+                      <Text
+                        fontSize={16}
+                        marginY={'12px'}
                       >{t('Create a new Safe that is controlled by one or multiple owners.')}
                       </Text>
                       <Text
-                        fontSize={17}
+                        fontSize={16}
                         fontWeight={700}
                       >{t('You will be required to pay a network fee for creating your new Safe.')}
                       </Text>
@@ -151,6 +177,7 @@ function Dashboard() {
                     flex={1}
                     item
                     xs={12}
+                    sm={6}
                     md={6}
                     display={'flex'}
                     flexDirection={'column'}
@@ -159,19 +186,25 @@ function Dashboard() {
                       borderLeft: `1px solid ${theme.palette.divider.secondary} `,
                     }}
                   >
-                    <Box sx={{ padding: '2rem 3rem', display: 'flex', flexDirection: 'column' }}>
-                      <Box marginY={'1rem'}><FileDownloadRoundedIcon sx={{ color: 'rgba(76, 47, 252, 0.54)',
+                    <Box sx={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
+                      <Box marginY={'12px'}><FileDownloadRoundedIcon sx={{ color: 'rgba(76, 47, 252, 0.54)',
                       }}
                       />
                       </Box>
-                      <Text fontSize={24} fontWeight={600} marginY={'1rem'}>{t('Load an existing Safe')}</Text>
                       <Text
-                        fontSize={17}
-                        marginY={'1rem'}
+                        fontSize={22}
+                        lineHeight={'30px'}
+                        fontWeight={600}
+                        marginY={'8px'}
+                      >{t('Load Existing Safe')}
+                      </Text>
+                      <Text
+                        fontSize={16}
+                        marginY={'12px'}
                       >{t('Already have a Safe or want to access it from a different device?')}
                       </Text>
                       <Text
-                        fontSize={17}
+                        fontSize={16}
                         fontWeight={700}
                       >{t('Easily load your Safe using your Safe address.')}
                       </Text>

@@ -58,7 +58,7 @@ const MobileLayout = () => {
                     setOpenedSafeSelect(false);
                   }}
                 />
-                <SafeOptions />
+                <SafeOptions closeSafe={() => setOpenedSafeSelect(false)} />
               </Box>
               )}
               {openedSafeSelect === false && isMultiWalletMode && (

@@ -101,6 +101,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
       document.removeEventListener('mousedown', handler);
     };
   }, [showDeployMultisigModal]);
+
   return (
     <DeployStepsContext.Provider value={contextValue}>
       <Box>
@@ -159,7 +160,10 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   <ArrowDropUpIcon />
                 </Box>
                 {openedSafeSelect === true && (
-                <SafeOptions ref={menuRef} />
+                <SafeOptions
+                  closeSafe={() => setOpenedSafeSelect(false)}
+                  ref={menuRef}
+                />
                 )}
               </Box>
               )}

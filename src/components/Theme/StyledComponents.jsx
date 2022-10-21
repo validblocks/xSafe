@@ -159,6 +159,7 @@ export const TypographyBold = styled(Typography)`
 
 export const Main = styled.main`
   background-color: ${(props) => props.theme.palette.background.default};
+  width: 100%;
 `;
 
 export const AssetValue = styled(Box)`

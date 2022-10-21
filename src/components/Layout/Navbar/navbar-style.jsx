@@ -12,6 +12,7 @@ import styled from 'styled-components';
 import { ReactComponent as ElrondLogo } from 'src/assets/img/elrond.svg';
 import CopyButton from 'src/components/CopyButton';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import MuiDrawer from '@mui/material/Drawer';
 
 export const ConnectDropdown = styled(Menu)`
   top: 20px !important;
@@ -98,15 +99,19 @@ export const CenteredText = styled(Text)`
 
 export const TopHeader = styled(Box)`
 &&& {
-  position: absolute;
-  z-index: 1;
-  background: ${(props) => props.theme.palette.background.default};
+  background: ${(props) => props.theme.palette.background.secondary};
+  width: 100%;
+  height: 62px;
+  position: fixed;
+  top: 0;
+  z-index: 10000;
+  box-shadow: rgb(40 54 61 / 18%) 0px 2px 4px 0px;
 }
 `;
 
 export const NavLogo = styled(NavItem)`
   cursor: pointer;
-  padding: 0 1rem;
+  width: 270px;
 `;
 
 export const Logo = styled(ElrondLogo)`
@@ -135,6 +140,39 @@ export const TopMenu = styled(Box)(({ theme: _ }) => ({
   },
   '& a.active .MuiListItemButton-root': {
     backgroundColor: `${_.palette.background.menu}`,
+  },
+}));
+
+export const AppBarWrapper = styled(Box)(({ theme: _ }) => ({
+  width: '100%',
+  height: '62px',
+  zIndex: '10000',
+}));
+
+export const SidebarAndMainWrapper = styled(Box)(({ theme: _ }) => ({
+  height: 'calc(100vh - 62px)',
+  display: 'flex',
+}));
+
+const drawerWidth = 255;
+
+const Drawer = styled(MuiDrawer, {
+  shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme: _ }) => ({
+  width: drawerWidth,
+  flexShrink: 0,
+  zIndex: 1,
+  whiteSpace: 'nowrap',
+  boxSizing: 'border-box',
+}));
+
+export const SidebarDrawer = styled(Drawer)(({ theme: _ }) => ({
+  '& .MuiDrawer-paper': {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    position: 'relative',
+    heigth: '100%',
   },
 }));
 
@@ -238,6 +276,8 @@ export const BottomMenu = styled(List)(({ theme: _ }) => ({
   bottom: '10px',
   width: '100%',
   zIndex: '9',
+  borderTop: `1px solid ${(props) => props.theme.palette.divider.main}`,
+
   '& a.active .MuiListItemButton-root': {
     backgroundColor: `${_.palette.background.menu}`,
   },
