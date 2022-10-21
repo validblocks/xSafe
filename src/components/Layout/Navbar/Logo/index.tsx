@@ -1,7 +1,6 @@
 import { dAppName } from 'src/config';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { useNavigate } from 'react-router-dom';
-import { ReactComponent as ControlLightLogo } from 'src/assets/img/ControlLogoLight.svg';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { NavLogo } from '../navbar-style';
 
@@ -15,13 +14,11 @@ const NavbarLogo = () => {
   return (
     <NavLogo
       onClick={handleRedirectToHome}
-      className="d-flex align-items-center"
+      className="p-0 d-flex align-items-center"
     >
-      <ControlLightLogo />
       <Text
         fontWeight={700}
-        fontSize={21}
-        textTransform="uppercase"
+        fontSize={26}
         letterSpacing={1}
         marginLeft="3px"
       >{dAppName}

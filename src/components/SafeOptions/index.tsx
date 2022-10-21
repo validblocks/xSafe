@@ -42,7 +42,11 @@ export const userRoleAsString = (roleNumber: number) => {
   }
 };
 
-const SafeOptions = React.forwardRef((props, ref) => {
+interface ISafeOptionsProps {
+  closeSafe: () => void;
+}
+
+const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => {
   const theme: any = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -65,6 +69,7 @@ const SafeOptions = React.forwardRef((props, ref) => {
     ]);
 
     navigate(`/multisig/${newSafeAddress}`);
+    closeSafe();
   };
 
   useEffect(() => {

@@ -257,6 +257,7 @@ export const AccordionDetail = styled(AccordionDetails)`
 export const BottomMenu = styled(List)`
   width: 100%;
   z-index: 9;
+  border-top: 1px solid ${(props) => props.theme.palette.divider.main};
 `;
 
 // Mobile Layout

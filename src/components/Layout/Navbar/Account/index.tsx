@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { getIsLoggedIn, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { Box } from '@mui/material';
@@ -13,30 +13,13 @@ import { ConnectDropdown } from '../navbar-style';
 function Account() {
   const { address } = useGetAccountInfo();
   const loggedIn = getIsLoggedIn();
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
-  const intervalRef = useRef<any>();
-  const logoutOnSessionExpire = () => {
-    intervalRef.current = setInterval(() => {
-      const loggedIn = getIsLoggedIn();
-      if (!loggedIn && isLoggedIn === true) {
-        window.location.reload();
-      }
-      if (loggedIn) {
-        setIsLoggedIn(true);
-      }
-    }, 2000);
-    return () => {
-      clearInterval(intervalRef.current);
-    };
-  };
+  const [isLoggedIn] = useState<boolean>();
 
   const [walletAddress, setWalletAddress] = useState('');
 
   useEffect(() => {
     setWalletAddress(addressShorthand(address));
   }, [isLoggedIn, address]);
-
-  useEffect(logoutOnSessionExpire, [isLoggedIn]);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isMainButtonActive, setIsMainButtonActive] = useState(false);

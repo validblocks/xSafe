@@ -323,7 +323,6 @@ const MiniDrawer = () => {
           </TopMenu>
         )}
         <BottomMenu>
-          <Divider sx={{ mt: 1 }} />
           {menuItems.bottomItems.map((el) => (
             <Link
               key={el.id}
