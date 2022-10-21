@@ -69,7 +69,7 @@ function TransactionActionsCard({
   return (
     <>
       <Typography variant="h6" color="black">
-        <strong>Available Actions</strong>
+        <Text fontSize={17}><strong>Available Actions</strong></Text>
       </Typography>
       <div className="text-black py-3">
         <div className="d-flex">

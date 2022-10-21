@@ -15,6 +15,7 @@ import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWi
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import SouthIcon from '@mui/icons-material/South';
 import NorthIcon from '@mui/icons-material/North';
+import { StyledStakingProvider } from 'src/components/StyledComponents/staking';
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
 import { multisigContractFunctionNames } from './multisigFunctionNames';
@@ -153,15 +154,7 @@ export class MultisigSmartContractCall extends MultisigAction {
   getStakeTokensDescription(actionMessage: DelegationFunctionTitles, actionIcon: any) {
     return (
       <Grid container display="flex" flexDirection={'column'} alignItems={'start'} justifyContent="flex-start" gap={2}>
-        <Grid
-          item
-          border={'1px solid #DFDFE8'}
-          padding={'1rem'}
-          display={'flex'}
-          justifyContent={'flex-start'}
-          alignItems={'center'}
-          borderRadius={'10px'}
-        >
+        <StyledStakingProvider>
           <Box
             marginRight={2}
             paddingRight={2}
@@ -178,7 +171,7 @@ export class MultisigSmartContractCall extends MultisigAction {
               />
             </Text>
           </Text>
-        </Grid>
+        </StyledStakingProvider>
         <Grid item display={'flex'} justifyContent={'center'} alignItems={'center'}>
           {actionIcon}
           <Text mx={1}>{actionMessage}</Text>

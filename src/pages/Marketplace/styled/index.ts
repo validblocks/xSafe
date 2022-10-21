@@ -10,6 +10,11 @@ export const InstallButton = styled(MainButton)(({ theme }) => ({
     textTransform: 'none',
     color: theme.palette.primary.main,
     boxShadow: 'none !important',
+    '&:disabled': {
+      backgroundColor: theme.palette.background.disabled,
+      borderColor: theme.palette.background.disabled,
+      color: theme.palette.text.disabled,
+    },
   },
 }));
 
@@ -24,5 +29,6 @@ export const AppCard = styled(Card)(({ theme }) => ({
     justifyContent: 'space-between',
     border: 'none',
     borderRadius: '10px',
+    backgroundColor: theme.palette.background.secondary,
   },
 }));

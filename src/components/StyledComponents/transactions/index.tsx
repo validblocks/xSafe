@@ -7,6 +7,7 @@ export const TransactionAccordion = styled(Accordion)`
   outline: none !important;
   box-shadow: 0px 14px 24px 0px #4c2ffc08 !important;
   border-radius: 10px !important;
+  background-color: ${(props) => props.theme.palette.background.secondary};
   &:before {
     display: none;
   };

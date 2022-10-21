@@ -18,6 +18,7 @@ import { FormikInputField } from 'src/helpers/formikFields';
 import { denomination } from 'src/config';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { useTheme } from 'styled-components';
 import { Box, TextField } from '@mui/material';
 import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
@@ -63,6 +64,7 @@ const ProposeSmartContractCall = ({
   handleChange,
   setSubmitDisabled,
 }: ProposeSmartContractCallType) => {
+  const theme: any = useTheme();
   const { multisigBalance } = useContext(MultisigDetailsContext);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -255,18 +257,27 @@ const ProposeSmartContractCall = ({
               marginBottom: 0,
               fontSize: '15px',
               left: '-1px',
+              color: theme.palette.text.secondary,
+            },
+            '& .MuiOutlinedInput-input': {
+              color: theme.palette.text.primary,
             },
             '& .MuiOutlinedInput-root fieldset': {
               transition: 'all .3s linear',
-              borderColor: 'rgba(76, 47, 252, 0.23)',
+              borderColor: theme.palette.borders.secondary,
+            },
+            '&:hover': {
+              '& .MuiOutlinedInput-root fieldset': {
+                borderColor: theme.palette.borders.active,
+              },
             },
             '& .MuiOutlinedInput-root.Mui-focused fieldset': {
               transition: 'all .3s linear',
-              borderColor: '#4c2ffc',
+              borderColor: theme.palette.borders.active,
               borderWidth: '1px',
             },
             '& label.MuiInputLabel-root.Mui-focused': {
-              color: '#4c2ffc',
+              color: theme.palette.borders.active,
             },
           }}
         />

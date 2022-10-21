@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from 'styled-components';
 import { ProposeAddressInput } from 'src/components/Theme/StyledComponents';
 import { Typography } from '@mui/material';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeInputAddressType {
   handleParamsChange: (params: Address) => void;
@@ -18,6 +20,7 @@ function ProposeInputAddress({
   invalidAddress,
   disabled,
 }: ProposeInputAddressType) {
+  const theme: any = useTheme();
   const [address, setAddress] = useState('');
   const [error, setError] = useState(false);
   const { t }: { t: any } = useTranslation();
@@ -48,8 +51,8 @@ function ProposeInputAddress({
 
   return (
     <div>
-      <Typography fontSize={24} pb={'21px'} lineHeight={1}>
-        Add a new owner
+      <Typography pb={'21px'} lineHeight={1}>
+        <Text fontSize={24}>Add a new owner</Text>
       </Typography>
 
       <ProposeAddressInput
@@ -63,15 +66,21 @@ function ProposeInputAddress({
         helperText={error ? errorMessage : null}
         className={error ? 'isAddressError' : ''}
         sx={{
+          '& label': {
+            color: theme.palette.text.primary,
+          },
+          '& input': {
+            color: theme.palette.text.primary,
+          },
+          '& fieldset': {
+            borderColor: `${theme.palette.borders.secondary} !important`,
+          },
           '&:hover fieldset': {
-            borderColor: '#08041D',
+            borderColor: `${theme.palette.borders.active} !important`,
           },
           '& p.MuiFormHelperText-root': {
             ml: '.35rem !important',
             fontSize: '11.2px',
-          },
-          '& fieldset': {
-            borderColor: '#4c2ffc8a !important',
           },
           '&:focus-within': {
             '& fieldset': { borderColor: '#4c2ffc !important' },

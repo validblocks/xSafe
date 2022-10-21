@@ -3,6 +3,8 @@ import { AccordionDetails, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { useTheme } from 'styled-components';
 import { TransactionAccordion, TransactionAccordionSummary } from 'src/components/StyledComponents/transactions';
 import TransactionDescription from './TransactionDescription';
 import { PairOfTransactionAndDecodedAction } from './TransactionHistory';
@@ -24,6 +26,7 @@ const useStyles = makeStyles(() => ({
 const TransactionHistoryPresentation = ({
   fullActionHistoryGroupedByDate,
 }: any) => {
+  const theme: any = useTheme();
   const [expanded, setExpanded] = useState<string | false>(false);
   const classes = useStyles();
   const handleChange =
@@ -42,7 +45,7 @@ const TransactionHistoryPresentation = ({
         }}
         color="text.secondary"
         variant="body1"
-      > {t('No transactions found for this period') as string}
+      > <Text>{t('No transactions found for this period') as string}</Text>
       </Typography>
     );
   }
@@ -54,7 +57,7 @@ const TransactionHistoryPresentation = ({
           ([transactionDate, transactionArray]: any) => (
             <div key={transactionDate}>
               <Typography variant="subtitle1" className="my-4">
-                <strong>{transactionDate}</strong>
+                <Text><strong>{transactionDate}</strong></Text>
               </Typography>
               {transactionArray.map(
                 ({
@@ -67,7 +70,7 @@ const TransactionHistoryPresentation = ({
                     onChange={handleChange(transaction.txHash)}
                   >
                     <TransactionAccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
+                      expandIcon={<ExpandMoreIcon sx={{ color: theme.palette.text.primary }} />}
                       aria-controls="panel1a-content"
                       className="pl-0 m-0 d-flex"
                       classes={{
