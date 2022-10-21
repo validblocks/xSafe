@@ -13,6 +13,7 @@ import { QueryKeys } from 'src/react-query/queryKeys';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
+import { useTheme } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
@@ -23,6 +24,7 @@ import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
 import { HtmlTooltip } from '../Utils/HtmlTooltip';
 import CountdownTimer from '../Utils/CountdownTimer';
 import * as Styled from './styled';
+import { Text } from '../StyledComponents/StyledComponents';
 
 interface Props {
     searchParam?: string;
@@ -33,7 +35,6 @@ const useStyles = makeStyles(() => ({
   content: {
     margin: 0,
     display: 'flex',
-    background: '#fff !important',
 
     justifyContent: 'space-between',
     '&$expanded': {
@@ -43,6 +44,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
+  const theme: any = useTheme();
   const config = useMemo(() => ({ searchParam }), [searchParam]);
   const { t } = useTranslation();
 
@@ -189,10 +191,10 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                 }}
               >
                 <div>
-                  <strong>Withdrawable:</strong>
+                  <Text fontSize={12}><strong>Withdrawable:</strong></Text>
                 </div>
                 <div className="d-flex align-items-center mt-1">
-                  {row.withdrawableUndelegationsAmount} / {row.totalRequestedUndelegations} $EGLD
+                  <Text fontSize={12}>{row.withdrawableUndelegationsAmount} / {row.totalRequestedUndelegations} $EGLD</Text>
                 </div>
               </Grid>
               <Grid item xs={12} md={3} display={'flex'} alignItems={'center'}>
@@ -219,7 +221,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
               </Grid>
             </Styled.UndelegationGridContainer>
           </Styled.UndelegationAccordionSummary>
-          <AccordionDetails sx={{ padding: '0', backgroundColor: '#F3F6FC' }}>
+          <AccordionDetails sx={{ padding: '0', backgroundColor: theme.palette.background.accordion }}>
             {
                 row.pendingWithdrawals?.map((withdrawal: IUndelegatedFunds) => (
                   <Box key={withdrawal.seconds} padding={'1rem'} display="flex" justifyContent={'space-between'}>
@@ -231,11 +233,13 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                       />
                     </Box>
                     <Box display="flex" alignItems="start" flexDirection={'column'}>
-                      <Box>Amount: {' '}</Box>
+                      <Box><Text>Amount: {' '}</Text></Box>
                       <Box>
-                        {`${getDenominatedBalance(withdrawal.amount, {
-                          precisionAfterComma: 2,
-                        })} $EGLD`}
+                        <Text>
+                          {`${getDenominatedBalance(withdrawal.amount, {
+                            precisionAfterComma: 2,
+                          })} $EGLD`}
+                        </Text>
                       </Box>
                     </Box>
                     <Box

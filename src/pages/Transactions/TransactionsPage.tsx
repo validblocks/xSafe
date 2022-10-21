@@ -6,6 +6,7 @@ import { MainSelect } from 'src/components/Theme/StyledComponents';
 import {
   intervalStartTimestampSelector,
 } from 'src/redux/selectors/transactionsSelector';
+import { useTheme } from 'styled-components';
 import {
   enlargeInterval,
   setIntervalStartTimestampForFiltering,
@@ -53,6 +54,7 @@ function a11yProps(index: number) {
 }
 
 export default function TransactionsPage() {
+  const theme: any = useTheme();
   const [value, setValue] = React.useState(0);
   const globalIntervalStartTimestamp = useSelector<RootState, number>(
     intervalStartTimestampSelector,
@@ -120,8 +122,8 @@ export default function TransactionsPage() {
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="QUEUE" {...a11yProps(0)} />
-            <Tab label="HISTORY" {...a11yProps(1)} />
+            <Tab label="QUEUE" {...a11yProps(0)} sx={{ color: theme.palette.text.secondary }} />
+            <Tab label="HISTORY" {...a11yProps(1)} sx={{ color: theme.palette.text.secondary }} />
           </Styled.MainTab>
           {value === 1 && (
             <Box>

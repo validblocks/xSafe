@@ -15,6 +15,8 @@ import {
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { makeStyles, withStyles } from '@mui/styles';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { useTheme } from 'styled-components';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 import TransactionTechnicalDetails from 'src/pages/Transactions/TransactionTechnicalDetails';
 import MemberPresentationWithPhoto from '../Organization/MemberPresentationWithPhoto';
 
@@ -29,14 +31,6 @@ type Props = Partial<{
   bottomLeftChild?: React.ReactElement;
 }>;
 
-const StyledDot = withStyles({ root: { backgroundColor: '#4c2ffc' } })(
-  TimelineDot,
-);
-
-const StyledStatusText = withStyles({
-  root: { color: '#4c2ffc', marginTop: '10px' },
-})(Typography);
-
 function TransactionDescription({
   transaction,
   action,
@@ -46,6 +40,11 @@ function TransactionDescription({
   bottomLeftChild,
 }: Props) {
   const isSmallScreen = useMediaQuery('(max-width:850px)');
+  const theme: any = useTheme();
+
+  const StyledDot = withStyles({ root: { backgroundColor: theme.palette.background.timeline } })(
+    TimelineDot,
+  );
 
   const useStyles: CallableFunction = useMemo(
     () =>
@@ -57,15 +56,15 @@ function TransactionDescription({
         child1: {
           gridRow: '1 / 2',
           gridColumn: '1 / 2',
-          borderTop: '1px solid #D6DAF1',
+          borderTop: `1px solid ${theme.palette.divider.secondary}`,
           minWidth: '90%',
           padding: '2rem',
         },
         child2: {
           gridRow: '1 / 3',
           gridColumn: '2 / 3',
-          borderLeft: '1px solid #D6DAF1',
-          borderTop: '1px solid #D6DAF1',
+          borderLeft: `1px solid ${theme.palette.divider.secondary}`,
+          borderTop: `1px solid ${theme.palette.divider.secondary}`,
           padding: '1rem 2rem',
           minWidth: '33%',
         },
@@ -73,8 +72,12 @@ function TransactionDescription({
     [isSmallScreen],
   );
 
+  const StyledStatusText = withStyles({
+    root: { color: theme.palette.text.button, marginTop: '10px' },
+  })(Typography);
+
   const classes = useStyles();
-  const dotIconStyles = { width: '15px', height: '15px' };
+  const dotIconStyles = { width: '20px', height: '20px', color: theme.palette.background.secondary };
 
   const [areAllSignersVisible, setShowAllSigners] = useState(false);
 
@@ -95,7 +98,7 @@ function TransactionDescription({
     <Box className={classes.container}>
       <Box className={classes.child1}>
         <Box sx={{ marginBottom: '2rem' }}>
-          {(child1 || action?.description()) ?? 'Action description missing'}
+          <Text>{(child1 || action?.description()) ?? 'Action description missing'}</Text>
         </Box>
         <Box>
           {bottomLeftChild || <TransactionTechnicalDetails transaction={transaction} />}
@@ -144,8 +147,8 @@ function TransactionDescription({
                 <TimelineItem key={signer.bech32().toString()}>
                   <TimelineOppositeContent sx={{ display: 'none' }} />
                   <TimelineSeparator>
-                    <TimelineDot sx={{ marginLeft: '7px' }} />
-                    <TimelineConnector sx={{ marginLeft: '7px' }} />
+                    <TimelineDot sx={{ marginLeft: '10px' }} />
+                    <TimelineConnector sx={{ marginLeft: '10px' }} />
                   </TimelineSeparator>
                   <TimelineContent>
                     <MemberPresentationWithPhoto memberAddress={signer} />
@@ -155,16 +158,17 @@ function TransactionDescription({
             <TimelineItem>
               <TimelineOppositeContent sx={{ display: 'none' }} />
               <TimelineSeparator>
-                <TimelineDot sx={{ marginLeft: '7px' }} />
-                <TimelineConnector sx={{ marginLeft: '7px' }} />
+                <TimelineDot sx={{ marginLeft: '10px' }} />
+                <TimelineConnector sx={{ marginLeft: '10px' }} />
               </TimelineSeparator>
               <TimelineContent>
-                <Typography
+                <Text
                   onClick={toggleShowAllSigners}
+                  fontWeight={400}
                   sx={{ cursor: 'pointer', marginTop: '2px' }}
                 >
                   {toggleSignerVisibilityButtonText}
-                </Typography>
+                </Text>
               </TimelineContent>
             </TimelineItem>
 
@@ -174,7 +178,7 @@ function TransactionDescription({
                 <TimelineDot
                   sx={{
                     backgroundColor:
-                      transaction?.status === 'success' ? '#4c2ffc' : 'grey',
+                      transaction?.status === 'success' ? theme.palette.background.timeline : 'grey',
                   }}
                   variant={
                     transaction?.status === 'success' ? 'filled' : 'outlined'
@@ -185,7 +189,7 @@ function TransactionDescription({
                     <DoneIcon sx={dotIconStyles} />
                   ) : (
                     <HourglassTopIcon
-                      sx={{ ...dotIconStyles, color: 'grey' }}
+                      sx={{ ...dotIconStyles, color: theme.palette.text.primary }}
                     />
                   )}{' '}
                 </TimelineDot>

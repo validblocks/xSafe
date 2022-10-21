@@ -1,5 +1,4 @@
 import {
-  DataGrid,
   GridRenderCellParams,
   GridRowSpacingParams,
   GridSelectionModel,
@@ -12,6 +11,7 @@ import { setSelectedStakingProvider } from 'src/redux/slices/modalsSlice';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import { IAPRColumn, IFilledColumn, IProviderColumn } from 'src/types/staking';
+import * as Styled from '../../pages/Organization/styled';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import APRColumn from './APRColumn';
@@ -105,7 +105,7 @@ const ProvidersList = ({ searchParam }: Props) => {
       overflow="scroll"
       sx={{ padding: '0 !important' }}
     >
-      <DataGrid
+      <Styled.MainTable
         autoHeight
         rowHeight={68}
         rows={fetchedProviderIdentities ?? []}
@@ -120,49 +120,8 @@ const ProvidersList = ({ searchParam }: Props) => {
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         sx={{
-          borderRadius: '10px',
-          border: 'none',
-          '& .MuiDataGrid-columnSeparator': {
-            display: 'none',
-          },
-          '& .MuiDataGrid-columnHeader': {
-            padding: '5px 0 0 20px',
-          },
           '& .MuiDataGrid-columnHeaderCheckbox': {
             display: 'none',
-          },
-          '& .MuiDataGrid-columnHeaders': {
-            border: 'none',
-          },
-          '& .MuiDataGrid-cell': {
-            border: 'none',
-          },
-          '& .MuiDataGrid-row': {
-            borderRadius: '10px',
-          },
-          '& .MuiDataGrid-row:hover': {
-            backgroundColor: '#F4F6FD',
-            '& .MuiButton-root': {
-              opacity: '1',
-            },
-          },
-          '& .MuiDataGrid-row.Mui-selected': {
-            backgroundColor: '#4c2ffc1a !important',
-          },
-          '& p': {
-            margin: 0,
-            color: 'rgba(0, 0, 0, 0.6)',
-          },
-          '& .MuiTablePagination-select': {
-            paddingTop: 0,
-            paddingBottom: 0,
-          },
-          '& .MuiInputBase-root': {
-            margin: '0 8px',
-          },
-          '& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within, & .MuiDataGrid-cell:focus-visible, & .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within, & .MuiDataGrid-columnHeader:focus-visible':
-          {
-            outline: 'transparent',
           },
           '& .MuiDataGrid-cellCheckbox > span.MuiCheckbox-root': {
             p: '0',

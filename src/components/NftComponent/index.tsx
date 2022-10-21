@@ -10,6 +10,7 @@ import {
 } from 'src/redux/slices/modalsSlice';
 import { NFTType } from 'src/types/nfts';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { useTheme } from 'styled-components';
 import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
 import { useTranslation } from 'react-i18next';
 import { useContractNFTs } from 'src/utils/useContractNFTs';
@@ -21,6 +22,7 @@ import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import * as Styled from './styled';
 
 function NftComponent() {
+  const theme: any = useTheme();
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { isInReadOnlyMode } = useOrganizationInfoContext();
@@ -130,6 +132,7 @@ function NftComponent() {
                       gutterBottom
                       variant="h6"
                       component="span"
+                      sx={{ color: theme.palette.text.primary }}
                     >
                       {item.name}
                     </Typography>

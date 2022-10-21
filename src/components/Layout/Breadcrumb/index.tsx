@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { Box, OutlinedInput } from '@mui/material';
+import { useTheme } from 'styled-components';
 import { FormSearchInput } from 'src/components/Theme/StyledComponents';
 import { useDispatch } from 'react-redux';
 import { setNavbarSearchParam } from 'src/redux/slices/searchSlice';
@@ -11,6 +12,7 @@ import { ReactComponent as SearchIcon } from '../../../assets/img/searchFilled.s
 import * as Styled from './styled/index';
 
 function PageBreadcrumbs() {
+  const theme: any = useTheme();
   const dispatch = useDispatch();
   const location = useLocation();
   const [breadcrumb, setBreadcrumb] = useState([]);
@@ -53,6 +55,7 @@ function PageBreadcrumbs() {
       <Styled.BreadcrumbsElement
         separator="›"
         aria-label="breadcrumb"
+        sx={{ color: theme.palette.text.primary }}
       >
         <Styled.MainBreadcrumbsLink to={`/multisig/${uniqueContractAddress}`}>
           Home

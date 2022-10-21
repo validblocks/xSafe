@@ -10,6 +10,7 @@ import {
   mutateProposeRemoveUser,
 } from 'src/contracts/MultisigContract';
 import { addEntry } from 'src/redux/slices/addressBookSlice';
+import { useTheme } from 'styled-components';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import { MainButton } from 'src/components/Theme/StyledComponents';
@@ -26,6 +27,7 @@ interface ProposeModalPropsType {
 }
 
 function ProposeModal({ selectedOption }: ProposeModalPropsType) {
+  const theme: any = useTheme();
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
 
@@ -166,7 +168,11 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
     >
       <ModalCardTitle title="Change Quorum" handleClose={handleClose} />
       <div className="card">
-        <Box sx={{ padding: '21px 40px 40px' }}>
+        <Box
+          sx={{ padding: '21px 40px 40px',
+            backgroundColor: theme.palette.background.secondary,
+            borderRadius: '0 0 10px 10px' }}
+        >
           {getModalContent()}
           <Box className="modal-action-btns" sx={{ mt: '24px !important' }}>
             <MainButton

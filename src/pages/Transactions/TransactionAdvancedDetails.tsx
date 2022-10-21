@@ -1,5 +1,6 @@
 import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 type Props = any;
 
@@ -18,11 +19,12 @@ const TransactionAdvancedDetails = ({ transaction }: Props) => (
         Mini Block Hash:
         {}
       </Typography>
-      {transaction?.miniBlockHash?.slice(0, 15)}
-      ...
-      {transaction?.miniBlockHash?.slice(
-        transaction?.miniBlockHash.length - 15,
-      )}
+      <Text display={'inline-block'}>{transaction?.miniBlockHash?.slice(0, 15)}
+        ...
+        {transaction?.miniBlockHash?.slice(
+          transaction?.miniBlockHash.length - 15,
+        )}
+      </Text>
     </Typography>
     <Typography component="div" className="my-1">
       <Typography
@@ -36,7 +38,7 @@ const TransactionAdvancedDetails = ({ transaction }: Props) => (
       >
         Gas Price:
       </Typography>
-      {transaction?.gasPrice}
+      <Text display={'inline-block'}>{transaction?.gasPrice}</Text>
     </Typography>
     <Typography component="div" className="my-1">
       <Typography
@@ -50,7 +52,7 @@ const TransactionAdvancedDetails = ({ transaction }: Props) => (
       >
         Gas Used:
       </Typography>
-      {transaction?.gasUsed}
+      <Text display={'inline-block'}>{transaction?.gasUsed}</Text>
     </Typography>
   </Box>
 );

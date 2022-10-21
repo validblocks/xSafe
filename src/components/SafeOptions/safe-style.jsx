@@ -4,7 +4,7 @@ import styled from 'styled-components';
 export const SafeOptionsWrapper = styled(Box)`
   position: absolute;
   left: 7px;
-  background: ${(props) => props.theme.palette.background.white};
+  background: ${(props) => props.theme.palette.background.secondary};
   box-shadow: 0px 0px 24px
     ${(props) => props.theme.shadows.secondary};
   border-radius: ${(props) => props.theme.shape.radius};

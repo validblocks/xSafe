@@ -76,7 +76,7 @@ export const MembersBox = styled(Box)`
 &&& {
   width: 17px;
   margin: auto;
-  background-color: #E4DFFF;
+  background-color: ${(props) => props.theme.palette.background.safe};
   border-radius: 4px;
   margin-top: 10px;
   color: ${(props) => props.theme.palette.primary.main};
@@ -105,7 +105,7 @@ export const TopHeader = styled(Box)`
   position: fixed;
   top: 0;
   z-index: 10000;
-  box-shadow: rgb(40 54 61 / 18%) 0px 2px 4px 0px;
+  box-shadow: ${(props) => props.theme.palette.shadows.primary};
 }
 `;
 
@@ -136,8 +136,10 @@ export const TopMenu = styled(Box)(({ theme: _ }) => ({
   height: '100%',
   zIndex: 0,
   '& a.active svg > path': {
-    fill: _.palette.primary.main,
-    fillOpacity: 1,
+    color: '#4c2FFC !important',
+  },
+  '& a.active .MuiListItemButton-root': {
+    backgroundColor: `${_.palette.background.menu}`,
   },
 }));
 
@@ -166,6 +168,7 @@ const Drawer = styled(MuiDrawer, {
 
 export const SidebarDrawer = styled(Drawer)(({ theme: _ }) => ({
   '& .MuiDrawer-paper': {
+    backgroundColor: _.palette.background.secondary,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -176,29 +179,31 @@ export const SidebarDrawer = styled(Drawer)(({ theme: _ }) => ({
 
 export const ListItem = styled(ListItemButton)`
 &&& {
+  background-color: ${(props) => props.theme.palette.background.secondary};
   transition: all 300ms linear;
-  .pin-icon * {
-    color: ${(props) => props.theme.palette.primary.main};
+  .pin-icon {
     opacity: 0;
-    transition: opacity 300ms linear;
   }
-  & .MuiListItemIcon-root, & .MuiListItemIcon-root svg > path {
+  & .MuiListItemIcon-root {
     transition: all 300ms linear;
+    color: ${(props) => props.theme.palette.text.secondary};
   }
   &:hover {
-    color: ${(props) => props.theme.palette.primary.main};
-    background-color: #f5f7ff;
+    & .MuiTypography-root,& .MuiSvgIcon-root {
+      color: #4c2FFC !important;
+      transition: all 300ms linear;
+    }
+    background-color: ${(props) => props.theme.palette.background.hover};
     .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
-    .MuiListItemIcon-root svg > path {
-      fill: ${(props) => props.theme.palette.primary.main};
-      fill-opacity: 1;
-    };
+  };
+  &:hover .pin-icon {
+    opacity: 1;
+    color: ${(props) => props.theme.palette.primary.main};
   };
   &:hover .pin-icon * {
     color: ${(props) => props.theme.palette.primary.main};
-    opacity: 1;
   };
 }
 `;
@@ -210,16 +215,26 @@ export const BreadcrumbsWrapper = styled(Box)`
 export const MenuAccordion = styled(AccordionSummary)`
 &&& {
   transition: all 300ms linear;
+  background-color: ${(props) => props.theme.palette.background.secondary};
   & .MuiAccordionSummary-content {
     margin: 0px;
   };
   & .MuiAccordionSummary-expandIconWrapper,& .MuiTypography-root,& .MuiListItemIcon-root {
     transition: color 300ms linear;
   };
+  & svg {
+    color: ${(props) => props.theme.palette.text.secondary};
+  };
   &:hover {
-    background-color: #f5f7ff;
+    background-color: ${(props) => props.theme.palette.background.hover};
+    .MuiListItemButton-root {
+      background-color: ${(props) => props.theme.palette.background.hover};
+    }
+    .MuiSvgIcon-root {
+      color: #4c2FFC !important;
+    }
     .MuiTypography-root {
-      color: ${(props) => props.theme.palette.primary.main};
+      color: #4c2ffc !important;
     };
     .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
@@ -231,18 +246,22 @@ export const MenuAccordion = styled(AccordionSummary)`
   &.Mui-expanded {
     min-height: 48px;
     border-right: solid 2px #4c2ffc;
-    background-color: #e4eaff;
+    background-color: ${(props) => props.theme.palette.background.menu};
     .MuiTypography-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
     .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
+    & .MuiTypography-root,& .MuiSvgIcon-root {
+      color: #4c2FFC !important;
+      transition: color 300ms linear;
+    }
     .MuiAccordionSummary-expandIconWrapper {
       color: rgba(76, 47, 252, 0.54);
     };
     .MuiListItemButton-root {
-      background-color: #e4eaff;
+      background-color:${(props) => props.theme.palette.background.menu}
     };
   };
 }
@@ -254,11 +273,16 @@ export const AccordionDetail = styled(AccordionDetails)`
   }
 `;
 
-export const BottomMenu = styled(List)`
-  width: 100%;
-  z-index: 9;
-  border-top: 1px solid ${(props) => props.theme.palette.divider.main};
-`;
+export const BottomMenu = styled(List)(({ theme: _ }) => ({
+  bottom: '10px',
+  width: '100%',
+  zIndex: '9',
+  borderTop: `1px solid ${(props) => props.theme.palette.divider.main}`,
+
+  '& a.active .MuiListItemButton-root': {
+    backgroundColor: `${_.palette.background.menu}`,
+  },
+}));
 
 // Mobile Layout
 

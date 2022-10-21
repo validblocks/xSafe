@@ -16,7 +16,7 @@ import {
 } from 'src/contracts/MultisigContract';
 import { setSelectedPerformedAction } from 'src/redux/slices/modalsSlice';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { DiscardActionButton, PerformActionButton } from 'src/components/StyledComponents/StyledComponents';
+import { DiscardActionButton, PerformActionButton, Text } from 'src/components/StyledComponents/StyledComponents';
 import useTransactionPermissions from './useTransactionPermissions';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
@@ -69,7 +69,7 @@ function TransactionActionsCard({
   return (
     <>
       <Typography variant="h6" color="black">
-        <strong>Available Actions</strong>
+        <Text fontSize={17}><strong>Available Actions</strong></Text>
       </Typography>
       <div className="text-black py-3">
         <div className="d-flex">

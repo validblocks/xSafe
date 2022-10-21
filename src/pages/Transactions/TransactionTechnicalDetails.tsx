@@ -7,6 +7,7 @@ import CopyButton from 'src/components/CopyButton';
 import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
 import { network } from 'src/config';
 import { getDate } from 'src/utils/transactionUtils';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 import TransactionAdvancedDetails from './TransactionAdvancedDetails';
 
 type Props = any;
@@ -32,9 +33,10 @@ function TransactionTechnicalDetails({ transaction }: Props) {
         >
           <strong>Transaction Hash:</strong>
         </Typography>
-        {transaction?.txHash.slice(0, 15)}
-        ...
-        {transaction?.txHash.slice(transaction?.txHash.length - 15)}
+        <Text display={'inline-block'}>{transaction?.txHash.slice(0, 15)}
+          ...
+          {transaction?.txHash.slice(transaction?.txHash.length - 15)}
+        </Text>
         <CopyButton className="ml-2" text={transaction?.txHash} />
         <Anchor
           href={`${network.explorerAddress}/transactions/${transaction?.txHash}`}
@@ -57,7 +59,7 @@ function TransactionTechnicalDetails({ transaction }: Props) {
         >
           <strong>Timestamp: </strong>
         </Typography>
-        {dayjs(getDate(transaction?.timestamp)).format('H:mm A')}
+        <Text display={'inline-block'}>{dayjs(getDate(transaction?.timestamp)).format('H:mm A')}</Text>
       </Typography>
       <Typography component="div" className="my-1">
         <Typography
@@ -70,7 +72,7 @@ function TransactionTechnicalDetails({ transaction }: Props) {
         >
           <strong>Nonce: </strong>
         </Typography>
-        {transaction?.nonce}
+        <Text display={'inline-block'}>{transaction?.nonce}</Text>
       </Typography>
       <Typography component="div" className="my-1">
         <Typography
@@ -83,7 +85,7 @@ function TransactionTechnicalDetails({ transaction }: Props) {
         >
           <strong>Sender shard: </strong>
         </Typography>
-        {transaction.senderShard}
+        <Text display={'inline-block'}>{transaction.senderShard}</Text>
       </Typography>
       <Typography component="div" className="my-1">
         <Typography
@@ -96,7 +98,7 @@ function TransactionTechnicalDetails({ transaction }: Props) {
         >
           <strong>Receiver shard: </strong>
         </Typography>
-        {transaction.receiverShard}
+        <Text display={'inline-block'}>{transaction.receiverShard}</Text>
       </Typography>
       <Button
         variant="text"

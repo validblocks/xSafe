@@ -13,9 +13,10 @@ import { RootState } from 'src/redux/store';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { MainButton } from 'src/components/Theme/StyledComponents';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { AccountInfo, AddressBook, Owner } from './types';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
-import * as Styled from '../../components/Utils/styled/index';
+import * as Styled from './styled';
 import { useOwnerManipulationFunctions } from './utils';
 
 const OrganizationsOwnersTable = () => {
@@ -66,7 +67,7 @@ const OrganizationsOwnersTable = () => {
           <div className="d-flex flex-column justify-content-center">
             <strong className="mb-0">{params.value.name}</strong>
             <strong>
-              <div>{params.value.herotag}</div>
+              <Text>{params.value.herotag}</Text>
             </strong>
           </div>
         ),
@@ -88,7 +89,7 @@ const OrganizationsOwnersTable = () => {
               />
             </Avatar>
             <div>
-              {truncateInTheMiddle(params.value.address, 12)}
+              <Text fontSize={12} marginLeft={'10px !important'}>{truncateInTheMiddle(params.value.address, 12)}</Text>
             </div>
           </div>
         ),
@@ -101,14 +102,14 @@ const OrganizationsOwnersTable = () => {
         getActions: (params: any) => [
           <GridActionsCellItem
             key={params.id}
-            icon={<DeleteIcon />}
+            icon={<DeleteIcon sx={{ opacity: '0.54' }} />}
             disabled={isInReadOnlyMode}
             label="Delete"
             onClick={() => onRemoveUser(new Address(params.id))}
           />,
           <GridActionsCellItem
             key={params.id}
-            icon={<EditIcon />}
+            icon={<EditIcon sx={{ opacity: '0.54' }} />}
             disabled={isInReadOnlyMode}
             label="Edit Owner"
             onClick={() =>
@@ -140,7 +141,7 @@ const OrganizationsOwnersTable = () => {
         Add new owner
       </MainButton>
 
-      <Styled.OwnersTable
+      <Styled.MainTable
         autoHeight
         rowHeight={65}
         rows={rows}

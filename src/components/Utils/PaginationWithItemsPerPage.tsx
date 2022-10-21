@@ -4,12 +4,11 @@ import {
   FormControl,
   MenuItem,
   OutlinedInput,
-  Pagination,
-  Select,
   SelectChangeEvent,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
+import { StyledPagination, PaginationSelect } from 'src/components/Theme/StyledComponents';
 
 type Props = {
   data: any;
@@ -71,7 +70,7 @@ const PaginationWithItemsPerPage = memo(({
       }}
     >
       <CenteredBox>
-        <Pagination
+        <StyledPagination
           onChange={handleChange}
           count={totalPages}
           shape="rounded"
@@ -80,10 +79,10 @@ const PaginationWithItemsPerPage = memo(({
       <CenteredBox sx={{ display: 'flex' }}>
         <Box>{t('Actions per page') as string}</Box>
         <FormControl sx={{ m: 1, minWidth: 50 }}>
-          <Select
+          <PaginationSelect
             value={itemsPerPage.toString()}
             size="small"
-            onChange={handleChangeOnActionsPerPage}
+            onChange={handleChangeOnActionsPerPage as any}
             displayEmpty
             inputProps={{ 'aria-label': 'Without label' }}
             input={<OutlinedInput />}
@@ -92,7 +91,7 @@ const PaginationWithItemsPerPage = memo(({
             <MenuItem value={15}>15</MenuItem>
             <MenuItem value={20}>20</MenuItem>
             <MenuItem value={25}>25</MenuItem>
-          </Select>
+          </PaginationSelect>
         </FormControl>
       </CenteredBox>
     </CenteredBox>

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, Balance, BigUIntValue, BytesValue } from '@elrondnetwork/erdjs/out';
-import { InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { InputLabel, MenuItem, SelectChangeEvent } from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -24,6 +24,8 @@ import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { useEffectDebugger } from 'src/utils/useEffectDebugger';
 import { InputsContainer, MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { StyledSelect } from '../styled';
 
 interface ProposeUnstakeTokensType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -222,8 +224,8 @@ const ProposeUnstakeTokens = ({
     }}
     >
       <div className="mb-4">
-        <InputLabel id="demo-simple-select-label">Staking Provider</InputLabel>
-        <Select
+        <InputLabel id="demo-simple-select-label"><Text>Staking Provider</Text></InputLabel>
+        <StyledSelect
           value={identifier}
           fullWidth
           label="Identifier"
@@ -231,22 +233,6 @@ const ProposeUnstakeTokens = ({
           MenuProps={{ className: 'UnstakeTokenListOpened' }}
           onChange={(e: any) => { onChange(e); formik.handleChange(e); }}
           className="mb-0"
-          sx={{
-            borderRadius: '.33rem',
-            border: 'solid 1px rgba(76, 47, 252, 0.23)',
-            ':hover': {
-              borderColor: '#08041D',
-            },
-            ':focus-within': {
-              border: 'solid 2px #4c2ffc !important',
-            },
-            '.MuiInputBase-input': {
-              paddingY: '0 !important',
-            },
-            fieldset: {
-              display: 'none',
-            },
-          }}
         >
           {activeDelegationsRows?.map((activeDelegation: IdentityWithColumns) => (
             <MenuItem
@@ -260,7 +246,7 @@ const ProposeUnstakeTokens = ({
               </Box>
             </MenuItem>
           ))}
-        </Select>
+        </StyledSelect>
         <span>
           Staked:
           {' '}
