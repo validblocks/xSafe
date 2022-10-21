@@ -66,10 +66,14 @@ export const theme = createTheme({
     },
     svg: {
       secondary: '#08041D',
+      safe: 'rgba(0, 0, 0, 0.26)',
     },
     hover: {
       secondary: 'rgba(0, 0, 0, 0.04)',
       select: '#08041D',
+    },
+    shadows: {
+      primary: 'rgb(40 54 61 / 18%) 0px 2px 4px 0px',
     },
   },
   shape: {
@@ -246,7 +250,7 @@ export const darkTheme = createTheme({
       timeline: '#2FFCBE',
       pagination: '#D6CFFF1A',
       checked: '#D6CFFF1A',
-      safe: '#A2A2A2',
+      safe: '#4c2FFC',
       menu: '#181626',
       overlay: '#14131C',
       accordion: '#242837',
@@ -277,10 +281,14 @@ export const darkTheme = createTheme({
     },
     svg: {
       secondary: '#fff',
+      safe: '#6c757d',
     },
     hover: {
       secondary: '#181626',
       select: '#A9A9A9',
+    },
+    shadows: {
+      primary: '0px 2px 4px 0px rgb(76 47 252 / 13%)',
     },
   },
 });

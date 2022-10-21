@@ -21,8 +21,8 @@ export const LoadSafeButton = styled(Button)`
 
 export const CreateNewSafeButton = styled(LoadSafeButton)`
 &&& {
-  color: ${(props) => props.theme.palette.background.secondary};
-  background: ${(props) => props.theme.palette.primary.main};
+  color: ${(props) => props.theme.palette.text.primary};
+  background: ${(props) => props.theme.palette.background.button};
   height: 60px;
   &:hover {
     background-color: ${(props) => props.theme.palette.background.button};

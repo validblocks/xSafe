@@ -158,8 +158,9 @@ export const TypographyBold = styled(Typography)`
 `;
 
 export const Main = styled.main`
-  background-color: ${(props) => props.theme.palette.background.default};
   width: 100%;
+  background-color: ${(props) => props.theme.palette.background.default};
+  overflow-y: scroll;
 `;
 
 export const AssetValue = styled(Box)`

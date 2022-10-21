@@ -76,10 +76,11 @@ const MiniDrawer = () => {
             >
               <VpnKeyRoundedIcon
                 sx={{
-                  border: '1px solid #ddd',
+                  border: `1px solid ${theme.palette.svg.safe}`,
                   fontSize: '40px',
                   padding: '5px',
                   borderRadius: '100%',
+                  color: theme.palette.svg.safe,
                 }}
                 color="disabled"
               />

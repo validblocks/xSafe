@@ -105,7 +105,7 @@ export const TopHeader = styled(Box)`
   position: fixed;
   top: 0;
   z-index: 10000;
-  box-shadow: rgb(40 54 61 / 18%) 0px 2px 4px 0px;
+  box-shadow: ${(props) => props.theme.palette.shadows.primary};
 }
 `;
 
@@ -168,6 +168,7 @@ const Drawer = styled(MuiDrawer, {
 
 export const SidebarDrawer = styled(Drawer)(({ theme: _ }) => ({
   '& .MuiDrawer-paper': {
+    backgroundColor: _.palette.background.secondary,
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',

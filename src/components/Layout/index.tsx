@@ -7,7 +7,7 @@ import {
 } from '@elrondnetwork/dapp-core';
 import { Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import { setAccountData } from 'src/redux/slices/accountGeneralInfoSlice';
 import { setEconomics } from 'src/redux/slices/economicsSlice';
@@ -15,6 +15,8 @@ import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import routes from 'src/routes';
 import { accessTokenServices } from 'src/services/accessTokenServices';
 import { Main } from 'src/components/Theme/StyledComponents';
+import { useTheme } from 'styled-components';
+import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import routeNames from 'src/routes/routeNames';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { Nav } from 'react-bootstrap';
@@ -30,12 +32,14 @@ import NavbarLogo from './Navbar/Logo';
 import { CenteredBox } from '../StyledComponents/StyledComponents';
 
 function Layout({ children }: { children: React.ReactNode }) {
+  const theme: any = useTheme();
   const { isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
+  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
     address,
-    '',
+    'http://localhost:3000',
     isLoggedIn,
   );
 
@@ -67,6 +71,13 @@ function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     fetchEconomics();
   }, []);
+
+  useEffect(() => {
+    const body = document.querySelector('body');
+    if (body) {
+      body.style.background = theme.palette.background.default;
+    }
+  }, [isDarkThemeEnabled]);
 
   const width = useMediaQuery('(min-width:600px)');
 
