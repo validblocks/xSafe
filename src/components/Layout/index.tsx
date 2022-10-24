@@ -62,7 +62,6 @@ function Layout({ children }: { children: React.ReactNode }) {
 
         if (contracts.length > 0) {
           const [firstContract] = contracts;
-          console.log({ contracts });
           dispatch(setCurrentMultisigContract(firstContract.address));
           navigate(`${routeNames.multisig}/${firstContract.address}`);
         }
