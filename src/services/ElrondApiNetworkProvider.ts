@@ -56,7 +56,7 @@ export class ElrondApiNetworkProvider extends ApiNetworkProvider {
   }
 
   async validateMultisigAddress(address: string): Promise<boolean> {
-    if (!address) return false;
+    if (!address || address.length === 0) return false;
 
     try {
       return this.doGetGeneric(`accounts/${address}`);
