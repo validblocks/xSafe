@@ -12,5 +12,10 @@
   "scripts": {
     "start": "node index.js"
   },
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "devDependencies": {
+    "@typescript-eslint/parser": "^5.40.1",
+    "eslint-import-resolver-typescript": "^3.5.2",
+    "eslint-plugin-import": "^2.26.0"
+  }
 }
