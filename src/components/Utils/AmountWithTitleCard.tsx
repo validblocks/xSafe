@@ -22,10 +22,7 @@ const AmountWithTitleCard = ({
   if (amountValue === 'NaN') return <CardSkeleton />;
 
   return (
-    <MultisigCard sx={{
-      padding: '15px',
-    }}
-    >
+    <MultisigCard>
       <Text fontSize="15px" color="black.main" marginBottom="12px">{t(title) as string}:</Text>
       <Text fontSize="24px" fontWeight="bolder" sx={{ display: 'flex', gap: 1 }}>
         {(`${amountValue} ${needsDollarSign ? '$' : ''}${amountUnityMeasure}`)}

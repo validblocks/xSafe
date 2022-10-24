@@ -174,6 +174,7 @@ export const SidebarDrawer = styled(Drawer)(({ theme: _ }) => ({
     justifyContent: 'space-between',
     position: 'relative',
     heigth: '100%',
+    overflowY: 'visible',
   },
 }));
 

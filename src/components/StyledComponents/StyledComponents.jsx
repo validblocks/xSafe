@@ -45,6 +45,9 @@ export const DiscardActionButton = styled(Button)`
 `;
 
 export const MultisigCard = styled(Box)`
+  width: 240px;
+  padding: 15px;
+  margin: 0 12px 12px 0;
   background: ${(props) => props.theme.palette.background.secondary};
   border-radius: 10px;
   box-shadow: 0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03);

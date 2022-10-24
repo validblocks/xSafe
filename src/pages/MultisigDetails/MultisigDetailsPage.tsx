@@ -45,17 +45,17 @@ function MultisigDetailsPage() {
   return (
     <>
       <Styled.DetailsCardContainerBox>
-        <Grid container spacing={2}>
+        <Grid container>
           {topSectionCards.map(
-            (topCard) => <Grid key={topCard.props.title} item xs={6} md={4} lg={3}> {topCard} </Grid>,
+            (topCard) => <Grid key={topCard.props.title}> {topCard} </Grid>,
           )}
         </Grid>
       </Styled.DetailsCardContainerBox>
       <Divider />
       <Styled.DetailsCardContainerBox>
-        <Grid container spacing={2}>
+        <Grid container>
           {bottomSectionCards.map(
-            (bottomCard) => <Grid key={bottomCard.props.title} item xs={6} md={4} lg={3}> {bottomCard} </Grid>,
+            (bottomCard) => <Grid key={bottomCard.props.title} item> {bottomCard} </Grid>,
           )}
         </Grid>
       </Styled.DetailsCardContainerBox>
