@@ -20,6 +20,7 @@ import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelecto
 import routeNames from 'src/routes/routeNames';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { Nav } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import { TokenWrapper } from '../TokenWrapper';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
@@ -36,6 +37,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   const { isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
     address,
@@ -62,10 +64,18 @@ function Layout({ children }: { children: React.ReactNode }) {
           const [firstContract] = contracts;
           console.log({ contracts });
           dispatch(setCurrentMultisigContract(firstContract.address));
+          navigate(`${routeNames.multisig}/${firstContract.address}`);
         }
       }());
     }
   }, [isLoggedIn, address, isAuthenticated?.isAuthenticated, dispatch]);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      dispatch(setCurrentMultisigContract(''));
+      navigate(routeNames.multisig);
+    }
+  }, [dispatch, isLoggedIn, navigate]);
 
   async function fetchEconomics() {
     const economics = await ElrondApiProvider.getEconomicsData();
@@ -113,9 +123,7 @@ function Layout({ children }: { children: React.ReactNode }) {
       </AppBarWrapper>
       <SidebarAndMainWrapper>
         {width ? <Navbar /> : <MobileLayout />}
-        <Main
-          style={{ paddingLeft: '10px', paddingRight: '10px', paddingTop: '1.5rem' }}
-        >
+        <Main>
           <Box>
             <AuthenticatedRoutesWrapper
               routes={routes}
