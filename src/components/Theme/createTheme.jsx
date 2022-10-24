@@ -33,6 +33,11 @@ export const theme = createTheme({
       overlay: '#FFFFFFD6',
       accordion: '#F3F6FC',
       expand: '#F3F6FC',
+      safeOptions: {
+        main: '#fff',
+        svg: '#4c2FFC8a',
+        divider: '#0000001f',
+      },
     },
     text: {
       primary: '#08041D',
@@ -40,6 +45,9 @@ export const theme = createTheme({
       button: '#4c2FFC',
       disabled: '#A9A9A9',
       success: '#fff',
+    },
+    sidebar: {
+      primary: '#fff',
     },
     danger: {
       main: '#e51a3e',
@@ -51,6 +59,7 @@ export const theme = createTheme({
     divider: {
       main: '#DFDFE8',
       secondary: '#E0E0E0',
+      sidebar: '#0000001a',
     },
     borders: {
       active: '#4C2FFC',
@@ -256,6 +265,14 @@ export const darkTheme = createTheme({
       overlay: '#14131C',
       accordion: '#242837',
       expand: '#141520',
+      safeOptions: {
+        main: '#14131C',
+        svg: '#4c2FFC',
+        divider: '#211F30',
+      },
+    },
+    sidebar: {
+      primary: '#29273E',
     },
     danger: {
       main: '#e51a3e',
@@ -266,6 +283,7 @@ export const darkTheme = createTheme({
     divider: {
       main: '#DFDFE8',
       secondary: '#14131C',
+      sidebar: '#29273E',
     },
     borders: {
       active: '#4C2FFC',

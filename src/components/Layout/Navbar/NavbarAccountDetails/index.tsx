@@ -219,7 +219,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
           </Grid>
           )}
         </Grid>
-        <hr />
+        <Styled.Dividers sx={{ m: '1rem 0' }} />
         <TotalBalance />
       </Box>
     </DeployStepsContext.Provider>

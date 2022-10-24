@@ -17,7 +17,6 @@ export const DetailsCardContainerBox = styled(Box)`
   flex-wrap: wrap;
   width: 100%;
   padding: 12px 0;
-  gap: 12px;
 `;
 
 export const StyledSelect = styled(Select)`

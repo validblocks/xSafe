@@ -5,13 +5,17 @@ export const SafeOptionsWrapper = styled(Box)`
   position: absolute;
   top: 7px;
   left: 235px;
-  background: ${(props) => props.theme.palette.background.white};
-  box-shadow: 0px 0px 24px
+  color: ${(props) => props.theme.palette.text.primary};
+  background: ${(props) => props.theme.palette.background.safeOptions.main};
+  box-shadow: 0px 0px 6px
     ${(props) => props.theme.shadows.secondary};
   border-radius: ${(props) => props.theme.shape.radius};
   z-index: 2;
   width: 240px;
   overflow: hidden;
+  & .MuiDivider-root {
+    border-color: ${(props) => props.theme.palette.background.safeOptions.divider};
+  }
 `;
 
 export const AddSafe = styled(Button)`
@@ -35,7 +39,7 @@ export const AddSafe = styled(Button)`
     margin: 0 4px 2px 0;
     width: 28px;
     height: 28px;
-    fill: ${(props) => props.theme.palette.secondary.main};
+    fill: ${(props) => props.theme.palette.background.safeOptions.svg};
   }
 }
 `;
