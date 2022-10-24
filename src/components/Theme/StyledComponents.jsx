@@ -161,6 +161,7 @@ export const Main = styled.main`
   width: 100%;
   background-color: ${(props) => props.theme.palette.background.default};
   overflow-y: scroll;
+  padding: 14px 24px;
 `;
 
 export const AssetValue = styled(Box)`
