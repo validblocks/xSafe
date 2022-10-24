@@ -2,6 +2,8 @@ import { Address } from '@elrondnetwork/erdjs';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { useTheme } from 'styled-components';
 import * as Yup from 'yup';
 import { AddressBook } from 'src/pages/Organization/types';
 import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
@@ -20,6 +22,7 @@ const EditOwner = ({
   handleSetAddress,
   handleSetName,
 }: ProposeEditOwnerType) => {
+  const theme: any = useTheme();
   const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
   const { t }: { t: any } = useTranslation();
   const address = 'address' in selectedOption! ? selectedOption?.address : '';
@@ -59,7 +62,7 @@ const EditOwner = ({
       className="modal-controll-container"
       onSubmit={editOwnerForm.handleSubmit}
     >
-      <label htmlFor="name">{t('Name')}</label>
+      <label htmlFor="name"><Text>{t('Name')}</Text></label>
       <input
         id="name"
         name="name"
@@ -67,18 +70,23 @@ const EditOwner = ({
         className="form-control"
         onChange={editOwnerForm.handleChange}
         value={editOwnerForm.values.name}
+        style={{
+          backgroundColor: theme.palette.background.secondary,
+          color: theme.palette.text.primary,
+          borderColor: theme.palette.borders.secondary,
+        }}
       />
 
       <div
         className="h6 mb-spacer text-break remove-user"
         data-testid="delegateSubTitle"
       />
-      <div>{t('Address')}</div>
+      <div><Text>{t('Address')}</Text></div>
       <div
         className="h6 mb-spacer text-break remove-user"
         data-testid="delegateSubTitle"
       >
-        <p className="address">{address}</p>
+        <Text sx={{ borderColor: `${theme.palette.borders.secondary} !important` }} className="address">{address}</Text>
       </div>
     </form>
   );

@@ -1,5 +1,6 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useTheme } from 'styled-components';
 import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import { MouseEvent, useState } from 'react';
 import copyTextToClipboard from './helpers/copyToClipboard';
@@ -13,6 +14,7 @@ interface CopyButtonType {
 }
 
 const CopyButton = ({ text, color = '', className = '' }: CopyButtonType) => {
+  const theme: any = useTheme();
   const [copyResult, setCopyResut] = useState({
     default: true,
     success: false,
@@ -72,6 +74,17 @@ const CopyButton = ({ text, color = '', className = '' }: CopyButtonType) => {
       href="/#"
       onClick={handleCopyToClipboard}
       className={`side-action ${className}`}
+      sx={{
+        '& .text-secondary': {
+          color: '#6c757d !important',
+        },
+        '& .copyIcon': {
+          color: '#4c2ffc8a !important',
+        },
+        '& svg': {
+          color: `${theme.palette.button.copy} !important`,
+        },
+      }}
     >
       {copyResult.default || !copyResult.success ? (
         <ContentCopyRoundedIcon />

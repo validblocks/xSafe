@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import TextField from '@mui/material/TextField';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeCurrency from 'src/components/ChangeCurrency';
 import { MainButton, TypographyBold } from 'src/components/Theme/StyledComponents';
 import ThemeColor from 'src/components/ThemeColor';
 import { currentSafeNameSelector } from 'src/redux/selectors/safeNameSelector';
 import { setSafeName } from 'src/redux/slices/safeNameSlice';
+import { SettingsInput } from 'src/components/StyledComponents/settings';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { NoteSpan, Span } from './settings-style';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
@@ -49,8 +49,7 @@ function SafeSettings() {
           seeing it)
         </NoteSpan>
       </Typography>
-      <TextField
-        id="outlined-basic"
+      <SettingsInput
         label="Safe Name"
         variant="outlined"
         disabled={isInReadOnlyMode}
@@ -67,7 +66,7 @@ function SafeSettings() {
       </Typography>
       <ChangeCurrency />
       <TypographyBold sx={{ mb: 1, mt: 2, fontSize: '18px' }}>
-        Appearance (Coming soon...)
+        Appearance
       </TypographyBold>
 
       <Typography sx={{ mb: 2 }}>

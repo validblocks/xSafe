@@ -8,6 +8,8 @@ import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { useDispatch, useSelector } from 'react-redux';
 import Safe from 'src/assets/img/safe.png';
+import SafeDark from 'src/assets/img/Safe-dark.png';
+import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import CopyButton from 'src/components/CopyButton';
 import ReceiveModal from 'src/components/ReceiveModal';
 import SafeOptions from 'src/components/SafeOptions';
@@ -52,6 +54,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
   const menuRef = useRef<HTMLElement>();
+  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const updateMultisigContract = useCallback(
     (newContracts: MultisigContractInfoType[]) => dispatch(setMultisigContracts(newContracts)),
     [dispatch]);
@@ -98,6 +101,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
       document.removeEventListener('mousedown', handler);
     };
   }, [showDeployMultisigModal]);
+
   return (
     <DeployStepsContext.Provider value={contextValue}>
       <Box>
@@ -117,7 +121,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
         >
           <Grid item position="relative" sx={{ paddingTop: '0 !important', paddingLeft: '0 !important' }} sm={3}>
             <Box display="table">
-              <img src={Safe} alt="safe" width="60px" height="60px" />
+              <img src={isDarkThemeEnabled ? SafeDark : Safe} alt="safe" width="60px" height="60px" />
             </Box>
             <Grow in={displayOwnershipWarning}>
               <div>
@@ -149,14 +153,17 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   }}
                   sx={{
                     '& .MuiSvgIcon-root': {
-                      color: 'rgba(76, 47, 252, 0.54) !important',
+                      color: '#4c2FFC !important',
                     },
                   }}
                 >
                   <ArrowDropUpIcon />
                 </Box>
                 {openedSafeSelect === true && (
-                <SafeOptions ref={menuRef} />
+                <SafeOptions
+                  closeSafe={() => setOpenedSafeSelect(false)}
+                  ref={menuRef}
+                />
                 )}
               </Box>
               )}
@@ -164,7 +171,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
               <Box
                 sx={{
                   '& .MuiSvgIcon-root': {
-                    color: 'rgba(76, 47, 252, 0.54) !important',
+                    color: '#4c2FFC !important',
                   },
                 }}
               >
@@ -194,7 +201,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <SearchIcon />
+                  <SearchIcon sx={{ color: '#6C757D !important' }} />
                 </Anchor>
               </Box>
             </ActionIconsBox>

@@ -4,41 +4,44 @@ import dayjs from 'dayjs';
 import { toSvg } from 'jdenticon';
 import { capitalizeString } from 'src/utils/stringUtils';
 import { getDate } from 'src/utils/transactionUtils';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { useTheme } from 'styled-components';
 import { PairOfTransactionAndDecodedAction } from './TransactionHistory';
 
 function TransactionSummary({
   transaction,
   action,
 }: PairOfTransactionAndDecodedAction) {
+  const theme: any = useTheme();
   return (
     <>
       <Box className="d-flex">
         <Box
           className="d-flex align-items-center justify-content-center w-100"
           sx={{
-            borderRight: '1px solid #D6DAF1',
+            borderRight: `1px solid ${theme.palette.divider.secondary}`,
             padding: '1rem',
             minWidth: '60px',
           }}
         >
-          {action?.actionId}
+          <Text>{action?.actionId}</Text>
         </Box>
 
         <Box
           className="d-flex align-items-center justify-content-start"
           sx={{
-            borderRight: '1px solid #D6DAF1',
+            borderRight: `1px solid ${theme.palette.divider.secondary}`,
             padding: '1rem',
             fontWeight: 'bold',
             minWidth: '230px',
           }}
         >
-          {action?.title()}
+          <Text fontWeight={700}>{action?.title()}</Text>
         </Box>
 
         <Box
           sx={{
-            borderRight: '1px solid #D6DAF1',
+            borderRight: `1px solid ${theme.palette.divider.secondary}`,
             padding: '1rem',
             fontSize: '0.85rem',
             display: 'flex',
@@ -49,9 +52,9 @@ function TransactionSummary({
           }}
         >
           <div>
-            <strong>Execution Time:</strong>
+            <strong><Text fontSize={12} fontWeight={700}>Execution Time:</Text></strong>
           </div>
-          {dayjs(getDate(transaction.timestamp)).format('H:mm A')}
+          <Text fontSize={12}>{dayjs(getDate(transaction.timestamp)).format('H:mm A')}</Text>
         </Box>
 
         <Box
@@ -62,35 +65,35 @@ function TransactionSummary({
           }}
         >
           <div>
-            <strong>Executed by:</strong>
+            <Text fontSize={12} fontWeight={700}><strong>Executed by:</strong></Text>
           </div>
           <div className="d-flex align-items-center mt-1">
             <div
               className="mr-1"
               dangerouslySetInnerHTML={{ __html: toSvg(transaction.sender, 20) }}
             />
-            <Ui.Trim text={transaction.sender} />
+            <Text fontSize={12}><Ui.Trim text={transaction.sender} /></Text>
           </div>
         </Box>
       </Box>
       <Box
         className="d-flex align-items-center justify-content-center w-100"
         sx={{
-          borderLeft: '1px solid #D6DAF1',
+          borderLeft: `1px solid ${theme.palette.divider.secondary}`,
           padding: '1rem',
         }}
       >
         <div className="mx-3 d-flex align-items-center justify-content-end">
           <Box
             sx={{
-              backgroundColor: '#3BE292',
+              backgroundColor: theme.palette.button.success,
               color: '#fff',
               borderRadius: '4px',
               padding: '0.5rem 0.675rem',
               fontWeight: 'bold',
             }}
           >
-            {capitalizeString(transaction.status)}
+            <Text sx={{ color: `${theme.palette.text.success} !important`, fontWeight: '700' }}>{capitalizeString(transaction.status)}</Text>
           </Box>
         </div>
       </Box>

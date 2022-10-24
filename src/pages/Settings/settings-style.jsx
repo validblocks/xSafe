@@ -6,7 +6,8 @@ export const Span = styled.span`
 `;
 
 export const SettingsWrapper = styled(Box)`
-  background-color: ${(props) => props.theme.palette.background.white};
+  background-color: ${(props) => props.theme.palette.background.secondary};
+  color: ${(props) => props.theme.palette.text.primary};
   border-radius: ${(props) => props.theme.shape.radius};
   @media (max-width: 600px) {
     width: 100%;

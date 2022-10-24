@@ -1,13 +1,16 @@
 import { Address, Balance } from '@elrondnetwork/erdjs';
 import { useSelector } from 'react-redux';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   currentMultisigContractSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { Divider, Grid } from '@mui/material';
 import useMultisigDetailsCards from 'src/utils/useMultisigDetailsCards';
+import routeNames from 'src/routes/routeNames';
 import { parseMultisigAddress } from 'src/utils/addressUtils';
+import { useEffect } from 'react';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import * as Styled from './styled';
 
 export interface ContractInfo {
@@ -25,6 +28,7 @@ export interface ContractInfo {
 
 function MultisigDetailsPage() {
   const navigate = useNavigate();
+  const { isLoggedIn } = useGetLoginInfo();
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const {
@@ -32,10 +36,11 @@ function MultisigDetailsPage() {
     bottomSectionCards,
   } = useMultisigDetailsCards();
 
-  if (!currentContract?.address || !parseMultisigAddress(currentContract?.address)) {
-    navigate('/');
-    return <Navigate to="/" />;
-  }
+  useEffect(() => {
+    if (!isLoggedIn || !currentContract?.address || !parseMultisigAddress(currentContract?.address)) {
+      navigate(routeNames.multisig);
+    }
+  }, [currentContract?.address, isLoggedIn, navigate]);
 
   return (
     <>

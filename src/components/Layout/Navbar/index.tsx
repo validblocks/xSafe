@@ -3,22 +3,21 @@ import { List, Accordion, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
-import MuiDrawer from '@mui/material/Drawer';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { styled, Theme, CSSObject } from '@mui/material/styles';
-import { Navbar as BsNavbar, Nav } from 'react-bootstrap';
 import { Link, useLocation } from 'react-router-dom';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
 import addressShorthand from 'src/helpers/addressShorthand';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';
 import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
 import { useSelector } from 'react-redux';
 import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
+import { useTheme } from 'styled-components';
 import AccountDetails from './NavbarAccountDetails';
 import './menu.scss';
 import {
@@ -27,6 +26,7 @@ import {
   MenuAccordion,
   AccordionDetail,
   BottomMenu,
+  SidebarDrawer,
 } from './navbar-style';
 import NavbarLogo from './Logo';
 
@@ -71,11 +71,14 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 const MiniDrawer = () => {
+  const theme: any = useTheme();
   const location = useLocation();
   const locationString = location.pathname.substring(1);
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const open = true;
+
+  const { isLoggedIn } = useGetLoginInfo();
 
   const [expanded, setExpanded] = useState<string | false>(false);
   const handleChange =
@@ -95,41 +98,37 @@ const MiniDrawer = () => {
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <Drawer variant="permanent" open={open} className="drawer-wrapper">
-        <BsNavbar className="p-0 py-3 px-4 d-flex align-items-center justify-content-center">
-          <NavbarLogo />
-          <Box display={'flex'} alignItems={'center'} justifyContent={'center'}>
-            <Nav className="ml-auto align-items-center" />
-          </Box>
-        </BsNavbar>
-        <Divider />
+      <SidebarDrawer
+        variant="permanent"
+        open={open}
+      >
+
+        {(currentContract?.address || isLoggedIn) && <Divider />}
+        {(currentContract?.address || isLoggedIn) && (
         <List sx={{ mt: 1, pb: 0 }}>
           <AccountDetails uniqueAddress={addressShorthand(currentContract?.address ?? '')} />
           <Divider />
         </List>
+        )}
         {
-          !currentContract?.address && (
-            <Box
-              marginTop={1}
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
+          (!currentContract?.address && !isLoggedIn) && (
+            <CenteredBox
+              marginTop={4}
             >
               <VpnKeyRoundedIcon
                 sx={{
-                  border: '1px solid #ddd',
-                  fontSize: '36px',
+                  border: `1px solid ${theme.palette.svg.safe}`,
+                  fontSize: '40px',
                   padding: '5px',
                   borderRadius: '100%',
+                  color: theme.palette.svg.safe,
                 }}
                 color="disabled"
               />
-            </Box>
+            </CenteredBox>
           )
         }
-        {currentContract?.address && (
+        {(currentContract?.address || isLoggedIn) && (
           <TopMenu>
             {menuItems.topItems.map((el) => (
               <div key={el.id}>
@@ -137,7 +136,18 @@ const MiniDrawer = () => {
                 <Accordion
                   expanded={expanded === `${el.id}`}
                   onChange={handleChange(`${el.id}`)}
-                  sx={{ boxShadow: 'none' }}
+                  sx={{ boxShadow: 'none',
+                    backgroundColor: theme.palette.background.hover,
+                    '& .MuiCollapse-entered': {
+                      display: 'block !important',
+                      '& .active': {
+                        display: 'block',
+                        '& div': {
+                          backgroundColor: `${theme.palette.background.hover} !important`,
+                        },
+                      },
+                    },
+                  }}
                 >
                   <MenuAccordion
                     aria-controls="panel1a-content"
@@ -150,7 +160,6 @@ const MiniDrawer = () => {
                         minHeight: 48,
                         justifyContent: open ? 'initial' : 'center',
                         px: 2.5,
-                        color: '#08041D',
                       }}
                     >
                       <ListItemIcon
@@ -158,6 +167,7 @@ const MiniDrawer = () => {
                           minWidth: 0,
                           mr: open ? 1 : 'auto',
                           justifyContent: 'center',
+                          color: theme.palette.text.primary,
                         }}
                       >
                         {el.icon}
@@ -166,7 +176,6 @@ const MiniDrawer = () => {
                         primary={<Text> {el.name}</Text>}
                         sx={{
                           opacity: open ? 1 : 0,
-                          color: '#08041D',
                         }}
                       />
                     </ListItem>
@@ -196,6 +205,7 @@ const MiniDrawer = () => {
                               minWidth: 0,
                               mr: open ? 3 : 'auto',
                               justifyContent: 'center',
+                              color: theme.palette.text.primary,
                             }}
                           />
                           <ListItemText
@@ -251,6 +261,7 @@ const MiniDrawer = () => {
                               minWidth: 0,
                               mr: open ? 3 : 'auto',
                               justifyContent: 'center',
+                              color: theme.palette.text.primary,
                             }}
                           />
                           <ListItemText
@@ -303,6 +314,7 @@ const MiniDrawer = () => {
                         minWidth: 0,
                         mr: open ? 1 : 'auto',
                         justifyContent: 'center',
+                        color: theme.palette.text.primary,
                       }}
                     >
                       {el.icon}
@@ -339,6 +351,7 @@ const MiniDrawer = () => {
                             minWidth: 0,
                             mr: open ? 1 : 'auto',
                             justifyContent: 'center',
+                            color: theme.palette.text.primary,
                           }}
                         >
                           {app.icon}
@@ -367,7 +380,6 @@ const MiniDrawer = () => {
           </TopMenu>
         )}
         <BottomMenu>
-          <Divider sx={{ mt: 1 }} />
           {menuItems.bottomItems.map((el) => (
             <Link
               key={el.id}
@@ -390,6 +402,7 @@ const MiniDrawer = () => {
                     minWidth: 0,
                     mr: open ? 1 : 'auto',
                     justifyContent: 'center',
+                    color: theme.palette.text.primary,
                   }}
                 >
                   {el.icon}
@@ -402,7 +415,7 @@ const MiniDrawer = () => {
             </Link>
           ))}
         </BottomMenu>
-      </Drawer>
+      </SidebarDrawer>
     </Box>
   );
 };

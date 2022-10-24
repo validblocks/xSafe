@@ -2,6 +2,7 @@ import { Ui } from '@elrondnetwork/dapp-utils';
 import { toSvg } from 'jdenticon';
 import { useSelector } from 'react-redux';
 import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 const ShortMemberPresentation = ({ address }: { address: string }) => {
   const addressBook = useSelector(addressBookSelector);
@@ -14,7 +15,7 @@ const ShortMemberPresentation = ({ address }: { address: string }) => {
           dangerouslySetInnerHTML={{ __html: toSvg(address, 25) }}
         />
       )}
-      <Ui.Trim text={addressBook[address] ?? address ?? 'Unknown'} />
+      <Text fontSize={12}><Ui.Trim text={addressBook[address] ?? address ?? 'Unknown'} /></Text>
     </div>
   );
 };

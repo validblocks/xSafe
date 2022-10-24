@@ -23,7 +23,7 @@ import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import DelegatedColumn from '../Staking/DelegatedColumn';
 import ClaimableRewardsColumn from '../Staking/ClaimableRewardsColumn';
-import * as Styled from '../Utils/styled/index';
+import * as Styled from '../../pages/Organization/styled';
 
 interface Props {
     isFetching?: boolean;

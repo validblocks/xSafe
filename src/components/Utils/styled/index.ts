@@ -1,7 +1,15 @@
-import { Box, Link, Tabs } from '@mui/material';
+import {
+  Autocomplete,
+  autocompleteClasses,
+  Box,
+  Popper,
+  Link,
+  Tabs,
+} from '@mui/material';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import { DataGrid } from '@mui/x-data-grid';
 import styled from 'styled-components';
+import _ from 'lodash';
 
 export const ContainerWithPanelsTopBox = styled(Box)(({ theme: _ }) => ({
   '&&&': {
@@ -23,7 +31,7 @@ export const CopyIconLinkPurple = styled(CopyIconLink)(({ theme: _ }) => ({
 }));
 
 export const QrCodeReceive = styled(QrCodeIcon)(({ theme: _ }) => ({
-  color: _.palette.anchor.secondary,
+  color: '#6C757D !important',
 }));
 
 export const QrCodeReceivePurple = styled(QrCodeIcon)(({ theme: _ }) => ({
@@ -102,7 +110,47 @@ export const TabContainerBox = styled(Box)(({ theme }) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottom: `2px solid ${theme.palette.divider.main} !important`,
+    borderBottom: `2px solid ${theme.palette.divider.secondary} !important`,
+  },
+}));
+
+export const MultisigAutocomplete = styled(Autocomplete)(({ theme }) => ({
+  '&&&': {
+    '& .MuiOutlinedInput-root': {
+      color: theme.palette.text.primary,
+      '& fieldset': {
+        borderColor: theme.palette.borders.secondary,
+      },
+      '&:hover fieldset': {
+        borderColor: theme.palette.borders.active,
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: theme.palette.borders.active,
+      },
+      '& .MuiAutocomplete-endAdornment': {
+        '& button': {
+          '& svg': {
+            color: theme.palette.text.primary,
+          },
+        },
+      },
+    },
+    '& .MuiInputLabel-root,& .MuiInputLabel-formControl': {
+      color: theme.palette.text.primary,
+    },
+    '& .MuiAutocomplete-popper': {
+      color: theme.palette.text.primary,
+    },
+  },
+}));
+
+export const MultisigPopper = styled(Popper)(({ theme }) => ({
+  [`& .${autocompleteClasses.listbox}`]: {
+    boxSizing: 'border-box',
+    backgroundColor: theme.palette.background.secondary,
+    color: theme.palette.text.primary,
+    border: `1px solid ${theme.palette.background.secondary}`,
+    boxShadow: 'none',
   },
 }));
 
@@ -117,6 +165,15 @@ export const MainTab = styled(Tabs)(({ theme: _ }) => ({
     '& .MuiTabs-indicator': {
       backgroundColor: _.palette.primary.main,
       boxShadow: `0px 0px 2px ${_.palette.primary.main}`,
+    },
+  },
+}));
+
+export const MultistepForm = styled(Box)(({ theme }) => ({
+  '&&&': {
+    backgroundColor: theme.palette.background.secondary,
+    '& .MuiSvgIcon-root': {
+      color: theme.palette.text.primary,
     },
   },
 }));

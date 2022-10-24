@@ -11,6 +11,7 @@ import { queryAllActions } from 'src/contracts/MultisigContract';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
+import { useTheme } from 'styled-components';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import {
   transactionServices,
@@ -36,6 +37,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 const TransactionQueue = () => {
+  const theme: any = useTheme();
   const classes = useStyles();
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -100,7 +102,7 @@ const TransactionQueue = () => {
           expanded={expanded === action.actionId.toString()}
         >
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={<ExpandMoreIcon sx={{ color: theme.palette.text.primary }} />}
             aria-controls="panel1a-content"
             sx={{
               borderRadius: '10px',

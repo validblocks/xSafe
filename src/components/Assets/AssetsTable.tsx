@@ -13,7 +13,9 @@ import {
   setProposeMultiselectSelectedOption,
   setSelectedTokenToSend,
 } from 'src/redux/slices/modalsSlice';
+import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
+import { ReactComponent as ElrondLogoWhite } from 'src/assets/img/elrond-logo-white.svg';
 import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { AssetActionButton } from 'src/components/Theme/StyledComponents';
@@ -21,7 +23,7 @@ import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
 import { Typography } from '@mui/material';
 import { Balance } from '@elrondnetwork/erdjs/out';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
-import * as Styled from '../Utils/styled/index';
+import * as Styled from '../../pages/Organization/styled';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 
@@ -49,6 +51,7 @@ const AssetsTable = () => {
 
   const currentContract = useSelector(currentMultisigContractSelector);
   const tokenTableRows = useSelector(tokenTableRowsSelector);
+  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
 
   const { isLoggedIn } = useGetLoginInfo();
 
@@ -101,11 +104,20 @@ const AssetsTable = () => {
               />
               )}
               {params.value.tokenIdentifier === 'EGLD' && (
-              <ElrondLogo
-                width={SQUARE_IMAGE_WIDTH}
-                height={SQUARE_IMAGE_WIDTH}
-                className="mr-3"
-              />
+                isDarkThemeEnabled ? (
+                  <ElrondLogoWhite
+                    width={SQUARE_IMAGE_WIDTH}
+                    height={SQUARE_IMAGE_WIDTH}
+                    className="mr-3"
+                  />
+                )
+                  : (
+                    <ElrondLogo
+                      width={SQUARE_IMAGE_WIDTH}
+                      height={SQUARE_IMAGE_WIDTH}
+                      className="mr-3"
+                    />
+                  )
               )}
               <p className="mb-0">
                 {params.value.tokenIdentifier?.split('-')[0] ?? 'unknown'}

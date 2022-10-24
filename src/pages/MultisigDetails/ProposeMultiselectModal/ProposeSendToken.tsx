@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, Balance } from '@elrondnetwork/erdjs/out';
-import { Box, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { Box, MenuItem, SelectChangeEvent } from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
@@ -20,7 +20,7 @@ import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import ActionDialog from 'src/components/Utils/ActionDialog';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { setProposeMultiselectSelectedOption, setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
-import { InputsContainer } from 'src/components/Theme/StyledComponents';
+import { InputsContainer, TokenSelect } from 'src/components/Theme/StyledComponents';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeSendTokenType {
@@ -259,13 +259,13 @@ const ProposeSendToken = ({
           {`${t('Amount')}`}
         </label>
 
-        <Select
+        <TokenSelect
           value={identifier ?? ''}
           fullWidth
           label="Identifier"
           size="small"
           MenuProps={{ className: 'SendTokenListOpened' }}
-          onChange={onIdentifierChanged}
+          onChange={onIdentifierChanged as any}
           sx={{
             position: 'absolute',
             top: '0px',
@@ -298,7 +298,7 @@ const ProposeSendToken = ({
               />
             </MenuItem>
           ))}
-        </Select>
+        </TokenSelect>
 
         <span className="errorMessage">{amountError}</span>
 

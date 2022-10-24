@@ -66,7 +66,7 @@ function AddMultisigModal({
       animation={false}
       centered
     >
-      <Box>
+      <Box sx={{ backgroundColor: theme.palette.background.secondary }} className="modal-content">
         <Box py={2} px={4} borderBottom={`1px solid ${theme.palette.divider.main}`}>
           <Text fontSize={24} textAlign={'left'}>
             {t('Add Multisig') as string}
@@ -88,18 +88,24 @@ function AddMultisigModal({
               autoComplete="off"
               onChange={(e) => onContractNameChange(e)}
               sx={{
+                '& input': {
+                  color: theme.palette.text.primary,
+                },
+                '& label': {
+                  color: theme.palette.text.secondary,
+                },
                 '&:hover fieldset': {
-                  borderColor: '#08041D',
+                  borderColor: `${theme.palette.borders.active} !important`,
                 },
                 '& p.MuiFormHelperText-root': {
                   ml: '.35rem !important',
                   fontSize: '11.2px',
                 },
                 '& fieldset': {
-                  borderColor: '#4c2ffc8a !important',
+                  borderColor: `${theme.palette.borders.secondary} !important`,
                 },
                 '&:focus-within': {
-                  '& fieldset': { borderColor: '#4c2ffc !important' },
+                  '& fieldset': { borderColor: `${theme.palette.borders.active} !important` },
                   '& label': { color: '#4c2ffc' },
                 },
                 '&.isAddressError:focus-within': {

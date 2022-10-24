@@ -5,35 +5,41 @@ import {
   useGetAccountInfo,
   useGetLoginInfo,
 } from '@elrondnetwork/dapp-core';
-import { Box, styled } from '@mui/material';
-import MuiAppBar, { AppBarProps } from '@mui/material/AppBar';
+import { Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import { setAccountData } from 'src/redux/slices/accountGeneralInfoSlice';
 import { setEconomics } from 'src/redux/slices/economicsSlice';
-import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
+import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import routes from 'src/routes';
 import { accessTokenServices } from 'src/services/accessTokenServices';
 import { Main } from 'src/components/Theme/StyledComponents';
+import { useTheme } from 'styled-components';
+import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import routeNames from 'src/routes/routeNames';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { Nav } from 'react-bootstrap';
 import { TokenWrapper } from '../TokenWrapper';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
 import Account from './Navbar/Account';
-import { TopHeader } from './Navbar/navbar-style';
+import { AppBarWrapper, SidebarAndMainWrapper, TopHeader } from './Navbar/navbar-style';
 import MobileLayout from './Navbar/mobileLayout';
 import Navbar from './Navbar/index';
+import NavbarLogo from './Navbar/Logo';
+import { CenteredBox } from '../StyledComponents/StyledComponents';
 
 function Layout({ children }: { children: React.ReactNode }) {
+  const theme: any = useTheme();
   const { isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
+  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
     address,
-    '',
+    'http://localhost:3000',
     isLoggedIn,
   );
 
@@ -51,6 +57,12 @@ function Layout({ children }: { children: React.ReactNode }) {
         await fetchAccountData();
         const contracts = await getUserMultisigContractsList();
         dispatch(setMultisigContracts(contracts));
+
+        if (contracts.length > 0) {
+          const [firstContract] = contracts;
+          console.log({ contracts });
+          dispatch(setCurrentMultisigContract(firstContract.address));
+        }
       }());
     }
   }, [isLoggedIn, address, isAuthenticated?.isAuthenticated, dispatch]);
@@ -66,60 +78,58 @@ function Layout({ children }: { children: React.ReactNode }) {
     fetchEconomics();
   }, []);
 
+  useEffect(() => {
+    const body = document.querySelector('body');
+    if (body) {
+      body.style.background = theme.palette.background.default;
+    }
+  }, [isDarkThemeEnabled]);
+
   const width = useMediaQuery('(min-width:600px)');
 
-  const AppBar = styled(MuiAppBar, {
-    shouldForwardProp: (prop) => prop !== 'open',
-  })<AppBarProps>(({ theme }) => ({
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    boxShadow: 'unset',
-    right: 'auto',
-    left: 'auto',
-  }));
-
   return (
-    <div className="bg-light flex-row flex-fill wrapper page-wrapper">
-      {width ? <Navbar /> : <MobileLayout />}
-
-      <Main
-        className="flex-row flex-fill position-relative justify-center"
-        style={{ paddingLeft: '10px', paddingRight: '10px' }}
-      >
-        <Box sx={{ padding: '6rem 0px' }}>
-          <AppBar sx={{ width: 'calc(100% - 255px)', zIndex: '1' }}>
-            {width ? (
-              <TopHeader
-                className="d-flex justify-content-between px-4 py-3 align-items-center"
-                sx={{
-                  position: 'absolute',
-                  width: '100%',
-                }}
-              >
-                <Box>
-                  <PageBreadcrumbs />
-                </Box>
-                <Account />
-              </TopHeader>
-            ) : (
-              ''
-            )}
-          </AppBar>
-          <AuthenticatedRoutesWrapper
-            routes={routes}
-            unlockRoute={routeNames.multisigAddress}
+    <Box sx={{ height: '100vh' }}>
+      <AppBarWrapper>
+        {width ? (
+          <TopHeader
+            className="d-flex justify-content-between px-4 py-3 align-items-center"
           >
-            {children}
-          </AuthenticatedRoutesWrapper>
-          <TokenWrapper />
-          <ModalLayer />
-          <SidebarSelectOptionModal />
-        </Box>
-      </Main>
-    </div>
+            <Box className="p-0 d-flex align-items-center justify-content-between">
+              <Box className="p-0 d-flex align-items-center justify-content-center">
+                <NavbarLogo />
+                <CenteredBox>
+                  <Nav className="ml-auto align-items-center" />
+                </CenteredBox>
+              </Box>
+              <Box>
+                <PageBreadcrumbs />
+              </Box>
+            </Box>
+            <Account />
+          </TopHeader>
+        ) : (
+          ''
+        )}
+      </AppBarWrapper>
+      <SidebarAndMainWrapper>
+        {width ? <Navbar /> : <MobileLayout />}
+        <Main
+          style={{ paddingLeft: '10px', paddingRight: '10px', paddingTop: '1.5rem' }}
+        >
+          <Box>
+            <AuthenticatedRoutesWrapper
+              routes={routes}
+              unlockRoute={routeNames.multisig}
+            >
+              {children}
+            </AuthenticatedRoutesWrapper>
+            <TokenWrapper />
+            <ModalLayer />
+            <SidebarSelectOptionModal />
+          </Box>
+        </Main>
+      </SidebarAndMainWrapper>
+    </Box>
   );
 }
 

@@ -12,6 +12,7 @@ import useNft from 'src/utils/useNft';
 import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
 import { Box, Typography } from '@mui/material';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeSendNftType {
   handleChange: (proposal: MultisigSendNft) => void;
@@ -115,13 +116,13 @@ const ProposeSendNft = ({
   return (
     <Box>
       <Box sx={{ p: '1rem 2.5rem 0.9rem' }}>
-        <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>NFT name:</Typography>
+        <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}><Text>NFT name:</Text></Typography>
         <div className="mb-3">
           <img src={searchedNft.url} alt="" width={40} height={40} className="rounded mr-2" />
-          <span className="nftName">{searchedNft.name}</span>
+          <Text display={'inline'}><span className="nftName">{searchedNft.name}</span></Text>
         </div>
         <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>
-          Sending from:
+          <Text>Sending from:</Text>
         </Typography>
         <MemberPresentationWithPhoto
           memberAddress={memoizedAddress}

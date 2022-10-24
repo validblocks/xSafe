@@ -41,7 +41,11 @@ export const userRoleAsString = (roleNumber: number) => {
   }
 };
 
-const SafeOptions = React.forwardRef((props, ref) => {
+interface ISafeOptionsProps {
+  closeSafe: () => void;
+}
+
+const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => {
   const theme: any = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,6 +68,7 @@ const SafeOptions = React.forwardRef((props, ref) => {
     ]);
 
     navigate(`/multisig/${newSafeAddress}`);
+    closeSafe();
   };
 
   useEffect(() => {
@@ -117,19 +122,19 @@ const SafeOptions = React.forwardRef((props, ref) => {
                   {selectedSafe === fetchedContract.address ? (
                     <ActiveWallet sx={{ ml: 2 }}>
                       <TypographyBold textTransform={'none'} align="left">
-                        {fetchedContract.name.length > 0 ? fetchedContract.name : 'No name'}
+                        <Text>{fetchedContract.name.length > 0 ? fetchedContract.name : 'No name'}</Text>
                       </TypographyBold>
                       <Typography textTransform={'none'} align="left">
-                        {fetchedContract.role}
+                        <Text>{fetchedContract.role}</Text>
                       </Typography>
                     </ActiveWallet>
                   ) : (
                     <InactiveWallet sx={{ ml: 2 }}>
                       <Typography textTransform={'none'} align="left">
-                        {fetchedContract.name.length > 0 ? fetchedContract.name : 'No name'}
+                        <Text>{fetchedContract.name.length > 0 ? fetchedContract.name : 'No name'}</Text>
                       </Typography>
                       <Typography textTransform={'none'} align="left">
-                        {fetchedContract.role}
+                        <Text>{fetchedContract.role}</Text>
                       </Typography>
                     </InactiveWallet>
                   )}

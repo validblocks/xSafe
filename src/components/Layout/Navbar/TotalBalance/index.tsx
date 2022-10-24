@@ -75,6 +75,7 @@ function TotalBalance() {
   } = useQuery(
     [
       QueryKeys.ADDRESS_ESDT_TOKENS,
+      currentContract?.address,
     ],
     fetchAddressEsdts,
     {
@@ -238,7 +239,7 @@ function TotalBalance() {
       totalAssetsValue + totalEgldValue,
     );
     dispatch(setTotalUsdBalance(totalAssetsValue + totalEgldValue));
-  }, [egldBalanceDetails, egldPrice, newTokensWithPrices]);
+  }, [dispatch, egldBalanceDetails, egldPrice, newTokensWithPrices]);
 
   useEffect(() => {
     if (!totalValue) return;

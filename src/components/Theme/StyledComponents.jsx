@@ -1,4 +1,4 @@
-import { Button, Typography, Box, Select, TextField } from '@mui/material';
+import { Button, Typography, Box, Select, TextField, Pagination } from '@mui/material';
 import { Modal } from 'react-bootstrap';
 import styled from 'styled-components';
 
@@ -11,17 +11,23 @@ export const MainButton = styled(Button)`
   font-weight: ${(props) => props.theme.font.weight.lg};
   text-transform: capitalize;
   transition: all .15s linear;
-  border: 1px solid ${(props) => props.theme.palette.primary.main};
+  border: 1px solid #4c2FFC;
   background-color: ${(props) => props.theme.palette.background.main};
   box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+  & svg path {
+    fill: ${(props) => props.theme.palette.background.svg};
+    fill-opacity: 1;
+  };
   &:disabled {
-    background-color: #eee;
-    border-color: #ddd;
-    color: grey;
+    background-color: ${(props) => props.theme.palette.background.disabled};
+    border-color: ${(props) => props.theme.palette.background.disabled};
+    color: ${(props) => props.theme.palette.text.disabled};
     box-shadow: none;
   };
+
   &:hover, &.isActive {
-    background-color: ${(props) => props.theme.palette.primary.main};
+    background-color: ${(props) => props.theme.palette.background.button} !important;
+    border-color: ${(props) => props.theme.palette.background.button} !important;
     color: ${(props) => props.theme.palette.background.white};
     & svg path {
       fill: ${(props) => props.theme.palette.background.white};
@@ -71,19 +77,31 @@ export const ChangeStepButton = styled(MainButton)`
   font-size: 15px;
   font-weight: ${(props) => props.theme.font.weight.md};
   box-shadow: none;
+  &:disabled {
+    background-color: ${(props) => props.theme.palette.background.disabled} !important;
+    border-color: ${(props) => props.theme.palette.background.disabled} !important;
+    box-shadow: none;
+    & p {
+      color: ${(props) => props.theme.palette.text.disabled} !important;
+    }
+  };
 }
 `;
 
 export const FinalStepActionButton = styled(ChangeStepButton)`
 &&& {
-  color: ${(props) => props.theme.palette.background.default};
-  border: 1px solid ${(props) => props.theme.palette.primary.main};
-  background-color: ${(props) => props.theme.palette.primary.main};
-  &:hover {
-    box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
-    color: ${(props) => props.theme.palette.background.default};
-    border: 1px solid ${(props) => props.theme.palette.primary.main};
-    background-color: ${(props) => props.theme.palette.primary.main};
+  color: ${(props) => props.theme.palette.primary.main};
+  border: 1px solid #4c2FFC;
+  background-color: ${(props) => props.theme.palette.background.main};
+  box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+  &:hover, &.isActive {
+    background-color: ${(props) => props.theme.palette.background.button};
+    border-color: ${(props) => props.theme.palette.background.button};
+    color: ${(props) => props.theme.palette.background.white};
+    & svg path {
+      fill: ${(props) => props.theme.palette.background.white};
+      fill-opacity: 1;
+    };
   };
 }
 `;
@@ -93,6 +111,11 @@ export const AssetActionButton = styled(MainButton)`
   padding: 1px ${(props) => props.theme.padding.value.lg} 0 0;
   opacity: 0;
   box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+  background-color: ${(props) => props.theme.palette.background.main};
+  color: ${(props) => props.theme.palette.text.button};
+  '& svg': {
+    color: ${(props) => props.theme.palette.text.svg}
+  }
 }
 `;
 
@@ -108,11 +131,23 @@ export const WithdrawButton = styled(AccountButton)`
 export const MainSelect = styled(Select)`
 &&& {
   color: ${(props) => props.theme.palette.primary.main};
-  border: 1px solid ${(props) => props.theme.palette.primary.main};
+  border: 1px solid #4c2FFC;
   background-color: ${(props) => props.theme.palette.background.main};
   box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
   border-radius: 4px;
   padding: 0.25rem 0.75rem;
+  & svg path {
+    fill: ${(props) => props.theme.palette.background.svg};
+    fill-opacity: 1;
+  };
+  &:before {
+    display: none;
+  }
+  &:hover {
+    border-color: ${(props) => props.theme.palette.background.button};
+    background-color: ${(props) => props.theme.palette.background.button};
+    color: ${(props) => props.theme.palette.background.white};
+  }
 }
 `;
 
@@ -123,7 +158,9 @@ export const TypographyBold = styled(Typography)`
 `;
 
 export const Main = styled.main`
+  width: 100%;
   background-color: ${(props) => props.theme.palette.background.default};
+  overflow-y: scroll;
 `;
 
 export const AssetValue = styled(Box)`
@@ -131,7 +168,7 @@ export const AssetValue = styled(Box)`
   padding: 0;
   margin: 0px;
   font-size: 13px;
-  color: ${(props) => props.theme.palette.black.main};
+  color: ${(props) => props.theme.palette.text.primary};
 }
 `;
 
@@ -145,14 +182,19 @@ export const FormSearchInput = styled(Box)`
   aling-items: center;
   border-radius: .3rem;
   background-color: rgba(76,47,252, 0.06);
+  & svg {
+    margin-top: 4px;
+    color: ${(props) => props.theme.palette.text.primary} !important;
+  };
+  & .MuiOutlinedInput-root {
+    text-transform: none;
+    color: ${(props) => props.theme.palette.text.primary} !important;
+  }
   & input {
     padding: .25rem;
   };
   & fieldset {
     border: none;
-  };
-  & svg {
-    margin-top: 2px;
   };
 }
 `;
@@ -172,38 +214,42 @@ export const InputsContainer = styled(Box)`
   };
   & input.form-control, & label, & li, & div.MuiOutlinedInput-root {
     transition: all .3s linear;
+    color: ${(props) => props.theme.palette.text.primary};
+  };
+  div.MuiOutlinedInput-root {
+    border: solid 1px ${(props) => props.theme.palette.borders.secondary};
   };
   &:focus-within {
     input.form-control {
-      border: solid 1px ${(props) => props.theme.palette.primary.main};
+      border-color: ${(props) => props.theme.palette.borders.active};
     };
     li, div.MuiOutlinedInput-root {
-      border: solid 1px ${(props) => props.theme.palette.primary.main} !important;
+      border: solid 1px ${(props) => props.theme.palette.borders.active};
     };
   };
   &:hover {
     input.form-control {
-      border-color: ${(props) => props.theme.palette.black.main};
+      border-color: ${(props) => props.theme.palette.borders.active};
     };
     li {
-      border-color: ${(props) => props.theme.palette.black.main};
+      border-color: ${(props) => props.theme.palette.borders.active};
     };
     div.MuiOutlinedInput-root {
-      border-color: ${(props) => props.theme.palette.black.main};
+      border-color: ${(props) => props.theme.palette.borders.active};
     };
   };
   & div.MuiOutlinedInput-root.Mui-focused {
     height: 56px;
-    border: solid 1px rgba(76, 47, 252, 0.23);
+    border-color: ${(props) => props.theme.palette.borders.active};
   };
   & label {
     position: absolute;
     padding: 0 3px;
     top: -10px;
     left: 10px;
-    color: ${(props) => props.theme.palette.primary.main};
+    color: ${(props) => props.theme.palette.text.secondary};
     font-size: 12px;
-    background-color: #ffff;
+    background-color: ${(props) => props.theme.palette.background.secondary};
   };
   & input.form-control.is-invalid ~ label {
     color: ${(props) => props.theme.palette.danger.main};
@@ -213,7 +259,7 @@ export const InputsContainer = styled(Box)`
     height: auto;
     padding: 16.5px 14px;
     background-color: transparent;
-    border: solid 1px rgba(76, 47, 252, 0.23);
+    border: solid 1px ${(props) => props.theme.palette.borders.secondary};
     border-radius: .3rem;
   };
   & input.form-control.is-invalid {
@@ -232,7 +278,7 @@ export const InputsContainer = styled(Box)`
   };
   & input.form-control:focus {
     outline: none;
-    border: solid 1px ${(props) => props.theme.palette.primary.main};
+    border: solid 1px ${(props) => props.theme.palette.borders.active};
     box-shadow: none;
   };
   & h6.availableAmount {
@@ -250,7 +296,8 @@ export const InputsContainer = styled(Box)`
     height: 56px;
     top: 0;
     right: 0;
-    border: solid 1px rgba(76, 47, 252, 0.23);
+    border: solid 1px ${(props) => props.theme.palette.borders.secondary};
+    color: ${(props) => props.theme.palette.text.primary};
     border-radius: .3rem;
     border-top-left-radius: 2rem;
     border-bottom-left-radius: 2rem;
@@ -339,19 +386,23 @@ export const StakingSearchBar = styled(TextField)`
   width: 100%;
   & .MuiFilledInput-root {
     background-color: transparent;
+    color: ${(props) => props.theme.palette.text.primary} !important;
   };
   & .MuiFilledInput-root:before {
-    border-bottom: 1px solid ${(props) => props.theme.palette.divider.main};
+    border-bottom: 1px solid ${(props) => props.theme.palette.divider.secondary};
   };
   & .MuiFilledInput-root:after {
-    border-color: ${(props) => props.theme.palette.primary.main};
+    border-color: ${(props) => props.theme.palette.borders.active};
   };
   & .MuiFilledInput-input {
     padding: 1rem 0;
   };
+  & .MuiSvgIcon-root {
+    color: ${(props) => props.theme.palette.text.primary};
+  }
   &:hover {
     & .MuiFilledInput-root:before {
-      border-color: ${(props) => props.theme.palette.secondary.main};
+      border-color: ${(props) => props.theme.palette.borders.active};
     };
   };
 }
@@ -375,10 +426,15 @@ export const ModalContainer = styled(Modal)`
     width: 460px;
     top: calc(50% + 8px) !important;
     left: calc(50% - 230px) !important;
+    background-color: ${(props) => props.theme.palette.background.secondary};
+    & .MuiTypography-root {
+      color: ${(props) => props.theme.palette.text.primary} !important;
+    }
   };
   & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
     top: calc(50% + 68px) !important;
     left: 50% !important;
+    background-color: ${(props) => props.theme.palette.background.secondary};
   };
   @media (max-width: 991px) {
     & ~ .MuiPopover-root.UnstakeTokenListOpened > .MuiPaper-root {
@@ -391,7 +447,9 @@ export const ModalContainer = styled(Modal)`
     left: calc(50% - 15px) !important;
     };
   }
-
+  & .modal-content {
+    background-color: ${(props) => props.theme.palette.background.secondary};
+  }
 }
 `;
 
@@ -409,24 +467,25 @@ export const FormikRoundedCheckBox = styled(Box)`
   margin: 7px 0;
   display: flex;
   align-items: center;
+  color: ${(props) => props.theme.palette.text.primary};
   & input[type="checkbox"] {
     appearance: none;
     position: relative;
     width: 25px;
     height: 25px;
-    border: solid 1px ${(props) => props.theme.palette.divider.main};
+    border: solid 1px ${(props) => props.theme.palette.borders.secondary};
     border-radius: .2rem;
     transition: 300ms all ease-in-out;
   };
   & input[type="checkbox"]:hover {
-    border-color: ${(props) => props.theme.palette.primary.main};
+    border-color: ${(props) => props.theme.palette.borders.active};
   };
   & input[type="checkbox"]:focus {
     outline: none;
   };
   & input[type="checkbox"]:checked {
-    background-color: ${(props) => props.theme.palette.primary.main};
-    border-color: ${(props) => props.theme.palette.primary.main};
+    background-color: #4c2FFC;
+    border-color: #4c2FFC;
   };
   input[type="checkbox"]:before {
     position: absolute;
@@ -478,6 +537,49 @@ export const InputWrapper = styled.div`
     font-size: 10.5px;
     transform: translateY(0);
     opacity: 1;
+  };
+}
+`;
+
+export const StyledPagination = styled(Pagination)`
+  & li {
+    & button {
+      color: ${(props) => props.theme.palette.text.primary};
+    }
+    & .Mui-selected {
+      background-color: ${(props) => props.theme.palette.background.pagination}
+    }
+  }
+`;
+
+export const PaginationSelect = styled(Select)`
+&&& {
+  color: ${(props) => props.theme.palette.text.primary};
+  & svg path {
+    fill: ${(props) => props.theme.palette.text.primary};
+    fill-opacity: 1;
+  };
+  & fieldset {
+    border-color: ${(props) => props.theme.palette.borders.secondary};
+  };
+  &:hover fieldset{
+    border-color: ${(props) => props.theme.palette.hover.select};
+  };
+}
+`;
+
+export const TokenSelect = styled(Select)`
+&&& {
+  color: ${(props) => props.theme.palette.text.primary};
+  & svg path {
+    fill: ${(props) => props.theme.palette.text.primary};
+    fill-opacity: 1;
+  };
+  & fieldset {
+    border-color: ${(props) => props.theme.palette.borders.secondary};
+  };
+  &:hover fieldset{
+    border-color: ${(props) => props.theme.palette.borders.active};
   };
 }
 `;

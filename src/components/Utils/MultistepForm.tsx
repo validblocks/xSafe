@@ -1,7 +1,10 @@
 import { Box } from '@mui/material';
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useTheme } from 'styled-components';
+import { Text } from '../StyledComponents/StyledComponents';
 import { FinalStepActionButton, ChangeStepButton } from '../Theme/StyledComponents';
+import * as Styled from './styled';
 
 interface IMultistepFormProps {
     steps: React.ReactElement[];
@@ -29,6 +32,7 @@ const MultistepForm = ({
   finalActionText = 'Proceed',
   hasFinalActionButton = true,
   emitStepChange = () => null }: IMultistepFormProps) => {
+  const theme: any = useTheme();
   const [activeStepNumber, setActiveStepNumber] = useState(1);
   const [isNextButtonActive, setIsNextButtonActive] = useState(false);
   const [isFinalStepButtonActive, setIsFinalStepButtonActive] = useState(false);
@@ -64,9 +68,9 @@ const MultistepForm = ({
     }),
     [activeStepNumber, proceedToPreviousStep])}
     >
-      <Box>
+      <Styled.MultistepForm sx={{ backgroundColor: theme.palette.background.secondary }} className="modal-content">
         <Box>
-          {activeStepJSX}
+          <Text>{activeStepJSX}</Text>
         </Box>
         <Box
           display={'flex'}
@@ -75,7 +79,7 @@ const MultistepForm = ({
         >
           {activeStepNumber > 1 && (
           <ChangeStepButton onClick={proceedToPreviousStep}>
-            {t('Back') as string}
+            <Text>{t('Back') as string}</Text>
           </ChangeStepButton>
           )}
           {activeStepNumber < finalStep ? (
@@ -87,22 +91,18 @@ const MultistepForm = ({
               disabled={!isNextButtonActive}
               onClick={proceedToNextStep}
             >
-              {t('Next') as string}
+              <Text>{t('Next') as string}</Text>
             </ChangeStepButton>
           ) : hasFinalActionButton && (
             <FinalStepActionButton
               disabled={!isFinalStepButtonActive}
               onClick={builtFinalActionHandler}
-              sx={{ ...(!isFinalStepButtonActive && {
-                background: '#eee !important',
-                border: '1px solid #ddd !important',
-              }) }}
             >
-              {t(finalActionText) as string}
+              <Text>{t(finalActionText) as string}</Text>
             </FinalStepActionButton>
           )}
         </Box>
-      </Box>
+      </Styled.MultistepForm>
     </MultistepFormContext.Provider>
   );
 };

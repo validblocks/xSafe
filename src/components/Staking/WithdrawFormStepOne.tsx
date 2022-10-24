@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import { useEffect, useState } from 'react';
 import useDebounce from 'src/utils/useDebounce';
+import { useTheme } from 'styled-components';
 import ProvidersWithUndelegationDetails from './ProvidersWithUndelegationDetails';
 import { StakingSearchBar } from '../Theme/StyledComponents';
 
@@ -12,6 +13,7 @@ interface Props {
 }
 
 const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
+  const theme: any = useTheme();
   const selectedStakingProvider = useSelector(selectedStakingProviderSelector);
 
   useEffect(() => {
@@ -49,7 +51,7 @@ const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
             left: '25px',
             transition: 'height .3s linear',
             borderRadius: '12px',
-            boxShadow: '0px -10px 30px 25px rgba(255,255,255, .867)',
+            boxShadow: `0px -10px 30px 25px ${theme.palette.background.overlay}`,
             background: 'transparent',
           },
         }}

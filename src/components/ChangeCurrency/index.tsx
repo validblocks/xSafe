@@ -1,12 +1,13 @@
 import { Box } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import './ChangeCurrency.scss';
-import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
 import SearchIcon from '@mui/icons-material/Search';
 import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
 import { SupportedCurrencies } from 'src/utils/supportedCurrencies';
 import { setSelectedCurrency } from 'src/redux/slices/currencySlice';
+import * as Styled from '../Utils/styled';
+import { Text } from '../StyledComponents/StyledComponents';
 
 interface ICurrencySelectItem {
     code: string;
@@ -30,7 +31,7 @@ function ChangeCurrency() {
   return (
     <Box>
       <Box>
-        <Autocomplete
+        <Styled.MultisigAutocomplete
           onInputChange={(event, newInputValue) => {
             changeCurrency(newInputValue as SupportedCurrencies);
           }}
@@ -38,9 +39,10 @@ function ChangeCurrency() {
           id="country-select-demo"
           sx={{ width: 250 }}
           options={currencyList}
+          PopperComponent={Styled.MultisigPopper}
           autoHighlight
-          getOptionLabel={(option) => option.label}
-          renderOption={(props, option) => (
+          getOptionLabel={(option: any) => option.label}
+          renderOption={(props, option: any) => (
             <Box
               component="li"
               sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
@@ -53,7 +55,9 @@ function ChangeCurrency() {
                 srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
                 alt=""
               />
-              {option.label}
+              <Text>
+                {option.label}
+              </Text>
             </Box>
           )}
           renderInput={(params) => (
