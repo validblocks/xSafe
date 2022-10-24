@@ -58,7 +58,15 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const { isLoggedIn } = useGetLoginInfo();
   const safeName = useSelector(currentSafeNameSelector);
 
-  const fetchMemberDetails = useCallback((isMounted: boolean) => {
+  const fetchMemberDetails = useCallback(async (isMounted: boolean) => {
+    if (!currentContract?.address || !isLoggedIn) return;
+
+    const isValidMultisigContract = await ElrondApiProvider.validateMultisigAddress(
+      currentContract?.address,
+    );
+
+    if (!isValidMultisigContract) return;
+
     Promise.all([
       queryBoardMemberAddresses(),
       queryQuorumCount(),
@@ -72,7 +80,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
         setQuorumCount(quorumCountResponse);
       },
     );
-  }, []);
+  }, [currentContract?.address, isLoggedIn]);
 
   useEffect(() => {
     dispatch(setSafeName({
