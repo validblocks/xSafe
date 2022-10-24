@@ -3,41 +3,24 @@ import styled from 'styled-components';
 
 export const SafeOptionsWrapper = styled(Box)`
   position: absolute;
-  top: 7px;
-  left: 235px;
-  background: ${(props) => props.theme.palette.background.white};
+  left: 7px;
+  background: ${(props) => props.theme.palette.background.secondary};
   box-shadow: 0px 0px 24px
     ${(props) => props.theme.shadows.secondary};
   border-radius: ${(props) => props.theme.shape.radius};
   z-index: 2;
   width: 240px;
-  overflow: hidden;
+`;
+
+export const AddSafeWrapper = styled(Box)`
+  text-align: left;
 `;
 
 export const AddSafe = styled(Button)`
-&&& {
-  width: 100%;
-  padding:
-          ${(props) => props.theme.padding.value.md}
-          ${(props) => props.theme.padding.value.sm}
-          ${(props) => props.theme.padding.value.sm}
-          ${(props) => props.theme.padding.value.md};
-  border-radius: 0;
-  justify-content: flex-start;
   text-align: left;
-  text-transform: none;
+  text-transform: capitalize;
   font-size: 14px;
   color: ${(props) => props.theme.palette.primary.main};
-  &:hover {
-    background-color: ${(props) => props.theme.palette.background.purple}
-  }
-  svg {
-    margin: 0 4px 2px 0;
-    width: 28px;
-    height: 28px;
-    fill: ${(props) => props.theme.palette.secondary.main};
-  }
-}
 `;
 
 export const InactiveWallet = styled(Box)`

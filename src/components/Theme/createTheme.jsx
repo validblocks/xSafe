@@ -20,7 +20,6 @@ export const theme = createTheme({
       white: '#FFFFFF',
       danger: '#e51a3e1a',
       default: '#F4F6FD',
-      purple: '#e4e3fd',
       hover: '#F5F7FF',
       svg: '#4C2FFC',
       button: '#4c2FFC',

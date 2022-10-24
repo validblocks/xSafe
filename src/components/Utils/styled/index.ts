@@ -19,14 +19,14 @@ export const ContainerWithPanelsTopBox = styled(Box)(({ theme: _ }) => ({
 }));
 
 export const CopyIconLink = styled(Link)(({ theme: _ }) => ({
-  '&.MuiTypography-root svg > path': {
-    fill: `${_.palette.anchor.secondary} !important`,
+  '&.MuiTypography-root': {
+    color: '#6C757D !important',
   },
 }));
 
 export const CopyIconLinkPurple = styled(CopyIconLink)(({ theme: _ }) => ({
-  '&.MuiTypography-root svg > path': {
-    fill: `${_.palette.secondary.main} !important`,
+  '&.MuiTypography-root': {
+    color: `${_.palette.secondary.main} !important`,
   },
 }));
 
