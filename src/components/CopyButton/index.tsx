@@ -5,6 +5,7 @@ import ContentCopyRoundedIcon from '@mui/icons-material/ContentCopyRounded';
 import { MouseEvent, useState } from 'react';
 import copyTextToClipboard from './helpers/copyToClipboard';
 import * as Styled from '../Utils/styled/index';
+import { ReactComponent as CopyIcon } from '../../assets/img/copy.svg';
 
 interface CopyButtonType {
   text: string;
@@ -45,7 +46,7 @@ const CopyButton = ({ text, color = '', className = '' }: CopyButtonType) => {
         className={`side-action ${className}`}
       >
         {copyResult.default || !copyResult.success ? (
-          <ContentCopyRoundedIcon />
+          <CopyIcon />
         ) : (
           <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
         )}
@@ -60,7 +61,7 @@ const CopyButton = ({ text, color = '', className = '' }: CopyButtonType) => {
         className={`side-action ${className}`}
       >
         {copyResult.default || !copyResult.success ? (
-          <ContentCopyRoundedIcon />
+          <CopyIcon />
         ) : (
           <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
         )}
