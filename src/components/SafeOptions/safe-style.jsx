@@ -7,12 +7,15 @@ export const SafeOptionsWrapper = styled(Box)`
   left: 235px;
   color: ${(props) => props.theme.palette.text.primary};
   background: ${(props) => props.theme.palette.background.safeOptions.main};
-  box-shadow: 0px 0px 24px
+  box-shadow: 0px 0px 6px
     ${(props) => props.theme.shadows.secondary};
   border-radius: ${(props) => props.theme.shape.radius};
   z-index: 2;
   width: 240px;
   overflow: hidden;
+  & .MuiDivider-root {
+    border-color: ${(props) => props.theme.palette.background.safeOptions.divider};
+  }
 `;
 
 export const AddSafe = styled(Button)`

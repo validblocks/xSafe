@@ -9,13 +9,17 @@ import {
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import { DataGrid } from '@mui/x-data-grid';
 import styled from 'styled-components';
-import _ from 'lodash';
+import Divider from '@mui/material/Divider';
 
 export const ContainerWithPanelsTopBox = styled(Box)(({ theme: _ }) => ({
   '&&&': {
     width: '100%',
     padding: '0 1rem',
   },
+}));
+
+export const Dividers = styled(Divider)(({ theme: _ }) => ({
+  borderColor: _.palette.divider.sidebar,
 }));
 
 export const CopyIconLink = styled(Link)(({ theme: _ }) => ({

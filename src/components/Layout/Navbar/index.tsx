@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { List, Accordion, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
-import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
@@ -28,6 +27,7 @@ import {
   BottomMenu,
   SidebarDrawer,
 } from './navbar-style';
+import * as Styled from '../../Utils/styled/index';
 
 const MiniDrawer = () => {
   const theme: any = useTheme();
@@ -61,12 +61,10 @@ const MiniDrawer = () => {
         variant="permanent"
         open={open}
       >
-
-        {(currentContract?.address || isLoggedIn) && <Divider />}
         {(currentContract?.address || isLoggedIn) && (
         <List sx={{ mt: 1, pb: 0 }}>
           <AccountDetails uniqueAddress={addressShorthand(currentContract?.address ?? '')} />
-          <Divider />
+          <Styled.Dividers />
         </List>
         )}
         {
