@@ -33,6 +33,10 @@ export const theme = createTheme({
       overlay: '#FFFFFFD6',
       accordion: '#F3F6FC',
       expand: '#F3F6FC',
+      safeOptions: {
+        main: '#fff',
+        svg: '#4c2FFC8a',
+      },
     },
     text: {
       primary: '#08041D',
@@ -256,6 +260,10 @@ export const darkTheme = createTheme({
       overlay: '#14131C',
       accordion: '#242837',
       expand: '#141520',
+      safeOptions: {
+        main: '#1E1D2A',
+        svg: '#4c2FFC',
+      },
     },
     danger: {
       main: '#e51a3e',
