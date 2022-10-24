@@ -3,8 +3,6 @@ import { Address } from '@elrondnetwork/erdjs';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
 import { ProposeAddressInput } from 'src/components/Theme/StyledComponents';
-import { Typography } from '@mui/material';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeInputAddressType {
   handleParamsChange: (params: Address) => void;
@@ -51,10 +49,6 @@ function ProposeInputAddress({
 
   return (
     <div>
-      <Typography pb={'21px'} lineHeight={1}>
-        <Text fontSize={24}>Add a new owner</Text>
-      </Typography>
-
       <ProposeAddressInput
         error={error}
         label={`${t('Address')}`}
