@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy-staging:
-    runs-on: [self-hosted, graffino, php8]
+    runs-on: [self-hosted, graffino]
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     strategy:

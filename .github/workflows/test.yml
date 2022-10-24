@@ -1,16 +1,20 @@
-name: multisig-deploy-production
+name: multisig-test
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'master'
+  pull_request:
+    branches: [develop, master]
 
 jobs:
-  deploy-production:
+  test:
     runs-on: [self-hosted, graffino]
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14]
+
     steps:
       - uses: act10ns/slack@v1
         with:
@@ -21,7 +25,7 @@ jobs:
         id: Checkout
         uses: actions/checkout@master
         with:
-          ref: 'master'
+          ref: 'develop'
         if: success()
 
       - name: Create .env
@@ -39,29 +43,30 @@ jobs:
                   sub(/XXX_NPM_AUTH_TOKEN_XXX/, NPM_AUTH_TOKEN); \
                   print; \
               }' \
-              .env.prod > .env
+              .env.staging > .env
 
       - name: Config setup
         run: |
           make setup-wallet
-          cat .npmrc
 
       - uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      
-      - uses: actions/setup-node@v2-beta
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - name: YARN Install
         id: YARN-Install
         if: success()
-        run: yarn install
+        run: yarn --network-timeout 500000
 
-      # - name: Lint
-      #   id: Lint
-      #   if: success()
-      #   run: |
-      #     yarn lint
+      - name: Lint
+        id: Lint
+        if: success()
+        run: |
+          yarn lint
 
       - name: Build
         id: Build
@@ -71,28 +76,6 @@ jobs:
           export CI=false
           export DISABLE_ESLINT_PLUGIN=true
           yarn build
-
-      - name: Deploy
-        id: Deploy
-        uses: up9cloud/action-rsync@v1.1
-        if: success()
-        env:
-          HOST: connect.validblocks.com
-          USER: graffino
-          KEY: ${{secrets.DEPLOY_SSH_KEY}}
-          SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-
-          VERBOSE: true
-          ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
-
-          TARGET: ~/control.validblocks.com/
-          SOURCE: ./build/
-
-          PRE_SCRIPT: |
-            echo "Start at: " $(date -u)
-
-          POST_SCRIPT: |
-            echo "Stop at: " $(date -u)
 
       - uses: act10ns/slack@v1.2.2
         if: always()
