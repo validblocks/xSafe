@@ -14,6 +14,7 @@ import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
+import { HtmlTooltip } from 'src/components/Utils/HtmlTooltip';
 import { useSelector } from 'react-redux';
 import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 import { useTheme } from 'styled-components';
@@ -27,7 +28,8 @@ import {
   BottomMenu,
   SidebarDrawer,
 } from './navbar-style';
-import * as Styled from '../../Utils/styled/index';
+import * as Styled from '../../Utils/styled';
+import MenuLink from './MenuItems/MenuLink';
 
 const MiniDrawer = () => {
   const theme: any = useTheme();
@@ -337,40 +339,42 @@ const MiniDrawer = () => {
           </TopMenu>
         )}
         <BottomMenu>
-          {menuItems.bottomItems.map((el) => (
-            <Link
-              key={el.id}
-              to={el.link}
-              className={
-                locationString === el.link
-                  ? 'active link-decoration'
-                  : 'link-decoration'
+          {menuItems.bottomItems.map((el) => {
+            if (el.id !== 'help-center-menu-item') {
+              if (!isLoggedIn) {
+                return (
+                  <HtmlTooltip
+                    title={(
+                      <span className="ml-1">{'Please login first!'}</span>
+                )}
+                    placement="right"
+                  >
+                    <Box>
+                      <MenuLink menuItem={el} />
+                    </Box>
+                  </HtmlTooltip>
+                );
               }
-            >
-              <ListItem
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
+
+              return (
+                <MenuLink menuItem={el} />
+              );
+            }
+
+            return (
+              <HtmlTooltip
+                title={(
+                  <span className="ml-1">{'Coming soon!'}</span>
+                )}
+                placement="right"
               >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 1 : 'auto',
-                    justifyContent: 'center',
-                    color: theme.palette.text.primary,
-                  }}
-                >
-                  {el.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={<Text>{el.name}</Text>}
-                  sx={{ opacity: open ? 1 : 0 }}
-                />
-              </ListItem>
-            </Link>
-          ))}
+                <Box>
+                  <MenuLink menuItem={el} />
+                </Box>
+              </HtmlTooltip>
+
+            );
+          })}
         </BottomMenu>
       </SidebarDrawer>
     </Box>

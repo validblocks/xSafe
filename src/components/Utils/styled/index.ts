@@ -11,6 +11,12 @@ import { DataGrid } from '@mui/x-data-grid';
 import styled from 'styled-components';
 import Divider from '@mui/material/Divider';
 
+export const ThemePrimaryBox = styled(Box)(({ theme: _ }) => ({
+  '&&&': {
+    background: _.palette.background.default,
+  },
+}));
+
 export const ContainerWithPanelsTopBox = styled(Box)(({ theme: _ }) => ({
   '&&&': {
     width: '100%',

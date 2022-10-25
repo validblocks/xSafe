@@ -21,6 +21,7 @@ import routeNames from 'src/routes/routeNames';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { TokenWrapper } from '../TokenWrapper';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
@@ -39,6 +40,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
+  const currentContract = useSelector(currentMultisigContractSelector);
   const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
     address,
     'http://localhost:3000',
@@ -60,14 +62,14 @@ function Layout({ children }: { children: React.ReactNode }) {
         const contracts = await getUserMultisigContractsList();
         dispatch(setMultisigContracts(contracts));
 
-        if (contracts.length > 0) {
+        if (contracts.length > 0 && !currentContract?.address) {
           const [firstContract] = contracts;
           dispatch(setCurrentMultisigContract(firstContract.address));
           navigate(`${routeNames.multisig}/${firstContract.address}`);
         }
       }());
     }
-  }, [isLoggedIn, address, isAuthenticated?.isAuthenticated, dispatch]);
+  }, [isLoggedIn, address, isAuthenticated.isAuthenticated, dispatch, currentContract?.address, navigate]);
 
   useEffect(() => {
     if (!isLoggedIn) {
