@@ -16,7 +16,7 @@ import SafeOptions from 'src/components/SafeOptions';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { network } from 'src/config';
 import { currentSafeNameSelector } from 'src/redux/selectors/safeNameSelector';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
@@ -157,7 +157,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                     },
                   }}
                 >
-                  <ArrowDropUpIcon />
+                  <ArrowRightIcon />
                 </Box>
                 {openedSafeSelect === true && (
                 <SafeOptions

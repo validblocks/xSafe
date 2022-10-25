@@ -5,31 +5,24 @@ const axios = require('axios');
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
-
 // Configuration
-
 const PORT = 3000;
 const HOST = 'localhost';
 app.use(cors());
 app.use(morgan('dev'));
-
 app.get('/hello', (req, res, _next) => {
   res.send('Alive');
 });
-
 app.get('/proxy', (req, res, _next) => {
   const { route } = req.query;
   axios.get(route).then((response) => {
     res.send(response.data);
   });
 });
-
 app.options('/proxy', cors());
-
 app.post('/proxy', cors(), (req, res, _next) => {
   try {
     const { route } = req.query;
-
     axios
       .post(route)
       .then((response) => {
@@ -40,7 +33,6 @@ app.post('/proxy', cors(), (req, res, _next) => {
     console.log('ERROR on Proxy Post Request', err.message);
   }
 });
-
 app.post(
   '/login',
   createProxyMiddleware({
@@ -48,7 +40,6 @@ app.post(
     changeOrigin: true,
   }),
 );
-
 app.post(
   '/login/access-token-generate',
   createProxyMiddleware({
@@ -56,7 +47,6 @@ app.post(
     changeOrigin: true,
   }),
 );
-
 app.listen(PORT, HOST, () => {
   console.log(`Starting Proxy at ${HOST}:${PORT}`);
 });
