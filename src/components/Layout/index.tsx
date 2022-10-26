@@ -39,7 +39,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
     address,
-    'http://localhost:3000',
+    '',
     isLoggedIn,
   );
 
