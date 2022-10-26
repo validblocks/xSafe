@@ -2,6 +2,7 @@ import { Box, Button } from '@mui/material';
 import styled from 'styled-components';
 
 export const SafeOptionsWrapper = styled(Box)`
+width: 231px;
   position: absolute;
   top: 7px;
   left: 235px;
@@ -11,7 +12,6 @@ export const SafeOptionsWrapper = styled(Box)`
     ${(props) => props.theme.shadows.secondary};
   border-radius: ${(props) => props.theme.shape.radius};
   z-index: 2;
-  width: 240px;
   overflow: hidden;
   & .MuiDivider-root {
     border-color: ${(props) => props.theme.palette.background.safeOptions.divider};
