@@ -22,6 +22,7 @@ export const SettingsInput = styled(TextField)(({ theme }) => ({
   },
   '& .MuiInputLabel-root,& .MuiInputLabel-formControl': {
     color: theme.palette.text.primary,
+    zIndex: 0,
   },
 }));
 

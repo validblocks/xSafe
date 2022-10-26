@@ -147,6 +147,7 @@ export const MultisigAutocomplete = styled(Autocomplete)(({ theme }) => ({
     },
     '& .MuiInputLabel-root,& .MuiInputLabel-formControl': {
       color: theme.palette.text.primary,
+      zIndex: 0,
     },
     '& .MuiAutocomplete-popper': {
       color: theme.palette.text.primary,
