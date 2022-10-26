@@ -14,6 +14,7 @@ import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { MainButton } from 'src/components/Theme/StyledComponents';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { AccountInfo, AddressBook, Owner } from './types';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 import * as Styled from './styled';
@@ -23,6 +24,7 @@ const OrganizationsOwnersTable = () => {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const [addresses, setAddresses] = useState<Array<Owner>>([]);
   const getAddresses = useCallback(() => queryBoardMemberAddresses(), []);
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   // Set the address book
   // Test the address book and herotag
@@ -41,6 +43,7 @@ const OrganizationsOwnersTable = () => {
   useEffect(() => {
     // get herotag
     // get addressbook names
+    if (!currentContract?.address) return;
     getAddresses()
       .then((ownerAddresses) => {
         Promise.all(

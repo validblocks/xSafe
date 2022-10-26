@@ -23,10 +23,25 @@ setup-wallet:
 	rm -f .npmrc && touch .npmrc
 	echo $(NPMRC) >> .npmrc
 	rm -f ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
-	cp -p ./src/config.devnet.ts ./src/config.ts
+	cp -p ./src/config.testnet.ts ./src/config.ts
 	rm -f ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
+
+ifeq "$(SINGLE_WALLET)" "true"
+	echo "export const uniqueContractAddress = '$(UNIQUE_CONTRACT_ADDRESS)';" >> ./src/multisigConfig.ts
+	echo "export const uniqueContractName = '$(UNIQUE_CONTRACT_NAME)';" >> ./src/multisigConfig.ts
+endif
+
+.PHONY: setup-testnet-wallet
+setup-testnet-wallet:
+	rm -f .npmrc && touch .npmrc
+	echo $(NPMRC) >> .npmrc
+	rm -f ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
+	cp -p ./src/config.testnet.ts ./src/config.ts
+	rm -f ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
+	echo "export const storageApi = '$(EXTRAS_API_TESTNET)';" >> ./src/multisigExtrasConfig.ts
+	echo "export const maiarIdApi = '$(MAIAR_ID_API_TESTNET)';" >> ./src/multisigExtrasConfig.ts
 
 ifeq "$(SINGLE_WALLET)" "true"
 	echo "export const uniqueContractAddress = '$(UNIQUE_CONTRACT_ADDRESS)';" >> ./src/multisigConfig.ts
@@ -43,7 +58,7 @@ setup-single-wallet:
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 
-	cp -p ./src/config.devnet.ts ./src/config.ts
+	cp -p ./src/config.testnet.ts ./src/config.ts
 
 	rm ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
 	echo "export const uniqueContractAddress = '$(UNIQUE_CONTRACT_ADDRESS)';" >> ./src/multisigConfig.ts
@@ -63,7 +78,7 @@ setup-multi-wallet:
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 
-	cp -p ./src/config.devnet.ts ./src/config.ts
+	cp -p ./src/config.testnet.ts ./src/config.ts
 
 	rm ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
 

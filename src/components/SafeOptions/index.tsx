@@ -75,6 +75,8 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
     if (!address || !isLoggedIn) return;
 
     const userRolePromises: Promise<number>[] = [];
+
+    if (fetchedMultisigContracts.length <= 0) return;
     fetchedMultisigContracts.forEach(
       (contract: MultisigContractInfoType) => userRolePromises.push(queryUserRoleOnContract(address, contract.address)),
     );
@@ -109,7 +111,7 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
           Add a new safe
         </AddSafe>
         <Box maxHeight={385} overflow="scroll">
-          {
+          {Array.isArray(attachedMultisigContracts) &&
         attachedMultisigContracts.map((fetchedContract: any) => (
           <Box key={fetchedContract.address}>
             <Divider />

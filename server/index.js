@@ -36,14 +36,14 @@ app.post('/proxy', cors(), (req, res, _next) => {
 app.post(
   '/login',
   createProxyMiddleware({
-    target: 'https://devnet-id.maiar.com/api/v1',
+    target: 'https://testnet-id.maiar.com/api/v1',
     changeOrigin: true,
   }),
 );
 app.post(
   '/login/access-token-generate',
   createProxyMiddleware({
-    target: 'https://devnet-id.maiar.com/api/v1',
+    target: 'https://testnet-id.maiar.com/api/v1',
     changeOrigin: true,
   }),
 );

@@ -23,9 +23,12 @@ const networkSchema = object({
   egldLabel: string().defined().required(),
   name: string().defined().required(),
   walletAddress: string(),
-  apiAddress: string(),
+  apiAddress: string().required(),
   gatewayAddress: string(),
   explorerAddress: string().required(),
+  delegationApi: string().required(),
+  maiarIdApi: string().required(),
+  storageApi: string().required(),
 }).required();
 
 export type NetworkType = InferType<typeof networkSchema>;
@@ -38,6 +41,9 @@ export const network: NetworkType = {
   apiAddress: 'https://api.elrond.com',
   gatewayAddress: 'https://gateway.elrond.com',
   explorerAddress: 'http://explorer.elrond.com',
+  delegationApi: 'https://delegation-api.elrond.com',
+  maiarIdApi: 'https://id.maiar.com/api/v1',
+  storageApi: 'https://extras-api.elrond.com',
 };
 
 networkSchema.validate(network, { strict: true }).catch(({ errors }) => {

@@ -67,7 +67,7 @@ export const App = () => (
     <PersistGate loading={null} persistor={persistor}>
       <CssBaseline />
       <CustomThemeProvider>
-        <DappProvider environment="devnet">
+        <DappProvider environment="testnet">
           <QueryClientProvider client={queryClient}>
             <OrganizationInfoContextProvider>
               <>

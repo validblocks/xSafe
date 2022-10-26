@@ -2,6 +2,7 @@ import { Balance } from '@elrondnetwork/erdjs/out';
 import axios from 'axios';
 import { useCallback } from 'react';
 import { useQuery } from 'react-query';
+import { network } from 'src/config';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import {
@@ -21,9 +22,7 @@ export default function useProviderIdentitiesAfterSelection({
 }: InputParams = {}) {
   const fetchProviders = useCallback(
     (): Promise<IProvider[]> =>
-      axios
-        .get('https://devnet-api.elrond.com/providers')
-        .then((res) => res.data),
+      axios.get(network.apiAddress).then((res) => res.data),
     [],
   );
 
@@ -178,7 +177,7 @@ export default function useProviderIdentitiesAfterSelection({
       ?.map((provider: IProvider) => provider.identity)
       .join(',');
     return axios
-      .get(`https://devnet-api.elrond.com/identities?identities=${providerIds}`)
+      .get(`${network.apiAddress}/identities?identities=${providerIds}`)
       .then((res) => res.data);
   }, [fetchedProviders]);
 

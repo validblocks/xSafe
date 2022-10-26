@@ -1,5 +1,6 @@
 import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
 import { useEffect, useState } from 'react';
+import { network } from 'src/config';
 
 export interface IDelegationConstants {
   chainID: string;
@@ -14,9 +15,7 @@ export interface IDelegationConstants {
   version: number;
 }
 
-const networkProvider2 = new ApiNetworkProvider(
-  'https://devnet-delegation-api.elrond.com',
-);
+const networkProvider2 = new ApiNetworkProvider(network.delegationApi);
 
 export default function useDelegationGasFees() {
   const [gasFees, setGasFees] = useState<IDelegationConstants | null>(null);
