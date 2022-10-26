@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { getIsLoggedIn, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { Box } from '@mui/material';
@@ -9,6 +9,9 @@ import ConnectedAccount from 'src/components/Layout/Navbar/ConnectedAccount';
 import { AccountButton } from 'src/components/Theme/StyledComponents';
 import Unlock from 'src/pages/Unlock';
 import addressShorthand from 'src/helpers/addressShorthand';
+import { useDispatch, useSelector } from 'react-redux';
+import { isLoginModalOpenSelector } from 'src/redux/selectors/modalsSelector';
+import { setIsLoginModalOpen } from 'src/redux/slices/modalsSlice';
 import { ConnectDropdown } from '../navbar-style';
 
 function Account() {
@@ -16,24 +19,38 @@ function Account() {
   const { address } = useGetAccountInfo();
   const loggedIn = getIsLoggedIn();
   const [isLoggedIn] = useState<boolean>();
-
+  const accountButtonRef = useRef<HTMLButtonElement | null>(null);
   const [walletAddress, setWalletAddress] = useState('');
 
   useEffect(() => {
     setWalletAddress(addressShorthand(address));
   }, [isLoggedIn, address]);
 
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isMainButtonActive, setIsMainButtonActive] = useState(false);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const isLoginModalOpen = useSelector(isLoginModalOpenSelector);
   const open = Boolean(anchorEl);
+  const dispatch = useDispatch();
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setIsMainButtonActive(true);
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
     setIsMainButtonActive(false);
+    dispatch(setIsLoginModalOpen(false));
   };
+
+  useEffect(() => {
+    if (isLoginModalOpen) {
+      accountButtonRef.current?.click();
+      return;
+    }
+
+    handleClose();
+  }, [isLoginModalOpen]);
 
   const MAIN_BUTTON_VARIABLE_STYLE = useMemo(
     () => ({
@@ -49,6 +66,7 @@ function Account() {
           variant="outlined"
           onClick={handleClick}
           size="large"
+          ref={accountButtonRef}
           className={isMainButtonActive ? 'isActive' : ''}
           sx={{ ...MAIN_BUTTON_VARIABLE_STYLE }}
         >

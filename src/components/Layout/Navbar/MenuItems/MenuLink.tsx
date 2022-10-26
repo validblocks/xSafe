@@ -1,8 +1,8 @@
-import { ListItemIcon, ListItemText } from '@mui/material';
-import { theme } from 'src/components/Theme/createTheme';
+import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
-import { ListItem } from 'src/components/Layout/Navbar/navbar-style';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { setIsLoginModalOpen } from 'src/redux/slices/modalsSlice';
+import * as Styled from './styled';
 
 interface IMenuLinkProps {
   menuItem: {
@@ -11,43 +11,36 @@ interface IMenuLinkProps {
     link: string;
     icon: React.ReactElement;
   };
+  shouldRequireLogin?: boolean;
 }
 
-const MenuLink = ({ menuItem }: IMenuLinkProps) => {
+const MenuLink = ({ menuItem, shouldRequireLogin }: IMenuLinkProps) => {
   const location = useLocation();
   const locationString = location.pathname.substring(1);
+  shouldRequireLogin = !!shouldRequireLogin;
+  const dispatch = useDispatch();
+
   return (
     <Link
       key={menuItem.id}
       to={menuItem.link}
+      onClick={() => {
+        if (shouldRequireLogin) { dispatch(setIsLoginModalOpen(true)); }
+      }}
       className={
         locationString === menuItem.link
           ? 'active link-decoration'
           : 'link-decoration'
       }
     >
-      <ListItem
-        sx={{
-          minHeight: 48,
-          justifyContent: 'initial',
-          px: 2.5,
-        }}
-      >
-        <ListItemIcon
-          sx={{
-            minWidth: 0,
-            mr: 1,
-            justifyContent: 'center',
-            color: theme.palette.text.primary,
-          }}
-        >
+      <Styled.MenuListItem>
+        <Styled.MenuListItemIcon>
           {menuItem.icon}
-        </ListItemIcon>
-        <ListItemText
+        </Styled.MenuListItemIcon>
+        <Styled.MenuListItemText
           primary={<Text>{menuItem.name}</Text>}
-          sx={{ opacity: 1 }}
         />
-      </ListItem>
+      </Styled.MenuListItem>
     </Link>
   );
 };

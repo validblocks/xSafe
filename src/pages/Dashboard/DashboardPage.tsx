@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Box, Button, Grid } from '@mui/material';
@@ -20,6 +20,7 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { dAppName } from 'src/config';
+import { setIsLoginModalOpen } from 'src/redux/slices/modalsSlice';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
@@ -59,10 +60,26 @@ function Dashboard() {
     }
   }
 
+  const handleCreateNewSafeButtonClick = useCallback(() => {
+    if (isLoggedIn) {
+      setShowDeployMultisigModal(true);
+      return;
+    }
+    dispatch(setIsLoginModalOpen(true));
+  }, [dispatch, isLoggedIn]);
+
+  const handleAddExistingSafeButtonClick = useCallback(() => {
+    if (isLoggedIn) {
+      setShowAddMultisigModal(true);
+      return;
+    }
+    dispatch(setIsLoginModalOpen(true));
+  }, [dispatch, isLoggedIn]);
+
   const deployButton = (
     <Styled.CreateNewSafeButton
       disabled={isWalletProvider}
-      onClick={() => setShowDeployMultisigModal(true)}
+      onClick={handleCreateNewSafeButtonClick}
       sx={{
         width: '100%',
         background: '#4c2ffc',
@@ -210,7 +227,7 @@ function Dashboard() {
                       </Text>
                     </Box>
                     <Styled.LoadSafeButton
-                      onClick={() => setShowAddMultisigModal(true)}
+                      onClick={handleAddExistingSafeButtonClick}
                     >
                       {t('Load an existing Safe')}
                     </Styled.LoadSafeButton>

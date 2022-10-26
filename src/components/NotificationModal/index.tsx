@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import PageState from 'src/components/PageState';
 import { notificationModalSelector } from 'src/redux/selectors/modalsSelector';
-import { clearNotificationModal } from 'src/redux/slices/modalsSlice';
 import { useEffect, useState } from 'react';
+import { clearNotificationModal } from 'src/redux/slices/modalsSlice';
 
 const NotificationModal = () => {
   const notificationModal = useSelector(notificationModalSelector);

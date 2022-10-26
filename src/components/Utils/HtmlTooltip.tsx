@@ -11,4 +11,7 @@ export const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
     fontSize: theme.typography.pxToRem(12),
     border: '1px solid #dadde9',
   },
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.background.default,
+  },
 }));

@@ -274,7 +274,7 @@ export const AccordionDetail = styled(AccordionDetails)`
   }
 `;
 
-export const BottomMenu = styled(List)(({ theme: _ }) => ({
+export const BottomMenuList = styled(List)(({ theme: _ }) => ({
   bottom: '10px',
   width: '100%',
   zIndex: '9',
