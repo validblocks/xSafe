@@ -54,7 +54,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
   dashboard: {
     path: routeNames.dashboard,
     title: 'Dashboard',
-    component: DashboardPage,
+    component: MultisigDetailsPage,
     authenticatedRoute: true,
   },
   decisions: {

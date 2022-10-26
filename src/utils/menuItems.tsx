@@ -13,7 +13,6 @@ import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 import { AppIdentifiers } from 'src/pages/Marketplace/appIds';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import routeNames from 'src/routes/routeNames';
 import StakeAppThumbnail from 'src/assets/img/StakeAppThumbnail.png';
 import OtherAppThumbnail from 'src/assets/img/OtherAppThumbnail.png';
 import { ReactComponent as StakingIcon } from '../assets/img/staking.svg';
@@ -79,9 +78,7 @@ export const availableApps: MarketplaceApp[] = [
 const topItems: MenuItem[] = [
   {
     name: 'Dashboard',
-    link: uniqueContractAddress
-      ? `/multisig/${uniqueContractAddress}`
-      : routeNames.welcome,
+    link: 'dashboard',
     id: 'home-menu-item',
     icon: <GridViewOutlinedIcon />,
   },
