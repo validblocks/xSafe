@@ -132,14 +132,21 @@ export const DappName = styled.span`
 `;
 
 export const TopMenu = styled(Box)(({ theme: _ }) => ({
-  overflowY: 'scroll',
   height: '100%',
   zIndex: 0,
+  overflowY: 'auto',
+  '::-webkit-scrollbar': {
+    width: '4px',
+  },
+  '::-webkit-scrollbar-thumb': {
+    backgroundColor: _.palette.background.scrollbar,
+    borderRadius: '20px',
+  },
   '& a.active svg > path': {
     color: '#4c2FFC !important',
   },
   '& a.active .MuiListItemButton-root': {
-    backgroundColor: `${_.palette.background.menu}`,
+    backgroundColor: _.palette.background.menu,
   },
 }));
 
