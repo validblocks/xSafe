@@ -24,6 +24,8 @@ import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import DeployStepsModal from 'src/pages/Dashboard/DeployMultisigModal';
 import { CustomStateType } from 'src/pages/Organization/types';
+import { HtmlTooltip } from 'src/components/Utils/HtmlTooltip';
+import { useTranslation } from 'react-i18next';
 import {
   Anchor, MembersBox, ReadOnly,
 } from '../navbar-style';
@@ -37,6 +39,7 @@ interface IDeployStepsContextType {
   openDeployNewContractModal: () => void;
   updateMultisigContract: (newContracts: MultisigContractInfoType[]) => any
 }
+
 const DeployStepsContext = createContext<IDeployStepsContextType>(
   {} as IDeployStepsContextType,
 );
@@ -54,6 +57,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
   const menuRef = useRef<HTMLElement>();
+  const { t } = useTranslation();
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const updateMultisigContract = useCallback(
     (newContracts: MultisigContractInfoType[]) => dispatch(setMultisigContracts(newContracts)),
@@ -128,11 +132,22 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
                 <UnknownOwner />
               </div>
             </Grow>
-            <Box position="absolute" top="-1.4rem" left="-.5rem">
-              <MembersBox>
-                <Typography>{membersCount}</Typography>
-              </MembersBox>
-            </Box>
+            <HtmlTooltip
+              disableFocusListener
+              disableTouchListener
+              title={(
+                <Box display={'flex'}>
+                  <span className="ml-1">{t('Number of members') as string}</span>
+                </Box>
+        )}
+              placement="bottom"
+            >
+              <Box position="absolute" top="-1.4rem" left="-.5rem">
+                <MembersBox>
+                  <Typography>{membersCount}</Typography>
+                </MembersBox>
+              </Box>
+            </HtmlTooltip>
           </Grid>
           <Grid sx={{ pl: 0 }}>
             <Box
