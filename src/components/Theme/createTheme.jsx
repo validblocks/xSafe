@@ -38,6 +38,7 @@ export const theme = createTheme({
         svg: '#4c2FFC8a',
         divider: '#0000001f',
       },
+      scrollbar: '#EBEBED',
     },
     text: {
       primary: '#08041D',
@@ -270,6 +271,7 @@ export const darkTheme = createTheme({
         svg: '#4c2FFC',
         divider: '#211F30',
       },
+      scrollbar: '#6C757D8a',
     },
     sidebar: {
       primary: '#29273E',
