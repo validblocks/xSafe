@@ -30,32 +30,27 @@ const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
 
   return (
     <Styled.ContainerWithPanelsTopBox>
-      <Box>
-        <Styled.TabContainerBox>
-          <Styled.MainTab
-            value={selectedTab}
-            onChange={handleChange}
-          >
-            {panels.map((panel, index) => (
-              <Tab
-                sx={{ paddingX: '2rem', textTransform: 'none', fontSize: '15px', fontWeight: '500', color: theme.palette.text.primary }}
-                key={panel.title}
-                label={panel.title}
-                {...a11yProps(index)}
-              />
-            ))
-            }
-          </Styled.MainTab>
-        </Styled.TabContainerBox>
-        <Box paddingTop={'12px'}>
+      <Styled.TabContainerBox>
+        <Styled.MainTab
+          value={selectedTab}
+          onChange={handleChange}
+        >
           {panels.map((panel, index) => (
-            <TabPanel key={panel.title} value={selectedTab} index={index}>
-              {panel.content}
-            </TabPanel>
-          ),
-          )
-        }
-        </Box>
+            <Tab
+              sx={{ textTransform: 'none', fontSize: '15px', fontWeight: '500', color: theme.palette.text.primary }}
+              key={panel.title}
+              label={panel.title}
+              {...a11yProps(index)}
+            />
+          ))}
+        </Styled.MainTab>
+      </Styled.TabContainerBox>
+      <Box paddingTop={'12px'}>
+        {panels.map((panel, index) => (
+          <TabPanel key={panel.title} value={selectedTab} index={index}>
+            {panel.content}
+          </TabPanel>
+        ))}
       </Box>
     </Styled.ContainerWithPanelsTopBox>
   );

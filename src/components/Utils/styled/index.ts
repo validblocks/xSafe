@@ -20,7 +20,6 @@ export const ThemePrimaryBox = styled(Box)(({ theme: _ }) => ({
 export const ContainerWithPanelsTopBox = styled(Box)(({ theme: _ }) => ({
   '&&&': {
     width: '100%',
-    padding: '0 1rem',
   },
 }));
 
