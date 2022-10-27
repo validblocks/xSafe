@@ -15,13 +15,14 @@ export const LoadSafeButton = styled(Button)`
   height: 60px;
   &:hover {
     background-color: ${(props) => props.theme.palette.background.button};
+    color: #fff;
   };
 }
 `;
 
 export const CreateNewSafeButton = styled(LoadSafeButton)`
 &&& {
-  color: ${(props) => props.theme.palette.text.primary};
+  color: #fff;
   background: ${(props) => props.theme.palette.background.button};
   height: 60px;
   &:hover {

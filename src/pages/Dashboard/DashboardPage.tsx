@@ -81,18 +81,7 @@ function Dashboard() {
       disabled={isWalletProvider}
       onClick={handleCreateNewSafeButtonClick}
       sx={{
-        width: '100%',
-        background: '#4c2ffc',
-        color: '#fff',
-        borderRadius: 0,
-        padding: '1.5rem',
-        borderTop: '1px solid rgba(76, 47, 252, 0.54)',
         pointerEvents: isWalletProvider ? 'none' : 'auto',
-        '&:hover': {
-          backgroundColor: theme.palette.background.button,
-          borderColor: theme.palette.background.button,
-          color: theme.palette.background.white,
-        },
       }}
     >
       {t('Create a new Safe')}

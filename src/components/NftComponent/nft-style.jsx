@@ -5,6 +5,7 @@ export const EmptyList = styled.p`
   font-size: 15px !important;
   font-weight: 600 !important;
   opacity: 0.5;
+  color: ${(props) => props.theme.palette.text.secondary}
 `;
 
 export const CollectionName = styled.div`
