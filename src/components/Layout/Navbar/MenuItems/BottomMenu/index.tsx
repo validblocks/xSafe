@@ -15,6 +15,7 @@ const BottomMenu = () => {
           if (!isLoggedIn) {
             return (
               <HtmlTooltip
+                key={el.id}
                 arrow
                 title={(
                   <span className="ml-1">{'Please login first!'}</span>
@@ -29,12 +30,13 @@ const BottomMenu = () => {
           }
 
           return (
-            <MenuLink menuItem={el} />
+            <MenuLink key={el.id} menuItem={el} />
           );
         }
 
         return (
           <HtmlTooltip
+            key={el.id}
             arrow
             title={(
               <span className="ml-1">{'Coming soon!'}</span>
