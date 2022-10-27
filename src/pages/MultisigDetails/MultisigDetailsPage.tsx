@@ -51,7 +51,7 @@ function MultisigDetailsPage() {
           )}
         </Grid>
       </Styled.DetailsCardContainerBox>
-      <Divider />
+      <Divider sx={{ margin: '12px 0' }} />
       <Styled.DetailsCardContainerBox>
         <Grid container>
           {bottomSectionCards.map(
