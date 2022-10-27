@@ -40,7 +40,7 @@ const MemberPresentationWithPhoto = ({
               charactersLeftAfterTruncation,
             )}{' '}
           </Box>
-          <CopyButton className="ml-2" color="gray" text={memberAddress?.toString()} />
+          <CopyButton className="ml-2" color="grey" text={memberAddress?.toString()} />
           <AnchorPurple
             href={`${
               network.explorerAddress
