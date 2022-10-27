@@ -62,14 +62,23 @@ export const ReadOnly = styled(Text)`
 
 export const Anchor = styled.a`
   & svg {
-    fill: ${(props) => props.theme.palette.anchor.secondary}
+    fill: ${(props) => props.theme.palette.anchor.secondary};
   }
+  color: ${(props) => props.theme.palette.anchor.secondary};
   `;
 
 export const AnchorPurple = styled.a(({ theme: _ }) => ({
   '& svg': {
     fill: _.palette.anchor.main,
   },
+  color: _.palette.anchor.main,
+}));
+
+export const AnchorConnectedAccount = styled.a(({ theme: _ }) => ({
+  '& svg': {
+    fill: _.palette.anchor.connectedAccount,
+  },
+  color: _.palette.anchor.connectedAccount,
 }));
 
 export const MembersBox = styled(Box)`

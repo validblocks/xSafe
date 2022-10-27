@@ -68,6 +68,21 @@ const CopyButton = ({ text, color = '', className = '' }: CopyButtonType) => {
       </Styled.CopyIconLinkPurple>
     );
   }
+  if (color === 'connected-account') {
+    return (
+      <Styled.CopyIconLinkConnectedAccount
+        href="/#"
+        onClick={handleCopyToClipboard}
+        className={`side-action ${className}`}
+      >
+        {copyResult.default || !copyResult.success ? (
+          <CopyIcon />
+        ) : (
+          <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
+        )}
+      </Styled.CopyIconLinkConnectedAccount>
+    );
+  }
 
   return (
     <Styled.CopyIconLink

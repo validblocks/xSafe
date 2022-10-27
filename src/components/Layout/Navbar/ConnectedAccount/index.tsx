@@ -1,10 +1,9 @@
 import { logout, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
-import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
+import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toSvg } from 'jdenticon';
-import { useTheme } from 'styled-components';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { accessTokenServices } from 'src/services/accessTokenServices';
 import routeNames from 'src/routes/routeNames';
@@ -12,19 +11,20 @@ import routeNames from 'src/routes/routeNames';
 import { network } from 'src/config';
 import { useEffect, useState } from 'react';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountGeneralInfoSlice';
+import CopyButton from 'src/components/CopyButton';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import {
   ConnectItems,
-  Anchor,
-  CopyBtn,
   DisconnectButton,
+  AnchorConnectedAccount,
 } from '../navbar-style';
 
 const ConnectedAccount = () => {
-  const theme: any = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   const logOut = async () => {
     document.cookie = '';
@@ -66,22 +66,21 @@ const ConnectedAccount = () => {
         />
         <Box sx={{ ml: 2 }}>
           <ConnectItems className="d-flex justify-content-between" sx={{ p: 1 }}>
-            <Typography sx={{ mr: 2, ml: 1 }}>
+            <Typography sx={{ mr: 1, ml: 1 }}>
               {addressShorthand(walletAddress)}
             </Typography>
             <Box className="d-flex">
-              <Box sx={{ mr: 2 }}>
-                <CopyBtn className="link-color" text={address} />
+              <Box sx={{ mr: 1 }}>
+                <CopyButton text={currentContract?.address} color="connected-account" />
               </Box>
               <Box sx={{ mr: 1 }}>
-                <Anchor
+                <AnchorConnectedAccount
                   href={`${network.explorerAddress}/accounts/${address}`}
                   target="_blank"
                   rel="noreferrer"
-                  color={theme.palette.secondary.main}
                 >
-                  <ContentPasteGoIcon sx={{ color: theme.palette.button.paste }} />
-                </Anchor>
+                  <SearchIcon />
+                </AnchorConnectedAccount>
               </Box>
             </Box>
           </ConnectItems>
