@@ -84,7 +84,7 @@ function Account() {
           sx: {
             borderRadius: '10px',
             boxShadow: '0px 8px 24px rgba(76, 47, 252, 0.13)',
-            backgroundColor: theme.palette.background.secondary,
+            backgroundColor: theme.palette.background.safeOptions.main,
           },
         }}
         open={open}
