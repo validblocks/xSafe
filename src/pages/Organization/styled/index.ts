@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 export const MainTable = styled(DataGrid)(({ theme }) => ({
   '&&&': {
+    width: '100%',
     borderRadius: '10px',
     boxShadow:
       '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',

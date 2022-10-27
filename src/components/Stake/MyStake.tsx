@@ -179,12 +179,11 @@ const MyStake = () => {
           display: 'flex',
           flexWrap: 'wrap',
           width: '100%',
-          padding: '12px 0',
           gap: '12px',
         }}
       >
-        <Grid container spacing={2}>
-          <Grid item xs={12} md={6} lg={4}>
+        <Grid container>
+          <Grid item>
             <AmountWithTitleCard
               amountValue={totalActiveStake}
               amountUnityMeasure={'EGLD'}
