@@ -17,6 +17,7 @@ import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
 import { useSelector } from 'react-redux';
 import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 import { useTheme } from 'styled-components';
+import { motion } from 'framer-motion';
 import AccountDetails from './NavbarAccountDetails';
 import './menu.scss';
 import {
@@ -61,62 +62,227 @@ const MiniDrawer = () => {
         variant="permanent"
         open={open}
       >
-        {(currentContract?.address || isLoggedIn) && (
-        <List sx={{ mt: 1, pb: 0 }}>
-          <AccountDetails uniqueAddress={addressShorthand(currentContract?.address ?? '')} />
-          <Styled.Dividers />
-        </List>
+        {(currentContract?.address?.length > 0 && isLoggedIn) && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
+          >
+            <List sx={{ mt: 1, pb: 0 }}>
+              <AccountDetails uniqueAddress={addressShorthand(currentContract?.address ?? '')} />
+              <Styled.Dividers />
+            </List>
+          </motion.div>
         )}
         {
-          (!currentContract?.address && !isLoggedIn) && (
-            <CenteredBox
-              marginTop={4}
+          (!currentContract?.address || !isLoggedIn) && (
+            <motion.div
+              initial={{ opacity: 1, scale: 1 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
             >
-              <VpnKeyRoundedIcon
-                sx={{
-                  border: `1px solid ${theme.palette.svg.safe}`,
-                  fontSize: '40px',
-                  padding: '5px',
-                  borderRadius: '100%',
-                  color: theme.palette.svg.safe,
-                }}
-                color="disabled"
-              />
-            </CenteredBox>
+              <CenteredBox
+                marginTop={4}
+              >
+                <VpnKeyRoundedIcon
+                  sx={{
+                    border: `1px solid ${theme.palette.svg.safe}`,
+                    fontSize: '40px',
+                    padding: '5px',
+                    borderRadius: '100%',
+                    color: theme.palette.svg.safe,
+                  }}
+                  color="disabled"
+                />
+              </CenteredBox>
+            </motion.div>
           )
         }
-        {(currentContract?.address || isLoggedIn) && (
-          <TopMenu>
-            {menuItems.topItems.map((el) => (
-              <div key={el.id}>
-                {el.submenu && (
-                <Accordion
-                  expanded={expanded === `${el.id}`}
-                  onChange={handleChange(`${el.id}`)}
-                  sx={{ boxShadow: 'none',
-                    backgroundColor: theme.palette.background.hover,
-                    '& .MuiCollapse-entered': {
-                      display: 'block !important',
-                      '& .active': {
-                        display: 'block',
-                        '& div': {
-                          backgroundColor: `${theme.palette.background.hover} !important`,
+        {(currentContract?.address && isLoggedIn) && (
+          <motion.div
+            style={{ height: '100%' }}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0 }}
+          >
+            <TopMenu>
+              {menuItems.topItems.map((el) => (
+                <div key={el.id}>
+                  {el.submenu && (
+                  <Accordion
+                    expanded={expanded === `${el.id}`}
+                    onChange={handleChange(`${el.id}`)}
+                    sx={{ boxShadow: 'none',
+                      backgroundColor: theme.palette.background.hover,
+                      '& .MuiCollapse-entered': {
+                        display: 'block !important',
+                        '& .active': {
+                          display: 'block',
+                          '& div': {
+                            backgroundColor: `${theme.palette.background.hover} !important`,
+                          },
                         },
                       },
-                    },
-                  }}
-                >
-                  <MenuAccordion
-                    aria-controls="panel1a-content"
-                    expandIcon={<ArrowDropUpIcon />}
-                    id="panel1a-header"
-                    sx={{ pl: 0 }}
+                    }}
+                  >
+                    <MenuAccordion
+                      aria-controls="panel1a-content"
+                      expandIcon={<ArrowDropUpIcon />}
+                      id="panel1a-header"
+                      sx={{ pl: 0 }}
+                    >
+                      <ListItem
+                        sx={{
+                          minHeight: 48,
+                          justifyContent: open ? 'initial' : 'center',
+                          px: 2.5,
+                        }}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: open ? 1 : 'auto',
+                            justifyContent: 'center',
+                            color: theme.palette.text.primary,
+                          }}
+                        >
+                          {el.icon}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={<Text> {el.name}</Text>}
+                          sx={{
+                            opacity: open ? 1 : 0,
+                          }}
+                        />
+                      </ListItem>
+                    </MenuAccordion>
+                    {el.submenu?.map((subEl: MenuItem) => (
+                      <AccordionDetail key={subEl.link} sx={{ p: 0 }}>
+                        <Link
+                          to={subEl.link}
+                          className={
+                          locationString === subEl.link
+                            ? 'active link-decoration'
+                            : 'link-decoration'
+                        }
+                          style={{ borderRight: 'none', backgroundColor: '#f5f7ff' }}
+                        >
+                          <ListItem
+                            sx={{
+                              minHeight: 48,
+                              justifyContent: open ? 'initial' : 'center',
+                              px: 2.5,
+                              ml: 0,
+                              pl: 3,
+                            }}
+                          >
+                            <ListItemIcon
+                              sx={{
+                                minWidth: 0,
+                                mr: open ? 3 : 'auto',
+                                justifyContent: 'center',
+                                color: theme.palette.text.primary,
+                              }}
+                            />
+                            <ListItemText
+                              primary={<Text>{subEl.name}</Text>}
+                              sx={{ opacity: open ? 1 : 0, ml: open ? '20px' : 0 }}
+                            />
+                            {el.name === 'Apps' && (
+                            <div className="pin-icon">
+                              <IconButton
+                                color="secondary"
+                                onClick={() => {
+                                  setPinnedApps((apps: string[]) => (
+                                    apps.includes(subEl.id)
+                                      ? apps
+                                      : [...apps, subEl.id]
+                                  ));
+                                }}
+                              >
+                                <PushPinRoundedIcon />
+                              </IconButton>
+                            </div>
+                            )}
+
+                          </ListItem>
+                        </Link>
+                      </AccordionDetail>
+                    ))}
+                    {el.name === 'Apps' && [
+                      ...availableApps
+                        .filter((app: MenuItem) => installedApps.includes(app.id)),
+                    ].map((subEl: MenuItem) => (
+                      <AccordionDetail key={subEl.link} sx={{ p: 0 }}>
+                        <Link
+                          to={subEl.link}
+                          className={
+                          locationString === subEl.link
+                            ? 'active link-decoration'
+                            : 'link-decoration'
+                        }
+                          style={{ borderRight: 'none', backgroundColor: '#f5f7ff' }}
+                        >
+                          <ListItem
+                            sx={{
+                              minHeight: 48,
+                              justifyContent: open ? 'initial' : 'center',
+                              px: 2.5,
+                              ml: 0,
+                              pl: 3,
+                            }}
+                          >
+                            <ListItemIcon
+                              sx={{
+                                minWidth: 0,
+                                mr: open ? 3 : 'auto',
+                                justifyContent: 'center',
+                                color: theme.palette.text.primary,
+                              }}
+                            />
+                            <ListItemText
+                              primary={<Text>{subEl.name}</Text>}
+                              sx={{ opacity: open ? 1 : 0, ml: open ? '20px' : 0 }}
+                            />
+                            {el.name === 'Apps' && (
+                            <div className="pin-icon">
+                              <IconButton
+                                color="secondary"
+                                onClick={() => {
+                                  setPinnedApps((apps: string[]) => (
+                                    apps.includes(subEl.id)
+                                      ? apps
+                                      : [...apps, subEl.id]
+                                  ));
+                                }}
+                              >
+                                <PushPinRoundedIcon />
+                              </IconButton>
+                            </div>
+                            )}
+
+                          </ListItem>
+                        </Link>
+                      </AccordionDetail>
+                    ))}
+                  </Accordion>
+                  )}
+
+                  {!el.submenu && (
+                  <Link
+                    to={el.link}
+                    className={
+                    locationString === el.link
+                      ? 'active link-decoration'
+                      : 'link-decoration'
+                  }
                   >
                     <ListItem
                       sx={{
                         minHeight: 48,
                         justifyContent: open ? 'initial' : 'center',
                         px: 2.5,
+                        color: '#08041D',
                       }}
                     >
                       <ListItemIcon
@@ -130,211 +296,65 @@ const MiniDrawer = () => {
                         {el.icon}
                       </ListItemIcon>
                       <ListItemText
-                        primary={<Text> {el.name}</Text>}
-                        sx={{
-                          opacity: open ? 1 : 0,
-                        }}
+                        primary={<Text>{el.name}</Text>}
+                        sx={{ opacity: open ? 1 : 0 }}
                       />
+
                     </ListItem>
-                  </MenuAccordion>
-                  {el.submenu?.map((subEl: MenuItem) => (
-                    <AccordionDetail key={subEl.link} sx={{ p: 0 }}>
+                  </Link>
+                  )}
+                  {el.name === 'Apps' && (
+                    installedAndPinnedApps.map((app: MenuItem) => (
                       <Link
-                        to={subEl.link}
+                        to={app.link}
+                        key={app.id}
                         className={
-                          locationString === subEl.link
-                            ? 'active link-decoration'
-                            : 'link-decoration'
-                        }
-                        style={{ borderRight: 'none', backgroundColor: '#f5f7ff' }}
-                      >
-                        <ListItem
-                          sx={{
-                            minHeight: 48,
-                            justifyContent: open ? 'initial' : 'center',
-                            px: 2.5,
-                            ml: 0,
-                            pl: 3,
-                          }}
-                        >
-                          <ListItemIcon
-                            sx={{
-                              minWidth: 0,
-                              mr: open ? 3 : 'auto',
-                              justifyContent: 'center',
-                              color: theme.palette.text.primary,
-                            }}
-                          />
-                          <ListItemText
-                            primary={<Text>{subEl.name}</Text>}
-                            sx={{ opacity: open ? 1 : 0, ml: open ? '20px' : 0 }}
-                          />
-                          {el.name === 'Apps' && (
-                          <div className="pin-icon">
-                            <IconButton
-                              color="secondary"
-                              onClick={() => {
-                                setPinnedApps((apps: string[]) => (
-                                  apps.includes(subEl.id)
-                                    ? apps
-                                    : [...apps, subEl.id]
-                                ));
-                              }}
-                            >
-                              <PushPinRoundedIcon />
-                            </IconButton>
-                          </div>
-                          )}
-
-                        </ListItem>
-                      </Link>
-                    </AccordionDetail>
-                  ))}
-                  {el.name === 'Apps' && [
-                    ...availableApps
-                      .filter((app: MenuItem) => installedApps.includes(app.id)),
-                  ].map((subEl: MenuItem) => (
-                    <AccordionDetail key={subEl.link} sx={{ p: 0 }}>
-                      <Link
-                        to={subEl.link}
-                        className={
-                          locationString === subEl.link
-                            ? 'active link-decoration'
-                            : 'link-decoration'
-                        }
-                        style={{ borderRight: 'none', backgroundColor: '#f5f7ff' }}
-                      >
-                        <ListItem
-                          sx={{
-                            minHeight: 48,
-                            justifyContent: open ? 'initial' : 'center',
-                            px: 2.5,
-                            ml: 0,
-                            pl: 3,
-                          }}
-                        >
-                          <ListItemIcon
-                            sx={{
-                              minWidth: 0,
-                              mr: open ? 3 : 'auto',
-                              justifyContent: 'center',
-                              color: theme.palette.text.primary,
-                            }}
-                          />
-                          <ListItemText
-                            primary={<Text>{subEl.name}</Text>}
-                            sx={{ opacity: open ? 1 : 0, ml: open ? '20px' : 0 }}
-                          />
-                          {el.name === 'Apps' && (
-                          <div className="pin-icon">
-                            <IconButton
-                              color="secondary"
-                              onClick={() => {
-                                setPinnedApps((apps: string[]) => (
-                                  apps.includes(subEl.id)
-                                    ? apps
-                                    : [...apps, subEl.id]
-                                ));
-                              }}
-                            >
-                              <PushPinRoundedIcon />
-                            </IconButton>
-                          </div>
-                          )}
-
-                        </ListItem>
-                      </Link>
-                    </AccordionDetail>
-                  ))}
-                </Accordion>
-                )}
-
-                {!el.submenu && (
-                <Link
-                  to={el.link}
-                  className={
-                    locationString === el.link
-                      ? 'active link-decoration'
-                      : 'link-decoration'
-                  }
-                >
-                  <ListItem
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: open ? 'initial' : 'center',
-                      px: 2.5,
-                      color: '#08041D',
-                    }}
-                  >
-                    <ListItemIcon
-                      sx={{
-                        minWidth: 0,
-                        mr: open ? 1 : 'auto',
-                        justifyContent: 'center',
-                        color: theme.palette.text.primary,
-                      }}
-                    >
-                      {el.icon}
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={<Text>{el.name}</Text>}
-                      sx={{ opacity: open ? 1 : 0 }}
-                    />
-
-                  </ListItem>
-                </Link>
-                )}
-                {el.name === 'Apps' && (
-                  installedAndPinnedApps.map((app: MenuItem) => (
-                    <Link
-                      to={app.link}
-                      key={app.id}
-                      className={
                     locationString === app.link
                       ? 'active link-decoration'
                       : 'link-decoration'
                   }
-                    >
-                      <ListItem
-                        sx={{
-                          minHeight: 48,
-                          justifyContent: open ? 'initial' : 'center',
-                          px: 2.5,
-                          color: '#08041D',
-                        }}
                       >
-                        <ListItemIcon
+                        <ListItem
                           sx={{
-                            minWidth: 0,
-                            mr: open ? 1 : 'auto',
-                            justifyContent: 'center',
-                            color: theme.palette.text.primary,
+                            minHeight: 48,
+                            justifyContent: open ? 'initial' : 'center',
+                            px: 2.5,
+                            color: '#08041D',
                           }}
                         >
-                          {app.icon}
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={<Text>{app.name}</Text>}
-                          sx={{ opacity: open ? 1 : 0 }}
-                        />
-                        <div className="pin-icon">
-                          <IconButton
-                            color="secondary"
-                            onClick={() => {
-                              setPinnedApps((apps: string[]) => (
-                                apps.filter((appId) => appId !== app.id)
-                              ));
+                          <ListItemIcon
+                            sx={{
+                              minWidth: 0,
+                              mr: open ? 1 : 'auto',
+                              justifyContent: 'center',
+                              color: theme.palette.text.primary,
                             }}
                           >
-                            <PushPinRoundedIcon />
-                          </IconButton>
-                        </div>
-                      </ListItem>
-                    </Link>
-                  )))}
-              </div>
-            ))}
-          </TopMenu>
+                            {app.icon}
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={<Text>{app.name}</Text>}
+                            sx={{ opacity: open ? 1 : 0 }}
+                          />
+                          <div className="pin-icon">
+                            <IconButton
+                              color="secondary"
+                              onClick={() => {
+                                setPinnedApps((apps: string[]) => (
+                                  apps.filter((appId) => appId !== app.id)
+                                ));
+                              }}
+                            >
+                              <PushPinRoundedIcon />
+                            </IconButton>
+                          </div>
+                        </ListItem>
+                      </Link>
+                    )))}
+                </div>
+              ))}
+            </TopMenu>
+          </motion.div>
         )}
         <BottomMenu />
       </SidebarDrawer>

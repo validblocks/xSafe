@@ -64,7 +64,10 @@ export default function useMultisigDetailsCards() {
 
   useEffect(() => {
     setOrganizationAssets(
-      (assets) => ({ ...assets, tokens: organizationTokens?.length ?? 0 }),
+      (assets) => ({
+        ...assets,
+        tokens: totalOrganizationValueToDisplay === '0' ? 0 : organizationTokens?.length,
+      }),
     );
   }, [organizationTokens, currentContract?.address]);
 
