@@ -52,9 +52,9 @@ export const multisigContractsSlice = createSlice({
       action: PayloadAction<string>,
     ) => {
       const contracts = state.multisigContracts;
-      const currentContract = contracts.find(
-        (contract) => contract.address === action.payload,
-      );
+      const currentContract = Array.isArray(contracts)
+        ? contracts?.find((contract) => contract.address === action.payload)
+        : null;
 
       if (currentContract != null) {
         return { ...state, currentMultisigContract: currentContract };
