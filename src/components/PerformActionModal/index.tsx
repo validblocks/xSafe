@@ -8,8 +8,7 @@ import {
 import { gasLimit as defaultGasLimit, maxGasLimit } from 'src/config';
 import { MultisigActionType } from 'src/types/MultisigActionType';
 import { useState } from 'react';
-import { Box } from '@mui/system';
-import { InputsContainer, MainButton } from '../Theme/StyledComponents';
+import { InputsContainer, MainButton, PerformModal } from '../Theme/StyledComponents';
 import ModalCardTitle from '../Layout/Modal/ModalCardTitle';
 
 export const gasLimits = {
@@ -94,7 +93,7 @@ const PerformActionModal = ({
       centered
     >
       <ModalCardTitle title="Perform" handleClose={handleClose} />
-      <Box sx={{ padding: '21px 40px 40px' }}>
+      <PerformModal>
         <InputsContainer>
           <Form.Control
             id="gasLimit"
@@ -123,7 +122,7 @@ const PerformActionModal = ({
             Perform
           </MainButton>
         </div>
-      </Box>
+      </PerformModal>
     </Modal>
   );
 };

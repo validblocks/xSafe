@@ -457,6 +457,13 @@ export const ModalContainer = styled(Modal)`
 }
 `;
 
+export const PerformModal = styled(Box)`
+&&& {
+  background-color: ${(props) => props.theme.palette.background.secondary};
+  padding: 21px 40px 40px;
+}
+`;
+
 export const RemoveItemsButton = styled(MainButton)`
 &&& {
   min-width: 56px;
