@@ -148,6 +148,9 @@ export const MainSelect = styled(Select)`
     background-color: ${(props) => props.theme.palette.background.button};
     color: ${(props) => props.theme.palette.background.white};
   }
+  &:after {
+    border-bottom: none;
+  }
 }
 `;
 
