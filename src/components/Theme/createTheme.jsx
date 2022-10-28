@@ -168,6 +168,8 @@ export const darkTheme = createTheme({
     },
     black: {
       main: '#08041D',
+      reducedOpacity: '#fff',
+      minorlyReducedOpacity: '#fff',
     },
     background: {
       main: '#4c2FFC',
