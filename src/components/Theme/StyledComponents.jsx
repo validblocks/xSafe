@@ -184,8 +184,11 @@ export const FormSearchInput = styled(Box)`
   border-radius: .3rem;
   background-color: rgba(76,47,252, 0.06);
   & svg {
-    margin-top: 4px;
-    color: ${(props) => props.theme.palette.text.primary} !important;
+    margin-top: 2px;
+  }
+  & svg > path{
+    fill: ${(props) => props.theme.palette.svg.search};
+    fill-opacity: ${(props) => props.theme.palette.svg.fillOpacity};
   };
   & .MuiOutlinedInput-root {
     text-transform: none;

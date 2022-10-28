@@ -79,6 +79,8 @@ export const theme = createTheme({
     svg: {
       secondary: '#08041D',
       safe: 'rgba(0, 0, 0, 0.26)',
+      search: '#08041D',
+      fillOpacity: 0.54,
     },
     hover: {
       secondary: 'rgba(0, 0, 0, 0.04)',
@@ -227,6 +229,8 @@ export const darkTheme = createTheme({
     svg: {
       secondary: '#fff',
       safe: '#6c757d',
+      search: '#fff',
+      fillOpacity: 1,
     },
     hover: {
       secondary: '#181626',
