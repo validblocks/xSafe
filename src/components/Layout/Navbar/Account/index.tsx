@@ -78,6 +78,8 @@ function Account() {
           presentationDiv.forEach((node) => {
             node.innerHTML = '';
           });
+
+          handleClose();
         });
       }
     }
@@ -104,7 +106,6 @@ function Account() {
       </Box>
       <ConnectDropdown
         anchorEl={anchorEl}
-        closeAfterTransition
         PaperProps={{
           sx: {
             borderRadius: '10px',
