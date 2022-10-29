@@ -23,9 +23,6 @@ import { smartContractCode } from 'src/helpers/constants';
 export const deployContractGasLimit = 400_000_000;
 
 export async function deployMultisigContract() {
-  const address = await getAddress();
-  const account = await getAccount(address);
-
   function getDeployContractTransaction(
     quorum: number,
     boardMembers: AddressValue[],
@@ -46,18 +43,25 @@ export async function deployMultisigContract() {
     };
     return contract.deploy(deployArguments);
   }
+  try {
+    const address = await getAddress();
+    const account = await getAccount(address);
 
-  const multisigAddress = SmartContract.computeAddress(
-    new Address(address),
+    const multisigAddress = SmartContract.computeAddress(
+      new Address(address),
     account.nonce as any,
-  );
-  const boardMembers = [new AddressValue(new Address(address))];
-  const quorum = 1;
-  const deployTransaction = getDeployContractTransaction(quorum, boardMembers);
+    );
+    const boardMembers = [new AddressValue(new Address(address))];
+    const quorum = 1;
+    const deployTransaction = getDeployContractTransaction(quorum, boardMembers);
 
-  const transactions = [deployTransaction];
-  const { sessionId } = await sendTransactions({
-    transactions,
-  });
-  return { sessionId, multisigAddress: multisigAddress.bech32() };
+    const transactions = [deployTransaction];
+    const { sessionId, error } = await sendTransactions({
+      transactions,
+    });
+
+    return { sessionId, multisigAddress: multisigAddress.bech32(), error };
+  } catch (err) {
+    throw Error('Error deploying safe!');
+  }
 }

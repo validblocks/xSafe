@@ -11,12 +11,15 @@ interface IMultistepFormProps {
     emitStepChange?: React.Dispatch<React.SetStateAction<number>>;
   finalActionText?: string;
   hasFinalActionButton?: boolean;
+  autoForwardSteps?: number[];
+  noBackwardsSteps?: number[];
 }
 
 interface IMultistepFormContextType {
     setBuiltFinalActionHandler: any;
     activeStepNumber: number;
     proceedToPreviousStep: () => void;
+    proceedToNextStep: () => void;
     setIsFinalStepButtonActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -31,6 +34,8 @@ const MultistepForm = ({
   steps,
   finalActionText = 'Proceed',
   hasFinalActionButton = true,
+  autoForwardSteps = [],
+  noBackwardsSteps = [],
   emitStepChange = () => null }: IMultistepFormProps) => {
   const theme: any = useTheme();
   const [activeStepNumber, setActiveStepNumber] = useState(1);
@@ -57,32 +62,38 @@ const MultistepForm = ({
     emitStepChange((activeStepNumber) => activeStepNumber - 1);
   }, [emitStepChange]);
 
-  const [builtFinalActionHandler, setBuiltFinalActionHandler] = useState(() => () => ({}));
+  const [builtFinalActionHandler, setBuiltFinalActionHandler] = useState(() => () => null);
+
+  const isFinalActionButtonVisible = hasFinalActionButton && activeStepNumber === finalStep;
+  const isBackButtonVisible = activeStepNumber > 1 && !noBackwardsSteps.includes(activeStepNumber);
+  const isNextButtonVisible = activeStepNumber < finalStep && !autoForwardSteps.includes(activeStepNumber);
 
   return (
     <MultistepFormContext.Provider value={useMemo(() => ({
       proceedToPreviousStep,
+      proceedToNextStep,
       activeStepNumber,
       setIsFinalStepButtonActive,
       setBuiltFinalActionHandler,
     }),
-    [activeStepNumber, proceedToPreviousStep])}
+    [activeStepNumber, proceedToNextStep, proceedToPreviousStep])}
     >
       <Styled.MultistepForm sx={{ backgroundColor: theme.palette.background.secondary }} className="modal-content">
         <Box>
           <Text>{activeStepJSX}</Text>
         </Box>
+        {(isNextButtonVisible || isBackButtonVisible || isFinalActionButtonVisible) && (
         <Box
           display={'flex'}
           gap={2}
           padding={activeStepNumber > 1 || activeStepNumber < finalStep ? '2rem 3rem' : '0'}
         >
-          {activeStepNumber > 1 && (
+          {isBackButtonVisible && (
           <ChangeStepButton onClick={proceedToPreviousStep}>
             <Text>{t('Back') as string}</Text>
           </ChangeStepButton>
           )}
-          {activeStepNumber < finalStep ? (
+          {isNextButtonVisible ? (
             <ChangeStepButton
               sx={{ ...(!isNextButtonActive && {
                 background: '#eee !important',
@@ -93,15 +104,16 @@ const MultistepForm = ({
             >
               <Text>{t('Next') as string}</Text>
             </ChangeStepButton>
-          ) : hasFinalActionButton && (
-            <FinalStepActionButton
-              disabled={!isFinalStepButtonActive}
-              onClick={builtFinalActionHandler}
-            >
-              <Text>{t(finalActionText) as string}</Text>
-            </FinalStepActionButton>
+          ) : isFinalActionButtonVisible && (
+          <FinalStepActionButton
+            disabled={!isFinalStepButtonActive}
+            onClick={builtFinalActionHandler}
+          >
+            <Text>{t(finalActionText) as string}</Text>
+          </FinalStepActionButton>
           )}
         </Box>
+        )}
       </Styled.MultistepForm>
     </MultistepFormContext.Provider>
   );

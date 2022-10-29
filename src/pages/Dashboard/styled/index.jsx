@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import styled from 'styled-components';
 
 export const LoadSafeButton = styled(Button)`
@@ -29,6 +29,21 @@ export const CreateNewSafeButton = styled(LoadSafeButton)`
     background-color: ${(props) => props.theme.palette.background.button};
     border-color: ${(props) => props.theme.palette.background.button};
     color: ${(props) => props.theme.palette.background.white};
+  };
+}
+`;
+
+export const LoadingBox = styled(Box)`
+&&& {
+  font-weight: bold;
+  display: inline-block;
+  font-size: 15px;
+  clip-path: inset(0 1ch 0 0);
+  animation: l 1s steps(4) infinite;
+  @keyframes l {
+    to {
+      clipPath: inset(0 -1ch 0 0);
+    };
   };
 }
 `;

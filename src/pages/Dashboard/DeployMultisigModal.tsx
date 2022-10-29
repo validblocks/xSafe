@@ -57,11 +57,15 @@ const DeployStepsModal = ({
         onHide={handleClose}
         className="modal-container"
         animation={false}
+        backdrop="static"
         centered
       >
         <MultistepForm
+          hasFinalActionButton={false}
           finalActionText="Change owner"
           steps={steps}
+          noBackwardsSteps={[2]}
+          autoForwardSteps={[1]}
         />
       </Modal>
     </MultisigCreationFormContext.Provider>
