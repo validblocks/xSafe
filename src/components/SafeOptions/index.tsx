@@ -22,6 +22,10 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { useTheme } from 'styled-components';
 import {
+  setIntervalEndTimestamp, setIntervalStartTimestamp, setIntervalStartTimestampForFiltering,
+} from 'src/redux/slices/transactionsSlice';
+import { lastXDays } from 'src/pages/Transactions/TransactionHistoryIntervals';
+import {
   ActiveWallet,
   AddSafe,
   InactiveWallet,
@@ -61,10 +65,17 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
     if (!newSafeAddress) return;
     setSelectedSafe(newSafeAddress);
     dispatch(setCurrentMultisigContract(newSafeAddress));
+
+    const oneDayBefore = lastXDays.getTimestamp(1);
+    dispatch(setIntervalStartTimestamp(oneDayBefore));
+    dispatch(setIntervalEndTimestamp(new Date().getTime() / 1000));
+    dispatch(setIntervalStartTimestampForFiltering(oneDayBefore));
+
     queryClient.invalidateQueries([
       QueryKeys.ALL_ORGANIZATION_NFTS,
       QueryKeys.ADDRESS_EGLD_TOKENS,
       QueryKeys.ADDRESS_ESDT_TOKENS,
+      QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
     ]);
 
     navigate(`/multisig/${newSafeAddress}`);

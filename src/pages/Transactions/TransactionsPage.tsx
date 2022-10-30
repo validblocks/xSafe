@@ -60,12 +60,7 @@ export default function TransactionsPage() {
     intervalStartTimestampSelector,
   );
 
-  const [intervalLabel, setIntervalLabel] = useState(() => (
-    HISTORY_INTERVALS.find(
-      (interval) =>
-        interval.intervalStartTimestamp === globalIntervalStartTimestamp,
-    )?.label ?? 'Last day'
-  ));
+  const [intervalLabel, setIntervalLabel] = useState('Last day');
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);

@@ -13,7 +13,7 @@ export const SECOND_TO_MILLISECOND_SCALAR = 1000;
 
 const dateNow = new Date();
 
-const lastXDays: ITimeShiftable = {
+export const lastXDays: ITimeShiftable = {
   getTimestamp: (daysFromNow: number): number => {
     const daysAgo = new Date();
     daysAgo.setDate(daysAgo.getDate() - daysFromNow);
@@ -23,7 +23,7 @@ const lastXDays: ITimeShiftable = {
   label: 'day',
 };
 
-const lastXWeeks: ITimeShiftable = {
+export const lastXWeeks: ITimeShiftable = {
   getTimestamp: (weeksFromNow: number): number => {
     const weekAgo = new Date();
     weekAgo.setDate(weekAgo.getDate() - weeksFromNow * 7);
@@ -33,7 +33,7 @@ const lastXWeeks: ITimeShiftable = {
   label: 'week',
 };
 
-const lastXMonths: ITimeShiftable = {
+export const lastXMonths: ITimeShiftable = {
   getTimestamp: (monthsFromNow: number): number => {
     const date = new Date(dateNow.getTime());
     date.setMonth(date.getMonth() - monthsFromNow);
