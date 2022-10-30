@@ -128,7 +128,7 @@ export default function useMultisigDetailsCards() {
           <Styled.CardButton
             onClick={() => navigate(routeNames.assets)}
           >
-            View Coins
+            View Tokens
           </Styled.CardButton>
         )}
       />,

@@ -46,7 +46,7 @@ const breadcrumbItems: any = {
   tokens: [
     {
       link: '/tokens',
-      name: 'Coins',
+      name: 'Tokens',
     },
   ],
   settings: [

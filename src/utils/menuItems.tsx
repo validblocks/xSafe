@@ -89,7 +89,7 @@ const topItems: MenuItem[] = [
     id: 'assets-menu-item',
     submenu: [
       {
-        name: 'Coins',
+        name: 'Tokens',
         link: 'tokens',
         id: 'tokens-menu-item',
         icon: <DiamondIcon />,
@@ -167,7 +167,7 @@ const mobileBottomItems = [
     icon: <AttachMoneyIcon />,
     submenu: [
       {
-        name: 'Coins',
+        name: 'Tokens',
         link: 'tokens',
         id: 'tokens-mobile-menu-item',
         icon: <AdjustOutlinedIcon />,
