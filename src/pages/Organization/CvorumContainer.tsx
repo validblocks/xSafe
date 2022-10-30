@@ -31,7 +31,7 @@ const CvorumContainer = () => {
 
   return (
     <Box>
-      <MultisigCard>
+      <MultisigCard width={'100% !important'}>
         <Box minHeight={'60vh'} className="px-4 py-4">
           <Text fontSize={21} fontWeight={450}>Required Confirmations</Text>
           <Box fontSize={14} marginTop={2}>
