@@ -61,9 +61,7 @@ const AssetsTable = () => {
         key="0"
         variant="outlined"
         className="shadow-sm rounded mr-2"
-        onClick={(_e: any) => (params.row.identifier === 'EGLD'
-          ? handleOptionSelected(ProposalsTypes.send_egld, params.row)
-          : handleOptionSelected(ProposalsTypes.send_token, params.row))
+        onClick={(_e: any) => (handleOptionSelected(ProposalsTypes.send_token, params.row))
               }
       >
         <AssetActionIcon width="30px" height="30px" /> Send

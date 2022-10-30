@@ -11,10 +11,6 @@ interface SelectOptionPropsType {
 
 const proposeAvailableOptions = [
   {
-    type: ProposalsTypes.send_egld,
-    label: 'Send EGLD',
-  },
-  {
     type: ProposalsTypes.send_token,
     label: 'Send token',
   },
