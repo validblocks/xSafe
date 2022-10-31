@@ -100,7 +100,9 @@ const MiniDrawer = () => {
         }
         {(currentContract?.address && isLoggedIn) && (
           <motion.div
-            style={{ height: '100%' }}
+            style={{ height: '100%',
+              overflow: 'scroll',
+            }}
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0 }}

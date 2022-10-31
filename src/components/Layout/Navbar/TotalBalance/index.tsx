@@ -253,7 +253,7 @@ function TotalBalance() {
   const onNewTransactionClick = () =>
     dispatch(
       setProposeMultiselectSelectedOption({
-        option: ProposalsTypes.multiselect_proposal_options,
+        option: ProposalsTypes.send_token,
       }),
     );
 
@@ -293,7 +293,7 @@ function TotalBalance() {
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
       >
         <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>
-          New Transaction
+          Send Token
         </NewTransactionButton>
       </Box>
       )}
