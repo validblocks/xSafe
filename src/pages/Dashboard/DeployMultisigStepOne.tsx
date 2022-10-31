@@ -1,17 +1,18 @@
 /* eslint-disable no-nested-ternary */
 import { refreshAccount, transactionServices, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
-import { Box, IconButton, Input } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { addContractToMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';
-import { FinalStepActionButton } from 'src/components/Theme/StyledComponents';
+import { FinalStepActionButton, InputsContainer } from 'src/components/Theme/StyledComponents';
 import { deployMultisigContract } from 'src/contracts/ManagerContract';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { useTheme } from 'styled-components';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useMultistepFormContext } from 'src/components/Utils/MultistepForm';
+import * as Styled from './styled';
 import { useMultisigCreationFormContext } from './DeployMultisigModal';
 import MemberPresentationWithPhoto from '../Organization/MemberPresentationWithPhoto';
 
@@ -90,6 +91,16 @@ const DeployMultisigStepOne = ({
     setIsLoading(pendingTransactions.hasPendingTransactions);
   }, [pendingTransactions.hasPendingTransactions]);
 
+  const [error, setError] = useState<string | null>(null);
+
+  const handleNameChange = (event: any) => {
+    const name = event.target.value;
+    if (name.length < 3) {
+      setError('Name is too short. It should be at least 3 characters long.');
+    } else setError(null);
+    setName(name);
+  };
+
   return (
     <Box>
       <IconButton
@@ -135,20 +146,26 @@ const DeployMultisigStepOne = ({
           >
             After picking your name and signing the transaction, your brand new Safe will be deployed on the Elrond blockchain.
           </Text>
-          <Box display="flex" flexDirection="column" justifyContent={'space-between'} my={3}>
-            <Text display="flex" flex={1} mb={1} alignItems="center">{t('Name of the new Safe') as string}:</Text>
-            <Box flex={2}>
-              <Input
-                fullWidth
-                placeholder="Complete Safe Name"
-                onChange={(e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => setName(e.target.value)}
-                sx={{ color: theme.palette.text.primary }}
+          <Box display="flex" flexDirection="column" justifyContent={'space-between'} mt={2}>
+            <InputsContainer
+              width={'100%'}
+              margin="0"
+              className={error != null ? 'hasAvailableAmount invalid' : 'hasAvailableAmount'}
+            >
+              <Styled.SafeNameTextField
+                id="name"
+                focused={false}
+                value={name}
+                autoComplete="off"
+                onChange={handleNameChange}
               />
-            </Box>
+              <label htmlFor="newQuorumSize">{t('Safe Name') as string}</label>
+              <span className="errorMessage">{error}</span>
+            </InputsContainer>
           </Box>
-          <Box my={1} display="flex" flexDirection="column">
+          <Box mb={3} display="flex" flexDirection="column">
             <Text display="flex" flex={1} mb={1} alignItems="center">{t('Initial Contract Owner') as string}:</Text>
-            <Box flex={3} border={`1px solid ${theme.palette.borders.secondary}`} borderRadius={'10px'} p={1}>
+            <Box flex={3} border={`1px solid ${theme.palette.borders.secondary}`} borderRadius="4px" p={0.85}>
               {address ? (
                 <MemberPresentationWithPhoto
                   charactersLeftAfterTruncation={10}
@@ -156,9 +173,6 @@ const DeployMultisigStepOne = ({
                 />
               ) : 'Not logged in'}
             </Box>
-          </Box>
-          <Box my={3}>
-            <Text display="flex" flex={1} alignItems="center">{t('Initial Quorum Size') as string}: 1/1</Text>
           </Box>
           <Box display="flex" gap={2} alignItems={'center'}>
             <Box flex={1}>
