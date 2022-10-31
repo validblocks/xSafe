@@ -9,6 +9,7 @@ import { useTheme } from 'styled-components';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { useSelector } from 'react-redux';
 import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
+import * as Styled from '../../components/Utils/styled/index';
 
 type Props = {
   memberAddress: Address;
@@ -40,7 +41,7 @@ const MemberPresentationWithPhoto = ({
               charactersLeftAfterTruncation,
             )}{' '}
           </Box>
-          <CopyButton className="ml-2" color="grey" text={memberAddress?.toString()} />
+          <CopyButton className="ml-2" link={Styled.CopyIconLinkPurple} text={memberAddress?.toString()} />
           <AnchorPurple
             href={`${
               network.explorerAddress

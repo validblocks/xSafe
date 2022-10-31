@@ -20,6 +20,7 @@ import {
   DisconnectButton,
   AnchorConnectedAccount,
 } from '../navbar-style';
+import * as Styled from '../../../Utils/styled';
 
 const ConnectedAccount = () => {
   const navigate = useNavigate();
@@ -71,7 +72,7 @@ const ConnectedAccount = () => {
             </Typography>
             <Box className="d-flex">
               <Box sx={{ mr: 1 }}>
-                <CopyButton text={currentContract?.address} color="connected-account" />
+                <CopyButton text={currentContract?.address} link={Styled.CopyIconLinkConnectedAccount} />
               </Box>
               <Box sx={{ mr: 1 }}>
                 <AnchorConnectedAccount

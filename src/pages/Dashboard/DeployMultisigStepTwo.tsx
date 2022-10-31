@@ -12,6 +12,7 @@ import { gasLimit, network } from 'src/config';
 import { buildBlockchainTransaction } from 'src/contracts/transactionUtils';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { useMultisigCreationFormContext } from './DeployMultisigModal';
+import * as Styled from '../../components/Utils/styled/index';
 
 interface DeployStepsModalType {
     handleClose: () => void;
@@ -67,7 +68,7 @@ const DeployMultisigStepTwo = ({
               {truncateInTheMiddle(pendingDeploymentContractData?.multisigAddress, 20)}
             </Text>
             <Box sx={{ mr: 1.35, ml: 1.35 }}>
-              <CopyButton text={pendingDeploymentContractData?.multisigAddress} />
+              <CopyButton text={pendingDeploymentContractData?.multisigAddress} link={Styled.CopyIconLink} />
             </Box>
             <Box>
               <Anchor

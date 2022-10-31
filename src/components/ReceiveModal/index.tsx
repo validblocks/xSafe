@@ -82,7 +82,7 @@ const ReceiveModal = ({
                   borderColor: '#4c2ffc !important',
                 }}
               >
-                <CopyButton text={address} className="icon-purple" />
+                <CopyButton text={address} link={Styled.CopyIconLinkPurple} />
               </Typography>
             </div>
             <div className="modal-action-btns">
