@@ -72,14 +72,18 @@ function Account() {
     if (dropdownOpacity === 0) {
       setIsMainButtonActive(false);
       const dialogDiv = document.querySelector('div[role=dialog]');
-      if (dialogDiv) {
+      const ledgerDiv = document.querySelector('div.ledger-login');
+      if (dialogDiv && !ledgerDiv) {
         dialogDiv.addEventListener('blur', () => {
-          const presentationDiv = document.querySelectorAll('div[role=presentation]');
-          presentationDiv.forEach((node) => {
-            node.innerHTML = '';
-          });
-
           handleClose();
+        });
+      }
+      if (ledgerDiv) {
+        ledgerDiv.addEventListener('blur', () => {
+          setTimeout(() => {
+            const ledgerDivLater = document.querySelector('div.ledger-login');
+            if (!ledgerDivLater) { handleClose(); }
+          }, 300);
         });
       }
     }
