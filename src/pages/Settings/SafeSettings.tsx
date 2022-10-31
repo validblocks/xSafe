@@ -4,19 +4,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import ChangeCurrency from 'src/components/ChangeCurrency';
 import { MainButton, TypographyBold } from 'src/components/Theme/StyledComponents';
 import ThemeColor from 'src/components/ThemeColor';
-import { currentSafeNameSelector } from 'src/redux/selectors/safeNameSelector';
 import { setSafeName } from 'src/redux/slices/safeNameSlice';
 import { SettingsInput } from 'src/components/StyledComponents/settings';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { updateMultisigContractOnServer } from 'src/apiCalls/multisigContractsCalls';
+import { updateMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { NoteSpan, Span } from './settings-style';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 function SafeSettings() {
-  const safeName = useSelector(currentSafeNameSelector);
-  const [name, setName] = useState(safeName);
   const { isInReadOnlyMode } = useOrganizationInfoContext();
 
   const currentContract = useSelector(currentMultisigContractSelector);
+  const safeName = currentContract?.name;
+  const [name, setName] = useState(safeName);
 
   useEffect(() => {
     setName(safeName);
@@ -27,7 +28,17 @@ function SafeSettings() {
     setName(event.target.value);
   };
 
+  function handleUpdateContractName(name: string) {
+    const newContract = {
+      ...currentContract,
+      name,
+    };
+    updateMultisigContractOnServer(newContract);
+    dispatch(updateMultisigContract(newContract));
+  }
+
   const saveUpdates = () => {
+    handleUpdateContractName(name);
     dispatch(setSafeName({
       address: currentContract?.address,
       newSafeName: name,

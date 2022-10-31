@@ -7,7 +7,6 @@ import {
 } from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSafeName } from 'src/redux/slices/safeNameSlice';
 import {
   queryBoardMemberAddresses,
   queryQuorumCount,
@@ -17,8 +16,7 @@ import {
   currentMultisigContractSelector,
   currentMultisigTransactionIdSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
-import { uniqueContractAddress, uniqueContractName } from 'src/multisigConfig';
-import { currentSafeNameSelector } from 'src/redux/selectors/safeNameSelector';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
@@ -56,7 +54,6 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const queryClient = useQueryClient();
   const { address } = useGetAccountInfo();
   const { isLoggedIn } = useGetLoginInfo();
-  const safeName = useSelector(currentSafeNameSelector);
 
   const fetchMemberDetails = useCallback(async (isMounted: boolean) => {
     if (!currentContract?.address || !isLoggedIn) return;
@@ -81,13 +78,6 @@ function OrganizationInfoContextProvider({ children }: Props) {
       },
     );
   }, [currentContract?.address, isLoggedIn]);
-
-  useEffect(() => {
-    dispatch(setSafeName({
-      address: currentContract?.address,
-      newSafeName: uniqueContractName?.length > 0 ? uniqueContractName : safeName,
-    }));
-  }, [currentContract?.address, dispatch, safeName]);
 
   const fetchNftCount = useCallback(
     () => ElrondApiProvider.fetchOrganizationNFTCount(currentContract?.address), [currentContract?.address],

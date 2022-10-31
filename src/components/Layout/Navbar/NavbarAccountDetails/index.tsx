@@ -18,7 +18,6 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { network } from 'src/config';
-import { currentSafeNameSelector } from 'src/redux/selectors/safeNameSelector';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
@@ -47,7 +46,6 @@ export const useDeployStepsContext = () =>
   useContext(DeployStepsContext);
 const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: string }) => {
   const { isLoggedIn } = useGetLoginInfo();
-  const safeName = useSelector(currentSafeNameSelector);
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const [showQr, setShowQr] = useState(false);
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
@@ -62,20 +60,25 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   const updateMultisigContract = useCallback(
     (newContracts: MultisigContractInfoType[]) => dispatch(setMultisigContracts(newContracts)),
     [dispatch]);
+
   const openDeployNewContractModal = useCallback(() => {
     setShowDeployMultisigModal(true);
   }, []);
+
   const contextValue = useMemo(() => ({
     showDeployMultisigModalState: [showDeployMultisigModal, setShowDeployMultisigModal] as CustomStateType<boolean>,
     openDeployNewContractModal,
     updateMultisigContract,
   }), [showDeployMultisigModal, openDeployNewContractModal, updateMultisigContract]);
+
   const closeDeployModal = useCallback(() => {
     setShowDeployMultisigModal(false);
   }, []);
+
   const openSafeSelection = useCallback(() => {
     setOpenedSafeSelect(true);
   }, []);
+
   const {
     membersCountState: [membersCount],
     isMultiWalletMode,
@@ -83,6 +86,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   const handleQrModal = () => {
     setShowQr(!showQr);
   };
+
   useEffect(() => {
     ((async function checkContractOwnership() {
       const contractDetails = await ElrondApiProvider.getAccountDetails(currentContract?.address);
@@ -90,10 +94,12 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
       setDisplayOwnershipWarning(!isItsOwnOwner);
     })());
   }, [currentContract?.address]);
+
   useEffect(() => {
     const result = uniqueAddress.length === 0 ? 'No safe' : uniqueAddress;
     setDisplayableAddress(result);
   }, [uniqueAddress]);
+
   useEffect(() => {
     const handler = (e: any) => {
       if (!menuRef.current?.contains(e.target) && !showDeployMultisigModal) {
@@ -155,8 +161,8 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
               className="d-flex justify-content-start align-items-center"
             >
               <Text align="center" lineHeight="1">
-                {safeName?.length > 0
-                  ? safeName
+                {currentContract?.name.length > 0
+                  ? currentContract?.name
                   : displayableAddress
               }
               </Text>
