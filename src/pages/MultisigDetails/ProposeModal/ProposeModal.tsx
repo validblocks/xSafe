@@ -145,15 +145,31 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
 
   const getActionButtonText = (): string => {
     switch (selectedOption?.option) {
-      case (ProposalsTypes.edit_owner):
-      case (ProposalsTypes.change_quorum): {
-        return 'Edit';
+      case (ProposalsTypes.edit_owner): {
+        return 'Save Update';
       }
+      case (ProposalsTypes.change_quorum):
       case (ProposalsTypes.remove_user): {
-        return 'Remove';
+        return 'Propose';
       }
       default:
-        return 'Add';
+        return 'Propose';
+    }
+  };
+
+  const getModalTitle = (): string => {
+    switch (selectedOption?.option) {
+      case (ProposalsTypes.edit_owner): {
+        return 'Edit Member';
+      }
+      case (ProposalsTypes.change_quorum): {
+        return 'Change Quorum';
+      }
+      case (ProposalsTypes.remove_user): {
+        return 'Remove Member';
+      }
+      default:
+        return 'Add Member';
     }
   };
 
@@ -166,7 +182,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
       animation={false}
       centered
     >
-      <ModalCardTitle title="Change Quorum" handleClose={handleClose} />
+      <ModalCardTitle title={getModalTitle()} handleClose={handleClose} />
       <div className="card">
         <Box
           sx={{ padding: '21px 40px 40px',
