@@ -53,4 +53,7 @@ export const SafeNameTextField = styled(TextField)(({ theme }) => ({
   backgroundColor: theme.palette.background.secondary,
   color: theme.palette.text.primary,
   borderColor: theme.palette.borders.secondary,
+  fieldset: {
+    border: 'none ',
+  },
 }));
