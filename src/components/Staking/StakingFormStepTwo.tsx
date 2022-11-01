@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
@@ -11,10 +11,14 @@ import * as Yup from 'yup';
 import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
 import { OrganizationToken } from 'src/pages/Organization/types';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
+import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { transactionServices } from '@elrondnetwork/dapp-core';
+import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import ProviderPresentation from './ProviderPresentation';
 import { useMultistepFormContext } from '../Utils/MultistepForm';
-import { ChangeStepButton } from '../Theme/StyledComponents';
+import { ChangeStepButton, FinalStepActionButton } from '../Theme/StyledComponents';
 import InputTokenPresentation from '../Utils/InputTokenPresentation';
+import { Text } from '../StyledComponents/StyledComponents';
 
 interface IFormValues {
   amount: string;
@@ -143,6 +147,37 @@ const StakingFormStepTwo = () => {
     setButtonWidth(buttonRef?.current?.offsetWidth);
   }, []);
 
+  const proposeStake = useCallback(() => {
+    const addressParam = new Address(selectedProvider?.provider);
+
+    const amountNumeric = Number(formik.values.amount);
+    if (Number.isNaN(amountNumeric)) {
+      return;
+    }
+
+    const amountParam = new BigUIntValue(
+      Balance.egld(amountNumeric).valueOf(),
+    );
+
+    mutateSmartContractCall(addressParam, amountParam, 'delegate');
+  }, [formik.values.amount, selectedProvider?.provider]);
+
+  const dispatch = useDispatch();
+
+  const closeModal = () => {
+    dispatch(setProposeMultiselectSelectedOption(null));
+  };
+
+  const transactionId = useSelector(currentMultisigTransactionIdSelector);
+
+  transactionServices.useTrackTransactionStatus({
+    transactionId,
+    onSuccess: () => {
+      closeModal();
+      console.log('success stake');
+    },
+  });
+
   const buttonStyle = useMemo(() => ({
     display: 'flex',
     alignItems: 'center',
@@ -177,6 +212,21 @@ const StakingFormStepTwo = () => {
           onBlur={formik.handleBlur}
           formik={formik}
         />
+      </Box>
+      <Box
+        display={'flex'}
+        gap={2}
+        paddingBottom={4}
+      >
+        <ChangeStepButton onClick={proceedToPreviousStep}>
+          <Text>{t('Back') as string}</Text>
+        </ChangeStepButton>
+        <FinalStepActionButton
+          disabled={!!amountError || !selectedProvider}
+          onClick={proposeStake}
+        >
+          <Text>Propose</Text>
+        </FinalStepActionButton>
       </Box>
     </Box>
   );

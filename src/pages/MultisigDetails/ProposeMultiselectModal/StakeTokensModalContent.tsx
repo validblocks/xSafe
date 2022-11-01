@@ -39,9 +39,11 @@ const StakeTokensModalContent = ({
 
   return (
     <MultistepForm
-      finalActionText="Stake"
+      finalActionText="Propose"
       emitStepChange={setStep}
       steps={steps}
+      hasFinalActionButton={false}
+      noBackwardsSteps={[2]}
     />
   );
 };
