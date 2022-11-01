@@ -10,7 +10,7 @@ import {
 } from 'src/redux/selectors/currencySelector';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setValueInUsd } from 'src/redux/slices/currencySlice';
-import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
+import { setProposeMultiselectSelectedOption, setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
 import Divider from '@mui/material/Divider';
 import {
@@ -29,6 +29,7 @@ import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
 import { CenteredText } from '../navbar-style';
 
 export const identifierWithoutUniqueHash = (identifier: string) => identifier?.split('-')[0] ?? '';
@@ -250,13 +251,24 @@ function TotalBalance() {
     dispatch(setValueInUsd(totalUsdValue));
   }, [dispatch, totalUsdValue]);
 
-  const onNewTransactionClick = () =>
+  const organizationTokens = useSelector(organizationTokensSelector);
+  const egldBalanceString = organizationTokens
+    ?.find((token: OrganizationToken) => token.identifier === 'EGLD')?.tokenAmount.replaceAll(',', '') ?? 0;
+
+  const onNewTransactionClick = () => {
+    dispatch(
+      setSelectedTokenToSend({
+        id: 'EGLD',
+        identifier: 'EGLD',
+        balance: egldBalanceString,
+      }),
+    );
     dispatch(
       setProposeMultiselectSelectedOption({
         option: ProposalsTypes.send_token,
       }),
     );
-
+  };
   const getCurrency = useSelector(selectedCurrencySelector);
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
 

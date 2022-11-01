@@ -96,7 +96,7 @@ const TransactionQueue = () => {
         <TransactionAccordion
           key={action.actionId}
           sx={{
-            overflow: 'scroll',
+            overflow: 'auto',
           }}
           onChange={handleChange(action.actionId.toString())}
           expanded={expanded === action.actionId.toString()}
