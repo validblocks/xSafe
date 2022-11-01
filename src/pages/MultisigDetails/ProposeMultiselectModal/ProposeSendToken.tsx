@@ -272,7 +272,7 @@ const ProposeSendToken = ({
           fullWidth
           label="Identifier"
           size="small"
-          MenuProps={{ className: 'SendTokenListOpened' }}
+          MenuProps={{ className: identifier === 'EGLD' ? 'SendTokenListOpened' : 'SendTokenListOpenedWithoutEGLD' }}
           onChange={onIdentifierChanged as any}
           sx={{
             position: 'absolute',
