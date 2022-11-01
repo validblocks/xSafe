@@ -17,7 +17,7 @@ const PendingActionSummary = ({ action }: Props) => {
 
   const theme: any = useTheme();
   return (
-    <Styled.PendingActionSummaryContainer>
+    <Styled.ActionSummaryContainer>
       <Styled.ActionIdBox>
         <Text>{action?.actionId}</Text>
       </Styled.ActionIdBox>
@@ -39,14 +39,14 @@ const PendingActionSummary = ({ action }: Props) => {
         </Text>
         <ShortMemberPresentation address={action.signers[0]?.bech32()} />
       </Styled.ActionCreatorBox>
-      <Styled.ActionPendingBox>
+      <Styled.ActionStatusBox>
         <div className="mx-2 d-flex align-items-center justify-content-end">
           <Styled.PendingContainerBox>
             Pending
           </Styled.PendingContainerBox>
         </div>
-      </Styled.ActionPendingBox>
-    </Styled.PendingActionSummaryContainer>
+      </Styled.ActionStatusBox>
+    </Styled.ActionSummaryContainer>
   );
 };
 

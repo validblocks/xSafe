@@ -2,17 +2,17 @@ import { Box } from '@mui/material';
 import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
 import styled from 'styled-components';
 
-export const PendingActionSummaryContainer = styled(Box)(({ theme: _ }) => ({
+export const ActionSummaryContainer = styled(Box)(({ theme: _ }) => ({
   display: 'grid',
   width: '100%',
   '@media (min-width: 1300px)': {
     gridTemplateColumns: '60px 150px 150px 500px auto',
-    gridTemplateAreas: '"actionIdBox actionTitleBox actionSignersBox actionCreatorBox actionPendingBox"',
+    gridTemplateAreas: '"actionIdBox actionTitleBox actionSignersBox actionCreatorBox actionStatusBox"',
   },
   '@media (max-width: 1300px)': {
     gridTemplateColumns: '60px 150px 4fr 1fr',
     gridTemplateRows: 'auto auto',
-    gridTemplateAreas: '"actionIdBox actionTitleBox actionSignersBox actionPendingBox" "actionCreatorBox actionCreatorBox actionCreatorBox actionPendingBox"',
+    gridTemplateAreas: '"actionIdBox actionTitleBox actionSignersBox actionStatusBox" "actionCreatorBox actionCreatorBox actionCreatorBox actionStatusBox"',
   },
 }));
 
@@ -42,6 +42,15 @@ export const ActionSignersBox = styled(CenteredBox)`
   justify-content: flex-start;
   min-width: 150px;
   grid-area: actionSignersBox;
+  @media (max-width: 1300px){
+    & div {
+      display: flex;
+      flex-direction: row;
+      & > strong {
+        margin-right: 5px;
+      }
+    };
+  };
 `;
 
 export const ActionCreatorBox = styled(Box)`
@@ -53,7 +62,11 @@ export const ActionCreatorBox = styled(Box)`
   & .MuiTypography-root {
     min-width: 79px;
     margin-bottom: .25rem;
-    };
+  };
+  & div {
+    display: flex;
+    flex-direction: row;
+  }
   @media (max-width: 1300px) {
     border-top: solid 1px ${(props) => props.theme.palette.divider.secondary};
     border-left: none;
@@ -67,13 +80,13 @@ export const ActionCreatorBox = styled(Box)`
   };
 `;
 
-export const ActionPendingBox = styled(Box)`
+export const ActionStatusBox = styled(Box)`
   display: flex;
   justify-content: flex-end;
   border-left: 1px solid ${(props) => props.theme.palette.divider.secondary};
   padding: 1rem;
   font-size: 0.85rem;
-  grid-area: actionPendingBox;
+  grid-area: actionStatusBox;
   @media (max-width: 1300px) {
     padding-right: 0;
   }
@@ -85,4 +98,8 @@ export const PendingContainerBox = styled(Box)`
   border-radius: 4px;
   padding: 0.5rem 0.675rem;
   font-weight: bold;
+`;
+
+export const SuccesContainerBox = styled(PendingContainerBox)`
+  background-color: ${(props) => props.theme.palette.button.success};
 `;
