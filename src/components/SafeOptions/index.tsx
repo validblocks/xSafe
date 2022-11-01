@@ -121,7 +121,7 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
           <AddIcon />
           Add a new safe
         </AddSafe>
-        <Box maxHeight={385} overflow="scroll">
+        <Box maxHeight={385} overflow="auto">
           {Array.isArray(attachedMultisigContracts) &&
         attachedMultisigContracts.map((fetchedContract: any) => (
           <Box key={fetchedContract.address}>

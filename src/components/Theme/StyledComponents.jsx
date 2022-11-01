@@ -163,7 +163,7 @@ export const TypographyBold = styled(Typography)`
 export const Main = styled.main`
   width: 100%;
   background-color: ${(props) => props.theme.palette.background.default};
-  overflow-y: scroll;
+  overflow-y: auto;
   padding: 20px;
 `;
 
