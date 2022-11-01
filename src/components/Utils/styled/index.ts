@@ -5,6 +5,7 @@ import {
   Popper,
   Link,
   Tabs,
+  TextField as MuiTextField,
 } from '@mui/material';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import { DataGrid } from '@mui/x-data-grid';
@@ -193,5 +194,15 @@ export const MultistepForm = styled(Box)(({ theme }) => ({
     '& .MuiSvgIcon-root': {
       color: theme.palette.text.primary,
     },
+  },
+}));
+
+export const TextField = styled(MuiTextField)(({ theme }) => ({
+  width: '100%',
+  backgroundColor: theme.palette.background.secondary,
+  color: theme.palette.text.primary,
+  borderColor: theme.palette.borders.secondary,
+  fieldset: {
+    border: 'none ',
   },
 }));

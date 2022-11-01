@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import styled from 'styled-components';
 
 export const LoadSafeButton = styled(Button)`
@@ -47,13 +47,3 @@ export const LoadingBox = styled(Box)`
   };
 }
 `;
-
-export const SafeNameTextField = styled(TextField)(({ theme }) => ({
-  width: '100%',
-  backgroundColor: theme.palette.background.secondary,
-  color: theme.palette.text.primary,
-  borderColor: theme.palette.borders.secondary,
-  fieldset: {
-    border: 'none ',
-  },
-}));

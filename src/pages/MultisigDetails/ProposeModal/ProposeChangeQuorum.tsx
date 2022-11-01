@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { InputsContainer } from 'src/components/Theme/StyledComponents';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { useTheme } from 'styled-components';
+import * as Styled from 'src/components/Utils/styled';
 
 interface ProposeChangeQuorumType {
   handleParamsChange: (params: number) => void;
@@ -18,7 +18,6 @@ function ProposeChangeQuorum({
   handleParamsChange,
   setSubmitDisabled,
 }: ProposeChangeQuorumType) {
-  const theme: any = useTheme();
   const { boardMembersCount } = useOrganizationInfoContext();
   const { t }: { t: any } = useTranslation();
 
@@ -45,17 +44,14 @@ function ProposeChangeQuorum({
     <InputsContainer
       className={error != null ? 'hasAvailableAmount invalid' : 'hasAvailableAmount'}
     >
-      <input
+      <Styled.TextField
         id="newQuorumSize"
-        className={error != null ? 'form-control is-invalid' : 'form-control'}
+        type="number"
+        // className={error != null ? 'form-control is-invalid' : 'form-control'}
         value={newQuorumSize}
         autoComplete="off"
+        focused={false}
         onChange={handleNewQuorumSizeChanged}
-        style={{
-          backgroundColor: theme.palette.background.secondary,
-          color: theme.palette.text.primary,
-          borderColor: theme.palette.borders.secondary,
-        }}
       />
       <label htmlFor="newQuorumSize">{t('Quorum Size')}</label>
       <span className="errorMessage">{error}</span>
