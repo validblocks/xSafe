@@ -3,13 +3,22 @@ import styled from 'styled-components';
 
 export const TransactionAccordion = styled(Accordion)`
   margin: 10px 0;
-  border: none !important;
+  border: none;
   outline: none !important;
   box-shadow: 0px 14px 24px 0px #4c2ffc08 !important;
   border-radius: 10px !important;
   background-color: ${(props) => props.theme.palette.background.secondary};
   &:before {
     display: none;
+  };
+  overflow: hidden;
+  & .MuiAccordionSummary-root {
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    & .MuiAccordionSummary-expandIconWrapper {
+      margin-left: 15px;
+    }
   };
 `;
 

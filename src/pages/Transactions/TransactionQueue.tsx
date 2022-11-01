@@ -95,21 +95,13 @@ const TransactionQueue = () => {
       {actionsForCurrentPage.map((action) => (
         <TransactionAccordion
           key={action.actionId}
-          sx={{
-            overflow: 'scroll',
-          }}
           onChange={handleChange(action.actionId.toString())}
           expanded={expanded === action.actionId.toString()}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ color: theme.palette.text.primary }} />}
             aria-controls="panel1a-content"
-            sx={{
-              borderRadius: '10px',
-              border: 'none !important',
-              outline: 'none !important',
-            }}
-            className="pl-0 m-0 d-flex"
+            className="pl-0 m-0"
             classes={{
               content: classes.content,
               expanded: classes.expanded,
