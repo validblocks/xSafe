@@ -40,7 +40,7 @@ const PendingActionSummary = ({ action }: Props) => {
         <ShortMemberPresentation address={action.signers[0]?.bech32()} />
       </Styled.ActionCreatorBox>
       <Styled.ActionPendingBox>
-        <div className="mx-3 d-flex align-items-center justify-content-end">
+        <div className="mx-2 d-flex align-items-center justify-content-end">
           <Styled.PendingContainerBox>
             Pending
           </Styled.PendingContainerBox>

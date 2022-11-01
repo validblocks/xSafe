@@ -10,9 +10,9 @@ export const PendingActionSummaryContainer = styled(Box)(({ theme: _ }) => ({
     gridTemplateAreas: '"actionIdBox actionTitleBox actionSignersBox actionCreatorBox actionPendingBox"',
   },
   '@media (max-width: 1300px)': {
-    gridTemplateColumns: '60px 150px 1fr 2fr',
+    gridTemplateColumns: '60px 150px 4fr 1fr',
     gridTemplateRows: 'auto auto',
-    gridTemplateAreas: '"actionIdBox actionTitleBox actionSignersBox actionPendingBox" "actionCreatorBox actionCreatorBox actionCreatorBox actionCreatorBox"',
+    gridTemplateAreas: '"actionIdBox actionTitleBox actionSignersBox actionPendingBox" "actionCreatorBox actionCreatorBox actionCreatorBox actionPendingBox"',
   },
 }));
 
@@ -39,6 +39,7 @@ export const ActionSignersBox = styled(CenteredBox)`
   font-size: 0.85rem;
   display: flex;
   align-items: center;
+  justify-content: flex-start;
   min-width: 150px;
   grid-area: actionSignersBox;
 `;
@@ -48,12 +49,21 @@ export const ActionCreatorBox = styled(Box)`
   font-size: 0.85rem;
   min-width: 250px;
   border-left: 1px solid ${(props) => props.theme.palette.divider.secondary};
-  flex: 1;
   grid-area: actionCreatorBox;
+  & .MuiTypography-root {
+    min-width: 79px;
+    margin-bottom: .25rem;
+    };
   @media (max-width: 1300px) {
-    border: solid 1px ${(props) => props.theme.palette.divider.secondary};
+    border-top: solid 1px ${(props) => props.theme.palette.divider.secondary};
     border-left: none;
     border-bottom: none;
+    display: flex;
+    flex-direction: row;
+    & .MuiTypography-root {
+      min-width: 79px;
+      margin-bottom: 0;
+    };
   };
 `;
 
@@ -65,8 +75,8 @@ export const ActionPendingBox = styled(Box)`
   font-size: 0.85rem;
   grid-area: actionPendingBox;
   @media (max-width: 1300px) {
-    border-right: solid 1px ${(props) => props.theme.palette.divider.secondary};
-  };
+    padding-right: 0;
+  }
 `;
 
 export const PendingContainerBox = styled(Box)`

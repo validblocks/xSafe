@@ -7,7 +7,7 @@ import { Text } from 'src/components/StyledComponents/StyledComponents';
 const ShortMemberPresentation = ({ address }: { address: string }) => {
   const addressBook = useSelector(addressBookSelector);
   return (
-    <div className="d-flex align-items-center w-100 mt-1">
+    <div className="d-flex align-items-center w-100">
       {address && (
         <div
           className="mr-1"
