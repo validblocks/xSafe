@@ -56,6 +56,7 @@ export const theme = createTheme({
     anchor: {
       main: '#4c2ffc8a',
       secondary: '#6C757D',
+      connectedAccount: '#4c2ffc8a',
     },
     divider: {
       main: '#DFDFE8',
@@ -78,6 +79,8 @@ export const theme = createTheme({
     svg: {
       secondary: '#08041D',
       safe: 'rgba(0, 0, 0, 0.26)',
+      search: '#08041D',
+      fillOpacity: 0.54,
     },
     hover: {
       secondary: 'rgba(0, 0, 0, 0.04)',
@@ -167,6 +170,8 @@ export const darkTheme = createTheme({
     },
     black: {
       main: '#08041D',
+      reducedOpacity: '#fff',
+      minorlyReducedOpacity: '#fff',
     },
     background: {
       main: '#4c2FFC',
@@ -201,6 +206,7 @@ export const darkTheme = createTheme({
     },
     anchor: {
       main: '#6C757D',
+      connectedAccount: '#fff',
     },
     divider: {
       main: '#DFDFE8',
@@ -223,6 +229,8 @@ export const darkTheme = createTheme({
     svg: {
       secondary: '#fff',
       safe: '#6c757d',
+      search: '#fff',
+      fillOpacity: 1,
     },
     hover: {
       secondary: '#181626',

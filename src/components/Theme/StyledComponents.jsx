@@ -148,6 +148,9 @@ export const MainSelect = styled(Select)`
     background-color: ${(props) => props.theme.palette.background.button};
     color: ${(props) => props.theme.palette.background.white};
   }
+  &:after {
+    border-bottom: none;
+  }
 }
 `;
 
@@ -184,8 +187,11 @@ export const FormSearchInput = styled(Box)`
   border-radius: .3rem;
   background-color: rgba(76,47,252, 0.06);
   & svg {
-    margin-top: 4px;
-    color: ${(props) => props.theme.palette.text.primary} !important;
+    margin-top: 2px;
+  }
+  & svg > path{
+    fill: ${(props) => props.theme.palette.svg.search};
+    fill-opacity: ${(props) => props.theme.palette.svg.fillOpacity};
   };
   & .MuiOutlinedInput-root {
     text-transform: none;
@@ -451,6 +457,13 @@ export const ModalContainer = styled(Modal)`
   & .modal-content {
     background-color: ${(props) => props.theme.palette.background.secondary};
   }
+}
+`;
+
+export const PerformModal = styled(Box)`
+&&& {
+  background-color: ${(props) => props.theme.palette.background.secondary};
+  padding: 21px 40px 40px;
 }
 `;
 

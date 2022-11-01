@@ -9,6 +9,7 @@ import { network } from 'src/config';
 import { getDate } from 'src/utils/transactionUtils';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import TransactionAdvancedDetails from './TransactionAdvancedDetails';
+import * as Styled from '../../components/Utils/styled/index';
 
 type Props = any;
 
@@ -37,7 +38,7 @@ function TransactionTechnicalDetails({ transaction }: Props) {
           ...
           {transaction?.txHash.slice(transaction?.txHash.length - 15)}
         </Text>
-        <CopyButton className="ml-2" text={transaction?.txHash} />
+        <CopyButton className="ml-2" text={transaction?.txHash} link={Styled.CopyIconLink} />
         <Anchor
           href={`${network.explorerAddress}/transactions/${transaction?.txHash}`}
           target="_blank"

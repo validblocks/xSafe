@@ -35,9 +35,17 @@ export const CopyIconLink = styled(Link)(({ theme: _ }) => ({
 
 export const CopyIconLinkPurple = styled(CopyIconLink)(({ theme: _ }) => ({
   '&.MuiTypography-root svg > path': {
-    fill: `${_.palette.secondary.main} !important`,
+    fill: `${_.palette.anchor.main} !important`,
   },
 }));
+
+export const CopyIconLinkConnectedAccount = styled(CopyIconLink)(
+  ({ theme: _ }) => ({
+    '&.MuiTypography-root svg > path': {
+      fill: `${_.palette.anchor.connectedAccount} !important`,
+    },
+  }),
+);
 
 export const QrCodeReceive = styled(QrCodeIcon)(({ theme: _ }) => ({
   color: '#6C757D !important',

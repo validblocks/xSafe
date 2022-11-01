@@ -27,6 +27,7 @@ import { useNavigate } from 'react-router-dom';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { FinalStepActionButton } from 'src/components/Theme/StyledComponents';
 import { useMultisigCreationFormContext } from './DeployMultisigModal';
+import * as Styled from '../../components/Utils/styled/index';
 
 interface DeployStepsModalType {
     handleClose: () => void;
@@ -133,7 +134,7 @@ const DeployMultisigStepTwo = ({
               {truncateInTheMiddle(pendingDeploymentContractData?.multisigAddress, 20)}
             </Text>
             <Box sx={{ mr: 1.35, ml: 1.35 }}>
-              <CopyButton text={pendingDeploymentContractData?.multisigAddress} />
+              <CopyButton text={pendingDeploymentContractData?.multisigAddress} link={Styled.CopyIconLink} />
             </Box>
             <Box>
               <Anchor

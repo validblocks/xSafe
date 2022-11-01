@@ -14,8 +14,16 @@ export const BreadcrumbsElement = styled(Breadcrumbs)(({ theme: _ }) => ({
 
 export const MainBreadcrumbsLink = styled(Link)(({ theme: _ }) => ({
   color: _.palette.black.reducedOpacity,
+  fontWeight: _.font.weight.lg,
+  transition: 'color 256ms ease-in-out',
+  '&:hover': {
+    color: '#4c2FFC',
+    textDecoration: 'none',
+  },
 }));
 
-export const SecondaryBreadcrumbsLink = styled(Link)(({ theme: _ }) => ({
-  color: _.palette.black.minorlyReducedOpacity,
-}));
+export const SecondaryBreadcrumbsLink = styled(MainBreadcrumbsLink)(
+  ({ theme: _ }) => ({
+    color: _.palette.black.minorlyReducedOpacity,
+  }),
+);
