@@ -1,5 +1,4 @@
 import PeopleIcon from '@mui/icons-material/People';
-import { Box } from '@mui/system';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
@@ -18,38 +17,36 @@ const PendingActionSummary = ({ action }: Props) => {
 
   const theme: any = useTheme();
   return (
-    <>
-      <Box className="d-flex">
-        <Styled.ActionIdBox>
-          <Text>{action?.actionId}</Text>
-        </Styled.ActionIdBox>
+    <Styled.ActionSummaryContainer>
+      <Styled.ActionIdBox>
+        <Text>{action?.actionId}</Text>
+      </Styled.ActionIdBox>
 
-        <Styled.ActionTitleBox>
-          <Text fontWeight={700}>{action?.title()}</Text>
-        </Styled.ActionTitleBox>
+      <Styled.ActionTitleBox>
+        <Text fontWeight={700}>{action?.title()}</Text>
+      </Styled.ActionTitleBox>
 
-        <Styled.ActionSignersBox>
-          <PeopleIcon htmlColor={theme.palette.primary.dark} className="mr-2" />
-          <Text fontWeight={500} fontSize={14}>
-            {action.signers.length} out of {quorumCount}
-          </Text>
-        </Styled.ActionSignersBox>
+      <Styled.ActionSignersBox>
+        <PeopleIcon htmlColor={theme.palette.primary.dark} className="mr-2" />
+        <Text fontWeight={500} fontSize={14}>
+          {action.signers.length} out of {quorumCount}
+        </Text>
+      </Styled.ActionSignersBox>
 
-        <Styled.ActionCreatorBox>
-          <Text fontWeight={500} fontSize={14}>
-            Created by:
-          </Text>
-          <ShortMemberPresentation address={action.signers[0]?.bech32()} />
-        </Styled.ActionCreatorBox>
-      </Box>
-      <Styled.ActionPendingBox>
-        <div className="mx-3 d-flex align-items-center justify-content-end">
+      <Styled.ActionCreatorBox>
+        <Text fontWeight={500} fontSize={14}>
+          Created by:
+        </Text>
+        <ShortMemberPresentation address={action.signers[0]?.bech32()} />
+      </Styled.ActionCreatorBox>
+      <Styled.ActionStatusBox>
+        <div className="mx-2 d-flex align-items-center justify-content-end">
           <Styled.PendingContainerBox>
             Pending
           </Styled.PendingContainerBox>
         </div>
-      </Styled.ActionPendingBox>
-    </>
+      </Styled.ActionStatusBox>
+    </Styled.ActionSummaryContainer>
   );
 };
 

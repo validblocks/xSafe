@@ -1,5 +1,4 @@
 import { Ui } from '@elrondnetwork/dapp-utils';
-import { Box } from '@mui/material';
 import dayjs from 'dayjs';
 import { toSvg } from 'jdenticon';
 import { capitalizeString } from 'src/utils/stringUtils';
@@ -7,6 +6,7 @@ import { getDate } from 'src/utils/transactionUtils';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useTheme } from 'styled-components';
 import { PairOfTransactionAndDecodedAction } from './TransactionHistory';
+import * as Styled from './styled';
 
 function TransactionSummary({
   transaction,
@@ -14,90 +14,45 @@ function TransactionSummary({
 }: PairOfTransactionAndDecodedAction) {
   const theme: any = useTheme();
   return (
-    <>
-      <Box className="d-flex">
-        <Box
-          className="d-flex align-items-center justify-content-center w-100"
-          sx={{
-            borderRight: `1px solid ${theme.palette.divider.secondary}`,
-            padding: '1rem',
-            minWidth: '60px',
-          }}
-        >
-          <Text>{action?.actionId}</Text>
-        </Box>
+    <Styled.ActionSummaryContainer>
+      <Styled.ActionIdBox>
+        <Text>{action?.actionId}</Text>
+      </Styled.ActionIdBox>
 
-        <Box
-          className="d-flex align-items-center justify-content-start"
-          sx={{
-            borderRight: `1px solid ${theme.palette.divider.secondary}`,
-            padding: '1rem',
-            fontWeight: 'bold',
-            minWidth: '230px',
-          }}
-        >
-          <Text fontWeight={700}>{action?.title()}</Text>
-        </Box>
+      <Styled.ActionTitleBox>
+        <Text fontWeight={700}>{action?.title()}</Text>
+      </Styled.ActionTitleBox>
 
-        <Box
-          sx={{
-            borderRight: `1px solid ${theme.palette.divider.secondary}`,
-            padding: '1rem',
-            fontSize: '0.85rem',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-start',
-            justifyContent: 'center',
-            minWidth: '150px',
-          }}
-        >
-          <div>
-            <strong><Text fontSize={12} fontWeight={700}>Execution Time:</Text></strong>
-          </div>
+      <Styled.ActionSignersBox>
+        <div>
+          <strong><Text fontSize={12} fontWeight={700}>Execution Time:</Text></strong>
           <Text fontSize={12}>{dayjs(getDate(transaction.timestamp)).format('H:mm A')}</Text>
-        </Box>
-
-        <Box
-          sx={{
-            padding: '1rem',
-            fontSize: '0.85rem',
-            flex: 1,
-          }}
-        >
-          <div>
-            <Text fontSize={12} fontWeight={700}><strong>Executed by:</strong></Text>
-          </div>
-          <div className="d-flex align-items-center mt-1">
-            <div
-              className="mr-1"
-              dangerouslySetInnerHTML={{ __html: toSvg(transaction.sender, 20) }}
-            />
-            <Text fontSize={12}><Ui.Trim text={transaction.sender} /></Text>
-          </div>
-        </Box>
-      </Box>
-      <Box
-        className="d-flex align-items-center justify-content-center w-100"
-        sx={{
-          borderLeft: `1px solid ${theme.palette.divider.secondary}`,
-          padding: '1rem',
-        }}
-      >
-        <div className="mx-3 d-flex align-items-center justify-content-end">
-          <Box
-            sx={{
-              backgroundColor: theme.palette.button.success,
-              color: '#fff',
-              borderRadius: '4px',
-              padding: '0.5rem 0.675rem',
-              fontWeight: 'bold',
-            }}
-          >
-            <Text sx={{ color: `${theme.palette.text.success} !important`, fontWeight: '700' }}>{capitalizeString(transaction.status)}</Text>
-          </Box>
         </div>
-      </Box>
-    </>
+      </Styled.ActionSignersBox>
+
+      <Styled.ActionCreatorBox>
+        <Text fontSize={12} fontWeight={700}><strong>Executed by:</strong></Text>
+        <div>
+          <div
+            className="mr-1"
+            dangerouslySetInnerHTML={{ __html: toSvg(transaction.sender, 20) }}
+          />
+          <Text fontSize={12}><Ui.Trim text={transaction.sender} /></Text>
+        </div>
+      </Styled.ActionCreatorBox>
+      <Styled.ActionStatusBox>
+        <div className="mx-2 d-flex align-items-center justify-content-end">
+          <Styled.SuccesContainerBox>
+            <Text sx={{
+              color: `${theme.palette.text.success} !important`,
+              fontWeight: '700',
+            }}
+            >{capitalizeString(transaction.status)}
+            </Text>
+          </Styled.SuccesContainerBox>
+        </div>
+      </Styled.ActionStatusBox>
+    </Styled.ActionSummaryContainer>
   );
 }
 
