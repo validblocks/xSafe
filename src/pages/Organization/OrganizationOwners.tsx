@@ -138,7 +138,7 @@ const OrganizationsOwnersTable = () => {
         onClick={() => onAddBoardMember()}
         sx={{ mb: '.9rem !important', boxShadow: 'none !important' }}
       >
-        Add new owner
+        Add new member
       </MainButton>
 
       <Styled.MainTable
