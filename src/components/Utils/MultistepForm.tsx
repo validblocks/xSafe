@@ -1,14 +1,17 @@
+import { transactionServices } from '@elrondnetwork/dapp-core';
 import { Box } from '@mui/material';
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
+import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useTheme } from 'styled-components';
 import { Text } from '../StyledComponents/StyledComponents';
 import { FinalStepActionButton, ChangeStepButton } from '../Theme/StyledComponents';
 import * as Styled from './styled';
 
 interface IMultistepFormProps {
-    steps: React.ReactElement[];
-    emitStepChange?: React.Dispatch<React.SetStateAction<number>>;
+  steps: React.ReactElement[];
+  emitStepChange?: React.Dispatch<React.SetStateAction<number>>;
   finalActionText?: string;
   hasFinalActionButton?: boolean;
   autoForwardSteps?: number[];
@@ -16,11 +19,11 @@ interface IMultistepFormProps {
 }
 
 interface IMultistepFormContextType {
-    setBuiltFinalActionHandler: any;
-    activeStepNumber: number;
-    proceedToPreviousStep: () => void;
-    proceedToNextStep: () => void;
-    setIsFinalStepButtonActive: React.Dispatch<React.SetStateAction<boolean>>;
+  setBuiltFinalActionHandler: any;
+  activeStepNumber: number;
+  proceedToPreviousStep: () => void;
+  proceedToNextStep: () => void;
+  setIsFinalStepButtonActive: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const MultistepFormContext = createContext<IMultistepFormContextType>(
@@ -68,11 +71,25 @@ const MultistepForm = ({
   const isBackButtonVisible = activeStepNumber > 1 && !noBackwardsSteps.includes(activeStepNumber);
   const isNextButtonVisible = activeStepNumber < finalStep && !autoForwardSteps.includes(activeStepNumber);
 
+  const [lastTransactionId, setLastTransactionId] = useState<string | null>(null);
+
+  const currentTransactionId = useSelector(currentMultisigTransactionIdSelector);
+  transactionServices.useTrackTransactionStatus({
+    transactionId: currentTransactionId,
+    onSuccess: () => {
+      setLastTransactionId(currentTransactionId);
+    },
+    onCompleted: () => {
+      setLastTransactionId(currentTransactionId);
+    },
+  });
+
   return (
     <MultistepFormContext.Provider value={useMemo(() => ({
       proceedToPreviousStep,
       proceedToNextStep,
       activeStepNumber,
+      lastTransactionId,
       setIsFinalStepButtonActive,
       setBuiltFinalActionHandler,
     }),

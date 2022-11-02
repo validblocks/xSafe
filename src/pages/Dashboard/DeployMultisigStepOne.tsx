@@ -12,7 +12,7 @@ import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { useTheme } from 'styled-components';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useMultistepFormContext } from 'src/components/Utils/MultistepForm';
-import * as Styled from './styled';
+import * as Styled from 'src/components/Utils/styled';
 import { useMultisigCreationFormContext } from './DeployMultisigModal';
 import MemberPresentationWithPhoto from '../Organization/MemberPresentationWithPhoto';
 
@@ -152,7 +152,7 @@ const DeployMultisigStepOne = ({
               margin="0"
               className={error != null ? 'hasAvailableAmount invalid' : 'hasAvailableAmount'}
             >
-              <Styled.SafeNameTextField
+              <Styled.TextField
                 id="name"
                 focused={false}
                 value={name}

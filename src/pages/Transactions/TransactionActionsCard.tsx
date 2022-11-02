@@ -5,18 +5,19 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CloseIcon from '@mui/icons-material/Close';
+import { gasLimit as defaultGasLimit } from 'src/config';
 import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import CheckIcon from '@mui/icons-material/Check';
 import {
   mutateSign,
   mutateUnsign,
   mutateDiscardAction,
+  mutatePerformAction,
 } from 'src/contracts/MultisigContract';
-import { setSelectedPerformedAction } from 'src/redux/slices/modalsSlice';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { DiscardActionButton, PerformActionButton, Text } from 'src/components/StyledComponents/StyledComponents';
+import { gasLimits } from 'src/components/PerformActionModal';
 import useTransactionPermissions from './useTransactionPermissions';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
@@ -41,7 +42,6 @@ function TransactionActionsCard({
   action,
 }: TransactionActionsCardType) {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const { canUnsign, canPerformAction, canSign, canDiscardAction } =
     useTransactionPermissions(action);
@@ -52,7 +52,10 @@ function TransactionActionsCard({
     mutateUnsign(actionId);
   };
   const performAction = () => {
-    dispatch(setSelectedPerformedAction({ id: actionId, actionType: type }));
+    const gasLimit = type != null
+      ? gasLimits[type as keyof typeof gasLimits] ?? defaultGasLimit
+      : defaultGasLimit;
+    mutatePerformAction(actionId, gasLimit);
   };
   const discardAction = () => {
     mutateDiscardAction(actionId);
