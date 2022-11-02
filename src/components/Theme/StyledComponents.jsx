@@ -439,6 +439,11 @@ export const ModalContainer = styled(Modal)`
     }
   };
   & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
+    top: calc(50% + 26px) !important;
+    left: 50% !important;
+    background-color: ${(props) => props.theme.palette.background.secondary};
+  };
+  & ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
     top: calc(50% + 68px) !important;
     left: 50% !important;
     background-color: ${(props) => props.theme.palette.background.secondary};
@@ -450,6 +455,10 @@ export const ModalContainer = styled(Modal)`
     left: calc(50% - 213px) !important;
     };
     & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
+    top: calc(50% + 25px) !important;
+    left: calc(50% - 15px) !important;
+    };
+    & ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
     top: calc(50% + 68px) !important;
     left: calc(50% - 15px) !important;
     };
