@@ -26,6 +26,7 @@ import {
   MenuAccordion,
   AccordionDetail,
   SidebarDrawer,
+  PinnedIconBox,
 } from './navbar-style';
 import * as Styled from '../../Utils/styled';
 import BottomMenu from './MenuItems/BottomMenu';
@@ -249,7 +250,6 @@ const MiniDrawer = () => {
                             {el.name === 'Apps' && (
                             <div className="pin-icon">
                               <IconButton
-                                color="secondary"
                                 onClick={() => {
                                   setPinnedApps((apps: string[]) => (
                                     apps.includes(subEl.id)
@@ -338,7 +338,7 @@ const MiniDrawer = () => {
                             primary={<Text>{app.name}</Text>}
                             sx={{ opacity: open ? 1 : 0 }}
                           />
-                          <div className="pin-icon">
+                          <PinnedIconBox>
                             <IconButton
                               color="secondary"
                               onClick={() => {
@@ -349,7 +349,7 @@ const MiniDrawer = () => {
                             >
                               <PushPinRoundedIcon />
                             </IconButton>
-                          </div>
+                          </PinnedIconBox>
                         </ListItem>
                       </Link>
                     )))}
