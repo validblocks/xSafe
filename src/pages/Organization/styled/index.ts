@@ -1,4 +1,4 @@
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridOverlay } from '@mui/x-data-grid';
 import styled from 'styled-components';
 
 export const MainTable = styled(DataGrid)(({ theme }) => ({
@@ -67,4 +67,9 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
       },
     },
   },
+}));
+
+export const NoRowsOverlay = styled(GridOverlay)(({ theme: _ }) => ({
+  backgroundColor: _.palette.background.secondary,
+  borderBottom: `solid 1px ${_.palette.divider.secondary}`,
 }));

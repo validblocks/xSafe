@@ -131,6 +131,12 @@ const OrganizationsOwnersTable = () => {
     address: { address: owner.address, identicon: toSvg(owner.address, 100) },
   }));
 
+  const noRowsOverlay = () => (
+    <Styled.NoRowsOverlay>
+      <span>No Rows</span>
+    </Styled.NoRowsOverlay>
+  );
+
   return (
     <>
       <MainButton
@@ -146,6 +152,7 @@ const OrganizationsOwnersTable = () => {
         rowHeight={65}
         rows={rows}
         columns={columns}
+        components={{ NoRowsOverlay: noRowsOverlay }}
       />
     </>
   );
