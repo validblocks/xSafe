@@ -200,6 +200,10 @@ export const ListItem = styled(ListItemButton)`
   transition: all 300ms linear;
   .pin-icon {
     opacity: 0;
+    & path{
+      fill: ${(props) => props.theme.palette.background.pinIcon};
+    }
+    transition: opacity 300ms linear;
   }
   & .MuiListItemIcon-root {
     transition: all 300ms linear;
@@ -217,10 +221,6 @@ export const ListItem = styled(ListItemButton)`
   };
   &:hover .pin-icon {
     opacity: 1;
-    color: ${(props) => props.theme.palette.primary.main};
-  };
-  &:hover .pin-icon * {
-    color: ${(props) => props.theme.palette.primary.main};
   };
 }
 `;
@@ -298,6 +298,20 @@ export const BottomMenuList = styled(List)(({ theme: _ }) => ({
 
   '& a.active .MuiListItemButton-root': {
     backgroundColor: `${_.palette.background.menu}`,
+  },
+}));
+
+export const PinnedIconBox = styled(Box)(({ theme: _ }) => ({
+  '&&&': {
+    '.MuiButtonBase-root': {
+      padding: '4px 8px 3px',
+    },
+    '.MuiSvgIcon-root': {
+      transform: 'rotate(25deg)',
+      '> path': {
+        fill: _.palette.background.pinIcon,
+      },
+    },
   },
 }));
 
