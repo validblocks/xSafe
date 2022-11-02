@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { DappUI } from '@elrondnetwork/dapp-core';
-import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ReactComponent as IconElrond } from 'src/assets/img/elrond-web-wallet.svg';
 import { ReactComponent as IconLedger } from 'src/assets/img/ledger.svg';
 import { ReactComponent as IconMaiar } from 'src/assets/img/maiar-app.svg';
@@ -66,8 +64,6 @@ const Unlock = () => {
                 <IconMaiarWallet />
                 <Text className="title" marginBottom={'0 !important'} fontWeight={600}>Maiar DeFi Wallet</Text>
               </div>
-
-              <FontAwesomeIcon icon={faArrowRight} className="arrow" />
             </div>
           </DappUI.ExtensionLoginButton>
         )}
