@@ -3,7 +3,6 @@ import { Address } from '@elrondnetwork/erdjs/out';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-import { Avatar } from '@mui/material';
 import { GridActionsCellItem, GridRenderCellParams } from '@mui/x-data-grid';
 import { toSvg } from 'jdenticon';
 import { useSelector } from 'react-redux';
@@ -11,7 +10,7 @@ import { queryBoardMemberAddresses } from 'src/contracts/MultisigContract';
 import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
 import { RootState } from 'src/redux/store';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
-import { MainButton } from 'src/components/Theme/StyledComponents';
+import { MainButtonNoShadow } from 'src/components/Theme/StyledComponents';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { AccountInfo, AddressBook, Owner } from './types';
@@ -62,6 +61,8 @@ const OrganizationsOwnersTable = () => {
       {
         field: 'owner',
         headerName: 'Name',
+        minWidth: 230,
+        maxWidth: 290,
         type: 'object',
         renderCell: (params: GridRenderCellParams<any>) => (
           <div className="d-flex flex-column justify-content-center">
@@ -83,13 +84,8 @@ const OrganizationsOwnersTable = () => {
          */
         renderCell: (params: any) => (
           <div className="d-flex flex-row align-items-center">
-            <Avatar>
-              <div
-                dangerouslySetInnerHTML={{ __html: params.value.identicon }}
-              />
-            </Avatar>
             <div>
-              <Text fontSize={12} marginLeft={'10px !important'}>{truncateInTheMiddle(params.value.address, 12)}</Text>
+              <Text fontSize={12} marginLeft={'10px !important'}>{truncateInTheMiddle(params.value.address, 17)}</Text>
             </div>
           </div>
         ),
@@ -139,13 +135,13 @@ const OrganizationsOwnersTable = () => {
 
   return (
     <>
-      <MainButton
+      <MainButtonNoShadow
         disabled={isInReadOnlyMode}
         onClick={() => onAddBoardMember()}
-        sx={{ mb: '.9rem !important', boxShadow: 'none !important' }}
+        sx={{ mb: '.9rem !important' }}
       >
-        Add new member
-      </MainButton>
+        Add member
+      </MainButtonNoShadow>
 
       <Styled.MainTable
         autoHeight

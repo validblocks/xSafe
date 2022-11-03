@@ -30,7 +30,7 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
       },
     },
     '& div': {
-      color: theme.palette.text.primary,
+      color: theme.palette.text.tableHeaders,
     },
     '& p': {
       margin: 0,
@@ -45,6 +45,12 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
     },
     '& .MuiDataGrid-columnHeaders, & .MuiDataGrid-cell': {
       borderBottomColor: theme.palette.divider.secondary,
+    },
+    '& .MuiDataGrid-cell': {
+      paddingLeft: '9px',
+    },
+    '.MuiDataGrid-actionsCell': {
+      paddingLeft: '20px',
     },
     '& .MuiDataGrid-footerContainer': {
       borderTop: 'none',

@@ -47,6 +47,7 @@ export const theme = createTheme({
       button: '#4c2FFC',
       disabled: '#A9A9A9',
       success: '#fff',
+      tableHeaders: '#000000de',
     },
     sidebar: {
       primary: '#fff',
@@ -168,6 +169,7 @@ export const darkTheme = createTheme({
       button: '#FFF',
       disabled: '#8680A9',
       success: '#2FFCBE',
+      tableHeaders: '#9C9BA5',
     },
     black: {
       main: '#08041D',

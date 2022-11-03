@@ -43,6 +43,7 @@ export const MainButton = styled(Button)`
 export const MainButtonNoShadow = styled(MainButton)`
 &&& {
   box-shadow: none;
+  text-transform: none;
 }
 `;
 
