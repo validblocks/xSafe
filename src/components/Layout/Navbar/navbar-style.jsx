@@ -262,7 +262,6 @@ export const MenuAccordion = styled(AccordionSummary)`
   };
   &.Mui-expanded {
     min-height: 48px;
-    border-right: solid 2px #4c2ffc;
     background-color: ${(props) => props.theme.palette.background.menu};
     .MuiTypography-root {
       color: ${(props) => props.theme.palette.primary.main};
