@@ -84,9 +84,9 @@ const OrganizationsOwnersTable = () => {
          */
         renderCell: (params: any) => (
           <div className="d-flex flex-row align-items-center">
-            <div>
-              <Text fontSize={12} marginLeft={'10px !important'}>{truncateInTheMiddle(params.value.address, 17)}</Text>
-            </div>
+            <strong>
+              {truncateInTheMiddle(params.value.address, 17)}
+            </strong>
           </div>
         ),
       },

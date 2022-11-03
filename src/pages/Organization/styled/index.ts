@@ -29,12 +29,11 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
         transition: 'none',
       },
     },
-    '& div': {
+    '& div, & p.MuiTablePagination-displayedRows': {
       color: theme.palette.text.tableHeaders,
     },
     '& p': {
       margin: 0,
-      color: `${theme.palette.text.primary} !important`,
     },
     '& span': {
       fontSize: '12px',
@@ -48,6 +47,11 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
     },
     '& .MuiDataGrid-cell': {
       paddingLeft: '9px',
+      '& strong': {
+        color: theme.palette.text.primary,
+        paddingLeft: '11px',
+        fontWeight: '600',
+      },
     },
     '.MuiDataGrid-actionsCell': {
       paddingLeft: '20px',
