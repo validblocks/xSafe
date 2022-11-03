@@ -421,7 +421,7 @@ export const ProposeAddressInput = styled(TextField)`
   width: 100%;
   &.isAddressError {
     & fieldset {
-      borderColor: ${(props) => props.theme.palette.danger.main};
+      border-color: ${(props) => props.theme.palette.danger.main} !important;
     };
   };
 }
