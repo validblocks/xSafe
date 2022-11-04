@@ -591,6 +591,38 @@ export const PaginationSelect = styled(Select)`
 }
 `;
 
+export const MobileNotAvailable = styled(Box)(({ theme: _ }) => ({
+  position: 'fixed',
+  width: '100%',
+  height: '100vh',
+  zIndex: '3000',
+  paddingBottom: '100px',
+  backgroundColor: '#15131F',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  '& img': {
+    width: '128px',
+  },
+  '& div': {
+    display: 'flex',
+    flexDirection: 'column',
+    textAlign: 'center',
+    padding: '20px 19px',
+    backgroundColor: '#1E1D2A',
+    borderRadius: '12px',
+    marginTop: '30px',
+  },
+  '& strong': {
+    color: '#F0F6FF',
+  },
+  '& strong:last-child': {
+    color: '#556FA0',
+  },
+
+}));
+
 export const TokenSelect = styled(Select)`
 &&& {
   color: ${(props) => props.theme.palette.text.primary};

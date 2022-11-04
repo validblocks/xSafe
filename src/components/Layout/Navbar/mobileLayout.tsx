@@ -12,6 +12,8 @@ import menuItems from 'src/utils/menuItems';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { MobileNotAvailable } from 'src/components/Theme/StyledComponents';
+import LogoXSafe from '../../../assets/img/logoxSafe.png';
 import {
   LogoMenuWrapper,
   MobileMenu,
@@ -35,6 +37,13 @@ const MobileLayout = () => {
 
   return (
     <Box>
+      <MobileNotAvailable>
+        <img src={LogoXSafe} alt="logo" />
+        <div>
+          <strong>Mobile version will be available soon.</strong>
+          <strong>Please visit us from a desktop device.</strong>
+        </div>
+      </MobileNotAvailable>
       <LogoMenuWrapper>
         <NavbarLogo />
         <TopMobileMenu
