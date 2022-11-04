@@ -157,6 +157,9 @@ export const TopMenu = styled(Box)(({ theme: _ }) => ({
   '& a.active .MuiListItemButton-root': {
     backgroundColor: _.palette.background.menu,
   },
+  '& a.active p': {
+    color: `${_.palette.primary.main} !important`,
+  },
 }));
 
 export const AppBarWrapper = styled(Box)(({ theme: _ }) => ({
@@ -205,17 +208,20 @@ export const ListItem = styled(ListItemButton)`
     }
     transition: opacity 300ms linear;
   }
-  & .MuiListItemIcon-root {
+  & .MuiTypography-root, & .MuiListItemIcon-root {
     transition: all 300ms linear;
-    color: ${(props) => props.theme.palette.text.secondary};
+    color: ${(props) => props.theme.palette.text.menuItems};
   }
+  & .MuiSvgIcon-root {
+    color: ${(props) => props.theme.palette.svg.menuItems};
+    transition: all 300ms linear;
+  };
   &:hover {
-    & .MuiTypography-root,& .MuiSvgIcon-root {
+    & .MuiSvgIcon-root {
       color: #4c2FFC !important;
-      transition: all 300ms linear;
     }
     background-color: ${(props) => props.theme.palette.background.hover};
-    .MuiListItemIcon-root {
+    & .MuiTypography-root, & .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
   };
@@ -240,7 +246,7 @@ export const MenuAccordion = styled(AccordionSummary)`
     transition: color 300ms linear;
   };
   & svg {
-    color: ${(props) => props.theme.palette.text.secondary};
+    color: ${(props) => props.theme.palette.text.menuItems};
   };
   &:hover {
     background-color: ${(props) => props.theme.palette.background.hover};
@@ -251,9 +257,6 @@ export const MenuAccordion = styled(AccordionSummary)`
       color: #4c2FFC !important;
     }
     .MuiTypography-root {
-      color: #4c2ffc !important;
-    };
-    .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
     .MuiAccordionSummary-expandIconWrapper {
@@ -270,10 +273,14 @@ export const MenuAccordion = styled(AccordionSummary)`
     .MuiListItemIcon-root {
       color: ${(props) => props.theme.palette.primary.main};
     };
-    & .MuiTypography-root,& .MuiSvgIcon-root {
+    & .MuiSvgIcon-root {
       color: #4c2FFC !important;
       transition: color 300ms linear;
     }
+    & .MuiTypography-root {
+      color: ${(props) => props.theme.palette.primary.main};
+      transition: color 300ms linear;
+    };
     .MuiAccordionSummary-expandIconWrapper {
       color: rgba(76, 47, 252, 0.54);
     };
