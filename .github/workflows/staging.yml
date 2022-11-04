@@ -84,7 +84,7 @@ jobs:
         uses: up9cloud/action-rsync@v1.1
         if: success()
         env:
-          HOST: staging.beta.xsafe.com
+          HOST: staging.xsafe.app
           USER: graffino
           KEY: ${{secrets.DEPLOY_SSH_KEY}}
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
@@ -92,7 +92,7 @@ jobs:
           VERBOSE: true
           ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
 
-          TARGET: ~/staging.beta.xsafe.com/
+          TARGET: ~/staging.xsafe.app/
           SOURCE: ./build/
 
           PRE_SCRIPT: |
@@ -106,7 +106,7 @@ jobs:
         uses: up9cloud/action-rsync@v1.1
         if: success()
         env:
-          HOST: staging.beta.xsafe.com
+          HOST: staging.xsafe.app
           USER: graffino
           KEY: ${{secrets.DEPLOY_SSH_KEY}}
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
@@ -114,14 +114,14 @@ jobs:
           VERBOSE: true
           ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache --exclude Makefile
 
-          TARGET: ~/staging.beta.xsafe.com/server/
+          TARGET: ~/staging.xsafe.app/server/
           SOURCE: ./server/
 
           PRE_SCRIPT: |
             echo "Start at: " $(date -u)
 
           POST_SCRIPT: |
-            cd ~/staging.beta.xsafe.com/server
+            cd ~/staging.xsafe.app/server
             npm install
             echo "Stop at: " $(date -u)
 
