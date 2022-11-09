@@ -90,34 +90,32 @@ const MobileLayout = () => {
       <TotalBalanceWrapper>
         <TotalBalance />
       </TotalBalanceWrapper>
-      <Box>
-        <MobileMenu className="d-flex bg-white justify-content-around mobile-menu">
-          {menuItems.mobileBottomItems.map((el) => (
-            <Box
-              className={
+      <MobileMenu className="d-flex bg-white justify-content-around mobile-menu">
+        {menuItems.mobileBottomItems.map((el) => (
+          <Box
+            className={
                 locationString === el.link
                   ? 'active link-decoration py-4'
                   : 'link-decoration py-4'
               }
-              key={el.link}
+            key={el.link}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                display: 'block',
+                textAlign: 'center',
+              }}
+              className="pr-1"
             >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  display: 'block',
-                  textAlign: 'center',
-                }}
-                className="pr-1"
-              >
-                {el.icon}
-              </ListItemIcon>
-              <Link className="link-decoration" to={el.link}>
-                {el.name}
-              </Link>
-            </Box>
-          ))}
-        </MobileMenu>
-      </Box>
+              {el.icon}
+            </ListItemIcon>
+            <Link className="link-decoration" to={el.link}>
+              {el.name}
+            </Link>
+          </Box>
+        ))}
+      </MobileMenu>
       <MobileSecondaryMenu>
         {(locationString === 'assets' ||
           locationString === 'tokens' ||

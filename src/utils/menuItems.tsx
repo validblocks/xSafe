@@ -6,7 +6,6 @@ import DiamondIcon from '@mui/icons-material/Diamond';
 import GroupsIcon from '@mui/icons-material/Groups';
 import HelpIcon from '@mui/icons-material/Help';
 import MapsHomeWorkRoundedIcon from '@mui/icons-material/MapsHomeWorkRounded';
-import MenuBookRoundedIcon from '@mui/icons-material/MenuBookRounded';
 import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
@@ -194,12 +193,6 @@ const mobileBottomItems = [
     id: 'apps-mobile-menu-item',
 
     icon: <AppsIcon />,
-  },
-  {
-    name: 'Address Book',
-    link: 'address-book',
-    id: 'address-book-mobile-menu-item',
-    icon: <MenuBookRoundedIcon />,
   },
 ];
 
