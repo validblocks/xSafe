@@ -48,6 +48,7 @@ export const theme = createTheme({
       disabled: '#A9A9A9',
       success: '#fff',
       menuItems: '#08041D8a',
+      tableHeaders: '#000000de',
     },
     sidebar: {
       primary: '#fff',
@@ -171,6 +172,7 @@ export const darkTheme = createTheme({
       disabled: '#8680A9',
       success: '#2FFCBE',
       menuItems: '#F0F6FF8a',
+      tableHeaders: '#9C9BA5',
     },
     black: {
       main: '#08041D',

@@ -34,7 +34,7 @@ export type ForegroundRoutesType =
   | 'tokenTableRows'
   | 'assets'
   | 'cvorum'
-  | 'owners'
+  | 'members'
   | 'transactions'
   | 'settings'
   | 'nft'
@@ -110,9 +110,9 @@ export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
     title: 'Cvorum',
     component: CvorumContainer,
   },
-  owners: {
-    path: '/owners',
-    title: 'Owners',
+  members: {
+    path: '/members',
+    title: 'Members',
     component: OrganizationOwners,
   },
   settings: {

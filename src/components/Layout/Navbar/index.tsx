@@ -168,7 +168,7 @@ const MiniDrawer = () => {
                             ? 'active link-decoration'
                             : 'link-decoration'
                         }
-                          style={{ borderRight: 'none', backgroundColor: '#f5f7ff' }}
+                          style={{ backgroundColor: '#f5f7ff' }}
                         >
                           <ListItem
                             sx={{

@@ -22,7 +22,7 @@ export default {
 
   cvorum: '/cvorum',
 
-  owners: '/owners',
+  members: '/members',
 
   stake: '/stake',
 

@@ -43,6 +43,7 @@ export const MainButton = styled(Button)`
 export const MainButtonNoShadow = styled(MainButton)`
 &&& {
   box-shadow: none;
+  text-transform: none;
 }
 `;
 
@@ -420,7 +421,7 @@ export const ProposeAddressInput = styled(TextField)`
   width: 100%;
   &.isAddressError {
     & fieldset {
-      borderColor: ${(props) => props.theme.palette.danger.main};
+      border-color: ${(props) => props.theme.palette.danger.main} !important;
     };
   };
 }
