@@ -94,16 +94,26 @@ export const MobileCardOfTokens = styled(Box)(({ theme: _ }) => ({
   borderRadius: '12px',
   flexDirection: 'column',
   justifyContent: 'space-between',
-  '& div:first-child': {
-    flexDirection: 'row',
-    paddingBottom: '5px',
-  },
-  '& div': {
-    display: 'flex',
-    flexDirection: 'column',
-  },
   '& li': {
     padding: '0',
     listStyle: 'none',
   },
+}));
+
+export const CategoryName = styled.div(({ theme: _ }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+}));
+
+export const TokenDetailsBox = styled.div(({ theme: _ }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+}));
+
+export const ActionButtonsBox = styled.div(({ theme: _ }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'flex-end',
+  marginTop: '10px',
 }));

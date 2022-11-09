@@ -179,8 +179,8 @@ const AssetsTable = () => {
         />
       ) : (tokenTableRows.map((item: any) => (
         <Styled.MobileCardOfTokens key={item.id}>
-          <div>
-            <div>
+          <Styled.TokenDetailsBox>
+            <Styled.CategoryName>
               <span>Assets</span>
               <li>
                 {item.balanceDetails.identifier !== 'EGLD' && (
@@ -207,8 +207,8 @@ const AssetsTable = () => {
                 )}
                 <strong>{item.balanceDetails.identifier}</strong>
               </li>
-            </div>
-            <div>
+            </Styled.CategoryName>
+            <Styled.CategoryName>
               <span>Balance</span>
               <h6 className="text-center mb-0 font-weight-normal">
                 {
@@ -220,13 +220,13 @@ const AssetsTable = () => {
                 }).replaceAll(',', '')).toLocaleString()
             } ${item.balanceDetails.identifier}
               </h6>
-            </div>
-            <div>
+            </Styled.CategoryName>
+            <Styled.CategoryName>
               <span>Value</span>
               <span>value USD</span>
-            </div>
-          </div>
-          <div><button>send</button><button>deposit</button></div>
+            </Styled.CategoryName>
+          </Styled.TokenDetailsBox>
+          <Styled.ActionButtonsBox>{getTableActions(item)}</Styled.ActionButtonsBox>
         </Styled.MobileCardOfTokens>
       ))
       )}
