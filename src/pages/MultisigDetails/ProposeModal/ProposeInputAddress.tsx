@@ -51,7 +51,7 @@ function ProposeInputAddress({
     <div>
       <ProposeAddressInput
         error={error}
-        label={`${t('Address')}`}
+        label={`${t('Wallet address')}`}
         id={address}
         disabled={disabled}
         value={address}
@@ -78,7 +78,7 @@ function ProposeInputAddress({
           },
           '&:focus-within': {
             '& fieldset': { borderColor: '#4c2ffc !important' },
-            '& label': { color: '#4c2ffc' },
+            '& label': { color: theme.palette.primary.main },
           },
           '&.isAddressError:focus-within': {
             '& label': { color: '#e51a3e !important' },

@@ -154,7 +154,7 @@ export default function useMultisigDetailsCards() {
             key="0"
             variant="outlined"
             className="shadow-sm rounded mr-2"
-            onClick={() => navigate(routeNames.owners)}
+            onClick={() => navigate(routeNames.members)}
           >
             View Owners
           </Styled.CardButton>

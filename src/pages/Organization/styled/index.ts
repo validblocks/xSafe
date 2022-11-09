@@ -1,4 +1,4 @@
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridOverlay } from '@mui/x-data-grid';
 import styled from 'styled-components';
 
 export const MainTable = styled(DataGrid)(({ theme }) => ({
@@ -29,12 +29,11 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
         transition: 'none',
       },
     },
-    '& div': {
-      color: theme.palette.text.primary,
+    '& div, & p.MuiTablePagination-displayedRows': {
+      color: theme.palette.text.tableHeaders,
     },
     '& p': {
       margin: 0,
-      color: `${theme.palette.text.primary} !important`,
     },
     '& span': {
       fontSize: '12px',
@@ -45,6 +44,17 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
     },
     '& .MuiDataGrid-columnHeaders, & .MuiDataGrid-cell': {
       borderBottomColor: theme.palette.divider.secondary,
+    },
+    '& .MuiDataGrid-cell': {
+      paddingLeft: '9px',
+      '& strong': {
+        color: theme.palette.text.primary,
+        paddingLeft: '11px',
+        fontWeight: '600',
+      },
+    },
+    '.MuiDataGrid-actionsCell': {
+      paddingLeft: '20px',
     },
     '& .MuiDataGrid-footerContainer': {
       borderTop: 'none',
@@ -67,4 +77,9 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
       },
     },
   },
+}));
+
+export const NoRowsOverlay = styled(GridOverlay)(({ theme: _ }) => ({
+  backgroundColor: _.palette.background.secondary,
+  borderBottom: `solid 1px ${_.palette.divider.secondary}`,
 }));

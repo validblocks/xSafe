@@ -124,9 +124,9 @@ const topItems: MenuItem[] = [
     icon: <MapsHomeWorkRoundedIcon />,
     submenu: [
       {
-        name: 'Owners',
-        link: 'owners',
-        id: 'owners-menu-item',
+        name: 'Members',
+        link: 'members',
+        id: 'members-menu-item',
         icon: <GroupsIcon />,
       },
       {

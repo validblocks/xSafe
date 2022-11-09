@@ -13,7 +13,7 @@ import { addEntry } from 'src/redux/slices/addressBookSlice';
 import { useTheme } from 'styled-components';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
-import { MainButton } from 'src/components/Theme/StyledComponents';
+import { MainButton, MainButtonNoShadow } from 'src/components/Theme/StyledComponents';
 import { Box } from '@mui/material';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import EditOwner from './EditOwner';
@@ -153,7 +153,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
         return 'Propose';
       }
       default:
-        return 'Propose';
+        return 'Create proposal';
     }
   };
 
@@ -169,7 +169,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
         return 'Remove Member';
       }
       default:
-        return 'Add Member';
+        return 'Add member';
     }
   };
 
@@ -197,13 +197,13 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
             >
               {t('Cancel')}
             </MainButton>
-            <MainButton
+            <MainButtonNoShadow
               disabled={submitDisabled}
               onClick={onProposeClicked}
-              sx={{ gap: '5px !important', boxShadow: 'none !important' }}
+              sx={{ gap: '5px !important' }}
             >
               {t(getActionButtonText())}
-            </MainButton>
+            </MainButtonNoShadow>
           </Box>
         </Box>
       </div>
