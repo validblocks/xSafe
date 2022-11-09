@@ -1,4 +1,5 @@
 import { DataGrid, GridOverlay } from '@mui/x-data-grid';
+import { Box } from '@mui/system';
 import styled from 'styled-components';
 
 export const MainTable = styled(DataGrid)(({ theme }) => ({
@@ -82,4 +83,27 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
 export const NoRowsOverlay = styled(GridOverlay)(({ theme: _ }) => ({
   backgroundColor: _.palette.background.secondary,
   borderBottom: `solid 1px ${_.palette.divider.secondary}`,
+}));
+
+export const MobileCardOfTokens = styled(Box)(({ theme: _ }) => ({
+  width: '100%',
+  marginBottom: '12px',
+  padding: '20px',
+  display: 'flex',
+  border: 'solid 1px blue',
+  borderRadius: '12px',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  '& div:first-child': {
+    flexDirection: 'row',
+    paddingBottom: '5px',
+  },
+  '& div': {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  '& li': {
+    padding: '0',
+    listStyle: 'none',
+  },
 }));

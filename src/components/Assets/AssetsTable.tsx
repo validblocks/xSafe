@@ -20,7 +20,7 @@ import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sha
 import { ProposalsTypes } from 'src/types/Proposals';
 import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
-import { Typography } from '@mui/material';
+import { Typography, useMediaQuery } from '@mui/material';
 import { Balance } from '@elrondnetwork/erdjs/out';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import * as Styled from '../../pages/Organization/styled';
@@ -29,6 +29,7 @@ export const SQUARE_IMAGE_WIDTH = 30;
 
 const AssetsTable = () => {
   const dispatch = useDispatch();
+  const width = useMediaQuery('(min-width:600px)');
   const [showQr, setShowQr] = useState(false);
 
   const handleQrModal = useCallback(() => {
@@ -165,14 +166,70 @@ const AssetsTable = () => {
     [getTableActions, tokenTableRows],
   );
 
+  console.log(tokenTableRows);
+
   return (
     <>
-      <Styled.MainTable
-        autoHeight
-        rowHeight={65}
-        rows={tokenTableRows ?? []}
-        columns={columns}
-      />
+      {width ? (
+        <Styled.MainTable
+          autoHeight
+          rowHeight={65}
+          rows={tokenTableRows ?? []}
+          columns={columns}
+        />
+      ) : (tokenTableRows.map((item: any) => (
+        <Styled.MobileCardOfTokens key={item.id}>
+          <div>
+            <div>
+              <span>Assets</span>
+              <li>
+                {item.balanceDetails.identifier !== 'EGLD' && (
+                <img
+                  width={SQUARE_IMAGE_WIDTH}
+                  height={SQUARE_IMAGE_WIDTH}
+                  src={item.presentation.photoUrl}
+                  alt={item.presentation.tokenIdentifier}
+                />
+                )}
+                {item.balanceDetails.identifier === 'EGLD' && (
+                  isDarkThemeEnabled ? (
+                    <ElrondLogoWhite
+                      width={SQUARE_IMAGE_WIDTH}
+                      height={SQUARE_IMAGE_WIDTH}
+                    />
+                  )
+                    : (
+                      <ElrondLogo
+                        width={SQUARE_IMAGE_WIDTH}
+                        height={SQUARE_IMAGE_WIDTH}
+                      />
+                    )
+                )}
+                <strong>{item.balanceDetails.identifier}</strong>
+              </li>
+            </div>
+            <div>
+              <span>Balance</span>
+              <h6 className="text-center mb-0 font-weight-normal">
+                {
+                Number(operations.denominate({
+                  input: Balance.fromString(item.balanceDetails.amount).toString(),
+                  denomination: item.decimals,
+                  decimals: 3,
+                  showLastNonZeroDecimal: true,
+                }).replaceAll(',', '')).toLocaleString()
+            } ${item.balanceDetails.identifier}
+              </h6>
+            </div>
+            <div>
+              <span>Value</span>
+              <span>value USD</span>
+            </div>
+          </div>
+          <div><button>send</button><button>deposit</button></div>
+        </Styled.MobileCardOfTokens>
+      ))
+      )}
       <ReceiveModal
         showQrFromSidebar={showQr}
         address={currentContract?.address}
