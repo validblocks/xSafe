@@ -47,6 +47,7 @@ export const theme = createTheme({
       button: '#4c2FFC',
       disabled: '#A9A9A9',
       success: '#fff',
+      menuItems: '#08041D8a',
       tableHeaders: '#000000de',
     },
     sidebar: {
@@ -83,6 +84,7 @@ export const theme = createTheme({
       safe: 'rgba(0, 0, 0, 0.26)',
       search: '#08041D',
       fillOpacity: 0.54,
+      menuItems: '#08041D8a',
     },
     hover: {
       secondary: 'rgba(0, 0, 0, 0.04)',
@@ -158,7 +160,7 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#ffff',
+      main: '#F0F6FF',
     },
     secondary: {
       main: '#4c2FFC8a',
@@ -169,6 +171,7 @@ export const darkTheme = createTheme({
       button: '#FFF',
       disabled: '#8680A9',
       success: '#2FFCBE',
+      menuItems: '#F0F6FF8a',
       tableHeaders: '#9C9BA5',
     },
     black: {
@@ -235,6 +238,7 @@ export const darkTheme = createTheme({
       safe: '#6c757d',
       search: '#fff',
       fillOpacity: 1,
+      menuItems: '#F0F6FF8a',
     },
     hover: {
       secondary: '#181626',
