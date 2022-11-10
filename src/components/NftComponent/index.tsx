@@ -1,4 +1,5 @@
-import { Box, Grid, Typography } from '@mui/material';
+/* eslint-disable no-nested-ternary */
+import { Box, Grid, Typography, useMediaQuery } from '@mui/material';
 import { motion } from 'framer-motion';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
@@ -27,6 +28,8 @@ function NftComponent() {
   const dispatch = useDispatch();
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const navbarSearchParam = useSelector(navbarSearchSelector);
+  const width600px = useMediaQuery('(max-width:600px)');
+  const width472px = useMediaQuery('(max-width:472px)');
 
   const {
     isFetchingNFTs,
@@ -73,7 +76,17 @@ function NftComponent() {
   return (
     <Box>
       {(
-        <Grid layout exit={{ opacity: 0 }} component={motion.div} container spacing={2}>
+        <Grid
+          layout
+          exit={{ opacity: 0 }}
+          component={motion.div}
+          container
+          spacing={2}
+          width={width600px ? '100%' : 'calc(100% + 16px)'}
+          marginLeft={width600px ? '0px' : '-16px'}
+          flex={width600px ? '0 1 auto' : ''}
+          justifyContent={width472px ? 'center' : '' || width600px ? 'space-between' : ''}
+        >
           {contractNfts?.map((item: NFTType, index: number) => (
             <Fragment key={item.identifier}>
               {((index > 0 &&
@@ -87,7 +100,7 @@ function NftComponent() {
               )}
               <Grid
                 xs={12}
-                sm={6}
+                sm={8}
                 md={4}
                 lg={3}
                 item
@@ -97,11 +110,13 @@ function NftComponent() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0 }}
                 key={item.name}
-                sx={{
-                  minWidth: '260px',
-                  maxWidth: '270px !important',
-                  p: '0 !important',
-                }}
+                minWidth={width472px ? '100%' : '' || width600px ? '' : '270px'}
+                maxWidth={width600px ? 'calc(50% - 10px) !important' : '270px !important'}
+                padding={'0 !important'}
+                justifyContent={width600px ? 'center' : ''}
+                flexBasis={width600px ? 'calc(50% - 10px)' : ''}
+                flexGrow={0}
+                flexShrink={0}
               >
                 <CardBox>
                   <Box sx={{
