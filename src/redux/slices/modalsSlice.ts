@@ -39,17 +39,12 @@ interface ProposeMultiselectModal {
   selectedOption?: SelectedOptionType;
 }
 
-export interface LoginModal {
-  isOpen: boolean;
-}
-
 export interface ModalsSliceState {
   txSubmittedModal?: TxSubmittedModal;
   notificationModal?: NotificationModal;
   proposeModal: ProposeModal;
   proposeMultiselectModal: ProposeMultiselectModal;
   performActionModal: PerformActionModal;
-  loginModal: LoginModal;
 }
 
 const initialState: ModalsSliceState = {
@@ -64,9 +59,6 @@ const initialState: ModalsSliceState = {
     selectedToken: null,
     selectedNft: null,
     selectedStakingProvider: null,
-  },
-  loginModal: {
-    isOpen: false,
   },
 };
 
@@ -122,12 +114,6 @@ export const modalsSlice = createSlice({
     ) => {
       state.performActionModal.selectedNft = action.payload;
     },
-    setIsLoginModalOpen: (
-      state: ModalsSliceState,
-      action: PayloadAction<boolean>,
-    ) => {
-      state.loginModal.isOpen = action.payload;
-    },
     setSelectedStakingProvider: (
       state: ModalsSliceState,
       action: PayloadAction<any>,
@@ -152,7 +138,6 @@ export const {
   setSelectedTokenToSend,
   setSelectedNftToSend,
   setSelectedStakingProvider,
-  setIsLoginModalOpen,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

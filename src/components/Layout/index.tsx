@@ -22,6 +22,7 @@ import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { TokenWrapper } from '../TokenWrapper';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
@@ -56,6 +57,7 @@ function Layout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (isLoggedIn) {
+      dispatch(setProposeModalSelectedOption(null));
       (async function getContracts() {
         await refreshAccount();
         await fetchAccountData();

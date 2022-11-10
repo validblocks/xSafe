@@ -21,6 +21,7 @@ export enum ProposalsTypes {
   'stake_tokens' = 'stake_tokens',
   'unstake_tokens' = 'unstake_tokens',
   'withdraw_funds' = 'withdraw_funds',
+  'connect_wallet' = 'connect_wallet',
 }
 
 export interface RemoveUserOptionType {

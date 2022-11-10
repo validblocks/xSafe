@@ -473,7 +473,7 @@ export const ModalContainer = styled(Modal)`
 export const PerformModal = styled(Box)`
 &&& {
   background-color: ${(props) => props.theme.palette.background.secondary};
-  padding: 21px 40px 40px;
+  padding: 21px 40px;
 }
 `;
 
