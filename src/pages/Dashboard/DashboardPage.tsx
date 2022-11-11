@@ -20,7 +20,8 @@ import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { dAppName } from 'src/config';
-import { setIsLoginModalOpen } from 'src/redux/slices/modalsSlice';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+import { ProposalsTypes } from 'src/types/Proposals';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
@@ -65,7 +66,7 @@ function Dashboard() {
       setShowDeployMultisigModal(true);
       return;
     }
-    dispatch(setIsLoginModalOpen(true));
+    dispatch(setProposeModalSelectedOption({ option: ProposalsTypes.connect_wallet }));
   }, [dispatch, isLoggedIn]);
 
   const handleAddExistingSafeButtonClick = useCallback(() => {
@@ -73,7 +74,7 @@ function Dashboard() {
       setShowAddMultisigModal(true);
       return;
     }
-    dispatch(setIsLoginModalOpen(true));
+    dispatch(setProposeModalSelectedOption({ option: ProposalsTypes.connect_wallet }));
   }, [dispatch, isLoggedIn]);
 
   const deployButton = (

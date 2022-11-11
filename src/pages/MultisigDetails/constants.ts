@@ -23,4 +23,5 @@ export const titles = {
   [ProposalsTypes.stake_tokens]: 'Choose a Staking Provider',
   [ProposalsTypes.unstake_tokens]: 'Unstake tokens',
   [ProposalsTypes.withdraw_funds]: 'Withdraw funds',
+  [ProposalsTypes.connect_wallet]: 'Connect Wallet',
 };

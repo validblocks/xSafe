@@ -16,6 +16,9 @@ import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import { MainButton, MainButtonNoShadow } from 'src/components/Theme/StyledComponents';
 import { Box } from '@mui/material';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
+import Unlock from 'src/pages/Unlock';
+import { getIsLoggedIn } from '@elrondnetwork/dapp-core';
+import ConnectedAccount from 'src/components/Layout/Navbar/ConnectedAccount';
 import EditOwner from './EditOwner';
 import ProposeChangeQuorum from './ProposeChangeQuorum';
 import ProposeInputAddress from './ProposeInputAddress';
@@ -99,6 +102,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
   }
   // eslint-disable-next-line consistent-return
   const getModalContent = () => {
+    const isLoggedIn = getIsLoggedIn();
     switch (selectedOption?.option) {
       case ProposalsTypes.change_quorum: {
         return (
@@ -116,6 +120,12 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
             handleParamsChange={handleAddressParamChange}
           />
         );
+      case ProposalsTypes.connect_wallet:
+      {
+        if (isLoggedIn) return <Box width="100%"><ConnectedAccount /></Box>;
+        return <Unlock />;
+      }
+
       case ProposalsTypes.remove_user:
         return (
           <ProposeRemoveUser
@@ -168,9 +178,35 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
       case (ProposalsTypes.remove_user): {
         return 'Remove Member';
       }
+      case (ProposalsTypes.connect_wallet): {
+        const isLoggedIn = getIsLoggedIn();
+        if (isLoggedIn) return 'Account Details';
+        return 'Connect Wallet';
+      }
       default:
         return 'Add member';
     }
+  };
+
+  const getModalActions = () => {
+    if (selectedOption.option === ProposalsTypes.connect_wallet) return <div />;
+    return (
+      <Box className="modal-action-btns" sx={{ mt: '24px !important' }}>
+        <MainButton
+          onClick={handleClose}
+          sx={{ boxShadow: 'none !important' }}
+        >
+          {t('Cancel')}
+        </MainButton>
+        <MainButtonNoShadow
+          disabled={submitDisabled}
+          onClick={onProposeClicked}
+          sx={{ gap: '5px !important' }}
+        >
+          {t(getActionButtonText())}
+        </MainButtonNoShadow>
+      </Box>
+    );
   };
 
   return (
@@ -185,26 +221,12 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
       <ModalCardTitle title={getModalTitle()} handleClose={handleClose} />
       <div className="card">
         <Box
-          sx={{ padding: '21px 40px 40px',
+          sx={{ padding: '21px 40px',
             backgroundColor: theme.palette.background.secondary,
             borderRadius: '0 0 10px 10px' }}
         >
           {getModalContent()}
-          <Box className="modal-action-btns" sx={{ mt: '24px !important' }}>
-            <MainButton
-              onClick={handleClose}
-              sx={{ boxShadow: 'none !important' }}
-            >
-              {t('Cancel')}
-            </MainButton>
-            <MainButtonNoShadow
-              disabled={submitDisabled}
-              onClick={onProposeClicked}
-              sx={{ gap: '5px !important' }}
-            >
-              {t(getActionButtonText())}
-            </MainButtonNoShadow>
-          </Box>
+          {getModalActions()}
         </Box>
       </div>
     </Modal>

@@ -1,13 +1,11 @@
 import { logout, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { Box, Typography } from '@mui/material';
+import { Box, Grid, useMediaQuery } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toSvg } from 'jdenticon';
-import addressShorthand from 'src/helpers/addressShorthand';
 import { accessTokenServices } from 'src/services/accessTokenServices';
 import routeNames from 'src/routes/routeNames';
-
 import { network } from 'src/config';
 import { useEffect, useState } from 'react';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
@@ -15,6 +13,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountGeneralInfoSlice';
 import CopyButton from 'src/components/CopyButton';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import {
   ConnectItems,
   DisconnectButton,
@@ -38,6 +38,7 @@ const ConnectedAccount = () => {
       dispatch(setTokenTableRows([]));
       dispatch(setOrganizationTokens([]));
       dispatch(setCurrentMultisigContract(''));
+      dispatch(setProposeModalSelectedOption(null));
     });
   };
 
@@ -48,30 +49,39 @@ const ConnectedAccount = () => {
   const { isLoggedIn } = useGetLoginInfo();
 
   const [walletAddress, setWalletAddress] = useState('');
+  const width480 = useMediaQuery('(min-width:600px)');
+  const width415 = useMediaQuery('(min-width:415px)');
 
   useEffect(() => {
-    setWalletAddress(addressShorthand(address));
-  }, [address, isLoggedIn]);
+    // eslint-disable-next-line no-nested-ternary
+    setWalletAddress(truncateInTheMiddle(address, width480 ? 12 : width415 ? 9 : 8));
+  }, [address, isLoggedIn, width415, width480]);
 
   return (
     <Box>
-      <Box
-        sx={{ mt: 2, mb: 2 }}
-        className="d-flex justify-content-center align-items-center"
+      <Grid
+        container
+        width={'100%'}
+        sx={{
+          my: 2,
+          justifyContent: !width415 ? 'center !important' : 'space-between !important',
+        }}
+        className="d-flex justify-content-between align-items-center"
+        gap={1}
       >
-        <Box
-          sx={{ borderRadius: '10px', overflow: 'hidden' }}
-          dangerouslySetInnerHTML={{
-            __html: toSvg(address, 98, { padding: 0 }),
-          }}
-        />
-        <Box sx={{ ml: 2 }}>
+        <Grid item sx={{ marginBottom: width415 ? '0' : '1rem' }}>
+          <Box
+            sx={{ borderRadius: '10px', overflow: 'hidden' }}
+            dangerouslySetInnerHTML={{
+              __html: toSvg(address, width415 ? 98 : 165, { padding: 0 }),
+            }}
+          />
+        </Grid>
+        <Grid xs={width415 ? 8 : 12} sm={8} item>
           <ConnectItems className="d-flex justify-content-between" sx={{ p: 1 }}>
-            <Typography sx={{ mr: 1, ml: 1 }}>
-              {addressShorthand(walletAddress)}
-            </Typography>
+            {walletAddress}
             <Box className="d-flex">
-              <Box sx={{ mr: 1 }}>
+              <Box flex={4} sx={{ mr: 1 }}>
                 <CopyButton text={currentContract?.address} link={Styled.CopyIconLinkConnectedAccount} />
               </Box>
               <Box sx={{ mr: 1 }}>
@@ -88,15 +98,15 @@ const ConnectedAccount = () => {
           <DisconnectButton
             variant="outlined"
             onClick={onDisconnectClick}
-            sx={{ margin: 'auto', mt: 2, mb: 2 }}
+            sx={{ margin: 'auto', mt: 2, mb: 2, width: '100%' }}
           >
             <div>
               <LogoutIcon sx={{ mr: 1 }} />
-              <span>Disconnect Wallet</span>
+              <span>{'Disconnect Wallet'}</span>
             </div>
           </DisconnectButton>
-        </Box>
-      </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

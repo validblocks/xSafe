@@ -28,11 +28,6 @@ export const proposeModalSelectedOptionSelector = createDeepEqualSelector(
   (state) => state.selectedOption,
 );
 
-export const isLoginModalOpenSelector = createDeepEqualSelector(
-  modalsSliceSelector,
-  (state) => state?.loginModal.isOpen,
-);
-
 export const proposeMultiselectModalSelectedOptionSelector =
   createDeepEqualSelector(
     proposeMultiselectModalSelector,
