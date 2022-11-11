@@ -89,31 +89,63 @@ export const MobileCardOfTokens = styled(Box)(({ theme: _ }) => ({
   width: '100%',
   marginBottom: '12px',
   padding: '20px',
+  backgroundColor: _.palette.background.secondary,
   display: 'flex',
-  border: 'solid 1px blue',
-  borderRadius: '12px',
+  borderRadius: '10px',
   flexDirection: 'column',
   justifyContent: 'space-between',
   '& li': {
     padding: '0',
     listStyle: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    '& svg': {
+      width: '19px',
+      height: '19px',
+    },
   },
 }));
 
 export const CategoryName = styled.div(({ theme: _ }) => ({
   display: 'flex',
   flexDirection: 'column',
+  '& strong': {
+    marginLeft: '5px',
+    color: _.palette.text.primary,
+  },
+  '& span': {
+    marginBottom: '8px',
+    color: _.palette.text.menuItems,
+  },
+  '& h6': {
+    lineHeight: '1.35',
+    color: _.palette.text.primary,
+  },
 }));
 
 export const TokenDetailsBox = styled.div(({ theme: _ }) => ({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-between',
+  '& div:nth-of-type(1)': {
+    width: '100px',
+  },
+  '& div:nth-of-type(2)': {
+    marginRight: 'auto',
+  },
+  '@media (min-width: 472px)': {
+    '& div:nth-of-type(1)': {
+      marginRight: 'calc(13% + 10px)',
+      width: 'calc(100px + 1.3%)',
+    },
+  },
 }));
 
 export const ActionButtonsBox = styled.div(({ theme: _ }) => ({
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'flex-end',
+  justifyContent: 'center',
   marginTop: '10px',
+  '& button': {
+    width: '100%',
+  },
 }));

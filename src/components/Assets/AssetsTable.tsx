@@ -26,6 +26,7 @@ import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import * as Styled from '../../pages/Organization/styled';
 
 export const SQUARE_IMAGE_WIDTH = 30;
+export const SQUARE_SMALL_IMAGE_WIDTH = 20;
 
 const AssetsTable = () => {
   const dispatch = useDispatch();
@@ -185,8 +186,8 @@ const AssetsTable = () => {
               <li>
                 {item.balanceDetails.identifier !== 'EGLD' && (
                 <img
-                  width={SQUARE_IMAGE_WIDTH}
-                  height={SQUARE_IMAGE_WIDTH}
+                  width={SQUARE_SMALL_IMAGE_WIDTH}
+                  height={SQUARE_SMALL_IMAGE_WIDTH}
                   src={item.presentation.photoUrl}
                   alt={item.presentation.tokenIdentifier}
                 />
@@ -194,14 +195,14 @@ const AssetsTable = () => {
                 {item.balanceDetails.identifier === 'EGLD' && (
                   isDarkThemeEnabled ? (
                     <ElrondLogoWhite
-                      width={SQUARE_IMAGE_WIDTH}
-                      height={SQUARE_IMAGE_WIDTH}
+                      width={SQUARE_SMALL_IMAGE_WIDTH}
+                      height={SQUARE_SMALL_IMAGE_WIDTH}
                     />
                   )
                     : (
                       <ElrondLogo
-                        width={SQUARE_IMAGE_WIDTH}
-                        height={SQUARE_IMAGE_WIDTH}
+                        width={SQUARE_SMALL_IMAGE_WIDTH}
+                        height={SQUARE_SMALL_IMAGE_WIDTH}
                       />
                     )
                 )}
@@ -210,7 +211,7 @@ const AssetsTable = () => {
             </Styled.CategoryName>
             <Styled.CategoryName>
               <span>Balance</span>
-              <h6 className="text-center mb-0 font-weight-normal">
+              <h6 className="mb-0 font-weight-normal">
                 {
                 Number(operations.denominate({
                   input: Balance.fromString(item.balanceDetails.amount).toString(),
@@ -223,7 +224,7 @@ const AssetsTable = () => {
             </Styled.CategoryName>
             <Styled.CategoryName>
               <span>Value</span>
-              <span>value USD</span>
+              <h6 className="mb-0 font-weight-normal">value USD</h6>
             </Styled.CategoryName>
           </Styled.TokenDetailsBox>
           <Styled.ActionButtonsBox>{getTableActions(item)}</Styled.ActionButtonsBox>
