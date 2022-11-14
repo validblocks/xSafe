@@ -24,6 +24,7 @@ import { Typography, useMediaQuery } from '@mui/material';
 import { Balance } from '@elrondnetwork/erdjs/out';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import * as Styled from '../../pages/Organization/styled';
+import MobileCardsForTableReplacement from './MobileCardsForTableReplacement';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 export const SQUARE_SMALL_IMAGE_WIDTH = 20;
@@ -167,8 +168,6 @@ const AssetsTable = () => {
     [getTableActions, tokenTableRows],
   );
 
-  console.log(tokenTableRows);
-
   return (
     <>
       {width ? (
@@ -179,56 +178,7 @@ const AssetsTable = () => {
           columns={columns}
         />
       ) : (tokenTableRows.map((item: any) => (
-        <Styled.MobileCardOfTokens key={item.id}>
-          <Styled.TokenDetailsBox>
-            <Styled.CategoryName>
-              <span>Assets</span>
-              <li>
-                {item.balanceDetails.identifier !== 'EGLD' && (
-                <img
-                  width={SQUARE_SMALL_IMAGE_WIDTH}
-                  height={SQUARE_SMALL_IMAGE_WIDTH}
-                  src={item.presentation.photoUrl}
-                  alt={item.presentation.tokenIdentifier}
-                />
-                )}
-                {item.balanceDetails.identifier === 'EGLD' && (
-                  isDarkThemeEnabled ? (
-                    <ElrondLogoWhite
-                      width={SQUARE_SMALL_IMAGE_WIDTH}
-                      height={SQUARE_SMALL_IMAGE_WIDTH}
-                    />
-                  )
-                    : (
-                      <ElrondLogo
-                        width={SQUARE_SMALL_IMAGE_WIDTH}
-                        height={SQUARE_SMALL_IMAGE_WIDTH}
-                      />
-                    )
-                )}
-                <strong>{item.balanceDetails.identifier}</strong>
-              </li>
-            </Styled.CategoryName>
-            <Styled.CategoryName>
-              <span>Balance</span>
-              <h6 className="mb-0 font-weight-normal">
-                {
-                Number(operations.denominate({
-                  input: Balance.fromString(item.balanceDetails.amount).toString(),
-                  denomination: item.decimals,
-                  decimals: 3,
-                  showLastNonZeroDecimal: true,
-                }).replaceAll(',', '')).toLocaleString()
-            } ${item.balanceDetails.identifier}
-              </h6>
-            </Styled.CategoryName>
-            <Styled.CategoryName>
-              <span>Value</span>
-              <h6 className="mb-0 font-weight-normal">value USD</h6>
-            </Styled.CategoryName>
-          </Styled.TokenDetailsBox>
-          <Styled.ActionButtonsBox>{getTableActions(item)}</Styled.ActionButtonsBox>
-        </Styled.MobileCardOfTokens>
+        <MobileCardsForTableReplacement item={item} actionButton={getTableActions(item)} />
       ))
       )}
       <ReceiveModal

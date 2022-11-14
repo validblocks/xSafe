@@ -134,7 +134,7 @@ export const TokenDetailsBox = styled.div(({ theme: _ }) => ({
   },
   '@media (min-width: 472px)': {
     '& div:nth-of-type(1)': {
-      marginRight: 'calc(13% + 10px)',
+      marginRight: 'calc(8.5% + 10px)',
       width: 'calc(100px + 1.3%)',
     },
   },
