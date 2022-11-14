@@ -177,10 +177,7 @@ const AssetsTable = () => {
           rows={tokenTableRows ?? []}
           columns={columns}
         />
-      ) : (tokenTableRows.map((item: any) => (
-        <MobileCardsForTableReplacement item={item} actionButton={getTableActions(item)} />
-      ))
-      )}
+      ) : (<MobileCardsForTableReplacement items={tokenTableRows} actionButton={getTableActions(tokenTableRows)} />)}
       <ReceiveModal
         showQrFromSidebar={showQr}
         address={currentContract?.address}
