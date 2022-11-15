@@ -1,4 +1,5 @@
 import PeopleIcon from '@mui/icons-material/People';
+import { useMediaQuery } from '@mui/material';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
@@ -16,6 +17,7 @@ const PendingActionSummary = ({ action }: Props) => {
   } = useOrganizationInfoContext();
 
   const theme: any = useTheme();
+  const width = useMediaQuery('(min-width: 600px)');
   return (
     <Styled.ActionSummaryContainer>
       <Styled.ActionIdBox>
@@ -34,13 +36,15 @@ const PendingActionSummary = ({ action }: Props) => {
       </Styled.ActionSignersBox>
 
       <Styled.ActionCreatorBox>
+        {width && (
         <Text fontWeight={500} fontSize={14}>
           Created by:
         </Text>
+        )}
         <ShortMemberPresentation address={action.signers[0]?.bech32()} />
       </Styled.ActionCreatorBox>
       <Styled.ActionStatusBox>
-        <div className="mx-2 d-flex align-items-center justify-content-end">
+        <div className="d-flex align-items-center justify-content-end">
           <Styled.PendingContainerBox>
             Pending
           </Styled.PendingContainerBox>

@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import { makeStyles } from '@mui/styles';
@@ -19,6 +18,7 @@ import {
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import ErrorOnFetchIndicator from 'src/components/Utils/ErrorOnFetchIndicator';
+import { ArrowDropDown } from '@mui/icons-material';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
@@ -99,7 +99,12 @@ const TransactionQueue = () => {
           expanded={expanded === action.actionId.toString()}
         >
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon sx={{ color: theme.palette.text.primary }} />}
+            expandIcon={(
+              <ArrowDropDown
+                color={theme.palette.text.primary}
+              />
+            )
+            }
             aria-controls="panel1a-content"
             className="pl-0 m-0"
             classes={{
