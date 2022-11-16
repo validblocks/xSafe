@@ -52,6 +52,10 @@ function TransactionDescription({
         container: {
           display: 'grid',
           gridTemplateColumns: '2fr 1fr',
+          '@media (max-width: 600px)': {
+            display: 'flex',
+            flexDirection: 'column',
+          },
         },
         child1: {
           gridRow: '1 / 2',
@@ -59,6 +63,9 @@ function TransactionDescription({
           borderTop: `1px solid ${theme.palette.divider.secondary}`,
           minWidth: '90%',
           padding: '2rem',
+          '@media (max-width: 600px)': {
+            padding: '16px',
+          },
         },
         child2: {
           gridRow: '1 / 3',
@@ -67,6 +74,10 @@ function TransactionDescription({
           borderTop: `1px solid ${theme.palette.divider.secondary}`,
           padding: '1rem 2rem',
           minWidth: '33%',
+          '@media (max-width: 600px)': {
+            padding: '10px 0',
+            borderLeft: 'none',
+          },
         },
       }),
     [isSmallScreen],

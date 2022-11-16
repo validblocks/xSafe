@@ -1,6 +1,6 @@
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address } from '@elrondnetwork/erdjs/out';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import i18next from 'i18next';
 import { denomination } from 'src/config';
@@ -15,16 +15,19 @@ const StyledTypography = withStyles({
 })(Typography);
 
 interface ISendTokenProposalPresentationProps {
-    address: Address;
-    amount: BigNumber;
-    identifier: string;
-    title: string;
+  address: Address;
+  amount: BigNumber;
+  identifier: string;
+  title: string;
 }
 
 const SendTokenProposalPresentation = (
-  { address, amount, identifier, title }: ISendTokenProposalPresentationProps) => (
+  { address, amount, identifier, title }: ISendTokenProposalPresentationProps) => {
+  const width600px = useMediaQuery('@media(max-width:600px)');
+  const width500px = useMediaQuery('@media(max-width:500px)');
+  return (
     <Box>
-      <h4>
+      <h4 style={{ fontSize: width600px ? 17 : '1.5rem' }}>
         <strong>{title}</strong>
       </h4>
       <Box sx={{ py: '1rem' }}>
@@ -40,7 +43,7 @@ const SendTokenProposalPresentation = (
           variant="subtitle1"
         >
           <strong className="mr-3">{i18next.t('Amount') as string}:</strong>
-          { operations.denominate({
+          {operations.denominate({
             input: amount.toString(10) ?? '0',
             denomination,
             decimals: 4,
@@ -54,10 +57,12 @@ const SendTokenProposalPresentation = (
         </StyledTypography>
         <MemberPresentationWithPhoto
           memberAddress={address}
-          charactersLeftAfterTruncation={20}
+          // eslint-disable-next-line no-nested-ternary
+          charactersLeftAfterTruncation={width500px ? 8 : width600px ? 16 : 20}
         />
       </Box>
     </Box>
-);
+  );
+};
 
 export default SendTokenProposalPresentation;

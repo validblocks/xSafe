@@ -27,7 +27,7 @@ export const TransactionAccordion = styled(Accordion)`
         margin-left: 0;
         position: absolute;
         right: 20px;
-        top: 59px;
+        top: calc(50% + 6px);
       }
     }
   };

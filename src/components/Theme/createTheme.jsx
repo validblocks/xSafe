@@ -46,7 +46,7 @@ export const theme = createTheme({
       secondary: '#00000099',
       button: '#4c2FFC',
       disabled: '#A9A9A9',
-      success: '#fff',
+      success: '#145737',
       menuItems: '#08041D8a',
       tableHeaders: '#000000de',
     },

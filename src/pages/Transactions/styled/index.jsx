@@ -39,9 +39,10 @@ export const ActionTitleBox = styled(Box)`
   justify-content: start;
   align-items: center;
   border-left: 1px solid ${(props) => props.theme.palette.divider.secondary};
-  padding: 14px 5px;
+  padding: 14px 8px;
   font-weight: bold;
   min-width: 150px;
+  font-size: 17px;
   grid-area: actionTitleBox;
   @media (max-width: 600px) {
     width: 100%;
@@ -121,7 +122,7 @@ export const ActionStatusBox = styled(Box)`
   justify-content: flex-end;
   border-left: 1px solid ${(props) => props.theme.palette.divider.secondary};
   padding: 1rem;
-  font-size: 0.85rem;
+  font-size: 15px;
   grid-area: actionStatusBox;
   @media (max-width: 1300px) {
     padding-right: 0;
@@ -134,13 +135,14 @@ export const ActionStatusBox = styled(Box)`
 `;
 
 export const PendingContainerBox = styled(Box)`
-  background-color: #f8c651;
+  background-color: #FF8946;
   color: ${(props) => props.theme.palette.button.pending};
   border-radius: 4px;
-  padding: 0.5rem 0.675rem;
+  padding: 2px 6px;
   font-weight: bold;
 `;
 
 export const SuccesContainerBox = styled(PendingContainerBox)`
   background-color: ${(props) => props.theme.palette.button.success};
+  color: ${(props) => props.theme.palette.text.success};
 `;
