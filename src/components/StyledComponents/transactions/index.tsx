@@ -28,6 +28,9 @@ export const TransactionAccordion = styled(Accordion)`
         position: absolute;
         right: 20px;
         top: calc(50% + 6px);
+        & > svg {
+          fill: ${(props) => props.theme.palette.background.expand};
+        }
       }
     }
   };
