@@ -6,7 +6,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CloseIcon from '@mui/icons-material/Close';
 import { gasLimit as defaultGasLimit } from 'src/config';
-import { Typography } from '@mui/material';
+import { Typography, useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import CheckIcon from '@mui/icons-material/Check';
 import {
@@ -61,6 +61,8 @@ function TransactionActionsCard({
     mutateDiscardAction(actionId);
   };
 
+  const maxWidth600 = useMediaQuery('@media(max-width:600px)');
+
   if (isInReadOnlyMode) {
     return <Text>Actions are not allowed in Read-Only Mode.</Text>;
   }
@@ -72,7 +74,7 @@ function TransactionActionsCard({
   return (
     <>
       <Typography variant="h6" color="black">
-        <Text fontSize={17}><strong>Available Actions</strong></Text>
+        <Text fontSize={maxWidth600 ? 14 : 17}><strong>Available Actions</strong></Text>
       </Typography>
       <div className="text-black py-3">
         <div className="d-flex">

@@ -98,12 +98,12 @@ function Layout({ children }: { children: React.ReactNode }) {
     }
   }, [isDarkThemeEnabled]);
 
-  const width = useMediaQuery('(min-width:600px)');
+  const minWidth600 = useMediaQuery('(min-width:600px)');
 
   return (
     <Box sx={{ height: '100vh' }}>
       <AppBarWrapper>
-        {width ? (
+        {minWidth600 ? (
           <TopHeader
             className="d-flex justify-content-between px-4 py-3 align-items-center"
           >
@@ -125,7 +125,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         )}
       </AppBarWrapper>
       <SidebarAndMainWrapper>
-        {width ? <Navbar /> : <MobileLayout />}
+        {minWidth600 ? <Navbar /> : <MobileLayout />}
         <Main>
           <Box>
             <AuthenticatedRoutesWrapper

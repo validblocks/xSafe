@@ -164,12 +164,12 @@ export const TopMenu = styled(Box)(({ theme: _ }) => ({
 
 export const AppBarWrapper = styled(Box)(({ theme: _ }) => ({
   width: '100%',
+  height: '62px',
   zIndex: '10000',
 }));
 
 export const SidebarAndMainWrapper = styled(Box)(({ theme: _ }) => ({
   height: 'calc(100vh - 62px)',
-  marginTop: '62px',
   display: 'flex',
   '@media (max-width: 600px)': {
     flexDirection: 'column',

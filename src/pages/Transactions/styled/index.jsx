@@ -14,12 +14,24 @@ export const ActionSummaryContainer = styled(Box)(({ theme: _ }) => ({
     gridTemplateRows: 'auto auto',
     gridTemplateAreas: '"actionIdBox actionTitleBox actionSignersBox actionStatusBox" "actionCreatorBox actionCreatorBox actionCreatorBox actionStatusBox"',
   },
+  '@media (max-width: 600px)': {
+    gridTemplateColumns: '34px 110px 110px auto',
+    gridTemplateRows: 'auto auto',
+    gridTemplateAreas: '"actionIdBox actionTitleBox actionSignersBox actionStatusBox" "actionCreatorBox actionCreatorBox actionCreatorBox actionCreatorBox"',
+  },
 }));
 
 export const ActionIdBox = styled(CenteredBox)`
   padding: 1rem;
   width: 60px;
   grid-area: actionIdBox;
+  @media (max-width: 600px) {
+    width: 100%;
+    padding: 5px 9px;
+    & > p{
+      font-size: 13px;
+    }
+  }
 `;
 
 export const ActionTitleBox = styled(Box)`
@@ -27,10 +39,19 @@ export const ActionTitleBox = styled(Box)`
   justify-content: start;
   align-items: center;
   border-left: 1px solid ${(props) => props.theme.palette.divider.secondary};
-  padding: 1rem;
+  padding: 14px 8px;
   font-weight: bold;
   min-width: 150px;
+  font-size: 17px;
   grid-area: actionTitleBox;
+  @media (max-width: 600px) {
+    width: 100%;
+    min-width: 0;
+    padding: 5px 9px;
+    & > p{
+      font-size: 13px;
+    }
+  }
 `;
 
 export const ActionSignersBox = styled(CenteredBox)`
@@ -50,6 +71,14 @@ export const ActionSignersBox = styled(CenteredBox)`
         margin-right: 5px;
       }
     };
+  };
+  @media (max-width: 600px) {
+    width: 100%;
+    min-width: 0;
+    padding: 5px 9px;
+    & > p{
+      font-size: 13px;
+    }
   };
 `;
 
@@ -78,6 +107,14 @@ export const ActionCreatorBox = styled(Box)`
       margin-bottom: 0;
     };
   };
+  @media (max-width: 600px){
+    & .MuiTypography-root span {
+      font-size: 13px;
+    }
+    & .MuiTypography-root .trim .left, & .MuiTypography-root .trim .right {
+      font-size: 1px;
+    }
+  };
 `;
 
 export const ActionStatusBox = styled(Box)`
@@ -85,21 +122,27 @@ export const ActionStatusBox = styled(Box)`
   justify-content: flex-end;
   border-left: 1px solid ${(props) => props.theme.palette.divider.secondary};
   padding: 1rem;
-  font-size: 0.85rem;
+  font-size: 15px;
   grid-area: actionStatusBox;
   @media (max-width: 1300px) {
     padding-right: 0;
   }
+  @media (max-width: 600px) {
+    padding: 5px 9px;
+    padding-right: 0;
+    justify-content: flex-start;
+  }
 `;
 
 export const PendingContainerBox = styled(Box)`
-  background-color: #f8c651;
+  background-color: #FF8946;
   color: ${(props) => props.theme.palette.button.pending};
   border-radius: 4px;
-  padding: 0.5rem 0.675rem;
+  padding: 2px 6px;
   font-weight: bold;
 `;
 
 export const SuccesContainerBox = styled(PendingContainerBox)`
   background-color: ${(props) => props.theme.palette.button.success};
+  color: ${(props) => props.theme.palette.text.success};
 `;

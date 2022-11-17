@@ -33,7 +33,7 @@ export const theme = createTheme({
       menu: '#E4EAFF',
       overlay: '#FFFFFFD6',
       accordion: '#F3F6FC',
-      expand: '#F3F6FC',
+      expand: '#4c2FFC8a',
       safeOptions: {
         main: '#fff',
         svg: '#4c2FFC8a',
@@ -46,7 +46,7 @@ export const theme = createTheme({
       secondary: '#00000099',
       button: '#4c2FFC',
       disabled: '#A9A9A9',
-      success: '#fff',
+      success: '#145737',
       menuItems: '#08041D8a',
       tableHeaders: '#000000de',
     },
@@ -197,7 +197,7 @@ export const darkTheme = createTheme({
       menu: '#181626',
       overlay: '#14131C',
       accordion: '#242837',
-      expand: '#141520',
+      expand: '#4c2FFCF0',
       safeOptions: {
         main: '#14131C',
         svg: '#4c2FFC',

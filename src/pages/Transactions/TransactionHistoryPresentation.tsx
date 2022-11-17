@@ -1,11 +1,10 @@
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { AccordionDetails, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { useTheme } from 'styled-components';
 import { TransactionAccordion, TransactionAccordionSummary } from 'src/components/StyledComponents/transactions';
+import { ArrowDropDown } from '@mui/icons-material';
 import TransactionDescription from './TransactionDescription';
 import { PairOfTransactionAndDecodedAction } from './TransactionHistory';
 import TransactionSummary from './TransactionSummary';
@@ -26,7 +25,6 @@ const useStyles = makeStyles(() => ({
 const TransactionHistoryPresentation = ({
   fullActionHistoryGroupedByDate,
 }: any) => {
-  const theme: any = useTheme();
   const [expanded, setExpanded] = useState<string | false>(false);
   const classes = useStyles();
   const handleChange =
@@ -70,7 +68,7 @@ const TransactionHistoryPresentation = ({
                     onChange={handleChange(transaction.txHash)}
                   >
                     <TransactionAccordionSummary
-                      expandIcon={<ExpandMoreIcon sx={{ color: theme.palette.text.primary }} />}
+                      expandIcon={(<ArrowDropDown />)}
                       aria-controls="panel1a-content"
                       className="pl-0 m-0 d-flex"
                       classes={{

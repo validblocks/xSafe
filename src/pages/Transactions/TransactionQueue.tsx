@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import { makeStyles } from '@mui/styles';
@@ -11,7 +10,6 @@ import { queryAllActions } from 'src/contracts/MultisigContract';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
-import { useTheme } from 'styled-components';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import {
   transactionServices,
@@ -19,6 +17,7 @@ import {
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import ErrorOnFetchIndicator from 'src/components/Utils/ErrorOnFetchIndicator';
+import { ArrowDropDown } from '@mui/icons-material';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
@@ -37,7 +36,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 const TransactionQueue = () => {
-  const theme: any = useTheme();
   const classes = useStyles();
   const [totalPages, setTotalPages] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -99,7 +97,7 @@ const TransactionQueue = () => {
           expanded={expanded === action.actionId.toString()}
         >
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon sx={{ color: theme.palette.text.primary }} />}
+            expandIcon={(<ArrowDropDown />)}
             aria-controls="panel1a-content"
             className="pl-0 m-0"
             classes={{
