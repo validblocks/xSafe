@@ -46,7 +46,7 @@ export const CardBox = styled(Card)`
 &&& {
   height: ${(props) => props.height};
   width: 250px;
-  margin: 0 auto 1.6rem auto;
+  margin: 0 20px 20px 20px;
   border-radius: .7rem;
   box-shadow: none;
   transition: all .2s linear;
@@ -85,5 +85,36 @@ export const CardBox = styled(Card)`
       bottom: 15px;
     };
   };
+  @media (max-width: 600px){
+    width: 100%;
+    margin: 0 0 20px 0;
+    text-align: left;
+    & button {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      position: relative;
+      bottom: initial;
+      left: initial;
+      align-items: center;
+      justify-content: center;
+    }
+    & span {
+      position: relative;
+      padding-left: 3px;
+      top: initial;
+      left: initial;
+      font-size: 15px;
+    }
+    &:hover{
+      & span {
+        top: initial;
+        font-size: 15px;
+      };
+      & button {
+        bottom: initial;
+      };
+    };
+  }
 }
 `;
