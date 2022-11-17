@@ -18,7 +18,7 @@ export class MultisigSendToken extends MultisigAction {
   }
 
   title() {
-    return i18next.t('Send token');
+    return i18next.t('Send Token');
   }
 
   description() {
