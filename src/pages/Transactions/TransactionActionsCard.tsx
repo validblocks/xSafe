@@ -61,7 +61,7 @@ function TransactionActionsCard({
     mutateDiscardAction(actionId);
   };
 
-  const width = useMediaQuery('@media(max-width:600px)');
+  const maxWidth600 = useMediaQuery('@media(max-width:600px)');
 
   if (isInReadOnlyMode) {
     return <Text>Actions are not allowed in Read-Only Mode.</Text>;
@@ -74,7 +74,7 @@ function TransactionActionsCard({
   return (
     <>
       <Typography variant="h6" color="black">
-        <Text fontSize={width ? 14 : 17}><strong>Available Actions</strong></Text>
+        <Text fontSize={maxWidth600 ? 14 : 17}><strong>Available Actions</strong></Text>
       </Typography>
       <div className="text-black py-3">
         <div className="d-flex">

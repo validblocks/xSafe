@@ -8,12 +8,12 @@ import { useMediaQuery } from '@mui/material';
 
 const ShortMemberPresentation = ({ address }: { address: string }) => {
   const addressBook = useSelector(addressBookSelector);
-  const width = useMediaQuery('(max-width: 977px)');
-  const mobileWidth = useMediaQuery('(max-width: 600px)');
+  const maxWidth977 = useMediaQuery('(max-width: 977px)');
+  const maxWidth600 = useMediaQuery('(max-width: 600px)');
   const displayAddress = () => (
     addressBook[address] ? addressBook[address] :
-      mobileWidth ? truncateInTheMiddle(address ?? 'Unknown', 12) :
-        width ? truncateInTheMiddle(address ?? 'Unknown', 17) : address ?? 'Unknown'
+      maxWidth600 ? truncateInTheMiddle(address ?? 'Unknown', 12) :
+        maxWidth977 ? truncateInTheMiddle(address ?? 'Unknown', 17) : address ?? 'Unknown'
   );
   return (
     <div className="d-flex align-items-center w-100">
