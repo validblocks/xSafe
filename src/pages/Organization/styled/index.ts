@@ -1,4 +1,5 @@
 import { DataGrid, GridOverlay } from '@mui/x-data-grid';
+import { Box } from '@mui/system';
 import styled from 'styled-components';
 
 export const MainTable = styled(DataGrid)(({ theme }) => ({
@@ -82,4 +83,69 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
 export const NoRowsOverlay = styled(GridOverlay)(({ theme: _ }) => ({
   backgroundColor: _.palette.background.secondary,
   borderBottom: `solid 1px ${_.palette.divider.secondary}`,
+}));
+
+export const MobileCardOfTokens = styled(Box)(({ theme: _ }) => ({
+  width: '100%',
+  marginBottom: '12px',
+  padding: '20px',
+  backgroundColor: _.palette.background.secondary,
+  display: 'flex',
+  borderRadius: '10px',
+  flexDirection: 'column',
+  justifyContent: 'space-between',
+  '& li': {
+    padding: '0',
+    listStyle: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    '& svg': {
+      width: '19px',
+      height: '19px',
+    },
+  },
+}));
+
+export const CategoryName = styled.div(({ theme: _ }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  '& strong': {
+    marginLeft: '5px',
+    color: _.palette.text.primary,
+  },
+  '& span': {
+    marginBottom: '8px',
+    color: _.palette.text.menuItems,
+  },
+  '& h6': {
+    lineHeight: '1.35',
+    color: _.palette.text.primary,
+  },
+}));
+
+export const TokenDetailsBox = styled.div(({ theme: _ }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  '& div:nth-of-type(1)': {
+    width: '100px',
+  },
+  '& div:nth-of-type(2)': {
+    marginRight: 'auto',
+  },
+  '@media (min-width: 472px)': {
+    '& div:nth-of-type(1)': {
+      marginRight: 'calc(8.5% + 10px)',
+      width: 'calc(100px + 1.3%)',
+    },
+  },
+}));
+
+export const ActionButtonsBox = styled.div(({ theme: _ }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  justifyContent: 'center',
+  marginTop: '10px',
+  '& button': {
+    width: '100%',
+  },
 }));

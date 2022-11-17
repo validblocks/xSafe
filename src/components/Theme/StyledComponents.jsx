@@ -118,6 +118,12 @@ export const AssetActionButton = styled(MainButton)`
     color: ${(props) => props.theme.palette.text.svg}
   }
 }
+
+@media (max-width: 600px){
+  &&& {
+    opacity: 1;
+  }
+}
 `;
 
 export const WithdrawButton = styled(AccountButton)`
