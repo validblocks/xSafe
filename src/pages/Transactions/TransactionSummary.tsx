@@ -11,7 +11,7 @@ function TransactionSummary({
   transaction,
   action,
 }: PairOfTransactionAndDecodedAction) {
-  const maxWidth600 = useMediaQuery('(min-width: 600px)');
+  const minWidth600 = useMediaQuery('(min-width: 600px)');
   return (
     <Styled.ActionSummaryContainer>
       <Styled.ActionIdBox>
@@ -24,17 +24,17 @@ function TransactionSummary({
 
       <Styled.ActionSignersBox>
         <div>
-          {maxWidth600 && <strong><Text fontSize={12} fontWeight={700}>Execution Time:</Text></strong>}
+          {minWidth600 && <strong><Text fontSize={12} fontWeight={700}>Execution Time:</Text></strong>}
           <Text
             fontSize={13}
-            fontWeight={maxWidth600 ? 400 : 500}
+            fontWeight={minWidth600 ? 400 : 500}
           >{dayjs(getDate(transaction.timestamp)).format('H:mm A')}
           </Text>
         </div>
       </Styled.ActionSignersBox>
 
       <Styled.ActionCreatorBox>
-        {maxWidth600 && (
+        {minWidth600 && (
         <Text fontWeight={500} fontSize={14}>
           Created by:
         </Text>

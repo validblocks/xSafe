@@ -49,13 +49,13 @@ const ConnectedAccount = () => {
   const { isLoggedIn } = useGetLoginInfo();
 
   const [walletAddress, setWalletAddress] = useState('');
-  const width480 = useMediaQuery('(min-width:600px)');
-  const width415 = useMediaQuery('(min-width:415px)');
+  const maxWidth480 = useMediaQuery('(min-width:600px)');
+  const maxWidth415 = useMediaQuery('(min-width:415px)');
 
   useEffect(() => {
     // eslint-disable-next-line no-nested-ternary
-    setWalletAddress(truncateInTheMiddle(address, width480 ? 12 : width415 ? 9 : 8));
-  }, [address, isLoggedIn, width415, width480]);
+    setWalletAddress(truncateInTheMiddle(address, maxWidth480 ? 12 : maxWidth415 ? 9 : 8));
+  }, [address, isLoggedIn, maxWidth415, maxWidth480]);
 
   return (
     <Box>
@@ -64,20 +64,20 @@ const ConnectedAccount = () => {
         width={'100%'}
         sx={{
           my: 2,
-          justifyContent: !width415 ? 'center !important' : 'space-between !important',
+          justifyContent: !maxWidth415 ? 'center !important' : 'space-between !important',
         }}
         className="d-flex justify-content-between align-items-center"
         gap={1}
       >
-        <Grid item sx={{ marginBottom: width415 ? '0' : '1rem' }}>
+        <Grid item sx={{ marginBottom: maxWidth415 ? '0' : '1rem' }}>
           <Box
             sx={{ borderRadius: '10px', overflow: 'hidden' }}
             dangerouslySetInnerHTML={{
-              __html: toSvg(address, width415 ? 98 : 165, { padding: 0 }),
+              __html: toSvg(address, maxWidth415 ? 98 : 165, { padding: 0 }),
             }}
           />
         </Grid>
-        <Grid xs={width415 ? 8 : 12} sm={8} item>
+        <Grid xs={maxWidth415 ? 8 : 12} sm={8} item>
           <ConnectItems className="d-flex justify-content-between" sx={{ p: 1 }}>
             {walletAddress}
             <Box className="d-flex">

@@ -17,7 +17,7 @@ const PendingActionSummary = ({ action }: Props) => {
   } = useOrganizationInfoContext();
 
   const theme: any = useTheme();
-  const width = useMediaQuery('(min-width: 600px)');
+  const minWidth600 = useMediaQuery('(min-width: 600px)');
   return (
     <Styled.ActionSummaryContainer>
       <Styled.ActionIdBox>
@@ -36,7 +36,7 @@ const PendingActionSummary = ({ action }: Props) => {
       </Styled.ActionSignersBox>
 
       <Styled.ActionCreatorBox>
-        {width && (
+        {minWidth600 && (
         <Text fontWeight={500} fontSize={14}>
           Created by:
         </Text>

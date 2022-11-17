@@ -23,11 +23,11 @@ interface ISendTokenProposalPresentationProps {
 
 const SendTokenProposalPresentation = (
   { address, amount, identifier, title }: ISendTokenProposalPresentationProps) => {
-  const width600px = useMediaQuery('@media(max-width:600px)');
-  const width500px = useMediaQuery('@media(max-width:500px)');
+  const maxWidth600 = useMediaQuery('@media(max-width:600px)');
+  const maxWidth500 = useMediaQuery('@media(max-width:500px)');
   return (
     <Box>
-      <h4 style={{ fontSize: width600px ? 17 : '1.5rem' }}>
+      <h4 style={{ fontSize: maxWidth600 ? 17 : '1.5rem' }}>
         <strong>{title}</strong>
       </h4>
       <Box sx={{ py: '1rem' }}>
@@ -58,7 +58,7 @@ const SendTokenProposalPresentation = (
         <MemberPresentationWithPhoto
           memberAddress={address}
           // eslint-disable-next-line no-nested-ternary
-          charactersLeftAfterTruncation={width500px ? 8 : width600px ? 16 : 20}
+          charactersLeftAfterTruncation={maxWidth500 ? 8 : maxWidth600 ? 16 : 20}
         />
       </Box>
     </Box>
