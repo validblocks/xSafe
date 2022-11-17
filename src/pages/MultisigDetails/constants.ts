@@ -7,7 +7,7 @@ export const titles = {
   [ProposalsTypes.remove_user]: 'Remove user',
   [ProposalsTypes.change_quorum]: 'Change quorum',
   [ProposalsTypes.issue_token]: 'Issue token',
-  [ProposalsTypes.send_token]: 'Send token',
+  [ProposalsTypes.send_token]: 'Send Token',
   [ProposalsTypes.send_nft]: 'Send NFT',
   [ProposalsTypes.multiselect_proposal_options]: 'select proposal type',
   [ProposalsTypes.smart_contract_call]: 'Smart contract call',

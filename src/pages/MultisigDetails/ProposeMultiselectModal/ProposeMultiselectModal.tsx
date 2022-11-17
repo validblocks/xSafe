@@ -229,7 +229,7 @@ const ProposeMultiselectModal = ({
       onClick={onProposeClicked}
       sx={{ boxShadow: 'none !important', width: '100%' }}
     >
-      {t('Send')}
+      {t('Create proposal')}
     </MainButton>
   );
 

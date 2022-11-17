@@ -12,7 +12,7 @@ interface SelectOptionPropsType {
 const proposeAvailableOptions = [
   {
     type: ProposalsTypes.send_token,
-    label: 'Send token',
+    label: 'Send Token',
   },
 
   {

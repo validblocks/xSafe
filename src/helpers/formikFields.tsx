@@ -2,7 +2,7 @@ import { TextField } from '@mui/material';
 import { useTheme } from 'styled-components';
 import { FormikRoundedCheckBox, InputWrapper } from 'src/components/Theme/StyledComponents';
 
-interface FormikInputFieldPropsType {
+export interface FormikInputFieldPropsType {
   label: string;
   name: string;
   value: any;
@@ -12,6 +12,7 @@ interface FormikInputFieldPropsType {
   footer?: React.ReactElement;
   disabled?: boolean;
   className?: string;
+  type?: string;
 }
 
 interface FormikCheckboxPropsType {
@@ -31,6 +32,7 @@ export function FormikInputField({
   footer,
   disabled,
   className,
+  type = 'text',
 }: FormikInputFieldPropsType) {
   const theme: any = useTheme();
   return (
@@ -39,6 +41,7 @@ export function FormikInputField({
         <TextField
           variant="outlined"
           label={label}
+          type={type}
           id={name}
           value={value}
           name={name}
