@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
-import { Box, MenuItem, SelectChangeEvent } from '@mui/material';
+import { Box, MenuItem, SelectChangeEvent, useMediaQuery } from '@mui/material';
 import { FormikProps, FormikProvider, useFormik } from 'formik';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
@@ -59,6 +59,7 @@ const ProposeSendToken = ({
   const selectedToken = useSelector(selectedTokenToSendSelector);
   const [identifier, setIdentifier] = useState(selectedToken?.identifier);
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const availableTokensWithBalances = useMemo(
     () =>
@@ -242,7 +243,7 @@ const ProposeSendToken = ({
 
   return (
     <FormikProvider value={formik}>
-      <Box sx={{ p: '1.93rem 2.5rem .3rem' }}>
+      <Box padding={maxWidth600 ? '16px 16px 4.8px' : '30.88px 40px 4.8px'}>
         <FormikInputField
           label={t('Send to')}
           name="address"

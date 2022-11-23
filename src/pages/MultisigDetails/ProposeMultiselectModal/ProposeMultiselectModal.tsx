@@ -22,7 +22,7 @@ import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeCont
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import { MainButton, ModalContainer } from 'src/components/Theme/StyledComponents';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import { titles } from '../constants';
 import AttachContractContent from './AttachContractContent';
 import ProposeDeployContractFromSource from './ProposeDeployContractFromSource';
@@ -64,6 +64,8 @@ const ProposeMultiselectModal = ({
 
   const [activeStepNumber, setActiveStepNumber] = useState(1);
   const [totalSteps, setTotalSteps] = useState(0);
+
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const [isAtFinish, setIsAtFinish] = useState(
     !isMultiStep,
@@ -253,11 +255,10 @@ const ProposeMultiselectModal = ({
 
         {getContent()}
         {!isMultiStep && (
-        <Box sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          p: '0 2.5rem 2rem',
-        }}
+        <Box
+          display={'flex'}
+          justifyContent={'center'}
+          padding={maxWidth600 ? '0 16px 26px' : '0 40px 32px'}
         >
           {selectedOption?.option !==
             ProposalsTypes.multiselect_proposal_options && sendNFTButton}
