@@ -284,7 +284,7 @@ const ProposeSendToken = ({
             size="small"
             className={amountError != null ? 'invalid' : ''}
             MenuProps={{ className: identifier === 'EGLD' ? 'SendTokenListOpened' : 'SendTokenListOpenedWithoutEGLD' }}
-            onChange={onIdentifierChanged as any}
+            onChange={onIdentifierChanged as () => void}
           >
             {tokenTableRows?.map((token: TokenTableRowItem) => (
               <MenuItem
