@@ -75,10 +75,13 @@ export const ModalCardTitleContainer = styled(Box)`
   border-bottom: 1px solid ${(props) => props.theme.palette.divider.secondary};
   background-color: ${(props) => props.theme.palette.background.secondary};
   border-radius: 10px 10px 0 0;
-  padding: 1.5rem 3rem;
+  padding: 24px 48px;
   & .MuiButtonBase-root {
     &:hover {
       background-color: ${(props) => props.theme.palette.hover.secondary};
     },
+  }
+  @media (max-width: 600px){
+    padding: 16px;
   }
 `;

@@ -462,29 +462,51 @@ export const ModalContainer = styled(Modal)`
     }
   };
   & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
-    top: calc(50% + 26px) !important;
-    left: 50% !important;
+    top: calc(50% + 28px) !important;
+    left: calc(50% - 5px)!important;
     background-color: ${(props) => props.theme.palette.background.secondary};
   };
   & ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
-    top: calc(50% + 68px) !important;
-    left: 50% !important;
+    top: calc(50% + 72px) !important;
+    left: calc(50% - 5px) !important;
     background-color: ${(props) => props.theme.palette.background.secondary};
   };
   @media (max-width: 991px) {
     & ~ .MuiPopover-root.UnstakeTokenListOpened > .MuiPaper-root {
-    width: 428px !important;
-    top: calc(50% + 8px) !important;
-    left: calc(50% - 213px) !important;
+      width: 428px !important;
+      top: calc(50% + 8px) !important;
+      left: calc(50% - 213px) !important;
     };
     & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
-    top: calc(50% + 25px) !important;
-    left: calc(50% - 15px) !important;
+      top: calc(50% + 28px) !important;
+      left: calc(50% - 20px) !important;
     };
     & ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
-    top: calc(50% + 68px) !important;
-    left: calc(50% - 15px) !important;
+      top: calc(50% + 72px) !important;
+      left: calc(50% - 20px) !important;
     };
+  }
+  @media (max-width: 600px){
+    & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
+      top: calc(50% + 16px) !important;
+      left: calc(50% + 3px) !important;
+    };
+    & ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
+      top: calc(50% + 60px) !important;
+      left: calc(50% + 3px) !important;
+    }; 
+  }
+  @media (max-width: 575px){
+    & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
+      min-width: 230px !important;
+      right: 24px !important;
+      left: auto !important;
+    };
+    & ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
+      min-width: 230px !important;
+      right: 24px !important;
+      left: auto !important;
+    }; 
   }
   & .modal-content {
     background-color: ${(props) => props.theme.palette.background.secondary};
