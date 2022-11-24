@@ -7,6 +7,8 @@ import {
   AccordionDetails,
   List,
 } from '@mui/material';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Navbar as NavItem } from 'react-bootstrap';
 import styled from 'styled-components';
 import { ReactComponent as ElrondLogo } from 'src/assets/img/elrond.svg';
@@ -118,10 +120,14 @@ export const TopHeader = styled(Box)`
 }
 `;
 
-export const NavLogo = styled(NavItem)`
-  cursor: pointer;
-  width: 270px;
-`;
+export const NavLogo = styled(NavItem)(({ theme: _ }) => ({
+  cursor: 'pointer',
+  width: '270px',
+  '@media (max-width:600px)': {
+    width: '100%',
+    backgroundColor: _.palette.background.secondary,
+  },
+}));
 
 export const Logo = styled(ElrondLogo)`
   width: 85px;
@@ -166,6 +172,9 @@ export const AppBarWrapper = styled(Box)(({ theme: _ }) => ({
   width: '100%',
   height: '62px',
   zIndex: '10000',
+  '@media (max-width:600px)': {
+    height: '0px',
+  },
 }));
 
 export const SidebarAndMainWrapper = styled(Box)(({ theme: _ }) => ({
@@ -337,18 +346,43 @@ export const MobileMenu = styled(Box)`
   z-index: 2;
 `;
 
-export const TopMobileMenu = styled(Box)`
-  border-bottom-left-radius: ${(props) => props.theme.shape.radius};
-  border-bottom-right-radius: ${(props) => props.theme.shape.radius};
-`;
+export const TopMobileMenu = styled(Box)(({ theme: _ }) => ({
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  padding: '9px',
+  backgroundColor: _.palette.background.secondary,
+  '& span': {
+    color: _.palette.text.primary,
+    '& > p': {
+      color: _.palette.text.readOnly,
+    },
+  },
+}));
+
+export const ArrowDropUp = styled(ArrowDropUpIcon)(({ theme: _ }) => ({
+  fill: _.palette.background.safeOptions.svg,
+}));
+export const ArrowDropDown = styled(ArrowDropDownIcon)(({ theme: _ }) => ({
+  fill: _.palette.background.safeOptions.svg,
+}));
 
 export const MobileSecondaryMenu = styled(Box)`
   background-color: ${(props) => props.theme.palette.background.default};
 `;
 
 export const TotalBalanceWrapper = styled(Box)`
-  margin-top: 100px;
+  margin-top: 107px;
   width: 100%;
+  background-color: ${(props) => props.theme.palette.background.secondary};
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  & > div {
+    padding: 0px;
+    border-top: solid 1px ${(props) => props.theme.palette.divider.sidebar};
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
 `;
 
 export const LogoMenuWrapper = styled(Box)`

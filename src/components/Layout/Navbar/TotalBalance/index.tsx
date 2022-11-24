@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { getNetworkProxy } from '@elrondnetwork/dapp-core';
 import { Address, Balance } from '@elrondnetwork/erdjs/out';
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { NewTransactionButton } from 'src/components/Theme/StyledComponents';
 import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
@@ -12,7 +12,6 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import { setValueInUsd } from 'src/redux/slices/currencySlice';
 import { setProposeMultiselectSelectedOption, setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
-import Divider from '@mui/material/Divider';
 import {
   setMultisigBalance,
   setOrganizationTokens,
@@ -30,7 +29,9 @@ import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
-import { CenteredText } from '../navbar-style';
+import { Text, TotalBalanceText } from 'src/components/StyledComponents/StyledComponents';
+import pxToRem from 'src/components/Utils/pxToRem';
+import * as Styled from '../../../Utils/styled/index';
 
 export const identifierWithoutUniqueHash = (identifier: string) => identifier?.split('-')[0] ?? '';
 export const DECIMAL_POINTS_UI = 3;
@@ -39,6 +40,7 @@ function TotalBalance() {
   const dispatch = useDispatch();
   const proxy = getNetworkProxy();
   const [totalUsdValue, setTotalUsdValue] = useState(0);
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
 
@@ -284,31 +286,38 @@ function TotalBalance() {
     <Box
       sx={{
         pt: 0.5,
-        pb: 2,
-        px: 2,
+        px: 1,
         display: { sm: 'block', xs: 'flex' },
         justifyContent: { sm: 'center', xs: 'space-around' },
       }}
     >
-      <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
-        <CenteredText fontSize="14px">Your Total Balance:</CenteredText>
-        <CenteredText fontSize="16px" fontWeight="bolder">
+      <Box sx={{ width: { sm: '100%', xs: '50%' } }} padding={maxWidth600 ? '7px 10px 0' : ''}>
+        <TotalBalanceText
+          fontSize={pxToRem(15)}
+          textAlign={maxWidth600 ? 'left' : 'center'}
+          fontWeight={500}
+        >Your Total Balance
+        </TotalBalanceText>
+        <Text
+          fontSize={pxToRem(22)}
+          fontWeight="bolder"
+          textAlign={maxWidth600 ? 'left' : 'center'}
+          lineHeight={maxWidth600 ? 1 : 1.5}
+        >
           {
             Number.isNaN(multisigAllCoinsValue) ? <CircularProgress /> : `${multisigAllCoinsValue} ${getCurrency}`
           }
-        </CenteredText>
+        </Text>
       </Box>
-      <Divider orientation="vertical" flexItem />
-      {isInReadOnlyMode === false && (
+      <Styled.Dividers orientation="vertical" flexItem />
       <Box
         className="d-flex justify-content-center"
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
       >
-        <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>
+        <NewTransactionButton variant="outlined" onClick={onNewTransactionClick} disabled={isInReadOnlyMode}>
           Send Token
         </NewTransactionButton>
       </Box>
-      )}
     </Box>
   );
 }
