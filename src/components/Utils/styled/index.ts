@@ -134,6 +134,7 @@ export const TabContainerBox = styled(Box)(({ theme }) => ({
 
 export const MultisigAutocomplete = styled(Autocomplete)(({ theme }) => ({
   '&&&': {
+    position: 'relative',
     '& .MuiOutlinedInput-root': {
       color: theme.palette.text.primary,
       '& fieldset': {
