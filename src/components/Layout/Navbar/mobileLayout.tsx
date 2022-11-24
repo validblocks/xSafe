@@ -3,7 +3,6 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, Typography } from '@mui/material';
-import Divider from '@mui/material/Divider';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Link } from 'react-router-dom';
 import Safe from 'src/assets/img/safe.png';
@@ -12,7 +11,17 @@ import menuItems from 'src/utils/menuItems';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import pxToRem from 'src/components/Utils/pxToRem';
+import { useSelector } from 'react-redux';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { truncateInTheMiddle } from 'src/utils/addressUtils';
+import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
+import SafeDark from 'src/assets/img/Safe-dark.png';
+import { MobileSettingsIcon } from 'src/components/StyledComponents/StyledComponents';
 import {
+  ArrowDropDown,
+  ArrowDropUp,
   LogoMenuWrapper,
   MobileMenu,
   MobileSecondaryMenu,
@@ -21,12 +30,16 @@ import {
 } from './navbar-style';
 import TotalBalance from './TotalBalance';
 import NavbarLogo from './Logo';
+import Account from './Account';
 
 const MobileLayout = () => {
   const locationString = window.location.pathname.substring(1);
-  const [walletAddress, setWalletAddress] = useState('');
+  const [_walletAddress, setWalletAddress] = useState('');
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
   const menuRef = useRef<HTMLElement>();
+  const currentContract = useSelector(currentMultisigContractSelector);
+  const { isLoggedIn } = useGetLoginInfo();
+  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
 
   useEffect(() => {
     setWalletAddress(addressShorthand(uniqueContractAddress));
@@ -50,23 +63,35 @@ const MobileLayout = () => {
     <Box>
       <LogoMenuWrapper>
         <NavbarLogo />
-        <TopMobileMenu
-          className="d-flex pt-1 pb-2 bg-white justify-content-between align-items-center"
-          sx={{ px: 2 }}
-        >
+        <TopMobileMenu>
           <Box>
-            <img src={Safe} width="50" height="50" alt="safe" />
+            <img src={isDarkThemeEnabled ? SafeDark : Safe} alt="safe" width="50px" height="50px" />
           </Box>
-          <Box className="d-flex">
-            <Box>
-              <Typography sx={{ fontWeight: '600' }}>My Great Safe</Typography>
-              <Typography>{walletAddress}</Typography>
-            </Box>
-            <Box className="d-flex ml-4">
-              {isInReadOnlyMode && <Typography sx={{ color: '#7A7883' }}>Read-only</Typography>}
+          <Box className="d-flex" alignItems={'center'} mr={'auto'} width={'223px'}>
+            {(currentContract?.address?.length > 0 && isLoggedIn) && (
+              <Box width={'100%'} display={'flex'} flexDirection={'column'} justifyContent={'center'} ml={'12px'}>
+                <Typography
+                  component="span"
+                  fontWeight={600}
+                  lineHeight={1.1}
+                  display={'flex'}
+                  flexDirection={'row'}
+                  justifyContent={'space-between'}
+                  width={'100%'}
+                >{currentContract?.name}
+                  {isInReadOnlyMode && <Typography fontSize={pxToRem(12)}>Read-only</Typography>}
+                </Typography>
+                <Typography
+                  component="span"
+                  lineHeight={1.1}
+                >{truncateInTheMiddle(currentContract?.address, 7)}
+                </Typography>
+              </Box>
+            )}
+            <Box className="d-flex" ml={'12px'}>
               {openedSafeSelect === true && (
               <Box>
-                <ArrowDropUpIcon
+                <ArrowDropUp
                   onClick={() => {
                     setOpenedSafeSelect(false);
                   }}
@@ -79,7 +104,7 @@ const MobileLayout = () => {
               )}
               {openedSafeSelect === false && isMultiWalletMode && (
               <Box>
-                <ArrowDropDownIcon
+                <ArrowDropDown
                   onClick={() => {
                     setOpenedSafeSelect(true);
                   }}
@@ -88,21 +113,14 @@ const MobileLayout = () => {
               )}
             </Box>
           </Box>
-          <Box className="d-flex" />
+          <Account />
           <Box>
             <Link to="/settings">
-              <SettingsIcon
-                sx={{
-                  width: '30px',
-                  height: '30px',
-                  color: 'rgba(8, 4, 29, 0.54)',
-                }}
-              />
+              <MobileSettingsIcon />
             </Link>
           </Box>
         </TopMobileMenu>
       </LogoMenuWrapper>
-      <Divider />
       <TotalBalanceWrapper>
         <TotalBalance />
       </TotalBalanceWrapper>

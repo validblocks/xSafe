@@ -1,4 +1,5 @@
 import { Box, Button, Typography } from '@mui/material';
+import SettingsIcon from '@mui/icons-material/Settings';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
@@ -59,6 +60,16 @@ export const Text = styled(Typography)`
   font-family: 'IBM Plex Sans', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
     'Courier New', monospace !important;
 `;
+
+export const TotalBalanceText = styled(Text)(({ theme: _ }) => ({
+  color: _.palette.text.tableHeaders,
+}));
+
+export const MobileSettingsIcon = styled(SettingsIcon)(({ theme: _ }) => ({
+  width: '26px',
+  height: '26px',
+  fill: _.palette.text.menuItems,
+}));
 
 export const ModalCardTitleContainer = styled(Box)`
   border-bottom: 1px solid ${(props) => props.theme.palette.divider.secondary};

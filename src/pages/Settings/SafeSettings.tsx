@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeCurrency from 'src/components/ChangeCurrency';
 import { MainButton, TypographyBold } from 'src/components/Theme/StyledComponents';
@@ -18,6 +18,7 @@ function SafeSettings() {
   const currentContract = useSelector(currentMultisigContractSelector);
   const safeName = currentContract?.name;
   const [name, setName] = useState(safeName);
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   useEffect(() => {
     setName(safeName);
@@ -50,7 +51,7 @@ function SafeSettings() {
       <TypographyBold sx={{ mb: 1, fontSize: '18px' }}>
         Your safe name:
       </TypographyBold>
-      <Typography sx={{ mb: 2 }}>
+      <Typography sx={{ mb: 2 }} fontSize={maxWidth600 ? '15px' : '14px'}>
         Here you can change the name of your Safe.
       </Typography>
       <Typography sx={{ mb: 3 }}>
@@ -72,7 +73,7 @@ function SafeSettings() {
         Default Currency
       </TypographyBold>
 
-      <Typography sx={{ mb: 2 }}>
+      <Typography sx={{ mb: 2 }} fontSize={maxWidth600 ? '15px' : '14px'}>
         Pick a default currency for your Safe.
       </Typography>
       <ChangeCurrency />
@@ -80,7 +81,7 @@ function SafeSettings() {
         Appearance
       </TypographyBold>
 
-      <Typography sx={{ mb: 2 }}>
+      <Typography sx={{ mb: 2 }} fontSize={maxWidth600 ? '15px' : '14px'}>
         You can choose between a dark and a light theme.
       </Typography>
       <ThemeColor />

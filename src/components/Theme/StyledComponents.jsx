@@ -49,11 +49,13 @@ export const MainButtonNoShadow = styled(MainButton)`
 
 export const NewTransactionButton = styled(MainButton)`
 &&& {
-  padding: ${(props) => props.theme.padding.value.md}
-  25px
-  ${(props) => props.theme.padding.value.sm};
+  height: 40px;
+  min-width: 156px;
   font-size: 15px;
   font-weight: ${(props) => props.theme.font.weight.md};
+  @media (max-width:600px) {
+    min-width: 175px;
+  }
 }
 `;
 
@@ -68,6 +70,17 @@ export const ChangeQuorumButton = styled(NewTransactionButton)`
 export const AccountButton = styled(MainButton)`
 &&& {
   padding: 10px 18px 9px 10px;
+  @media (max-width: 600px){
+    width: 24px;
+    min-width: 0px;
+    height: 24px;
+    padding: 0;
+    background-color: #4c2FFC;
+    & svg path {
+    fill: #fff;
+    fill-opacity: 1;
+  };
+  }
 }
 `;
 
@@ -172,6 +185,9 @@ export const Main = styled.main`
   background-color: ${(props) => props.theme.palette.background.default};
   overflow-y: auto;
   padding: 20px;
+  @media (max-width:600px) {
+    padding: 16px;
+  }
 `;
 
 export const AssetValue = styled(Box)`

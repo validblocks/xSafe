@@ -9,7 +9,7 @@ function Settings() {
         width: '100%',
       }}
     >
-      <SettingsWrapper sx={{ p: 3 }}>
+      <SettingsWrapper>
         <SafeSettings />
       </SettingsWrapper>
     </Box>

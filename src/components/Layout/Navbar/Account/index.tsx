@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import BoltIcon from '@mui/icons-material/Bolt';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { AccountButton } from 'src/components/Theme/StyledComponents';
 import addressShorthand from 'src/helpers/addressShorthand';
@@ -24,6 +24,8 @@ function Account() {
   const [isMainButtonActive, setIsMainButtonActive] = useState(false);
   const dispatch = useDispatch();
   const wasLoggedIn = usePrevious(isLoggedIn, false);
+
+  const minWidth600 = useMediaQuery('(min-width:600px)');
 
   const handleClick = () => {
     setIsMainButtonActive(true);
@@ -58,25 +60,25 @@ function Account() {
   }, [selectedOption]);
 
   return (
-    <div className="mr-2">
-      <Box display="flex" gap={2}>
-        <AccountButton
-          variant="outlined"
-          onClick={handleClick}
-          size="large"
-          ref={accountButtonRef}
-          className={isMainButtonActive ? 'isActive' : ''}
-          sx={{ ...MAIN_BUTTON_VARIABLE_STYLE }}
-        >
-          <Box className="d-flex">
-            <BoltIcon />
+    <Box display="flex" gap={2} mr={minWidth600 ? 2 : '15px'}>
+      <AccountButton
+        variant="outlined"
+        onClick={handleClick}
+        size="large"
+        ref={accountButtonRef}
+        className={isMainButtonActive ? 'isActive' : ''}
+        sx={{ ...MAIN_BUTTON_VARIABLE_STYLE }}
+      >
+        <Box className="d-flex">
+          <BoltIcon />
+          {minWidth600 && (
             <Typography sx={{ textTransform: isLoggedIn ? 'lowercase' : 'none' }}>
               {isLoggedIn ? walletAddress : 'Connect'}
             </Typography>
-          </Box>
-        </AccountButton>
-      </Box>
-    </div>
+          )}
+        </Box>
+      </AccountButton>
+    </Box>
   );
 }
 

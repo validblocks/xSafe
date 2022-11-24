@@ -49,6 +49,7 @@ export const theme = createTheme({
       success: '#145737',
       menuItems: '#08041D8a',
       tableHeaders: '#000000de',
+      readOnly: '#7A7883',
     },
     sidebar: {
       primary: '#fff',
@@ -173,6 +174,7 @@ export const darkTheme = createTheme({
       success: '#2FFCBE',
       menuItems: '#F0F6FF8a',
       tableHeaders: '#9C9BA5',
+      readOnly: '#7A7883',
     },
     black: {
       main: '#08041D',
