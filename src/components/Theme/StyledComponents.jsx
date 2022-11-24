@@ -482,10 +482,14 @@ export const ModalContainer = styled(Modal)`
   }
   @media (max-width: 575px){
     & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
-      left: calc(50% + 33px) !important;
+      min-width: 230px !important;
+      right: 24px !important;
+      left: auto !important;
     };
     & ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
-      left: calc(50% + 33px) !important;
+      min-width: 230px !important;
+      right: 24px !important;
+      left: auto !important;
     }; 
   }
   & .modal-content {
