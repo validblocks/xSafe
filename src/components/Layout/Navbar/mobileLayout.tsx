@@ -1,4 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, Typography } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Link } from 'react-router-dom';
@@ -33,6 +36,7 @@ const MobileLayout = () => {
   const locationString = window.location.pathname.substring(1);
   const [_walletAddress, setWalletAddress] = useState('');
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
+  const menuRef = useRef<HTMLElement>();
   const currentContract = useSelector(currentMultisigContractSelector);
   const { isLoggedIn } = useGetLoginInfo();
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
@@ -40,6 +44,18 @@ const MobileLayout = () => {
   useEffect(() => {
     setWalletAddress(addressShorthand(uniqueContractAddress));
   }, [addressShorthand]);
+
+  useEffect(() => {
+    const handler = (e: any) => {
+      if (!menuRef.current?.contains(e.target)) {
+        setOpenedSafeSelect(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+    };
+  }, []);
 
   const { isMultiWalletMode, isInReadOnlyMode } = useOrganizationInfoContext();
 
@@ -80,7 +96,10 @@ const MobileLayout = () => {
                     setOpenedSafeSelect(false);
                   }}
                 />
-                <SafeOptions closeSafe={() => setOpenedSafeSelect(false)} />
+                <SafeOptions
+                  closeSafe={() => setOpenedSafeSelect(false)}
+                  ref={menuRef}
+                />
               </Box>
               )}
               {openedSafeSelect === false && isMultiWalletMode && (
