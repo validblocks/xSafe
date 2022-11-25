@@ -1,30 +1,39 @@
+/* eslint-disable no-await-in-loop */
 import {
   accessTokenServices,
   storageApi,
 } from 'src/services/accessTokenServices';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { getAddress } from '@elrondnetwork/dapp-core';
+import { getAddress, logout, refreshAccount } from '@elrondnetwork/dapp-core';
 import axios, { AxiosError } from 'axios';
 import uniqBy from 'lodash/uniqBy';
 import { verifiedContractsHashes } from 'src/helpers/constants';
 import { network } from 'src/config';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import routeNames from 'src/routes/routeNames';
 
 const contractsInfoStorageEndpoint = `${storageApi}/settings/multisig`;
 
 const multisigAxiosInstance = axios.create();
+
+const MAX_TRIALS = 4;
 
 multisigAxiosInstance.interceptors.request.use(
   async (config) => {
     try {
       if (accessTokenServices?.services != null) {
         const address = await getAddress();
-        const token =
-          await accessTokenServices?.services?.maiarId?.getAccessToken({
-            address,
-            maiarIdApi: '',
-          });
-        config.headers.Authorization = `Bearer ${token.accessToken}`;
+        let token = null;
+        for (let i = 0; i < MAX_TRIALS; i++) {
+          token =
+              await accessTokenServices?.services?.maiarId?.getAccessToken({
+                address,
+                maiarIdApi: '',
+              });
+          if (token) break;
+          await refreshAccount();
+        }
+        config.headers.Authorization = `Bearer ${token?.accessToken}`;
       }
     } catch (err) {
       console.error(err);
@@ -39,13 +48,28 @@ multisigAxiosInstance.interceptors.response.use(
   (error: AxiosError) => {
     if (error.response?.status === 403) {
       console.error('Axios request 403. Logging out.');
-      // logout(routeNames.unlock);
+      logout(routeNames.multisig);
     }
     return Promise.reject(error);
   },
 );
 export async function getUserMultisigContractsList() {
   try {
+    const address = await getAddress();
+    let token = null;
+    for (let i = 0; i < MAX_TRIALS; i++) {
+      token = await accessTokenServices?.services?.maiarId?.getAccessToken({
+        address,
+        maiarIdApi: '',
+      });
+      if (token) break;
+      await refreshAccount();
+    }
+
+    multisigAxiosInstance.defaults.headers.common.Authorization = `Bearer ${token?.accessToken}`;
+    console.log({
+      axiosInstanceDefaultHeaders: multisigAxiosInstance.defaults.headers,
+    });
     const response = await multisigAxiosInstance.get(
       contractsInfoStorageEndpoint,
     );
@@ -55,7 +79,7 @@ export async function getUserMultisigContractsList() {
     }
     return [];
   } catch (err) {
-    console.error('error getting multisig contracts');
+    console.error('Error getting multisig contracts', multisigAxiosInstance);
     return [];
   }
 }
