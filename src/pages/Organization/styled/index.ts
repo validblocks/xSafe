@@ -106,6 +106,9 @@ export const MobileCardOfTokens = styled(Box)(({ theme: _ }) => ({
   },
 }));
 
+export const MobileCardOfMembers = styled(MobileCardOfTokens)`
+  flex-direction: row;
+`;
 export const CategoryName = styled.div(({ theme: _ }) => ({
   display: 'flex',
   flexDirection: 'column',
@@ -149,3 +152,23 @@ export const ActionButtonsBox = styled.div(({ theme: _ }) => ({
     width: '100%',
   },
 }));
+
+export const ActionButtonsBoxMembers = styled.div`
+  display: flex;
+  width: 60px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  & button {
+    padding: 0;
+    min-width: 0;
+    display: table;
+    & span {
+      margin-bottom: 0;
+    }
+    & .MuiButton-startIcon {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+`;

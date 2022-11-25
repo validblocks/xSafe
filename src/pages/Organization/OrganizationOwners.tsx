@@ -13,15 +13,20 @@ import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { MainButtonNoShadow } from 'src/components/Theme/StyledComponents';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { Button, useMediaQuery } from '@mui/material';
+import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { AccountInfo, AddressBook, Owner } from './types';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 import * as Styled from './styled';
 import { useOwnerManipulationFunctions } from './utils';
+import MobileCardsForTableReplacementMemebers from './utils/MobileCardsForTableReplacementMemebers';
 
 const OrganizationsOwnersTable = () => {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const [addresses, setAddresses] = useState<Array<Owner>>([]);
   const getAddresses = useCallback(() => queryBoardMemberAddresses(), []);
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
+  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
 
   // Set the address book
   // Test the address book and herotag
@@ -133,6 +138,40 @@ const OrganizationsOwnersTable = () => {
     </Styled.NoRowsOverlay>
   );
 
+  console.log(addresses);
+
+  const getMobileActions = (params: any) => [
+    <Button
+      key={params.id}
+      startIcon={(
+        <DeleteIcon sx={{
+          // eslint-disable-next-line no-nested-ternary
+          color: isInReadOnlyMode ? isDarkThemeEnabled ? '#eeeeee8a' : '#08041D8a' : '#4c2ffc',
+        }}
+        />
+)}
+      disabled={isInReadOnlyMode}
+      onClick={() => onRemoveUser(new Address(params.id))}
+    />,
+    <Button
+      key={params.id}
+      startIcon={(
+        <EditIcon sx={{
+          // eslint-disable-next-line no-nested-ternary
+          color: isDarkThemeEnabled ? isInReadOnlyMode ? '#eeeeee8a' : '#4c2ffc' : '#08041D8a',
+        }}
+        />
+)}
+      disabled={isInReadOnlyMode}
+      onClick={() =>
+        onEditOwner(
+                addresses.find(
+                  (address) => address.address === params.id,
+                ) as Owner,
+        )}
+    />,
+  ];
+
   return (
     <>
       <MainButtonNoShadow
@@ -143,13 +182,15 @@ const OrganizationsOwnersTable = () => {
         Add member
       </MainButtonNoShadow>
 
-      <Styled.MainTable
-        autoHeight
-        rowHeight={65}
-        rows={rows}
-        columns={columns}
-        components={{ NoRowsOverlay: noRowsOverlay }}
-      />
+      {maxWidth600 ? <MobileCardsForTableReplacementMemebers items={addresses} action={getMobileActions(addresses)} /> : (
+        <Styled.MainTable
+          autoHeight
+          rowHeight={65}
+          rows={rows}
+          columns={columns}
+          components={{ NoRowsOverlay: noRowsOverlay }}
+        />
+      )}
     </>
   );
 };

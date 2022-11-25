@@ -1,7 +1,4 @@
 import { useState, useEffect, useRef } from 'react';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, Typography } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Link } from 'react-router-dom';
