@@ -1,4 +1,4 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import styled from 'styled-components';
 
@@ -53,6 +53,19 @@ export const MultisigCard = styled(Box)`
   border-radius: 10px;
   box-shadow: 0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03);
   border: none;
+  @media (max-width: 600px){
+    width: 100%;
+    margin-bottom: 16px;
+  }
+`;
+
+export const MultisigCardGrid = styled(Grid)`
+  @media (max-width: 519px){
+    width: 100%;
+  }
+  @media (min-width: 520px) and (max-width: 600px){
+    width: 48.5%;
+  }
 `;
 
 export const Text = styled(Typography)`

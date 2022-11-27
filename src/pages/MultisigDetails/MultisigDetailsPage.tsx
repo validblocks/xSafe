@@ -5,12 +5,13 @@ import {
   currentMultisigContractSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { Divider, Grid } from '@mui/material';
+import { Divider, Grid, useMediaQuery } from '@mui/material';
 import useMultisigDetailsCards from 'src/utils/useMultisigDetailsCards';
 import routeNames from 'src/routes/routeNames';
 import { parseMultisigAddress } from 'src/utils/addressUtils';
 import { useEffect } from 'react';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { MultisigCardGrid } from 'src/components/StyledComponents/StyledComponents';
 import * as Styled from './styled';
 
 export interface ContractInfo {
@@ -30,6 +31,7 @@ function MultisigDetailsPage() {
   const navigate = useNavigate();
   const { isLoggedIn } = useGetLoginInfo();
   const currentContract = useSelector(currentMultisigContractSelector);
+  const widthBetween520And600 = useMediaQuery('(min-width:520px) and (max-width:600px)');
 
   const {
     topSectionCards,
@@ -45,17 +47,21 @@ function MultisigDetailsPage() {
   return (
     <>
       <Styled.DetailsCardContainerBox>
-        <Grid container>
+        <Grid container justifyContent={widthBetween520And600 ? 'space-between' : ''}>
           {topSectionCards.map(
-            (topCard) => <Grid key={topCard.props.title}> {topCard} </Grid>,
+            (topCard) => (
+              <MultisigCardGrid
+                key={topCard.props.title}
+              > {topCard}
+              </MultisigCardGrid>
+            ),
           )}
         </Grid>
       </Styled.DetailsCardContainerBox>
-      <Divider sx={{ margin: '12px 0' }} />
       <Styled.DetailsCardContainerBox>
-        <Grid container>
+        <Grid container justifyContent={widthBetween520And600 ? 'space-between' : ''}>
           {bottomSectionCards.map(
-            (bottomCard) => <Grid key={bottomCard.props.title} item> {bottomCard} </Grid>,
+            (bottomCard) => <MultisigCardGrid key={bottomCard.props.title} item> {bottomCard} </MultisigCardGrid>,
           )}
         </Grid>
       </Styled.DetailsCardContainerBox>
