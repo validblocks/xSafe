@@ -32,8 +32,8 @@ const AppCard = ({
         src={imgUrl}
         alt="member"
       />
-      <Text fontSize={20} fontWeight={500} marginBottom="-5px">{title}</Text>
-      <Text fontSize={15} fontWeight={400}>{description}</Text>
+      <Text fontSize={20} fontWeight={500} margin="12px 0px 6px">{title}</Text>
+      <Text fontSize={15} fontWeight={400} marginBottom={'12px'}>{description}</Text>
       <Styled.InstallButton
         onClick={actionButtonOnClick}
         sx={{
@@ -42,6 +42,7 @@ const AppCard = ({
             border: `1px solid ${theme.palette.background.button} !important`,
             color: '#fff !important',
           }),
+          marginTop: 'auto',
         }}
         disabled={!isInstallable || isInReadOnlyMode || title === 'Marketplace'}
       >{isInstallable ? actionButtonText : 'Coming Soon...'}

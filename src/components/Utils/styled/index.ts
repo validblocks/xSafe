@@ -21,6 +21,9 @@ export const ThemePrimaryBox = styled(Box)(({ theme: _ }) => ({
 export const ContainerWithPanelsTopBox = styled(Box)(({ theme: _ }) => ({
   '&&&': {
     width: '100%',
+    '@media (max-width:600px)': {
+      marginTop: '-17px',
+    },
   },
 }));
 
@@ -129,6 +132,12 @@ export const TabContainerBox = styled(Box)(({ theme }) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottom: `2px solid ${theme.palette.divider.secondary} !important`,
+    backgroundColor: theme.palette.background.default,
+    '@media (max-width:600px)': {
+      position: 'absolute',
+      left: 0,
+      zIndex: 2,
+    },
   },
 }));
 
@@ -177,14 +186,23 @@ export const MultisigPopper = styled(Popper)(({ theme }) => ({
 export const MainTab = styled(Tabs)(({ theme: _ }) => ({
   '&&&': {
     '& .MuiButtonBase-root': {
-      color: _.palette.primary.main,
+      color: _.palette.text.secondaryMenu,
       fontWeight: _.font.weight.lg,
       fontSize: _.font.size.lg,
       textTransform: 'capitalize',
     },
+    '& .MuiButtonBase-root.Mui-selected': {
+      color: _.palette.primary.main,
+    },
     '& .MuiTabs-indicator': {
       backgroundColor: _.palette.primary.main,
       boxShadow: `0px 0px 2px ${_.palette.primary.main}`,
+    },
+    '@media (max-width:600px)': {
+      width: '100%',
+      '& .MuiButtonBase-root': {
+        width: '50%',
+      },
     },
   },
 }));
