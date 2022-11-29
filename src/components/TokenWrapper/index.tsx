@@ -23,7 +23,7 @@ export const TokenWrapper = () => {
       loginMethod={loginMethod}
       userAddress={address}
       tokenLogin={tokenLogin}
-      maiarIdApi={''}
+      maiarIdApi={'http://localhost:3000'}
     />
   );
 };

@@ -28,7 +28,7 @@ multisigAxiosInstance.interceptors.request.use(
           token =
               await accessTokenServices?.services?.maiarId?.getAccessToken({
                 address,
-                maiarIdApi: '',
+                maiarIdApi: 'http://localhost:3000',
               });
           if (token) break;
           await refreshAccount();
@@ -60,7 +60,7 @@ export async function getUserMultisigContractsList() {
     for (let i = 0; i < MAX_TRIALS; i++) {
       token = await accessTokenServices?.services?.maiarId?.getAccessToken({
         address,
-        maiarIdApi: '',
+        maiarIdApi: 'http://localhost:3000',
       });
       if (token) break;
       await refreshAccount();

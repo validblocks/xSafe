@@ -20,6 +20,7 @@ function ThemeColor() {
     <Box>
       <Styled.MultisigAutocomplete
         value={theme}
+        disableClearable
         onChange={onChangeTheme as any}
         PopperComponent={Styled.MultisigPopper}
         id="themes-states-demo"

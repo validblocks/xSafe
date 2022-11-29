@@ -40,7 +40,7 @@ function Dashboard() {
   const { address } = useGetAccountInfo();
   const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
     address,
-    '',
+    'http://localhost:3000',
     isLoggedIn,
   );
 
