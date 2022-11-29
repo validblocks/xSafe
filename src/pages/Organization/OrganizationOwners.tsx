@@ -138,8 +138,6 @@ const OrganizationsOwnersTable = () => {
     </Styled.NoRowsOverlay>
   );
 
-  console.log(addresses);
-
   const getMobileActions = (params: any) => [
     <Button
       key={params.id}
