@@ -50,6 +50,7 @@ export const theme = createTheme({
       menuItems: '#08041D8a',
       tableHeaders: '#000000de',
       readOnly: '#7A7883',
+      secondaryMenu: '#08041D66',
     },
     sidebar: {
       primary: '#fff',
@@ -175,6 +176,7 @@ export const darkTheme = createTheme({
       menuItems: '#F0F6FF8a',
       tableHeaders: '#9C9BA5',
       readOnly: '#7A7883',
+      secondaryMenu: '#F0F6FF66',
     },
     black: {
       main: '#08041D',

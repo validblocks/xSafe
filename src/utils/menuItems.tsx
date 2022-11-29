@@ -188,7 +188,7 @@ const mobileBottomItems = [
   },
   {
     name: 'Apps',
-    link: 'apps',
+    link: 'marketplace',
     id: 'apps-mobile-menu-item',
     icon: <AppsIcon />,
     submenu: [
