@@ -64,6 +64,9 @@ export const ChangeQuorumButton = styled(NewTransactionButton)`
   padding: ${(props) => props.theme.padding.value.md}
   25px
   ${(props) => props.theme.padding.value.sm};
+  @media (max-width: 600px) {
+    width: 100%;
+  };
 }
 `;
 
