@@ -90,8 +90,11 @@ const CvorumContainer = () => {
             startIcon={<AddRoundedIcon />}
             disabled={isIncrementDisabled}
           />
+          <Styled.QuorumErrorMessage
+            className={`error-message ${error !== null ? 'is-invalid' : ''}`}
+          >{error}
+          </Styled.QuorumErrorMessage>
         </Styled.QuorumCounterContainer>
-        <Typography component="span" color="red">{error}</Typography>
       </Box>
 
       <ChangeQuorumButton

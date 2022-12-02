@@ -170,6 +170,7 @@ export const QuorumCounterContainer = styled(Box)(({ theme: _ }) => ({
   marginTop: '14px',
   marginBottom: '24px',
   borderRadius: '10px',
+  position: 'relative',
   backgroundColor: _.palette.background.quorumContent,
   '@media (max-width:600px)': {
     width: '100%',
@@ -217,5 +218,21 @@ export const QuorumContent = styled.span(({ theme: _ }) => ({
   },
   '@media (max-width: 600px)': {
     width: '100%',
+  },
+}));
+
+export const QuorumErrorMessage = styled.span(({ theme: _ }) => ({
+  position: 'absolute',
+  width: 'calc(100% + 90px)',
+  bottom: '-5px',
+  left: '2px',
+  color: _.palette.danger.main,
+  fontSize: pxToRem(12),
+  transition: 'bottom 300ms linear, opacity 300ms linear',
+  opacity: 0,
+  lineHeight: 1.1,
+  '&.is-invalid': {
+    opacity: 1,
+    bottom: '-16px',
   },
 }));
