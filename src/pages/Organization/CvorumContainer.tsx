@@ -91,7 +91,7 @@ const CvorumContainer = () => {
             disabled={isIncrementDisabled}
           />
           <Styled.QuorumErrorMessage
-            className={`error-message ${error !== null ? 'is-invalid' : ''}`}
+            className={error !== null ? 'is-invalid' : ''}
           >{error}
           </Styled.QuorumErrorMessage>
         </Styled.QuorumCounterContainer>
