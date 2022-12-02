@@ -16,13 +16,17 @@ import Divider from '@mui/material/Divider';
 
 export const ThemePrimaryBox = styled(Box)(({ theme: _ }) => ({
   '&&&': {
-    background: _.palette.background.default,
+    backgroundColor: 'transparent',
   },
 }));
 
 export const ThemePrimaryMenuItem = styled(MenuItem)(({ theme: _ }) => ({
   '&&&': {
-    background: _.palette.background.default,
+    background: _.palette.background.secondary,
+    transition: 'background-color 300ms linear',
+    '&:hover': {
+      backgroundColor: _.palette.hover.secondary,
+    },
   },
 }));
 
