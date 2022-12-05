@@ -40,6 +40,8 @@ export const theme = createTheme({
         divider: '#0000001f',
       },
       scrollbar: '#EBEBED',
+      quorumCounter: '#8675C8',
+      quorumContent: '#EEEBFF',
     },
     text: {
       primary: '#08041D',
@@ -50,6 +52,8 @@ export const theme = createTheme({
       menuItems: '#08041D8a',
       tableHeaders: '#000000de',
       readOnly: '#7A7883',
+      quorumContent: '#A79AD9',
+      quorumDigits: '#8675C8',
       secondaryMenu: '#08041D66',
     },
     sidebar: {
@@ -87,6 +91,7 @@ export const theme = createTheme({
       search: '#08041D',
       fillOpacity: 0.54,
       menuItems: '#08041D8a',
+      quorumCounter: '#F0F6FF',
     },
     hover: {
       secondary: 'rgba(0, 0, 0, 0.04)',
@@ -176,6 +181,8 @@ export const darkTheme = createTheme({
       menuItems: '#F0F6FF8a',
       tableHeaders: '#9C9BA5',
       readOnly: '#7A7883',
+      quorumContent: '#9C9BA5',
+      quorumDigits: '#F0F6FF',
       secondaryMenu: '#F0F6FF66',
     },
     black: {
@@ -208,6 +215,8 @@ export const darkTheme = createTheme({
         divider: '#211F30',
       },
       scrollbar: '#6C757D8a',
+      quorumCounter: '#2A2848',
+      quorumContent: '#2A284880',
     },
     sidebar: {
       primary: '#29273E',
@@ -243,6 +252,7 @@ export const darkTheme = createTheme({
       search: '#fff',
       fillOpacity: 1,
       menuItems: '#F0F6FF8a',
+      quorumCounter: '#F0F6FF',
     },
     hover: {
       secondary: '#181626',

@@ -1,74 +1,108 @@
-import { Box, Divider } from '@mui/material';
-import { useDispatch } from 'react-redux';
-import { MultisigCard, Text } from 'src/components/StyledComponents/StyledComponents';
-import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ProposalsTypes } from 'src/types/Proposals';
+import { Box, Typography } from '@mui/material';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from 'styled-components';
 import { ChangeQuorumButton } from 'src/components/Theme/StyledComponents';
+import { useEffect, useState } from 'react';
+import { mutateProposeChangeQuorum } from 'src/contracts/MultisigContract';
+import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import * as Styled from './styled/index';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
 const CvorumContainer = () => {
-  const theme: any = useTheme();
-  const dispatch = useDispatch();
-  const { isInReadOnlyMode } = useOrganizationInfoContext();
-  const onChangeQuorum = () =>
-    dispatch(
-      setProposeModalSelectedOption({
-        option: ProposalsTypes.change_quorum,
-      }),
-    );
+  const [error, setError] = useState<string | null>(null);
+  const [isIncrementDisabled, setIsIncrementDisabled] = useState(false);
+  const [isDecrementDisabled, setIsDecrementDisabled] = useState(false);
+  const errors = {
+    invalid: 'Invalid value',
+    tooBig: 'Quorum cannot be bigger than the number of board members',
+  };
 
   const {
     quorumCountState,
     boardMembersState,
   } = useOrganizationInfoContext();
 
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
+
   const [quorumCount] = quorumCountState;
+  const [newQuorum, setNewQuorum] = useState(quorumCount);
   const [boardMembers] = boardMembersState;
   const boardMembersCount = boardMembers.length;
+
   const { t } = useTranslation();
 
+  const handleIncrementCount = () => setNewQuorum((newQuorum) => {
+    const quorumValue = newQuorum + 1;
+    if (quorumValue > boardMembersCount) {
+      setError(errors.tooBig);
+      setIsIncrementDisabled(true);
+      setIsDecrementDisabled(false);
+    } else {
+      setError(null);
+      setIsIncrementDisabled(false);
+      setIsDecrementDisabled(false);
+    }
+    return quorumValue;
+  });
+
+  const handleDecrementCount = () => setNewQuorum((newQuorum) => {
+    const quorumValue = newQuorum - 1;
+    if (quorumValue < 1) {
+      setError(errors.invalid);
+      setIsDecrementDisabled(true);
+      setIsIncrementDisabled(false);
+    } else {
+      setError(null);
+      setIsDecrementDisabled(false);
+      setIsIncrementDisabled(false);
+    }
+    return quorumValue;
+  });
+
+  useEffect(() => {
+    setNewQuorum(quorumCount);
+  }, [quorumCount]);
+
+  const onChangeQuorum = () => mutateProposeChangeQuorum(newQuorum);
+
   return (
-    <Box>
-      <MultisigCard width={'100% !important'}>
-        <Box minHeight={'60vh'} className="px-4 py-4">
-          <Text fontSize={21} fontWeight={450}>Required Confirmations</Text>
-          <Box fontSize={14} marginTop={2}>
-            <Text>Performing an action requires the confirmation of:</Text>
-          </Box>
-          <Box marginY={2}>
-            <Box
-              component={'span'}
-              fontSize={16}
-              fontWeight={500}
-              sx={{ color: theme.palette.text.primary }}
-            ><strong>{quorumCount}</strong>
-              <Box
-                component={'span'}
-                color={'#B2B5B2'}
-              > out of
-              </Box> <strong>{boardMembersCount}</strong>
-              <Box
-                component={'span'}
-                color={'#B2B5B2'}
-              > owners
-              </Box>
-            </Box>
-          </Box>
+    <Styled.CvorumContainer>
+      <Box>
+        <Text fontSize={21} fontWeight={450}>Required Confirmations</Text>
+        <Box fontSize={14} marginTop={2}>
+          <Text>Performing an action requires the confirmation of:</Text>
         </Box>
-        <Divider />
-        <Box className="px-4 py-4">
-          <ChangeQuorumButton
-            disabled={isInReadOnlyMode}
-            size="large"
-            onClick={onChangeQuorum}
-          >
-            {t('Change Quorum') as string}
-          </ChangeQuorumButton>
-        </Box>
-      </MultisigCard>
-    </Box>
+
+        <Styled.QuorumCounterContainer>
+          <Styled.QuorumCounterButton
+            onClick={() => handleDecrementCount()}
+            startIcon={<RemoveRoundedIcon />}
+            disabled={isDecrementDisabled}
+          />
+          <Styled.QuorumContent>
+            <Typography component="span">{newQuorum} / {boardMembersCount}</Typography>members
+          </Styled.QuorumContent>
+          <Styled.QuorumCounterButton
+            onClick={() => handleIncrementCount()}
+            startIcon={<AddRoundedIcon />}
+            disabled={isIncrementDisabled}
+          />
+          <Styled.QuorumErrorMessage
+            className={error !== null ? 'is-invalid' : ''}
+          >{error}
+          </Styled.QuorumErrorMessage>
+        </Styled.QuorumCounterContainer>
+      </Box>
+
+      <ChangeQuorumButton
+        disabled={isInReadOnlyMode || error !== null}
+        size="large"
+        onClick={onChangeQuorum}
+      >
+        {t('Propose quorum change') as string}
+      </ChangeQuorumButton>
+    </Styled.CvorumContainer>
   );
 };
 

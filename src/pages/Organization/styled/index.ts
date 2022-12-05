@@ -1,6 +1,8 @@
 import { DataGrid, GridOverlay } from '@mui/x-data-grid';
 import { Box } from '@mui/system';
 import styled from 'styled-components';
+import { Button } from '@mui/material';
+import pxToRem from 'src/components/Utils/pxToRem';
 
 export const MainTable = styled(DataGrid)(({ theme }) => ({
   '&&&': {
@@ -150,6 +152,91 @@ export const ActionButtonsBox = styled.div(({ theme: _ }) => ({
   marginTop: '10px',
   '& button': {
     width: '100%',
+  },
+}));
+
+export const CvorumContainer = styled.div(({ theme: _ }) => ({
+  width: '405px',
+  padding: '30px',
+  backgroundColor: _.palette.background.secondary,
+  borderRadius: '10px',
+  boxShadow:
+    '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
+  '@media (max-width: 600px)': {
+    width: '100%',
+    padding: '16px',
+  },
+}));
+
+export const QuorumCounterContainer = styled(Box)(({ theme: _ }) => ({
+  display: 'inline-flex',
+  marginTop: '14px',
+  marginBottom: '24px',
+  borderRadius: '10px',
+  position: 'relative',
+  backgroundColor: _.palette.background.quorumContent,
+  '@media (max-width:600px)': {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+  },
+}));
+
+export const QuorumCounterButton = styled(Button)(({ theme: _ }) => ({
+  Width: '36px',
+  height: '36px',
+  backgroundColor: _.palette.background.quorumCounter,
+  minWidth: '36px',
+  padding: 0,
+  '&.Mui-disabled': {
+    backgroundColor: _.palette.background.disabled,
+  },
+  '& .MuiButton-startIcon': {
+    marginLeft: 0,
+    marginRight: 0,
+  },
+  '& .MuiButton-startIcon>*:nth-of-type(1)': {
+    fontSize: '28px',
+    color: _.palette.svg.quorumCounter,
+  },
+  '&.Mui-disabled .MuiButton-startIcon>*:nth-of-type(1)': {
+    color: _.palette.text.disabled,
+  },
+}));
+
+export const QuorumContent = styled.span(({ theme: _ }) => ({
+  padding: '0 20px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: _.palette.text.quorumContent,
+  fontSize: pxToRem(17),
+  fontWeight: 600,
+  fontFamily: 'IBM Plex Sans',
+  '& span': {
+    color: _.palette.text.quorumDigits,
+    fontSize: pxToRem(17),
+    fontWeight: 600,
+    marginRight: '3px',
+  },
+  '@media (max-width: 600px)': {
+    width: '100%',
+  },
+}));
+
+export const QuorumErrorMessage = styled.span(({ theme: _ }) => ({
+  position: 'absolute',
+  width: 'calc(100% + 90px)',
+  bottom: '-5px',
+  left: '2px',
+  color: _.palette.danger.main,
+  fontSize: pxToRem(12),
+  transition: 'bottom 300ms linear, opacity 300ms linear',
+  opacity: 0,
+  lineHeight: 1.1,
+  '&.is-invalid': {
+    opacity: 1,
+    bottom: '-16px',
   },
 }));
 
