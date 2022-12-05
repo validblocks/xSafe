@@ -44,7 +44,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   const currentContract = useSelector(currentMultisigContractSelector);
   const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
     address,
-    'http://localhost:3000',
+    '',
     isLoggedIn,
   );
 
