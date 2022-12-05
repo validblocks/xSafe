@@ -142,7 +142,6 @@ const MobileLayout = () => {
                   textAlign: 'center',
                   color: 'currentcolor',
                 }}
-                className=""
               >
                 {el.icon}
               </ListItemIcon>
