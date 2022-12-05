@@ -66,8 +66,6 @@ const CvorumContainer = () => {
 
   const onChangeQuorum = () => mutateProposeChangeQuorum(newQuorum);
 
-  console.log(error);
-
   return (
     <Styled.CvorumContainer>
       <Box>
