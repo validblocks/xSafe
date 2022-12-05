@@ -99,6 +99,7 @@ export const theme = createTheme({
     },
     shadows: {
       primary: 'rgb(40 54 61 / 18%) 0px 2px 4px 0px',
+      bottomNavbar: '0px -14px 24px rgba(76, 47, 252, 0.05)',
     },
   },
   shape: {
@@ -260,6 +261,7 @@ export const darkTheme = createTheme({
     },
     shadows: {
       primary: '0px 2px 4px 0px rgb(76 47 252 / 13%)',
+      bottomNavbar: '0px -14px 24px rgba(11, 8, 34, 0.22)',
     },
   },
 });

@@ -19,6 +19,7 @@ import { MobileSettingsIcon } from 'src/components/StyledComponents/StyledCompon
 import {
   ArrowDropDown,
   ArrowDropUp,
+  BottomMenuButton,
   LogoMenuWrapper,
   MobileMenu,
   MobileSecondaryMenu,
@@ -121,30 +122,32 @@ const MobileLayout = () => {
       <TotalBalanceWrapper>
         <TotalBalance />
       </TotalBalanceWrapper>
-      <MobileMenu className="d-flex bg-white justify-content-around mobile-menu">
+      <MobileMenu>
         {menuItems.mobileBottomItems.map((el) => (
-          <Box
+          <Link
+            to={el.link}
             className={
                 locationString === el.link
-                  ? 'active link-decoration py-4'
-                  : 'link-decoration py-4'
+                  ? 'active link-decoration'
+                  : 'link-decoration'
               }
             key={el.link}
+            style={{ width: '100%' }}
           >
-            <ListItemIcon
-              sx={{
-                minWidth: 0,
-                display: 'block',
-                textAlign: 'center',
-              }}
-              className="pr-1"
-            >
-              {el.icon}
-            </ListItemIcon>
-            <Link className="link-decoration" to={el.link}>
-              {el.name}
-            </Link>
-          </Box>
+            <BottomMenuButton>
+              <ListItemIcon
+                sx={{
+                  minWidth: 0,
+                  display: 'block',
+                  textAlign: 'center',
+                  color: 'currentcolor',
+                }}
+              >
+                {el.icon}
+              </ListItemIcon>
+              <Typography component="span">{el.name}</Typography>
+            </BottomMenuButton>
+          </Link>
         ))}
       </MobileMenu>
       <MobileSecondaryMenu>

@@ -15,6 +15,7 @@ import { ReactComponent as ElrondLogo } from 'src/assets/img/elrond.svg';
 import CopyButton from 'src/components/CopyButton';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import MuiDrawer from '@mui/material/Drawer';
+import pxToRem from 'src/components/Utils/pxToRem';
 
 export const ConnectDropdown = styled(Menu)`
   top: 20px !important;
@@ -336,15 +337,25 @@ export const PinnedIconBox = styled(Box)(({ theme: _ }) => ({
 
 // Mobile Layout
 
-export const MobileMenu = styled(Box)`
-  border-top-right-radius: ${(props) => props.theme.shape.radius};
-  border-top-left-radius: ${(props) => props.theme.shape.radius};
-  box-shadow: 0px -14px 24px rgba(76, 47, 252, 0.03);
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  z-index: 2;
-`;
+export const MobileMenu = styled(Box)(({ theme: _ }) => ({
+  '&&&': {
+    width: '100%',
+    height: '93px',
+    padding: '0 8px',
+    display: 'flex',
+    flexDirection: 'row',
+    borderTopRightRadius: _.shape.radius,
+    borderTopLeftRadius: _.shape.radius,
+    boxShadow: _.palette.shadows.bottomNavbar,
+    backgroundColor: _.palette.background.secondary,
+    position: 'fixed',
+    bottom: 0,
+    zIndex: 2,
+    '& a.active span': {
+      color: `${_.palette.primary.main} !important`,
+    },
+  },
+}));
 
 export const TopMobileMenu = styled(Box)(({ theme: _ }) => ({
   display: 'flex',
@@ -357,6 +368,19 @@ export const TopMobileMenu = styled(Box)(({ theme: _ }) => ({
     '& > p': {
       color: _.palette.text.readOnly,
     },
+  },
+}));
+
+export const BottomMenuButton = styled(Button)(({ theme: _ }) => ({
+  '&&&': {
+    color: `${_.palette.text.menuItems} !important`,
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textTransform: 'capitalize',
+    fontSize: pxToRem(14),
+    height: '100%',
+    width: '100%',
   },
 }));
 
