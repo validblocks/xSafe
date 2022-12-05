@@ -22,13 +22,16 @@ export const AppCard = styled(Card)(({ theme }) => ({
   '&&&': {
     padding: '15px',
     width: '310px',
-    height: '308px',
+    height: 'auto',
     boxShadow: `0px 14px 24px ${theme.shadows.reducedOpacity}`,
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'space-between',
     border: 'none',
     borderRadius: '10px',
     backgroundColor: theme.palette.background.secondary,
+    '@media (max-width:600px)': {
+      width: '100%',
+      height: '100%',
+    },
   },
 }));

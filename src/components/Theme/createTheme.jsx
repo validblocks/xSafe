@@ -54,6 +54,7 @@ export const theme = createTheme({
       readOnly: '#7A7883',
       quorumContent: '#A79AD9',
       quorumDigits: '#8675C8',
+      secondaryMenu: '#08041D66',
     },
     sidebar: {
       primary: '#fff',
@@ -182,6 +183,7 @@ export const darkTheme = createTheme({
       readOnly: '#7A7883',
       quorumContent: '#9C9BA5',
       quorumDigits: '#F0F6FF',
+      secondaryMenu: '#F0F6FF66',
     },
     black: {
       main: '#08041D',

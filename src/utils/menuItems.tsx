@@ -11,7 +11,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 import { AppIdentifiers } from 'src/pages/Marketplace/appIds';
-import { uniqueContractAddress } from 'src/multisigConfig';
 import StakeAppThumbnail from 'src/assets/img/StakeAppThumbnail.png';
 import OtherAppThumbnail from 'src/assets/img/OtherAppThumbnail.png';
 import { ReactComponent as StakingIcon } from '../assets/img/staking.svg';
@@ -154,7 +153,7 @@ const bottomItems = [
 const mobileBottomItems = [
   {
     name: 'Dashboard',
-    link: `/multisig/${uniqueContractAddress}`,
+    link: 'dashboard',
     id: 'home-menu-item',
     icon: <GridViewOutlinedIcon />,
   },
@@ -189,10 +188,12 @@ const mobileBottomItems = [
   },
   {
     name: 'Apps',
-    link: 'apps',
+    link: 'marketplace',
     id: 'apps-mobile-menu-item',
-
     icon: <AppsIcon />,
+    submenu: [
+      ...preinstalledApps,
+    ],
   },
 ];
 
