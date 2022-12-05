@@ -6,6 +6,8 @@ import {
   Link,
   Tabs,
   TextField as MuiTextField,
+  MenuItem,
+  Select,
 } from '@mui/material';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import { DataGrid } from '@mui/x-data-grid';
@@ -14,7 +16,17 @@ import Divider from '@mui/material/Divider';
 
 export const ThemePrimaryBox = styled(Box)(({ theme: _ }) => ({
   '&&&': {
-    background: _.palette.background.default,
+    backgroundColor: 'transparent',
+  },
+}));
+
+export const ThemePrimaryMenuItem = styled(MenuItem)(({ theme: _ }) => ({
+  '&&&': {
+    background: _.palette.background.secondary,
+    transition: 'background-color 300ms linear',
+    '&:hover': {
+      backgroundColor: _.palette.hover.secondary,
+    },
   },
 }));
 
@@ -143,6 +155,63 @@ export const TabContainerBox = styled(Box)(({ theme }) => ({
 
 export const MultisigAutocomplete = styled(Autocomplete)(({ theme }) => ({
   '&&&': {
+    position: 'relative',
+    '& .MuiOutlinedInput-root': {
+      color: theme.palette.text.primary,
+      '& fieldset': {
+        borderColor: theme.palette.borders.secondary,
+      },
+      '&:hover fieldset': {
+        borderColor: theme.palette.borders.active,
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: theme.palette.borders.active,
+      },
+      '& .MuiAutocomplete-endAdornment': {
+        '& button': {
+          '& svg': {
+            color: theme.palette.text.primary,
+          },
+        },
+      },
+    },
+    '& .MuiInputLabel-root,& .MuiInputLabel-formControl': {
+      color: theme.palette.text.primary,
+      zIndex: 0,
+    },
+    '& .MuiAutocomplete-popper': {
+      color: theme.palette.text.primary,
+    },
+  },
+}));
+
+export const MultisigSelect = styled(Select)(({ theme }) => ({
+  ul: {
+    backgroundColor: `${theme.palette.background.default} !important`,
+  },
+  '.MuiList-root': {
+    backgroundColor: `${theme.palette.background.default} !important`,
+  },
+  '.MuiPaper-root .MuiList-root': {
+    backgroundColor: `${theme.palette.background.default} !important`,
+  },
+  '.MuiPaper-root ul': {
+    backgroundColor: `${theme.palette.background.default} !important`,
+  },
+  '.UnstakeTokensListOpened': {
+    backgroundColor: 'red !important',
+  },
+  '&&&': {
+    '.MuiPaper-root .MuiList-root': {
+      backgroundColor: `${theme.palette.background.default} !important`,
+    },
+    ul: {
+      backgroundColor: `${theme.palette.background.default} !important`,
+      '.MuiList-root': {
+        backgroundColor: `${theme.palette.background.default} !important`,
+      },
+    },
+
     position: 'relative',
     '& .MuiOutlinedInput-root': {
       color: theme.palette.text.primary,

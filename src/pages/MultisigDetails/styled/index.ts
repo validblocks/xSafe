@@ -25,9 +25,8 @@ export const StyledSelect = styled(Select)`
     transition: all 0.3s linear;
     border-color: ${(props) => props.theme.palette.borders.active};
   }
-  & .MuiInputBase-input {
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
+  &.Mui-focused {
+    border-color: ${(props) => props.theme.palette.borders.active};
   }
   & fieldset {
     display: none;
@@ -37,5 +36,14 @@ export const StyledSelect = styled(Select)`
   }
   & .MuiSvgIcon-root {
     color: ${(props) => props.theme.palette.text.primary} !important;
+  }
+  & .MuiSelect-nativeInput {
+    opacity: 1;
+    padding-left: 12px;
+    border: none;
+    left: auto;
+    bottom: auto;
+    background-color: transparent;
+    color: ${(props) => props.theme.palette.text.primary};
   }
 `;

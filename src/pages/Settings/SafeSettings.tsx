@@ -61,14 +61,23 @@ function SafeSettings() {
           seeing it)
         </NoteSpan>
       </Typography>
-      <SettingsInput
-        label="Safe Name"
-        variant="outlined"
-        disabled={isInReadOnlyMode}
-        onChange={changeSafeName}
-        value={name}
-        sx={{ width: 250 }}
-      />
+      <Box>
+        <SettingsInput
+          label="Safe Name"
+          variant="outlined"
+          disabled={isInReadOnlyMode}
+          onChange={changeSafeName}
+          value={name}
+          sx={{ width: 250 }}
+        />
+        <MainButton
+          variant="outlined"
+          sx={{ display: 'block', mt: 2 }}
+          onClick={saveUpdates}
+        >
+          Change Safe Name
+        </MainButton>
+      </Box>
       <TypographyBold sx={{ mb: 1, mt: 2, fontSize: '18px' }}>
         Default Currency
       </TypographyBold>
@@ -85,15 +94,6 @@ function SafeSettings() {
         You can choose between a dark and a light theme.
       </Typography>
       <ThemeColor />
-      <Box className=" d-flex justify-content-end">
-        <MainButton
-          variant="outlined"
-          sx={{ display: 'block', mt: 5 }}
-          onClick={saveUpdates}
-        >
-          Save Updates
-        </MainButton>
-      </Box>
     </Box>
   );
 }

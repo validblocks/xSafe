@@ -25,11 +25,10 @@ multisigAxiosInstance.interceptors.request.use(
         const address = await getAddress();
         let token = null;
         for (let i = 0; i < MAX_TRIALS; i++) {
-          token =
-              await accessTokenServices?.services?.maiarId?.getAccessToken({
-                address,
-                maiarIdApi: '',
-              });
+          token = await accessTokenServices?.services?.maiarId?.getAccessToken({
+            address,
+            maiarIdApi: '',
+          });
           if (token) break;
           await refreshAccount();
         }
