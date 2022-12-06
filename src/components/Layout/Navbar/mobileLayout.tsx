@@ -15,7 +15,7 @@ import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import SafeDark from 'src/assets/img/Safe-dark.png';
-import { MobileSettingsIcon } from 'src/components/StyledComponents/StyledComponents';
+import MobileMenuSelect from 'src/components/MobileMenuSelect';
 import {
   ArrowDropDown,
   ArrowDropUp,
@@ -56,6 +56,26 @@ const MobileLayout = () => {
   }, []);
 
   const { isMultiWalletMode, isInReadOnlyMode } = useOrganizationInfoContext();
+
+  /*
+  -> Settings become menu on mobile
+  -> In menu (dropdown) will be displayed what can't be visible in navbar:
+      ['apps' item is replaced in navbar (most recently pinned) by the pinned app]
+        - apps
+          - in apps we've got:
+            - available apps
+            - my apps
+            - pinned apps (localstorage)
+      - organization
+      - settings (at the end of dropdown)
+  -> Pin flow:
+      - each card has 2 buttons 'install (e.g.)' & 'pin':
+        - pin button is disabled untill the app is installed
+        - an app can be pin/unpin only by using 'pin' button
+      - pinned apps go to navbar... (above => "apps, when something...")
+  -> Bottom navbar => above plus:
+      - pinned app will have a small pin icon in right-top
+  */
 
   return (
     <Box>
@@ -112,11 +132,7 @@ const MobileLayout = () => {
             </Box>
           </Box>
           <Account />
-          <Box>
-            <Link to="/settings">
-              <MobileSettingsIcon />
-            </Link>
-          </Box>
+          <MobileMenuSelect />
         </TopMobileMenu>
       </LogoMenuWrapper>
       <TotalBalanceWrapper>

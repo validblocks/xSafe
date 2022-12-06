@@ -1,5 +1,6 @@
 import { Box, Button, Grid, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
+import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
@@ -83,6 +84,28 @@ export const MobileSettingsIcon = styled(SettingsIcon)(({ theme: _ }) => ({
   height: '26px',
   fill: _.palette.text.menuItems,
 }));
+
+export const MobileMenuIcon = styled(MenuRoundedIcon)(({ theme: _ }) => ({
+  width: '26px',
+  height: '26px',
+  fill: _.palette.text.menuItems,
+}));
+
+export const MobileMenuButton = styled(Button)`
+  min-width: 0;
+  padding: 0;
+  & .MuiButton-startIcon {
+    margin: 0;
+  }
+`;
+
+export const MobileDropDownContainer = styled(Box)`
+  position: absolute;
+  width: 100vw;
+  top: 92px;
+  right: calc(100% - 35px);
+  z-index: 3;
+`;
 
 export const ModalCardTitleContainer = styled(Box)`
   border-bottom: 1px solid ${(props) => props.theme.palette.divider.secondary};
