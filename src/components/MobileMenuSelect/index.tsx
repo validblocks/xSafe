@@ -27,8 +27,6 @@ const MobileMenuSelect = () => {
 
   useEffect(() => setIsOpen(isOpen), [isOpen]);
 
-  console.log(isOpen);
-
   const dropDownMenu = () => (
     <MobileDropDownContainer>
       {
@@ -61,9 +59,8 @@ const MobileMenuSelect = () => {
         ))}
       <div>
         <Accordion
-          // expanded={expanded === `${app.id}`}
-          // onChange={handleChange(`${app.id}`)}
           sx={{ backgroundColor: 'black', color: 'white' }}
+          disabled={installedAndPinnedApps.length < 1}
         >
           <AccordionSummary id="pinned-apps" aria-controls="panel1a-content">
             <Typography>Pinned apps</Typography>
