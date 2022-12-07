@@ -10,10 +10,25 @@ export const InstallButton = styled(MainButton)(({ theme }) => ({
     textTransform: 'none',
     color: theme.palette.primary.main,
     boxShadow: 'none !important',
+    padding: 0,
+    height: '36.25px',
+    justifyContent: 'center',
+    alignItems: 'center',
     '&:disabled': {
       backgroundColor: theme.palette.background.disabled,
       borderColor: theme.palette.background.disabled,
       color: theme.palette.text.disabled,
+    },
+  },
+}));
+
+export const PinButton = styled(InstallButton)(({ theme: _ }) => ({
+  '&&&': {
+    '@media (max-width: 459px)': {
+      width: '30%',
+    },
+    '@media (min-width: 460px) and (max-width: 600px)': {
+      width: '80%',
     },
   },
 }));

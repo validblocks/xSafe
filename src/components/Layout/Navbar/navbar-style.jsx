@@ -412,6 +412,6 @@ export const TotalBalanceWrapper = styled(Box)`
 export const LogoMenuWrapper = styled(Box)`
   position: fixed;
   background-color: ${(props) => props.theme.palette.background.white};
-  z-index: 1;
+  z-index: 3;
   width: 100%;
 `;

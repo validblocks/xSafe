@@ -102,7 +102,7 @@ export const MobileMenuButton = styled(Button)`
 export const MobileDropDownContainer = styled(Box)`
   position: absolute;
   width: 100vw;
-  top: 92px;
+  top: 105px;
   right: calc(100% - 35px);
   z-index: 3;
 `;
