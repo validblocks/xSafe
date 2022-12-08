@@ -197,4 +197,42 @@ const mobileBottomItems = [
   },
 ];
 
-export default { topItems, bottomItems, mobileBottomItems, availableApps };
+const mobileDropDownItems = [
+  {
+    name: 'Settings',
+    id: 'settings-menu-item',
+    link: 'settings',
+    icon: <SettingsIcon />,
+  },
+  {
+    name: 'Apps',
+    link: 'marketplace',
+    id: 'apps-mobile-menu-item',
+    icon: <AppsIcon />,
+    submenu: [
+      ...preinstalledApps,
+    ],
+  },
+  {
+    name: 'Organization',
+    link: 'organization',
+    id: 'organization-menu-item',
+    icon: <MapsHomeWorkRoundedIcon />,
+    submenu: [
+      {
+        name: 'Members',
+        link: 'members',
+        id: 'members-menu-item',
+        icon: <GroupsIcon />,
+      },
+      {
+        name: 'Cvorum',
+        link: 'cvorum',
+        id: 'cvorum-menu-item',
+        icon: <PeopleIcon />,
+      },
+    ],
+  },
+];
+
+export default { topItems, bottomItems, mobileBottomItems, availableApps, mobileDropDownItems };

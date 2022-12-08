@@ -1,3 +1,4 @@
+import { Box, useMediaQuery } from '@mui/material';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useTheme } from 'styled-components';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
@@ -10,7 +11,8 @@ interface Props {
   actionButtonText?: string;
   isInstallable: boolean;
   isInstalled: boolean;
-    actionButtonOnClick?: () => void;
+  actionButtonOnClick?: () => void;
+  actionButtonOnPin?: () => void;
 }
 
 const AppCard = ({
@@ -21,9 +23,11 @@ const AppCard = ({
   isInstalled,
   actionButtonText = 'Click me',
   actionButtonOnClick = () => null,
+  actionButtonOnPin = () => null,
 }: Props) => {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const theme: any = useTheme();
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   return (
     <Styled.AppCard>
@@ -34,19 +38,34 @@ const AppCard = ({
       />
       <Text fontSize={20} fontWeight={500} margin="12px 0px 6px">{title}</Text>
       <Text fontSize={15} fontWeight={400} marginBottom={'12px'}>{description}</Text>
-      <Styled.InstallButton
-        onClick={actionButtonOnClick}
-        sx={{
-          ...(isInstalled && {
-            backgroundColor: `${theme.palette.background.button} !important`,
-            border: `1px solid ${theme.palette.background.button} !important`,
-            color: '#fff !important',
-          }),
-          marginTop: 'auto',
-        }}
-        disabled={!isInstallable || isInReadOnlyMode || title === 'Marketplace'}
-      >{isInstallable ? actionButtonText : 'Coming Soon...'}
-      </Styled.InstallButton>
+      <Box
+        display={'flex'}
+        flexDirection={'row'}
+        justifyContent={'space-between'}
+        marginTop={'auto'}
+      >
+        <Styled.InstallButton
+          onClick={actionButtonOnClick}
+          sx={{
+            ...(isInstalled && {
+              backgroundColor: `${theme.palette.background.button} !important`,
+              border: `1px solid ${theme.palette.background.button} !important`,
+              color: '#fff !important',
+            }),
+            marginRight: isInstallable && isInstalled ? '12px' : '0',
+          }}
+          disabled={!isInstallable || isInReadOnlyMode || title === 'Marketplace'}
+        >{isInstallable ? actionButtonText : 'Coming Soon...'}
+        </Styled.InstallButton>
+        {isInstallable && maxWidth600 && isInstalled ? (
+          <Styled.PinButton
+            onClick={actionButtonOnPin}
+          >
+            Pin app
+          </Styled.PinButton>
+        ) : ''}
+      </Box>
+
     </Styled.AppCard>
   );
 };

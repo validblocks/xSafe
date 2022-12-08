@@ -1,10 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Box, Typography } from '@mui/material';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Link } from 'react-router-dom';
 import Safe from 'src/assets/img/safe.png';
 import SafeOptions from 'src/components/SafeOptions';
-import menuItems from 'src/utils/menuItems';
+import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
@@ -15,7 +15,9 @@ import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import SafeDark from 'src/assets/img/Safe-dark.png';
-import { MobileSettingsIcon } from 'src/components/StyledComponents/StyledComponents';
+import MobileMenuSelect from 'src/components/MobileMenuSelect';
+import { useLocalStorage } from 'src/utils/useLocalStorage';
+import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
 import {
   ArrowDropDown,
   ArrowDropUp,
@@ -38,6 +40,15 @@ const MobileLayout = () => {
   const currentContract = useSelector(currentMultisigContractSelector);
   const { isLoggedIn } = useGetLoginInfo();
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
+
+  const [pinnedApps, _setPinnedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.PINNED_APPS, []);
+  const [installedApps, _setInstalledApps] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);
+
+  const installedAndPinnedApps = useMemo(() => ([
+    ...preinstalledApps,
+    ...availableApps
+      .filter((app: MenuItem) => installedApps.includes(app.id)),
+  ].filter((app: MenuItem) => pinnedApps.includes(app.id))), [installedApps, pinnedApps]);
 
   useEffect(() => {
     setWalletAddress(addressShorthand(uniqueContractAddress));
@@ -112,11 +123,7 @@ const MobileLayout = () => {
             </Box>
           </Box>
           <Account />
-          <Box>
-            <Link to="/settings">
-              <MobileSettingsIcon />
-            </Link>
-          </Box>
+          <MobileMenuSelect />
         </TopMobileMenu>
       </LogoMenuWrapper>
       <TotalBalanceWrapper>
@@ -125,13 +132,16 @@ const MobileLayout = () => {
       <MobileMenu>
         {menuItems.mobileBottomItems.map((el) => (
           <Link
-            to={el.link}
+            to={el.link === 'marketplace' && installedAndPinnedApps.length > 0 ?
+              installedAndPinnedApps[0]?.link : el.link}
             className={
-                locationString === el.link
+                locationString === (el.link === 'marketplace' && installedAndPinnedApps.length > 0 ?
+                  installedAndPinnedApps[0]?.link : el.link)
                   ? 'active link-decoration'
                   : 'link-decoration'
               }
-            key={el.link}
+            key={el.link === 'marketplace' && installedAndPinnedApps.length > 0 ?
+              installedAndPinnedApps[0]?.link : el.link}
             style={{ width: '100%' }}
           >
             <BottomMenuButton>
@@ -141,11 +151,17 @@ const MobileLayout = () => {
                   display: 'block',
                   textAlign: 'center',
                   color: 'currentcolor',
+                  '& svg': {
+                    fill: 'currentcolor',
+                  },
                 }}
               >
-                {el.icon}
+                {el.name === 'Apps' && installedAndPinnedApps.length > 0 ?
+                  installedAndPinnedApps[0].icon : el.icon}
               </ListItemIcon>
-              <Typography component="span">{el.name}</Typography>
+              <Typography component="span">{el.name === 'Apps' && installedAndPinnedApps.length > 0 ?
+                installedAndPinnedApps[0]?.name : el.name}
+              </Typography>
             </BottomMenuButton>
           </Link>
         ))}
