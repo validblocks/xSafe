@@ -200,8 +200,9 @@ const mobileBottomItems = [
 const mobileDropDownItems = [
   {
     name: 'Settings',
-    link: 'settings',
     id: 'settings-menu-item',
+    link: 'settings',
+    icon: <SettingsIcon />,
   },
   {
     name: 'Apps',

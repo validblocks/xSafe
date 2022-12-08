@@ -1,6 +1,7 @@
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Grid, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
+import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
@@ -99,13 +100,97 @@ export const MobileMenuButton = styled(Button)`
   }
 `;
 
-export const MobileDropDownContainer = styled(Box)`
-  position: absolute;
-  width: 100vw;
-  top: 105px;
-  right: calc(100% - 35px);
-  z-index: 3;
-`;
+export const MobileDropDownContainer = styled(Box)(({ theme: _ }) => ({
+  position: 'absolute',
+  width: '100vw',
+  top: '104px',
+  right: 'calc(100% - 35px)',
+  zIndex: 3,
+  backgroundColor: _.palette.background.secondary,
+  borderRadius: '10px',
+  boxShadow: _.palette.shadows.dropDownMenu,
+}));
+
+export const MobileMenuAccordion = styled(Accordion)(({ theme: _ }) => ({
+  '&&&': {
+    color: _.palette.text.menuItems,
+    backgroundColor: 'transparent',
+    borderRadius: '0',
+    boxShadow: 'none',
+    '.Mui-disabled': {
+      backgroundColor: _.palette.background.disabled,
+    },
+    '& .MuiCollapse-root a': {
+      color: _.palette.primary.main,
+      textDecoration: 'none',
+    },
+  },
+}));
+
+export const MobileMenuAccordionSummary = styled(AccordionSummary)(({ theme: _ }) => ({
+  transition: 'all 300ms linear',
+  margin: '0',
+  '& .MuiAccordionSummary-content': {
+    margin: '0',
+    transition: 'color 300ms linear',
+    '& svg': {
+      transition: 'fill 300ms linear',
+    },
+  },
+  '&.Mui-expanded': {
+    minHeight: '48px',
+    '& .MuiAccordionSummary-content.Mui-expanded': {
+      margin: '0',
+      color: _.palette.primary.main,
+      '& svg': {
+        fill: '#4c2FFC',
+      },
+      '& a': {
+        color: _.palette.primary.main,
+      },
+    },
+  },
+  '& a': {
+    width: '100%',
+    height: '48px',
+    display: 'flex',
+    alignContent: 'center',
+    flexWrap: 'wrap',
+    color: _.palette.text.menuItems,
+    textDecoration: 'none',
+  },
+  '& p': {
+    marginLeft: '8px',
+  },
+}));
+
+export const MobileMenuAccordionSummaryContent = styled(Box)(({ theme: _ }) => ({
+  width: '100%',
+  display: 'flex',
+  flexDirection: 'row',
+  '& p': {
+    marginLeft: '8px',
+  },
+  '& a': {
+    width: '100%',
+  },
+}));
+
+export const MobileSubmenuAccordionSummary = styled(AccordionDetails)(({ theme: _ }) => ({
+  padding: '0',
+  height: '48px',
+  display: 'flex',
+  alignItems: 'center',
+  borderTop: `solid 1px ${_.palette.divider.secondary}`,
+  '& svg': {
+    fill: 'currentcolor',
+    margin: '0 8px 0 40px',
+  },
+}));
+
+export const MobilePinnedIcon = styled(PushPinRoundedIcon)(({ theme: _ }) => ({
+  transform: 'rotate(25deg)',
+}));
 
 export const ModalCardTitleContainer = styled(Box)`
   border-bottom: 1px solid ${(props) => props.theme.palette.divider.secondary};
