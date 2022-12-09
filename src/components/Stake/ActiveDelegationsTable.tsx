@@ -24,6 +24,7 @@ import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import DelegatedColumn from '../Staking/DelegatedColumn';
 import ClaimableRewardsColumn from '../Staking/ClaimableRewardsColumn';
 import * as Styled from '../../pages/Organization/styled';
+import noRowsOverlay from '../Utils/noRowsOverlay';
 
 interface Props {
     isFetching?: boolean;
@@ -161,6 +162,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
         selectionModel={selectionModel}
         pageSize={pageSize}
         onPageSizeChange={onPageSizeChange}
+        components={{ NoRowsOverlay: noRowsOverlay }}
       />
     </Box>
   );
