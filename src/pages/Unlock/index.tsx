@@ -23,7 +23,7 @@ const Unlock = () => {
 
   useEffect(() => {
     DappCoreInternal.services?.maiarId
-      ?.init({ maiarIdApi: `/proxy?route=${network.maiarIdApi}` })
+      ?.init({ maiarIdApi: `/proxy?route=${(network as any).maiarIdApi}` })
       .then((loginToken: string) => {
         setToken(loginToken);
       })
