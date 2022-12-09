@@ -5,11 +5,11 @@ import { ReactComponent as IconLedger } from 'src/assets/img/ledger.svg';
 import { ReactComponent as IconMaiar } from 'src/assets/img/maiar-app.svg';
 import { ReactComponent as IconMaiarWallet } from 'src/assets/img/maiar-defi-wallet.svg';
 import { network } from 'src/config';
-import { accessTokenServices, maiarIdApi } from 'src/services/accessTokenServices';
 import routeNames from 'src/routes/routeNames';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import * as DappCoreInternal from '@elrondnetwork/dapp-core-internal';
 
 declare global {
   interface Window {
@@ -22,10 +22,13 @@ const Unlock = () => {
   const currentContract = useSelector(currentMultisigContractSelector);
 
   useEffect(() => {
-    accessTokenServices?.services?.maiarId
-      ?.init({ maiarIdApi: `/proxy?route=${maiarIdApi}` })
+    DappCoreInternal.services?.maiarId
+      ?.init({ maiarIdApi: `/proxy?route=${network.maiarIdApi}` })
       .then((loginToken: string) => {
         setToken(loginToken);
+      })
+      .catch((err: any) => {
+        console.log({ err });
       });
   }, []);
 
