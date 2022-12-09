@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Box, Button, Grid } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
-import { accessTokenServices, storageApi } from 'src/services/accessTokenServices';
+import * as DappCoreInternal from '@elrondnetwork/dapp-core-internal';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { getIsProviderEqualTo,
@@ -19,7 +19,7 @@ import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { dAppName } from 'src/config';
+import { dAppName, network } from 'src/config';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
 import AddMultisigModal from './AddMultisigModal';
@@ -38,20 +38,22 @@ function Dashboard() {
 
   const { isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
-  const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
+  const isAuthenticated = DappCoreInternal.hooks.useGetIsAuthenticated(
     address,
     '',
     isLoggedIn,
   );
 
   useEffect(() => {
-    if (isLoggedIn) {
-      refreshAccount();
-    }
+    (async () => {
+      if (isLoggedIn) {
+        await refreshAccount();
+      }
+    })();
   }, [isLoggedIn, address, isAuthenticated?.isAuthenticated, dispatch]);
 
   async function checkSingleContractValidity() {
-    if (uniqueContractAddress || !storageApi) {
+    if (uniqueContractAddress || !(network as any).storageApi) {
       const isValidMultisigContract = await ElrondApiProvider.validateMultisigAddress(
         uniqueContractAddress,
       );

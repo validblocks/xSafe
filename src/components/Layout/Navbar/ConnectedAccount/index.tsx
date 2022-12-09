@@ -1,20 +1,22 @@
-import { logout, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { getIsLoggedIn, logout, useGetAccountInfo } from '@elrondnetwork/dapp-core';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Grid, useMediaQuery } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toSvg } from 'jdenticon';
-import { accessTokenServices } from 'src/services/accessTokenServices';
+import * as DappCoreInternal from '@elrondnetwork/dapp-core-internal';
 import routeNames from 'src/routes/routeNames';
 import { network } from 'src/config';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountGeneralInfoSlice';
 import CopyButton from 'src/components/CopyButton';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
+import { logoutAction } from 'src/redux/commonActions';
 import {
   ConnectItems,
   DisconnectButton,
@@ -26,10 +28,13 @@ const ConnectedAccount = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>();
+  const intervalRef = useRef<any>();
 
   const logOut = async () => {
     document.cookie = '';
-    accessTokenServices?.services?.maiarId?.removeToken?.();
+    dispatch(logoutAction());
+    DappCoreInternal.services?.maiarId?.removeToken?.();
     localStorage.clear();
     sessionStorage.clear();
     logout(`${routeNames.multisig}`, (route) => {
@@ -42,11 +47,27 @@ const ConnectedAccount = () => {
     });
   };
 
+  const logoutOnSessionExpire = () => {
+    intervalRef.current = setInterval(() => {
+      const loggedIn = getIsLoggedIn();
+      if (!loggedIn && isLoggedIn === true) {
+        window.location.reload();
+      }
+      if (loggedIn) {
+        setIsLoggedIn(true);
+      }
+    }, 2000);
+    return () => {
+      clearInterval(intervalRef.current);
+    };
+  };
+
+  useEffect(logoutOnSessionExpire, [isLoggedIn]);
+
   const onDisconnectClick = () => {
     logOut();
   };
   const { address } = useGetAccountInfo();
-  const { isLoggedIn } = useGetLoginInfo();
 
   const [walletAddress, setWalletAddress] = useState('');
   const minWidth497 = useMediaQuery('(min-width:497px)');
