@@ -59,6 +59,10 @@ export const MultisigCard = styled(Box)`
     width: 100%;
     margin-bottom: 16px;
   }
+  @media (min-width: 601px) and (max-width: 800px) {
+    width: 100%;
+    margin: 0 0 12px 0;
+  }
 `;
 
 export const MultisigCardGrid = styled(Grid)`

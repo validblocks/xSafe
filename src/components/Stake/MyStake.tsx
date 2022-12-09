@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button, Grid, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
@@ -165,6 +165,8 @@ const MyStake = () => {
     );
   }, [dispatch, fetchedDelegations, fetchedProviderIdentities]);
 
+  const widthBetween601and800 = useMediaQuery('(min-width:601px) and (max-width:800px)');
+
   if (isFetchingDelegations || isLoadingDelegations) {
     return <LoadingDataIndicator dataName="delegation" />;
   }
@@ -172,6 +174,7 @@ const MyStake = () => {
   if (isErrorOnFetchDelegations) {
     return <ErrorOnFetchIndicator dataName="delegation" />;
   }
+
   return (
     <>
       <Box
@@ -183,7 +186,7 @@ const MyStake = () => {
         }}
       >
         <Grid container>
-          <Grid item>
+          <Grid item width={widthBetween601and800 ? '100%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={totalActiveStake}
               amountUnityMeasure={'EGLD'}
@@ -210,7 +213,7 @@ const MyStake = () => {
               )}
             />
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item width={widthBetween601and800 ? '100%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={getDenominatedBalance(totalClaimableRewards, {
                 needsDenomination: false,
@@ -237,7 +240,7 @@ const MyStake = () => {
               title={'My Claimable Rewards'}
             />
           </Grid>
-          <Grid item xs={12} md={6} lg={4}>
+          <Grid item width={widthBetween601and800 ? '100%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={totalUndelegatedFunds}
               amountUnityMeasure={'EGLD'}
