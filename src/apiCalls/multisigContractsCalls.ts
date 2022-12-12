@@ -1,4 +1,8 @@
 /* eslint-disable no-await-in-loop */
+import {
+  accessTokenServices,
+  storageApi,
+} from 'src/services/accessTokenServices';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { getAddress, logout, refreshAccount } from '@elrondnetwork/dapp-core';
 import axios, { AxiosError } from 'axios';
@@ -7,9 +11,8 @@ import { verifiedContractsHashes } from 'src/helpers/constants';
 import { network } from 'src/config';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import routeNames from 'src/routes/routeNames';
-import * as DappCoreInternal from '@elrondnetwork/dapp-core-internal';
 
-const contractsInfoStorageEndpoint = `${network.storageApi}/settings/multisig`;
+const contractsInfoStorageEndpoint = `${storageApi}/settings/multisig`;
 
 const multisigAxiosInstance = axios.create();
 
@@ -18,11 +21,11 @@ const MAX_TRIALS = 4;
 multisigAxiosInstance.interceptors.request.use(
   async (config) => {
     try {
-      if (DappCoreInternal.services != null) {
+      if (accessTokenServices?.services != null) {
         const address = await getAddress();
         let token = null;
         for (let i = 0; i < MAX_TRIALS; i++) {
-          token = await DappCoreInternal.services?.maiarId?.getAccessToken({
+          token = await accessTokenServices?.services?.maiarId?.getAccessToken({
             address,
             maiarIdApi: '',
           });
@@ -54,7 +57,7 @@ export async function getUserMultisigContractsList() {
     const address = await getAddress();
     let token = null;
     for (let i = 0; i < MAX_TRIALS; i++) {
-      token = await DappCoreInternal.services?.maiarId?.getAccessToken({
+      token = await accessTokenServices?.services?.maiarId?.getAccessToken({
         address,
         maiarIdApi: '',
       });

@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   AuthenticatedRoutesWrapper,
   refreshAccount,
@@ -13,6 +13,7 @@ import { setAccountData } from 'src/redux/slices/accountGeneralInfoSlice';
 import { setEconomics } from 'src/redux/slices/economicsSlice';
 import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import routes from 'src/routes';
+import { accessTokenServices } from 'src/services/accessTokenServices';
 import { Main } from 'src/components/Theme/StyledComponents';
 import { useTheme } from 'styled-components';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
@@ -22,7 +23,6 @@ import { Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import * as DappCoreInternal from '@elrondnetwork/dapp-core-internal';
 import { TokenWrapper } from '../TokenWrapper';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
@@ -36,27 +36,27 @@ import { CenteredBox } from '../StyledComponents/StyledComponents';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const theme: any = useTheme();
-  const { isLoggedIn, loginMethod } = useGetLoginInfo();
+  const { isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const currentContract = useSelector(currentMultisigContractSelector);
-  const isAuthenticated = DappCoreInternal.hooks.useGetIsAuthenticated(
+  const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
     address,
     '',
     isLoggedIn,
   );
 
-  const fetchAccountData = useCallback(async () => {
+  async function fetchAccountData() {
     const accountData = await ElrondApiProvider.getAccountData(address);
     if (accountData !== null) {
       dispatch(setAccountData(accountData));
     }
-  }, [address, dispatch]);
+  }
 
   useEffect(() => {
-    if (isLoggedIn || loginMethod !== '') {
+    if (isLoggedIn) {
       dispatch(setProposeModalSelectedOption(null));
       (async function getContracts() {
         await refreshAccount();
@@ -71,25 +71,14 @@ function Layout({ children }: { children: React.ReactNode }) {
         }
       }());
     }
-  }, [
-    address,
-    isLoggedIn,
-    isAuthenticated.isAuthenticated,
-    currentContract?.address,
-    dispatch,
-    navigate,
-    fetchAccountData,
-    loginMethod,
-  ]);
+  }, [isLoggedIn, address, isAuthenticated.isAuthenticated, dispatch, currentContract?.address, navigate]);
 
   useEffect(() => {
     if (!isLoggedIn) {
       dispatch(setCurrentMultisigContract(''));
       navigate(routeNames.multisig);
     }
-  },
-  [dispatch,
-    isLoggedIn, navigate]);
+  }, [dispatch, isLoggedIn, navigate]);
 
   async function fetchEconomics() {
     const economics = await ElrondApiProvider.getEconomicsData();
