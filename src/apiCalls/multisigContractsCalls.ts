@@ -9,7 +9,7 @@ import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import routeNames from 'src/routes/routeNames';
 import * as DappCoreInternal from '@elrondnetwork/dapp-core-internal';
 
-const contractsInfoStorageEndpoint = `${(network as any).storageApi}/settings/multisig`;
+const contractsInfoStorageEndpoint = `${network.storageApi}/settings/multisig`;
 
 const multisigAxiosInstance = axios.create();
 

@@ -53,7 +53,7 @@ function Dashboard() {
   }, [isLoggedIn, address, isAuthenticated?.isAuthenticated, dispatch]);
 
   async function checkSingleContractValidity() {
-    if (uniqueContractAddress || !(network as any).storageApi) {
+    if (uniqueContractAddress || !network.storageApi) {
       const isValidMultisigContract = await ElrondApiProvider.validateMultisigAddress(
         uniqueContractAddress,
       );
