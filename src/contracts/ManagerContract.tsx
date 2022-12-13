@@ -1,20 +1,18 @@
 import {
   getAccount,
   getAddress,
-  getChainID,
-  sendTransactions,
-} from '@elrondnetwork/dapp-core';
+} from '@elrondnetwork/dapp-core/utils/account';
+import { getChainID } from '@elrondnetwork/dapp-core/utils/network';
+import { sendTransactions } from '@elrondnetwork/dapp-core/services';
 import {
   Address,
   AddressValue,
   SmartContract,
   TypedValue,
   U8Value,
-  Balance,
   CodeMetadata,
   DeployArguments,
-  GasLimit,
-  NetworkConfig,
+  TokenPayment,
 } from '@elrondnetwork/erdjs';
 import { Code } from '@elrondnetwork/erdjs/out/smartcontracts/code';
 
@@ -27,19 +25,20 @@ export async function deployMultisigContract() {
     quorum: number,
     boardMembers: AddressValue[],
   ) {
-    NetworkConfig.getDefault().ChainID = getChainID();
+    // NetworkConfig.getDefault().ChainID = getChainID();
     const contract = new SmartContract({});
     const code = Code.fromBuffer(Buffer.from(smartContractCode, 'hex'));
     const codeMetadata = new CodeMetadata(false, true, true);
     const quorumTyped = new U8Value(quorum);
     const initArguments: TypedValue[] = [quorumTyped, ...boardMembers];
-    const value = Balance.Zero();
+    const value = TokenPayment.egldFromAmount(0);
     const deployArguments: DeployArguments = {
       code,
       codeMetadata,
       initArguments,
       value,
-      gasLimit: new GasLimit(deployContractGasLimit),
+      chainID: getChainID(),
+      gasLimit: deployContractGasLimit,
     };
     return contract.deploy(deployArguments);
   }
@@ -49,7 +48,7 @@ export async function deployMultisigContract() {
 
     const multisigAddress = SmartContract.computeAddress(
       new Address(address),
-    account.nonce as any,
+    account?.nonce as any,
     );
     const boardMembers = [new AddressValue(new Address(address))];
     const quorum = 1;

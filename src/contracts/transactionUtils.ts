@@ -1,26 +1,24 @@
-import { getChainID } from '@elrondnetwork/dapp-core';
+import { getChainID } from '@elrondnetwork/dapp-core/utils/network';
 import {
   ContractFunction,
   Transaction,
   TransactionPayload,
-  Balance,
-  GasLimit,
   SmartContract,
   TypedValue,
-  ChainID,
   TransactionOptions,
   TransactionVersion,
   Address,
+  TokenPayment,
 } from '@elrondnetwork/erdjs';
-import { providerTypes } from 'src/helpers/constants';
 import { gasLimit } from 'src/config';
+import { LoginMethodsEnum } from '@elrondnetwork/dapp-core/types';
 import { multisigContractFunctionNames } from '../types/multisigFunctionNames';
 
 interface TransactionPayloadType {
-  chainID: ChainID;
+  chainID: any;
   receiver: Address;
-  value: Balance;
-  gasLimit: GasLimit;
+  value: TokenPayment;
+  gasLimit: any;
   data: TransactionPayload;
   options?: TransactionOptions;
   version?: TransactionVersion;
@@ -41,12 +39,12 @@ export function buildTransaction(
     .build();
   const transactionPayload: TransactionPayloadType = {
     chainID: getChainID(),
-    receiver: contract.getAddress(),
-    value: Balance.egld(value),
-    gasLimit: new GasLimit(transactionGasLimit),
+    receiver: new Address(contract.getAddress().bech32()),
+    value: TokenPayment.egldFromAmount(value),
+    gasLimit: transactionGasLimit,
     data: payload,
   };
-  if (providerType === providerTypes.ledger) {
+  if (providerType === LoginMethodsEnum.ledger) {
     transactionPayload.options = TransactionOptions.withTxHashSignOptions();
     transactionPayload.version = TransactionVersion.withTxHashSignVersion();
   }
@@ -64,12 +62,12 @@ export function buildBlockchainTransaction(
   const transactionPayload: TransactionPayloadType = {
     chainID: getChainID(),
     receiver,
-    value: Balance.egld(value),
-    gasLimit: new GasLimit(transactionGasLimit),
+    value: TokenPayment.egldFromAmount(value),
+    gasLimit: transactionGasLimit,
     data: new TransactionPayload(data),
   };
 
-  if (providerType === providerTypes.ledger) {
+  if (providerType === LoginMethodsEnum.ledger) {
     transactionPayload.options = TransactionOptions.withTxHashSignOptions();
     transactionPayload.version = TransactionVersion.withTxHashSignVersion();
   }

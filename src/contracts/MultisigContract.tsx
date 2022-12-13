@@ -1,8 +1,5 @@
-import {
-  getAccountProviderType,
-  getNetworkProxy,
-  transactionServices,
-} from '@elrondnetwork/dapp-core';
+import { sendTransactions } from '@elrondnetwork/dapp-core/services';
+import { getAccountProviderType } from '@elrondnetwork/dapp-core/utils/account';
 import {
   ContractFunction,
   Balance,
@@ -11,6 +8,7 @@ import {
   BinaryCodec,
   CodeMetadata,
   Query,
+  TokenPayment,
 } from '@elrondnetwork/erdjs';
 import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
 import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
@@ -36,9 +34,23 @@ import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContractsSlice';
 import { store } from 'src/redux/store';
 import { ProxyNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
+import { IContractQuery } from '@elrondnetwork/erdjs-network-providers/out/interface';
 import { buildTransaction } from './transactionUtils';
 
 const proposeDeployGasLimit = 256_000_000;
+
+export async function queryOnContract(functionName: string, contractAddress: string, ...args: TypedValue[]) {
+  const smartContract = new SmartContract({
+    address: new Address(contractAddress),
+  });
+  const newQuery = new Query({
+    address: smartContract.getAddress(),
+    func: new ContractFunction(functionName),
+    args,
+  });
+  const proxy = new ProxyNetworkProvider(network?.apiAddress);
+  return proxy.queryContract(newQuery);
+}
 
 export async function query(functionName: string, ...args: TypedValue[]) {
   const currentMultisigAddress = currentMultisigAddressSelector(
@@ -55,20 +67,7 @@ export async function query(functionName: string, ...args: TypedValue[]) {
   });
   // const proxy = getNetworkProxy();
   const proxy = new ProxyNetworkProvider(network?.apiAddress);
-  return proxy.queryContract(newQuery);
-}
-
-export async function queryOnContract(functionName: string, contractAddress: string, ...args: TypedValue[]) {
-  const smartContract = new SmartContract({
-    address: new Address(contractAddress),
-  });
-  const newQuery = new Query({
-    address: smartContract.getAddress(),
-    func: new ContractFunction(functionName),
-    args,
-  });
-  const proxy = getNetworkProxy();
-  return proxy.queryContract(newQuery);
+  return proxy.queryContract(newQuery as IContractQuery);
 }
 
 export async function queryNumber(
@@ -142,7 +141,7 @@ export async function sendTransaction(
     ...args,
   );
 
-  const { sessionId } = await transactionServices.sendTransactions({
+  const { sessionId } = await sendTransactions({
     transactions: transaction,
     minGasLimit,
   });
@@ -319,7 +318,7 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
   });
 
   mutateSmartContractCall(
-    smartContract.getAddress(),
+    new Address(smartContract.getAddress().bech32()),
     new BigUIntValue(new BigNumber(0)),
     multisigContractFunctionNames.ESDTNFTTransfer,
     BytesValue.fromUTF8(identifierWithoutNonce),
@@ -331,7 +330,7 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
 
 export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
   const esdtAddress = new Address(issueTokenContractAddress);
-  const esdtAmount = new BigUIntValue(Balance.egld(0.05).valueOf());
+  const esdtAmount = TokenPayment.egldFromAmount(0.05);
 
   const args = [];
   args.push(BytesValue.fromUTF8(proposal.name));
