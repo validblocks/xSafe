@@ -7,7 +7,7 @@ import { accessTokenServices, maiarIdApi } from 'src/services/accessTokenService
 import routeNames from 'src/routes/routeNames';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
-import { StyledIconElrond, StyledIconLedger, Text, UnlockText } from 'src/components/StyledComponents/StyledComponents';
+import { StyledIconElrond, StyledIconLedger, UnlockText, Text } from 'src/components/StyledComponents/StyledComponents';
 
 declare global {
   interface Window {
