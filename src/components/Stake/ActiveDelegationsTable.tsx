@@ -24,6 +24,7 @@ import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import DelegatedColumn from '../Staking/DelegatedColumn';
 import ClaimableRewardsColumn from '../Staking/ClaimableRewardsColumn';
 import * as Styled from '../../pages/Organization/styled';
+import noRowsOverlay from '../Utils/noRowsOverlay';
 
 interface Props {
     isFetching?: boolean;
@@ -95,7 +96,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
       {
         field: 'delegatedColumn',
         headerName: 'Delegated',
-        flex: 1,
+        flex: 1.2,
         renderCell: (params: GridRenderCellParams<IDelegatedColumn>) => (
           <DelegatedColumn columnData={params.value ?? { delegatedAmount: '0' }} />
         ),
@@ -103,7 +104,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
       {
         field: 'claimableRewardsColumn',
         headerName: 'Rewards',
-        flex: 1,
+        flex: 1.4,
         renderCell: (params: GridRenderCellParams<IClaimableRewardsColumn>) => (
           <ClaimableRewardsColumn columnData={params.value as IClaimableRewardsColumn} />
         ),
@@ -161,6 +162,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
         selectionModel={selectionModel}
         pageSize={pageSize}
         onPageSizeChange={onPageSizeChange}
+        components={{ NoRowsOverlay: noRowsOverlay }}
       />
     </Box>
   );

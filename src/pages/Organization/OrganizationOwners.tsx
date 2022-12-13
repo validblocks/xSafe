@@ -15,6 +15,7 @@ import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { Button, useMediaQuery } from '@mui/material';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
+import noRowsOverlay from 'src/components/Utils/noRowsOverlay';
 import { AccountInfo, AddressBook, Owner } from './types';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 import * as Styled from './styled';
@@ -131,12 +132,6 @@ const OrganizationsOwnersTable = () => {
     owner: { name: owner.name, herotag: owner.herotag },
     address: { address: owner.address, identicon: toSvg(owner.address, 100) },
   }));
-
-  const noRowsOverlay = () => (
-    <Styled.NoRowsOverlay>
-      <span>No Rows</span>
-    </Styled.NoRowsOverlay>
-  );
 
   const getMobileActions = (params: any) => [
     <Button

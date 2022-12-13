@@ -36,7 +36,7 @@ import { CenteredBox } from '../StyledComponents/StyledComponents';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const theme: any = useTheme();
-  const { isLoggedIn } = useGetLoginInfo();
+  const { isLoggedIn, loginMethod } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,12 +55,25 @@ function Layout({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const loggedIn = loginMethod !== '';
+  useEffect(() => {
+    if (loggedIn) {
+      refreshAccount();
+      fetchAccountData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loggedIn]);
+
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(setProposeModalSelectedOption(null));
       (async function getContracts() {
         await refreshAccount();
         await fetchAccountData();
+
+        if (!isAuthenticated?.isAuthenticated) refreshAccount();
+
+        // if (isAuthenticated?.isAuthenticated) {
         const contracts = await getUserMultisigContractsList();
         dispatch(setMultisigContracts(contracts));
 
@@ -69,6 +82,7 @@ function Layout({ children }: { children: React.ReactNode }) {
           dispatch(setCurrentMultisigContract(firstContract.address));
           navigate(`${routeNames.multisig}/${firstContract.address}`);
         }
+        // }
       }());
     }
   }, [isLoggedIn, address, isAuthenticated.isAuthenticated, dispatch, currentContract?.address, navigate]);

@@ -2,8 +2,6 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Grid, Typog
 import SettingsIcon from '@mui/icons-material/Settings';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
-import { ReactComponent as IconLedger } from 'src/assets/img/ledger.svg';
-import { ReactComponent as IconElrond } from 'src/assets/img/elrond-web-wallet.svg';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
@@ -61,6 +59,10 @@ export const MultisigCard = styled(Box)`
     width: 100%;
     margin-bottom: 16px;
   }
+  @media (min-width: 601px) and (max-width: 800px) {
+    width: 100%;
+    margin: 0 0 12px 0;
+  }
 `;
 
 export const MultisigCardGrid = styled(Grid)`
@@ -77,29 +79,6 @@ export const Text = styled(Typography)`
   font-family: 'IBM Plex Sans', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
     'Courier New', monospace !important;
 `;
-
-export const UnlockText = styled(Text)(({ theme: _ }) => ({
-  '&&&': {
-    color: _.palette.text.primary,
-    fontWeight: 600,
-    marginBottom: 0,
-  },
-}));
-
-export const StyledIconLedger = styled(IconLedger)(({ theme: _ }) => ({
-  '& path': {
-    fill: _.palette.text.primary,
-  },
-}));
-
-export const StyledIconElrond = styled(IconElrond)(({ theme: _ }) => ({
-  '& path': {
-    fill: _.palette.text.primary,
-  },
-  '& path ~ path': {
-    fill: _.palette.background.secondary,
-  },
-}));
 
 export const TotalBalanceText = styled(Text)(({ theme: _ }) => ({
   color: _.palette.text.tableHeaders,

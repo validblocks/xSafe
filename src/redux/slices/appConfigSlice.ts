@@ -18,7 +18,7 @@ function getInitialState(): AppConfigStateType {
       pathname: routeNames?.welcome,
       search: '',
     },
-    selectedTheme: 'Light',
+    selectedTheme: 'Dark',
   };
 }
 
