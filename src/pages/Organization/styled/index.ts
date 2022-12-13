@@ -55,6 +55,9 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
         paddingLeft: '11px',
         fontWeight: '600',
       },
+      '& p': {
+        color: `${theme.palette.text.primary} !important`,
+      },
     },
     '.MuiDataGrid-actionsCell': {
       paddingLeft: '20px',
