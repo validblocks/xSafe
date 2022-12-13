@@ -8,8 +8,6 @@ import routeNames from 'src/routes/routeNames';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import { StyledIconElrond, StyledIconLedger, Text, UnlockText } from 'src/components/StyledComponents/StyledComponents';
-import * as DappCoreInternal from '@elrondnetwork/dapp-core-internal';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 declare global {
   interface Window {
