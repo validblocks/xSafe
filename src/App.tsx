@@ -1,4 +1,3 @@
-import { DappProvider, DappUI } from '@elrondnetwork/dapp-core';
 import { CssBaseline } from '@mui/material';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
@@ -20,6 +19,12 @@ import '@elrondnetwork/dapp-core/build/index.css';
 import { persistor, store } from './redux/store';
 import OrganizationInfoContextProvider from './pages/Organization/OrganizationInfoContextProvider';
 import CustomThemeProvider from './components/Theme/CustomThemeProvider';
+import { DappProvider } from '@elrondnetwork/dapp-core/wrappers';
+import {
+  TransactionsToastList,
+  SignTransactionsModals,
+  NotificationModal
+} from '@elrondnetwork/dapp-core/UI';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -71,9 +76,9 @@ export const App = () => (
           <QueryClientProvider client={queryClient}>
             <OrganizationInfoContextProvider>
               <>
-                <DappUI.SignTransactionsModals />
-                <DappUI.TransactionsToastList />
-                <DappUI.NotificationModal />
+                <SignTransactionsModals />
+                <TransactionsToastList />
+                <NotificationModal />
                 <Router basename={process.env.PUBLIC_URL}>
                   <Layout>
                     <Routes>

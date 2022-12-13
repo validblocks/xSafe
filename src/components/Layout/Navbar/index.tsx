@@ -6,7 +6,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Link, useLocation } from 'react-router-dom';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
 import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';

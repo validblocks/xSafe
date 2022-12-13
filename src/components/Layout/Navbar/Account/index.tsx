@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import { useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { Box, useMediaQuery } from '@mui/material';
 import Typography from '@mui/material/Typography';

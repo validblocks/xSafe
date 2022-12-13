@@ -1,10 +1,15 @@
+import {
+  refreshAccount,
+  getAddress,
+} from '@elrondnetwork/dapp-core/utils/account';
+import { logout } from '@elrondnetwork/dapp-core/utils';
+
 /* eslint-disable no-await-in-loop */
 import {
   accessTokenServices,
   storageApi,
 } from 'src/services/accessTokenServices';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { getAddress, logout, refreshAccount } from '@elrondnetwork/dapp-core';
 import axios, { AxiosError } from 'axios';
 import uniqBy from 'lodash/uniqBy';
 import { verifiedContractsHashes } from 'src/helpers/constants';

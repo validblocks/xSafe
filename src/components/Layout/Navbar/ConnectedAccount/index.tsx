@@ -1,4 +1,6 @@
-import { logout, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { logout } from '@elrondnetwork/dapp-core/utils';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Grid, useMediaQuery } from '@mui/material';

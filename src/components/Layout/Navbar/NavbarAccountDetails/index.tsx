@@ -19,7 +19,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { network } from 'src/config';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import DeployStepsModal from 'src/pages/Dashboard/DeployMultisigModal';
 import { CustomStateType } from 'src/pages/Organization/types';

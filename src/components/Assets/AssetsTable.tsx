@@ -22,7 +22,7 @@ import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
 import { Typography, useMediaQuery } from '@mui/material';
 import { Balance } from '@elrondnetwork/erdjs/out';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
 import * as Styled from '../../pages/Organization/styled';
 import MobileCardsForTableReplacement from './MobileCardsForTableReplacement';
 

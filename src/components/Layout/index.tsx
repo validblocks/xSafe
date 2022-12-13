@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import {
-  AuthenticatedRoutesWrapper,
-  refreshAccount,
   useGetAccountInfo,
   useGetLoginInfo,
-} from '@elrondnetwork/dapp-core';
+} from '@elrondnetwork/dapp-core/hooks/account';
+import { refreshAccount } from '@elrondnetwork/dapp-core/utils';
+import { AuthenticatedRoutesWrapper } from '@elrondnetwork/dapp-core/wrappers';
 import { Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
