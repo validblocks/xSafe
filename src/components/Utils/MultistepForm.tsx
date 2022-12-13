@@ -1,4 +1,4 @@
-import { transactionServices } from '@elrondnetwork/dapp-core';
+import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
 import { Box } from '@mui/material';
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -74,7 +74,7 @@ const MultistepForm = ({
   const [lastTransactionId, setLastTransactionId] = useState<string | null>(null);
 
   const currentTransactionId = useSelector(currentMultisigTransactionIdSelector);
-  transactionServices.useTrackTransactionStatus({
+  useTrackTransactionStatus({
     transactionId: currentTransactionId,
     onSuccess: () => {
       setLastTransactionId(currentTransactionId);

@@ -10,10 +10,10 @@ import {
   SmartContract,
   BinaryCodec,
   CodeMetadata,
+  Query,
 } from '@elrondnetwork/erdjs';
 import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
 import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
-import { Query } from '@elrondnetwork/erdjs/out/smartcontracts/query';
 import {
   AddressValue,
   BigUIntValue,
@@ -24,7 +24,7 @@ import {
   U32Type,
   U32Value,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
-import { gasLimit, minGasLimit, issueTokenContractAddress } from 'src/config';
+import { gasLimit, minGasLimit, issueTokenContractAddress, network } from 'src/config';
 import { parseAction, parseActionDetailed } from 'src/helpers/converters';
 import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { MultisigAction } from 'src/types/MultisigAction';
@@ -35,6 +35,7 @@ import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContractsSlice';
 import { store } from 'src/redux/store';
+import { ProxyNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
 import { buildTransaction } from './transactionUtils';
 
 const proposeDeployGasLimit = 256_000_000;
@@ -52,7 +53,8 @@ export async function query(functionName: string, ...args: TypedValue[]) {
     func: new ContractFunction(functionName),
     args,
   });
-  const proxy = getNetworkProxy();
+  // const proxy = getNetworkProxy();
+  const proxy = new ProxyNetworkProvider(network?.apiAddress);
   return proxy.queryContract(newQuery);
 }
 

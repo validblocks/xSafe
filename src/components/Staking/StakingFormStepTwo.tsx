@@ -12,7 +12,7 @@ import { organizationTokensSelector } from 'src/redux/selectors/accountSelector'
 import { OrganizationToken } from 'src/pages/Organization/types';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { transactionServices } from '@elrondnetwork/dapp-core';
+import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import ProviderPresentation from './ProviderPresentation';
 import { useMultistepFormContext } from '../Utils/MultistepForm';
@@ -170,7 +170,7 @@ const StakingFormStepTwo = () => {
 
   const transactionId = useSelector(currentMultisigTransactionIdSelector);
 
-  transactionServices.useTrackTransactionStatus({
+  useTrackTransactionStatus({
     transactionId,
     onSuccess: () => {
       closeModal();
