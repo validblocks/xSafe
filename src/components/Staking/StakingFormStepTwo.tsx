@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
-import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
 import * as Yup from 'yup';
@@ -131,9 +131,7 @@ const StakingFormStepTwo = () => {
         return;
       }
 
-      const amountParam = new BigUIntValue(
-        Balance.egld(amountNumeric).valueOf(),
-      );
+      const amountParam = new BigUIntValue(TokenPayment.egldFromAmount(amountNumeric).valueOf());
 
       setBuiltFinalActionHandler(() => () => {
         mutateSmartContractCall(addressParam, amountParam, 'delegate');
@@ -156,7 +154,7 @@ const StakingFormStepTwo = () => {
     }
 
     const amountParam = new BigUIntValue(
-      Balance.egld(amountNumeric).valueOf(),
+      TokenPayment.egldFromAmount(amountNumeric).valueOf(),
     );
 
     mutateSmartContractCall(addressParam, amountParam, 'delegate');

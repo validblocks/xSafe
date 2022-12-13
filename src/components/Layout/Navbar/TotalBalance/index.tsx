@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { getAccountBalance as getAccount } from '@elrondnetwork/dapp-core/utils/account';
-import { Balance } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
 import { Box, CircularProgress } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { NewTransactionButton } from 'src/components/Theme/StyledComponents';
@@ -19,7 +19,7 @@ import {
   setTokenTableRows,
   setTotalUsdBalance,
   StateType,
-} from 'src/redux/slices/accountSlice';
+} from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
@@ -187,7 +187,7 @@ function TotalBalance() {
       try {
         const organizationTokens: OrganizationToken[] = newTokensWithPrices.map(({
           identifier, balanceDetails, value }: TokenTableRowItem) => {
-          const balance = Balance.fromString(value?.amount as string).toString();
+          const balance = TokenPayment.egldFromBigInteger(value?.amount as string).toString();
 
           const amountAfterDenomination = operations.denominate({
             input: balance,

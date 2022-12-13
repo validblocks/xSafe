@@ -79,9 +79,6 @@ const MultistepForm = ({
     onSuccess: () => {
       setLastTransactionId(currentTransactionId);
     },
-    onCompleted: () => {
-      setLastTransactionId(currentTransactionId);
-    },
   });
 
   return (

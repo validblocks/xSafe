@@ -10,7 +10,7 @@ import { IDelegation, IdentityWithColumns, IUndelegatedFunds } from 'src/types/s
 import { useQueryClient } from 'react-query';
 import useReactQueryState from 'src/react-query/useReactQueryState';
 import { QueryKeys } from 'src/react-query/queryKeys';
-import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
 import { useTheme } from 'styled-components';
@@ -78,7 +78,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
         const totalRequestedUndelegations = delegation?.userUndelegatedList
           .reduce((totalSum: number, undelegation: IUndelegatedFunds) => {
-            const amount = parseFloat(Balance.fromString(undelegation.amount).toDenominated());
+            const amount = parseFloat(TokenPayment.egldFromBigInteger(undelegation.amount).toRationalNumber());
             return totalSum + amount;
           }, 0);
 
@@ -87,7 +87,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
         const withdrawableUndelegationsAmount =
           withdrawableUndelegations?.reduce((totalSum: number, undelegation: IUndelegatedFunds) => {
-            const amount = parseFloat(Balance.fromString(undelegation.amount).toDenominated());
+            const amount = parseFloat(TokenPayment.egldFromBigInteger(undelegation.amount).toRationalNumber());
             return totalSum + amount;
           }, 0);
 

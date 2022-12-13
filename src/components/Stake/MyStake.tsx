@@ -14,13 +14,13 @@ import {
   IdentityWithColumns,
   IUndelegatedFunds,
 } from 'src/types/staking';
-import { Balance } from '@elrondnetwork/erdjs';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import { setActiveDelegationRows } from 'src/redux/slices/accountGeneralInfoSlice';
 import axios from 'axios';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
@@ -74,7 +74,7 @@ const MyStake = () => {
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
         parseFloat(
-          Balance.fromString(delegation.userActiveStake).toDenominated(),
+          TokenPayment.egldFromBigInteger(delegation.userActiveStake).toRationalNumber(),
         ),
       0,
     );
@@ -83,7 +83,7 @@ const MyStake = () => {
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
         parseFloat(
-          Balance.fromString(delegation.claimableRewards).toDenominated(),
+          TokenPayment.egldFromBigInteger(delegation.claimableRewards).toRationalNumber(),
         ),
       0,
     );
@@ -105,7 +105,7 @@ const MyStake = () => {
     const totalUndelegations = contractUndelegations.reduce(
       (totalSum: number, undelegation: IUndelegatedFunds) => {
         const amount = parseFloat(
-          Balance.fromString(undelegation.amount).toDenominated(),
+          TokenPayment.egldFromBigInteger(undelegation.amount).toRationalNumber(),
         );
         return totalSum + amount;
       },

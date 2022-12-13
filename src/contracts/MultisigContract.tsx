@@ -2,7 +2,6 @@ import { sendTransactions } from '@elrondnetwork/dapp-core/services';
 import { getAccountProviderType } from '@elrondnetwork/dapp-core/utils/account';
 import {
   ContractFunction,
-  Balance,
   Address,
   SmartContract,
   BinaryCodec,

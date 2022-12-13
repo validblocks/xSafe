@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import Form from 'react-bootstrap/Form';
-import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
 import * as Yup from 'yup';
@@ -128,7 +128,7 @@ const WithdrawFormStepTwo = () => {
       }
 
       const amountParam = new BigUIntValue(
-        Balance.egld(amountNumeric).valueOf(),
+        TokenPayment.egldFromAmount(amountNumeric).valueOf(),
       );
 
       setBuiltFinalActionHandler(() => () => {
