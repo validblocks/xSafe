@@ -1,6 +1,6 @@
 import { refreshAccount, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { useEffect } from 'react';
-import * as DappCoreInternal from '@elrondnetwork/dapp-core-internal';
+import { accessTokenServices } from 'src/services/accessTokenServices';
 
 export const TokenWrapper = () => {
   const { isLoggedIn, loginMethod, tokenLogin } = useGetLoginInfo();
@@ -8,9 +8,9 @@ export const TokenWrapper = () => {
 
   useEffect(() => {
     if (isLoggedIn) { refreshAccount(); }
-  }, [isLoggedIn, address]);
+  }, [isLoggedIn]);
 
-  if (DappCoreInternal.AccessTokenManager == null) {
+  if (accessTokenServices?.AccessTokenManager == null) {
     console.error('Error: AccessTokenManager not found!');
     return null;
   }
@@ -18,7 +18,7 @@ export const TokenWrapper = () => {
   console.log({ isLoggedIn, tokenLogin, loginMethod, address });
 
   return (
-    <DappCoreInternal.AccessTokenManager
+    <accessTokenServices.AccessTokenManager
       loggedIn={isLoggedIn}
       loginMethod={loginMethod}
       userAddress={address}
