@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { getAccountBalance as getAccount } from '@elrondnetwork/dapp-core/utils/account';
-import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { Balance } from '@elrondnetwork/erdjs/out';
 import { Box, CircularProgress } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { NewTransactionButton } from 'src/components/Theme/StyledComponents';
@@ -19,8 +19,9 @@ import {
   setTokenTableRows,
   setTotalUsdBalance,
   StateType,
-} from 'src/redux/slices/accountGeneralInfoSlice';
+} from 'src/redux/slices/accountSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { operations } from '@elrondnetwork/dapp-utils';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
@@ -123,7 +124,6 @@ function TotalBalance() {
     const egldRow = {
       id: 'EGLD',
       tokenIdentifier: 'EGLD',
-      identifier: 'EGLD',
       balance: egldBalanceDetails,
       presentation: {
         tokenIdentifier: 'EGLD',
@@ -187,13 +187,16 @@ function TotalBalance() {
       try {
         const organizationTokens: OrganizationToken[] = newTokensWithPrices.map(({
           identifier, balanceDetails, value }: TokenTableRowItem) => {
-          const amountAsRationalNumber = TokenPayment.egldFromBigInteger(
-            value?.amount as string,
-          ).toRationalNumber();
+          const balance = Balance.fromString(value?.amount as string).toString();
 
-          console.log({ amountAsRationalNumber });
+          const amountAfterDenomination = operations.denominate({
+            input: balance,
+            denomination: balanceDetails?.decimals as number,
+            decimals: balanceDetails?.decimals as number,
+            showLastNonZeroDecimal: true,
+          });
 
-          const denominatedAmountForCalcs = Number(amountAsRationalNumber);
+          const denominatedAmountForCalcs = Number(amountAfterDenomination.replaceAll(',', ''));
           const priceAsNumber = value?.tokenPrice as number;
           const totalUsdValue = Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(2));
           const tokenPrice = parseFloat(Number(priceAsNumber).toPrecision(4));
@@ -208,7 +211,7 @@ function TotalBalance() {
           });
         });
 
-        const persistedBalance = JSON.stringify(TokenPayment.egldFromBigInteger(egldBalanceDetails));
+        const persistedBalance = JSON.stringify(egldBalanceDetails);
 
         dispatch(setMultisigBalance(persistedBalance));
         dispatch(setTokenTableRows(newTokensWithPrices));
@@ -228,11 +231,7 @@ function TotalBalance() {
       ?.reduce((acc: number, token: TokenTableRowItem) =>
         acc + (parseFloat(token?.valueUsd?.toString() ?? '0')), 0);
 
-    console.log({ newTokensWithPrices });
-    const totalEgldValue = Number(
-      TokenPayment.egldFromBigInteger(egldBalanceDetails ?? 0).toRationalNumber(),
-    ) * egldPrice ?? '0';
-    console.log({ totalAssetsValue, totalEgldValue });
+    const totalEgldValue = Number(egldBalanceDetails) * egldPrice ?? '0';
     setTotalUsdValue(
       totalAssetsValue + totalEgldValue,
     );
@@ -251,7 +250,7 @@ function TotalBalance() {
   const onNewTransactionClick = () =>
     dispatch(
       setProposeMultiselectSelectedOption({
-        option: ProposalsTypes.send_token,
+        option: ProposalsTypes.multiselect_proposal_options,
       }),
     );
 
@@ -291,7 +290,7 @@ function TotalBalance() {
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
       >
         <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>
-          Send Token
+          New Transaction
         </NewTransactionButton>
       </Box>
       )}
