@@ -30,6 +30,9 @@ export const CreateNewSafeButton = styled(LoadSafeButton)`
     border-color: ${(props) => props.theme.palette.background.button};
     color: ${(props) => props.theme.palette.background.white};
   };
+  @media (max-width:600px) {
+    border-radius: 0 0 10px 10px;
+  };
 }
 `;
 
