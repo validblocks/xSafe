@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import { DappUI } from '@elrondnetwork/dapp-core';
+import { ReactComponent as IconElrond } from 'src/assets/img/elrond-web-wallet.svg';
+import { ReactComponent as IconLedger } from 'src/assets/img/ledger.svg';
 import { ReactComponent as IconMaiar } from 'src/assets/img/maiar-app.svg';
 import { ReactComponent as IconMaiarWallet } from 'src/assets/img/maiar-defi-wallet.svg';
 import { network } from 'src/config';
@@ -7,8 +9,6 @@ import { accessTokenServices, maiarIdApi } from 'src/services/accessTokenService
 import routeNames from 'src/routes/routeNames';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
-import { StyledIconElrond, StyledIconLedger, Text, UnlockText } from 'src/components/StyledComponents/StyledComponents';
-import * as DappCoreInternal from '@elrondnetwork/dapp-core-internal';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 declare global {
@@ -51,7 +51,7 @@ const Unlock = () => {
             <div className="d-flex justify-content-between align-items-center">
               <div className="d-flex flex-row method">
                 <IconMaiarWallet />
-                <UnlockText>Maiar DeFi Wallet</UnlockText>
+                <div className="title">Maiar DeFi Wallet</div>
               </div>
             </div>
           </a>
@@ -62,7 +62,7 @@ const Unlock = () => {
             <div className="d-flex justify-content-between align-items-center">
               <div className="d-flex flex-row method">
                 <IconMaiarWallet />
-                <UnlockText>Maiar DeFi Wallet</UnlockText>
+                <Text className="title" marginBottom={'0 !important'} fontWeight={600}>Maiar DeFi Wallet</Text>
               </div>
             </div>
           </DappUI.ExtensionLoginButton>
@@ -72,7 +72,7 @@ const Unlock = () => {
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <IconMaiar />
-              <UnlockText>Maiar App</UnlockText>
+              <Text className="title" marginBottom={'0 !important'} fontWeight={600}>Maiar App</Text>
             </div>
           </div>
         </DappUI.WalletConnectLoginButton>
@@ -80,8 +80,8 @@ const Unlock = () => {
         <DappUI.LedgerLoginButton loginButtonText="" {...loginParams}>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
-              <StyledIconLedger />
-              <UnlockText>Ledger</UnlockText>
+              <IconLedger />
+              <Text className="title" marginBottom={'0 !important'} fontWeight={600}>Ledger</Text>
             </div>
           </div>
         </DappUI.LedgerLoginButton>
@@ -89,15 +89,17 @@ const Unlock = () => {
         <DappUI.WebWalletLoginButton {...loginParams}>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
-              <StyledIconElrond />
-              <UnlockText>Elrond Web Wallet</UnlockText>
+              <IconElrond />
+              <Text className="title" marginBottom={'0 !important'} fontWeight={600}>Elrond Web Wallet</Text>
             </div>
           </div>
         </DappUI.WebWalletLoginButton>
       </div>
 
+      <hr />
+
       <div className="mt-3">
-        <Text><span>New to MultiversX?</span></Text>
+        <Text><span>New to Elrond?</span></Text>
       </div>
       <div className="mt-1 mb-1">
         <a

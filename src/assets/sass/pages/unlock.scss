@@ -21,6 +21,7 @@
     }
 
     .btn-unlock {
+      color: $body-color;
       padding: 1.2rem 21px;
       margin: 0 !important;
       margin-bottom: 0.7rem !important;
@@ -35,9 +36,6 @@
       &:hover {
         background-color: #4c2ffc !important;
         color: #ffff !important;
-        & p {
-          color: #ffff;
-        }
         path:nth-child(1) {
           fill: #ffff;
         }
