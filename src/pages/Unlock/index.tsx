@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { DappUI } from '@elrondnetwork/dapp-core';
 import { ReactComponent as IconMaiar } from 'src/assets/img/maiar-app.svg';
 import { ReactComponent as IconMaiarWallet } from 'src/assets/img/maiar-defi-wallet.svg';
 import { network } from 'src/config';
@@ -7,7 +6,18 @@ import { accessTokenServices, maiarIdApi } from 'src/services/accessTokenService
 import routeNames from 'src/routes/routeNames';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
-import { StyledIconElrond, StyledIconLedger, Text, UnlockText } from 'src/components/StyledComponents/StyledComponents';
+import {
+  StyledIconElrond,
+  StyledIconLedger,
+  Text,
+  UnlockText,
+} from 'src/components/StyledComponents/StyledComponents';
+import {
+  ExtensionLoginButton,
+  LedgerLoginButton,
+  WalletConnectLoginButton,
+  WebWalletLoginButton,
+} from '@elrondnetwork/dapp-core/UI';
 
 declare global {
   interface Window {
@@ -56,42 +66,42 @@ const Unlock = () => {
         )}
 
         {window.elrondWallet && (
-          <DappUI.ExtensionLoginButton {...loginParams}>
+          <ExtensionLoginButton {...loginParams}>
             <div className="d-flex justify-content-between align-items-center">
               <div className="d-flex flex-row method">
                 <IconMaiarWallet />
                 <UnlockText>Maiar DeFi Wallet</UnlockText>
               </div>
             </div>
-          </DappUI.ExtensionLoginButton>
+          </ExtensionLoginButton>
         )}
 
-        <DappUI.WalletConnectLoginButton {...loginParams}>
+        <WalletConnectLoginButton {...loginParams}>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <IconMaiar />
               <UnlockText>Maiar App</UnlockText>
             </div>
           </div>
-        </DappUI.WalletConnectLoginButton>
+        </WalletConnectLoginButton>
 
-        <DappUI.LedgerLoginButton loginButtonText="" {...loginParams}>
+        <LedgerLoginButton loginButtonText="" {...loginParams}>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <StyledIconLedger />
               <UnlockText>Ledger</UnlockText>
             </div>
           </div>
-        </DappUI.LedgerLoginButton>
+        </LedgerLoginButton>
 
-        <DappUI.WebWalletLoginButton {...loginParams}>
+        <WebWalletLoginButton {...loginParams}>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <StyledIconElrond />
               <UnlockText>Elrond Web Wallet</UnlockText>
             </div>
           </div>
-        </DappUI.WebWalletLoginButton>
+        </WebWalletLoginButton>
       </div>
 
       <div className="mt-3">

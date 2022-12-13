@@ -11,13 +11,11 @@ import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationI
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import {
-  transactionServices,
-} from '@elrondnetwork/dapp-core';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import ErrorOnFetchIndicator from 'src/components/Utils/ErrorOnFetchIndicator';
 import { ArrowDropDown } from '@mui/icons-material';
+import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
@@ -73,7 +71,7 @@ const TransactionQueue = () => {
 
   const untruncatedData = useMemo(() => allPendingActions?.slice().reverse() ?? [], [allPendingActions]);
 
-  transactionServices.useTrackTransactionStatus({
+  useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
     onSuccess: () => {
       queryClient.invalidateQueries(QueryKeys.ALL_PENDING_ACTIONS);

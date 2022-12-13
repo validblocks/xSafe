@@ -16,7 +16,7 @@ import { MainButton, MainButtonNoShadow, ModalConnectContainer } from 'src/compo
 import { Box } from '@mui/material';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import Unlock from 'src/pages/Unlock';
-import { getIsLoggedIn } from '@elrondnetwork/dapp-core';
+import { getIsLoggedIn } from '@elrondnetwork/dapp-core/utils';
 import ConnectedAccount from 'src/components/Layout/Navbar/ConnectedAccount';
 import EditOwner from './EditOwner';
 import ProposeChangeQuorum from './ProposeChangeQuorum';

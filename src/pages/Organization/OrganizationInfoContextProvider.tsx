@@ -1,10 +1,4 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import {
-  SignedTransactionsBodyType,
-  transactionServices,
-  useGetAccountInfo,
-  useGetLoginInfo,
-} from '@elrondnetwork/dapp-core';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -27,6 +21,14 @@ import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { parseMultisigAddress } from 'src/utils/addressUtils';
 import { setIntervalEndTimestamp } from 'src/redux/slices/transactionsSlice';
 import { toastDisappearDelay } from 'src/helpers/constants';
+import { removeSignedTransaction } from '@elrondnetwork/dapp-core/services';
+import {
+  useGetAccountInfo,
+  useGetLoginInfo,
+  useGetPendingTransactions,
+  useTrackTransactionStatus,
+} from '@elrondnetwork/dapp-core/hooks';
+import { SignedTransactionsBodyType } from '@elrondnetwork/dapp-core/types';
 import { OrganizationInfoContextType } from './types';
 
 type Props = {
@@ -167,11 +169,11 @@ function OrganizationInfoContextProvider({ children }: Props) {
 
   const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
 
-  transactionServices.useTrackTransactionStatus({
+  useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
     onTimedOut: () => {
       setTimeout(() => {
-        transactionServices.removeSignedTransaction(currentMultisigTransactionId);
+        removeSignedTransaction(currentMultisigTransactionId);
       }, toastDisappearDelay);
     },
     onSuccess: () => {
@@ -188,19 +190,19 @@ function OrganizationInfoContextProvider({ children }: Props) {
 
       dispatch(setIntervalEndTimestamp(Math.floor(new Date().getTime() / 1000)));
       setTimeout(() => {
-        transactionServices.removeSignedTransaction(currentMultisigTransactionId);
+        removeSignedTransaction(currentMultisigTransactionId);
       }, toastDisappearDelay);
     },
   });
 
-  const { pendingTransactionsArray } = transactionServices.useGetPendingTransactions();
+  const { pendingTransactionsArray } = useGetPendingTransactions();
 
   useEffect(() => {
     pendingTransactionsArray.forEach((pendingTransaction) => {
       const [sessionId, { transactions }] = pendingTransaction;
       if (transactions
         .every((transaction: SignedTransactionsBodyType) => transaction.status === 'success')) {
-        setTimeout(() => transactionServices.removeSignedTransaction(sessionId), toastDisappearDelay);
+        setTimeout(() => removeSignedTransaction(sessionId), toastDisappearDelay);
       }
     });
   }, [pendingTransactionsArray]);

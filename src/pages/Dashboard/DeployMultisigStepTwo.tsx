@@ -1,10 +1,11 @@
 /* eslint-disable no-nested-ternary */
+import { sendTransactions } from '@elrondnetwork/dapp-core/services';
 import {
-  getAccountProviderType,
-  sendTransactions,
-  transactionServices,
-  useGetLoginInfo,
-} from '@elrondnetwork/dapp-core';
+  useGetAccountProvider,
+  useGetPendingTransactions,
+  useTrackTransactionStatus,
+} from '@elrondnetwork/dapp-core/hooks';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
 import { Address } from '@elrondnetwork/erdjs/out';
 import { Box } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
@@ -43,7 +44,7 @@ const DeployMultisigStepTwo = ({
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string | null>(null);
 
-  const providerType = getAccountProviderType();
+  const { providerType } = useGetAccountProvider();
   const { pendingDeploymentData: { pendingDeploymentContractData } } =
     useMultisigCreationFormContext();
 
@@ -84,7 +85,7 @@ const DeployMultisigStepTwo = ({
 
   const theme: any = useTheme();
 
-  transactionServices.useTrackTransactionStatus({
+  useTrackTransactionStatus({
     transactionId: sessionId,
     onSuccess: () => {
       const [lastContract] = multisigContracts.slice(-1);
@@ -94,7 +95,7 @@ const DeployMultisigStepTwo = ({
     },
   });
 
-  const pendingTransactions = transactionServices.useGetPendingTransactions();
+  const pendingTransactions = useGetPendingTransactions();
 
   useEffect(() => {
     setIsLoading(pendingTransactions.hasPendingTransactions);

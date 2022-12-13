@@ -14,8 +14,6 @@ import { englishTranslations } from './i18n/en';
 import { germanTranslations } from './i18n/de';
 import Layout from './components/Layout';
 import PageNotFound from './components/PageNotFound';
-
-import '@elrondnetwork/dapp-core/build/index.css';
 import { persistor, store } from './redux/store';
 import OrganizationInfoContextProvider from './pages/Organization/OrganizationInfoContextProvider';
 import CustomThemeProvider from './components/Theme/CustomThemeProvider';

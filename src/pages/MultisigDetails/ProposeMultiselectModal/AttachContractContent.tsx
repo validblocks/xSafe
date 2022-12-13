@@ -1,10 +1,6 @@
-import {
-  getAccountProviderType,
-  transactionServices,
-} from '@elrondnetwork/dapp-core';
+import { sendTransactions } from '@elrondnetwork/dapp-core/services';
 import { Address } from '@elrondnetwork/erdjs';
 import { useFormik } from 'formik';
-// import Form from 'react-bootstrap/Form';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
@@ -19,6 +15,7 @@ import { Box, IconButton } from '@mui/material';
 import { FormikInputField } from 'src/helpers/formikFields';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { useGetAccountProvider } from '@elrondnetwork/dapp-core/hooks';
 
 const gasLimit = 10_000_000;
 
@@ -30,7 +27,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
   const { t }: { t: any } = useTranslation();
   const dispatch = useDispatch();
 
-  const providerType = getAccountProviderType();
+  const { providerType } = useGetAccountProvider();
   const currentMultisigAddress = useSelector(currentMultisigAddressSelector);
 
   const validationSchema = Yup.object().shape({
@@ -54,7 +51,7 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
           data,
           gasLimit,
         );
-        transactionServices.sendTransactions({ transactions: transaction });
+        sendTransactions({ transactions: transaction });
         handleClose();
       } catch (error) {
         alert('An error occurred, please try again');
