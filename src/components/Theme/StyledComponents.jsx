@@ -514,8 +514,83 @@ export const ModalContainer = styled(Modal)`
   & .modal-content {
     background-color: ${(props) => props.theme.palette.background.secondary};
   }
+  & ~ .modal-container.wallect-connect-login {
+    & .modal-content {
+      background-color: ${(props) => props.theme.palette.background.secondary};
+    }
+  }
 }
 `;
+
+export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
+  '&&&': {
+    '& ~ .modal-container.wallect-connect-login': {
+      '& .modal-content': {
+        backgroundColor: _.palette.background.secondary,
+        '& .card-title': {
+          color: _.palette.text.primary,
+          '& div.pt-spacer': {
+            paddingTop: '24px !important',
+            paddingRight: '43px !important',
+            paddingLeft: '48px !important',
+            paddingBottom: '22px !important',
+            borderBottom: `solid 1px ${_.palette.divider.secondary}`,
+            '& div.px-3': {
+              paddingRight: '0 !important',
+              paddingLeft: '0 !important',
+            },
+          },
+          '& button': {
+            backgroundColor: 'transparent !important',
+            border: 'none !important',
+            color: `${_.palette.text.primary} !important`,
+            fontSize: '1rem !important',
+            padding: '6px 10px 5px 10px !important',
+            borderRadius: '50% !important',
+            '&:hover': {
+              backgroundColor: `${_.palette.hover.secondary} !important`,
+            },
+          },
+        },
+        '& .modal-card-body': {
+          padding: '24px 48px !important',
+          '& div.wallect-connect-login_container': {
+            '& div.wallect-connect-login_card': {
+              backgroundColor: _.palette.background.secondary,
+              color: _.palette.text.primary,
+              marginBottom: '5px !important',
+              '& a': {
+                width: '100%',
+                backgroundColor: _.palette.background.main,
+                marginTop: '15px !important',
+                '& svg': {
+                  display: 'none',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '@media (max-width: 600px)': {
+      '& ~ .modal-container.wallect-connect-login': {
+        '& .modal-content': {
+          '& .card-title': {
+            '& div.pt-spacer': {
+              paddingTop: '16px !important',
+              paddingRight: '13px !important',
+              paddingLeft: '16px !important',
+              paddingBottom: '14px !important',
+            },
+          },
+          '& .modal-card-body': {
+            padding: '16px !important',
+          },
+        },
+      },
+    },
+  },
+}));
 
 export const PerformModal = styled(Box)`
 &&& {

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs/out';
-import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import {
@@ -13,7 +12,7 @@ import { addEntry } from 'src/redux/slices/addressBookSlice';
 import { useTheme } from 'styled-components';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
-import { MainButton, MainButtonNoShadow } from 'src/components/Theme/StyledComponents';
+import { MainButton, MainButtonNoShadow, ModalConnectContainer } from 'src/components/Theme/StyledComponents';
 import { Box } from '@mui/material';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import Unlock from 'src/pages/Unlock';
@@ -210,7 +209,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
   };
 
   return (
-    <Modal
+    <ModalConnectContainer
       show
       size="lg"
       onHide={handleClose}
@@ -229,7 +228,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
           {getModalActions()}
         </Box>
       </div>
-    </Modal>
+    </ModalConnectContainer>
   );
 }
 
