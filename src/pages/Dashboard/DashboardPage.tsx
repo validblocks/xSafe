@@ -2,7 +2,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { Box, Button, Grid } from '@mui/material';
+import { Box, Button, Grid, useMediaQuery } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { accessTokenServices, storageApi } from 'src/services/accessTokenServices';
@@ -35,6 +35,7 @@ function Dashboard() {
   const [showAddMultisigModal, setShowAddMultisigModal] = useState(false);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const [invalidMultisigContract, setInvalidMultisigContract] = useState(false);
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const { isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
@@ -121,10 +122,18 @@ function Dashboard() {
       <>
         <Box>
           { (
-            <Grid container gap={3}>
-              <Grid item height={'100%'} display={'flex'} flexDirection={'column'} flex={2} justifyContent={'center'}>
+            <Grid container gap={maxWidth600 ? 0 : 3} paddingBottom={maxWidth600 ? '37px' : 0}>
+              <Grid
+                item
+                height={'100%'}
+                width={maxWidth600 ? '100%' : 'auto'}
+                display={'flex'}
+                flexDirection={'column'}
+                flex={2}
+                justifyContent={'center'}
+              >
                 <Box>
-                  <Text fontSize={36} fontWeight={700}>
+                  <Text fontSize={maxWidth600 ? 24 : 36} fontWeight={700}>
                     {t(`Welcome to ${dAppName}`)}
                   </Text>
                   <Text marginY={2} fontSize={16} fontWeight={400}>
@@ -135,11 +144,13 @@ function Dashboard() {
                 <Grid
                   sx={{ width: '100%',
                     borderRadius: '10px',
-                    boxShadow: '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
-                    backgroundColor: theme.palette.background.secondary,
+                    boxShadow: maxWidth600 ? '' :
+                      '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
                     border: 'none',
                     overflow: 'hidden',
                     height: '100%',
+                    display: maxWidth600 ? 'flex' : '',
+                    flexDirection: maxWidth600 ? 'column' : 'auto',
                   }}
                   container
                 >
@@ -152,6 +163,9 @@ function Dashboard() {
                     display={'flex'}
                     flexDirection={'column'}
                     justifyContent={'space-between'}
+                    marginBottom={maxWidth600 ? '24px' : 0}
+                    borderRadius={maxWidth600 ? '10px' : 0}
+                    sx={{ backgroundColor: theme.palette.background.secondary }}
                   >
                     <Box sx={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
                       <Box marginY={'12px'}><AddRoundedIcon sx={{ color: 'rgba(76, 47, 252, 0.54)',
@@ -191,7 +205,9 @@ function Dashboard() {
                     justifyContent={'space-between'}
                     sx={{
                       borderLeft: `1px solid ${theme.palette.divider.secondary} `,
+                      backgroundColor: theme.palette.background.secondary,
                     }}
+                    borderRadius={maxWidth600 ? '10px 10px 0 0' : 0}
                   >
                     <Box sx={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
                       <Box marginY={'12px'}><FileDownloadRoundedIcon sx={{ color: 'rgba(76, 47, 252, 0.54)',
