@@ -28,6 +28,10 @@ const DisplayTokenPrice = ({ balanceDetails }: Props) => {
     _setTotalValue(calculatePrice(balanceDetails));
   }, [balanceDetails]);
 
-  return (<AssetValue>{Number(convertedValue ?? 0).toLocaleString() ?? '0'} {activeCurrency}</AssetValue>);
+  return (
+    <AssetValue>{
+    Number(convertedValue ?? 0).toLocaleString() ?? '0'} {activeCurrency}
+    </AssetValue>
+  );
 };
 export default DisplayTokenPrice;

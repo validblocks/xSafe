@@ -6,7 +6,7 @@ import { StateType } from '../slices/accountGeneralInfoSlice';
 export const accountSelector = (state: RootState) => state.accountGeneralInfo;
 
 const DEFAULT_ORGANIZATION_TOKEN = {
-  prettyIdentifier: 'ID',
+  prettyIdentifier: 'EGLD',
   tokenPrice: '0',
   tokenValue: '0',
   tokenAmount: '0',

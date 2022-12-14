@@ -57,7 +57,9 @@ const ProposeSendToken = ({
   const dispatch = useDispatch();
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
-  const [identifier, setIdentifier] = useState(selectedToken?.identifier);
+  console.log({ selectedTokenId: selectedToken?.identifier });
+  const [identifier, setIdentifier] = useState(selectedToken?.identifier || 'EGLD');
+  console.log({ identifier });
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
@@ -202,21 +204,23 @@ const ProposeSendToken = ({
 
   useEffect(() => {
     if (!selectedToken?.identifier) {
+      console.log('no id');
       const [firstAvailable] = tokenTableRows;
-      if (!firstAvailable) {
-        setIdentifier('EGLD');
-      }
 
-      setIdentifier(firstAvailable?.identifier);
-      dispatch(
-        setSelectedTokenToSend({
-          id: firstAvailable?.identifier,
-          identifier: firstAvailable?.identifier,
-          balance: firstAvailable?.balance,
-        }),
-      );
+      const newId = firstAvailable ? firstAvailable?.identifier : 'EGLD';
+      setIdentifier(newId);
+
+      if (firstAvailable) {
+        dispatch(
+          setSelectedTokenToSend({
+            id: firstAvailable?.identifier,
+            identifier: firstAvailable?.identifier,
+            balance: firstAvailable?.balance,
+          }),
+        );
+      }
     }
-  }, [dispatch, identifier, tokenTableRows]);
+  }, [dispatch, identifier, selectedToken?.identifier, tokenTableRows]);
 
   const onIdentifierChanged = (event: SelectChangeEvent) => {
     const newIdentifier = event.target.value;
@@ -278,7 +282,7 @@ const ProposeSendToken = ({
           </label>
 
           <Styled.TokenSelection
-            value={identifier ?? ''}
+            value={identifier ?? 'EGLD'}
             fullWidth
             label="Identifier"
             size="small"

@@ -14,7 +14,7 @@ export const getDenominatedBalance = <T extends string | number>(
 ): T => {
   const balanceAfterDenomination = parseFloat(
     needsDenomination
-      ? TokenPayment.egldFromBigInteger(stringBalance).toRationalNumber()
+      ? TokenPayment.egldFromBigInteger(stringBalance ?? 0).toRationalNumber()
       : stringBalance,
   );
   const balanceFloor = Math.floor(balanceAfterDenomination);
