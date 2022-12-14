@@ -521,6 +521,9 @@ export const ModalContainer = styled(Modal)`
 
 export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
   '&&&': {
+    '& .modal-content': {
+      backgroundColor: _.palette.background.secondary,
+    },
     '& ~ .modal-container.wallect-connect-login, & ~ .modal-container.ledger-login': {
       '& .modal-content': {
         backgroundColor: _.palette.background.secondary,
