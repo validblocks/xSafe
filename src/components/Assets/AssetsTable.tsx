@@ -53,6 +53,7 @@ const AssetsTable = () => {
 
   const currentContract = useSelector(currentMultisigContractSelector);
   const tokenTableRows = useSelector(tokenTableRowsSelector);
+  console.log({ tokenTableRows });
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
 
   const { isLoggedIn } = useGetLoginInfo();
@@ -133,8 +134,12 @@ const AssetsTable = () => {
           renderCell: (params: GridRenderCellParams) => (
             <h6 className="text-center mb-0 font-weight-normal">
               {
-                TokenPayment.fungibleFromAmount(params.value?.identifier, params.value?.amount, 3).toPrettyString()
-            }
+                Number(TokenPayment.fungibleFromBigInteger(
+                  params.value?.identifier,
+                  params.value?.amount,
+                  params.value?.identifier === 'EGLD' ? 18 : params.value?.decimals,
+                ).toRationalNumber()).toLocaleString()
+            } {' $'}{params.value?.identifier}
             </h6>
           ),
         },

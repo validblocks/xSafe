@@ -186,11 +186,11 @@ function TotalBalance() {
       try {
         const organizationTokens: OrganizationToken[] = newTokensWithPrices.map(({
           identifier, balanceDetails, value }: TokenTableRowItem) => {
-          const amountAsRationalNumber = TokenPayment.fungibleFromBigInteger(
-            '',
+          const amountAsRationalNumber = TokenPayment.egldFromBigInteger(
             value?.amount as string,
-            balanceDetails?.decimals,
           ).toRationalNumber();
+
+          console.log({ amountAsRationalNumber });
 
           const denominatedAmountForCalcs = Number(amountAsRationalNumber);
           const priceAsNumber = value?.tokenPrice as number;
@@ -227,7 +227,11 @@ function TotalBalance() {
       ?.reduce((acc: number, token: TokenTableRowItem) =>
         acc + (parseFloat(token?.valueUsd?.toString() ?? '0')), 0);
 
-    const totalEgldValue = Number(egldBalanceDetails) * egldPrice ?? '0';
+    console.log({ newTokensWithPrices });
+    const totalEgldValue = Number(
+      TokenPayment.egldFromBigInteger(egldBalanceDetails ?? 0).toRationalNumber(),
+    ) * egldPrice ?? '0';
+    console.log({ totalAssetsValue, totalEgldValue });
     setTotalUsdValue(
       totalAssetsValue + totalEgldValue,
     );
@@ -246,7 +250,7 @@ function TotalBalance() {
   const onNewTransactionClick = () =>
     dispatch(
       setProposeMultiselectSelectedOption({
-        option: ProposalsTypes.multiselect_proposal_options,
+        option: ProposalsTypes.send_token,
       }),
     );
 
@@ -286,7 +290,7 @@ function TotalBalance() {
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
       >
         <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>
-          New Transaction
+          Send Token
         </NewTransactionButton>
       </Box>
       )}
