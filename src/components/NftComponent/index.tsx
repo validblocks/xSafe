@@ -153,7 +153,10 @@ function NftComponent() {
                     </Typography>
                     <Styled.SendNFTButton
                       disabled={isInReadOnlyMode}
-                      onClick={() => handleOptionSelected(ProposalsTypes.send_nft, item)}
+                      onClick={(event) => {
+                        handleOptionSelected(ProposalsTypes.send_nft, item);
+                        event.currentTarget.blur();
+                      }}
                     >
                       Send NFT
                     </Styled.SendNFTButton>
