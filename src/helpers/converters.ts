@@ -1,4 +1,4 @@
-import { Address, Nonce } from '@elrondnetwork/erdjs';
+import { Address, INonce } from '@elrondnetwork/erdjs';
 import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
 import {
   BigUIntType,
@@ -317,7 +317,7 @@ export function get64BitBufferFromBigIntLE(value: BigInt) {
   return concatenatedBuffer.slice(0, 8);
 }
 
-export function computeSmartContractAddress(owner: Address, nonce: Nonce) {
+export function computeSmartContractAddress(owner: Address, nonce: INonce) {
   const initialPadding = Buffer.alloc(8, 0);
   const ownerPubkey = owner.pubkey();
   const shardSelector = ownerPubkey.slice(30);

@@ -1,4 +1,4 @@
-import { Balance as BalanceType, Balance } from '@elrondnetwork/erdjs';
+import { TokenPayment } from '@elrondnetwork/erdjs';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   OrganizationToken,
@@ -34,7 +34,7 @@ const initialState: StateType = {
   shard: 0,
   tokenTableRows: [],
   organizationTokens: [],
-  multisigBalance: Balance.Zero() as BalanceType,
+  multisigBalance: TokenPayment.egldFromAmount(0),
   activeDelegationsRows: [],
   isMultiWalletMode: false,
   isInReadOnlyMode: true,

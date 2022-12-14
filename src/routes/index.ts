@@ -1,5 +1,4 @@
 import DashboardPage from 'src/pages/Dashboard/DashboardPage';
-import { RouteType as DappCoreRouteTypes } from '@elrondnetwork/dapp-core';
 import Welcome from 'src/pages/Welcome';
 import Decisions from 'src/pages/Decisions';
 import DecisionActions from 'src/pages/DecisionActions';
@@ -20,7 +19,7 @@ import AppsPage from 'src/pages/Apps';
 import HelpCenter from 'src/pages/HelpCenter';
 import routeNames from './routeNames';
 
-type RouteType = DappCoreRouteTypes & { title: string };
+type RouteType = any & { title: string };
 
 export type ForegroundRoutesType =
   | 'welcome'
@@ -45,7 +44,7 @@ export type ForegroundRoutesType =
 
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
-export const foregroundRoutes: Record<ForegroundRoutesType, RouteType> = {
+export const foregroundRoutes: Record<ForegroundRoutesType, any> = {
   welcome: {
     path: routeNames.welcome,
     title: 'Welcome',

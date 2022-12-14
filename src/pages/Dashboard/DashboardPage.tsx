@@ -8,12 +8,9 @@ import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { accessTokenServices, storageApi } from 'src/services/accessTokenServices';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { getIsProviderEqualTo,
-  refreshAccount,
-  useGetAccountInfo,
-  useGetLoginInfo,
-} from '@elrondnetwork/dapp-core';
-import { providerTypes } from 'src/helpers/constants';
+import { refreshAccount } from '@elrondnetwork/dapp-core/utils';
+import { useGetAccountProvider, useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
 import { useTheme } from 'styled-components';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
@@ -22,6 +19,7 @@ import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { dAppName } from 'src/config';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
+import { LoginMethodsEnum } from '@elrondnetwork/dapp-core/types';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
@@ -31,7 +29,8 @@ function Dashboard() {
   const theme: any = useTheme();
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
-  const isWalletProvider = getIsProviderEqualTo(providerTypes.wallet);
+  const { providerType } = useGetAccountProvider();
+  const isWalletProvider = providerType === LoginMethodsEnum.wallet;
   const [showAddMultisigModal, setShowAddMultisigModal] = useState(false);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const [invalidMultisigContract, setInvalidMultisigContract] = useState(false);

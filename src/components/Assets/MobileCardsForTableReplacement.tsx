@@ -1,10 +1,9 @@
 import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
 import { ReactComponent as ElrondLogoWhite } from 'src/assets/img/elrond-logo-white.svg';
-import { operations } from '@elrondnetwork/dapp-utils';
-import { Balance } from '@elrondnetwork/erdjs/out';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
 import * as Styled from '../../pages/Organization/styled';
 
 export const SQUARE_IMAGE_WIDTH = 30;
@@ -48,13 +47,12 @@ const MobileCardsForTableReplacement = ({ items, actionButton }:
           <Styled.CategoryName>
             <Typography component="span">Balance</Typography>
             <Typography component="h6" className="mb-0 font-weight-normal">
-              {Number(operations.denominate({
-                input: Balance.fromString(item.balanceDetails.amount).toString(),
-                denomination: item.decimals,
-                decimals: 3,
-                showLastNonZeroDecimal: true,
-              }).replaceAll(',', '')).toLocaleString()
-                        } ${item.balanceDetails.identifier}
+              {
+                TokenPayment.fungibleFromAmount(
+                  item.balanceDetails.identifier,
+                  item.balanceDetails.amount,
+                  item.balanceDetails.decimals).toPrettyString()
+              }
             </Typography>
           </Styled.CategoryName>
           <Styled.CategoryName>

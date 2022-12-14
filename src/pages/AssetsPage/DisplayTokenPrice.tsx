@@ -1,8 +1,7 @@
 import { BalanceDetails } from 'src/pages/Organization/types';
 import { useState, useEffect } from 'react';
 import { AssetValue } from 'src/components/Theme/StyledComponents';
-import { operations } from '@elrondnetwork/dapp-utils';
-import { Balance } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
 import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
 import { useSelector } from 'react-redux';
@@ -12,14 +11,8 @@ interface Props {
 }
 
 const calculatePrice = (balanceDetails: BalanceDetails) => {
-  const { amount, decimals, tokenPrice } = balanceDetails;
-  const tokenAmount = Number(operations.denominate({
-    input: Balance.fromString(amount).toString(),
-    denomination: decimals,
-    decimals,
-    showLastNonZeroDecimal: true,
-    addCommas: false,
-  }));
+  const { amount, tokenPrice } = balanceDetails;
+  const tokenAmount = Number(TokenPayment.egldFromBigInteger(amount).toRationalNumber());
 
   const tokenPriceValue = parseFloat(tokenPrice?.toString());
 
@@ -35,6 +28,10 @@ const DisplayTokenPrice = ({ balanceDetails }: Props) => {
     _setTotalValue(calculatePrice(balanceDetails));
   }, [balanceDetails]);
 
-  return (<AssetValue>{Number(convertedValue ?? 0).toLocaleString() ?? '0'} {activeCurrency}</AssetValue>);
+  return (
+    <AssetValue>{
+    Number(convertedValue ?? 0).toLocaleString() ?? '0'} {activeCurrency}
+    </AssetValue>
+  );
 };
 export default DisplayTokenPrice;

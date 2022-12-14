@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { useCallback, useMemo, useState } from 'react';
-import { operations } from '@elrondnetwork/dapp-utils';
 import {
   GridRenderCellParams,
 } from '@mui/x-data-grid';
@@ -21,8 +20,8 @@ import { ProposalsTypes } from 'src/types/Proposals';
 import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
 import { Typography, useMediaQuery } from '@mui/material';
-import { Balance } from '@elrondnetwork/erdjs/out';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
 import * as Styled from '../../pages/Organization/styled';
 import MobileCardsForTableReplacement from './MobileCardsForTableReplacement';
 
@@ -54,6 +53,7 @@ const AssetsTable = () => {
 
   const currentContract = useSelector(currentMultisigContractSelector);
   const tokenTableRows = useSelector(tokenTableRowsSelector);
+  console.log({ tokenTableRows });
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
 
   const { isLoggedIn } = useGetLoginInfo();
@@ -134,13 +134,12 @@ const AssetsTable = () => {
           renderCell: (params: GridRenderCellParams) => (
             <h6 className="text-center mb-0 font-weight-normal">
               {
-                Number(operations.denominate({
-                  input: Balance.fromString(params.value?.amount).toString(),
-                  denomination: params.value?.decimals,
-                  decimals: 3,
-                  showLastNonZeroDecimal: true,
-                }).replaceAll(',', '')).toLocaleString()
-            } ${params.value.identifier}
+                Number(TokenPayment.fungibleFromBigInteger(
+                  params.value?.identifier,
+                  params.value?.amount,
+                  params.value?.identifier === 'EGLD' ? 18 : params.value?.decimals,
+                ).toRationalNumber()).toLocaleString()
+            } {' $'}{params.value?.identifier}
             </h6>
           ),
         },

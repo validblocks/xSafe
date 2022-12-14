@@ -1,7 +1,8 @@
-import { Balance } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
 import axios from 'axios';
 import { useCallback } from 'react';
 import { useQuery } from 'react-query';
+import { network } from 'src/config';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import {
@@ -22,7 +23,7 @@ export default function useProviderIdentitiesAfterSelection({
   const fetchProviders = useCallback(
     (): Promise<IProvider[]> =>
       axios
-        .get('https://devnet-api.elrond.com/providers')
+        .get(`${network.apiAddress}/providers`)
         .then((res) => res.data),
     [],
   );
@@ -40,16 +41,16 @@ export default function useProviderIdentitiesAfterSelection({
     (data: IProviderIdentity[]): IdentityWithColumns[] =>
       data.map((provider: IProviderIdentity) => {
         const stakedAmount = Number(
-          Balance.fromString(provider.locked).toDenominated(),
+          TokenPayment.egldFromBigInteger(provider.locked).toRationalNumber(),
         );
 
         const providerBeforeIdentityFetch = fetchedProviders?.find(
           (p) => p.identity === provider.identity,
         );
         const providerDelegationCap = Number(
-          Balance.fromString(
+          TokenPayment.egldFromBigInteger(
             providerBeforeIdentityFetch?.delegationCap ?? '0',
-          ).toDenominated(),
+          ).toRationalNumber(),
         );
 
         let filledPercentage = 0;
@@ -105,16 +106,16 @@ export default function useProviderIdentitiesAfterSelection({
           ?.filter((p) => !p.identity)
           .map((provider) => {
             const stakedAmount = Number(
-              Balance.fromString(provider.locked).toDenominated(),
+              TokenPayment.egldFromBigInteger(provider.locked).toRationalNumber(),
             );
 
             const providerBeforeIdentityFetch = fetchedProviders?.find(
               (p) => p.identity === provider.identity,
             );
             const providerDelegationCap = Number(
-              Balance.fromString(
+              TokenPayment.egldFromBigInteger(
                 providerBeforeIdentityFetch?.delegationCap ?? '0',
-              ).toDenominated(),
+              ).toRationalNumber(),
             );
 
             let filledPercentage = 0;

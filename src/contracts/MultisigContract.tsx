@@ -1,19 +1,17 @@
-import {
-  getAccountProviderType,
-  getNetworkProxy,
-  transactionServices,
-} from '@elrondnetwork/dapp-core';
+import { sendTransactions } from '@elrondnetwork/dapp-core/services';
+import { getAccountProviderType, refreshAccount } from '@elrondnetwork/dapp-core/utils/account';
 import {
   ContractFunction,
-  Balance,
   Address,
   SmartContract,
   BinaryCodec,
   CodeMetadata,
+  Query,
+  TokenPayment,
+  ResultsParser,
 } from '@elrondnetwork/erdjs';
 import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
 import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
-import { Query } from '@elrondnetwork/erdjs/out/smartcontracts/query';
 import {
   AddressValue,
   BigUIntValue,
@@ -24,7 +22,7 @@ import {
   U32Type,
   U32Value,
 } from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
-import { gasLimit, minGasLimit, issueTokenContractAddress } from 'src/config';
+import { gasLimit, minGasLimit, issueTokenContractAddress, network } from 'src/config';
 import { parseAction, parseActionDetailed } from 'src/helpers/converters';
 import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { MultisigAction } from 'src/types/MultisigAction';
@@ -35,9 +33,23 @@ import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContractsSlice';
 import { store } from 'src/redux/store';
+import { ProxyNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
 import { buildTransaction } from './transactionUtils';
 
 const proposeDeployGasLimit = 256_000_000;
+const proxy = new ProxyNetworkProvider(network?.apiAddress);
+
+export async function queryOnContract(functionName: string, contractAddress: string, ...args: TypedValue[]) {
+  const smartContract = new SmartContract({
+    address: new Address(contractAddress),
+  });
+  const newQuery = new Query({
+    address: smartContract.getAddress(),
+    func: new ContractFunction(functionName),
+    args,
+  });
+  return proxy.queryContract(newQuery);
+}
 
 export async function query(functionName: string, ...args: TypedValue[]) {
   const currentMultisigAddress = currentMultisigAddressSelector(
@@ -52,20 +64,8 @@ export async function query(functionName: string, ...args: TypedValue[]) {
     func: new ContractFunction(functionName),
     args,
   });
-  const proxy = getNetworkProxy();
-  return proxy.queryContract(newQuery);
-}
+  // const proxy = getNetworkProxy();
 
-export async function queryOnContract(functionName: string, contractAddress: string, ...args: TypedValue[]) {
-  const smartContract = new SmartContract({
-    address: new Address(contractAddress),
-  });
-  const newQuery = new Query({
-    address: smartContract.getAddress(),
-    func: new ContractFunction(functionName),
-    args,
-  });
-  const proxy = getNetworkProxy();
   return proxy.queryContract(newQuery);
 }
 
@@ -76,8 +76,10 @@ export async function queryNumber(
   const result = await query(functionName, ...args);
 
   const codec = new NumericalBinaryCodec();
+  const resultsParser = new ResultsParser();
+  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
   return codec
-    .decodeTopLevel(result.outputUntyped()[0], new U32Type())
+    .decodeTopLevel(parsedResult.values[0], new U32Type())
     .valueOf()
     .toNumber();
 }
@@ -91,8 +93,10 @@ export async function queryNumberOnContract(
   const result = await queryOnContract(functionName, contractAddress, ...args);
 
   const codec = new NumericalBinaryCodec();
+  const resultsParser = new ResultsParser();
+  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
   return codec
-    .decodeTopLevel(result.outputUntyped()[0], new U32Type())
+    .decodeTopLevel(parsedResult.values[0], new U32Type())
     .valueOf()
     .toNumber();
 }
@@ -103,9 +107,11 @@ export async function queryBoolean(
 ): Promise<boolean> {
   const result = await query(functionName, ...args);
 
+  const resultsParser = new ResultsParser();
+  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
   const codec = new BinaryCodec();
   return codec
-    .decodeTopLevel<BooleanValue>(result.outputUntyped()[0], new BooleanType())
+    .decodeTopLevel<BooleanValue>(parsedResult.values[0], new BooleanType())
     .valueOf();
 }
 
@@ -114,7 +120,9 @@ export async function queryAddressArray(
   ...args: TypedValue[]
 ): Promise<Address[]> {
   const result = await query(functionName, ...args);
-  return result.outputUntyped().map((x: Buffer) => new Address(x));
+  const resultsParser = new ResultsParser();
+  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
+  return parsedResult.values.map((x: Buffer) => new Address(x));
 }
 
 export async function sendTransaction(
@@ -140,8 +148,9 @@ export async function sendTransaction(
     ...args,
   );
 
-  const { sessionId } = await transactionServices.sendTransactions({
-    transactions: transaction,
+  await refreshAccount();
+  const { sessionId } = await sendTransactions({
+    transactions: [transaction],
     minGasLimit,
   });
   store.dispatch(setCurrentMultisigTransactionId(sessionId));
@@ -317,7 +326,7 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
   });
 
   mutateSmartContractCall(
-    smartContract.getAddress(),
+    new Address(smartContract.getAddress().bech32()),
     new BigUIntValue(new BigNumber(0)),
     multisigContractFunctionNames.ESDTNFTTransfer,
     BytesValue.fromUTF8(identifierWithoutNonce),
@@ -329,7 +338,7 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
 
 export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
   const esdtAddress = new Address(issueTokenContractAddress);
-  const esdtAmount = new BigUIntValue(Balance.egld(0.05).valueOf());
+  const esdtAmount = new BigUIntValue(TokenPayment.egldFromAmount(0.05).valueOf());
 
   const args = [];
   args.push(BytesValue.fromUTF8(proposal.name));
@@ -470,7 +479,11 @@ export async function queryActionContainer(
   if (result.returnData.length === 0) {
     return null;
   }
-  const [action] = parseAction(result.outputUntyped()[0]);
+
+  const resultsParser = new ResultsParser();
+  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
+  const [action] = parseAction(parsedResult.values[0]);
+
   return action;
 }
 
@@ -489,8 +502,10 @@ export async function queryActionContainerArray(
 ): Promise<MultisigActionDetailed[]> {
   const result = await query(functionName, ...args);
 
+  const resultsParser = new ResultsParser();
+  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
   const actions = [];
-  for (const buffer of result.outputUntyped()) {
+  for (const buffer of parsedResult.values) {
     const action = parseActionDetailed(buffer);
     if (action !== null) {
       actions.push(action);

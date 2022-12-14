@@ -7,7 +7,7 @@ import {
 } from 'src/apiCalls/multisigContractsCalls';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
 import { Box } from '@mui/material';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useTheme } from 'styled-components';

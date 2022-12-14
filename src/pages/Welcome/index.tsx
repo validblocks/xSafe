@@ -1,9 +1,9 @@
-import { getIsLoggedIn } from '@elrondnetwork/dapp-core';
 import { Link, Navigate } from 'react-router-dom';
 import { ReactComponent as Hero } from 'src/assets/img/home-img-multisig.svg';
 import { ReactComponent as Union } from 'src/assets/img/Union.svg';
 import shield from 'src/assets/img/shield-icon.svg';
 import routeNames from 'src/routes/routeNames';
+import { getIsLoggedIn } from '@elrondnetwork/dapp-core/utils';
 
 function Welcome() {
   const loggedIn = getIsLoggedIn();

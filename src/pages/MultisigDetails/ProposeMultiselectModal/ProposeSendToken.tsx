@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
-import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
 import { Box, MenuItem, SelectChangeEvent, useMediaQuery } from '@mui/material';
 import { FormikProps, FormikProvider, useFormik } from 'formik';
 import { motion } from 'framer-motion';
@@ -17,7 +17,7 @@ import { TestContext } from 'yup';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
-import { setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
+// import { setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { NumericFormat } from 'react-number-format';
@@ -54,21 +54,27 @@ const ProposeSendToken = ({
 }: ProposeSendTokenType) => {
   const { t } = useTranslation();
   let formik: FormikProps<IFormValues>;
-  const dispatch = useDispatch();
+  const _dispatch = useDispatch();
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
-  const [identifier, setIdentifier] = useState(selectedToken?.identifier);
+  console.log({ selectedTokenId: selectedToken?.identifier });
+  const [identifier, setIdentifier] = useState(selectedToken?.identifier || 'EGLD');
+  console.log({ identifier });
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
+
+  console.log({ tokenTableRows });
 
   const availableTokensWithBalances = useMemo(
     () =>
       tokenTableRows?.map((token: TokenTableRowItem) => ({
         identifier: token.identifier,
-        balance: Balance.fromString(token?.balanceDetails?.amount ?? '').toDenominated(),
+        balance: TokenPayment.egldFromBigInteger(token?.balanceDetails?.amount ?? '').toRationalNumber(),
       })),
     [tokenTableRows],
   );
+
+  console.log({ availableTokensWithBalances });
 
   const selectedTokenBalance = useMemo(
     () => availableTokensWithBalances?.find(
@@ -138,7 +144,7 @@ const ProposeSendToken = ({
     initialValues: {
       address: '',
       data: '',
-      amount: '1',
+      amount: '0',
     },
     validationSchema,
     validateOnChange: true,
@@ -158,7 +164,7 @@ const ProposeSendToken = ({
       }
 
       const amountParam = new BigUIntValue(
-        Balance.egld(amountNumeric).valueOf(),
+        TokenPayment.egldFromAmount(amountNumeric).valueOf(),
       );
 
       return new MultisigSendEgld(addressParam, amountParam, data ?? '');
@@ -199,24 +205,6 @@ const ProposeSendToken = ({
 
   const amountError = touched.amount && errors.amount;
   const addressError = touched.address && errors.address;
-
-  useEffect(() => {
-    if (!selectedToken?.identifier) {
-      const [firstAvailable] = tokenTableRows;
-      if (!firstAvailable) {
-        setIdentifier('EGLD');
-      }
-
-      setIdentifier(firstAvailable?.identifier);
-      dispatch(
-        setSelectedTokenToSend({
-          id: firstAvailable?.identifier,
-          identifier: firstAvailable?.identifier,
-          balance: firstAvailable?.balance,
-        }),
-      );
-    }
-  }, [dispatch, identifier, tokenTableRows]);
 
   const onIdentifierChanged = (event: SelectChangeEvent) => {
     const newIdentifier = event.target.value;
@@ -278,7 +266,7 @@ const ProposeSendToken = ({
           </label>
 
           <Styled.TokenSelection
-            value={identifier ?? ''}
+            value={identifier ?? 'EGLD'}
             fullWidth
             label="Identifier"
             size="small"

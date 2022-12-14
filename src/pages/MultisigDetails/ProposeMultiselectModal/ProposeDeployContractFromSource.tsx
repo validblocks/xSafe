@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Address, Balance } from '@elrondnetwork/erdjs/out';
+import { Address, TokenPayment } from '@elrondnetwork/erdjs/out';
 import {
   BigUIntValue,
   BytesValue,
@@ -88,7 +88,7 @@ const ProposeDeployContractFromSource = ({
       return null;
     }
 
-    const amountParam = new BigUIntValue(Balance.egld(amountNumeric).valueOf());
+    const amountParam = new BigUIntValue(TokenPayment.egldFromAmount(amountNumeric).valueOf());
     const argsParams = args.map((arg: string) => BytesValue.fromHex(arg));
 
     return new MultisigDeployContractFromSource(

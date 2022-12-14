@@ -1,4 +1,6 @@
-import { refreshAccount, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
+import { refreshAccount } from '@elrondnetwork/dapp-core/utils/account';
 import { useEffect } from 'react';
 import { accessTokenServices } from 'src/services/accessTokenServices';
 

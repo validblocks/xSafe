@@ -1,10 +1,13 @@
 /* eslint-disable no-nested-ternary */
-import { refreshAccount, transactionServices, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
 import { Box, IconButton } from '@mui/material';
+import { refreshAccount } from '@elrondnetwork/dapp-core/utils';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
+import { useGetAccountInfo, useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { addContractToMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { useGetPendingTransactions } from '@elrondnetwork/dapp-core/hooks/transactions';
 import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';
 import { FinalStepActionButton, InputsContainer } from 'src/components/Theme/StyledComponents';
 import { deployMultisigContract } from 'src/contracts/ManagerContract';
@@ -50,7 +53,7 @@ const DeployMultisigStepOne = ({
     setName('');
   }
 
-  transactionServices.useTrackTransactionStatus({
+  useTrackTransactionStatus({
     transactionId: pendingDeploymentContractData?.transactionId || null,
     onSuccess: onAddMultisigFinished,
     onFail: () => {
@@ -85,7 +88,7 @@ const DeployMultisigStepOne = ({
     setIsLoading(false);
   }, []);
 
-  const pendingTransactions = transactionServices.useGetPendingTransactions();
+  const pendingTransactions = useGetPendingTransactions();
 
   useEffect(() => {
     setIsLoading(pendingTransactions.hasPendingTransactions);

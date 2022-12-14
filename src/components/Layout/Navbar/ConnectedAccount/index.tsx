@@ -1,4 +1,6 @@
-import { logout, useGetAccountInfo, useGetLoginInfo } from '@elrondnetwork/dapp-core';
+import { logout } from '@elrondnetwork/dapp-core/utils';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Grid, useMediaQuery } from '@mui/material';
@@ -15,6 +17,7 @@ import CopyButton from 'src/components/CopyButton';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
 import {
   ConnectItems,
   DisconnectButton,
@@ -34,7 +37,7 @@ const ConnectedAccount = () => {
     sessionStorage.clear();
     logout(`${routeNames.multisig}`, (route) => {
       navigate(route!);
-      dispatch(setMultisigBalance('0'));
+      dispatch(setMultisigBalance(JSON.stringify(TokenPayment.egldFromAmount('0'))));
       dispatch(setTokenTableRows([]));
       dispatch(setOrganizationTokens([]));
       dispatch(setCurrentMultisigContract(''));

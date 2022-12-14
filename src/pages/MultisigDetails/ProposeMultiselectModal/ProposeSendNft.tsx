@@ -11,7 +11,7 @@ import { useQueryClient } from 'react-query';
 import useNft from 'src/utils/useNft';
 import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
 import { Box, Typography } from '@mui/material';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core';
+import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 
 interface ProposeSendNftType {

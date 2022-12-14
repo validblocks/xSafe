@@ -1,4 +1,4 @@
-import { Balance } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
 
 export interface IDenominatedBalanceConfig {
   precisionAfterComma?: number;
@@ -14,7 +14,7 @@ export const getDenominatedBalance = <T extends string | number>(
 ): T => {
   const balanceAfterDenomination = parseFloat(
     needsDenomination
-      ? Balance.fromString(stringBalance).toDenominated()
+      ? TokenPayment.egldFromBigInteger(stringBalance ?? 0).toRationalNumber()
       : stringBalance,
   );
   const balanceFloor = Math.floor(balanceAfterDenomination);

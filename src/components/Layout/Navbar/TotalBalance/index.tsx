@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { getNetworkProxy } from '@elrondnetwork/dapp-core';
-import { Address, Balance } from '@elrondnetwork/erdjs/out';
-import { Box, CircularProgress, useMediaQuery } from '@mui/material';
+import { getAccountBalance as getAccount } from '@elrondnetwork/dapp-core/utils/account';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { Box, CircularProgress } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { NewTransactionButton } from 'src/components/Theme/StyledComponents';
 import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
@@ -10,8 +10,9 @@ import {
 } from 'src/redux/selectors/currencySelector';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setValueInUsd } from 'src/redux/slices/currencySlice';
-import { setProposeMultiselectSelectedOption, setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
+import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
+import Divider from '@mui/material/Divider';
 import {
   setMultisigBalance,
   setOrganizationTokens,
@@ -20,7 +21,6 @@ import {
   StateType,
 } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { operations } from '@elrondnetwork/dapp-utils';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
@@ -28,19 +28,14 @@ import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
-import { Text, TotalBalanceText } from 'src/components/StyledComponents/StyledComponents';
-import pxToRem from 'src/components/Utils/pxToRem';
-import * as Styled from '../../../Utils/styled/index';
+import { CenteredText } from '../navbar-style';
 
 export const identifierWithoutUniqueHash = (identifier: string) => identifier?.split('-')[0] ?? '';
 export const DECIMAL_POINTS_UI = 3;
 
 function TotalBalance() {
   const dispatch = useDispatch();
-  const proxy = getNetworkProxy();
   const [totalUsdValue, setTotalUsdValue] = useState(0);
-  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
 
@@ -50,13 +45,13 @@ function TotalBalance() {
   );
 
   const fetchAddressEgld = useCallback(
-    () => proxy.getAccount(new Address(currentContract?.address)),
-    [currentContract, currentContract?.address, proxy],
+    () => getAccount(currentContract?.address),
+    [currentContract, currentContract?.address],
   );
 
   const fetchNFTs = useCallback(
     () => ElrondApiProvider.fetchOrganizationNFTs(currentContract?.address),
-    [currentContract, currentContract?.address, proxy],
+    [currentContract, currentContract?.address],
   );
 
   const {
@@ -78,7 +73,6 @@ function TotalBalance() {
   } = useQuery(
     [
       QueryKeys.ADDRESS_ESDT_TOKENS,
-      currentContract?.address,
     ],
     fetchAddressEsdts,
     {
@@ -103,7 +97,7 @@ function TotalBalance() {
       refetchOnMount: true,
       refetchOnWindowFocus: true,
       enabled: !!addressTokens,
-      select: (data) => data.balance,
+      select: (data) => data,
     },
   );
 
@@ -128,26 +122,26 @@ function TotalBalance() {
     if (!addressTokens || !egldBalanceDetails) { return null; }
     const egldRow = {
       id: 'EGLD',
-      ...egldBalanceDetails?.token,
-      tokenIdentifier: egldBalanceDetails?.token.identifier ?? 'EGLD',
-      balance: egldBalanceDetails?.value?.toString(),
+      tokenIdentifier: 'EGLD',
+      identifier: 'EGLD',
+      balance: egldBalanceDetails,
       presentation: {
-        tokenIdentifier: egldBalanceDetails?.token.identifier,
+        tokenIdentifier: 'EGLD',
         photoUrl: '',
       },
       balanceDetails: {
         identifier: 'EGLD',
         photoUrl: '',
-        amount: egldBalanceDetails?.value?.toString(),
-        decimals: egldBalanceDetails?.token.decimals as number,
+        amount: egldBalanceDetails,
+        decimals: 3,
       },
       value: {
         tokenPrice: egldPrice,
-        decimals: egldBalanceDetails?.token.decimals as number,
-        amount: egldBalanceDetails?.value?.toString(),
+        decimals: 3,
+        amount: egldBalanceDetails,
       },
     };
-    delete egldRow.owner;
+    // delete egldRow.owner;
 
     const allTokens = [egldRow, ...addressTokens?.map((token: any) => ({
       ...token,
@@ -193,16 +187,13 @@ function TotalBalance() {
       try {
         const organizationTokens: OrganizationToken[] = newTokensWithPrices.map(({
           identifier, balanceDetails, value }: TokenTableRowItem) => {
-          const balance = Balance.fromString(value?.amount as string).toString();
+          const amountAsRationalNumber = TokenPayment.egldFromBigInteger(
+            value?.amount as string,
+          ).toRationalNumber();
 
-          const amountAfterDenomination = operations.denominate({
-            input: balance,
-            denomination: balanceDetails?.decimals as number,
-            decimals: balanceDetails?.decimals as number,
-            showLastNonZeroDecimal: true,
-          });
+          console.log({ amountAsRationalNumber });
 
-          const denominatedAmountForCalcs = Number(amountAfterDenomination.replaceAll(',', ''));
+          const denominatedAmountForCalcs = Number(amountAsRationalNumber);
           const priceAsNumber = value?.tokenPrice as number;
           const totalUsdValue = Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(2));
           const tokenPrice = parseFloat(Number(priceAsNumber).toPrecision(4));
@@ -217,7 +208,7 @@ function TotalBalance() {
           });
         });
 
-        const persistedBalance = JSON.stringify(egldBalanceDetails);
+        const persistedBalance = JSON.stringify(TokenPayment.egldFromBigInteger(egldBalanceDetails));
 
         dispatch(setMultisigBalance(persistedBalance));
         dispatch(setTokenTableRows(newTokensWithPrices));
@@ -237,12 +228,16 @@ function TotalBalance() {
       ?.reduce((acc: number, token: TokenTableRowItem) =>
         acc + (parseFloat(token?.valueUsd?.toString() ?? '0')), 0);
 
-    const totalEgldValue = Number(egldBalanceDetails?.toDenominated()) * egldPrice ?? '0';
+    console.log({ newTokensWithPrices });
+    const totalEgldValue = Number(
+      TokenPayment.egldFromBigInteger(egldBalanceDetails ?? 0).toRationalNumber(),
+    ) * egldPrice ?? '0';
+    console.log({ totalAssetsValue, totalEgldValue });
     setTotalUsdValue(
       totalAssetsValue + totalEgldValue,
     );
     dispatch(setTotalUsdBalance(totalAssetsValue + totalEgldValue));
-  }, [dispatch, egldBalanceDetails, egldPrice, newTokensWithPrices]);
+  }, [egldBalanceDetails, egldPrice, newTokensWithPrices]);
 
   useEffect(() => {
     if (!totalValue) return;
@@ -253,24 +248,13 @@ function TotalBalance() {
     dispatch(setValueInUsd(totalUsdValue));
   }, [dispatch, totalUsdValue]);
 
-  const organizationTokens = useSelector(organizationTokensSelector);
-  const egldBalanceString = organizationTokens
-    ?.find((token: OrganizationToken) => token.identifier === 'EGLD')?.tokenAmount.replaceAll(',', '') ?? 0;
-
-  const onNewTransactionClick = () => {
-    dispatch(
-      setSelectedTokenToSend({
-        id: 'EGLD',
-        identifier: 'EGLD',
-        balance: egldBalanceString,
-      }),
-    );
+  const onNewTransactionClick = () =>
     dispatch(
       setProposeMultiselectSelectedOption({
         option: ProposalsTypes.send_token,
       }),
     );
-  };
+
   const getCurrency = useSelector(selectedCurrencySelector);
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
 
@@ -286,38 +270,31 @@ function TotalBalance() {
     <Box
       sx={{
         pt: 0.5,
-        px: 1,
+        pb: 2,
+        px: 2,
         display: { sm: 'block', xs: 'flex' },
         justifyContent: { sm: 'center', xs: 'space-around' },
       }}
     >
-      <Box sx={{ width: { sm: '100%', xs: '50%' } }} padding={maxWidth600 ? '7px 10px 0' : ''}>
-        <TotalBalanceText
-          fontSize={pxToRem(15)}
-          textAlign={maxWidth600 ? 'left' : 'center'}
-          fontWeight={500}
-        >Your Total Balance
-        </TotalBalanceText>
-        <Text
-          fontSize={pxToRem(22)}
-          fontWeight="bolder"
-          textAlign={maxWidth600 ? 'left' : 'center'}
-          lineHeight={maxWidth600 ? 1 : 1.5}
-        >
+      <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
+        <CenteredText fontSize="14px">Your Total Balance:</CenteredText>
+        <CenteredText fontSize="16px" fontWeight="bolder">
           {
             Number.isNaN(multisigAllCoinsValue) ? <CircularProgress /> : `${multisigAllCoinsValue} ${getCurrency}`
           }
-        </Text>
+        </CenteredText>
       </Box>
-      <Styled.Dividers orientation="vertical" flexItem />
+      <Divider orientation="vertical" flexItem />
+      {isInReadOnlyMode === false && (
       <Box
         className="d-flex justify-content-center"
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
       >
-        <NewTransactionButton variant="outlined" onClick={onNewTransactionClick} disabled={isInReadOnlyMode}>
+        <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>
           Send Token
         </NewTransactionButton>
       </Box>
+      )}
     </Box>
   );
 }
