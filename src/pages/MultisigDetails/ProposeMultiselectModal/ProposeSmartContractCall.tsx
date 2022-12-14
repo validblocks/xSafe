@@ -2,9 +2,9 @@ import { useContext, useEffect, useMemo } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import {
   Address,
-  Balance,
   BigUIntValue,
   BytesValue,
+  TokenPayment,
 } from '@elrondnetwork/erdjs/out';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -87,7 +87,7 @@ const ProposeSmartContractCall = ({
     if (validatedAmount < 0) {
       formik.setFieldValue('amount', 0);
     }
-    if (validatedAmount > Number(multisigBalance.toDenominated())) {
+    if (validatedAmount > Number(multisigBalance.toRationalNumber())) {
       return (
         testContext?.createError({
           message:
@@ -152,7 +152,7 @@ const ProposeSmartContractCall = ({
       }
 
       const amountParam = new BigUIntValue(
-        Balance.egld(amountNumeric).valueOf(),
+        TokenPayment.egldFromAmount(amountNumeric).valueOf(),
       );
 
       const argsParams = args.map((arg) => BytesValue.fromHex(arg));

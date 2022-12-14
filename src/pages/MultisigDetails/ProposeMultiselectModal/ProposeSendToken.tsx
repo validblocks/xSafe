@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
-import { Address, Balance, BigUIntValue } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
 import { Box, MenuItem, SelectChangeEvent, useMediaQuery } from '@mui/material';
 import { FormikProps, FormikProvider, useFormik } from 'formik';
 import { motion } from 'framer-motion';
@@ -65,7 +65,7 @@ const ProposeSendToken = ({
     () =>
       tokenTableRows?.map((token: TokenTableRowItem) => ({
         identifier: token.identifier,
-        balance: Balance.fromString(token?.balanceDetails?.amount ?? '').toDenominated(),
+        balance: TokenPayment.egldFromBigInteger(token?.balanceDetails?.amount ?? '').toRationalNumber(),
       })),
     [tokenTableRows],
   );
@@ -158,7 +158,7 @@ const ProposeSendToken = ({
       }
 
       const amountParam = new BigUIntValue(
-        Balance.egld(amountNumeric).valueOf(),
+        TokenPayment.egldFromAmount(amountNumeric).valueOf(),
       );
 
       return new MultisigSendEgld(addressParam, amountParam, data ?? '');

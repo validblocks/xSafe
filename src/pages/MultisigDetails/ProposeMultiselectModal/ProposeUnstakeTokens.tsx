@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
-import { Address, Balance, BigUIntValue, BytesValue } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue, BytesValue, TokenPayment } from '@elrondnetwork/erdjs/out';
 import { InputLabel, MenuItem, SelectChangeEvent } from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
 import { Form } from 'react-bootstrap';
@@ -144,9 +144,6 @@ const ProposeUnstakeTokens = ({
         return null;
       }
 
-      const _amountParam = new BigUIntValue(
-        Balance.egld(amountNumeric).valueOf(),
-      );
       const parsedAddress = new Address(identifier);
 
       let hexEncodedAmount = amountNumeric.toString(16);
@@ -156,7 +153,7 @@ const ProposeUnstakeTokens = ({
       return new MultisigSmartContractCall(
         parsedAddress,
         new BigUIntValue(
-          Balance.egld(0).valueOf(),
+          TokenPayment.egldFromAmount(0).valueOf(),
         ),
         delegationFunctionNames.unDelegate,
         [unDelegateAmount],

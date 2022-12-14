@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { Address, BigUIntValue } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
 import { FormikProps, useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -123,7 +123,7 @@ const ProposeSendEgld = ({
       }
 
       const amountParam = new BigUIntValue(
-        Balance.egld(amountNumeric).valueOf(),
+        TokenPayment.egldFromAmount(amountNumeric).valueOf(),
       );
 
       return new MultisigSendEgld(addressParam, amountParam, data);
