@@ -74,9 +74,9 @@ export const App = () => (
           <QueryClientProvider client={queryClient}>
             <OrganizationInfoContextProvider>
               <>
-                <SignTransactionsModals />
                 <TransactionsToastList />
                 <NotificationModal />
+                <SignTransactionsModals className="custom-class-for-modals" />
                 <Router basename={process.env.PUBLIC_URL}>
                   <Layout>
                     <Routes>

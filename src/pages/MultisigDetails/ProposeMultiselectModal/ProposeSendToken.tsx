@@ -17,7 +17,7 @@ import { TestContext } from 'yup';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
-import { setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
+// import { setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { NumericFormat } from 'react-number-format';
@@ -54,7 +54,7 @@ const ProposeSendToken = ({
 }: ProposeSendTokenType) => {
   const { t } = useTranslation();
   let formik: FormikProps<IFormValues>;
-  const dispatch = useDispatch();
+  const _dispatch = useDispatch();
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
   console.log({ selectedTokenId: selectedToken?.identifier });
@@ -62,6 +62,8 @@ const ProposeSendToken = ({
   console.log({ identifier });
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
+
+  console.log({ tokenTableRows });
 
   const availableTokensWithBalances = useMemo(
     () =>
@@ -71,6 +73,8 @@ const ProposeSendToken = ({
       })),
     [tokenTableRows],
   );
+
+  console.log({ availableTokensWithBalances });
 
   const selectedTokenBalance = useMemo(
     () => availableTokensWithBalances?.find(
@@ -140,7 +144,7 @@ const ProposeSendToken = ({
     initialValues: {
       address: '',
       data: '',
-      amount: '1',
+      amount: '0',
     },
     validationSchema,
     validateOnChange: true,
@@ -201,26 +205,6 @@ const ProposeSendToken = ({
 
   const amountError = touched.amount && errors.amount;
   const addressError = touched.address && errors.address;
-
-  useEffect(() => {
-    if (!selectedToken?.identifier) {
-      console.log('no id');
-      const [firstAvailable] = tokenTableRows;
-
-      const newId = firstAvailable ? firstAvailable?.identifier : 'EGLD';
-      setIdentifier(newId);
-
-      if (firstAvailable) {
-        dispatch(
-          setSelectedTokenToSend({
-            id: firstAvailable?.identifier,
-            identifier: firstAvailable?.identifier,
-            balance: firstAvailable?.balance,
-          }),
-        );
-      }
-    }
-  }, [dispatch, identifier, selectedToken?.identifier, tokenTableRows]);
 
   const onIdentifierChanged = (event: SelectChangeEvent) => {
     const newIdentifier = event.target.value;

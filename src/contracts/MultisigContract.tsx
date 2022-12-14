@@ -1,5 +1,5 @@
 import { sendTransactions } from '@elrondnetwork/dapp-core/services';
-import { getAccountProviderType } from '@elrondnetwork/dapp-core/utils/account';
+import { getAccountProviderType, refreshAccount } from '@elrondnetwork/dapp-core/utils/account';
 import {
   ContractFunction,
   Address,
@@ -148,8 +148,9 @@ export async function sendTransaction(
     ...args,
   );
 
+  await refreshAccount();
   const { sessionId } = await sendTransactions({
-    transactions: transaction,
+    transactions: [transaction],
     minGasLimit,
   });
   store.dispatch(setCurrentMultisigTransactionId(sessionId));
