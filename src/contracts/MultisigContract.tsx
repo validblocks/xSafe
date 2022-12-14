@@ -33,10 +33,10 @@ import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContractsSlice';
 import { store } from 'src/redux/store';
 import { ProxyNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
-import { IContractQuery } from '@elrondnetwork/erdjs-network-providers/out/interface';
 import { buildTransaction } from './transactionUtils';
 
 const proposeDeployGasLimit = 256_000_000;
+const proxy = new ProxyNetworkProvider(network?.apiAddress);
 
 export async function queryOnContract(functionName: string, contractAddress: string, ...args: TypedValue[]) {
   const smartContract = new SmartContract({
@@ -47,7 +47,6 @@ export async function queryOnContract(functionName: string, contractAddress: str
     func: new ContractFunction(functionName),
     args,
   });
-  const proxy = new ProxyNetworkProvider(network?.apiAddress);
   return proxy.queryContract(newQuery);
 }
 
@@ -65,8 +64,8 @@ export async function query(functionName: string, ...args: TypedValue[]) {
     args,
   });
   // const proxy = getNetworkProxy();
-  const proxy = new ProxyNetworkProvider(network?.apiAddress);
-  return proxy.queryContract(newQuery as IContractQuery);
+
+  return proxy.queryContract(newQuery);
 }
 
 export async function queryNumber(
