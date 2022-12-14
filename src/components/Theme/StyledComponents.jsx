@@ -521,7 +521,7 @@ export const ModalContainer = styled(Modal)`
 
 export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
   '&&&': {
-    '& ~ .modal-container.wallect-connect-login': {
+    '& ~ .modal-container.wallect-connect-login, & ~ .modal-container.ledger-login': {
       '& .modal-content': {
         backgroundColor: _.palette.background.secondary,
         '& .card-title': {
@@ -551,14 +551,15 @@ export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
         },
         '& .modal-card-body': {
           padding: '24px 48px !important',
-          '& div.wallect-connect-login_container': {
-            '& div.wallect-connect-login_card': {
+          '& div.wallect-connect-login_container, & div.login-container': {
+            '& div.wallect-connect-login_card, & div.card': {
               backgroundColor: _.palette.background.secondary,
               color: _.palette.text.primary,
               marginBottom: '5px !important',
-              '& a': {
+              '& a, & button': {
                 width: '100%',
                 backgroundColor: _.palette.background.main,
+                color: _.palette.primary.main,
                 marginTop: '15px !important',
                 '& svg': {
                   display: 'none',
@@ -570,7 +571,7 @@ export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
       },
     },
     '@media (max-width: 600px)': {
-      '& ~ .modal-container.wallect-connect-login': {
+      '& ~ .modal-container.wallect-connect-login, & ~ .modal-container.ledger-login': {
         '& .modal-content': {
           '& .card-title': {
             '& div.pt-spacer': {
