@@ -123,6 +123,7 @@ function TotalBalance() {
     const egldRow = {
       id: 'EGLD',
       tokenIdentifier: 'EGLD',
+      identifier: 'EGLD',
       balance: egldBalanceDetails,
       presentation: {
         tokenIdentifier: 'EGLD',
