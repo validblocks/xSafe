@@ -2,6 +2,7 @@ import { TokenPayment } from '@elrondnetwork/erdjs/out';
 import axios from 'axios';
 import { useCallback } from 'react';
 import { useQuery } from 'react-query';
+import { network } from 'src/config';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import {
@@ -22,7 +23,7 @@ export default function useProviderIdentitiesAfterSelection({
   const fetchProviders = useCallback(
     (): Promise<IProvider[]> =>
       axios
-        .get('https://devnet-api.elrond.com/providers')
+        .get(`${network.apiAddress}/providers`)
         .then((res) => res.data),
     [],
   );

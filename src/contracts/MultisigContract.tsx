@@ -8,6 +8,7 @@ import {
   CodeMetadata,
   Query,
   TokenPayment,
+  ResultsParser,
 } from '@elrondnetwork/erdjs';
 import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
 import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
@@ -75,8 +76,10 @@ export async function queryNumber(
   const result = await query(functionName, ...args);
 
   const codec = new NumericalBinaryCodec();
+  const resultsParser = new ResultsParser();
+  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
   return codec
-    .decodeTopLevel(result.outputUntyped()[0], new U32Type())
+    .decodeTopLevel(parsedResult.values[0], new U32Type())
     .valueOf()
     .toNumber();
 }
@@ -90,8 +93,10 @@ export async function queryNumberOnContract(
   const result = await queryOnContract(functionName, contractAddress, ...args);
 
   const codec = new NumericalBinaryCodec();
+  const resultsParser = new ResultsParser();
+  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
   return codec
-    .decodeTopLevel(result.outputUntyped()[0], new U32Type())
+    .decodeTopLevel(parsedResult.values[0], new U32Type())
     .valueOf()
     .toNumber();
 }
@@ -102,9 +107,11 @@ export async function queryBoolean(
 ): Promise<boolean> {
   const result = await query(functionName, ...args);
 
+  const resultsParser = new ResultsParser();
+  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
   const codec = new BinaryCodec();
   return codec
-    .decodeTopLevel<BooleanValue>(result.outputUntyped()[0], new BooleanType())
+    .decodeTopLevel<BooleanValue>(parsedResult.values[0], new BooleanType())
     .valueOf();
 }
 
@@ -113,7 +120,9 @@ export async function queryAddressArray(
   ...args: TypedValue[]
 ): Promise<Address[]> {
   const result = await query(functionName, ...args);
-  return result.outputUntyped().map((x: Buffer) => new Address(x));
+  const resultsParser = new ResultsParser();
+  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
+  return parsedResult.values.map((x: Buffer) => new Address(x));
 }
 
 export async function sendTransaction(
@@ -328,7 +337,7 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
 
 export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
   const esdtAddress = new Address(issueTokenContractAddress);
-  const esdtAmount = TokenPayment.egldFromAmount(0.05);
+  const esdtAmount = new BigUIntValue(TokenPayment.egldFromAmount(0.05).valueOf());
 
   const args = [];
   args.push(BytesValue.fromUTF8(proposal.name));
@@ -469,7 +478,11 @@ export async function queryActionContainer(
   if (result.returnData.length === 0) {
     return null;
   }
-  const [action] = parseAction(result.outputUntyped()[0]);
+
+  const resultsParser = new ResultsParser();
+  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
+  const [action] = parseAction(parsedResult.values[0]);
+
   return action;
 }
 
@@ -488,8 +501,10 @@ export async function queryActionContainerArray(
 ): Promise<MultisigActionDetailed[]> {
   const result = await query(functionName, ...args);
 
+  const resultsParser = new ResultsParser();
+  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
   const actions = [];
-  for (const buffer of result.outputUntyped()) {
+  for (const buffer of parsedResult.values) {
     const action = parseActionDetailed(buffer);
     if (action !== null) {
       actions.push(action);
