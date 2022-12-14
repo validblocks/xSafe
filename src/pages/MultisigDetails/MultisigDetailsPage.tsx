@@ -1,4 +1,4 @@
-import { Address, Balance } from '@elrondnetwork/erdjs';
+import { Address } from '@elrondnetwork/erdjs';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -21,7 +21,7 @@ export interface ContractInfo {
   deployedAt?: string;
   userRole: number;
   allActions: MultisigActionDetailed[];
-  multisigBalance: Balance;
+  multisigBalance: any;
   multisigName?: string;
   boardMembersAddresses?: Address[];
   proposersAddresses?: Address[];

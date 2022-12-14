@@ -21,7 +21,6 @@ import {
   StateType,
 } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { operations } from '@elrondnetwork/dapp-utils';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
@@ -187,16 +186,13 @@ function TotalBalance() {
       try {
         const organizationTokens: OrganizationToken[] = newTokensWithPrices.map(({
           identifier, balanceDetails, value }: TokenTableRowItem) => {
-          const balance = TokenPayment.egldFromBigInteger(value?.amount as string).toString();
+          const amountAsRationalNumber = TokenPayment.fungibleFromBigInteger(
+            '',
+            value?.amount as string,
+            balanceDetails?.decimals,
+          ).toRationalNumber();
 
-          const amountAfterDenomination = operations.denominate({
-            input: balance,
-            denomination: balanceDetails?.decimals as number,
-            decimals: balanceDetails?.decimals as number,
-            showLastNonZeroDecimal: true,
-          });
-
-          const denominatedAmountForCalcs = Number(amountAfterDenomination.replaceAll(',', ''));
+          const denominatedAmountForCalcs = Number(amountAsRationalNumber);
           const priceAsNumber = value?.tokenPrice as number;
           const totalUsdValue = Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(2));
           const tokenPrice = parseFloat(Number(priceAsNumber).toPrecision(4));
@@ -211,7 +207,7 @@ function TotalBalance() {
           });
         });
 
-        const persistedBalance = JSON.stringify(egldBalanceDetails);
+        const persistedBalance = JSON.stringify(TokenPayment.egldFromBigInteger(egldBalanceDetails));
 
         dispatch(setMultisigBalance(persistedBalance));
         dispatch(setTokenTableRows(newTokensWithPrices));

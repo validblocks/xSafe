@@ -1,4 +1,4 @@
-import { Balance } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
 import { useCallback, useMemo } from 'react';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { MultisigSmartContractCall } from './MultisigSmartContractCall';
@@ -12,7 +12,7 @@ interface Props {
 function getAmountFromTransactionData(data: string): string {
   const amountParamHex = data.split('@')[1];
   const amountParamDecimal = parseInt(amountParamHex ?? '0', 16).toString();
-  const denominatedAmountParam = Balance.fromString(amountParamDecimal).toDenominated();
+  const denominatedAmountParam = TokenPayment.egldFromBigInteger(amountParamDecimal).toRationalNumber();
   const prettyBalance = getDenominatedBalance<string>(
     denominatedAmountParam,
     { precisionAfterComma: 3, needsDenomination: false },
@@ -46,7 +46,7 @@ const ProposalAmount = ({
       case DelegationFunctionTitles.StakeTokens: {
         const { amount } = multisigSmartContractCall;
         const amountToString = amount.valueOf().toString();
-        const balance = Balance.fromString(amountToString).toDenominated();
+        const balance = TokenPayment.egldFromBigInteger(amountToString).toRationalNumber();
         const denominatedBalance = getDenominatedBalance<string>(
           balance,
           { precisionAfterComma: 3, needsDenomination: false },
