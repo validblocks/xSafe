@@ -35,13 +35,13 @@ jobs:
               -v MAIAR_ID_API_DEVNET="${{ secrets.MAIAR_ID_API_DEVNET }}" \
               -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
               -v UNIQUE_CONTRACT_NAME="${{ secrets.UNIQUE_CONTRACT_NAME }}" \
-              -v NPM_AUTH_TOKEN="${{ secrets.NPMRC }}" \
+              -v NPMRC="${{ secrets.NPMRC }}" \
               '{ \
                   sub(/XXX_EXTRAS_API_DEVNET_XXX/, EXTRAS_API_DEVNET); \
                   sub(/XXX_MAIAR_ID_API_DEVNET_XXX/, MAIAR_ID_API_DEVNET); \
                   sub(/XXX_UNIQUE_CONTRACT_ADDRESS_XXX/, UNIQUE_CONTRACT_ADDRESS); \
                   sub(/XXX_UNIQUE_CONTRACT_NAME_XXX/, UNIQUE_CONTRACT_NAME); \
-                  sub(/XXX_NPM_AUTH_TOKEN_XXX/, NPM_AUTH_TOKEN); \
+                  sub(/XXX_NPMRC_XXX/, NPMRC); \
                   print; \
               }' \
               .env.staging > .env
