@@ -8,12 +8,10 @@ import { AuthenticatedRoutesWrapper } from '@elrondnetwork/dapp-core/wrappers';
 import { Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import { setAccountData } from 'src/redux/slices/accountGeneralInfoSlice';
 import { setEconomics } from 'src/redux/slices/economicsSlice';
 import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import routes from 'src/routes';
-import { accessTokenServices } from 'src/services/accessTokenServices';
 import { Main } from 'src/components/Theme/StyledComponents';
 import { useTheme } from 'styled-components';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
@@ -23,7 +21,7 @@ import { Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { TokenWrapper } from '../TokenWrapper';
+import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
@@ -42,11 +40,11 @@ function Layout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const currentContract = useSelector(currentMultisigContractSelector);
-  const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
-    address,
-    '',
-    isLoggedIn,
-  );
+  // const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
+  //   address,
+  //   'http://localhost:3000',
+  //   isLoggedIn,
+  // );
 
   async function fetchAccountData() {
     const accountData = await ElrondApiProvider.getAccountData(address);
@@ -71,21 +69,19 @@ function Layout({ children }: { children: React.ReactNode }) {
         await refreshAccount();
         await fetchAccountData();
 
-        if (!isAuthenticated?.isAuthenticated) refreshAccount();
-
-        // if (isAuthenticated?.isAuthenticated) {
         const contracts = await getUserMultisigContractsList();
         dispatch(setMultisigContracts(contracts));
+
+        console.log({ contracts });
 
         if (contracts.length > 0 && !currentContract?.address) {
           const [firstContract] = contracts;
           dispatch(setCurrentMultisigContract(firstContract.address));
           navigate(`${routeNames.multisig}/${firstContract.address}`);
         }
-        // }
       }());
     }
-  }, [isLoggedIn, address, isAuthenticated.isAuthenticated, dispatch, currentContract?.address, navigate]);
+  }, [isLoggedIn, address, dispatch, currentContract?.address, navigate, fetchAccountData]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -148,7 +144,7 @@ function Layout({ children }: { children: React.ReactNode }) {
             >
               {children}
             </AuthenticatedRoutesWrapper>
-            <TokenWrapper />
+            {/* <TokenWrapper /> */}
             <ModalLayer />
             <SidebarSelectOptionModal />
           </Box>

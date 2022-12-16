@@ -48,7 +48,7 @@ export function buildTransaction(
     transactionPayload.options = TransactionOptions.withTxHashSignOptions();
     transactionPayload.version = TransactionVersion.withTxHashSignVersion();
   }
-  return new Transaction(transactionPayload);
+  return new Transaction(transactionPayload as any);
 }
 
 export function buildBlockchainTransaction(
@@ -71,7 +71,7 @@ export function buildBlockchainTransaction(
     transactionPayload.options = TransactionOptions.withTxHashSignOptions();
     transactionPayload.version = TransactionVersion.withTxHashSignVersion();
   }
-  return new Transaction(transactionPayload);
+  return new Transaction(transactionPayload as any);
 }
 
 export const functionsWithActionIds = [

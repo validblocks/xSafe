@@ -8,14 +8,20 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider as ReduxProvider } from 'react-redux';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
+import {
+  apiTimeout,
+  walletConnectV2ProjectId,
+  sampleAuthenticatedDomains,
+} from 'src/config';
 import routes from 'src/routes';
-import { DappProvider } from '@elrondnetwork/dapp-core/wrappers';
+import { AxiosInterceptorContext, DappProvider } from '@elrondnetwork/dapp-core/wrappers';
 import {
   TransactionsToastList,
   SignTransactionsModals,
   NotificationModal,
 } from '@elrondnetwork/dapp-core/UI';
 import i18next from 'i18next';
+import { EnvironmentsEnum } from '@elrondnetwork/dapp-core/types';
 import { englishTranslations } from './i18n/en';
 import { germanTranslations } from './i18n/de';
 import Layout from './components/Layout';
@@ -70,31 +76,45 @@ export const App = () => (
     <PersistGate loading={null} persistor={persistor}>
       <CssBaseline />
       <CustomThemeProvider>
-        <DappProvider environment="devnet">
-          <QueryClientProvider client={queryClient}>
-            <OrganizationInfoContextProvider>
-              <>
-                <TransactionsToastList />
-                <NotificationModal />
-                <SignTransactionsModals className="custom-class-for-modals" />
-                <Router basename={process.env.PUBLIC_URL}>
+        <QueryClientProvider client={queryClient}>
+          <AxiosInterceptorContext.Provider>
+            <AxiosInterceptorContext.Interceptor
+              authenticatedDomanis={sampleAuthenticatedDomains}
+            >
+              <Router>
+                <DappProvider
+                  customNetworkConfig={{
+                    name: 'customConfig',
+                    apiTimeout,
+                    walletConnectV2ProjectId,
+                  }}
+                  environment={EnvironmentsEnum.devnet}
+                >
                   <Layout>
-                    <Routes>
-                      {routes.map((route) => (
-                        <Route
-                          path={route.path}
-                          key={route.path}
-                          element={<route.component />}
-                        />
-                      ))}
-                      <Route element={PageNotFound()} />
-                    </Routes>
+                    <AxiosInterceptorContext.Listener />
+                    <OrganizationInfoContextProvider>
+                      <>
+                        <TransactionsToastList />
+                        <NotificationModal />
+                        <SignTransactionsModals className="custom-class-for-modals" />
+                        <Routes>
+                          {routes.map((route) => (
+                            <Route
+                              path={route.path}
+                              key={route.path}
+                              element={<route.component />}
+                            />
+                          ))}
+                          <Route element={PageNotFound()} />
+                        </Routes>
+                      </>
+                    </OrganizationInfoContextProvider>
                   </Layout>
-                </Router>
-              </>
-            </OrganizationInfoContextProvider>
-          </QueryClientProvider>
-        </DappProvider>
+                </DappProvider>
+              </Router>
+            </AxiosInterceptorContext.Interceptor>
+          </AxiosInterceptorContext.Provider>
+        </QueryClientProvider>
       </CustomThemeProvider>
     </PersistGate>
   </ReduxProvider>

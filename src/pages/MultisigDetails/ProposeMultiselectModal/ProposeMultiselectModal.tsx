@@ -32,7 +32,6 @@ import ProposeSendToken from './ProposeSendToken';
 
 import ProposeSmartContractCall from './ProposeSmartContractCall';
 import ProposeUpgradeContractFromSource from './ProposeUpgradeContractFromSource';
-import SelectOption from './SelectOption';
 
 import './proposeMultiselectModal.scss';
 import ProposeSendNft from './ProposeSendNft';
@@ -133,10 +132,6 @@ const ProposeMultiselectModal = ({
     setSelectedProposal(proposal);
   };
 
-  const handleOptionSelected = (option: ProposalsTypes) => {
-    dispatch(setProposeMultiselectSelectedOption({ option }));
-  };
-
   const getContent = () => {
     switch (selectedOption?.option) {
       case ProposalsTypes.send_egld:
@@ -221,7 +216,7 @@ const ProposeMultiselectModal = ({
         );
       }
       default:
-        return <SelectOption onSelected={handleOptionSelected} />;
+        return <div />;
     }
   };
 

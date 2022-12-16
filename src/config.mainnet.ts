@@ -1,5 +1,13 @@
 import { object, string, InferType } from 'yup';
 
+export const apiTimeout = 6000;
+export const walletConnectV2ProjectId = '4f2a173074e230a47805bddfa7ecd1ea';
+export const TOOLS_API_URL = 'https://tools.elrond.com';
+/**
+ * Calls to these domains will use `nativeAuth` Baerer token
+ */
+export const sampleAuthenticatedDomains = [TOOLS_API_URL];
+
 export const dAppName = 'xSafe';
 export const decimals = 2;
 export const denomination = 18;

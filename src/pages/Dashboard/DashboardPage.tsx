@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Box, Button, Grid, useMediaQuery } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
-import { accessTokenServices, storageApi } from 'src/services/accessTokenServices';
+import { storageApi } from 'src/services/accessTokenServices';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { refreshAccount } from '@elrondnetwork/dapp-core/utils';
@@ -38,17 +38,17 @@ function Dashboard() {
 
   const { isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
-  const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
-    address,
-    '',
-    isLoggedIn,
-  );
+  // const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
+  //   address,
+  //   'http://localhost:3000',
+  //   isLoggedIn,
+  // );
 
   useEffect(() => {
     if (isLoggedIn) {
       refreshAccount();
     }
-  }, [isLoggedIn, address, isAuthenticated?.isAuthenticated, dispatch]);
+  }, [isLoggedIn, address, dispatch]);
 
   async function checkSingleContractValidity() {
     if (uniqueContractAddress || !storageApi) {

@@ -6,7 +6,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Grid, useMediaQuery } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { toSvg } from 'jdenticon';
-import { accessTokenServices } from 'src/services/accessTokenServices';
 import routeNames from 'src/routes/routeNames';
 import { network } from 'src/config';
 import { useEffect, useState } from 'react';
@@ -32,7 +31,7 @@ const ConnectedAccount = () => {
 
   const logOut = async () => {
     document.cookie = '';
-    accessTokenServices?.services?.maiarId?.removeToken?.();
+    // accessTokenServices?.services?.maiarId?.removeToken?.();
     localStorage.clear();
     sessionStorage.clear();
     logout(`${routeNames.multisig}`, (route) => {
