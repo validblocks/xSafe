@@ -24,19 +24,9 @@ declare global {
 }
 
 const Unlock = () => {
-  // const [token, setToken] = useState('');
   const currentContract = useSelector(currentMultisigContractSelector);
 
-  // useEffect(() => {
-  //   accessTokenServices?.services?.maiarId
-  //     ?.init({ maiarIdApi: `http://localhost:3000/proxy?route=${maiarIdApi}` })
-  //     .then((loginToken: string) => {
-  //       setToken(loginToken);
-  //     });
-  // }, []);
-
   const commonProps = {
-    callbackRoute: routeNames.dashboard,
     nativeAuth: true,
   };
 
@@ -44,7 +34,6 @@ const Unlock = () => {
     callbackRoute: currentContract?.address
       ? `${routeNames.multisig}/${currentContract?.address}`
       : `${routeNames.multisig}`,
-    // token,
     logoutRoute: `${routeNames.multisig}`,
     buttonClassName: 'btn btn-unlock btn-block',
   };
