@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import QrCode from 'qrcode.react';
-import { Modal } from 'react-bootstrap';
 import { Typography, Box } from '@mui/material';
 import { useTheme } from 'styled-components';
 import CopyButton from '../CopyButton';
-import { MainButton, DepositDoneAction } from '../Theme/StyledComponents';
+import { MainButton, DepositDoneAction, ModalContainer } from '../Theme/StyledComponents';
 import { Text } from '../StyledComponents/StyledComponents';
 import * as Styled from '../Utils/styled/index';
 
@@ -55,7 +54,7 @@ const ReceiveModal = ({
           Receive
         </MainButton>
       )}
-      <Modal
+      <ModalContainer
         show={showModal}
         size="lg"
         onHide={handleQr === undefined ? handleCloseModal : handleQr}
@@ -98,7 +97,7 @@ const ReceiveModal = ({
             </div>
           </Box>
         </div>
-      </Modal>
+      </ModalContainer>
     </>
   );
 };
