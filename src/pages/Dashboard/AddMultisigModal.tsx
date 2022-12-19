@@ -116,7 +116,7 @@ function AddMultisigModal({
               }}
             />
           </Box>
-          <Box className="modal-action-btns">
+          <Box className="modal-action-btns" marginTop={maxWidth600 ? '24px !important' : ''}>
             <MainButton
               onClick={handleClose}
               sx={{ boxShadow: 'none !important' }}
