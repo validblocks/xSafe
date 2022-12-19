@@ -13,7 +13,7 @@ import { useTheme } from 'styled-components';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import { MainButton, MainButtonNoShadow, ModalConnectContainer } from 'src/components/Theme/StyledComponents';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import Unlock from 'src/pages/Unlock';
 import { getIsLoggedIn } from '@elrondnetwork/dapp-core/utils';
@@ -40,6 +40,8 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
   );
   const [selectedNameParam, setSelectedNameParam] = useState('');
   const [selectedReplacementAddressParam] = useState(new Address());
+
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const handleClose = () => {
     dispatch(setProposeModalSelectedOption(null));
@@ -220,7 +222,8 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
       <ModalCardTitle title={getModalTitle()} handleClose={handleClose} />
       <div className="card">
         <Box
-          sx={{ padding: '21px 40px',
+          padding={maxWidth600 ? '19px 16px' : '21px 40px'}
+          sx={{
             backgroundColor: theme.palette.background.secondary,
             borderRadius: '0 0 10px 10px' }}
         >
