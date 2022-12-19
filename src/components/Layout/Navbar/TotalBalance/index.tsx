@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { getAccountBalance as getAccount } from '@elrondnetwork/dapp-core/utils/account';
 import { TokenPayment } from '@elrondnetwork/erdjs/out';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { AccountButton, NewTransactionButton } from 'src/components/Theme/StyledComponents';
@@ -29,10 +29,9 @@ import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks';
-import { CenteredText } from '../navbar-style';
-import * as Styled from '../styled';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { CenteredText, TotalBalanceText } from '../navbar-style';
 
 export const identifierWithoutUniqueHash = (identifier: string) => identifier?.split('-')[0] ?? '';
 export const DECIMAL_POINTS_UI = 3;
@@ -40,6 +39,7 @@ export const DECIMAL_POINTS_UI = 3;
 function TotalBalance() {
   const dispatch = useDispatch();
   const [totalUsdValue, setTotalUsdValue] = useState(0);
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
 
@@ -279,43 +279,50 @@ function TotalBalance() {
         justifyContent: { sm: 'center', xs: 'space-around' },
       }}
     >
-      <Styled.TotalBalanceBox sx={{ width: { sm: '100%', xs: '50%' } }}>
-        <CenteredText fontSize="14px">Your Total Balance:</CenteredText>
-        <CenteredText fontSize="16px" fontWeight="bolder">
+      <Box
+        sx={{ width: { sm: '100%', xs: '50%' } }}
+        py={maxWidth600 ? '10px' : ''}
+        paddingLeft={1}
+        justifyContent="center"
+        alignContent="center"
+      >
+        <TotalBalanceText>Your Total Balance:</TotalBalanceText>
+        <CenteredText fontSize={maxWidth600 ? '22px' : '16px'} fontWeight="bolder">
           {
             Number.isNaN(multisigAllCoinsValue) ?
               <CircularProgress /> :
               `${isLoggedIn ? multisigAllCoinsValue : 0} ${getCurrency}`
           }
         </CenteredText>
-      </Styled.TotalBalanceBox>
-      <Divider orientation="vertical" flexItem sx={{ borderColor: '#9393931a !important' }} />
-      <Box
-        className="d-flex justify-content-center align-items-center"
-        sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
-      >
-        {!isInReadOnlyMode ? (
-          <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>
-            Send Token
-          </NewTransactionButton>
-        ) : (
-          <Text height={'40px'} display="flex" alignItems={'center'}>
-            {isLoggedIn ? 'Read-Only Mode' : (
-              <AccountButton
-                variant="outlined"
-                onClick={handleConnectClick}
-                size="large"
-              >
-                <Box className="d-flex">
-                  <BoltIcon />
-                  <Typography sx={{ textTransform: isLoggedIn ? 'lowercase' : 'none' }}>
-                    Connect
-                  </Typography>
-                </Box>
-              </AccountButton>
-            )}
-          </Text>
-        )}
+        <Divider orientation="vertical" flexItem sx={{ borderColor: '#9393931a !important' }} />
+        <Box
+          className="d-flex justify-content-center align-items-center"
+          sx={{ width: { sm: '100%', xs: '50%' } }}
+          py={maxWidth600 ? '17px' : 1}
+        >
+          {!isInReadOnlyMode ? (
+            <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>
+              Send Token
+            </NewTransactionButton>
+          ) : (
+            <Text height={'40px'} display="flex" alignItems={'center'}>
+              {isLoggedIn ? 'Read-Only Mode' : (
+                <AccountButton
+                  variant="outlined"
+                  onClick={handleConnectClick}
+                  size="large"
+                >
+                  <Box className="d-flex">
+                    <BoltIcon />
+                    <Typography sx={{ textTransform: isLoggedIn ? 'lowercase' : 'none' }}>
+                      Connect
+                    </Typography>
+                  </Box>
+                </AccountButton>
+              )}
+            </Text>
+          )}
+        </Box>
       </Box>
     </Box>
   );

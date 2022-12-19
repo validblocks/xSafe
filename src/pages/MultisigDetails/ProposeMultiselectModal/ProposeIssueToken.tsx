@@ -6,6 +6,7 @@ import { TestContext } from 'yup';
 import { FormikCheckbox, FormikInputField } from 'src/helpers/formikFields';
 import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
 import { Box } from '@mui/material';
+import * as Styled from './styled';
 
 interface ProposeIssueTokenType {
   handleChange: (proposal: MultisigIssueToken) => void;
@@ -143,10 +144,7 @@ const ProposeIssueToken = ({
   ]);
 
   return (
-    <Box sx={{
-      p: '1.9rem 2.5rem 0rem',
-    }}
-    >
+    <Styled.SelectProposalTypesModalContainer>
       <FormikInputField
         label={t('Name')}
         name="name"
@@ -237,7 +235,7 @@ const ProposeIssueToken = ({
         />
       </Box>
 
-    </Box>
+    </Styled.SelectProposalTypesModalContainer>
   );
 };
 

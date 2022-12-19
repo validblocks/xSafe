@@ -56,6 +56,7 @@ export const theme = createTheme({
       quorumDigits: '#8675C8',
       secondaryMenu: '#08041D66',
       createSafeSteps: '#000000de',
+      totalBalance: '#08041D',
     },
     sidebar: {
       primary: '#fff',
@@ -188,6 +189,7 @@ export const darkTheme = createTheme({
       quorumDigits: '#F0F6FF',
       secondaryMenu: '#F0F6FF66',
       createSafeSteps: '#8680A9',
+      totalBalance: '#9C9BA5',
     },
     black: {
       main: '#08041D',

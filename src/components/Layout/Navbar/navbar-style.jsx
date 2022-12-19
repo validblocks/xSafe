@@ -110,6 +110,14 @@ export const CenteredText = styled(Text)`
   font-family: 'IBM Plex Sans', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
 `;
 
+export const TotalBalanceText = styled(CenteredText)(({ theme: _ }) => ({
+  color: _.palette.text.totalBalance,
+  fontSize: '16px',
+  '@media (max-width:600px)': {
+    fontSize: '15px',
+  },
+}));
+
 export const TopHeader = styled(Box)`
 &&& {
   background: ${(props) => props.theme.palette.background.secondary};
