@@ -38,6 +38,13 @@ export const SelectProposalTypesModalContainer = styled(Box)(({ theme: _ }) => (
   },
 }));
 
+export const AttachSmartContractModalContainer = styled(Box)(({ theme: _ }) => ({
+  padding: '30px 40px',
+  '@media (max-width:600px)': {
+    padding: '16px',
+  },
+}));
+
 export const AmountWithTokenSelectionBox = styled(InputsContainer)(({ theme }) => ({
   display: 'flex',
   marginBottom: '30px !important',

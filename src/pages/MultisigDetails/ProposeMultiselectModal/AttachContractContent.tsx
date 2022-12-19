@@ -9,13 +9,12 @@ import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigCont
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { validateContractAddressOwner } from 'src/helpers/validation';
 import { ProposalsTypes } from 'src/types/Proposals';
-import { useTheme } from 'styled-components';
 import { ActionResponseButton } from 'src/components/Theme/StyledComponents';
-import { Box, IconButton } from '@mui/material';
+import { Box } from '@mui/material';
 import { FormikInputField } from 'src/helpers/formikFields';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useGetAccountProvider } from '@elrondnetwork/dapp-core/hooks';
+import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
+import * as Styled from './styled';
 
 const gasLimit = 10_000_000;
 
@@ -23,7 +22,6 @@ interface AttachContractContentProps {
   handleClose: () => void;
 }
 const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
-  const theme: any = useTheme();
   const { t }: { t: any } = useTranslation();
   const dispatch = useDispatch();
 
@@ -76,51 +74,41 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
     touched.contractAddress && errors.contractAddress;
 
   return (
-    <Box padding={'1.5rem 2.5rem 1.9rem'}>
-      <Box>
-        <Text fontSize={24} className="h3 mb-4" data-testid="delegateTitle">
-          {t('Attach smart contract')}
-        </Text>
-        <IconButton
-          onClick={handleClose}
-          sx={{ position: 'absolute', right: '32px', top: '20px', color: theme.palette.text.primary }}
-          size="small"
-          aria-label="close"
+    <>
+      <ModalCardTitle title={t('Attach smart contract') as string} handleClose={handleClose} />
+      <Styled.AttachSmartContractModalContainer>
+        <Box
+          mb={'10px'}
+          className={contractAddressError ? 'invalid' : ''}
         >
-          <CloseRoundedIcon />
-        </IconButton>
-      </Box>
-      <Box
-        mb={'10px'}
-        className={contractAddressError ? 'invalid' : ''}
-      >
-        <FormikInputField
-          label={t('Contract address')}
-          name="contractAddress"
-          value={formik.values.contractAddress}
-          error={contractAddressError}
-          handleChange={formik.handleChange}
-          handleBlur={formik.handleBlur}
-          className={contractAddressError ? 'isError' : ''}
-        />
+          <FormikInputField
+            label={t('Contract address')}
+            name="contractAddress"
+            value={formik.values.contractAddress}
+            error={contractAddressError}
+            handleChange={formik.handleChange}
+            handleBlur={formik.handleBlur}
+            className={contractAddressError ? 'isError' : ''}
+          />
 
-      </Box>
-      <div className="d-flex">
-        <ActionResponseButton
-          onClick={onGoBackClicked}
-          sx={{ mr: '10px' }}
-        >
-          {t('Back')}
-        </ActionResponseButton>
-        <ActionResponseButton
-          disabled={contractAddressError != null}
-          onClick={() => formik.handleSubmit()}
-          sx={{ ml: '10px' }}
-        >
-          {t('Attach')}
-        </ActionResponseButton>
-      </div>
-    </Box>
+        </Box>
+        <div className="d-flex">
+          <ActionResponseButton
+            onClick={onGoBackClicked}
+            sx={{ mr: '4px' }}
+          >
+            {t('Back')}
+          </ActionResponseButton>
+          <ActionResponseButton
+            disabled={contractAddressError != null}
+            onClick={() => formik.handleSubmit()}
+            sx={{ ml: '4px' }}
+          >
+            {t('Attach')}
+          </ActionResponseButton>
+        </div>
+      </Styled.AttachSmartContractModalContainer>
+    </>
   );
 };
 
