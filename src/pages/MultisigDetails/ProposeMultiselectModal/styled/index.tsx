@@ -1,4 +1,5 @@
 import { TextField } from '@mui/material';
+import { Box } from '@mui/system';
 import { InputsContainer, TokenSelect } from 'src/components/Theme/StyledComponents';
 import styled from 'styled-components';
 
@@ -27,6 +28,13 @@ export const TokenSelection = styled(TokenSelect)(({ theme: _ }) => ({
     '& div.MuiBox-root > div.MuiBox-root:nth-child(3)': {
       display: 'none',
     },
+  },
+}));
+
+export const SelectProposalTypesModalContainer = styled(Box)(({ theme: _ }) => ({
+  padding: '30px 40px 0',
+  '@media (max-width:600px)': {
+    padding: '16px 16px 0',
   },
 }));
 

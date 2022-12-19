@@ -22,6 +22,7 @@ import { useTheme } from 'styled-components';
 import { Box, TextField, useMediaQuery } from '@mui/material';
 import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import * as Styled from './styled';
 
 interface ProposeSmartContractCallType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -210,7 +211,7 @@ const ProposeSmartContractCall = ({
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   return (
-    <Box sx={{ p: maxWidth600 ? '16px 16px 0' : '1.9rem 2.5rem 0rem' }}>
+    <Styled.SelectProposalTypesModalContainer>
       <FormikInputField
         label={t('Send to')}
         name="receiver"
@@ -389,7 +390,7 @@ const ProposeSmartContractCall = ({
         </Formik>
       </div> */}
 
-    </Box>
+    </Styled.SelectProposalTypesModalContainer>
   );
 };
 
