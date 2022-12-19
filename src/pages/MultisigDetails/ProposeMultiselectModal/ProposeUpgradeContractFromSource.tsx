@@ -19,6 +19,7 @@ import { FormikCheckbox, FormikInputField } from 'src/helpers/formikFields';
 import { validateAddressIsContract, validateContractAddressOwner } from 'src/helpers/validation';
 import { Box } from '@mui/material';
 import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
+import * as Styled from './styled';
 
 interface ProposeDeployContractType {
   handleChange: (proposal: MultisigUpgradeContractFromSource) => void;
@@ -145,10 +146,7 @@ const ProposeDeployContract = ({
     errors.args;
 
   return (
-    <Box sx={{
-      p: '1.9rem 2.5rem 0rem',
-    }}
-    >
+    <Styled.SelectProposalTypesModalContainer>
       <FormikInputField
         label={t('Address')}
         name="address"
@@ -231,7 +229,7 @@ const ProposeDeployContract = ({
           Add argument
         </MainButton>
       </div>
-    </Box>
+    </Styled.SelectProposalTypesModalContainer>
   );
 };
 
