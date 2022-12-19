@@ -16,6 +16,7 @@ import { MultisigDeployContractFromSource } from 'src/types/MultisigDeployContra
 import { Box } from '@mui/material';
 import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import * as Styled from './styled';
 
 interface ProposeDeployContractFromSourceType {
   handleChange: (proposal: MultisigDeployContractFromSource) => void;
@@ -134,10 +135,7 @@ const ProposeDeployContractFromSource = ({
     errors.args;
 
   return (
-    <Box sx={{
-      p: '1.9rem 2.5rem 0rem',
-    }}
-    >
+    <Styled.SelectProposalTypesModalContainer>
       <FormikInputField
         label={t('Source')}
         name="source"
@@ -211,7 +209,7 @@ const ProposeDeployContractFromSource = ({
           Add argument
         </MainButton>
       </div>
-    </Box>
+    </Styled.SelectProposalTypesModalContainer>
   );
 };
 
