@@ -693,6 +693,9 @@ export const InputWrapper = styled.div`
     transform: translateY(0);
     opacity: 1;
   };
+  @media (max-width:600px) {
+    margin-bottom: 16px;
+  };
 }
 `;
 

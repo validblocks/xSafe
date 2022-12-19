@@ -19,9 +19,10 @@ import { denomination } from 'src/config';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { useTheme } from 'styled-components';
-import { Box, TextField } from '@mui/material';
+import { Box, TextField, useMediaQuery } from '@mui/material';
 import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import * as Styled from './styled';
 
 interface ProposeSmartContractCallType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -207,8 +208,10 @@ const ProposeSmartContractCall = ({
     touched.args.every((arg) => arg) &&
     errors.args;
 
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
+
   return (
-    <Box sx={{ p: '1.9rem 2.5rem 0rem' }}>
+    <Styled.SelectProposalTypesModalContainer>
       <FormikInputField
         label={t('Send to')}
         name="receiver"
@@ -289,6 +292,7 @@ const ProposeSmartContractCall = ({
               <InputsContainer
                 width={'100%'}
                 className={argsError ? 'invalid' : ''}
+                margin={maxWidth600 ? '0 0 16px !important' : ''}
               >
                 <Form.Control
                   id={`args[${idx}]`}
@@ -309,7 +313,7 @@ const ProposeSmartContractCall = ({
               </InputsContainer>
               <RemoveItemsButton
                 onClick={() => removeArg(idx)}
-                sx={{ alignSelf: 'flex-start', mt: '10px', ml: '7px' }}
+                sx={{ alignSelf: 'flex-start', mt: maxWidth600 ? 0 : '10px', ml: '7px' }}
               >
                 <FontAwesomeIcon className="mx-2" icon={faMinus as IconProp} />
               </RemoveItemsButton>
@@ -386,7 +390,7 @@ const ProposeSmartContractCall = ({
         </Formik>
       </div> */}
 
-    </Box>
+    </Styled.SelectProposalTypesModalContainer>
   );
 };
 
