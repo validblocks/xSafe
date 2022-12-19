@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Accordion, useAccordionToggle } from 'react-bootstrap';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { MainButton } from 'src/components/Theme/StyledComponents';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import { ArrowDropDown } from '@mui/icons-material';
 
 interface SelectOptionPropsType {
@@ -44,9 +44,11 @@ export default function SelectOption({ onSelected }: SelectOptionPropsType) {
   const [expanded, setExpanded] = useState(false);
   const handleToggleExpanded = () => setExpanded((prev) => !prev);
 
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
+
   const decoratedOnClick = useAccordionToggle('0', handleToggleExpanded);
   return (
-    <Box sx={{ px: '2.75rem', pt: '1.8rem' }}>
+    <Box sx={{ px: maxWidth600 ? '16px' : '44px', pt: '1.8rem' }}>
       <Box className="card select-options-list">
         {proposeAvailableOptions.map((option) => (
           <MainButton
