@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs';
-import { Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import {
   addContractToMultisigContractsList,
@@ -8,10 +7,15 @@ import {
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
-import { Box } from '@mui/material';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { Box, useMediaQuery } from '@mui/material';
 import { useTheme } from 'styled-components';
-import { FinalStepActionButton, MainButton, ProposeAddressInput } from 'src/components/Theme/StyledComponents';
+import {
+  FinalStepActionButton,
+  MainButton,
+  ModalContainer,
+  ProposeAddressInput,
+} from 'src/components/Theme/StyledComponents';
+import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import ProposeInputAddress from '../MultisigDetails/ProposeModal/ProposeInputAddress';
 
 interface AddMultisigModalType {
@@ -32,6 +36,8 @@ function AddMultisigModal({
   const [invalidMultisigAddress, setInvalidMultisigAddress] = useState(false);
   const [name, setName] = useState('');
   const { isLoggedIn } = useGetLoginInfo();
+
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   async function onAddressParamChange(newAddress: Address) {
     setInvalidMultisigAddress(false);
@@ -58,7 +64,7 @@ function AddMultisigModal({
   const theme: any = useTheme();
 
   return (
-    <Modal
+    <ModalContainer
       size="lg"
       show={show}
       onHide={handleClose}
@@ -67,12 +73,8 @@ function AddMultisigModal({
       centered
     >
       <Box sx={{ backgroundColor: theme.palette.background.secondary }} className="modal-content">
-        <Box py={2} px={4} borderBottom={`1px solid ${theme.palette.divider.main}`}>
-          <Text fontSize={24} textAlign={'left'}>
-            {t('Add Multisig') as string}
-          </Text>
-        </Box>
-        <Box py={2} px={4} mt={2}>
+        <ModalCardTitle title={t('Add Multisig') as string} handleClose={handleClose} />
+        <Box py={2} px={maxWidth600 ? 2 : 4} mt={maxWidth600 ? 0 : 2}>
           <ProposeInputAddress
             invalidAddress={invalidMultisigAddress}
             setSubmitDisabled={setSubmitDisabled}
@@ -114,7 +116,7 @@ function AddMultisigModal({
               }}
             />
           </Box>
-          <Box className="modal-action-btns">
+          <Box className="modal-action-btns" marginTop={maxWidth600 ? '24px !important' : ''}>
             <MainButton
               onClick={handleClose}
               sx={{ boxShadow: 'none !important' }}
@@ -131,7 +133,7 @@ function AddMultisigModal({
           </Box>
         </Box>
       </Box>
-    </Modal>
+    </ModalContainer>
   );
 }
 
