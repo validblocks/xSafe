@@ -92,7 +92,10 @@ const MultistepForm = ({
     }),
     [activeStepNumber, proceedToNextStep, proceedToPreviousStep])}
     >
-      <Styled.MultistepForm sx={{ backgroundColor: theme.palette.background.secondary }} className="modal-content">
+      <Styled.MultistepForm
+        sx={{ backgroundColor: theme.palette.background.secondary }}
+        className="modal-content"
+      >
         <Box>
           <Text>{activeStepJSX}</Text>
         </Box>

@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { Box, IconButton } from '@mui/material';
+import { Box, IconButton, useMediaQuery } from '@mui/material';
 import { refreshAccount } from '@elrondnetwork/dapp-core/utils';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
 import { useGetAccountInfo, useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
@@ -37,6 +37,7 @@ const DeployMultisigStepOne = ({
   const { isLoggedIn } = useGetLoginInfo();
   const [isLoading, setIsLoading] = useState(false);
   const { proceedToNextStep } = useMultistepFormContext();
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const { pendingDeploymentData: { pendingDeploymentContractData, setPendingDeploymentContractData } } =
   useMultisigCreationFormContext();
@@ -108,15 +109,19 @@ const DeployMultisigStepOne = ({
     <Box>
       <IconButton
         onClick={handleClose}
-        sx={{ position: 'absolute', right: '32px', top: '20px' }}
+        sx={{ position: 'absolute', right: maxWidth600 ? '10px' : '32px', top: '18px' }}
         size="small"
         aria-label="close"
       >
         <CloseRoundedIcon />
       </IconButton>
-      <CenteredBox px={5} textAlign="left" borderBottom={`1px solid ${theme.palette.borders.secondary}`}>
+      <CenteredBox
+        px={maxWidth600 ? 2 : 5}
+        textAlign="left"
+        borderBottom={`1px solid ${theme.palette.divider.secondary}`}
+        justifyContent={'flex-start !important'}
+      >
         <Text
-          width="100%"
           textAlign={'left'}
           py={2}
           fontSize={22}
@@ -124,15 +129,15 @@ const DeployMultisigStepOne = ({
           {t('Create a new Safe') as string}
         </Text>
         <Text
-          width="100%"
           textAlign={'left'}
-          py={2}
           fontSize={12}
+          padding={'3px 0 0 12px'}
+          color={`${theme.palette.text.createSafeSteps} !important`}
         >
           {t('Step 1 of 2') as string}
         </Text>
       </CenteredBox>
-      <Box px={5} py={3}>
+      <Box px={maxWidth600 ? 2 : 5} py={maxWidth600 ? 2.3 : 3}>
         <Box borderRadius={'10px'}>
           <Text
             width="100%"

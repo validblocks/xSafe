@@ -519,6 +519,14 @@ export const ModalContainer = styled(Modal)`
 }
 `;
 
+export const ModalCreateSafe = styled(Modal)(({ theme: _ }) => ({
+  '&&&': {
+    '& .modal-content': {
+      backgroundColor: _.palette.background.secondary,
+    },
+  },
+}));
+
 export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
   '&&&': {
     '& .modal-content': {

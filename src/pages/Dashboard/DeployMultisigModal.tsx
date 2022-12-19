@@ -1,7 +1,7 @@
-import { Modal } from 'react-bootstrap';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import MultistepForm from 'src/components/Utils/MultistepForm';
 import { createContext, useContext, useMemo, useState } from 'react';
+import { ModalCreateSafe } from 'src/components/Theme/StyledComponents';
 import DeployMultisigStepOne from './DeployMultisigStepOne';
 import DeployMultisigStepTwo from './DeployMultisigStepTwo';
 
@@ -52,7 +52,7 @@ const DeployStepsModal = ({
       }),
       [pendingDeploymentContractData])}
     >
-      <Modal
+      <ModalCreateSafe
         show={show}
         onHide={handleClose}
         className="modal-container"
@@ -67,7 +67,7 @@ const DeployStepsModal = ({
           noBackwardsSteps={[2]}
           autoForwardSteps={[1]}
         />
-      </Modal>
+      </ModalCreateSafe>
     </MultisigCreationFormContext.Provider>
   );
 };
