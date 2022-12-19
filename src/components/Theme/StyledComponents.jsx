@@ -516,6 +516,11 @@ export const ModalContainer = styled(Modal)`
       background-color: ${(props) => props.theme.palette.background.secondary};
     }
   }
+  @media (max-width: 600px) {
+    & .modal-content .card-body {
+    padding: 16px !important;
+  }
+  }
 }
 `;
 
