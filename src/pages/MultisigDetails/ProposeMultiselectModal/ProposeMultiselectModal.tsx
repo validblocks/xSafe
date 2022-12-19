@@ -258,7 +258,7 @@ const ProposeMultiselectModal = ({
         <Box
           display={'flex'}
           justifyContent={'center'}
-          padding={maxWidth600 ? '0 16px 26px' : '0 40px 32px'}
+          padding={maxWidth600 ? '0 16px 16px' : '0 40px 32px'}
         >
           {selectedOption?.option !==
             ProposalsTypes.multiselect_proposal_options && sendNFTButton}
