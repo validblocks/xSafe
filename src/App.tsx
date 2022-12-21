@@ -90,9 +90,9 @@ export const App = () => (
                   }}
                   environment={EnvironmentsEnum.devnet}
                 >
-                  <Layout>
-                    <AxiosInterceptorContext.Listener />
-                    <OrganizationInfoContextProvider>
+                  <OrganizationInfoContextProvider>
+                    <Layout>
+                      <AxiosInterceptorContext.Listener />
                       <>
                         <TransactionsToastList />
                         <NotificationModal />
@@ -108,8 +108,8 @@ export const App = () => (
                           <Route element={PageNotFound()} />
                         </Routes>
                       </>
-                    </OrganizationInfoContextProvider>
-                  </Layout>
+                    </Layout>
+                  </OrganizationInfoContextProvider>
                 </DappProvider>
               </Router>
             </AxiosInterceptorContext.Interceptor>
