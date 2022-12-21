@@ -1,9 +1,8 @@
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
   useGetAccountInfo,
   useGetLoginInfo,
 } from '@elrondnetwork/dapp-core/hooks/account';
-import { refreshAccount } from '@elrondnetwork/dapp-core/utils';
 import { AuthenticatedRoutesWrapper } from '@elrondnetwork/dapp-core/wrappers';
 import { Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -22,6 +21,9 @@ import { useNavigate } from 'react-router-dom';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import { useQuery } from 'react-query';
+import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
@@ -34,45 +36,44 @@ import { CenteredBox } from '../StyledComponents/StyledComponents';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const theme: any = useTheme();
-  const { isLoggedIn, loginMethod } = useGetLoginInfo();
+  const { isLoggedIn } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const currentContract = useSelector(currentMultisigContractSelector);
-  // const isAuthenticated = accessTokenServices?.hooks?.useGetIsAuthenticated?.(
-  //   address,
-  //   'http://localhost:3000',
-  //   isLoggedIn,
-  // );
 
-  async function fetchAccountData() {
+  const fetchAccountData = useCallback(async () => {
     const accountData = await ElrondApiProvider.getAccountData(address);
     if (accountData !== null) {
       dispatch(setAccountData(accountData));
     }
-  }
+  }, [address, dispatch]);
 
-  const loggedIn = loginMethod !== '';
-  useEffect(() => {
-    if (loggedIn) {
-      refreshAccount();
-      fetchAccountData();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [loggedIn]);
+  const fetchAttachedContracts = useCallback(
+    () => getUserMultisigContractsList(),
+    [currentContract, currentContract?.address],
+  );
+
+  const {
+    data: attachedContracts,
+  } = useQuery(
+    [
+      QueryKeys.ATTACHED_CONTRACTS,
+    ],
+    fetchAttachedContracts,
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+      enabled: isLoggedIn && !currentContract.address,
+    },
+  );
 
   useEffect(() => {
-    if (isLoggedIn) {
+    if (isLoggedIn && attachedContracts) {
       dispatch(setProposeModalSelectedOption(null));
       (async function getContracts() {
-        await refreshAccount();
-        await fetchAccountData();
-
-        const contracts = await getUserMultisigContractsList();
+        const contracts = attachedContracts;
         dispatch(setMultisigContracts(contracts));
-
-        console.log({ contracts });
 
         if (contracts.length > 0 && !currentContract?.address) {
           const [firstContract] = contracts;
@@ -81,7 +82,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         }
       }());
     }
-  }, [isLoggedIn, address, dispatch, currentContract?.address, navigate, fetchAccountData]);
+  }, [isLoggedIn, address, dispatch, currentContract?.address, navigate, fetchAccountData, attachedContracts]);
 
   useEffect(() => {
     if (!isLoggedIn) {
