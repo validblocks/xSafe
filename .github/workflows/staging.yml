@@ -49,7 +49,6 @@ jobs:
       - name: Config setup
         run: |
           make setup-wallet
-          cat .npmrc
 
       - uses: actions/cache@v2
         with:

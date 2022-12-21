@@ -33,8 +33,6 @@ endif
 .PHONY: setup-single-wallet
 setup-single-wallet:
 	make setup-dev
-	rm .npmrc && touch .npmrc
-	echo $(NPMRC) >> .npmrc
 
 	rm ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
@@ -52,8 +50,6 @@ setup-single-wallet:
 .PHONY: setup-multi-wallet
 setup-multi-wallet:
 	make setup-dev
-	rm .npmrc && touch .npmrc
-	echo $(NPMRC) >> .npmrc
 
 	rm ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
