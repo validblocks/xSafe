@@ -1,5 +1,4 @@
 import { object, string, InferType } from 'yup';
-import { TOOLS_API_URL } from './config';
 
 export const apiTimeout = 6000;
 export const walletConnectV2ProjectId = '4f2a173074e230a47805bddfa7ecd1ea';
