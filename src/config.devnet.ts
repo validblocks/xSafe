@@ -1,4 +1,5 @@
 import { object, string, InferType } from 'yup';
+import { storageApi } from './services/accessTokenServices';
 
 export const apiTimeout = 6000;
 export const walletConnectV2ProjectId = '4f2a173074e230a47805bddfa7ecd1ea';
@@ -29,6 +30,7 @@ const networkSchema = object({
   apiAddress: string(),
   gatewayAddress: string(),
   explorerAddress: string().required(),
+  storageApi: string().required(),
 }).required();
 
 export type NetworkType = InferType<typeof networkSchema>;
@@ -40,6 +42,7 @@ export const network: NetworkType = {
   apiAddress: 'https://devnet-api.elrond.com',
   gatewayAddress: 'https://devnet-gateway.elrond.com',
   explorerAddress: 'http://devnet-explorer.elrond.com',
+  storageApi: 'https://devnet-extras-api.elrond.com',
 };
 
 networkSchema.validate(network, { strict: true }).catch(({ errors }) => {

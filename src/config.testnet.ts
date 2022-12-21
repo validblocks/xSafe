@@ -29,6 +29,7 @@ const networkSchema = object({
   apiAddress: string(),
   gatewayAddress: string(),
   explorerAddress: string().required(),
+  storageApi: string().required(),
 }).required();
 
 export type NetworkType = InferType<typeof networkSchema>;
@@ -41,6 +42,7 @@ export const network: NetworkType = {
   apiAddress: 'https://testnet-api.elrond.com',
   gatewayAddress: 'https://testnet-gateway.elrond.com',
   explorerAddress: 'http://testnet-explorer.elrond.com',
+  storageApi: 'https://testnet-extras-api.elrond.com',
 };
 
 networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
