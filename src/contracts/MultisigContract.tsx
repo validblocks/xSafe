@@ -37,7 +37,7 @@ import { ProxyNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out
 import { buildTransaction } from './transactionUtils';
 
 const proposeDeployGasLimit = 256_000_000;
-const proxy = new ProxyNetworkProvider(network?.apiAddress);
+const proxy = new ProxyNetworkProvider(network?.apiAddress ?? '');
 
 export async function queryOnContract(functionName: string, contractAddress: string, ...args: TypedValue[]) {
   const smartContract = new SmartContract({
@@ -64,7 +64,6 @@ export async function query(functionName: string, ...args: TypedValue[]) {
     func: new ContractFunction(functionName),
     args,
   });
-  // const proxy = getNetworkProxy();
 
   return proxy.queryContract(newQuery);
 }
