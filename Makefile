@@ -20,13 +20,10 @@ setup:
 
 .PHONY: setup-wallet
 setup-wallet:
-	rm -f .npmrc && touch .npmrc
-	echo $(NPMRC) >> .npmrc
 	rm -f ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
 	cp -p ./src/config.devnet.ts ./src/config.ts
 	rm -f ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
 	echo "export const storageApi = '$(EXTRAS_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
-	echo "export const maiarIdApi = '$(MAIAR_ID_API_DEVNET)';" >> ./src/multisigExtrasConfig.ts
 
 ifeq "$(SINGLE_WALLET)" "true"
 	echo "export const uniqueContractAddress = '$(UNIQUE_CONTRACT_ADDRESS)';" >> ./src/multisigConfig.ts
@@ -51,7 +48,6 @@ setup-single-wallet:
 
 	$(CONTAINER_DEV) 'npx prettier --write ./src/multisigConfig.ts'
 	$(CONTAINER_DEV) 'npm install'
-	$(CONTAINER_DEV) 'npm install @elrondnetwork/dapp-core-internal'
 
 .PHONY: setup-multi-wallet
 setup-multi-wallet:
@@ -68,7 +64,6 @@ setup-multi-wallet:
 	rm ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
 
 	$(CONTAINER_DEV) 'npm install'
-	$(CONTAINER_DEV) 'npm install @elrondnetwork/dapp-core-internal'
 
 .PHONY: setup-dev
 setup-dev:

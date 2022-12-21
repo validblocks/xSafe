@@ -22,7 +22,6 @@ jobs:
       - run: echo "export const storageApi = '${{ secrets.EXTRAS_API_TESTNET }}';" >> src/multisigExtrasConfig.ts
       - run: echo "export const maiarIdApi = '${{ secrets.MAIAR_ID_API_TESTNET }}';" >> src/multisigExtrasConfig.ts
       - run: npm install
-      - run: npm install @elrondnetwork/dapp-core-internal
       - run: npm install
       - run: npm run build
         env:
