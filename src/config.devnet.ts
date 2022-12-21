@@ -1,5 +1,4 @@
 import { object, string, InferType } from 'yup';
-import { storageApi } from './services/accessTokenServices';
 
 export const apiTimeout = 6000;
 export const walletConnectV2ProjectId = '4f2a173074e230a47805bddfa7ecd1ea';

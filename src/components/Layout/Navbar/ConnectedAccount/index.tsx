@@ -31,7 +31,6 @@ const ConnectedAccount = () => {
 
   const logOut = async () => {
     document.cookie = '';
-    // accessTokenServices?.services?.maiarId?.removeToken?.();
     localStorage.clear();
     sessionStorage.clear();
     logout(`${routeNames.multisig}`, (route) => {

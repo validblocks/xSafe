@@ -99,7 +99,7 @@ module.exports = {
     ],
   },
   // ignore the root js config files
-  ignorePatterns: ['/*.js', 'src/services/accessTokenServices.ts'],
+  ignorePatterns: ['/*.js'],
   settings: {
     react: {
       version: 'detect',

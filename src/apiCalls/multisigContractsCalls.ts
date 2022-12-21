@@ -1,7 +1,4 @@
 /* eslint-disable no-await-in-loop */
-import {
-  storageApi,
-} from 'src/services/accessTokenServices';
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import axios from 'axios';
 import uniqBy from 'lodash/uniqBy';
@@ -9,7 +6,7 @@ import { verifiedContractsHashes } from 'src/helpers/constants';
 import { network } from 'src/config';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 
-const contractsInfoStorageEndpoint = `${storageApi}/settings/multisig`;
+const contractsInfoStorageEndpoint = `${network.storageApi}/settings/multisig`;
 
 const multisigAxiosInstance = axios.create();
 
