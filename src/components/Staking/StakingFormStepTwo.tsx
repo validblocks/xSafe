@@ -172,7 +172,6 @@ const StakingFormStepTwo = () => {
     transactionId,
     onSuccess: () => {
       closeModal();
-      console.log('success stake');
     },
   });
 

@@ -10,7 +10,7 @@ import {
   mutateEsdtSendToken,
   mutateEsdtSendNft,
 } from 'src/contracts/MultisigContract';
-import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
+import { setProposeMultiselectSelectedOption, setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
 import { MultisigAction } from 'src/types/MultisigAction';
 import { MultisigDeployContractFromSource } from 'src/types/MultisigDeployContractFromSource';
 import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
@@ -32,7 +32,6 @@ import ProposeSendToken from './ProposeSendToken';
 
 import ProposeSmartContractCall from './ProposeSmartContractCall';
 import ProposeUpgradeContractFromSource from './ProposeUpgradeContractFromSource';
-import SelectOption from './SelectOption';
 
 import './proposeMultiselectModal.scss';
 import ProposeSendNft from './ProposeSendNft';
@@ -77,6 +76,7 @@ const ProposeMultiselectModal = ({
 
   const handleClose = () => {
     dispatch(setProposeMultiselectSelectedOption(null));
+    dispatch(setSelectedTokenToSend(null));
   };
 
   const onProposeClicked = () => {
@@ -131,10 +131,6 @@ const ProposeMultiselectModal = ({
 
   const handleProposalChange = (proposal: MultisigAction) => {
     setSelectedProposal(proposal);
-  };
-
-  const handleOptionSelected = (option: ProposalsTypes) => {
-    dispatch(setProposeMultiselectSelectedOption({ option }));
   };
 
   const getContent = () => {
@@ -221,7 +217,7 @@ const ProposeMultiselectModal = ({
         );
       }
       default:
-        return <SelectOption onSelected={handleOptionSelected} />;
+        return <div />;
     }
   };
 

@@ -41,17 +41,17 @@ function TotalBalance() {
 
   const fetchAddressEsdts = useCallback(
     () => ElrondApiProvider.getAddressTokens(currentContract?.address),
-    [currentContract, currentContract?.address],
+    [currentContract],
   );
 
   const fetchAddressEgld = useCallback(
     () => getAccount(currentContract?.address),
-    [currentContract, currentContract?.address],
+    [currentContract],
   );
 
   const fetchNFTs = useCallback(
     () => ElrondApiProvider.fetchOrganizationNFTs(currentContract?.address),
-    [currentContract, currentContract?.address],
+    [currentContract],
   );
 
   const {
@@ -77,9 +77,6 @@ function TotalBalance() {
     fetchAddressEsdts,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
-      refetchOnReconnect: true,
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
     },
   );
 
@@ -93,9 +90,6 @@ function TotalBalance() {
     fetchAddressEgld,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
-      refetchOnReconnect: true,
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
       enabled: !!addressTokens,
       select: (data) => data,
     },
@@ -191,8 +185,6 @@ function TotalBalance() {
             value?.amount as string,
           ).toRationalNumber();
 
-          console.log({ amountAsRationalNumber });
-
           const denominatedAmountForCalcs = Number(amountAsRationalNumber);
           const priceAsNumber = value?.tokenPrice as number;
           const totalUsdValue = Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(2));
@@ -228,11 +220,9 @@ function TotalBalance() {
       ?.reduce((acc: number, token: TokenTableRowItem) =>
         acc + (parseFloat(token?.valueUsd?.toString() ?? '0')), 0);
 
-    console.log({ newTokensWithPrices });
     const totalEgldValue = Number(
       TokenPayment.egldFromBigInteger(egldBalanceDetails ?? 0).toRationalNumber(),
     ) * egldPrice ?? '0';
-    console.log({ totalAssetsValue, totalEgldValue });
     setTotalUsdValue(
       totalAssetsValue + totalEgldValue,
     );

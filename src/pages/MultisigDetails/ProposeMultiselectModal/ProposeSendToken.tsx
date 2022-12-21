@@ -57,13 +57,9 @@ const ProposeSendToken = ({
   const _dispatch = useDispatch();
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
-  console.log({ selectedTokenId: selectedToken?.identifier });
   const [identifier, setIdentifier] = useState(selectedToken?.identifier || 'EGLD');
-  console.log({ identifier });
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
-
-  console.log({ tokenTableRows });
 
   const availableTokensWithBalances = useMemo(
     () =>
@@ -73,8 +69,6 @@ const ProposeSendToken = ({
       })),
     [tokenTableRows],
   );
-
-  console.log({ availableTokensWithBalances });
 
   const selectedTokenBalance = useMemo(
     () => availableTokensWithBalances?.find(

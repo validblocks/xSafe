@@ -48,7 +48,7 @@ const MobileCardsForTableReplacement = ({ items, actionButton }:
             <Typography component="span">Balance</Typography>
             <Typography component="h6" className="mb-0 font-weight-normal">
               {
-                TokenPayment.fungibleFromAmount(
+                TokenPayment.fungibleFromBigInteger(
                   item.balanceDetails.identifier,
                   item.balanceDetails.amount,
                   item.balanceDetails.decimals).toPrettyString()

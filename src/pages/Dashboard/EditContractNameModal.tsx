@@ -37,7 +37,7 @@ function EditContractNameModal({
   return (
     <Modal
       show={show}
-      onHide={onCancel}
+      onHide={onCancel as any}
       className="modal-container"
       animation={false}
       centered

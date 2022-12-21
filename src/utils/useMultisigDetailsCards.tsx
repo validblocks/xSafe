@@ -84,7 +84,7 @@ export default function useMultisigDetailsCards() {
   const onNewTransactionClick = useCallback(() =>
     dispatch(
       setProposeMultiselectSelectedOption({
-        option: ProposalsTypes.multiselect_proposal_options,
+        option: ProposalsTypes.send_token,
       }),
     ), [dispatch]);
 

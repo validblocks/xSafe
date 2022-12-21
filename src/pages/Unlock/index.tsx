@@ -1,8 +1,6 @@
-import { useEffect, useState } from 'react';
 import { ReactComponent as IconMaiar } from 'src/assets/img/maiar-app.svg';
 import { ReactComponent as IconMaiarWallet } from 'src/assets/img/maiar-defi-wallet.svg';
-import { network } from 'src/config';
-import { accessTokenServices, maiarIdApi } from 'src/services/accessTokenServices';
+import { network, walletConnectV2ProjectId } from 'src/config';
 import routeNames from 'src/routes/routeNames';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
@@ -26,22 +24,16 @@ declare global {
 }
 
 const Unlock = () => {
-  const [token, setToken] = useState('');
   const currentContract = useSelector(currentMultisigContractSelector);
 
-  useEffect(() => {
-    accessTokenServices?.services?.maiarId
-      ?.init({ maiarIdApi: `/proxy?route=${maiarIdApi}` })
-      .then((loginToken: string) => {
-        setToken(loginToken);
-      });
-  }, []);
+  const commonProps = {
+    nativeAuth: true,
+  };
 
   const loginParams = {
     callbackRoute: currentContract?.address
       ? `${routeNames.multisig}/${currentContract?.address}`
       : `${routeNames.multisig}`,
-    token,
     logoutRoute: `${routeNames.multisig}`,
     buttonClassName: 'btn btn-unlock btn-block',
   };
@@ -66,7 +58,7 @@ const Unlock = () => {
         )}
 
         {window.elrondWallet && (
-          <ExtensionLoginButton {...loginParams}>
+          <ExtensionLoginButton {...loginParams} {...commonProps}>
             <div className="d-flex justify-content-between align-items-center">
               <div className="d-flex flex-row method">
                 <IconMaiarWallet />
@@ -76,7 +68,15 @@ const Unlock = () => {
           </ExtensionLoginButton>
         )}
 
-        <WalletConnectLoginButton {...loginParams}>
+        <WalletConnectLoginButton
+          {...loginParams}
+          {...commonProps}
+          {...(walletConnectV2ProjectId
+            ? {
+              isWalletConnectV2: true,
+            }
+            : {})}
+        >
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <IconMaiar />
@@ -85,7 +85,7 @@ const Unlock = () => {
           </div>
         </WalletConnectLoginButton>
 
-        <LedgerLoginButton loginButtonText="" {...loginParams}>
+        <LedgerLoginButton loginButtonText="" {...loginParams} {...commonProps}>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <StyledIconLedger />
@@ -94,7 +94,7 @@ const Unlock = () => {
           </div>
         </LedgerLoginButton>
 
-        <WebWalletLoginButton {...loginParams}>
+        <WebWalletLoginButton {...loginParams} {...commonProps}>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <StyledIconElrond />

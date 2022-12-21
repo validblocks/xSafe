@@ -1,5 +1,8 @@
 import { object, string, InferType } from 'yup';
 
+export const apiTimeout = 6000;
+export const walletConnectV2ProjectId = '4f2a173074e230a47805bddfa7ecd1ea';
+
 export const dAppName = 'xSafe';
 export const decimals = 2;
 export const denomination = 18;
@@ -42,3 +45,7 @@ export const network: NetworkType = {
 networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
   console.error(`Config invalid format for ${network.id}`, errors);
 });
+
+export const sampleAuthenticatedDomains = [
+  (network as any).storageApi,
+];
