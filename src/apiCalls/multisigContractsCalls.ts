@@ -18,7 +18,7 @@ export async function getUserMultisigContractsList() {
     const response = await axios.get(
       '/settings/multisig',
       {
-        baseURL: network.storageApi,
+        baseURL: (network as any).storageApi,
       },
     );
 
