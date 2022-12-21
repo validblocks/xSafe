@@ -10,7 +10,7 @@ import {
   mutateEsdtSendToken,
   mutateEsdtSendNft,
 } from 'src/contracts/MultisigContract';
-import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
+import { setProposeMultiselectSelectedOption, setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
 import { MultisigAction } from 'src/types/MultisigAction';
 import { MultisigDeployContractFromSource } from 'src/types/MultisigDeployContractFromSource';
 import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
@@ -76,6 +76,7 @@ const ProposeMultiselectModal = ({
 
   const handleClose = () => {
     dispatch(setProposeMultiselectSelectedOption(null));
+    dispatch(setSelectedTokenToSend(null));
   };
 
   const onProposeClicked = () => {
