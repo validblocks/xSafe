@@ -41,17 +41,17 @@ function TotalBalance() {
 
   const fetchAddressEsdts = useCallback(
     () => ElrondApiProvider.getAddressTokens(currentContract?.address),
-    [currentContract, currentContract?.address],
+    [currentContract],
   );
 
   const fetchAddressEgld = useCallback(
     () => getAccount(currentContract?.address),
-    [currentContract, currentContract?.address],
+    [currentContract],
   );
 
   const fetchNFTs = useCallback(
     () => ElrondApiProvider.fetchOrganizationNFTs(currentContract?.address),
-    [currentContract, currentContract?.address],
+    [currentContract],
   );
 
   const {
@@ -77,9 +77,6 @@ function TotalBalance() {
     fetchAddressEsdts,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
-      refetchOnReconnect: true,
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
     },
   );
 
@@ -93,9 +90,6 @@ function TotalBalance() {
     fetchAddressEgld,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
-      refetchOnReconnect: true,
-      refetchOnMount: true,
-      refetchOnWindowFocus: true,
       enabled: !!addressTokens,
       select: (data) => data,
     },
