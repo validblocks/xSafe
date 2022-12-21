@@ -53,7 +53,6 @@ const AssetsTable = () => {
 
   const currentContract = useSelector(currentMultisigContractSelector);
   const tokenTableRows = useSelector(tokenTableRowsSelector);
-  console.log({ tokenTableRows });
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
 
   const { isLoggedIn } = useGetLoginInfo();

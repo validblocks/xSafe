@@ -191,8 +191,6 @@ function TotalBalance() {
             value?.amount as string,
           ).toRationalNumber();
 
-          console.log({ amountAsRationalNumber });
-
           const denominatedAmountForCalcs = Number(amountAsRationalNumber);
           const priceAsNumber = value?.tokenPrice as number;
           const totalUsdValue = Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(2));
@@ -228,11 +226,9 @@ function TotalBalance() {
       ?.reduce((acc: number, token: TokenTableRowItem) =>
         acc + (parseFloat(token?.valueUsd?.toString() ?? '0')), 0);
 
-    console.log({ newTokensWithPrices });
     const totalEgldValue = Number(
       TokenPayment.egldFromBigInteger(egldBalanceDetails ?? 0).toRationalNumber(),
     ) * egldPrice ?? '0';
-    console.log({ totalAssetsValue, totalEgldValue });
     setTotalUsdValue(
       totalAssetsValue + totalEgldValue,
     );

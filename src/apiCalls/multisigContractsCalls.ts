@@ -13,59 +13,8 @@ const contractsInfoStorageEndpoint = `${storageApi}/settings/multisig`;
 
 const multisigAxiosInstance = axios.create();
 
-// const MAX_TRIALS = 4;
-
-// multisigAxiosInstance.interceptors.request.use(
-//   async (config) => {
-//     try {
-//       if (accessTokenServices?.services != null) {
-//         const address = await getAddress();
-//         let token = null;
-//         for (let i = 0; i < MAX_TRIALS; i++) {
-//           token = await accessTokenServices?.services?.maiarId?.getAccessToken({
-//             address,
-//             maiarIdApi: 'http://localhost:3000',
-//           });
-//           if (token) break;
-//           await refreshAccount();
-//         }
-//         config.headers.Authorization = `Bearer ${token?.accessToken}`;
-//       }
-//     } catch (err) {
-//       console.error(err);
-//     }
-//     return config;
-//   },
-//   (error) => Promise.reject(error),
-// );
-
-// multisigAxiosInstance.interceptors.response.use(
-//   (response) => response,
-//   (error: AxiosError) => {
-//     if (error.response?.status === 403) {
-//       console.error('Axios request 403. Logging out.');
-//       logout(routeNames.multisig);
-//     }
-//     return Promise.reject(error);
-//   },
-// );
 export async function getUserMultisigContractsList() {
   try {
-    // const address = await getAddress();
-    // let token = null;
-    // for (let i = 0; i < MAX_TRIALS; i++) {
-    //   token = await accessTokenServices?.services?.maiarId?.getAccessToken({
-    //     address,
-    //     maiarIdApi: 'http://localhost:3000',
-    //   });
-    //   if (token) break;
-    //   await refreshAccount();
-    // }
-
-    // multisigAxiosInstance.defaults.headers.common.Authorization = `Bearer ${token?.accessToken}`;
-    // console.log({
-    //   axiosInstanceDefaultHeaders: multisigAxiosInstance.defaults.headers,
-    // });
     const response = await axios.get(
       '/settings/multisig',
       {
@@ -73,7 +22,6 @@ export async function getUserMultisigContractsList() {
       },
     );
 
-    console.log({ response });
     const { data } = response;
     if (data != null) {
       return data;
