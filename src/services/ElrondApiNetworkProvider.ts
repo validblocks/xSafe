@@ -1,7 +1,6 @@
 import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
 import { network } from 'src/config';
 import { NFTType } from 'src/types/nfts';
-import { URLSearchParams } from 'url';
 
 export class ElrondApiNetworkProvider extends ApiNetworkProvider {
   async getDetailsOfAllTokens() {
