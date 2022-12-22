@@ -297,7 +297,7 @@ export function get32BitBufferFromNumber(value: number) {
   return concatenatedBuffer.slice(-4);
 }
 
-export function get64BitBufferFromBigIntBE(value: BigInt) {
+export function get64BitBufferFromBigIntBE(value: bigint) {
   const paddedBuffer = Buffer.alloc(8);
   const encodedValue = new U64Value(new BigNumber(value.toString())).valueOf();
 
@@ -306,7 +306,7 @@ export function get64BitBufferFromBigIntBE(value: BigInt) {
   return concatenatedBuffer.slice(-8);
 }
 
-export function get64BitBufferFromBigIntLE(value: BigInt) {
+export function get64BitBufferFromBigIntLE(value: bigint) {
   const paddedBuffer = Buffer.alloc(8);
   const encodedValue = new U64Value(new BigNumber(value.toString())).valueOf();
 
@@ -363,7 +363,7 @@ export function hexToAddress(hex: string): Address | null {
   }
 }
 
-export function hexToBigInt(hex: string): BigInt | null {
+export function hexToBigInt(hex: string): bigint | null {
   const bytes = getBytesFromHexString(hex);
 
   try {

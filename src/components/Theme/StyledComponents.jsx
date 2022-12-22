@@ -4,9 +4,7 @@ import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
 &&& {
-  padding: ${(props) => props.theme.padding.value.sm} 
-            ${(props) => props.theme.padding.value.lg}
-            ${(props) => props.theme.padding.value.xs};
+  padding: ${(props) => props.theme.padding.value.sm} ${(props) => props.theme.padding.value.lg} ${(props) => props.theme.padding.value.xs};
   color: ${(props) => props.theme.palette.primary.main};
   font-weight: ${(props) => props.theme.font.weight.lg};
   text-transform: capitalize;
