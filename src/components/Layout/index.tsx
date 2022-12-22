@@ -20,10 +20,11 @@ import { Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { getUserMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import axios from 'axios';
+import { network } from 'src/config';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
@@ -50,23 +51,36 @@ function Layout({ children }: { children: React.ReactNode }) {
     }
   }, [address, dispatch]);
 
-  const fetchAttachedContracts = useCallback(
-    () => getUserMultisigContractsList(),
-    [currentContract, currentContract?.address],
-  );
+  const fetchAttachedContracts =
+    async () => {
+      const response = await axios.get(
+        '/settings/multisig',
+        {
+          baseURL: (network as any).storageApi,
+        },
+      );
+
+      const { data } = response;
+      if (data != null) {
+        return data;
+      }
+      return [];
+    };
 
   const {
     data: attachedContracts,
   } = useQuery(
-    [
-      QueryKeys.ATTACHED_CONTRACTS,
-    ],
+    [QueryKeys.ATTACHED_CONTRACTS],
     fetchAttachedContracts,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
       enabled: isLoggedIn && !currentContract.address,
     },
   );
+
+  useEffect(() => {
+    if (isLoggedIn) { dispatch(setProposeModalSelectedOption(null)); }
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
     if (isLoggedIn && attachedContracts) {
@@ -111,6 +125,8 @@ function Layout({ children }: { children: React.ReactNode }) {
 
   const minWidth600 = useMediaQuery('(min-width:600px)');
 
+  console.log({ isLoggedIn });
+
   return (
     <Box sx={{ height: '100vh' }}>
       <AppBarWrapper>
@@ -145,7 +161,6 @@ function Layout({ children }: { children: React.ReactNode }) {
             >
               {children}
             </AuthenticatedRoutesWrapper>
-            {/* <TokenWrapper /> */}
             <ModalLayer />
             <SidebarSelectOptionModal />
           </Box>

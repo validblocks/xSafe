@@ -5,6 +5,7 @@ import uniqBy from 'lodash/uniqBy';
 import { verifiedContractsHashes } from 'src/helpers/constants';
 import { network } from 'src/config';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { getIsLoggedIn } from '@elrondnetwork/dapp-core/utils';
 
 const contractsInfoStorageEndpoint = `${network.storageApi}/settings/multisig`;
 
@@ -12,6 +13,11 @@ const multisigAxiosInstance = axios.create();
 
 export async function getUserMultisigContractsList() {
   try {
+    console.log('Trying to fetch contracts!');
+    const isLoggedIn = getIsLoggedIn();
+    if (!isLoggedIn) return [];
+
+    console.log('User is logged in, proceeding to fetching!');
     const response = await axios.get(
       '/settings/multisig',
       {
@@ -25,7 +31,7 @@ export async function getUserMultisigContractsList() {
     }
     return [];
   } catch (err) {
-    console.error('Error getting multisig contracts', multisigAxiosInstance);
+    console.error('Error getting multisig contracts', { err, multisigAxiosInstance });
     return [];
   }
 }
@@ -77,7 +83,12 @@ export async function addContractToMultisigContractsList(
     [...currentContracts, newContract],
     (contract) => contract.address,
   );
-  await multisigAxiosInstance.post(contractsInfoStorageEndpoint, newContracts);
+  await axios.post('/settings/multisig',
+    newContracts,
+    {
+      baseURL: network.storageApi,
+    });
+  // await multisigAxiosInstance.post(contractsInfoStorageEndpoint, newContracts);
   return newContracts;
 }
 
@@ -93,7 +104,9 @@ export async function updateMultisigContractOnServer(
       return contract;
     },
   );
-  await multisigAxiosInstance.post(contractsInfoStorageEndpoint, newContracts);
+  await axios.post('/settings/multisig', newContracts, {
+    baseURL: network.storageApi,
+  });
   return newContracts;
 }
 
@@ -125,6 +138,8 @@ export async function removeContractFromMultisigContractsList(
     (contract: MultisigContractInfoType) =>
       contract.address !== deletedContractAddress,
   );
-  await multisigAxiosInstance.post(contractsInfoStorageEndpoint, newContracts);
+  await axios.post('/settings/multisig', newContracts, {
+    baseURL: network.storageApi,
+  });
   return newContracts;
 }

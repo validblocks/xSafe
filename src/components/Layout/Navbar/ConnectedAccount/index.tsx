@@ -4,7 +4,6 @@ import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Grid, useMediaQuery } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { toSvg } from 'jdenticon';
 import routeNames from 'src/routes/routeNames';
 import { network } from 'src/config';
@@ -25,22 +24,19 @@ import {
 import * as Styled from '../../../Utils/styled';
 
 const ConnectedAccount = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const logOut = async () => {
-    document.cookie = '';
+    // document.cookie = '';
     localStorage.clear();
     sessionStorage.clear();
-    logout(`${routeNames.multisig}`, (route) => {
-      navigate(route!);
-      dispatch(setMultisigBalance(JSON.stringify(TokenPayment.egldFromAmount('0'))));
-      dispatch(setTokenTableRows([]));
-      dispatch(setOrganizationTokens([]));
-      dispatch(setCurrentMultisigContract(''));
-      dispatch(setProposeModalSelectedOption(null));
-    });
+    logout(`${routeNames.multisig}`);
+    dispatch(setProposeModalSelectedOption(null));
+    dispatch(setMultisigBalance(JSON.stringify(TokenPayment.egldFromAmount('0'))));
+    dispatch(setTokenTableRows([]));
+    dispatch(setOrganizationTokens([]));
+    dispatch(setCurrentMultisigContract(''));
   };
 
   const onDisconnectClick = () => {
