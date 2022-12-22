@@ -1,6 +1,6 @@
 # @elrondnetwork/multisig
 
-> An application that allows a user to create and manage multisig wallets on the Elrond Network.
+> An application that allows a user to create and manage multisig wallets on the MultiversX.
 
 # Usage
 

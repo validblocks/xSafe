@@ -7,7 +7,12 @@ import { AuthenticatedRoutesWrapper } from '@elrondnetwork/dapp-core/wrappers';
 import { Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAccountData } from 'src/redux/slices/accountGeneralInfoSlice';
+import {
+  setAccountData,
+  setMultisigBalance,
+  setOrganizationTokens,
+  setTokenTableRows,
+} from 'src/redux/slices/accountGeneralInfoSlice';
 import { setEconomics } from 'src/redux/slices/economicsSlice';
 import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import routes from 'src/routes';
@@ -25,6 +30,7 @@ import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import axios from 'axios';
 import { network } from 'src/config';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
@@ -100,6 +106,12 @@ function Layout({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     if (!isLoggedIn) {
+      console.log('Logged out. Deleting Redux info.');
+      dispatch(setCurrentMultisigContract(''));
+      dispatch(setProposeModalSelectedOption(null));
+      dispatch(setMultisigBalance(JSON.stringify(TokenPayment.egldFromAmount('0'))));
+      dispatch(setTokenTableRows([]));
+      dispatch(setOrganizationTokens([]));
       dispatch(setCurrentMultisigContract(''));
       navigate(routeNames.multisig);
     }

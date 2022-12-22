@@ -14,7 +14,7 @@ const Footer = () => (
         {' '}
         <HeartIcon className="mx-1" />
         {' '}
-        by Elrond Network.
+        by MultiversX.
       </a>
     </div>
   </footer>

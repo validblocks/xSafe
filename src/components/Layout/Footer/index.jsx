@@ -6,7 +6,7 @@ const Footer = () => (
       className="align-items-center"
       href="https://elrond.com/"
     >
-      <small>Powered by Elrond Network</small>
+      <small>Powered by MultiversX</small>
     </a>
   </footer>
 );

@@ -98,7 +98,7 @@ const Unlock = () => {
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <StyledIconElrond />
-              <UnlockText>Elrond Web Wallet</UnlockText>
+              <UnlockText>Web Wallet</UnlockText>
             </div>
           </div>
         </WebWalletLoginButton>

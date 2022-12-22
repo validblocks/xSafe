@@ -8,14 +8,11 @@ import { toSvg } from 'jdenticon';
 import routeNames from 'src/routes/routeNames';
 import { network } from 'src/config';
 import { useEffect, useState } from 'react';
-import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountGeneralInfoSlice';
 import CopyButton from 'src/components/CopyButton';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
-import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { useNavigate } from 'react-router-dom';
 import {
   ConnectItems,
   DisconnectButton,
@@ -24,19 +21,15 @@ import {
 import * as Styled from '../../../Utils/styled';
 
 const ConnectedAccount = () => {
-  const dispatch = useDispatch();
+  const _dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
 
+  const navigate = useNavigate();
   const logOut = async () => {
     // document.cookie = '';
     localStorage.clear();
     sessionStorage.clear();
-    logout(`${routeNames.multisig}`);
-    dispatch(setProposeModalSelectedOption(null));
-    dispatch(setMultisigBalance(JSON.stringify(TokenPayment.egldFromAmount('0'))));
-    dispatch(setTokenTableRows([]));
-    dispatch(setOrganizationTokens([]));
-    dispatch(setCurrentMultisigContract(''));
+    logout(`${routeNames.multisig}`, () => navigate(routeNames.multisig));
   };
 
   const onDisconnectClick = () => {

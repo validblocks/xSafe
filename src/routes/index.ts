@@ -70,13 +70,13 @@ export const foregroundRoutes: Record<ForegroundRoutesType, any> = {
   },
   multisigAddress: {
     path: '/multisig/:multisigAddressParam',
-    title: 'Multisig',
+    title: 'Dashboard',
     component: MultisigDetailsPage,
     authenticatedRoute: true,
   },
   multisig: {
     path: '/multisig',
-    title: 'Multisig Details',
+    title: 'Get started',
     component: DashboardPage,
   },
   unlock: {
@@ -163,8 +163,8 @@ const routes: RouteType[] = [
 const wrappedRoutes = () =>
   routes.map((route) => {
     const title = route.title
-      ? `${route.title} • Elrond ${dAppName}`
-      : `Elrond ${dAppName}`;
+      ? `${route.title} • ${dAppName}`
+      : `${dAppName}`;
     return {
       path: route.path,
       authenticatedRoute: Boolean(route.authenticatedRoute),

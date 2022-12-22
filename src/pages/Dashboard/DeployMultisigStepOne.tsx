@@ -152,7 +152,7 @@ const DeployMultisigStepOne = ({
             mt={2}
             color={theme.palette.grey['600']}
           >
-            After picking your name and signing the transaction, your brand new Safe will be deployed on the Elrond blockchain.
+            After picking your name and signing the transaction, your brand new Safe will be deployed on the MultiversX blockchain.
           </Text>
           <Box display="flex" flexDirection="column" justifyContent={'space-between'} mt={2}>
             <InputsContainer

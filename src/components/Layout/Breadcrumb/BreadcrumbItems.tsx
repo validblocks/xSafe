@@ -10,7 +10,7 @@ const breadcrumbItems: any = {
   [`multisig/${uniqueContractAddress}`]: [
     {
       link: `/multisig/${uniqueContractAddress}`,
-      name: 'Multisig',
+      name: 'xSafe',
     },
   ],
   'address-book': [

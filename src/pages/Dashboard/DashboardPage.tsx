@@ -93,7 +93,7 @@ function Dashboard() {
         </Tooltip>
       )}
     >
-      <span className="d-inline-block">{deployButton}</span>
+      <Box>{deployButton}</Box>
     </OverlayTrigger>
   ) : (
     deployButton
@@ -131,7 +131,7 @@ function Dashboard() {
                   </Text>
                   <Text marginY={2} fontSize={16} fontWeight={400}>
                     <strong>{dAppName}</strong>
-                    {t(' is the first platform for digital assets management built on the Elrond Network.')}
+                    {t(' is the first platform for digital assets management built on the MultiversX.')}
                   </Text>
                 </Box>
                 <Grid
