@@ -12,6 +12,7 @@ export const SQUARE_SMALL_IMAGE_WIDTH = 20;
 const MobileCardsForTableReplacement = ({ items, actionButton }:
     { items: any, actionButton: JSX.Element[] }) => {
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
+  console.log({ items });
   return (
     items.map((item: any) => (
       <Styled.MobileCardOfTokens key={item.id}>
@@ -48,16 +49,20 @@ const MobileCardsForTableReplacement = ({ items, actionButton }:
             <Typography component="span">Balance</Typography>
             <Typography component="h6" className="mb-0 font-weight-normal">
               {
-                TokenPayment.fungibleFromBigInteger(
-                  item.balanceDetails.identifier,
-                  item.balanceDetails.amount,
-                  item.balanceDetails.decimals).toPrettyString()
+                Number(TokenPayment.egldFromBigInteger(item.balanceDetails.amount).toRationalNumber()).toLocaleString()
               }
+              {' '} ${item.balanceDetails.identifier}
             </Typography>
           </Styled.CategoryName>
           <Styled.CategoryName>
             <Typography component="span">Value</Typography>
-            <Typography component="h6" className="mb-0 font-weight-normal">value USD</Typography>
+            <Typography component="h6" className="mb-0 font-weight-normal">
+              {Number(Number(
+                TokenPayment
+                  .egldFromBigInteger(item.balanceDetails.amount)
+                  .toRationalNumber(),
+              ) * item.value.tokenPrice).toLocaleString()} USD
+            </Typography>
           </Styled.CategoryName>
         </Styled.TokenDetailsBox>
         <Styled.ActionButtonsBox>{actionButton}</Styled.ActionButtonsBox>
