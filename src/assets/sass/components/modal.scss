@@ -111,3 +111,18 @@
     border-radius: 8px;
   }
 }
+
+.dapp-core-component__dappModalStyles__dappModal {
+    position: fixed;    
+    z-index: 1300 !important;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    padding-top: 0;
+}
