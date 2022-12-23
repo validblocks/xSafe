@@ -12,11 +12,13 @@ import {
 } from '@elrondnetwork/erdjs';
 import { gasLimit } from 'src/config';
 import { LoginMethodsEnum } from '@elrondnetwork/dapp-core/types';
+import { getAddress } from '@elrondnetwork/dapp-core/utils';
 import { multisigContractFunctionNames } from '../types/multisigFunctionNames';
 
 interface TransactionPayloadType {
   chainID: any;
   receiver: Address;
+  sender?: Address;
   value: TokenPayment;
   gasLimit: any;
   data: TransactionPayload;
@@ -51,7 +53,7 @@ export function buildTransaction(
   return new Transaction(transactionPayload as any);
 }
 
-export function buildBlockchainTransaction(
+export async function buildBlockchainTransaction(
   value: number,
   providerType: string,
   receiver: Address,
@@ -59,9 +61,11 @@ export function buildBlockchainTransaction(
   // eslint-disable-next-line comma-dangle
   transactionGasLimit: number = gasLimit,
 ) {
+  const address = await getAddress();
   const transactionPayload: TransactionPayloadType = {
     chainID: getChainID(),
     receiver,
+    sender: new Address(address),
     value: TokenPayment.egldFromAmount(value),
     gasLimit: transactionGasLimit,
     data: new TransactionPayload(data),

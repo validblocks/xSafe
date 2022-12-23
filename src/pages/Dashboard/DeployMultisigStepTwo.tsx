@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-nested-ternary */
 import { sendTransactions } from '@elrondnetwork/dapp-core/services';
 import {
@@ -56,27 +57,29 @@ const DeployMultisigStepTwo = ({
   const multisigContracts = useSelector(multisigContractsSelector);
 
   const onSignChangeContractOwner = useCallback(async () => {
-    const address = Address.fromBech32(pendingDeploymentContractData?.multisigAddress);
     try {
+      const contractAddress = pendingDeploymentContractData?.multisigAddress;
+      const address = new Address(contractAddress);
       const data = `ChangeOwnerAddress@${address.hex()}`;
 
-      const transaction = buildBlockchainTransaction(
+      const transaction = await buildBlockchainTransaction(
         0,
         providerType,
-        new Address(pendingDeploymentContractData?.multisigAddress),
+        address,
         data,
         gasLimit,
       );
-      const { sessionId } = await sendTransactions({ transactions: transaction });
+
+      const { sessionId } = await sendTransactions({ transactions: [transaction] });
       setSessionId(sessionId);
 
       return sessionId;
     } catch (error) {
-      console.error('An error occurred, please try again');
+      console.error('An error occurred, please try again', error);
     }
 
     return null;
-  }, [pendingDeploymentContractData?.multisigAddress, providerType]);
+  }, [pendingDeploymentContractData, providerType]);
 
   useEffect(() => {
     setIsFinalStepButtonActive(true);
