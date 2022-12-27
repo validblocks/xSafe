@@ -26,14 +26,15 @@ interface TransactionPayloadType {
   version?: TransactionVersion;
 }
 
-export function buildTransaction(
+export async function buildTransaction(
   value: number,
   functionName: multisigContractFunctionNames,
   providerType: string,
   contract: SmartContract,
   transactionGasLimit: number,
   ...args: TypedValue[]
-): Transaction {
+) {
+  const walletAddress = await getAddress();
   const func = new ContractFunction(functionName);
   const payload = TransactionPayload.contractCall()
     .setFunction(func)
@@ -42,7 +43,8 @@ export function buildTransaction(
   const transactionPayload: TransactionPayloadType = {
     chainID: getChainID(),
     receiver: new Address(contract.getAddress().bech32()),
-    value: TokenPayment.egldFromAmount(value),
+    sender: new Address(walletAddress),
+    value: TokenPayment.egldFromAmount(value ?? 0),
     gasLimit: transactionGasLimit,
     data: payload,
   };
@@ -62,6 +64,7 @@ export async function buildBlockchainTransaction(
   transactionGasLimit: number = gasLimit,
 ) {
   const address = await getAddress();
+
   const transactionPayload: TransactionPayloadType = {
     chainID: getChainID(),
     receiver,

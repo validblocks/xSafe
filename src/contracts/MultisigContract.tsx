@@ -138,7 +138,7 @@ export async function sendTransaction(
   });
   const providerType = getAccountProviderType();
 
-  const transaction = buildTransaction(
+  const transaction = await buildTransaction(
     0,
     functionName,
     providerType,
@@ -149,7 +149,7 @@ export async function sendTransaction(
 
   await refreshAccount();
   const { sessionId } = await sendTransactions({
-    transactions: [transaction],
+    transactions: transaction,
     minGasLimit,
   });
   store.dispatch(setCurrentMultisigTransactionId(sessionId));
