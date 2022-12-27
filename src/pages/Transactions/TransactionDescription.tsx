@@ -12,7 +12,7 @@ import {
   TimelineOppositeContent,
   TimelineSeparator,
 } from '@mui/lab';
-import { Box, Typography, useMediaQuery } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { makeStyles, withStyles } from '@mui/styles';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { useTheme } from 'styled-components';
@@ -39,7 +39,6 @@ function TransactionDescription({
   child2,
   bottomLeftChild,
 }: Props) {
-  const isSmallScreen = useMediaQuery('(max-width:850px)');
   const theme: any = useTheme();
 
   const StyledDot = withStyles({ root: { backgroundColor: theme.palette.background.timeline } })(
@@ -80,7 +79,7 @@ function TransactionDescription({
           },
         },
       }),
-    [isSmallScreen],
+    [theme.palette.divider.secondary],
   );
 
   const StyledStatusText = withStyles({
@@ -103,7 +102,7 @@ function TransactionDescription({
 
   const toggleShowAllSigners = useCallback(() => {
     setShowAllSigners((areVisible) => !areVisible);
-  }, [areAllSignersVisible]);
+  }, []);
 
   return (
     <Box className={classes.container}>
