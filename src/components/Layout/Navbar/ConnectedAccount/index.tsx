@@ -8,9 +8,7 @@ import { toSvg } from 'jdenticon';
 import routeNames from 'src/routes/routeNames';
 import { network } from 'src/config';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import CopyButton from 'src/components/CopyButton';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -21,9 +19,6 @@ import {
 import * as Styled from '../../../Utils/styled';
 
 const ConnectedAccount = () => {
-  const _dispatch = useDispatch();
-  const currentContract = useSelector(currentMultisigContractSelector);
-
   const navigate = useNavigate();
   const logOut = async () => {
     // document.cookie = '';
@@ -72,7 +67,7 @@ const ConnectedAccount = () => {
             {walletAddress}
             <Box className="d-flex">
               <Box flex={4} sx={{ mr: 1 }}>
-                <CopyButton text={currentContract?.address} link={Styled.CopyIconLinkConnectedAccount} />
+                <CopyButton text={address} link={Styled.CopyIconLinkConnectedAccount} />
               </Box>
               <Box sx={{ mr: 1 }}>
                 <AnchorConnectedAccount

@@ -5,7 +5,7 @@ import uniqBy from 'lodash/uniqBy';
 import { verifiedContractsHashes } from 'src/helpers/constants';
 import { network } from 'src/config';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { getIsLoggedIn } from '@elrondnetwork/dapp-core/utils';
+import { getAddress, getIsLoggedIn } from '@elrondnetwork/dapp-core/utils';
 
 const contractsInfoStorageEndpoint = `${network.storageApi}/settings/multisig`;
 
@@ -13,17 +13,13 @@ const multisigAxiosInstance = axios.create();
 
 export async function getUserMultisigContractsList() {
   try {
-    console.log('Trying to fetch contracts!');
     const isLoggedIn = getIsLoggedIn();
     if (!isLoggedIn) return [];
+    const walletAddress = await getAddress();
 
-    console.log('User is logged in, proceeding to fetching!');
-    const response = await axios.get(
-      '/settings/multisig',
-      {
-        baseURL: (network as any).storageApi,
-      },
-    );
+    const response = await axios.get(`/settings/${walletAddress}`, {
+      baseURL: network.storageApi,
+    });
 
     const { data } = response;
     if (data != null) {
@@ -83,11 +79,11 @@ export async function addContractToMultisigContractsList(
     [...currentContracts, newContract],
     (contract) => contract.address,
   );
-  await axios.post('/settings/multisig',
-    newContracts,
-    {
-      baseURL: network.storageApi,
-    });
+
+  const walletAddress = await getAddress();
+  await axios.post(`/settings/${walletAddress}`, newContracts, {
+    baseURL: network.storageApi,
+  });
   // await multisigAxiosInstance.post(contractsInfoStorageEndpoint, newContracts);
   return newContracts;
 }
@@ -104,7 +100,9 @@ export async function updateMultisigContractOnServer(
       return contract;
     },
   );
-  await axios.post('/settings/multisig', newContracts, {
+
+  const walletAddress = await getAddress();
+  await axios.post(`/settings/${walletAddress}`, newContracts, {
     baseURL: network.storageApi,
   });
   return newContracts;
@@ -138,7 +136,9 @@ export async function removeContractFromMultisigContractsList(
     (contract: MultisigContractInfoType) =>
       contract.address !== deletedContractAddress,
   );
-  await axios.post('/settings/multisig', newContracts, {
+
+  const walletAddress = await getAddress();
+  await axios.post(`/settings/${walletAddress}`, newContracts, {
     baseURL: network.storageApi,
   });
   return newContracts;

@@ -61,6 +61,7 @@ function TransactionDescription({
           gridColumn: '1 / 2',
           borderTop: `1px solid ${theme.palette.divider.secondary}`,
           minWidth: '90%',
+          overflow: 'auto',
           padding: '2rem',
           '@media (max-width: 600px)': {
             padding: '16px',

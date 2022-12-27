@@ -103,7 +103,7 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
       });
       setAttachedMultisigContracts(walletAttachedContracts);
     });
-  }, [address, isLoggedIn]);
+  }, [address, fetchedMultisigContracts, isLoggedIn]);
 
   const {
     openDeployNewContractModal,
@@ -118,7 +118,11 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
       <Divider />
       {isLoggedIn && (
       <Box>
-        <AddSafe onClick={openDeployNewContractModal}>
+        <AddSafe onClick={() => {
+          closeSafe();
+          openDeployNewContractModal();
+        }}
+        >
           <AddIcon />
           Add a new safe
         </AddSafe>

@@ -57,30 +57,28 @@ function Layout({ children }: { children: React.ReactNode }) {
     }
   }, [address, dispatch]);
 
-  const fetchAttachedContracts =
+  const fetchAttachedContracts = useCallback(
     async () => {
-      const response = await axios.get(
-        '/settings/multisig',
+      const { data } = await axios.get(
+        `/settings/${address}`,
         {
-          baseURL: (network as any).storageApi,
+          baseURL: network.storageApi,
         },
       );
 
-      const { data } = response;
-      if (data != null) {
-        return data;
-      }
-      return [];
-    };
+      return data && data !== '' ? data : [];
+    }, [address]);
 
   const {
+    isFetching: isFetchingContracts,
+    isLoading: isLoadingContracts,
     data: attachedContracts,
   } = useQuery(
-    [QueryKeys.ATTACHED_CONTRACTS],
+    [QueryKeys.ATTACHED_CONTRACTS, address],
     fetchAttachedContracts,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
-      enabled: isLoggedIn && !currentContract.address,
+      enabled: isLoggedIn && (!currentContract.address || currentContract.address === ''),
     },
   );
 
@@ -89,7 +87,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
-    if (isLoggedIn && attachedContracts) {
+    if (isLoggedIn && attachedContracts && !isFetchingContracts && !isLoadingContracts) {
       dispatch(setProposeModalSelectedOption(null));
       (async function getContracts() {
         const contracts = attachedContracts;
@@ -102,7 +100,7 @@ function Layout({ children }: { children: React.ReactNode }) {
         }
       }());
     }
-  }, [isLoggedIn, address, dispatch, currentContract?.address, navigate, fetchAccountData, attachedContracts]);
+  }, [isLoggedIn, address, dispatch, currentContract?.address, navigate, fetchAccountData, attachedContracts, isFetchingContracts, isLoadingContracts]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -117,27 +115,25 @@ function Layout({ children }: { children: React.ReactNode }) {
     }
   }, [dispatch, isLoggedIn, navigate]);
 
-  async function fetchEconomics() {
+  const fetchEconomics = useCallback(async () => {
     const economics = await ElrondApiProvider.getEconomicsData();
     if (economics !== null) {
       dispatch(setEconomics(economics));
     }
-  }
+  }, [dispatch]);
 
   useEffect(() => {
     fetchEconomics();
-  }, []);
+  }, [fetchEconomics]);
 
   useEffect(() => {
     const body = document.querySelector('body');
     if (body) {
       body.style.background = theme.palette.background.default;
     }
-  }, [isDarkThemeEnabled]);
+  }, [isDarkThemeEnabled, theme.palette.background.default]);
 
   const minWidth600 = useMediaQuery('(min-width:600px)');
-
-  console.log({ isLoggedIn });
 
   return (
     <Box sx={{ height: '100vh' }}>

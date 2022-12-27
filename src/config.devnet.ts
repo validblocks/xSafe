@@ -49,5 +49,5 @@ networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
 });
 
 export const sampleAuthenticatedDomains = [
-  (network as any).storageApi,
+  network.storageApi,
 ];
