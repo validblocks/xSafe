@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { Box, Typography } from '@mui/material';
+import xSafeLogo from 'src/assets/img/xSafe-Logo.svg';
+import { Box, IconButton, Typography, useMediaQuery } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Link } from 'react-router-dom';
 import Safe from 'src/assets/img/safe.png';
 import SafeOptions from 'src/components/SafeOptions';
+import WifiProtectedSetupOutlinedIcon from '@mui/icons-material/WifiProtectedSetupOutlined';
 import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import addressShorthand from 'src/helpers/addressShorthand';
@@ -12,25 +15,28 @@ import pxToRem from 'src/components/Utils/pxToRem';
 import { useSelector } from 'react-redux';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
-import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import SafeDark from 'src/assets/img/Safe-dark.png';
-import MobileMenuSelect from 'src/components/MobileMenuSelect';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
 import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
+import MobileRightSidebar from 'src/components/MobileRightSidebar';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
+import CopyButton from 'src/components/CopyButton';
+import { network } from 'src/config';
+import { CopyIconLinkConnectedAccount } from 'src/components/Utils/styled';
+import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import {
-  ArrowDropDown,
-  ArrowDropUp,
+  AnchorConnectedAccount,
   BottomMenuButton,
-  LogoMenuWrapper,
   MobileMenu,
   MobileSecondaryMenu,
   TopMobileMenu,
+  TopMobileMenuActionBox,
+  TopMobileMenuLogoBox,
+  TopMobileMenuSafeBox,
   TotalBalanceWrapper,
 } from './navbar-style';
 import TotalBalance from './TotalBalance';
-import NavbarLogo from './Logo';
-import Account from './Account';
 
 const MobileLayout = () => {
   const locationString = window.location.pathname.substring(1);
@@ -43,6 +49,27 @@ const MobileLayout = () => {
 
   const [pinnedApps, _setPinnedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.PINNED_APPS, []);
   const [installedApps, _setInstalledApps] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);
+
+  const [safeAddress, setSafeAddress] = useState('');
+  const minWidth380 = useMediaQuery('(min-width:380px)');
+  const minWidth480 = useMediaQuery('(min-width:480px)');
+  const minWidth425 = useMediaQuery('(min-width:425px)');
+  const minWidth410 = useMediaQuery('(min-width:410px)');
+  const minWidth535 = useMediaQuery('(min-width:535px)');
+
+  const addressChars = useMemo(() => {
+    if (minWidth535) return 12;
+    // if (minWidth480) return 7;
+    if (minWidth425) return 7;
+    if (minWidth410) return 7;
+    if (minWidth380) return 7;
+    return 3;
+  }, [minWidth380, minWidth410, minWidth425, minWidth535]);
+
+  useEffect(() => {
+    // eslint-disable-next-line no-nested-ternary
+    setSafeAddress(truncateInTheMiddle(currentContract?.address, addressChars));
+  }, [addressChars, currentContract?.address, isLoggedIn, minWidth425, minWidth480, setSafeAddress]);
 
   const installedAndPinnedApps = useMemo(() => ([
     ...preinstalledApps,
@@ -70,65 +97,107 @@ const MobileLayout = () => {
 
   return (
     <Box>
-      <LogoMenuWrapper>
-        <NavbarLogo />
+      <Box
+        sx={{
+          zIndex: 1301,
+          position: 'sticky',
+          width: '100%',
+        }}
+      >
         <TopMobileMenu>
-          <Box>
-            <img src={isDarkThemeEnabled ? SafeDark : Safe} alt="safe" width="50px" height="50px" />
-          </Box>
-          <Box className="d-flex" alignItems={'center'} mr={'auto'} width={'223px'}>
-            {(currentContract?.address?.length > 0 && isLoggedIn) && (
-              <Box width={'100%'} display={'flex'} flexDirection={'column'} justifyContent={'center'} ml={'12px'}>
-                <Typography
-                  component="span"
-                  fontWeight={600}
-                  lineHeight={1.1}
-                  display={'flex'}
-                  flexDirection={'row'}
-                  justifyContent={'space-between'}
-                  width={'100%'}
-                >{currentContract?.name}
-                  {isInReadOnlyMode && <Typography fontSize={pxToRem(12)}>Read-only</Typography>}
-                </Typography>
-                <Typography
-                  component="span"
-                  lineHeight={1.1}
-                >{truncateInTheMiddle(currentContract?.address, 7)}
-                </Typography>
-              </Box>
-            )}
-            <Box className="d-flex" ml={'12px'}>
-              {openedSafeSelect === true && (
-              <Box>
-                <ArrowDropUp
-                  onClick={() => {
-                    setOpenedSafeSelect(false);
-                  }}
-                />
-                <SafeOptions
-                  closeSafe={() => setOpenedSafeSelect(false)}
-                  ref={menuRef}
-                />
-              </Box>
-              )}
-              {openedSafeSelect === false && isMultiWalletMode && (
-              <Box>
-                <ArrowDropDown
-                  onClick={() => {
-                    setOpenedSafeSelect(true);
-                  }}
-                />
-              </Box>
-              )}
+          <TopMobileMenuLogoBox>
+            <img src={xSafeLogo} alt="Logo" width="50" />
+          </TopMobileMenuLogoBox>
+          <TopMobileMenuSafeBox sx={{
+            px: 2,
+          }}
+          >
+            {minWidth425 && (
+            <Box>
+              <img src={isDarkThemeEnabled ? SafeDark : Safe} alt="safe" width="50px" height="50px" />
             </Box>
-          </Box>
-          <Account />
-          <MobileMenuSelect />
+            )}
+            <Box className="d-flex" alignItems={'center'} width="100%">
+              {(currentContract?.address?.length > 0 && isLoggedIn) && (
+                <Box
+                  width={'100%'}
+                  display={'flex'}
+                  flexDirection={'column'}
+                  justifyContent={'center'}
+                  ml={minWidth380 ? '12px' : 0}
+                >
+                  <Typography
+                    component="span"
+                    fontWeight={600}
+                    lineHeight={1.1}
+                    display={'flex'}
+                    flexDirection={'row'}
+                    justifyContent={'space-between'}
+                    width={'100%'}
+                  >{currentContract?.name}
+                    {isInReadOnlyMode && <Typography fontSize={pxToRem(12)}>Read-only</Typography>}
+                  </Typography>
+                  <Box display="flex">
+                    <Text mr={1}>{safeAddress}</Text>
+                    <Box className="d-flex">
+                      <Box flex={4} sx={{ mr: 1 }}>
+                        <CopyButton
+                          text={currentContract?.address}
+                          copyIconWidth="11px"
+                          link={CopyIconLinkConnectedAccount}
+                        />
+                      </Box>
+                      <Box sx={{ mr: 1 }}>
+                        <AnchorConnectedAccount
+                          href={`${network.explorerAddress}/accounts/${currentContract?.address}`}
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <SearchIcon sx={{ width: '15px' }} />
+                        </AnchorConnectedAccount>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+              )}
+              <Box className="d-flex" ml={minWidth380 ? '12px' : 0}>
+                {openedSafeSelect === true && (
+                <Box>
+                  <IconButton
+                    size="small"
+                    onClick={() => setOpenedSafeSelect(false)}
+                  >
+                    <WifiProtectedSetupOutlinedIcon sx={{ color: '#FFF' }} />
+                  </IconButton>
+                  <SafeOptions
+                    closeSafe={() => setOpenedSafeSelect(false)}
+                    ref={menuRef}
+                  />
+                </Box>
+                )}
+                {openedSafeSelect === false && isMultiWalletMode && (
+                <Box>
+                  {isLoggedIn ? (
+                    <IconButton
+                      size="small"
+                      onClick={() => setOpenedSafeSelect(true)}
+                    >
+                      <WifiProtectedSetupOutlinedIcon sx={{ color: '#FFF' }} />
+                    </IconButton>
+                  ) : <Text>No safe available</Text>}
+                </Box>
+                )}
+              </Box>
+            </Box>
+          </TopMobileMenuSafeBox>
+          <TopMobileMenuActionBox>
+            <MobileRightSidebar />
+          </TopMobileMenuActionBox>
         </TopMobileMenu>
-      </LogoMenuWrapper>
-      <TotalBalanceWrapper>
-        <TotalBalance />
-      </TotalBalanceWrapper>
+        <TotalBalanceWrapper>
+          <TotalBalance />
+        </TotalBalanceWrapper>
+      </Box>
       <MobileMenu>
         {menuItems.mobileBottomItems.map((el) => (
           <Link

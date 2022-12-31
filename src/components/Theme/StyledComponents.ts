@@ -50,6 +50,7 @@ export const NewTransactionButton = styled(MainButton)`
   font-weight: ${(props) => props.theme.font.weight.md};
   @media (max-width:600px) {
     min-width: 175px;
+    width: '100%'
   }
 }
 `;
@@ -69,10 +70,10 @@ export const AccountButton = styled(MainButton)`
 &&& {
   padding: 10px 18px 9px 10px;
   @media (max-width: 600px){
-    width: 24px;
-    min-width: 0px;
-    height: 24px;
-    padding: 0;
+    /* width: 24px; */
+    min-width: 125px;
+    /* height: 24px; */
+    padding: 8px 18px 7px 10px;
     background-color: #4c2FFC;
     & svg path {
     fill: #fff;

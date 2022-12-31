@@ -1,4 +1,4 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Grid, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Grid, IconButton, Typography } from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
@@ -112,18 +112,22 @@ export const TotalBalanceText = styled(Text)(({ theme: _ }) => ({
 export const MobileSettingsIcon = styled(SettingsIcon)(({ theme: _ }) => ({
   width: '26px',
   height: '26px',
-  fill: _.palette.text.menuItems,
+  fill: `${_.palette.text.primary} !important`,
 }));
 
 export const MobileMenuIcon = styled(MenuRoundedIcon)(({ theme: _ }) => ({
   width: '26px',
   height: '26px',
-  fill: _.palette.text.menuItems,
+  fill: `${_.palette.text.primary} !important`,
 }));
 
-export const MobileMenuButton = styled(Button)`
+export const MobileMenuButton = styled(IconButton)`
   min-width: 0;
   padding: 0;
+  color: ${({ theme }) => theme.palette.text.primary};
+  & svg: {
+    fill: ${({ theme }) => theme.palette.text.primary} !important;
+  };
   & .MuiButton-startIcon {
     margin: 0;
   }

@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import MuiDrawer from '@mui/material/Drawer';
 import { CSSObject } from '@mui/system';
 import styled from 'styled-components';
@@ -22,4 +23,11 @@ export const Drawer = styled(MuiDrawer)(({ theme }) => ({
   boxSizing: 'border-box',
   ...(openedMixin(theme) as any),
   '& .MuiDrawer-paper': openedMixin(theme),
+}));
+
+export const TotalBalanceBox = styled(Box)(({ theme: _ }) => ({
+  paddingLeft: '16px',
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
 }));

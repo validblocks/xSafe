@@ -1,7 +1,6 @@
-import { dAppName } from 'src/config';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { useNavigate } from 'react-router-dom';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
+import xSafeLogo from 'src/assets/img/xSafe-Logo.svg';
 import { NavLogo } from '../navbar-style';
 
 const NavbarLogo = () => {
@@ -14,15 +13,9 @@ const NavbarLogo = () => {
   return (
     <NavLogo
       onClick={handleRedirectToHome}
-      className="p-0 d-flex align-items-center"
+      className="px-3 pt-2 pb-0 d-flex align-items-center"
     >
-      <Text
-        fontWeight={700}
-        fontSize={26}
-        letterSpacing={1}
-        marginLeft="3px"
-      >{dAppName}
-      </Text>
+      <img src={xSafeLogo} alt="Logo" />
     </NavLogo>
   );
 };

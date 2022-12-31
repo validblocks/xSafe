@@ -6,6 +6,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   List,
+  Grid,
 } from '@mui/material';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -342,6 +343,7 @@ export const MobileMenu = styled(Box)(({ theme: _ }) => ({
     width: '100%',
     height: '93px',
     padding: '0 8px',
+    zIndex: '1301 !important',
     display: 'flex',
     flexDirection: 'row',
     borderTopRightRadius: _.shape.radius,
@@ -350,18 +352,20 @@ export const MobileMenu = styled(Box)(({ theme: _ }) => ({
     backgroundColor: _.palette.background.secondary,
     position: 'fixed',
     bottom: 0,
-    zIndex: 2,
     '& a.active span': {
       color: `${_.palette.primary.main} !important`,
     },
   },
 }));
 
-export const TopMobileMenu = styled(Box)(({ theme: _ }) => ({
+export const TopMobileMenu = styled(Grid)(({ theme: _ }) => ({
   display: 'flex',
   flexDirection: 'row',
-  alignItems: 'center',
-  padding: '9px',
+  alignItems: 'stretch',
+  justifyContent: 'space-between',
+  width: '100% !important',
+  padding: '0 16px',
+  zIndex: '1301px !important',
   backgroundColor: _.palette.background.secondary,
   '& span': {
     color: _.palette.text.primary,
@@ -369,6 +373,28 @@ export const TopMobileMenu = styled(Box)(({ theme: _ }) => ({
       color: _.palette.text.readOnly,
     },
   },
+}));
+
+export const TopMobileMenuLogoBox = styled(Box)(({ theme: _ }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  borderRight: '1px solid #9393931a',
+  paddingRight: '16px',
+}));
+
+export const TopMobileMenuSafeBox = styled(Box)(({ theme: _ }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: '8px 0',
+
+}));
+
+export const TopMobileMenuActionBox = styled(Box)(({ theme: _ }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'flex-end',
+  borderLeft: '1px solid #9393931a',
+  paddingLeft: '16px',
 }));
 
 export const BottomMenuButton = styled(Button)(({ theme: _ }) => ({
@@ -396,7 +422,8 @@ export const MobileSecondaryMenu = styled(Box)`
 `;
 
 export const TotalBalanceWrapper = styled(Box)`
-  margin-top: 107px;
+  /* margin-top: 68px; */
+  z-index: 1000;
   width: 100%;
   background-color: ${(props) => props.theme.palette.background.secondary};
   border-bottom-left-radius: 10px;
@@ -413,5 +440,5 @@ export const LogoMenuWrapper = styled(Box)`
   position: fixed;
   background-color: ${(props) => props.theme.palette.background.white};
   z-index: 3;
-  width: 100%;
+  width: 100% !important;
 `;
