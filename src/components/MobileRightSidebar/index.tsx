@@ -95,6 +95,7 @@ export default function MobileRightSidebar() {
             expandIcon={<StyledExpandMoreIcon />}
             aria-controls="panel1a-content"
             id="panel1a-header"
+            sx={{ minHeight: '55px' }}
           >
             <ManageAccountsRoundedIcon />
             <Typography ml={1}>My Account { !isLoggedIn && '(Not logged in)'}</Typography>
@@ -116,6 +117,7 @@ export default function MobileRightSidebar() {
                 id={item.id}
                 aria-controls="panel1a-content"
                 expandIcon={<StyledExpandMoreIcon />}
+                sx={{ minHeight: '55px' }}
               >
                 {item.name === 'Settings' ?
                   (
@@ -162,6 +164,7 @@ export default function MobileRightSidebar() {
               id="pinned-apps"
               aria-controls="panel1a-content"
               expandIcon={<StyledExpandMoreIcon />}
+              sx={{ minHeight: '55px' }}
             >
               <MobileMenuAccordionSummaryContent>
                 <MobilePinnedIcon />
