@@ -13,6 +13,7 @@ import { useLocalStorage } from 'src/utils/useLocalStorage';
 import { useSelector } from 'react-redux';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks';
+import SafeSettings from 'src/pages/Settings/SafeSettings';
 import * as Styled from './styled';
 import {
   MobileMenuAccordion,
@@ -121,12 +122,10 @@ export default function MobileRightSidebar() {
               >
                 {item.name === 'Settings' ?
                   (
-                    <Link to={item.link}>
-                      <MobileMenuAccordionSummaryContent>
-                        {item.icon}
-                        <Typography>{item.name}</Typography>
-                      </MobileMenuAccordionSummaryContent>
-                    </Link>
+                    <MobileMenuAccordionSummaryContent>
+                      {item.icon}
+                      <Typography>{item.name}</Typography>
+                    </MobileMenuAccordionSummaryContent>
                   ) : (
                     <MobileMenuAccordionSummaryContent>
                       {item.icon}
@@ -153,6 +152,11 @@ export default function MobileRightSidebar() {
                   </MobileSubmenuAccordionSummary>
                 </Link>
               ))}
+              {item.name === 'Settings' && (
+                <AccordionDetails>
+                  <SafeSettings />
+                </AccordionDetails>
+              )}
             </MobileMenuAccordion>
           </Box>
         ))}
