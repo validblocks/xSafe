@@ -6,7 +6,7 @@ import {
   Typography, Grid, Paper, Button, Box,
 } from '@mui/material';
 import Divider from '@mui/material/Divider';
-import { styled } from '@mui/material/styles';
+import styled from 'styled-components';
 import LinearWithValueLabel from 'src/components/ProgressBar/progressLinear';
 import { TypographyBold } from 'src/components/Theme/StyledComponents';
 import DecisionApproved from './decisionApproved';

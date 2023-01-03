@@ -146,7 +146,7 @@ export const WithdrawButton = styled(AccountButton)`
 }
 `;
 
-export const MainSelect = styled(Select)`
+export const MainSelect = styled(Select)<any>`
 &&& {
   color: ${(props) => props.theme.palette.primary.main};
   border: 1px solid #4c2FFC;
@@ -713,7 +713,7 @@ export const StyledPagination = styled(Pagination)`
   }
 `;
 
-export const PaginationSelect = styled(Select)`
+export const PaginationSelect = styled(Select)<any>`
 &&& {
   color: ${(props) => props.theme.palette.text.primary};
   & svg path {
@@ -729,7 +729,7 @@ export const PaginationSelect = styled(Select)`
 }
 `;
 
-export const TokenSelect = styled(Select)`
+export const TokenSelect = styled(Select)<any>`
 &&& {
   color: ${(props) => props.theme.palette.text.primary};
   & svg path {

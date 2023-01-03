@@ -1,4 +1,4 @@
-import { styled } from '@mui/material/styles';
+import styled from 'styled-components';
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 
 export const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (

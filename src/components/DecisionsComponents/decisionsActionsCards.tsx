@@ -4,7 +4,7 @@ import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
+import styled from 'styled-components';
 import Typography from '@mui/material/Typography';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';

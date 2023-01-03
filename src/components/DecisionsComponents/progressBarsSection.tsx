@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import { styled } from '@mui/material/styles';
+import styled from 'styled-components';
 import CircularStatic from 'src/components/ProgressBar/progressCircle';
 import LinearWithValueLabel from 'src/components/ProgressBar/progressLinear';
 

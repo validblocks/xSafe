@@ -185,7 +185,7 @@ export const MultisigAutocomplete = styled(Autocomplete)(({ theme }) => ({
   },
 }));
 
-export const MultisigSelect = styled(Select)(({ theme }) => ({
+export const MultisigSelect = styled(Select)<any>(({ theme }) => ({
   ul: {
     backgroundColor: `${theme.palette.background.default} !important`,
   },
