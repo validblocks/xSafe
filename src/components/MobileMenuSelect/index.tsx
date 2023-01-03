@@ -11,8 +11,6 @@ import {
   MobileMenuAccordion,
   MobileMenuAccordionSummary,
   MobileMenuAccordionSummaryContent,
-  MobileMenuButton,
-  MobileMenuIcon,
   MobilePinnedIcon,
   MobileSubmenuAccordionSummary,
 } from '../StyledComponents/StyledComponents';
@@ -36,8 +34,6 @@ const MobileMenuSelect = () => {
     ...availableApps
       .filter((app: MenuItem) => installedApps.includes(app.id)),
   ].filter((app: MenuItem) => pinnedApps.includes(app.id))), [installedApps, pinnedApps]);
-
-  const handleClickDropDown = () => setIsOpen(!isOpen);
 
   useEffect(() => setIsOpen(isOpen), [isOpen]);
 
