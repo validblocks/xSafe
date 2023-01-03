@@ -242,7 +242,7 @@ const ProposeUnstakeTokens = ({
                 <DelegatedColumn columnData={activeDelegation?.delegatedColumn ?? { delegatedAmount: 'Unknown' }} />
               </Box>
             </MenuItem>
-          ))}
+          ) as any)}
         </StyledSelect>
         <span>
           Staked:
