@@ -31,35 +31,6 @@ function ChangeCurrency() {
   };
   return (
     <Box>
-      {/* <Select
-          onChange={(e) => {
-            changeCurrency(e.target.value as SupportedCurrencies);
-          }}
-          value={{ code: '', label: `${globallySelectedCurrency}` }}
-          id="country-select-demo"
-          sx={{ width: 250 }}
-          // PopperComponent={Styled.MultisigPopper}
-          autoHighlight
-          getOptionLabel={(option: any) => option.label}
-          renderOption={(props, option: any) => (
-            <Box
-              component="li"
-              sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-              {...props}
-            >
-              <img
-                loading="lazy"
-                width="20"
-                src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                alt="flag"
-              />
-              <Text>
-                {option.label}
-              </Text>
-            </Box>
-          )}
-        /> */}
       <StyledSelect
         value={globallySelectedCurrency}
         defaultValue={globallySelectedCurrency}
