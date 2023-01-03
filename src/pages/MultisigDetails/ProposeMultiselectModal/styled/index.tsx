@@ -3,7 +3,7 @@ import { Box } from '@mui/system';
 import { InputsContainer, TokenSelect } from 'src/components/Theme/StyledComponents';
 import styled from 'styled-components';
 
-export const TokenSelection = styled(TokenSelect)(({ theme: _ }) => ({
+export const TokenSelection = styled(TokenSelect)<any>(({ theme: _ }) => ({
   top: '0px',
   right: '0px',
   height: '56px',
