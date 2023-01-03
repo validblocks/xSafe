@@ -18,6 +18,8 @@ import {
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { DiscardActionButton, PerformActionButton, Text } from 'src/components/StyledComponents/StyledComponents';
 import { gasLimits } from 'src/components/PerformActionModal';
+import { setIntervalEndTimestamp } from 'src/redux/slices/transactionsSlice';
+import { useDispatch } from 'react-redux';
 import useTransactionPermissions from './useTransactionPermissions';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
@@ -45,17 +47,20 @@ function TransactionActionsCard({
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const { canUnsign, canPerformAction, canSign, canDiscardAction } =
     useTransactionPermissions(action);
+  const dispatch = useDispatch();
   const sign = () => {
     mutateSign(actionId);
   };
   const unsign = () => {
     mutateUnsign(actionId);
   };
-  const performAction = () => {
+  const performAction = async () => {
     const gasLimit = type != null
       ? gasLimits[type as keyof typeof gasLimits] ?? defaultGasLimit
       : defaultGasLimit;
-    mutatePerformAction(actionId, gasLimit);
+    mutatePerformAction(actionId, gasLimit).then(() => {
+      dispatch(setIntervalEndTimestamp(new Date().getTime() / 1000));
+    });
   };
   const discardAction = () => {
     mutateDiscardAction(actionId);

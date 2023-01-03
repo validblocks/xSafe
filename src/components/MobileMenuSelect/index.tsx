@@ -11,8 +11,6 @@ import {
   MobileMenuAccordion,
   MobileMenuAccordionSummary,
   MobileMenuAccordionSummaryContent,
-  MobileMenuButton,
-  MobileMenuIcon,
   MobilePinnedIcon,
   MobileSubmenuAccordionSummary,
 } from '../StyledComponents/StyledComponents';
@@ -21,7 +19,7 @@ const MobileMenuSelect = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [pinnedApps, _setPinnedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.PINNED_APPS, []);
   const [installedApps, _setInstalledApps] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);
-  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
+  const _isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const menuRef = useRef<HTMLElement>();
   const buttonMenuRef = useRef<HTMLElement>();
 
@@ -36,8 +34,6 @@ const MobileMenuSelect = () => {
     ...availableApps
       .filter((app: MenuItem) => installedApps.includes(app.id)),
   ].filter((app: MenuItem) => pinnedApps.includes(app.id))), [installedApps, pinnedApps]);
-
-  const handleClickDropDown = () => setIsOpen(!isOpen);
 
   useEffect(() => setIsOpen(isOpen), [isOpen]);
 
@@ -57,12 +53,12 @@ const MobileMenuSelect = () => {
     <MobileDropDownContainer ref={menuRef}>
       {
         menuItems.mobileDropDownItems.map((item) => (
-          <div key={item.id}>
+          <Box key={item.id} sx={{ borderBottom: '1px solid #E0E0E0 !important' }}>
             <MobileMenuAccordion
               expanded={expanded === `${item.id}`}
               onChange={handleChange(`${item.id}`)}
               TransitionProps={{ unmountOnExit: true }}
-              sx={{ borderBottom: isDarkThemeEnabled ? 'solid 1px #14131C' : 'solid 1px #E0E0E0' }}
+              sx={{ borderBottom: '1px solid #E0E0E0' }}
             >
               <MobileMenuAccordionSummary id={item.id} aria-controls="panel1a-content">
                 {item.name === 'Settings' ?
@@ -100,7 +96,7 @@ const MobileMenuSelect = () => {
                 </Link>
               ))}
             </MobileMenuAccordion>
-          </div>
+          </Box>
         ))}
       <div>
         <MobileMenuAccordion
@@ -127,7 +123,7 @@ const MobileMenuSelect = () => {
 
   return (
     <Box position={'relative'} ref={buttonMenuRef}>
-      <MobileMenuButton startIcon={<MobileMenuIcon />} onClick={handleClickDropDown} />
+      {/* <MobileMenuButton startIcon={<MobileMenuIcon />} onClick={handleClickDropDown} /> */}
       {isOpen && dropDownMenu()}
     </Box>
   );

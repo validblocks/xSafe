@@ -11,6 +11,7 @@ interface Props {
   className: string;
   resultOfCopySucces: boolean;
   resultOfCopyDefault: boolean;
+  copyIconWidth?: string;
 }
 
 const Wrapper = (props: Props) => {
@@ -22,7 +23,8 @@ const Wrapper = (props: Props) => {
       className={`side-action ${className}`}
     >
       {resultOfCopyDefault || !resultOfCopySucces ? (
-        <CopyIcon />
+        // eslint-disable-next-line react/destructuring-assignment
+        <CopyIcon width={props.copyIconWidth ?? '15px'} />
       ) : (
         <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
       )}
@@ -34,12 +36,14 @@ interface CopyButtonType {
   text: string;
   className?: string;
   link: typeof Link;
+  copyIconWidth?: string;
 }
 
 const CopyButton = ({
   text,
   className = '',
   link,
+  copyIconWidth,
 }: CopyButtonType) => {
   const [copyResult, setCopyResut] = useState({
     default: true,
@@ -67,6 +71,7 @@ const CopyButton = ({
   return (
     <Wrapper
       link={link}
+      copyIconWidth={copyIconWidth}
       handle={handleCopyToClipboard}
       className={className}
       resultOfCopyDefault={copyResult.default}

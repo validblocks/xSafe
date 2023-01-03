@@ -19,6 +19,7 @@ import { dAppName, network } from 'src/config';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { LoginMethodsEnum } from '@elrondnetwork/dapp-core/types';
+import xSafeLogo from 'src/assets/img/xSafe-Logo.svg';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
@@ -126,9 +127,17 @@ function Dashboard() {
                 justifyContent={'center'}
               >
                 <Box>
-                  <Text fontSize={maxWidth600 ? 24 : 36} fontWeight={700}>
-                    {t(`Welcome to ${dAppName}`)}
-                  </Text>
+                  <Box display="flex" alignItems="center">
+                    <Text
+                      mr={1.2}
+                      fontSize={maxWidth600 ? 24 : 40}
+                      lineHeight={maxWidth600 ? '28px' : '44px'}
+                      fontWeight="medium"
+                    >
+                      {t('Welcome to')}
+                    </Text>
+                    <img width="98" height="33" src={xSafeLogo} alt="logo" />
+                  </Box>
                   <Text marginY={2} fontSize={16} fontWeight={400}>
                     <strong>{dAppName}</strong>
                     {t(' is the first platform for digital assets management built on the MultiversX.')}
@@ -144,6 +153,7 @@ function Dashboard() {
                     height: '100%',
                     display: maxWidth600 ? 'flex' : '',
                     flexDirection: maxWidth600 ? 'column' : 'auto',
+                    maxWidth: '793px',
                   }}
                   container
                 >

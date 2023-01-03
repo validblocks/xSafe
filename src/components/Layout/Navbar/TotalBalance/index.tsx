@@ -1,16 +1,17 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { getAccountBalance as getAccount } from '@elrondnetwork/dapp-core/utils/account';
 import { TokenPayment } from '@elrondnetwork/erdjs/out';
-import { Box, CircularProgress } from '@mui/material';
+import { Box, CircularProgress, Typography } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { NewTransactionButton } from 'src/components/Theme/StyledComponents';
+import BoltIcon from '@mui/icons-material/Bolt';
+import { AccountButton, NewTransactionButton } from 'src/components/Theme/StyledComponents';
 import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
 import {
   selectedCurrencySelector,
 } from 'src/redux/selectors/currencySelector';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setValueInUsd } from 'src/redux/slices/currencySlice';
-import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
+import { setProposeModalSelectedOption, setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
 import Divider from '@mui/material/Divider';
 import {
@@ -28,7 +29,10 @@ import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks';
 import { CenteredText } from '../navbar-style';
+import * as Styled from '../styled';
 
 export const identifierWithoutUniqueHash = (identifier: string) => identifier?.split('-')[0] ?? '';
 export const DECIMAL_POINTS_UI = 3;
@@ -96,6 +100,7 @@ function TotalBalance() {
   );
 
   const queryClient = useQueryClient();
+  const { isLoggedIn } = useGetLoginInfo();
 
   useEffect(() => {
     if (!currentContract?.address) return;
@@ -256,6 +261,14 @@ function TotalBalance() {
     setMultisigAllCoinsValue(totalValue);
   }, [totalUsdValueConverted]);
 
+  const handleConnectClick = () => {
+    dispatch(
+      setProposeModalSelectedOption({
+        option: ProposalsTypes.connect_wallet,
+      }),
+    );
+  };
+
   return (
     <Box
       sx={{
@@ -266,25 +279,44 @@ function TotalBalance() {
         justifyContent: { sm: 'center', xs: 'space-around' },
       }}
     >
-      <Box sx={{ width: { sm: '100%', xs: '50%' } }}>
+      <Styled.TotalBalanceBox sx={{ width: { sm: '100%', xs: '50%' } }}>
         <CenteredText fontSize="14px">Your Total Balance:</CenteredText>
         <CenteredText fontSize="16px" fontWeight="bolder">
           {
-            Number.isNaN(multisigAllCoinsValue) ? <CircularProgress /> : `${multisigAllCoinsValue} ${getCurrency}`
+            Number.isNaN(multisigAllCoinsValue) ?
+              <CircularProgress /> :
+              `${isLoggedIn ? multisigAllCoinsValue : 0} ${getCurrency}`
           }
         </CenteredText>
-      </Box>
-      <Divider orientation="vertical" flexItem />
-      {isInReadOnlyMode === false && (
+      </Styled.TotalBalanceBox>
+      <Divider orientation="vertical" flexItem sx={{ borderColor: '#9393931a !important' }} />
       <Box
-        className="d-flex justify-content-center"
+        className="d-flex justify-content-center align-items-center"
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
       >
-        <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>
-          Send Token
-        </NewTransactionButton>
+        {!isInReadOnlyMode ? (
+          <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>
+            Send Token
+          </NewTransactionButton>
+        ) : (
+          <Text height={'40px'} display="flex" alignItems={'center'}>
+            {isLoggedIn ? 'Read-Only Mode' : (
+              <AccountButton
+                variant="outlined"
+                onClick={handleConnectClick}
+                size="large"
+              >
+                <Box className="d-flex">
+                  <BoltIcon />
+                  <Typography sx={{ textTransform: isLoggedIn ? 'lowercase' : 'none' }}>
+                    Connect
+                  </Typography>
+                </Box>
+              </AccountButton>
+            )}
+          </Text>
+        )}
       </Box>
-      )}
     </Box>
   );
 }

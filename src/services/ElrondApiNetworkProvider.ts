@@ -1,4 +1,5 @@
 import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
+import { ITransactionOnNetwork } from '@elrondnetwork/erdjs/out';
 import { network } from 'src/config';
 import { NFTType } from 'src/types/nfts';
 
@@ -36,7 +37,7 @@ export class ElrondApiNetworkProvider extends ApiNetworkProvider {
   async getAddressTransactions(
     address: string,
     urlParams: URLSearchParams = new URLSearchParams(''),
-  ) {
+  ): Promise<ITransactionOnNetwork[] | undefined> {
     if (!address) return undefined;
     return this.doGetGeneric(
       `accounts/${address}/transactions?${urlParams.toString()}`,

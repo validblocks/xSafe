@@ -1,13 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
+import uniqBy from 'lodash/uniqBy';
 import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItemsPerPage';
 import { parseActionDetailed } from 'src/helpers/converters';
 import { RawTransactionType } from 'src/helpers/types';
-import { QueryKeys } from 'src/react-query/queryKeys';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import {
   intervalStartTimestampSelector,
@@ -16,11 +16,11 @@ import {
 } from 'src/redux/selectors/transactionsSelector';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { getDate } from 'src/utils/transactionUtils';
-import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { parseInt } from 'lodash';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { ITransactionEventTopic, ITransactionOnNetwork } from '@elrondnetwork/erdjs/out';
 import TransactionHistoryPresentation from './TransactionHistoryPresentation';
 
 const dateFormat = 'MMM D, YYYY';
@@ -39,7 +39,6 @@ const TransactionHistory = () => {
 
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
 
-  const [cursor, setCursor] = useState(() => 0);
   const [actionsPerPage, setActionsPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -54,73 +53,118 @@ const TransactionHistory = () => {
 
   const { t } = useTranslation();
 
-  const fetchTransactions = (cursorPointer = 0) => {
-    const urlParams = new URLSearchParams({
-      withLogs: 'true',
-      withOperations: 'true',
-      size: API_RESPONSE_MAX_SIZE.toString(),
-      after: parseInt(globalIntervalStartTimestamp.toString()).toString(),
-      before: parseInt(globalIntervalEndTimestamp.toString()).toString(),
-      from: cursorPointer.toString(),
-    });
+  // const fetchTransactions = (cursorPointer = 0) => {
+  //   const urlParams = new URLSearchParams({
+  //     withLogs: 'true',
+  //     withOperations: 'true',
+  //     size: API_RESPONSE_MAX_SIZE.toString(),
+  //     after: parseInt(globalIntervalStartTimestamp.toString()).toString(),
+  //     before: parseInt(globalIntervalEndTimestamp.toString()).toString(),
+  //     from: cursorPointer.toString(),
+  //   });
 
-    return ElrondApiProvider.getAddressTransactions(currentContract?.address, urlParams);
-  };
+  //   return ElrondApiProvider.getAddressTransactions(currentContract?.address, urlParams);
+  // };
 
-  const {
-    data: fetchedTransactionsFromSelectedInterval,
-    isFetching: isFetchingInterval,
-    isLoading: isLoadingInterval,
-    isError: isErrorOnFetchInterval,
-  } = useQuery(
-    [
-      QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
-      cursor,
-      globalIntervalStartTimestamp,
-      globalIntervalEndTimestamp,
-    ],
-    () => fetchTransactions(cursor),
-    USE_QUERY_DEFAULT_CONFIG,
-  );
+  const fetchTransactions2 = useCallback(async (): Promise<ITransactionOnNetwork[]> => {
+    let transactions: ITransactionOnNetwork[] = [];
+    let cursorPointer = 0;
+
+    while (true) {
+      const urlParams = new URLSearchParams({
+        withLogs: 'true',
+        withOperations: 'true',
+        size: API_RESPONSE_MAX_SIZE.toString(),
+        after: parseInt(globalIntervalStartTimestamp.toString()).toString(),
+        before: parseInt(globalIntervalEndTimestamp.toString()).toString(),
+        from: cursorPointer.toString(),
+      });
+
+      // eslint-disable-next-line no-await-in-loop
+      const data = await ElrondApiProvider.getAddressTransactions(currentContract?.address, urlParams);
+
+      if (!data) break;
+
+      console.log({ iData: data });
+      transactions = transactions.concat(data);
+
+      if (data.length === 0) {
+        break;
+      }
+
+      cursorPointer += API_RESPONSE_MAX_SIZE;
+    }
+
+    return transactions;
+  }, [currentContract?.address, globalIntervalEndTimestamp, globalIntervalStartTimestamp]);
+
+  const [cachedTransactions, setCachedTransactions] = useState<ITransactionOnNetwork[] | null>(null);
+  const [isLoadingTransactions, setIsLoadingTransactions] = useState(false);
+  const [isFetchingTransactions, setIsFetchingTransactions] = useState(false);
+  const [isErrorOnFetchTransactions, setIsErrorOnFetchTransactions] = useState(false);
+
+  useEffect(() => {
+    try {
+      (async () => {
+        setIsFetchingTransactions(true);
+        setIsLoadingTransactions(true);
+        const transactions = await fetchTransactions2();
+        setIsFetchingTransactions(false);
+        setIsLoadingTransactions(false);
+
+        console.log({ transactions });
+        const uniqueTransactions = uniqBy(transactions, (t) => t);
+        console.log({ uniqueTransactions });
+        setCachedTransactions(uniqueTransactions);
+      })();
+    } catch (e) {
+      setIsErrorOnFetchTransactions(true);
+    }
+  }, [fetchTransactions2]);
+
+  // const {
+  //   data: fetchedTransactionsFromSelectedInterval,
+  //   isFetching: isFetchingInterval,
+  //   isLoading: isLoadingInterval,
+  //   isError: isErrorOnFetchInterval,
+  // } = useQuery(
+  //   [
+  //     QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
+  //     cursor,
+  //     globalIntervalStartTimestamp,
+  //     globalIntervalEndTimestamp,
+  //   ],
+  //   () => fetchTransactions(cursor),
+  //   USE_QUERY_DEFAULT_CONFIG,
+  // );
 
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    if (
-      fetchedTransactionsFromSelectedInterval &&
-      fetchedTransactionsFromSelectedInterval.length === API_RESPONSE_MAX_SIZE
-    ) {
-      setCursor((prev) => prev + API_RESPONSE_MAX_SIZE);
-      return;
-    }
-
-    let cachedTransactions = queryClient
-      .getQueryCache()
-      .getAll()
-      .filter(
-        (cachedTransaction: any) =>
-          cachedTransaction.queryKey[0] ===
-            QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED &&
-          (cachedTransaction.queryKey[2] as any) >= globalIntervalStartTimestampForFiltering,
-      )
-      .map((cachedTransaction: any) => cachedTransaction.state.data)
-      .flat() as RawTransactionType[];
+    // if (
+    //   fetchedTransactionsFromSelectedInterval &&
+    //   fetchedTransactionsFromSelectedInterval.length === API_RESPONSE_MAX_SIZE
+    // ) {
+    //   setCursor((prev) => prev + API_RESPONSE_MAX_SIZE);
+    //   return;
+    // }
 
     const result: PairOfTransactionAndDecodedAction[] = [];
 
     if (!cachedTransactions) return;
 
-    cachedTransactions = cachedTransactions.filter(
-      (cachedTransaction) => !!cachedTransaction,
-    );
+    // cachedTransactions = cachedTransactions.filter(
+    //   (cachedTransaction) => !!cachedTransaction,
+    // );
 
+    console.log('Decoding fetched transactions');
     for (const transaction of cachedTransactions) {
       const logEvents = transaction.logs?.events;
 
       if (logEvents) {
         for (const event of logEvents) {
-          const decodedEventTopics = event.topics.map((topic: string) =>
-            atob(topic),
+          const decodedEventTopics = event.topics.map((topic: ITransactionEventTopic) =>
+            atob(topic.toString()),
           );
 
           if (decodedEventTopics.includes('startPerformAction')) {
@@ -130,7 +174,7 @@ const TransactionHistory = () => {
               if (actionDetailed) {
                 result.push({
                   action: actionDetailed,
-                  transaction,
+                  transaction: transaction as any,
                 });
               }
             } catch (error) {
@@ -142,7 +186,7 @@ const TransactionHistory = () => {
     }
 
     setActionAccumulator(result);
-  }, [fetchedTransactionsFromSelectedInterval, globalIntervalStartTimestampForFiltering, queryClient]);
+  }, [cachedTransactions, globalIntervalStartTimestampForFiltering, queryClient]);
 
   const [actionsForCurrentPage, setActionsForCurrentPage] = useState<
     PairOfTransactionAndDecodedAction[]
@@ -169,11 +213,11 @@ const TransactionHistory = () => {
     [actionsForCurrentPage],
   );
 
-  if (isFetchingInterval || isLoadingInterval) {
+  if (isFetchingTransactions || isLoadingTransactions) {
     return <LoadingDataIndicator dataName="action" />;
   }
 
-  if (isErrorOnFetchInterval) {
+  if (isErrorOnFetchTransactions) {
     return <div>{t('An error occured while fetching actions') as string}...</div>;
   }
 

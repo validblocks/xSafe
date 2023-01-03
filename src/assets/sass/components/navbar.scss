@@ -174,3 +174,13 @@
     width: 113px;
   }
 }
+
+.headerVisible{
+  visibility: visible;
+  transition: all 0.3s;
+}
+.headerHidden {
+  visibility: hidden;
+  transition: all 0.3s;
+  transform: translateY(-100%);
+}

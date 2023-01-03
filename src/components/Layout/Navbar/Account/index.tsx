@@ -61,7 +61,7 @@ function Account() {
   }, [selectedOption]);
 
   return (
-    <Box display="flex" gap={2} mr={minWidth600 ? 2 : '15px'}>
+    <Box display="flex" gap={2} mr={minWidth600 ? 2 : 0}>
       <AccountButton
         variant="outlined"
         onClick={handleClick}
