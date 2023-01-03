@@ -1,6 +1,5 @@
 import * as React from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Typography from '@mui/material/Typography';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
@@ -14,12 +13,14 @@ import { useSelector } from 'react-redux';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks';
 import SafeSettings from 'src/pages/Settings/SafeSettings';
+import { useTheme } from 'styled-components';
 import * as Styled from './styled';
 import {
   MobileMenuAccordion,
   MobileMenuAccordionSummary,
   MobileMenuAccordionSummaryContent,
   MobileMenuButton,
+  MobileMenuCloseIcon,
   MobileMenuIcon,
   MobilePinnedIcon,
   MobileSubmenuAccordionSummary,
@@ -67,20 +68,21 @@ export default function MobileRightSidebar() {
   };
 
   const { isLoggedIn } = useGetLoginInfo();
+  const theme: any = useTheme();
 
   return (
     <div>
       <MobileMenuButton
         sx={{
           '.MuiSvgIcon-root': {
-            fill: '#fff',
+            fill: theme.palette.text.primary,
             width: '20px',
             height: '20px',
           },
         }}
         onClick={handleClickOpen}
       >
-        {!open ? <MobileMenuIcon /> : <CloseRoundedIcon />}
+        {!open ? <MobileMenuIcon /> : <MobileMenuCloseIcon />}
       </MobileMenuButton>
       <Styled.MobileRightSidebar
         fullScreen
@@ -134,7 +136,7 @@ export default function MobileRightSidebar() {
                   )}
               </MobileMenuAccordionSummary>
               {item.submenu?.map((subItem: MenuItem) => (
-                <Link to={subItem.link}>
+                <Link onClick={handleClose} to={subItem.link}>
                   <MobileSubmenuAccordionSummary key={subItem.id}>
                     {subItem.icon}
                     {subItem.name}

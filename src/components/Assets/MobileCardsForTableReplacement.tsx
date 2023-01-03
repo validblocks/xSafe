@@ -14,7 +14,7 @@ const MobileCardsForTableReplacement = ({ items, actionButton }:
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   return (
     items.map((item: any) => (
-      <Styled.MobileCardOfTokens key={item.id}>
+      <Styled.MobileCardOfTokens key={item.id + item.balanceDetails.identifier}>
         <Styled.TokenDetailsBox>
           <Styled.CategoryName>
             <Typography component="span">Assets</Typography>

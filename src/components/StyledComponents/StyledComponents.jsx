@@ -1,5 +1,15 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Grid, IconButton, Typography } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Button,
+  Grid,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import SettingsIcon from '@mui/icons-material/Settings';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
 import { ReactComponent as IconLedger } from 'src/assets/img/ledger.svg';
@@ -116,6 +126,12 @@ export const MobileSettingsIcon = styled(SettingsIcon)(({ theme: _ }) => ({
 }));
 
 export const MobileMenuIcon = styled(MenuRoundedIcon)(({ theme: _ }) => ({
+  width: '26px',
+  height: '26px',
+  fill: `${_.palette.text.primary} !important`,
+}));
+
+export const MobileMenuCloseIcon = styled(CloseRoundedIcon)(({ theme: _ }) => ({
   width: '26px',
   height: '26px',
   fill: `${_.palette.text.primary} !important`,

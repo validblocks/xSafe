@@ -289,7 +289,7 @@ function TotalBalance() {
           }
         </CenteredText>
       </Styled.TotalBalanceBox>
-      <Divider orientation="vertical" flexItem />
+      <Divider orientation="vertical" flexItem sx={{ borderColor: '#9393931a !important' }} />
       <Box
         className="d-flex justify-content-center align-items-center"
         sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
