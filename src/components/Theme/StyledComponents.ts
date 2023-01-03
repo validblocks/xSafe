@@ -450,6 +450,9 @@ export const ProposeAddressInput = styled(TextField)`
 
 export const ModalContainer = styled(Modal)`
 &&& {
+  & ~ .MuiPopover-root.SendTokenListOpened {
+    z-index: 1301 !important;
+  };
   & ~ .MuiPopover-root.UnstakeTokenListOpened > .MuiPaper-root {
     min-width: 428px !important;
     width: 460px;
