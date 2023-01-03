@@ -18,7 +18,7 @@ export const DetailsCardContainerBox = styled(Box)`
   width: 100%;
 `;
 
-export const StyledSelect = styled(Select)`
+export const StyledSelect = styled(Select)<any>`
   border-radius: 0.33rem;
   border: solid 1px ${(props) => props.theme.palette.borders.secondary};
   &:hover {
