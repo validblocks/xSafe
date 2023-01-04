@@ -110,6 +110,7 @@ const MobileLayout = () => {
           </TopMobileMenuLogoBox>
           <TopMobileMenuSafeBox sx={{
             px: 2,
+            minHeight: '54.1px',
           }}
           >
             {minWidth425 && (
