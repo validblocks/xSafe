@@ -43,7 +43,7 @@ import { CenteredBox } from '../StyledComponents/StyledComponents';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const theme: any = useTheme();
-  const { isLoggedIn } = useGetLoginInfo();
+  const { isLoggedIn, tokenLogin } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,6 +63,9 @@ function Layout({ children }: { children: React.ReactNode }) {
         `/settings/${address}`,
         {
           baseURL: network.storageApi,
+          headers: {
+            Authorization: `Bearer ${tokenLogin?.nativeAuthToken}`,
+          },
         },
       );
 
