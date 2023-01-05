@@ -49,7 +49,7 @@ export const NewTransactionButton = styled(MainButton)`
   font-size: 15px;
   font-weight: ${(props) => props.theme.font.weight.md};
   @media (max-width:600px) {
-    min-width: 175px;
+    min-width: 124px;
     width: '100%'
   }
 }

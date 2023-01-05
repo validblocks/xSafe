@@ -291,8 +291,8 @@ function TotalBalance() {
       </Styled.TotalBalanceBox>
       <Divider orientation="vertical" flexItem sx={{ borderColor: '#9393931a !important' }} />
       <Box
-        className="d-flex justify-content-center align-items-center"
-        sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
+        className="d-flex justify-content-end align-items-center"
+        sx={{ width: { sm: '100%', xs: '50%' }, py: 1, pr: '16px' }}
       >
         {!isInReadOnlyMode ? (
           <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>

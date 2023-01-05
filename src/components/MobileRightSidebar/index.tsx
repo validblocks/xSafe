@@ -74,6 +74,7 @@ export default function MobileRightSidebar() {
     <div>
       <MobileMenuButton
         sx={{
+          padding: 0,
           '.MuiSvgIcon-root': {
             fill: theme.palette.text.primary,
             width: '20px',
@@ -136,7 +137,7 @@ export default function MobileRightSidebar() {
                   )}
               </MobileMenuAccordionSummary>
               {item.submenu?.map((subItem: MenuItem) => (
-                <Link onClick={handleClose} to={subItem.link}>
+                <Link key={subItem.id} onClick={handleClose} to={subItem.link}>
                   <MobileSubmenuAccordionSummary key={subItem.id}>
                     {subItem.icon}
                     {subItem.name}
@@ -147,7 +148,7 @@ export default function MobileRightSidebar() {
                 ...availableApps
                   .filter((app: MenuItem) => installedApps.includes(app.id)),
               ].map((subItem: MenuItem) => (
-                <Link to={subItem.link}>
+                <Link key={subItem.id} to={subItem.link}>
                   <MobileSubmenuAccordionSummary key={subItem.id}>
                     {subItem.icon}
                     {subItem.name}
@@ -178,7 +179,7 @@ export default function MobileRightSidebar() {
               </MobileMenuAccordionSummaryContent>
             </MobileMenuAccordionSummary>
             {installedAndPinnedApps.map((app) => (
-              <Link to={app.link}>
+              <Link key={app.id} to={app.link}>
                 <MobileSubmenuAccordionSummary>
                   {app.icon}
                   {app.name}

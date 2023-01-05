@@ -178,7 +178,7 @@ const MobileLayout = () => {
                 )}
                 {openedSafeSelect === false && isMultiWalletMode && (
                 <Box>
-                  {isLoggedIn ? (
+                  {isLoggedIn && currentContract?.address.length > 0 ? (
                     <IconButton
                       size="small"
                       onClick={() => setOpenedSafeSelect(true)}

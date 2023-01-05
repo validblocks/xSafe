@@ -341,7 +341,7 @@ export const PinnedIconBox = styled(Box)(({ theme: _ }) => ({
 export const MobileMenu = styled(Box)(({ theme: _ }) => ({
   '&&&': {
     width: '100%',
-    height: '93px',
+    height: '70px',
     padding: '0 8px',
     zIndex: '1301 !important',
     display: 'flex',
