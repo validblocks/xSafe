@@ -92,7 +92,7 @@ export const App = () => (
                 >
                   <OrganizationInfoContextProvider>
                     <Layout>
-                      <AxiosInterceptorContext.Listener />
+
                       <>
                         <TransactionsToastList />
                         <NotificationModal />

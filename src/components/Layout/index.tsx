@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useCallback, useEffect } from 'react';
 import {
   useGetAccountInfo,
   useGetLoginInfo,
 } from '@elrondnetwork/dapp-core/hooks/account';
-import { AuthenticatedRoutesWrapper } from '@elrondnetwork/dapp-core/wrappers';
+import { AuthenticatedRoutesWrapper, AxiosInterceptorContext } from '@elrondnetwork/dapp-core/wrappers';
 import { Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
@@ -70,7 +71,9 @@ function Layout({ children }: { children: React.ReactNode }) {
       );
 
       return data && data !== '' ? data : [];
-    }, [address]);
+    }, [address, tokenLogin?.nativeAuthToken]);
+
+  console.log({ layoutTokenLogin: tokenLogin });
 
   const {
     isFetching: isFetchingContracts,
@@ -81,7 +84,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     fetchAttachedContracts,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
-      enabled: isLoggedIn && (!currentContract.address || currentContract.address === ''),
+      enabled: isLoggedIn && (!currentContract?.address || currentContract?.address === ''),
     },
   );
 
@@ -104,19 +107,6 @@ function Layout({ children }: { children: React.ReactNode }) {
       }());
     }
   }, [isLoggedIn, address, dispatch, currentContract?.address, navigate, fetchAccountData, attachedContracts, isFetchingContracts, isLoadingContracts]);
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      console.log('Logged out. Deleting Redux info.');
-      dispatch(setCurrentMultisigContract(''));
-      dispatch(setProposeModalSelectedOption(null));
-      dispatch(setMultisigBalance(JSON.stringify(TokenPayment.egldFromAmount('0'))));
-      dispatch(setTokenTableRows([]));
-      dispatch(setOrganizationTokens([]));
-      dispatch(setCurrentMultisigContract(''));
-      navigate(routeNames.multisig);
-    }
-  }, [dispatch, isLoggedIn, navigate]);
 
   const fetchEconomics = useCallback(async () => {
     const economics = await ElrondApiProvider.getEconomicsData();
@@ -170,6 +160,7 @@ function Layout({ children }: { children: React.ReactNode }) {
               routes={routes}
               unlockRoute={routeNames.multisig}
             >
+              <AxiosInterceptorContext.Listener />
               {children}
             </AuthenticatedRoutesWrapper>
             <ModalLayer />

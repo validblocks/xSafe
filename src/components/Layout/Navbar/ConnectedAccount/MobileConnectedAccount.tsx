@@ -12,12 +12,17 @@ import { useEffect, useMemo, useState } from 'react';
 import CopyButton from 'src/components/CopyButton';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { useNavigate } from 'react-router-dom';
+import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountGeneralInfoSlice';
+import { useDispatch } from 'react-redux';
+import * as Styled from '../../../Utils/styled';
 import {
   ConnectItems,
   DisconnectButton,
   AnchorConnectedAccount,
 } from '../navbar-style';
-import * as Styled from '../../../Utils/styled';
 
 interface Props {
   closeSidebar: () => void
@@ -25,11 +30,18 @@ interface Props {
 
 export const MobileConnectedAccount: React.FC<Props> = ({ closeSidebar }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const logOut = async () => {
     // document.cookie = '';
     closeSidebar();
     localStorage.clear();
     sessionStorage.clear();
+    dispatch(setCurrentMultisigContract(''));
+    dispatch(setProposeModalSelectedOption(null));
+    dispatch(setMultisigBalance(JSON.stringify(TokenPayment.egldFromAmount('0'))));
+    dispatch(setTokenTableRows([]));
+    dispatch(setOrganizationTokens([]));
+    dispatch(setCurrentMultisigContract(''));
     logout(`${routeNames.multisig}`, () => navigate(routeNames.multisig));
   };
 
