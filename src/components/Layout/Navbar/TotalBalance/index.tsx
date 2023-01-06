@@ -1,7 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { getAccountBalance as getAccount } from '@elrondnetwork/dapp-core/utils/account';
 import { TokenPayment } from '@elrondnetwork/erdjs/out';
-import { Box, CircularProgress, Typography } from '@mui/material';
+import { Box, CircularProgress, Typography, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { AccountButton, NewTransactionButton } from 'src/components/Theme/StyledComponents';
@@ -42,6 +42,7 @@ function TotalBalance() {
   const [totalUsdValue, setTotalUsdValue] = useState(0);
 
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
+  const minWidth600 = useMediaQuery('(min-width:600px)');
 
   const fetchAddressEsdts = useCallback(
     () => ElrondApiProvider.getAddressTokens(currentContract?.address),
@@ -279,7 +280,7 @@ function TotalBalance() {
         justifyContent: { sm: 'center', xs: 'space-around' },
       }}
     >
-      <Styled.TotalBalanceBox sx={{ width: { sm: '100%', xs: '50%' } }}>
+      <Styled.TotalBalanceBox sx={{ width: { sm: '100%', xs: '50%' }, paddingLeft: minWidth600 ? '0' : '16px' }}>
         <CenteredText fontSize="14px">Your Total Balance:</CenteredText>
         <CenteredText fontSize="16px" fontWeight="bolder">
           {
@@ -291,8 +292,13 @@ function TotalBalance() {
       </Styled.TotalBalanceBox>
       <Divider orientation="vertical" flexItem sx={{ borderColor: '#9393931a !important' }} />
       <Box
-        className="d-flex justify-content-center align-items-center"
-        sx={{ width: { sm: '100%', xs: '50%' }, py: 1 }}
+        className="d-flex align-items-center"
+        sx={{
+          width: { sm: '100%', xs: '50%' },
+          py: 1,
+          pr: minWidth600 ? '0' : '16px',
+          justifyContent: minWidth600 ? 'center' : 'flex-end',
+        }}
       >
         {!isInReadOnlyMode ? (
           <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>

@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import LinearWithValueLabel from 'src/components/ProgressBar/progressLinear';
-import { TypographyBold } from 'src/components/Theme/StyledComponents';
+import { TypographyBold } from '../Theme/StyledComponents';
 
 function DecisionsActionsCards() {
   const Item = styled(Paper)(({ theme }) => ({

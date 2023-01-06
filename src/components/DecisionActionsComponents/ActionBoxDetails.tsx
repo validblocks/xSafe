@@ -8,9 +8,9 @@ import {
 import Divider from '@mui/material/Divider';
 import styled from 'styled-components';
 import LinearWithValueLabel from 'src/components/ProgressBar/progressLinear';
-import { TypographyBold } from 'src/components/Theme/StyledComponents';
 import DecisionApproved from './decisionApproved';
 import TimelineCard from './timeline';
+import { TypographyBold } from '../Theme/StyledComponents';
 
 function ActionBoxDetails() {
   const Item = styled(Paper)(({ theme }) => ({

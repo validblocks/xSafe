@@ -5,26 +5,38 @@ import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Grid, useMediaQuery } from '@mui/material';
 import { toSvg } from 'jdenticon';
-import routeNames from 'src/routes/routeNames';
 import { network } from 'src/config';
 import { useEffect, useState } from 'react';
 import CopyButton from 'src/components/CopyButton';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountGeneralInfoSlice';
+import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import * as Styled from '../../../Utils/styled';
 import {
   ConnectItems,
   DisconnectButton,
   AnchorConnectedAccount,
 } from '../navbar-style';
-import * as Styled from '../../../Utils/styled';
 
 const ConnectedAccount = () => {
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const logOut = async () => {
     // document.cookie = '';
     localStorage.clear();
     sessionStorage.clear();
-    logout(`${routeNames.multisig}`, () => navigate(routeNames.multisig));
+    console.log('Logged out. Deleting Redux info.');
+    dispatch(setCurrentMultisigContract(''));
+    dispatch(setProposeModalSelectedOption(null));
+    dispatch(setMultisigBalance(JSON.stringify(TokenPayment.egldFromAmount('0'))));
+    dispatch(setTokenTableRows([]));
+    dispatch(setOrganizationTokens([]));
+    dispatch(setCurrentMultisigContract(''));
+    logout(`${window.location.origin}/multisig`,
+      // () => navigate(`${window.location.origin}/multisig`),
+    );
   };
 
   const onDisconnectClick = () => {
