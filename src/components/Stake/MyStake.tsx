@@ -165,7 +165,7 @@ const MyStake = () => {
     );
   }, [dispatch, fetchedDelegations, fetchedProviderIdentities]);
 
-  const widthBetween601and800 = useMediaQuery('(min-width:601px) and (max-width:800px)');
+  const maxWidth800 = useMediaQuery('(max-width:800px)');
 
   if (isFetchingDelegations || isLoadingDelegations) {
     return <LoadingDataIndicator dataName="delegation" />;
@@ -186,7 +186,7 @@ const MyStake = () => {
         }}
       >
         <Grid container>
-          <Grid item width={widthBetween601and800 ? '100%' : 'auto'}>
+          <Grid item width={maxWidth800 ? '100%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={totalActiveStake}
               amountUnityMeasure={'EGLD'}
@@ -213,7 +213,7 @@ const MyStake = () => {
               )}
             />
           </Grid>
-          <Grid item width={widthBetween601and800 ? '100%' : 'auto'}>
+          <Grid item width={maxWidth800 ? '100%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={getDenominatedBalance(totalClaimableRewards, {
                 needsDenomination: false,
@@ -240,7 +240,7 @@ const MyStake = () => {
               title={'My Claimable Rewards'}
             />
           </Grid>
-          <Grid item width={widthBetween601and800 ? '100%' : 'auto'}>
+          <Grid item width={maxWidth800 ? '100%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={totalUndelegatedFunds}
               amountUnityMeasure={'EGLD'}
