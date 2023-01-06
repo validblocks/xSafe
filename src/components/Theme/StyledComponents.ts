@@ -486,14 +486,9 @@ export const ModalContainer = styled(Modal)`
         color: ${(props) => props.theme.palette.text.primary} !important;
       }
     }
-    & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
-      top: calc(50% + 28px) !important;
-      left: calc(50% - 5px) !important;
-      background-color: ${(props) => props.theme.palette.background.secondary};
-    }
-    & ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
-      top: calc(50% + 72px) !important;
-      left: calc(50% - 5px) !important;
+    & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root,
+    ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
+      margin: 10px 0 0 -27px;
       background-color: ${(props) => props.theme.palette.background.secondary};
     }
     @media (max-width: 991px) {
@@ -502,35 +497,21 @@ export const ModalContainer = styled(Modal)`
         top: calc(50% + 8px) !important;
         left: calc(50% - 213px) !important;
       }
-      & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
-        top: calc(50% + 28px) !important;
-        left: calc(50% - 20px) !important;
-      }
-      & ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
-        top: calc(50% + 72px) !important;
-        left: calc(50% - 20px) !important;
+      & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root,
+      ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
+        margin-left: -33px;
       }
     }
     @media (max-width: 600px) {
-      & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
-        top: calc(50% + 16px) !important;
-        left: calc(50% + 3px) !important;
-      }
-      & ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
-        top: calc(50% + 60px) !important;
-        left: calc(50% + 3px) !important;
+      & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root,
+      ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
+        margin-left: -7px;
       }
     }
     @media (max-width: 575px) {
-      & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root {
+      & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root,
+      ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
         min-width: 230px !important;
-        right: 24px !important;
-        left: auto !important;
-      }
-      & ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {
-        min-width: 230px !important;
-        right: 24px !important;
-        left: auto !important;
       }
     }
     & .modal-content {
@@ -637,7 +618,6 @@ export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
             },
         },
       },
-    },
     '@media (max-width: 600px)': {
       '~ .dapp-wallet-connect-login-modal, & ~ .dapp-ledger-login-container': {
         padding: '16px',
@@ -655,7 +635,6 @@ export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
             },
           },
         },
-      },
     },
   },
 }));
