@@ -28,14 +28,11 @@ const Unlock = () => {
 
   const commonProps = {
     nativeAuth: true,
-  };
-
-  const loginParams = {
     callbackRoute: currentContract?.address
       ? `${routeNames.multisig}/${currentContract?.address}`
       : `${routeNames.multisig}`,
-    logoutRoute: `${routeNames.multisig}`,
     buttonClassName: 'btn btn-unlock btn-block',
+
   };
 
   return (
@@ -58,7 +55,7 @@ const Unlock = () => {
         )}
 
         {window.elrondWallet && (
-          <ExtensionLoginButton {...loginParams} {...commonProps}>
+          <ExtensionLoginButton {...commonProps}>
             <div className="d-flex justify-content-between align-items-center">
               <div className="d-flex flex-row method">
                 <IconMaiarWallet />
@@ -69,7 +66,6 @@ const Unlock = () => {
         )}
 
         <WalletConnectLoginButton
-          {...loginParams}
           {...commonProps}
           {...(walletConnectV2ProjectId
             ? {
@@ -85,7 +81,7 @@ const Unlock = () => {
           </div>
         </WalletConnectLoginButton>
 
-        <LedgerLoginButton loginButtonText="" {...loginParams} {...commonProps}>
+        <LedgerLoginButton loginButtonText="" {...commonProps}>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <StyledIconLedger />
@@ -94,7 +90,7 @@ const Unlock = () => {
           </div>
         </LedgerLoginButton>
 
-        <WebWalletLoginButton {...loginParams} {...commonProps}>
+        <WebWalletLoginButton {...commonProps}>
           <div className="d-flex justify-content-between align-items-center">
             <div className="d-flex flex-row method">
               <StyledIconElrond />
