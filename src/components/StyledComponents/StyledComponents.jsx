@@ -28,36 +28,42 @@ export const CenteredBox = styled(Box)`
   color: ${(props) => props.theme.palette.text.primary}
 `;
 
-export const PerformActionButton = styled(Button)`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-  background-color: ${(props) => props.theme.palette.background.main};
-  box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
-  color: ${(props) => props.theme.palette.primary.main};
-  border: 1px solid ${(props) => props.theme.palette.secondary.main} !important;
-  padding: 10px;
-  font-size: 14px;
-  text-transform: none;
-  &:hover {
-    background-color: ${(props) => props.theme.palette.background.button};
-    border-color: ${(props) => props.theme.palette.background.button};
-    color: ${(props) => props.theme.palette.background.white};
-  }
-`;
+export const PerformActionButton = styled(Button)(({ theme: _ }) => ({
+  '&&&': {
+    width: _.width,
+    height: _.height,
+    backgroundColor: _.palette.background.main,
+    boxShadow: `0px 0px 8px ${_.shadows.main}`,
+    color: _.palette.primary.main,
+    border: `1px solid ${_.palette.secondary.main}`,
+    padding: '7px 14px 6px',
+    fontSize: '14px',
+    textTransform: 'capitalize',
+    fontWeight: _.font.weight.lg,
+    '&:hover': {
+      backgroundColor: _.palette.background.button,
+      borderColor: _.palette.background.button,
+      color: _.palette.background.white,
+    },
+  },
+}));
 
-export const DiscardActionButton = styled(Button)`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-  background: transparent !important;
-  color: ${(props) => props.theme.palette.danger.main} !important;
-  padding: 0.5rem 1rem !important;
-  border: 1px solid ${(props) => props.theme.palette.danger.main} !important;
-  &:hover {
-    background: ${(props) => props.theme.palette.background.danger} !important;
-    border: 1px solid ${(props) => props.theme.palette.danger.main} !important;
-    box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main} !important;
-  }
-`;
+export const DiscardActionButton = styled(Button)(({ theme: _ }) => ({
+  '&&&': {
+    width: _.width,
+    height: _.height,
+    background: _.palette.background.danger,
+    color: _.palette.text.discardButton,
+    padding: '7px 14px 5px',
+    border: `1px solid ${_.palette.danger.main}`,
+    textTransform: 'capitalize',
+    fontWeight: _.font.weight.lg,
+    '&:hover': {
+      background: _.palette.danger.main,
+      boxShadow: `0px 0px 8px ${_.shadows.main}`,
+    },
+  },
+}));
 
 export const MultisigCard = styled(Box)`
   width: 240px;

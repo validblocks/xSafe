@@ -40,7 +40,15 @@ export const ContainerWithPanelsTopBox = styled(Box)(({ theme: _ }) => ({
 }));
 
 export const Dividers = styled(Divider)(({ theme: _ }) => ({
-  borderColor: _.palette.divider.sidebar,
+  '&&&': {
+    borderColor: _.palette.divider.sidebar,
+  },
+}));
+
+export const ModalDivider = styled(Divider)(({ theme: _ }) => ({
+  '&&&': {
+    borderColor: _.palette.divider.secondary,
+  },
 }));
 
 export const CopyIconLink = styled(Link)(({ theme: _ }) => ({

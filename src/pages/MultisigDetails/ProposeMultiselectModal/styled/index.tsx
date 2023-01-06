@@ -80,7 +80,7 @@ export const AmountWithTokenSelectionBox = styled(InputsContainer)(({ theme }) =
 
 export const DataTextField = styled(TextField)(({ theme }) => ({
   width: '100%',
-  margin: '0.48rem 0 1.93rem',
+  margin: '0.42rem 0 1.70rem !important',
   label: {
     marginBottom: 0,
     fontSize: '15px',

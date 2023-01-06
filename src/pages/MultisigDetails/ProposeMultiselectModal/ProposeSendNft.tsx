@@ -13,6 +13,7 @@ import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentati
 import { Box, Typography } from '@mui/material';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import * as Styled from '../../../components/Utils/styled';
 
 interface ProposeSendNftType {
   handleChange: (proposal: MultisigSendNft) => void;
@@ -115,7 +116,7 @@ const ProposeSendNft = ({
 
   return (
     <Box>
-      <Box sx={{ p: '1rem 2.5rem 0.9rem' }}>
+      <Box sx={{ p: '16px 48px 0.9rem' }}>
         <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}><Text>NFT name:</Text></Typography>
         <div className="mb-3">
           <img src={searchedNft.url} alt="" width={40} height={40} className="rounded mr-2" />
@@ -129,8 +130,8 @@ const ProposeSendNft = ({
           charactersLeftAfterTruncation={15}
         />
       </Box>
-      <hr />
-      <Box sx={{ p: '1.25rem 2.5rem 0', m: ' 0 0 1rem' }}>
+      <Styled.ModalDivider />
+      <Box sx={{ p: '1.25rem 48px 0', m: ' 0 0 1rem' }}>
         <FormikInputField
           label={t('Send to')}
           name={'address'}

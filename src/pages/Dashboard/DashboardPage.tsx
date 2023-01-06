@@ -72,17 +72,17 @@ function Dashboard() {
 
   const deployButton = (
     <Styled.CreateNewSafeButton
-      disabled={isWalletProvider}
+      disabled={isWalletProvider && isLoggedIn}
       onClick={handleCreateNewSafeButtonClick}
       sx={{
-        pointerEvents: isWalletProvider ? 'none' : 'auto',
+        pointerEvents: isWalletProvider && isLoggedIn ? 'none' : 'auto',
       }}
     >
       {t('Create a new Safe')}
     </Styled.CreateNewSafeButton>
   );
 
-  const deployButtonContainer = isWalletProvider ? (
+  const deployButtonContainer = isWalletProvider && isLoggedIn ? (
     <OverlayTrigger
       placement="top"
       delay={{ show: 250, hide: 400 }}

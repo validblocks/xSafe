@@ -6,12 +6,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, useMediaQuery } from '@mui/material';
 import { toSvg } from 'jdenticon';
-import routeNames from 'src/routes/routeNames';
 import { network } from 'src/config';
 import { useEffect, useMemo, useState } from 'react';
 import CopyButton from 'src/components/CopyButton';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
-import { useNavigate } from 'react-router-dom';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { TokenPayment } from '@elrondnetwork/erdjs/out';
@@ -29,7 +27,6 @@ interface Props {
 }
 
 export const MobileConnectedAccount: React.FC<Props> = ({ closeSidebar }) => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const logOut = async () => {
     // document.cookie = '';
@@ -42,7 +39,7 @@ export const MobileConnectedAccount: React.FC<Props> = ({ closeSidebar }) => {
     dispatch(setTokenTableRows([]));
     dispatch(setOrganizationTokens([]));
     dispatch(setCurrentMultisigContract(''));
-    logout(`${routeNames.multisig}`, () => navigate(routeNames.multisig));
+    logout(`${window.location.origin}/multisig`);
   };
 
   const onDisconnectClick = () => {

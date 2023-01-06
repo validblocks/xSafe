@@ -58,6 +58,7 @@ export const theme = createTheme({
       createSafeSteps: '#000000de',
       xSafeDescription: '#08041D',
       homeCards: '#08041D',
+      discardButton: '#F0F6FF',
     },
     sidebar: {
       primary: '#fff',
@@ -193,6 +194,7 @@ export const darkTheme = createTheme({
       createSafeSteps: '#8680A9',
       xSafeDescription: '#556FA0',
       homeCards: '#9C9BA5',
+      discardButton: '#F0F6FF',
     },
     black: {
       main: '#08041D',
@@ -203,7 +205,7 @@ export const darkTheme = createTheme({
       main: '#4c2FFC',
       secondary: '#1E1D2A',
       white: '#FFFFFF',
-      danger: '#e51a3e1a',
+      danger: '#BF25254D',
       default: '#14131C',
       hover: '#211F33',
       svg: '#F0F6FF',

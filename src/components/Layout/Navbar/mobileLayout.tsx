@@ -59,7 +59,6 @@ const MobileLayout = () => {
 
   const addressChars = useMemo(() => {
     if (minWidth535) return 12;
-    // if (minWidth480) return 7;
     if (minWidth425) return 7;
     if (minWidth410) return 7;
     if (minWidth380) return 7;
@@ -79,7 +78,7 @@ const MobileLayout = () => {
 
   useEffect(() => {
     setWalletAddress(addressShorthand(uniqueContractAddress));
-  }, [addressShorthand]);
+  }, []);
 
   useEffect(() => {
     const handler = (e: any) => {
