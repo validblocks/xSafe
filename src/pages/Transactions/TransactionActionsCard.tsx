@@ -4,11 +4,9 @@ import {
   faThumbsUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import CloseIcon from '@mui/icons-material/Close';
 import { gasLimit as defaultGasLimit } from 'src/config';
 import { Typography, useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import CheckIcon from '@mui/icons-material/Check';
 import {
   mutateSign,
   mutateUnsign,
@@ -91,7 +89,7 @@ function TransactionActionsCard({
               </button>
             )}
             {canUnsign && (
-            <DiscardActionButton size="large" onClick={unsign} startIcon={<CloseIcon />}>
+            <DiscardActionButton size="large" onClick={unsign}>
               {t('Discard') as string}
             </DiscardActionButton>
             )}
@@ -99,13 +97,12 @@ function TransactionActionsCard({
               <PerformActionButton
                 size="large"
                 onClick={performAction}
-                startIcon={<CheckIcon />}
               >
                 {t('Perform') as string}
               </PerformActionButton>
             )}
             {canDiscardAction && (
-              <DiscardActionButton size="large" onClick={discardAction} startIcon={<CloseIcon />}>
+              <DiscardActionButton size="large" onClick={discardAction}>
                 {t('Discard') as string}
               </DiscardActionButton>
             )}
