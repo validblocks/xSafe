@@ -1,4 +1,6 @@
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
 import styled from 'styled-components';
 
 export const LoadSafeButton = styled(Button)`
@@ -13,6 +15,8 @@ export const LoadSafeButton = styled(Button)`
   margin-top: 12px;
   width: 100%;
   height: 60px;
+  text-transform: none;
+  font-size: 15px;
   &:hover {
     background-color: ${(props) => props.theme.palette.background.button};
     color: #fff;
@@ -25,6 +29,8 @@ export const CreateNewSafeButton = styled(LoadSafeButton)`
   color: #fff;
   background: ${(props) => props.theme.palette.background.button};
   height: 60px;
+  text-transform: none;
+  font-size: 15px;
   &:hover {
     background-color: ${(props) => props.theme.palette.background.button};
     border-color: ${(props) => props.theme.palette.background.button};
@@ -34,6 +40,20 @@ export const CreateNewSafeButton = styled(LoadSafeButton)`
     border-radius: 0 0 10px 10px;
   };
 }
+`;
+
+export const AddSafeIcon = styled(AddRoundedIcon)(({ theme: _ }) => ({
+  color: _.palette.svg.homeIcons,
+}));
+
+export const FileDownIcon = styled(FileDownloadRoundedIcon)(({ theme: _ }) => ({
+  color: _.palette.svg.homeIcons,
+}));
+
+export const TextSafeActionDescription = styled(Typography)`
+color: ${(props) => props.theme.palette.text.homeCards};
+  font-family: 'IBM Plex Sans', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace !important;
 `;
 
 export const LoadingBox = styled(Box)`

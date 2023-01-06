@@ -12,9 +12,7 @@ import { useGetAccountProvider, useGetLoginInfo } from '@elrondnetwork/dapp-core
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
 import { useTheme } from 'styled-components';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { Text, TextxSafeDescription } from 'src/components/StyledComponents/StyledComponents';
 import { dAppName, network } from 'src/config';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
@@ -116,7 +114,7 @@ function Dashboard() {
       <>
         <Box>
           { (
-            <Grid container gap={maxWidth600 ? 0 : 3} paddingBottom={maxWidth600 ? '37px' : 0}>
+            <Grid container gap={maxWidth600 ? 0 : 3} paddingBottom={maxWidth600 ? '8px' : 0}>
               <Grid
                 item
                 height={'100%'}
@@ -138,10 +136,10 @@ function Dashboard() {
                     </Text>
                     <img width="98" height="33" src={xSafeLogo} alt="logo" />
                   </Box>
-                  <Text marginY={2} fontSize={16} fontWeight={400}>
-                    <strong>{dAppName}</strong>
+                  <TextxSafeDescription margin={'12px 0 45px 0'} fontWeight={500}>
+                    {dAppName}
                     {t(' is the first platform for digital assets management built on the MultiversX.')}
-                  </Text>
+                  </TextxSafeDescription>
                 </Box>
                 <Grid
                   sx={{ width: '100%',
@@ -171,9 +169,7 @@ function Dashboard() {
                     sx={{ backgroundColor: theme.palette.background.secondary }}
                   >
                     <Box sx={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
-                      <Box marginY={'12px'}><AddRoundedIcon sx={{ color: 'rgba(76, 47, 252, 0.54)',
-                      }}
-                      />
+                      <Box marginY={'12px'}><Styled.AddSafeIcon />
                       </Box>
                       <Text
                         fontSize={22}
@@ -182,16 +178,17 @@ function Dashboard() {
                         marginY="8px"
                       >{t('Create Safe')}
                       </Text>
-                      <Text
+                      <Styled.TextSafeActionDescription
                         fontSize={16}
                         marginY={'12px'}
+                        fontWeight={400}
                       >{t('Create a new Safe that is controlled by one or multiple owners.')}
-                      </Text>
-                      <Text
+                      </Styled.TextSafeActionDescription>
+                      <Styled.TextSafeActionDescription
                         fontSize={16}
                         fontWeight={700}
                       >{t('You will be required to pay a network fee for creating your new Safe.')}
-                      </Text>
+                      </Styled.TextSafeActionDescription>
                     </Box>
                     <Box>
                       {deployButtonContainer}
@@ -213,9 +210,7 @@ function Dashboard() {
                     borderRadius={maxWidth600 ? '10px 10px 0 0' : 0}
                   >
                     <Box sx={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
-                      <Box marginY={'12px'}><FileDownloadRoundedIcon sx={{ color: 'rgba(76, 47, 252, 0.54)',
-                      }}
-                      />
+                      <Box marginY={'12px'}><Styled.FileDownIcon />
                       </Box>
                       <Text
                         fontSize={22}
@@ -224,16 +219,17 @@ function Dashboard() {
                         marginY={'8px'}
                       >{t('Load Existing Safe')}
                       </Text>
-                      <Text
+                      <Styled.TextSafeActionDescription
                         fontSize={16}
                         marginY={'12px'}
+                        fontWeight={400}
                       >{t('Already have a Safe or want to access it from a different device?')}
-                      </Text>
-                      <Text
+                      </Styled.TextSafeActionDescription>
+                      <Styled.TextSafeActionDescription
                         fontSize={16}
                         fontWeight={700}
                       >{t('Easily load your Safe using your Safe address.')}
-                      </Text>
+                      </Styled.TextSafeActionDescription>
                     </Box>
                     <Styled.LoadSafeButton
                       onClick={handleAddExistingSafeButtonClick}
