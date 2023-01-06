@@ -56,6 +56,8 @@ export const theme = createTheme({
       quorumDigits: '#8675C8',
       secondaryMenu: '#08041D66',
       createSafeSteps: '#000000de',
+      xSafeDescription: '#08041D',
+      homeCards: '#08041D',
       discardButton: '#F0F6FF',
     },
     sidebar: {
@@ -94,6 +96,7 @@ export const theme = createTheme({
       fillOpacity: 0.54,
       menuItems: '#08041D8a',
       quorumCounter: '#F0F6FF',
+      homeIcons: '#4c2FFC8a',
     },
     hover: {
       secondary: 'rgba(0, 0, 0, 0.04)',
@@ -189,6 +192,8 @@ export const darkTheme = createTheme({
       quorumDigits: '#F0F6FF',
       secondaryMenu: '#F0F6FF66',
       createSafeSteps: '#8680A9',
+      xSafeDescription: '#556FA0',
+      homeCards: '#9C9BA5',
       discardButton: '#F0F6FF',
     },
     black: {
@@ -259,6 +264,7 @@ export const darkTheme = createTheme({
       fillOpacity: 1,
       menuItems: '#F0F6FF8a',
       quorumCounter: '#F0F6FF',
+      homeIcons: '#4c2FFC',
     },
     hover: {
       secondary: '#181626',

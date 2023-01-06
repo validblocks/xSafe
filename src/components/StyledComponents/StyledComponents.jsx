@@ -98,6 +98,17 @@ export const Text = styled(Typography)`
     'Courier New', monospace !important;
 `;
 
+export const TextxSafeDescription = styled(Text)(({ theme: _ }) => ({
+  '&&&': {
+    color: _.palette.text.xSafeDescription,
+    maxWidth: '398px',
+    fontSize: '19px',
+    '@media (max-width:600px)': {
+      fontSize: '16px',
+    },
+  },
+}));
+
 export const UnlockText = styled(Text)(({ theme: _ }) => ({
   '&&&': {
     color: _.palette.text.primary,
