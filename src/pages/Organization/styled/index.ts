@@ -86,8 +86,10 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
 }));
 
 export const NoRowsOverlay = styled(GridOverlay)(({ theme: _ }) => ({
-  backgroundColor: _.palette.background.secondary,
-  borderBottom: `solid 1px ${_.palette.divider.secondary}`,
+  '&&&': {
+    backgroundColor: _.palette.background.secondary,
+    borderBottom: `solid 1px ${_.palette.divider.secondary}`,
+  },
 }));
 
 export const MobileCardOfTokens = styled(Box)(({ theme: _ }) => ({
