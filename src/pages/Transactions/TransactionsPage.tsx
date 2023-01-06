@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { Box, MenuItem, SelectChangeEvent, Tab } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { MainSelect } from 'src/components/Theme/StyledComponents';
-import {
-  intervalStartTimestampSelector,
-} from 'src/redux/selectors/transactionsSelector';
 import { useTheme } from 'styled-components';
 import {
-  enlargeInterval,
+  setIntervalEndTimestamp,
+  setIntervalStartTimestamp,
   setIntervalStartTimestampForFiltering,
 } from 'src/redux/slices/transactionsSlice';
-import { RootState } from 'src/redux/store';
 import TransactionHistory from './TransactionHistory';
 import {
   HistoryInterval,
@@ -56,9 +53,6 @@ function a11yProps(index: number) {
 export default function TransactionsPage() {
   const theme: any = useTheme();
   const [value, setValue] = React.useState(0);
-  const globalIntervalStartTimestamp = useSelector<RootState, number>(
-    intervalStartTimestampSelector,
-  );
 
   const [intervalLabel, setIntervalLabel] = useState('Last day');
 
@@ -72,28 +66,15 @@ export default function TransactionsPage() {
     const newLabelSelected = event.target.value;
     setIntervalLabel(newLabelSelected);
 
-    const { intervalStartTimestamp: oldIntervalStartTimestamp } =
-      HISTORY_INTERVALS.find((interval) => interval.label === intervalLabel) ??
-      {};
-
-    if (!oldIntervalStartTimestamp) return;
-
     const { intervalStartTimestamp: newIntervalStartTimestamp } =
       HISTORY_INTERVALS.find(
         (interval) => interval.label === newLabelSelected,
       ) ?? {};
 
     if (!newIntervalStartTimestamp) return;
-
-    // current: last week ==> new: last month
-    if (newIntervalStartTimestamp < oldIntervalStartTimestamp) {
-      dispatch(enlargeInterval(newIntervalStartTimestamp));
-    }
-
-    // current: last month ==> new: last week
-    if (newIntervalStartTimestamp > globalIntervalStartTimestamp) {
-      dispatch(setIntervalStartTimestampForFiltering(newIntervalStartTimestamp));
-    }
+    dispatch(setIntervalStartTimestamp(newIntervalStartTimestamp));
+    dispatch(setIntervalEndTimestamp(new Date().getTime() / 1000));
+    dispatch(setIntervalStartTimestampForFiltering(newIntervalStartTimestamp));
   };
 
   return (
