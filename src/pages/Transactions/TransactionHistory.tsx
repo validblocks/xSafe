@@ -52,24 +52,11 @@ const TransactionHistory = () => {
   );
 
   const { t } = useTranslation();
-
-  // const fetchTransactions = (cursorPointer = 0) => {
-  //   const urlParams = new URLSearchParams({
-  //     withLogs: 'true',
-  //     withOperations: 'true',
-  //     size: API_RESPONSE_MAX_SIZE.toString(),
-  //     after: parseInt(globalIntervalStartTimestamp.toString()).toString(),
-  //     before: parseInt(globalIntervalEndTimestamp.toString()).toString(),
-  //     from: cursorPointer.toString(),
-  //   });
-
-  //   return ElrondApiProvider.getAddressTransactions(currentContract?.address, urlParams);
-  // };
-
   const fetchTransactions2 = useCallback(async (): Promise<ITransactionOnNetwork[]> => {
     let transactions: ITransactionOnNetwork[] = [];
     let cursorPointer = 0;
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       const urlParams = new URLSearchParams({
         withLogs: 'true',
@@ -79,13 +66,11 @@ const TransactionHistory = () => {
         before: parseInt(globalIntervalEndTimestamp.toString()).toString(),
         from: cursorPointer.toString(),
       });
-
       // eslint-disable-next-line no-await-in-loop
       const data = await ElrondApiProvider.getAddressTransactions(currentContract?.address, urlParams);
 
       if (!data) break;
 
-      console.log({ iData: data });
       transactions = transactions.concat(data);
 
       if (data.length === 0) {
@@ -112,52 +97,21 @@ const TransactionHistory = () => {
         setIsFetchingTransactions(false);
         setIsLoadingTransactions(false);
 
-        console.log({ transactions });
         const uniqueTransactions = uniqBy(transactions, (t) => t);
-        console.log({ uniqueTransactions });
         setCachedTransactions(uniqueTransactions);
+        setCurrentPage(1);
       })();
     } catch (e) {
       setIsErrorOnFetchTransactions(true);
     }
   }, [fetchTransactions2]);
-
-  // const {
-  //   data: fetchedTransactionsFromSelectedInterval,
-  //   isFetching: isFetchingInterval,
-  //   isLoading: isLoadingInterval,
-  //   isError: isErrorOnFetchInterval,
-  // } = useQuery(
-  //   [
-  //     QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
-  //     cursor,
-  //     globalIntervalStartTimestamp,
-  //     globalIntervalEndTimestamp,
-  //   ],
-  //   () => fetchTransactions(cursor),
-  //   USE_QUERY_DEFAULT_CONFIG,
-  // );
-
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    // if (
-    //   fetchedTransactionsFromSelectedInterval &&
-    //   fetchedTransactionsFromSelectedInterval.length === API_RESPONSE_MAX_SIZE
-    // ) {
-    //   setCursor((prev) => prev + API_RESPONSE_MAX_SIZE);
-    //   return;
-    // }
-
     const result: PairOfTransactionAndDecodedAction[] = [];
 
     if (!cachedTransactions) return;
 
-    // cachedTransactions = cachedTransactions.filter(
-    //   (cachedTransaction) => !!cachedTransaction,
-    // );
-
-    console.log('Decoding fetched transactions');
     for (const transaction of cachedTransactions) {
       const logEvents = transaction.logs?.events;
 

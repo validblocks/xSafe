@@ -472,8 +472,9 @@ export const ProposeAddressInput = styled(TextField)`
 
 export const ModalContainer = styled(Modal)`
   &&& {
-    & ~ .MuiPopover-root.SendTokenListOpened {
-      z-index: 1301 !important;
+    & ~ .MuiPopover-root.SendTokenListOpened,
+    & ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD {
+      z-index: 1301;
     }
     & ~ .MuiPopover-root.UnstakeTokenListOpened > .MuiPaper-root {
       min-width: 428px !important;
@@ -543,70 +544,94 @@ export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
     '& .modal-content': {
       backgroundColor: _.palette.background.secondary,
     },
-    '& ~ .modal-container.wallect-connect-login, & ~ .modal-container.ledger-login':
-      {
-        '& .modal-content': {
+    '~ .dapp-wallet-connect-login-modal, ~ .dapp-ledger-login-container': {
+      '.dapp-core-component__dappModalStyles__dappModalContent': {
+        backgroundColor: _.palette.background.secondary,
+        border: 'none',
+        borderRadius: '12px',
+        '.dapp-core-component__dappModalStyles__dappModalHeader': {
+          display: 'flex',
+          color: _.palette.text.primary,
           backgroundColor: _.palette.background.secondary,
-          '& .card-title': {
-            color: _.palette.text.primary,
-            '& div.pt-spacer': {
-              paddingTop: '24px !important',
-              paddingRight: '43px !important',
-              paddingLeft: '48px !important',
-              paddingBottom: '22px !important',
-              borderBottom: `solid 1px ${_.palette.divider.secondary}`,
-              '& div.px-3': {
-                paddingRight: '0 !important',
-                paddingLeft: '0 !important',
-              },
-            },
-            '& button': {
-              backgroundColor: 'transparent !important',
-              border: 'none !important',
-              color: `${_.palette.text.primary} !important`,
-              fontSize: '1rem !important',
-              padding: '6px 10px 5px 10px !important',
-              borderRadius: '50% !important',
-              '&:hover': {
-                backgroundColor: `${_.palette.hover.secondary} !important`,
-              },
-            },
+          paddingTop: '24px !important',
+          paddingRight: '41px !important',
+          paddingLeft: '48px !important',
+          paddingBottom: '22px !important',
+          borderRadius: '12px 12px 0 0',
+          borderBottom: `solid 1px ${_.palette.divider.secondary}`,
+          '.dapp-core-component__dappModalStyles__dappModalHeaderText': {
+            padding: 0,
+            fontSize: '24px',
           },
-          '& .modal-card-body': {
-            padding: '24px 48px !important',
-            '& div.wallect-connect-login_container, & div.login-container': {
-              '& div.wallect-connect-login_card, & div.card': {
-                backgroundColor: _.palette.background.secondary,
-                color: _.palette.text.primary,
-                marginBottom: '5px !important',
-                '& a, & button': {
-                  width: '100%',
-                  backgroundColor: _.palette.background.main,
-                  color: _.palette.primary.main,
-                  marginTop: '15px !important',
-                  '& svg': {
-                    display: 'none',
-                  },
-                },
-              },
+          button: {
+            position: 'relative',
+            float: 'none',
+            backgroundColor: 'transparent !important',
+            border: 'none !important',
+            color: `${_.palette.text.primary} !important`,
+            fontSize: '1rem !important',
+            padding: '0 12px !important',
+            borderRadius: '50% !important',
+            marginLeft: 'auto',
+            '&:hover': {
+              backgroundColor: `${_.palette.hover.secondary} !important`,
             },
           },
         },
-      },
-    '@media (max-width: 600px)': {
-      '& ~ .modal-container.wallect-connect-login, & ~ .modal-container.ledger-login':
-        {
-          '& .modal-content': {
-            '& .card-title': {
-              '& div.pt-spacer': {
-                paddingTop: '16px !important',
-                paddingRight: '13px !important',
-                paddingLeft: '16px !important',
-                paddingBottom: '14px !important',
+        '.dapp-core-component__dappModalStyles__dappModalBody': {
+          padding: '24px 48px !important',
+          '.dapp-core-component__main__card': {
+            border: 'none',
+            '.dapp-core-component__main__card-body': {
+              padding: 0,
+            },
+            '.dapp-core-component__main__p-4': {
+              padding: 0,
+            },
+          },
+          '.dapp-core-component__main__my-3, .dapp-core-component__main__my-4':
+            {
+              backgroundColor: _.palette.background.secondary,
+              color: _.palette.text.primary,
+              marginBottom: 0,
+              marginTop: 0,
+              'h4.dapp-core-component__main__h4': {
+                display: 'none',
+              },
+              'a.dapp-core-component__main__btn , button': {
+                width: '100%',
+                backgroundColor: _.palette.background.main,
+                color: _.palette.primary.main,
+                marginTop: '5px',
+                padding: '6px 0 5px',
+                borderRadius: '3px',
+                border: 'none',
+                '& svg': {
+                  display: 'none',
+                },
+              },
+              'a.dapp-core-component__main__btn': {
+                width: '210px',
+                justifyContent: 'center',
+                padding: '6px 8px 5px',
               },
             },
-            '& .modal-card-body': {
-              padding: '16px !important',
+        },
+      },
+    '@media (max-width: 600px)': {
+      '~ .dapp-wallet-connect-login-modal, & ~ .dapp-ledger-login-container': {
+        padding: '16px',
+        '.dapp-core-component__dappModalStyles__dappModalContent': {
+          '.dapp-core-component__dappModalStyles__dappModalHeader': {
+            paddingTop: '16px !important',
+            paddingRight: '13px !important',
+            paddingLeft: '16px !important',
+            paddingBottom: '14px !important',
+          },
+          '.dapp-core-component__dappModalStyles__dappModalBody': {
+            padding: '16px !important',
+            'p.dapp-core-component__main__lead': {
+              display: 'none',
             },
           },
         },

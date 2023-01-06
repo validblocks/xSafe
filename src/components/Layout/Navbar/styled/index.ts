@@ -26,7 +26,6 @@ export const Drawer = styled(MuiDrawer)(({ theme }) => ({
 }));
 
 export const TotalBalanceBox = styled(Box)(({ theme: _ }) => ({
-  paddingLeft: '16px',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'center',

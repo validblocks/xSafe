@@ -56,6 +56,7 @@ export const theme = createTheme({
       quorumDigits: '#8675C8',
       secondaryMenu: '#08041D66',
       createSafeSteps: '#000000de',
+      discardButton: '#F0F6FF',
     },
     sidebar: {
       primary: '#fff',
@@ -188,6 +189,7 @@ export const darkTheme = createTheme({
       quorumDigits: '#F0F6FF',
       secondaryMenu: '#F0F6FF66',
       createSafeSteps: '#8680A9',
+      discardButton: '#F0F6FF',
     },
     black: {
       main: '#08041D',
@@ -198,7 +200,7 @@ export const darkTheme = createTheme({
       main: '#4c2FFC',
       secondary: '#1E1D2A',
       white: '#FFFFFF',
-      danger: '#e51a3e1a',
+      danger: '#BF25254D',
       default: '#14131C',
       hover: '#211F33',
       svg: '#F0F6FF',

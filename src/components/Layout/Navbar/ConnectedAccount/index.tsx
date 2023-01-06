@@ -5,12 +5,10 @@ import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, Grid, useMediaQuery } from '@mui/material';
 import { toSvg } from 'jdenticon';
-import routeNames from 'src/routes/routeNames';
 import { network } from 'src/config';
 import { useEffect, useState } from 'react';
 import CopyButton from 'src/components/CopyButton';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
@@ -24,7 +22,6 @@ import {
 } from '../navbar-style';
 
 const ConnectedAccount = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const logOut = async () => {
     // document.cookie = '';
@@ -37,7 +34,9 @@ const ConnectedAccount = () => {
     dispatch(setTokenTableRows([]));
     dispatch(setOrganizationTokens([]));
     dispatch(setCurrentMultisigContract(''));
-    logout(`${routeNames.multisig}`, () => navigate(routeNames.multisig));
+    logout(`${window.location.origin}/multisig`,
+      // () => navigate(`${window.location.origin}/multisig`),
+    );
   };
 
   const onDisconnectClick = () => {

@@ -22,9 +22,9 @@ import DelegatedColumn from 'src/components/Staking/DelegatedColumn';
 import { delegationFunctionNames } from 'src/types/staking/delegationFunctionNames';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { useEffectDebugger } from 'src/utils/useEffectDebugger';
-import { InputsContainer, MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { InputsContainer, MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
 import { StyledSelect } from '../styled';
 
 interface ProposeUnstakeTokensType {
