@@ -618,23 +618,26 @@ export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
             },
         },
       },
-    '@media (max-width: 600px)': {
-      '~ .dapp-wallet-connect-login-modal, & ~ .dapp-ledger-login-container': {
-        padding: '16px',
-        '.dapp-core-component__dappModalStyles__dappModalContent': {
-          '.dapp-core-component__dappModalStyles__dappModalHeader': {
-            paddingTop: '16px !important',
-            paddingRight: '13px !important',
-            paddingLeft: '16px !important',
-            paddingBottom: '14px !important',
-          },
-          '.dapp-core-component__dappModalStyles__dappModalBody': {
-            padding: '16px !important',
-            'p.dapp-core-component__main__lead': {
-              display: 'none',
+      '@media (max-width: 600px)': {
+        '~ .dapp-wallet-connect-login-modal, & ~ .dapp-ledger-login-container':
+          {
+            padding: '16px',
+            '.dapp-core-component__dappModalStyles__dappModalContent': {
+              '.dapp-core-component__dappModalStyles__dappModalHeader': {
+                paddingTop: '16px !important',
+                paddingRight: '13px !important',
+                paddingLeft: '16px !important',
+                paddingBottom: '14px !important',
+              },
+              '.dapp-core-component__dappModalStyles__dappModalBody': {
+                padding: '16px !important',
+                'p.dapp-core-component__main__lead': {
+                  display: 'none',
+                },
+              },
             },
           },
-        },
+      },
     },
   },
 }));
