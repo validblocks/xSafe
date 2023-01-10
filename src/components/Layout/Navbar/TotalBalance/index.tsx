@@ -9,7 +9,7 @@ import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/typ
 import {
   selectedCurrencySelector,
 } from 'src/redux/selectors/currencySelector';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { currentMultisigContractSelector, currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { setValueInUsd } from 'src/redux/slices/currencySlice';
 import { setProposeModalSelectedOption, setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
@@ -30,7 +30,7 @@ import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetLoginInfo, useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
 import { CenteredText } from '../navbar-style';
 import * as Styled from '../styled';
 
@@ -102,6 +102,15 @@ function TotalBalance() {
 
   const queryClient = useQueryClient();
   const { isLoggedIn } = useGetLoginInfo();
+
+  const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
+  useTrackTransactionStatus({
+    transactionId: currentMultisigTransactionId,
+    onSuccess: () => {
+      refetchAddressTokens();
+      refetchEgldBalaneDetails();
+    },
+  });
 
   useEffect(() => {
     if (!currentContract?.address) return;
