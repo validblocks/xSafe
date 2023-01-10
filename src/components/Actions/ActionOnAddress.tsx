@@ -1,6 +1,7 @@
 import { Address } from '@elrondnetwork/erdjs/out';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
+import { Text } from '../StyledComponents/StyledComponents';
 
 type Props = {
   title: string;
@@ -9,9 +10,9 @@ type Props = {
 
 const ActionOnAddress = ({ title, address }: Props) => (
   <Box>
-    <Typography variant="h5" sx={{ marginBottom: '0.75rem' }}>
+    <Text fontSize={21} fontWeight={700} sx={{ marginBottom: '0.75rem' }}>
       <strong>{title}</strong>
-    </Typography>
+    </Text>
     <MemberPresentationWithPhoto
       memberAddress={address}
       charactersLeftAfterTruncation={35}

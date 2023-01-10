@@ -162,15 +162,13 @@ export class MultisigSmartContractCall extends MultisigAction {
           >
             <TokenPresentationWithPrice withTokenAmount={false} withTokenValue={false} identifier="EGLD" />
           </Box>
-          <Text display={'flex'} flexDirection={'column'}>
+          <Box display={'flex'} flexDirection={'column'}>
             <Text fontWeight={500} marginRight={1}> Amount: </Text>
-            <Text>
-              <ProposalAmount
-                delegationProposalType={actionMessage}
-                multisigSmartContractCall={this}
-              />
-            </Text>
-          </Text>
+            <ProposalAmount
+              delegationProposalType={actionMessage}
+              multisigSmartContractCall={this}
+            />
+          </Box>
         </StyledStakingProvider>
         <Grid item display={'flex'} justifyContent={'center'} alignItems={'center'}>
           {actionIcon}

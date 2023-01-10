@@ -68,11 +68,9 @@ const TokenPresentationWithPrice = ({
           <Text>{prettyIdentifier}</Text>
         </Box>
         {withPrice && (
-          <Typography variant="subtitle2">
-            <Text fontSize={12}>
-              ${tokenPrice}
-            </Text>
-          </Typography>
+        <Text fontSize={12}>
+          ${tokenPrice}
+        </Text>
         )}
       </Box>
       <Box

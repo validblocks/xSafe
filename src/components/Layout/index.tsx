@@ -73,8 +73,6 @@ function Layout({ children }: { children: React.ReactNode }) {
       return data && data !== '' ? data : [];
     }, [address, tokenLogin?.nativeAuthToken]);
 
-  console.log({ layoutTokenLogin: tokenLogin });
-
   const {
     isFetching: isFetchingContracts,
     isLoading: isLoadingContracts,
