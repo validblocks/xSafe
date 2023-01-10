@@ -1,7 +1,7 @@
 import { useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CardSkeleton } from '../Skeletons/CardSkeleton';
-import { MultisigCard, Text } from '../StyledComponents/StyledComponents';
+import { CardTitle, MultisigCard, Text } from '../StyledComponents/StyledComponents';
 
 interface Props {
   title: string;
@@ -26,7 +26,13 @@ const AmountWithTitleCard = ({
 
   return (
     <MultisigCard>
-      <Text fontSize="15px" color="black.main" marginBottom="12px">{t(title) as string}:</Text>
+      <CardTitle
+        fontSize="15px"
+        color="black.main"
+        marginBottom="12px"
+        fontWeight={500}
+      >{t(title) as string}:
+      </CardTitle>
       <Text fontSize={maxWidth600 ? '20px' : '24px'} fontWeight="bolder" sx={{ display: 'flex', gap: 1 }}>
         {(`${amountValue} ${needsDollarSign ? '$' : ''}${amountUnityMeasure}`)}
       </Text>

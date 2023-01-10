@@ -49,8 +49,6 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
   const getTableActions = useCallback((params: GridRenderCellParams) => [
     <AssetActionButton
       key="0"
-      variant="outlined"
-      className="shadow-sm rounded mr-2"
       onClick={() => {
         mutateSmartContractCall(
           new Address(params.row.provider),

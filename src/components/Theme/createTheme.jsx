@@ -59,6 +59,7 @@ export const theme = createTheme({
       createSafeSteps: '#000000de',
       xSafeDescription: '#08041D',
       homeCards: '#08041D',
+      cardsTitle: '#08041D',
       discardButton: '#F0F6FF',
     },
     sidebar: {
@@ -195,6 +196,7 @@ export const darkTheme = createTheme({
       createSafeSteps: '#8680A9',
       xSafeDescription: '#556FA0',
       homeCards: '#9C9BA5',
+      cardsTitle: '#9C9BA580',
       discardButton: '#F0F6FF',
     },
     black: {

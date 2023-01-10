@@ -63,7 +63,7 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
       paddingLeft: '20px',
     },
     '& .MuiDataGrid-footerContainer': {
-      borderTop: 'none',
+      borderTopColor: theme.palette.divider.secondary,
     },
     '& .MuiDataGrid-cell:focus, & .MuiDataGrid-cell:focus-within, & .MuiDataGrid-cell:focus-visible, & .MuiDataGrid-columnHeader:focus, & .MuiDataGrid-columnHeader:focus-within, & .MuiDataGrid-columnHeader:focus-visible':
       {
@@ -81,6 +81,9 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
       '& button svg': {
         color: 'rgba(76, 47, 252, 0.54)',
       },
+    },
+    '& .MuiDataGrid-footerContainer > div.MuiDataGrid-selectedRowCount': {
+      opacity: '0',
     },
   },
 }));
