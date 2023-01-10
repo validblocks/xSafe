@@ -2,7 +2,6 @@ import { Box, Button, Grid, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
-import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
@@ -14,7 +13,6 @@ import {
   IdentityWithColumns,
   IUndelegatedFunds,
 } from 'src/types/staking';
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
@@ -199,16 +197,15 @@ const MyStake = () => {
                   sx={{
                     fontSize: '14px',
                     fontWeight: '400 !important',
-                    paddingLeft: '4px !important',
                     width: '100%',
                     marginTop: '1rem',
                   }}
-                  className="shadow-sm rounded mr-2"
+                  className="shadow-sm rounded"
                   onClick={() =>
                     handleOptionSelected(ProposalsTypes.stake_tokens)
                   }
                 >
-                  <AssetActionIcon width="25px" height="25px" /> Stake
+                  Stake
                 </MainButton>
               )}
             />
@@ -222,18 +219,21 @@ const MyStake = () => {
               amountUnityMeasure={'EGLD'}
               actionButton={(
                 <Button
+                  variant="outlined"
+                  size="medium"
                   disabled
                   sx={{
                     backgroundColor: theme.palette.background.disabled,
-                    borderColor: theme.palette.background.disabled,
+                    border: `solid 1px ${theme.palette.background.disabledBorder} !important`,
                     color: `${theme.palette.text.disabled} !important`,
                     boxShadow: 'none',
-                    padding: '0.5rem',
+                    padding: '5px 10px 3px',
                     marginTop: '1rem',
                     width: '100%',
+                    textTransform: 'capitalize',
+                    fontSize: '14px',
                   }}
                 >
-                  <InfoOutlinedIcon sx={{ marginRight: '5px' }} />
                   {`from ${activeDelegationsRows?.length ?? '0'} Providers`}
                 </Button>
               )}
@@ -260,7 +260,7 @@ const MyStake = () => {
                     handleOptionSelected(ProposalsTypes.withdraw_funds)
                   }
                 >
-                  <AssetActionIcon width="25px" height="25px" /> Details
+                  Details
                 </MainButton>
               )}
               title={'My Undelegated Funds'}
