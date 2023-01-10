@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
 import uniqBy from 'lodash/uniqBy';
 import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItemsPerPage';
 import { parseActionDetailed } from 'src/helpers/converters';
 import { RawTransactionType } from 'src/helpers/types';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { currentMultisigContractSelector, currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import {
   intervalStartTimestampSelector,
   intervalEndTimestampSelector,
@@ -21,6 +21,9 @@ import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { parseInt } from 'lodash';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { ITransactionEventTopic, ITransactionOnNetwork } from '@elrondnetwork/erdjs/out';
+import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
 import TransactionHistoryPresentation from './TransactionHistoryPresentation';
 
 const dateFormat = 'MMM D, YYYY';
@@ -84,27 +87,36 @@ const TransactionHistory = () => {
   }, [currentContract?.address, globalIntervalEndTimestamp, globalIntervalStartTimestamp]);
 
   const [cachedTransactions, setCachedTransactions] = useState<ITransactionOnNetwork[] | null>(null);
-  const [isLoadingTransactions, setIsLoadingTransactions] = useState(false);
-  const [isFetchingTransactions, setIsFetchingTransactions] = useState(false);
-  const [isErrorOnFetchTransactions, setIsErrorOnFetchTransactions] = useState(false);
+
+  const {
+    isFetching: isFetchingTransactions,
+    isLoading: isLoadingTransactions,
+    isError: isErrorOnFetchTransactions,
+    data: transactions,
+    refetch: refetchTransactions,
+  } = useQuery(
+    [QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED, globalIntervalStartTimestamp, globalIntervalEndTimestamp],
+    fetchTransactions2,
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+    },
+  );
+
+  const currentTransactionId = useSelector(currentMultisigTransactionIdSelector);
+  useTrackTransactionStatus({
+    transactionId: currentTransactionId,
+    onSuccess: () => {
+      refetchTransactions();
+    },
+  });
+
+  console.log({ transactions });
 
   useEffect(() => {
-    try {
-      (async () => {
-        setIsFetchingTransactions(true);
-        setIsLoadingTransactions(true);
-        const transactions = await fetchTransactions2();
-        setIsFetchingTransactions(false);
-        setIsLoadingTransactions(false);
-
-        const uniqueTransactions = uniqBy(transactions, (t) => t);
-        setCachedTransactions(uniqueTransactions);
-        setCurrentPage(1);
-      })();
-    } catch (e) {
-      setIsErrorOnFetchTransactions(true);
-    }
-  }, [fetchTransactions2]);
+    const uniqueTransactions = uniqBy(transactions, (t) => t);
+    setCachedTransactions(uniqueTransactions);
+    setCurrentPage(1);
+  }, [fetchTransactions2, transactions]);
   const queryClient = useQueryClient();
 
   useEffect(() => {
