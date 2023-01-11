@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
 import { Box, MenuItem, SelectChangeEvent, useMediaQuery } from '@mui/material';
@@ -21,20 +21,12 @@ import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { NumericFormat } from 'react-number-format';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import * as Styled from './styled';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken | MultisigSendEgld) => void;
   setSubmitDisabled: (value: boolean) => void;
-}
-
-function validateRecipient(value?: string) {
-  try {
-    const _address = new Address(value);
-    return true;
-  } catch (err) {
-    return false;
-  }
 }
 
 export type TokenPresentationProps = {
@@ -77,7 +69,18 @@ const ProposeSendToken = ({
     [availableTokensWithBalances, identifier],
   );
 
-  const validateAmount = (value?: string, testContext?: TestContext) => {
+  const currentContract = useSelector(currentMultisigContractSelector);
+
+  const validateRecipient = useCallback((value?: string) => {
+    try {
+      const _address = new Address(value);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }, []);
+
+  const validateAmount = useCallback((value?: string, testContext?: TestContext) => {
     if (value == null) {
       return true;
     }
@@ -115,7 +118,7 @@ const ProposeSendToken = ({
 
     setSubmitDisabled(!formik.isValid || !formik.dirty);
     return true;
-  };
+  }, [selectedTokenBalance, setSubmitDisabled]);
 
   const validationSchema = useMemo(
     () =>
@@ -131,7 +134,7 @@ const ProposeSendToken = ({
           .transform((value) => value.replaceAll(',', ''))
           .test(validateAmount),
       }),
-    [validateAmount, validateRecipient],
+    [validateAmount],
   );
 
   formik = useFormik({
@@ -147,6 +150,14 @@ const ProposeSendToken = ({
 
   const { touched, errors, values } = formik;
   const { amount, address, data } = values;
+
+  useEffect(() => {
+    const isCurrentContractAddress = address === currentContract?.address;
+    if (isCurrentContractAddress) {
+      console.log('SAME CONTRACT!');
+      formik.setErrors({ address: 'Contract can not send to itself' });
+    }
+  }, [address, currentContract?.address, formik]);
 
   const getEgldProposal = (): MultisigSendEgld | null => {
     try {
