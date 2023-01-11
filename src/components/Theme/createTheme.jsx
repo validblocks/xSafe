@@ -26,6 +26,7 @@ export const theme = createTheme({
       pinIcon: '#4C2FFC',
       button: '#4c2FFC',
       disabled: '#eee',
+      disabledBorder: '#A9A9A9',
       timeline: '#4C2FFC',
       pagination: '#00000014',
       checked: '#4c2FFC',
@@ -58,6 +59,7 @@ export const theme = createTheme({
       createSafeSteps: '#000000de',
       xSafeDescription: '#08041D',
       homeCards: '#08041D',
+      cardsTitle: '#08041D',
       discardButton: '#F0F6FF',
     },
     sidebar: {
@@ -194,6 +196,7 @@ export const darkTheme = createTheme({
       createSafeSteps: '#8680A9',
       xSafeDescription: '#556FA0',
       homeCards: '#9C9BA5',
+      cardsTitle: '#9C9BA580',
       discardButton: '#F0F6FF',
     },
     black: {
@@ -212,6 +215,7 @@ export const darkTheme = createTheme({
       pinIcon: '#F0F6FF8a',
       button: '#2d12d0',
       disabled: '#D6CFFF1A',
+      disabledBorder: '#8680A9',
       timeline: '#2FFCBE',
       pagination: '#D6CFFF1A',
       checked: '#D6CFFF1A',

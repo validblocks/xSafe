@@ -109,6 +109,10 @@ export const TextxSafeDescription = styled(Text)(({ theme: _ }) => ({
   },
 }));
 
+export const CardTitle = styled(Text)(({ theme: _ }) => ({
+  color: _.palette.text.cardsTitle,
+}));
+
 export const UnlockText = styled(Text)(({ theme: _ }) => ({
   '&&&': {
     color: _.palette.text.primary,
