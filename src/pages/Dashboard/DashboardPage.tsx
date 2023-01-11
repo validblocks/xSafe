@@ -176,7 +176,7 @@ function Dashboard() {
                         lineHeight={'30px'}
                         fontWeight={600}
                         marginY="8px"
-                      >{t('Create Safe')}
+                      >{t('Create a new Safe')}
                       </Text>
                       <Styled.TextSafeActionDescription
                         fontSize={16}
@@ -217,7 +217,7 @@ function Dashboard() {
                         lineHeight={'30px'}
                         fontWeight={600}
                         marginY={'8px'}
-                      >{t('Load Existing Safe')}
+                      >{t('Load an xisting Safe')}
                       </Text>
                       <Styled.TextSafeActionDescription
                         fontSize={16}
