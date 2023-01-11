@@ -34,7 +34,7 @@ const AppCard = ({
   return (
     <Styled.AppCard>
       <img
-        className="mr-3 rounded w-100"
+        className="rounded w-100"
         src={imgUrl}
         alt="member"
       />
@@ -54,7 +54,7 @@ const AppCard = ({
               border: `1px solid ${theme.palette.background.button} !important`,
               color: '#fff !important',
             }),
-            marginRight: isInstallable && isInstalled ? '12px' : '0',
+            marginRight: isInstallable && isInstalled && maxWidth600 ? '12px' : '0',
           }}
           disabled={!isInstallable || isInReadOnlyMode || title === 'Marketplace'}
         >{isInstallable ? actionButtonText : 'Coming Soon...'}
