@@ -110,8 +110,6 @@ const TransactionHistory = () => {
     },
   });
 
-  console.log({ transactions });
-
   useEffect(() => {
     const uniqueTransactions = uniqBy(transactions, (t) => t);
     setCachedTransactions(uniqueTransactions);
