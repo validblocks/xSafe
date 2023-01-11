@@ -11,6 +11,7 @@ import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import { useMemo } from 'react';
 import { Text } from '../StyledComponents/StyledComponents';
+import { TokenPhoto } from './TokenPhoto';
 
 type TokenPresentationConfig = {
     withPhoto: boolean;
@@ -52,10 +53,9 @@ const TokenPresentationWithPrice = ({
         sx={{
           m: '0 .55rem 0 .3rem',
           '& svg, & img': { width: '35px', height: '35px', m: '0 !important' },
-          '& img': { borderRadius: '50%' },
         }}
       >
-        {tokenPhotoJSX}
+        <TokenPhoto identifier={identifier} options={{ width: 20 }} />
       </Box>
       )}
       <Box sx={{
