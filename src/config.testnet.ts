@@ -38,11 +38,11 @@ export const network: NetworkType = {
   id: 'testnet',
   name: 'Testnet',
   egldLabel: 'xEGLD',
-  walletAddress: 'https://testnet-wallet.elrond.com/dapp/init',
-  apiAddress: 'https://testnet-api.elrond.com',
-  gatewayAddress: 'https://testnet-gateway.elrond.com',
-  explorerAddress: 'http://testnet-explorer.elrond.com',
-  storageApi: 'https://testnet-extras-api.elrond.com',
+  walletAddress: 'https://testnet-wallet.multiversx.com/dapp/init',
+  apiAddress: 'https://testnet-api.multiversx.com',
+  gatewayAddress: 'https://testnet-gateway.multiversx.com',
+  explorerAddress: 'http://testnet-explorer.multiversx.com',
+  storageApi: 'https://testnet-extras-api.multiversx.com',
 };
 
 networkSchema.validate(network, { strict: true }).catch(({ errors }) => {

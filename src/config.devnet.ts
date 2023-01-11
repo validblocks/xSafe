@@ -37,11 +37,11 @@ export const network: NetworkType = {
   id: 'devnet',
   name: 'Devnet',
   egldLabel: 'xEGLD',
-  walletAddress: 'https://devnet-wallet.elrond.com',
-  apiAddress: 'https://devnet-api.elrond.com',
-  gatewayAddress: 'https://devnet-gateway.elrond.com',
-  explorerAddress: 'http://devnet-explorer.elrond.com',
-  storageApi: 'https://devnet-extras-api.elrond.com',
+  walletAddress: 'https://devnet-wallet.multiversx.com',
+  apiAddress: 'https://devnet-api.multiversx.com',
+  gatewayAddress: 'https://devnet-gateway.multiversx.com',
+  explorerAddress: 'http://devnet-explorer.multiversx.com',
+  storageApi: 'https://devnet-extras-api.multiversx.com',
 };
 
 networkSchema.validate(network, { strict: true }).catch(({ errors }) => {

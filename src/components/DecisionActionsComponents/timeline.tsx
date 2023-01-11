@@ -28,7 +28,7 @@ function TimelineCard() {
             </TimelineSeparator>
             <TimelineContent>
               Board member
-              <a href={`https://explorer.elrond.com/search/${el.valueHex}`}>
+              <a href={`https://explorer.multiversx.com/search/${el.valueHex}`}>
                 {el.valueHex}
               </a>
             </TimelineContent>

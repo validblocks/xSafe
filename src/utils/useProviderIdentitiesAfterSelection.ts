@@ -179,7 +179,7 @@ export default function useProviderIdentitiesAfterSelection({
       ?.map((provider: IProvider) => provider.identity)
       .join(',');
     return axios
-      .get(`https://devnet-api.elrond.com/identities?identities=${providerIds}`)
+      .get(`https://devnet-api.multiversx.com/identities?identities=${providerIds}`)
       .then((res) => res.data);
   }, [fetchedProviders]);
 
