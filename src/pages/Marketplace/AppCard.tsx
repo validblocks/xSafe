@@ -13,6 +13,7 @@ interface Props {
   isInstalled: boolean;
   actionButtonOnClick?: () => void;
   actionButtonOnPin?: () => void;
+  pinStatus?: boolean;
 }
 
 const AppCard = ({
@@ -24,6 +25,7 @@ const AppCard = ({
   actionButtonText = 'Click me',
   actionButtonOnClick = () => null,
   actionButtonOnPin = () => null,
+  pinStatus,
 }: Props) => {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const theme: any = useTheme();
@@ -61,7 +63,7 @@ const AppCard = ({
           <Styled.PinButton
             onClick={actionButtonOnPin}
           >
-            Pin app
+            {pinStatus ? 'Pinned' : 'Pin App'}
           </Styled.PinButton>
         ) : ''}
       </Box>

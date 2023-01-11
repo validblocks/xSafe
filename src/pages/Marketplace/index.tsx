@@ -69,6 +69,7 @@ const Marketplace = () => {
               actionButtonText={app.isInstalled ? 'Installed' : 'Install App'}
               actionButtonOnClick={() => installApp(app)}
               actionButtonOnPin={() => handlePinApps(app)}
+              pinStatus={pinnedApps.includes(app.id)}
             />
           </Grid>
         ))
