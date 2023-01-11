@@ -43,6 +43,7 @@ export const theme = createTheme({
       scrollbar: '#EBEBED',
       quorumCounter: '#8675C8',
       quorumContent: '#EEEBFF',
+      arrow: '#08041D',
     },
     text: {
       primary: '#08041D',
@@ -103,6 +104,7 @@ export const theme = createTheme({
     hover: {
       secondary: 'rgba(0, 0, 0, 0.04)',
       select: '#08041D',
+      link: '#4c2FFC8a',
     },
     shadows: {
       primary: 'rgb(40 54 61 / 18%) 0px 2px 4px 0px',
@@ -232,6 +234,7 @@ export const darkTheme = createTheme({
       scrollbar: '#6C757D8a',
       quorumCounter: '#2A2848',
       quorumContent: '#2A284880',
+      arrow: '#F0F6FF',
     },
     sidebar: {
       primary: '#29273E',
@@ -273,6 +276,7 @@ export const darkTheme = createTheme({
     hover: {
       secondary: '#181626',
       select: '#A9A9A9',
+      link: '#4c2FFC',
     },
     shadows: {
       primary: '0px 2px 4px 0px rgb(76 47 252 / 13%)',

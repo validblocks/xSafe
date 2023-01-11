@@ -16,6 +16,7 @@ import {
   WalletConnectLoginButton,
   WebWalletLoginButton,
 } from '@elrondnetwork/dapp-core/UI';
+import * as Styled from './styled';
 
 declare global {
   interface Window {
@@ -49,6 +50,7 @@ const Unlock = () => {
               <div className="d-flex flex-row method">
                 <IconMaiarWallet />
                 <UnlockText>Maiar DeFi Wallet</UnlockText>
+                <Styled.ArrowToRight />
               </div>
             </div>
           </a>
@@ -56,11 +58,10 @@ const Unlock = () => {
 
         {window.elrondWallet && (
           <ExtensionLoginButton {...commonProps}>
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="d-flex flex-row method">
-                <IconMaiarWallet />
-                <UnlockText>Maiar DeFi Wallet</UnlockText>
-              </div>
+            <div className="d-flex justify-content-between align-items-center method">
+              <IconMaiarWallet />
+              <UnlockText>Maiar DeFi Wallet</UnlockText>
+              <Styled.ArrowToRight />
             </div>
           </ExtensionLoginButton>
         )}
@@ -73,29 +74,26 @@ const Unlock = () => {
             }
             : {})}
         >
-          <div className="d-flex justify-content-between align-items-center">
-            <div className="d-flex flex-row method">
-              <IconMaiar />
-              <UnlockText>Maiar App</UnlockText>
-            </div>
+          <div className="d-flex justify-content-between align-items-center method">
+            <IconMaiar />
+            <UnlockText>Maiar App</UnlockText>
+            <Styled.ArrowToRight />
           </div>
         </WalletConnectLoginButton>
 
         <LedgerLoginButton loginButtonText="" {...commonProps}>
-          <div className="d-flex justify-content-between align-items-center">
-            <div className="d-flex flex-row method">
-              <StyledIconLedger />
-              <UnlockText>Ledger</UnlockText>
-            </div>
+          <div className="d-flex justify-content-between align-items-center method">
+            <StyledIconLedger />
+            <UnlockText>Ledger</UnlockText>
+            <Styled.ArrowToRight />
           </div>
         </LedgerLoginButton>
 
         <WebWalletLoginButton {...commonProps}>
-          <div className="d-flex justify-content-between align-items-center">
-            <div className="d-flex flex-row method">
-              <StyledIconElrond />
-              <UnlockText>Web Wallet</UnlockText>
-            </div>
+          <div className="d-flex justify-content-between align-items-center method">
+            <StyledIconElrond />
+            <UnlockText>Elrond Web Wallet</UnlockText>
+            <Styled.ArrowToRight />
           </div>
         </WebWalletLoginButton>
       </div>
@@ -104,13 +102,12 @@ const Unlock = () => {
         <Text><span>New to MultiversX?</span></Text>
       </div>
       <div className="mt-1 mb-1">
-        <a
-          className="link-third-style"
+        <Styled.MultisigLink
           href={`${network.walletAddress}/create`}
           {...{ target: '_blank' }}
         >
           Learn how to setup a wallet
-        </a>
+        </Styled.MultisigLink>
       </div>
     </div>
   );
