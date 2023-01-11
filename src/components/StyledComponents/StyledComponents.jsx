@@ -28,14 +28,15 @@ export const CenteredBox = styled(Box)`
   color: ${(props) => props.theme.palette.text.primary}
 `;
 
-export const PerformActionButton = styled(Button)(({ theme: _ }) => ({
+export const PerformActionButton = styled(Button)(({ theme: _, disabled }) => ({
   '&&&': {
     width: _.width,
+
     height: _.height,
-    backgroundColor: _.palette.background.main,
+    backgroundColor: disabled ? '#D6CFFF1A' : _.palette.background.main,
     boxShadow: `0px 0px 8px ${_.shadows.main}`,
-    color: _.palette.primary.main,
-    border: `1px solid ${_.palette.secondary.main}`,
+    color: disabled ? '#8680A9' : _.palette.primary.main,
+    border: `1px solid ${disabled ? '#D6CFFF1A' : _.palette.secondary.main}`,
     padding: '7px 14px 6px',
     fontSize: '14px',
     textTransform: 'capitalize',
@@ -48,14 +49,14 @@ export const PerformActionButton = styled(Button)(({ theme: _ }) => ({
   },
 }));
 
-export const DiscardActionButton = styled(Button)(({ theme: _ }) => ({
+export const DiscardActionButton = styled(Button)(({ theme: _, disabled }) => ({
   '&&&': {
     width: _.width,
     height: _.height,
-    background: _.palette.background.danger,
-    color: _.palette.text.discardButton,
+    background: disabled ? '#D6CFFF1A' : _.palette.background.danger,
+    color: disabled ? '#8680A9' : _.palette.text.discardButton,
     padding: '7px 14px 5px',
-    border: `1px solid ${_.palette.danger.main}`,
+    border: `1px solid ${disabled ? '#D6CFFF1A' : _.palette.danger.main}`,
     textTransform: 'capitalize',
     fontWeight: _.font.weight.lg,
     '&:hover': {

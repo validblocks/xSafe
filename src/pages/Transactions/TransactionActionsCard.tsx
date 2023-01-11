@@ -1,9 +1,5 @@
 /* eslint-disable react/no-unused-prop-types */
 import { Address } from '@elrondnetwork/erdjs/out';
-import {
-  faThumbsUp,
-} from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { gasLimit as defaultGasLimit } from 'src/config';
 import { Typography, useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +13,10 @@ import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { DiscardActionButton, PerformActionButton, Text } from 'src/components/StyledComponents/StyledComponents';
 import { gasLimits } from 'src/components/PerformActionModal';
 import { setIntervalEndTimestamp } from 'src/redux/slices/transactionsSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
+import { useState } from 'react';
 import useTransactionPermissions from './useTransactionPermissions';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
@@ -46,13 +45,17 @@ function TransactionActionsCard({
   const { canUnsign, canPerformAction, canSign, canDiscardAction } =
     useTransactionPermissions(action);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const sign = () => {
+    setIsLoading(true);
     mutateSign(actionId);
   };
   const unsign = () => {
+    setIsLoading(true);
     mutateUnsign(actionId);
   };
   const performAction = async () => {
+    setIsLoading(true);
     const gasLimit = type != null
       ? gasLimits[type as keyof typeof gasLimits] ?? defaultGasLimit
       : defaultGasLimit;
@@ -61,8 +64,26 @@ function TransactionActionsCard({
     });
   };
   const discardAction = () => {
+    setIsLoading(true);
     mutateDiscardAction(actionId);
   };
+
+  const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
+  useTrackTransactionStatus({
+    transactionId: currentMultisigTransactionId,
+    onSuccess: () => {
+      if (isLoading) setIsLoading(false);
+    },
+    onCancelled: () => {
+      if (isLoading) setIsLoading(false);
+    },
+    onFail: () => {
+      if (isLoading) setIsLoading(false);
+    },
+    onTimedOut: () => {
+      if (isLoading) setIsLoading(false);
+    },
+  });
 
   const maxWidth600 = useMediaQuery('@media(max-width:600px)');
 
@@ -83,18 +104,22 @@ function TransactionActionsCard({
         <div className="d-flex">
           <div className="d-flex btns action-btns">
             {canSign && (
-              <button onClick={sign} className="btn action sign btn--approve">
-                <FontAwesomeIcon icon={faThumbsUp} />
-                <span>{t('Approve') as string} </span>
-              </button>
+              <PerformActionButton
+                disabled={isLoading}
+                size="large"
+                onClick={sign}
+              >
+                {t('Approve') as string}
+              </PerformActionButton>
             )}
             {canUnsign && (
-            <DiscardActionButton size="large" onClick={unsign}>
+            <DiscardActionButton disabled={isLoading} size="large" onClick={unsign}>
               {t('Discard') as string}
             </DiscardActionButton>
             )}
             {canPerformAction && (
               <PerformActionButton
+                disabled={isLoading}
                 size="large"
                 onClick={performAction}
               >
@@ -102,7 +127,7 @@ function TransactionActionsCard({
               </PerformActionButton>
             )}
             {canDiscardAction && (
-              <DiscardActionButton size="large" onClick={discardAction}>
+              <DiscardActionButton disabled={isLoading} size="large" onClick={discardAction}>
                 {t('Discard') as string}
               </DiscardActionButton>
             )}
