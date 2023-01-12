@@ -96,7 +96,7 @@ const MobileLayout = () => {
 
   const navigate = useNavigate();
   const handleRedirectToHome = () => {
-    const route = `/multisig/${uniqueContractAddress}`;
+    const route = '/multisig';
     navigate(route);
   };
 

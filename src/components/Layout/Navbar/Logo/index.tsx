@@ -1,4 +1,3 @@
-import { uniqueContractAddress } from 'src/multisigConfig';
 import { useNavigate } from 'react-router-dom';
 import xSafeLogo from 'src/assets/img/xSafe-Logo.svg';
 import { NavLogo } from '../navbar-style';
@@ -6,7 +5,7 @@ import { NavLogo } from '../navbar-style';
 const NavbarLogo = () => {
   const navigate = useNavigate();
   const handleRedirectToHome = () => {
-    const route = `/multisig/${uniqueContractAddress}`;
+    const route = '/multisig';
     navigate(route);
   };
 
