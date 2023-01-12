@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import xSafeLogo from 'src/assets/img/xSafe-Logo.svg';
-import { Box, IconButton, Typography, useMediaQuery } from '@mui/material';
+import { Box, IconButton, Tab, Typography, useMediaQuery } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import { Link, useNavigate } from 'react-router-dom';
@@ -37,6 +37,7 @@ import {
   TotalBalanceWrapper,
 } from './navbar-style';
 import TotalBalance from './TotalBalance';
+import * as Styled from '../../Utils/styled';
 
 const MobileLayout = () => {
   const locationString = window.location.pathname.substring(1);
@@ -56,6 +57,8 @@ const MobileLayout = () => {
   const minWidth425 = useMediaQuery('(min-width:425px)');
   const minWidth410 = useMediaQuery('(min-width:410px)');
   const minWidth535 = useMediaQuery('(min-width:535px)');
+
+  const [selectedTab, setSelectedTab] = useState(0);
 
   const addressChars = useMemo(() => {
     if (minWidth535) return 12;
@@ -91,6 +94,10 @@ const MobileLayout = () => {
       document.removeEventListener('mousedown', handler);
     };
   }, []);
+
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setSelectedTab(newValue);
+  };
 
   const { isMultiWalletMode, isInReadOnlyMode } = useOrganizationInfoContext();
 
@@ -245,30 +252,10 @@ const MobileLayout = () => {
         {(locationString === 'assets' ||
           locationString === 'tokens' ||
           locationString === 'nft') && (
-          <Box>
-            <Box
-              className={
-                locationString === 'tokens' || locationString === 'assets'
-                  ? 'active-submenu assets-mobile-submenu py-3'
-                  : 'assets-mobile-submenu py-3'
-              }
-            >
-              <Link className="link-decoration" to="/tokens">
-                Tokens
-              </Link>
-            </Box>
-            <Box
-              className={
-                locationString === 'nft'
-                  ? 'active-submenu assets-mobile-submenu py-3'
-                  : 'assets-mobile-submenu py-3'
-              }
-            >
-              <Link className="link-decoration" to="/nft">
-                NFT&apos;s
-              </Link>
-            </Box>
-          </Box>
+          <Styled.MainTab value={selectedTab} onChange={handleChange}>
+            <Tab component={Link} label="Tokens" to="/tokens" />
+            <Tab component={Link} label="NFT's" to="/nft" />
+          </Styled.MainTab>
         )}
       </MobileSecondaryMenu>
     </Box>

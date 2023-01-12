@@ -78,6 +78,7 @@ export const theme = createTheme({
       main: '#DFDFE8',
       secondary: '#E0E0E0',
       sidebar: '#0000001a',
+      tabs: '#DFDFE8',
     },
     borders: {
       active: '#4C2FFC',
@@ -250,6 +251,7 @@ export const darkTheme = createTheme({
       main: '#DFDFE8',
       secondary: '#14131C',
       sidebar: '#29273E',
+      tabs: '#252534',
     },
     borders: {
       active: '#4C2FFC',
