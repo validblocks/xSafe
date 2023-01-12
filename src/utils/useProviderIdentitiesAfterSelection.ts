@@ -75,13 +75,16 @@ export default function useProviderIdentitiesAfterSelection({
             avatar: provider.avatar,
             name: provider.name,
             website: provider.website,
-            apr: provider.apr ?? 0,
+            apr: providerBeforeIdentityFetch?.apr ?? 0,
           },
           aprColumn: {
-            apr: provider.apr ?? 0,
+            apr: providerBeforeIdentityFetch?.apr ?? 0,
           },
           filledColumn: {
-            filledPercentage: shortenedPercentage,
+            filledPercentage:
+              providerBeforeIdentityFetch?.delegationCap !== '0'
+                ? shortenedPercentage
+                : ('∞' as any),
           },
         };
       }),
@@ -144,7 +147,9 @@ export default function useProviderIdentitiesAfterSelection({
                 apr: provider.apr ?? 0,
               },
               filledColumn: {
-                filledPercentage: shortenedPercentage,
+                filledPercentage: providerBeforeIdentityFetch?.delegationCap !== '0'
+                  ? shortenedPercentage
+                  : ('∞' as any),
               },
             };
           }) ?? [];

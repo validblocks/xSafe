@@ -17,8 +17,8 @@ import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlic
 import ProviderPresentation from './ProviderPresentation';
 import { useMultistepFormContext } from '../Utils/MultistepForm';
 import { ChangeStepButton, FinalStepActionButton } from '../Theme/StyledComponents';
-import InputTokenPresentation from '../Utils/InputTokenPresentation';
 import { Text } from '../StyledComponents/StyledComponents';
+import AmountInputWithTokenSelection from '../Utils/AmountInputWithTokenSelection';
 
 interface IFormValues {
   amount: string;
@@ -39,7 +39,6 @@ const StakingFormStepTwo = () => {
     [fetchedProviderIdentities, selectedProviderIdentifier],
   );
 
-  let formik: FormikProps<IFormValues>;
   const {
     proceedToPreviousStep,
   } = useMultistepFormContext();
@@ -48,68 +47,59 @@ const StakingFormStepTwo = () => {
   const egldBalanceString = organizationTokens
     ?.find((token: OrganizationToken) => token.identifier === 'EGLD').tokenAmount.replaceAll(',', '') ?? 0;
 
-  function validateRecipient(value?: string) {
-    try {
-      const _address = new Address(value);
-      return true;
-    } catch (err) {
-      return false;
-    }
-  }
-
   const egldBalanceNumber = Number(egldBalanceString);
 
-  function validateAmount(value?: string, testContext?: TestContext) {
-    if (value == null) {
-      return true;
-    }
-    const newAmount = Number(value);
-    if (Number.isNaN(newAmount)) {
-      setIsFinalStepButtonActive(false);
-      return (
-        testContext?.createError({
-          message: 'Invalid amount',
-        }) ?? false
-      );
-    }
-    if (newAmount < 1) {
-      formik.setFieldValue('amount', 1);
-    }
-    if (newAmount === 0) {
-      setIsFinalStepButtonActive(false);
-    }
-    if (newAmount > Number(egldBalanceNumber)) {
-      setIsFinalStepButtonActive(false);
-      return (
-        testContext?.createError({
-          message:
-                        t('Insufficient funds'),
-        }) ?? false
-      );
-    }
-
-    setIsFinalStepButtonActive(true);
-    return true;
-  }
-
-  const validationSchema = Yup.object().shape({
-    receiver: Yup.string()
-      .min(2, 'Too Short!')
-      .max(500, 'Too Long!')
-      .required('Required')
-      .test(validateRecipient),
-    amount: Yup.string()
-      .required('Required')
-      .transform((value) => value.replace(',', '.'))
-      .test(validateAmount),
-    data: Yup.string(),
-  });
-
-  formik = useFormik({
+  const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
       amount: 1,
     },
-    validationSchema,
+    validationSchema: Yup.object().shape({
+      receiver: Yup.string()
+        .min(2, 'Too Short!')
+        .max(500, 'Too Long!')
+        .required('Required')
+        .test((value?: string) => {
+          try {
+            const _address = new Address(value);
+            return true;
+          } catch (err) {
+            return false;
+          }
+        }),
+      amount: Yup.string()
+        .required('Required')
+        .transform((value) => value.replace(',', ''))
+        .test((value?: string, testContext?: TestContext) => {
+          const newAmount = Number(value);
+          if (Number.isNaN(newAmount)) {
+            setIsFinalStepButtonActive(false);
+            return (
+              testContext?.createError({
+                message: 'Invalid amount',
+              }) ?? false
+            );
+          }
+          if (newAmount < 1) {
+            formik.setFieldValue('amount', 1);
+          }
+          if (newAmount === 0) {
+            setIsFinalStepButtonActive(false);
+          }
+          if (newAmount > Number(egldBalanceNumber)) {
+            setIsFinalStepButtonActive(false);
+            return (
+              testContext?.createError({
+                message:
+                        t('Insufficient funds'),
+              }) ?? false
+            );
+          }
+
+          setIsFinalStepButtonActive(true);
+          return true;
+        }),
+      data: Yup.string(),
+    }),
     validateOnChange: true,
     validateOnMount: true,
   } as any);
@@ -199,17 +189,15 @@ const StakingFormStepTwo = () => {
           </ChangeStepButton>
         </Box>
       </Box>
-      <Box sx={{ mb: '.35rem !important' }}>
-        <InputTokenPresentation
-          amount={amount}
-          amountError={amountError}
-          egldBalanceString={egldBalanceString}
-          label={`${t('Amount')}`}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          formik={formik}
-        />
-      </Box>
+      <AmountInputWithTokenSelection
+        amount={amount}
+        amountError={amountError}
+        formik={formik}
+        handleInputBlur={formik.handleBlur}
+        handleInputChange={formik.handleChange}
+        resetAmount={() => formik.setFieldValue('amount', 0)}
+        config={{ withTokenSelection: false, withAvailableAmount: true }}
+      />
       <Box
         display={'flex'}
         gap={2}

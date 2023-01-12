@@ -34,7 +34,7 @@ const AmountWithTitleCard = ({
       >{t(title) as string}:
       </CardTitle>
       <Text fontSize={maxWidth600 ? '20px' : '24px'} fontWeight="bolder" sx={{ display: 'flex', gap: 1 }}>
-        {(`${amountValue} ${needsDollarSign ? '$' : ''}${amountUnityMeasure}`)}
+        {(`${Number(amountValue).toLocaleString()} ${needsDollarSign ? '$' : ''}${amountUnityMeasure}`)}
       </Text>
       {actionButton}
     </MultisigCard>

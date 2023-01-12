@@ -11,7 +11,7 @@ const ClaimableRewardsColumn = ({ columnData: { claimableRewards = '0' } }: Prop
     fontWeight={500}
     sx={{ paddingLeft: '0.5rem', color: '#08041D !important' }}
   >
-    {claimableRewards} $EGLD
+    {Number(claimableRewards).toLocaleString()} $EGLD
   </Text>
 );
 
