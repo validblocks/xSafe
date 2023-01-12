@@ -58,11 +58,11 @@ function NftComponent() {
 
   if (contractNfts?.length === 0) {
     return (
-      <Grid container>
-        <Grid xs={3} item>
+      <Grid container margin={width600px ? '0px' : '-9px 0 0 -9px'}>
+        <Grid xs={12} item>
           <CardBox
             className="d-flex align-items-center justify-content-center"
-            sx={{ height: '300px' }}
+            sx={{ height: '300px', m: '0 !important' }}
           >
             <CardContent>
               <EmptyList>{ t('No NFTs to show') as string}</EmptyList>

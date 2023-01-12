@@ -46,12 +46,10 @@ const Unlock = () => {
             target="_blank"
             className="btn btn-unlock btn-block"
           >
-            <div className="d-flex justify-content-between align-items-center">
-              <div className="d-flex flex-row method">
-                <IconMaiarWallet />
-                <UnlockText>Maiar DeFi Wallet</UnlockText>
-                <Styled.ArrowToRight />
-              </div>
+            <div className="d-flex justify-content-between align-items-center method">
+              <IconMaiarWallet />
+              <UnlockText>Maiar DeFi Wallet</UnlockText>
+              <Styled.ArrowToRight />
             </div>
           </a>
         )}
