@@ -21,12 +21,8 @@ import DelegatedColumn from 'src/components/Staking/DelegatedColumn';
 import { delegationFunctionNames } from 'src/types/staking/delegationFunctionNames';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { useEffectDebugger } from 'src/utils/useEffectDebugger';
-import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
-import { NumericFormat } from 'react-number-format';
-import * as StyledRemote from 'src/pages/MultisigDetails/ProposeMultiselectModal/styled';
-import { useTheme } from 'styled-components';
+import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
 import { StakedAssetsSelect, UnstakeModalContainerBox } from '../styled';
 
 interface ProposeUnstakeTokensType {
@@ -59,7 +55,6 @@ const ProposeUnstakeTokens = ({
   const { t } = useTranslation();
 
   const dispatch = useDispatch();
-  const theme: any = useTheme();
 
   const activeDelegationsRows = useSelector<StateType, IdentityWithColumns[]>(activeDelegationsRowsSelector);
   const selectedStakingProvider = useSelector(selectedStakingProviderSelector);
@@ -102,7 +97,6 @@ const ProposeUnstakeTokens = ({
           }
 
           const leftOverStakedAmount = delegatedAmount - newAmount;
-          console.log({ leftOverStakedAmount });
           if (leftOverStakedAmount < 1 && leftOverStakedAmount !== 0) {
             setSubmitDisabled(true);
             return (
@@ -211,7 +205,6 @@ const ProposeUnstakeTokens = ({
 
   const autocompleteMaxAmount = useCallback(() => {
     const delegatedAmount = selectedStakingProvider?.delegatedColumn?.delegatedAmount;
-    console.log('click max', delegatedAmount);
     formik.setFieldValue('amount', +delegatedAmount);
   }, [formik, selectedStakingProvider?.delegatedColumn?.delegatedAmount]);
 
@@ -220,7 +213,7 @@ const ProposeUnstakeTokens = ({
   return (
     <UnstakeModalContainerBox
       sx={{
-        padding: maxWidth600 ? '1.4rem 1rem .3rem' : '1.4rem 40px .3rem',
+        padding: maxWidth600 ? '1.4rem 16px .3rem' : '1.4rem 40px .3rem',
       }}
     >
       <div className="mb-4">
@@ -247,6 +240,7 @@ const ProposeUnstakeTokens = ({
             </MenuItem>
           ) as any)}
         </StakedAssetsSelect>
+
         <span>
           Staked:
           {' '}
@@ -255,68 +249,15 @@ const ProposeUnstakeTokens = ({
           $EGLD
         </span>
       </div>
-
-      <StyledRemote.AmountWithTokenSelectionBox
-        className={amountError != null ? 'invalid' : ''}
-        sx={{
-          display: 'flex !important', alignItems: 'center', justifyContent: 'space-between',
-
-        }}
-      >
-        <Box sx={{ flexGrow: 1 }}>
-          <NumericFormat
-            name="amount"
-            id="amount"
-            value={amount}
-            thousandSeparator
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className={amountError != null ? 'isError' : ''}
-            style={{
-              width: '100%',
-              borderRadius: 10,
-              background: 'transparent',
-              border: 'none',
-              flex: '1',
-            }}
-          />
-
-          <label htmlFor={amount} className={amountError != null ? 'isError' : ''}>
-            {`${t('Amount')}`}
-          </label>
-        </Box>
-        <Box px={1}>
-          <MaxSendEGLDButton onClick={autocompleteMaxAmount}>
-            Max
-          </MaxSendEGLDButton>
-        </Box>
-        <Box
-          className="egld-staked"
-          sx={{
-            borderLeft: `1px solid ${theme.palette.borders.secondary}`,
-            transition: 'all 0.3s linear',
-            padding: '10px',
-            ':hover': {
-              borderLeft: `1px solid ${theme.palette.borders.active}`,
-            },
-          }}
-        >
-          <TokenPresentationWithPrice
-            identifier="EGLD"
-            withTokenAmount={false}
-            withTokenValue={false}
-          />
-        </Box>
-        <span className="errorMessage">{amountError}</span>
-
-        {/* <Text
-          fontSize={13}
-          variant="subtitle2"
-          className="availableAmount"
-        >{`${t('Available')}: ${tokenAmount} ${prettyIdentifier}`}
-        </Text> */}
-      </StyledRemote.AmountWithTokenSelectionBox>
-
+      <AmountInputWithTokenSelection
+        handleMaxButtonClick={autocompleteMaxAmount}
+        handleInputChange={formik.handleChange}
+        handleInputBlur={formik.handleBlur}
+        amount={amount}
+        amountError={amountError}
+        resetAmount={() => formik.setFieldValue('amount', 0)}
+        config={{ withAvailableAmount: false, withTokenSelection: false }}
+      />
     </UnstakeModalContainerBox>
   );
 };
