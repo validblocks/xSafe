@@ -39,7 +39,6 @@ const MyApps = () => {
             item
             key={app.id}
             minWidth={widthBetween460And600 ? 'auto' : 310}
-            maxWidth={widthBetween460And600 ? 'auto' : 310}
             xs={12}
             sm={6}
             md={4}

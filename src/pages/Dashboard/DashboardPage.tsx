@@ -217,7 +217,7 @@ function Dashboard() {
                         lineHeight={'30px'}
                         fontWeight={600}
                         marginY={'8px'}
-                      >{t('Load an xisting Safe')}
+                      >{t('Load an existing Safe')}
                       </Text>
                       <Styled.TextSafeActionDescription
                         fontSize={16}
