@@ -47,7 +47,11 @@ function MultisigDetailsPage() {
   return (
     <>
       <Styled.DetailsCardContainerBox>
-        <Grid container justifyContent={widthBetween520And600 ? 'space-between' : ''}>
+        <Grid
+          container
+          justifyContent={widthBetween520And600 ? 'space-between' : ''}
+          gap={'12px'}
+        >
           {topSectionCards.map(
             (topCard) => (
               <MultisigCardGrid
@@ -59,7 +63,11 @@ function MultisigDetailsPage() {
         </Grid>
       </Styled.DetailsCardContainerBox>
       <Styled.DetailsCardContainerBox>
-        <Grid container justifyContent={widthBetween520And600 ? 'space-between' : ''}>
+        <Grid
+          container
+          justifyContent={widthBetween520And600 ? 'space-between' : ''}
+          gap={'12px'}
+        >
           {bottomSectionCards.map(
             (bottomCard) => <MultisigCardGrid key={bottomCard.props.title} item> {bottomCard} </MultisigCardGrid>,
           )}

@@ -16,6 +16,7 @@ export const DetailsCardContainerBox = styled(Box)`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+  margin-bottom: 12px;
 `;
 
 export const StyledSelect = styled(Select)<any>`
@@ -59,7 +60,10 @@ export const StakedAssetsSelect = styled(Select)<any>`
     padding-top: 0;
     padding-bottom: 0;
   }
-  & .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input div p.delegated-amount {
+  &
+    .MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input
+    div
+    p.delegated-amount {
     display: block !important;
   }
   @media (max-width: 600px) {
@@ -90,10 +94,10 @@ export const StakedAssetsSelect = styled(Select)<any>`
 export const UnstakeModalContainerBox = styled(Box)`
   span {
     color: grey;
-    margin-left: .35rem;
+    margin-left: 0.35rem;
     font-size: 13px;
   }
   label {
-    margin-left: .3rem !important;
+    margin-left: 0.3rem !important;
   }
 `;

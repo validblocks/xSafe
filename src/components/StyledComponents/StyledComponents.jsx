@@ -68,28 +68,29 @@ export const DiscardActionButton = styled(Button)(({ theme: _, disabled }) => ({
 
 export const MultisigCard = styled(Box)`
   width: 240px;
+  min-width: 240px;
   padding: 15px;
-  margin: 0 12px 12px 0;
   background: ${(props) => props.theme.palette.background.secondary};
   border-radius: 10px;
   box-shadow: 0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03);
   border: none;
   @media (max-width: 600px){
     width: 100%;
-    margin-bottom: 16px;
   }
-  @media (min-width: 601px) and (max-width: 800px) {
+  @media (min-width: 601px) and (max-width: 1038px) {
     width: 100%;
-    margin: 0 0 12px 0;
   }
 `;
 
 export const MultisigCardGrid = styled(Grid)`
-  @media (max-width: 519px){
+  @media (min-width: 787px) and (max-width: 1038px){
+    width: 48.8%;
+  }
+  @media (max-width: 787px){
     width: 100%;
   }
   @media (min-width: 520px) and (max-width: 600px){
-    width: 48.5%;
+    width: 48.62%;
   }
 `;
 
