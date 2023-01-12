@@ -10,10 +10,17 @@ interface Props {
 const FilledColumn = ({ columnData: { filledPercentage } = { filledPercentage: 100 } }: Props) => {
   const theme: any = useTheme();
 
+  const percentage = (filledPercentage === Infinity
+    || filledPercentage.toString() === '∞'
+    || filledPercentage.toString() === 'Uncapped'
+  )
+    ? 'Uncapped'
+    : Math.min(100, filledPercentage);
+
   return (
     <PercentageWithIcon
       icon={<ContrastRoundedIcon sx={{ color: `${theme.palette.text.primary} !important` }} />}
-      percentage={filledPercentage === Infinity ? 'Uncapped' : filledPercentage.toString()}
+      percentage={percentage.toString()}
     />
   );
 };

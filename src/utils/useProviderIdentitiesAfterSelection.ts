@@ -56,6 +56,7 @@ export default function useProviderIdentitiesAfterSelection({
         let filledPercentage = 0;
         if (providerDelegationCap !== 0) {
           filledPercentage = stakedAmount / providerDelegationCap;
+          filledPercentage = Math.min(100, filledPercentage);
         }
 
         const shortenedPercentage = getDenominatedBalance<number>(
@@ -84,7 +85,7 @@ export default function useProviderIdentitiesAfterSelection({
             filledPercentage:
               providerBeforeIdentityFetch?.delegationCap !== '0'
                 ? shortenedPercentage
-                : ('∞' as any),
+                : ('Uncapped' as any),
           },
         };
       }),
@@ -124,6 +125,7 @@ export default function useProviderIdentitiesAfterSelection({
             let filledPercentage = 0;
             if (providerDelegationCap !== 0) {
               filledPercentage = stakedAmount / providerDelegationCap;
+              filledPercentage = Math.min(100, filledPercentage);
             }
 
             const shortenedPercentage = getDenominatedBalance<number>(

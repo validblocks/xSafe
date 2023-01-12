@@ -7,10 +7,10 @@ interface PercentageWithIconProps {
 
 const PercentageWithIcon = ({ icon, percentage }: PercentageWithIconProps) => (
   <CenteredBox sx={{ gap: '2px', width: '100%' }}>
-    {percentage !== '∞' && <Text>{icon}</Text>}
+    {percentage !== '∞' && percentage !== 'Uncapped' && <Text>{icon}</Text>}
     <Text fontSize={15} fontWeight={500} textAlign="center">
-      {Number(percentage) > 100 ? '100' : percentage}
-      {percentage !== '∞' && '%'}
+      {percentage}
+      {percentage !== '∞' && percentage !== 'Uncapped' && '%'}
     </Text>
   </CenteredBox>
 );
