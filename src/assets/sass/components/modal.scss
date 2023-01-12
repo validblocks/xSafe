@@ -126,3 +126,7 @@
     align-items: center;
     padding-top: 0;
 }
+
+div[role='presentation'] {
+  z-index: 1301;
+}

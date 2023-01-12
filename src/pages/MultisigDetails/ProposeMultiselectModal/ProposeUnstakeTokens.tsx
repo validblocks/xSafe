@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, BigUIntValue, BytesValue, TokenPayment } from '@elrondnetwork/erdjs/out';
-import { InputLabel, MenuItem, SelectChangeEvent } from '@mui/material';
+import { InputLabel, MenuItem, SelectChangeEvent, useMediaQuery } from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
-import { Form } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { denomination } from 'src/config';
@@ -24,8 +23,11 @@ import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { useEffectDebugger } from 'src/utils/useEffectDebugger';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { InputsContainer, MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
-import { StyledSelect } from '../styled';
+import { MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
+import { NumericFormat } from 'react-number-format';
+import * as StyledRemote from 'src/pages/MultisigDetails/ProposeMultiselectModal/styled';
+import { useTheme } from 'styled-components';
+import { StakedAssetsSelect, UnstakeModalContainerBox } from '../styled';
 
 interface ProposeUnstakeTokensType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -55,66 +57,75 @@ const ProposeUnstakeTokens = ({
   setSubmitDisabled,
 }: ProposeUnstakeTokensType) => {
   const { t } = useTranslation();
-  let formik: FormikProps<IFormValues>;
 
   const dispatch = useDispatch();
+  const theme: any = useTheme();
 
   const activeDelegationsRows = useSelector<StateType, IdentityWithColumns[]>(activeDelegationsRowsSelector);
   const selectedStakingProvider = useSelector(selectedStakingProviderSelector);
   const [identifier, setIdentifier] = useState(selectedStakingProvider?.provider);
 
-  const validateAmount = (value?: string, testContext?: TestContext) => {
-    if (value == null) {
-      return true;
-    }
-    const newAmount = Number(value);
-    if (Number.isNaN(newAmount)) {
-      setSubmitDisabled(true);
-      return (
-        testContext?.createError({
-          message: 'Invalid amount',
-        }) ?? false
-      );
-    }
-    if (newAmount < 0) {
-      formik.setFieldValue('amount', 0.1);
-    }
-    if (newAmount > Number(selectedStakingProvider?.delegatedColumn?.delegatedAmount ?? 1)) {
-      setSubmitDisabled(true);
-      return (
-        testContext?.createError({
-          message:
-        t('There are not enough tokens staked for this proposal'),
-        }) ?? false
-      );
-    }
-
-    if (newAmount === 0) {
-      setSubmitDisabled(true);
-      return (
-        testContext?.createError({
-          message: 'The amount should be greater than 0',
-        }) ?? false
-      );
-    }
-
-    setSubmitDisabled(!formik.isValid);
-    return true;
-  };
-
-  const validationSchema = () =>
-    Yup.object().shape({
-      amount: Yup.string()
-        .required('Required')
-        .transform((value) => value.replace(',', '.'))
-        .test(validateAmount),
-    });
-
-  formik = useFormik({
+  const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
       amount: 0.1,
     },
-    validationSchema,
+    validationSchema: Yup.object().shape({
+      amount: Yup.string()
+        .required('Required')
+        .transform((value) => value.replace(',', '.'))
+        .test((value?: string, testContext?: TestContext) => {
+          if (value == null) {
+            return true;
+          }
+          const newAmount = Number(value);
+          if (Number.isNaN(newAmount)) {
+            setSubmitDisabled(true);
+            return (
+              testContext?.createError({
+                message: 'Invalid amount',
+              }) ?? false
+            );
+          }
+          if (newAmount < 0) {
+            formik.setFieldValue('amount', 0.1);
+          }
+
+          const delegatedAmount = Number(selectedStakingProvider?.delegatedColumn?.delegatedAmount ?? 0);
+          if (newAmount > delegatedAmount) {
+            setSubmitDisabled(true);
+            return (
+              testContext?.createError({
+                message:
+        t('There are not enough tokens staked for this proposal'),
+              }) ?? false
+            );
+          }
+
+          const leftOverStakedAmount = delegatedAmount - newAmount;
+          console.log({ leftOverStakedAmount });
+          if (leftOverStakedAmount < 1 && leftOverStakedAmount !== 0) {
+            setSubmitDisabled(true);
+            return (
+              testContext?.createError({
+                message:
+        t('Can not leave behind less than 1 EGLD'),
+              }) ?? false
+            );
+          }
+
+          if (newAmount === 0) {
+            setSubmitDisabled(true);
+            return (
+              testContext?.createError({
+                message: 'The amount should be greater than 0',
+              }) ?? false
+            );
+          }
+
+          setSubmitDisabled(!formik.isValid);
+          return true;
+        }),
+    }),
     validateOnChange: true,
     validateOnMount: true,
     validateOnBlur: true,
@@ -199,30 +210,22 @@ const ProposeUnstakeTokens = ({
   }, [formik.isValid, formik.dirty, setSubmitDisabled]);
 
   const autocompleteMaxAmount = useCallback(() => {
-    if (amountError) {
-      return;
-    }
-    formik.setFieldValue('amount', +selectedStakingProvider?.delegatedColumn?.delegatedAmount - 1);
-  }, [amountError, formik, selectedStakingProvider?.delegatedColumn?.delegatedAmount]);
+    const delegatedAmount = selectedStakingProvider?.delegatedColumn?.delegatedAmount;
+    console.log('click max', delegatedAmount);
+    formik.setFieldValue('amount', +delegatedAmount);
+  }, [formik, selectedStakingProvider?.delegatedColumn?.delegatedAmount]);
+
+  const maxWidth600 = useMediaQuery('(max-width: 600px)');
 
   return (
-    <Box sx={{
-      px: '2.5rem',
-      pt: '1.4rem',
-      pb: '.3rem',
-      span: {
-        color: 'grey',
-        ml: '.35rem',
-        fontSize: '13px',
-      },
-      label: {
-        ml: '.3rem !important',
-      },
-    }}
+    <UnstakeModalContainerBox
+      sx={{
+        padding: maxWidth600 ? '1.4rem 1rem .3rem' : '1.4rem 40px .3rem',
+      }}
     >
       <div className="mb-4">
         <InputLabel id="demo-simple-select-label"><Text>Staking Provider</Text></InputLabel>
-        <StyledSelect
+        <StakedAssetsSelect
           value={identifier}
           fullWidth
           label="Identifier"
@@ -243,7 +246,7 @@ const ProposeUnstakeTokens = ({
               </Box>
             </MenuItem>
           ) as any)}
-        </StyledSelect>
+        </StakedAssetsSelect>
         <span>
           Staked:
           {' '}
@@ -253,44 +256,68 @@ const ProposeUnstakeTokens = ({
         </span>
       </div>
 
-      <InputsContainer className={amountError != null ? 'invalid' : ''}>
-        <Form.Control
-          id={amount}
-          name="amount"
-          isInvalid={amountError != null}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          value={amount}
-        />
+      <StyledRemote.AmountWithTokenSelectionBox
+        className={amountError != null ? 'invalid' : ''}
+        sx={{
+          display: 'flex !important', alignItems: 'center', justifyContent: 'space-between',
 
-        <label htmlFor={amount}>
-          {`${t('Amount')}`}
-        </label>
+        }}
+      >
+        <Box sx={{ flexGrow: 1 }}>
+          <NumericFormat
+            name="amount"
+            id="amount"
+            value={amount}
+            thousandSeparator
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            className={amountError != null ? 'isError' : ''}
+            style={{
+              width: '100%',
+              borderRadius: 10,
+              background: 'transparent',
+              border: 'none',
+              flex: '1',
+            }}
+          />
 
-        <MaxSendEGLDButton disabled={amountError != null} onClick={autocompleteMaxAmount}>
-          Max
-        </MaxSendEGLDButton>
-
-        <MenuItem
-          key={'EGLD'}
-          value={'EGLD'}
-          sx={{ p: '.25rem .4rem' }}
+          <label htmlFor={amount} className={amountError != null ? 'isError' : ''}>
+            {`${t('Amount')}`}
+          </label>
+        </Box>
+        <Box px={1}>
+          <MaxSendEGLDButton onClick={autocompleteMaxAmount}>
+            Max
+          </MaxSendEGLDButton>
+        </Box>
+        <Box
+          className="egld-staked"
+          sx={{
+            borderLeft: `1px solid ${theme.palette.borders.secondary}`,
+            transition: 'all 0.3s linear',
+            padding: '10px',
+            ':hover': {
+              borderLeft: `1px solid ${theme.palette.borders.active}`,
+            },
+          }}
         >
           <TokenPresentationWithPrice
+            identifier="EGLD"
             withTokenAmount={false}
             withTokenValue={false}
-            identifier={'EGLD'}
           />
-        </MenuItem>
+        </Box>
+        <span className="errorMessage">{amountError}</span>
 
-        {amountError != null && (
-          <Form.Control.Feedback type="invalid">
-            {amountError}
-          </Form.Control.Feedback>
-        )}
-      </InputsContainer>
+        {/* <Text
+          fontSize={13}
+          variant="subtitle2"
+          className="availableAmount"
+        >{`${t('Available')}: ${tokenAmount} ${prettyIdentifier}`}
+        </Text> */}
+      </StyledRemote.AmountWithTokenSelectionBox>
 
-    </Box>
+    </UnstakeModalContainerBox>
   );
 };
 

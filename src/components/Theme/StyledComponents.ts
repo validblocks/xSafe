@@ -342,7 +342,6 @@ export const InputsContainer = styled(Box)`
     }
     & li {
       position: absolute;
-      width: 103.56px;
       height: 56px;
       top: 0;
       right: 0;
@@ -402,6 +401,16 @@ export const InputsContainer = styled(Box)`
   }
 `;
 
+export const StakedEgldAmountContainer = styled(InputsContainer)`
+  display: flex;
+  border: 1px solid ${(props) => props.theme.palette.borders.secondary};
+  border-radius: 4px;
+  box-sizing: border-box;
+  div.MuiOutlinedInput-root {
+    border: none !important;
+  }
+`;
+
 export const DepositDoneAction = styled(Button)`
   &&& {
     background-color: ${(props) => props.theme.palette.primary.main};
@@ -420,10 +429,7 @@ export const ActionResponseButton = styled(MainButton)`
 
 export const MaxSendEGLDButton = styled(MainButton)`
   &&& {
-    position: absolute;
     min-width: 30px;
-    top: 15px;
-    right: 112px;
     line-height: 1.4;
     font-weight: ${(props) => props.theme.font.weight.sm};
     box-shadow: none;
@@ -477,13 +483,25 @@ export const ModalContainer = styled(Modal)`
       z-index: 1301;
     }
     & ~ .MuiPopover-root.UnstakeTokenListOpened > .MuiPaper-root {
-      min-width: 428px !important;
-      width: 460px;
       top: calc(50% + 8px) !important;
-      left: calc(50% - 230px) !important;
       background-color: ${(props) => props.theme.palette.background.secondary};
       & .MuiTypography-root {
         color: ${(props) => props.theme.palette.text.primary} !important;
+      }
+    }
+    @media (max-width: 600px) {
+      & ~ .MuiPopover-root.UnstakeTokenListOpened > .MuiPaper-root {
+        /* width: 90% !important; */
+        /* min-width: 0 !important; */
+        top: 50% !important;
+        /* left: 50% !important; */
+        /* top: calc(50% + 8px) !important;
+        left: calc(50% - 230px) !important;
+        background-color: ${(props) =>
+          props.theme.palette.background.secondary};
+        & .MuiTypography-root {
+          color: ${(props) => props.theme.palette.text.primary} !important;
+        } */
       }
     }
     & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root,
@@ -493,9 +511,9 @@ export const ModalContainer = styled(Modal)`
     }
     @media (max-width: 991px) {
       & ~ .MuiPopover-root.UnstakeTokenListOpened > .MuiPaper-root {
-        width: 428px !important;
+        /* width: 428px !important; */
         top: calc(50% + 8px) !important;
-        left: calc(50% - 213px) !important;
+        /* left: calc(50% - 213px) !important; */
       }
       & ~ .MuiPopover-root.SendTokenListOpened > .MuiPaper-root,
       ~ .MuiPopover-root.SendTokenListOpenedWithoutEGLD > .MuiPaper-root {

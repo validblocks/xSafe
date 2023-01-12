@@ -9,6 +9,7 @@ const DelegatedColumn = ({ columnData: { delegatedAmount } }: Props) => (
   <Text
     fontSize={15}
     fontWeight={500}
+    className="delegated-amount"
     sx={{ paddingLeft: '0.5rem', color: '#08041D !important' }}
   >
     {delegatedAmount} $EGLD

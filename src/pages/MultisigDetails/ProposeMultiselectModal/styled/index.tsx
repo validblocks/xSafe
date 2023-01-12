@@ -70,6 +70,9 @@ export const AmountWithTokenSelectionBox = styled(InputsContainer)(({ theme }) =
   },
   '&:hover': {
     borderColor: theme.palette.borders.active,
+    '.egld-staked': {
+      borderLeft: `1px solid ${theme.palette.borders.active}`,
+    },
   },
   '&:focus-within': {
     borderColor: theme.palette.borders.active,
