@@ -144,17 +144,19 @@ export const OwnersTable = styled(MainTable)(({ theme: _ }) => ({
   },
 }));
 
-export const TabContainerBox = styled(Box)(({ theme }) => ({
+export const TabContainerBox = styled(Box)(({ theme: _ }) => ({
   '&&&': {
     width: '100%',
-    height: '46px',
+    height: '48px',
+    backgroundColor: _.palette.background.default,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottom: `2px solid ${theme.palette.divider.secondary} !important`,
-    backgroundColor: theme.palette.background.default,
+    borderBottom: `2px solid ${_.palette.divider.tabs} !important`,
     '@media (max-width:600px)': {
       position: 'absolute',
+      borderBottom: 'none !important',
+      marginTop: '1px',
       left: 0,
       zIndex: 2,
     },
@@ -279,7 +281,11 @@ export const MainTab = styled(Tabs)(({ theme: _ }) => ({
       width: '100%',
       '& .MuiButtonBase-root': {
         width: '50%',
+        borderBottom: `2px solid ${_.palette.divider.tabs} !important`,
       },
+    },
+    'a:hover': {
+      textDecoration: 'none',
     },
   },
 }));
