@@ -1,26 +1,23 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { operations } from '@elrondnetwork/dapp-utils';
 import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
-import { Box, MenuItem, SelectChangeEvent, useMediaQuery } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import { FormikProps, FormikProvider, useFormik } from 'formik';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { FormikInputField } from 'src/helpers/formikFields';
-import { accountSelector, getTokenPhotoById, tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
+import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { denomination } from 'src/config';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
-import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
+import { TokenTableRowItem } from 'src/pages/Organization/types';
 import { TestContext } from 'yup';
-import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
-import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
-import { NumericFormat } from 'react-number-format';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
 import * as Styled from './styled';
 
 interface ProposeSendTokenType {
@@ -46,7 +43,7 @@ const ProposeSendToken = ({
   const { t } = useTranslation();
 
   const selectedToken = useSelector(selectedTokenToSendSelector);
-  const [identifier, setIdentifier] = useState(selectedToken?.identifier || 'EGLD');
+  const { identifier } = selectedToken;
   const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
@@ -200,12 +197,6 @@ const ProposeSendToken = ({
   const amountError = touched.amount && errors.amount;
   const addressError = touched.address && errors.address;
 
-  const onIdentifierChanged = (event: SelectChangeEvent) => {
-    const newIdentifier = event.target.value;
-    setIdentifier(newIdentifier as string);
-    formik.setFieldValue('amount', 0);
-  };
-
   useEffect(() => {
     const shouldBeDisabled = !(formik.isValid && formik.dirty);
     setSubmitDisabled(shouldBeDisabled);
@@ -214,15 +205,6 @@ const ProposeSendToken = ({
   useEffect(() => {
     refreshProposal();
   }, [address, identifier, amount]);
-
-  const selector = useMemo(
-    () => createDeepEqualSelector(accountSelector, (state: StateType) => getTokenPhotoById(state, identifier)),
-    [identifier]);
-
-  const {
-    tokenAmount,
-    prettyIdentifier,
-  } = useSelector<StateType, OrganizationToken>(selector);
 
   return (
     <FormikProvider value={formik}>
@@ -237,60 +219,14 @@ const ProposeSendToken = ({
           className={addressError != null ? 'isError' : ''}
         />
 
-        <Styled.AmountWithTokenSelectionBox
-          className={amountError != null ? 'invalid' : ''}
-        >
-          <NumericFormat
-            name="amount"
-            id="amount"
-            thousandSeparator
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            className={addressError != null ? 'isError' : ''}
-            style={{
-              width: '100%',
-              borderRadius: 10,
-              background: 'transparent',
-              border: 'none',
-              flex: '1',
-            }}
-          />
-
-          <label htmlFor={amount} className={amountError != null ? 'isError' : ''}>
-            {`${t('Amount')}`}
-          </label>
-
-          <Styled.TokenSelection
-            value={identifier ?? 'EGLD'}
-            fullWidth
-            label="Identifier"
-            size="small"
-            className={amountError != null ? 'invalid' : ''}
-            MenuProps={{ className: identifier === 'EGLD' ? 'SendTokenListOpened' : 'SendTokenListOpenedWithoutEGLD' }}
-            onChange={onIdentifierChanged as () => void}
-          >
-            {tokenTableRows?.map((token: TokenTableRowItem) => (
-              <MenuItem
-                key={token.identifier}
-                value={token.identifier}
-                sx={{ width: '230px', pl: '.1rem', pr: '.3rem' }}
-              >
-                <TokenPresentationWithPrice
-                  identifier={token.identifier as string}
-                />
-              </MenuItem>
-            ))}
-          </Styled.TokenSelection>
-
-          <span className="errorMessage">{amountError}</span>
-
-          <Text
-            fontSize={13}
-            variant="subtitle2"
-            className="availableAmount"
-          >{`${t('Available')}: ${tokenAmount} ${prettyIdentifier}`}
-          </Text>
-        </Styled.AmountWithTokenSelectionBox>
+        <AmountInputWithTokenSelection
+          amount={amount}
+          formik={formik}
+          amountError={amountError}
+          handleInputBlur={formik.handleBlur}
+          handleInputChange={formik.handleChange}
+          resetAmount={() => formik.setFieldValue('amount', 0)}
+        />
         {identifier === 'EGLD' && (
         <motion.div
           key="Data"
