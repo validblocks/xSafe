@@ -38,7 +38,7 @@ export const AppCard = styled(Card)(({ theme }) => ({
     padding: '15px',
     width: '310px',
     height: 'auto',
-    boxShadow: `0px 14px 24px ${theme.shadows.reducedOpacity}`,
+    boxShadow: theme.shadows.reducedOpacity,
     display: 'flex',
     flexDirection: 'column',
     border: 'none',

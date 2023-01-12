@@ -1,4 +1,6 @@
 import { Grid, useMediaQuery } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { MarketplaceApp } from 'src/utils/menuItems';
 import { useApps } from 'src/utils/useApps';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
@@ -14,6 +16,8 @@ const MyApps = () => {
   const widthBetween460And600 = useMediaQuery('(min-width:460px) and (max-width:600px)');
   const maxWidth600 = useMediaQuery('(max-width:600px)');
   const minWidth600 = useMediaQuery('(min-width:600px)');
+
+  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
 
   const [_pinnedApps, setPinnedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.PINNED_APPS, []);
 
@@ -38,13 +42,13 @@ const MyApps = () => {
             xs={12}
             sm={6}
             md={4}
-            lg={3}
+            lg={1}
             width={widthBetween460And600 ? '48.13%' : '310'}
             flexBasis={widthBetween460And600 ? '48.13%' : '100%'}
           >
             <AppCard
               key={app.id}
-              imgUrl={app.imageUrl}
+              imgUrl={isDarkThemeEnabled ? app.imageUrlDark : app.imageUrlLight}
               title={app.name}
               description={app?.description}
               isInstallable={app.isInstallable}
