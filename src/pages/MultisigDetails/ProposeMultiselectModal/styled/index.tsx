@@ -13,8 +13,8 @@ export const TokenSelection = styled(TokenSelect)<any>(({ theme: _ }) => ({
   borderTop: 'none !important',
   borderRight: 'none !important',
   borderBottom: 'none !important',
-  borderTopLeftRadius: '5rem',
-  borderBottomLeftRadius: '5rem',
+  borderTopLeftRadius: '5rem !important',
+  borderBottomLeftRadius: '5rem !important',
   '&.invalid': {
     borderColor: '#e51a3e !important',
     color: '#e51a3e !important',
