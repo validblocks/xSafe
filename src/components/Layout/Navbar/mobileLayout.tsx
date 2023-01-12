@@ -3,7 +3,7 @@ import xSafeLogo from 'src/assets/img/xSafe-Logo.svg';
 import { Box, IconButton, Typography, useMediaQuery } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Safe from 'src/assets/img/safe.png';
 import SafeOptions from 'src/components/SafeOptions';
 import WifiProtectedSetupOutlinedIcon from '@mui/icons-material/WifiProtectedSetupOutlined';
@@ -94,6 +94,12 @@ const MobileLayout = () => {
 
   const { isMultiWalletMode, isInReadOnlyMode } = useOrganizationInfoContext();
 
+  const navigate = useNavigate();
+  const handleRedirectToHome = () => {
+    const route = '/multisig';
+    navigate(route);
+  };
+
   return (
     <Box>
       <Box
@@ -104,7 +110,7 @@ const MobileLayout = () => {
         }}
       >
         <TopMobileMenu>
-          <TopMobileMenuLogoBox>
+          <TopMobileMenuLogoBox onClick={handleRedirectToHome}>
             <img src={xSafeLogo} alt="Logo" width="50" />
           </TopMobileMenuLogoBox>
           <TopMobileMenuSafeBox sx={{
