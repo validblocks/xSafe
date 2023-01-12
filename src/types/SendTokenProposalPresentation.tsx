@@ -26,7 +26,6 @@ const SendTokenProposalPresentation = (
       <StyledStakingProvider
         sx={{
           padding: '6px',
-          maxWidth: '200px',
           my: 1,
         }}
       >
