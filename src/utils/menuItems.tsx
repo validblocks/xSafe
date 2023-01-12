@@ -12,9 +12,10 @@ import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
 import { AppIdentifiers } from 'src/pages/Marketplace/appIds';
 import StakeAppThumbnail from 'src/assets/img/StakeAppThumbnail.png';
-import OtherAppThumbnail from 'src/assets/img/OtherAppThumbnail.png';
+import OtherAppThumbnailLight from 'src/assets/img/OtherAppThumbnailLight.png';
 import OtherAppThumbnailDark from 'src/assets/img/OtherAppThumbnailDark.png';
 import StakeAppThumbnailDark from 'src/assets/img/StakeAppThumbnailDark.png';
+import MoreAppsLight from 'src/assets/img/MoreAppsLight.png';
 import MoreAppsDark from 'src/assets/img/MoreAppsDark.png';
 import { ReactComponent as StakingIcon } from '../assets/img/staking.svg';
 
@@ -65,7 +66,7 @@ export const availableApps: MarketplaceApp[] = [
     id: 'app-coming-soon-2-menu-sub-item',
     description: 'Save a list of frequently used addresses. They will be available for further use.',
     icon: <DiamondIcon />,
-    imageUrlLight: OtherAppThumbnail,
+    imageUrlLight: OtherAppThumbnailLight,
     imageUrlDark: OtherAppThumbnailDark,
     isInstallable: false,
   },
@@ -75,7 +76,7 @@ export const availableApps: MarketplaceApp[] = [
     id: 'more-apps-coming-soon-2-menu-sub-item',
     description: 'You will find more community developed apps here very soon!',
     icon: <DiamondIcon />,
-    imageUrlLight: OtherAppThumbnail,
+    imageUrlLight: MoreAppsLight,
     imageUrlDark: MoreAppsDark,
     isInstallable: false,
   },
