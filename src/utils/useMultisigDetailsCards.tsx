@@ -24,6 +24,8 @@ export default function useMultisigDetailsCards() {
   const organizationTokens = useSelector(organizationTokensSelector);
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
 
+  console.log({ totalUsdValue });
+
   const [organizatonAssets, setOrganizationAssets] = useState({
     tokens: 0,
   });
@@ -71,6 +73,7 @@ export default function useMultisigDetailsCards() {
     );
   }, [organizationTokens, currentContract.address, totalOrganizationValueToDisplay]);
 
+  console.log({ totalUsdValueConverted });
   useEffect(() => {
     const value = Number(parseFloat(totalUsdValueConverted.toFixed(2))).toLocaleString();
     setTotalOrganizationValueToDisplay(value);
@@ -92,7 +95,6 @@ export default function useMultisigDetailsCards() {
     () => [
       <AmountWithTitleCard
         needsDollarSign={false}
-        amountValue={''}
         amountUnityMeasure={t(userRoleAsString)}
         title={'Your Role'}
         actionButton={(
@@ -106,7 +108,7 @@ export default function useMultisigDetailsCards() {
       />,
       <AmountWithTitleCard
         needsDollarSign={false}
-        amountValue={totalOrganizationValueToDisplay}
+        amountValue={Number(totalOrganizationValueToDisplay.replaceAll(',', ''))}
         amountUnityMeasure={getCurrency}
         actionButton={
           <ReceiveModal showQrFromCard address={currentContract?.address} />
@@ -117,11 +119,13 @@ export default function useMultisigDetailsCards() {
     [currentContract?.address, getCurrency, isInReadOnlyMode, onNewTransactionClick, t, totalOrganizationValueToDisplay, userRoleAsString, userRoleDescription],
   );
 
+  console.log({ totalOrganizationValueToDisplay });
+
   const bottomSectionCards = useMemo(
     () => [
       <AmountWithTitleCard
         needsDollarSign={false}
-        amountValue={organizatonAssets?.tokens?.toString()}
+        amountValue={organizatonAssets?.tokens}
         amountUnityMeasure={'Tokens'}
         title={'Organization Tokens'}
         actionButton={(
@@ -134,7 +138,7 @@ export default function useMultisigDetailsCards() {
       />,
       <AmountWithTitleCard
         needsDollarSign={false}
-        amountValue={nftCount.toString()}
+        amountValue={nftCount}
         amountUnityMeasure={'NFTs'}
         actionButton={(
           <Styled.CardButton
@@ -147,7 +151,7 @@ export default function useMultisigDetailsCards() {
       />,
       <AmountWithTitleCard
         needsDollarSign={false}
-        amountValue={contractInfo.totalBoardMembers.toString() ?? '0'}
+        amountValue={contractInfo.totalBoardMembers ?? 0}
         amountUnityMeasure={'Owners'}
         actionButton={(
           <Styled.CardButton
@@ -163,10 +167,9 @@ export default function useMultisigDetailsCards() {
       />,
       <AmountWithTitleCard
         needsDollarSign={false}
-        amountValue={`${contractInfo.quorumSize?.toString() ?? '0'}/${
+        amountUnityMeasure={`${contractInfo.quorumSize?.toString() ?? '0'}/${
           contractInfo.totalBoardMembers
-        } `}
-        amountUnityMeasure={'Owners'}
+        } Owners`}
         actionButton={(
           <Styled.CardButton
             key="0"

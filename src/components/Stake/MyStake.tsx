@@ -41,16 +41,16 @@ const MyStake = () => {
     isErrorOnFetchingProviderIdentities,
   } = useProviderIdentitiesAfterSelection();
 
-  const [totalActiveStake, setTotalActiveStake] = useState<string>('0');
+  const [totalActiveStake, setTotalActiveStake] = useState(0);
   const [totalClaimableRewards, setTotalClaimableRewards] =
     useState<string>('0');
   const [totalUndelegatedFunds, setTotalUndelegatedFunds] =
-    useState<string>('0');
+    useState(0);
 
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    axios.get(`/proxy?route=https://devnet-delegation-api.multiversx.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
+    axios.get(`http://localhost:3000/proxy?route=https://devnet-delegation-api.multiversx.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
 
   const {
     data: fetchedDelegations,
@@ -111,7 +111,7 @@ const MyStake = () => {
     );
 
     setTotalUndelegatedFunds(
-      getDenominatedBalance<string>(totalUndelegations, {
+      getDenominatedBalance<number>(totalUndelegations, {
         precisionAfterComma: 5,
         needsDenomination: false,
       }),
@@ -156,7 +156,7 @@ const MyStake = () => {
     dispatch(setActiveDelegationRows(activeDelegationsRows));
 
     setTotalActiveStake(
-      getDenominatedBalance<string>(totalActiveStake, {
+      getDenominatedBalance<number>(totalActiveStake, {
         precisionAfterComma: 4,
         needsDenomination: false,
       }),
@@ -212,7 +212,7 @@ const MyStake = () => {
           </Grid>
           <Grid item width={maxWidth800 ? '100%' : 'auto'}>
             <AmountWithTitleCard
-              amountValue={getDenominatedBalance(totalClaimableRewards, {
+              amountValue={getDenominatedBalance<number>(totalClaimableRewards, {
                 needsDenomination: false,
                 precisionAfterComma: 5,
               })}

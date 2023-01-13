@@ -5,14 +5,14 @@ import { CardTitle, MultisigCard, Text } from '../StyledComponents/StyledCompone
 
 interface Props {
   title: string;
-  amountValue: string;
+  amountValue?: number;
   amountUnityMeasure: string;
   actionButton?: React.ReactElement | null;
   needsDollarSign?: boolean;
 }
 
 const AmountWithTitleCard = ({
-  amountValue = '0',
+  amountValue,
   title = 'Unknown',
   amountUnityMeasure = '',
   actionButton = null,
@@ -22,7 +22,11 @@ const AmountWithTitleCard = ({
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
-  if (amountValue === 'NaN') return <CardSkeleton />;
+  if (Number.isNaN(amountValue)) return <CardSkeleton />;
+
+  const cardAmount = amountValue ? Number(amountValue).toLocaleString() : '';
+
+  console.log({ amountValue });
 
   return (
     <MultisigCard>
@@ -34,7 +38,7 @@ const AmountWithTitleCard = ({
       >{t(title) as string}:
       </CardTitle>
       <Text fontSize={maxWidth600 ? '20px' : '24px'} fontWeight="bolder" sx={{ display: 'flex', gap: 1 }}>
-        {(`${Number(amountValue).toLocaleString()} ${needsDollarSign ? '$' : ''}${amountUnityMeasure}`)}
+        {(`${cardAmount} ${needsDollarSign ? '$' : ''}${amountUnityMeasure}`)}
       </Text>
       {actionButton}
     </MultisigCard>

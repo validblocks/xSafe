@@ -111,6 +111,7 @@ const StakingFormStepTwo = () => {
 
   const buttonRef = useRef<any>(null);
   const [buttonWidth, setButtonWidth] = useState(0);
+  const [isProcessingTransaction, setIsProcessingTransaction] = useState(false);
 
   useEffect(() => {
     try {
@@ -136,6 +137,7 @@ const StakingFormStepTwo = () => {
   }, []);
 
   const proposeStake = useCallback(() => {
+    setIsProcessingTransaction(true);
     const addressParam = new Address(selectedProvider?.provider);
 
     const amountNumeric = Number(formik.values.amount);
@@ -162,6 +164,16 @@ const StakingFormStepTwo = () => {
     transactionId,
     onSuccess: () => {
       closeModal();
+      setIsProcessingTransaction(false);
+    },
+    onCancelled: () => {
+      setIsProcessingTransaction(false);
+    },
+    onTimedOut: () => {
+      setIsProcessingTransaction(false);
+    },
+    onFail: () => {
+      setIsProcessingTransaction(false);
     },
   });
 
@@ -184,7 +196,11 @@ const StakingFormStepTwo = () => {
           <ProviderPresentation provider={selectedProvider} />
         </Box>
         <Box sx={{ width: '100%' }}>
-          <ChangeStepButton ref={buttonRef} onClick={proceedToPreviousStep}>
+          <ChangeStepButton
+            disabled={isProcessingTransaction}
+            ref={buttonRef}
+            onClick={proceedToPreviousStep}
+          >
             {t('Change') as string}
           </ChangeStepButton>
         </Box>
@@ -203,11 +219,11 @@ const StakingFormStepTwo = () => {
         gap={2}
         paddingBottom={4}
       >
-        <ChangeStepButton onClick={proceedToPreviousStep}>
+        <ChangeStepButton disabled={isProcessingTransaction} onClick={proceedToPreviousStep}>
           <Text>{t('Back') as string}</Text>
         </ChangeStepButton>
         <FinalStepActionButton
-          disabled={!!amountError || !selectedProvider}
+          disabled={!!amountError || !selectedProvider || isProcessingTransaction}
           onClick={proposeStake}
         >
           <Text>Propose</Text>
