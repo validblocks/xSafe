@@ -1,6 +1,18 @@
 import { Box, Button } from '@mui/material';
 import styled from 'styled-components';
 
+export const SafeOptionsOverlay = styled(Box)(({ theme: _ }) => ({
+  '@media (max-width:600px)': {
+    position: 'absolute',
+    width: '100%',
+    height: '100vh',
+    top: 0,
+    left: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    zIndex: 2,
+  },
+}));
+
 export const SafeOptionsWrapper = styled(Box)`
   width: 231px;
   position: absolute;
@@ -11,15 +23,16 @@ export const SafeOptionsWrapper = styled(Box)`
   box-shadow: 0px 0px 6px
     ${(props) => props.theme.shadows.secondary};
   border-radius: ${(props) => props.theme.shape.radius};
-  z-index: 2;
+  z-index: 3;
   overflow: hidden;
   & .MuiDivider-root {
     border-color: ${(props) => props.theme.palette.background.safeOptions.divider};
   }
   @media (max-width:600px){
     width: 100%;
-    top: 102px;
+    top: 112px;
     left: 0;
+    }
   }
 `;
 

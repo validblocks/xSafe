@@ -30,6 +30,7 @@ import {
   ActiveWallet,
   AddSafe,
   InactiveWallet,
+  SafeOptionsOverlay,
   SafeOptionsWrapper,
 } from './safe-style';
 import { Text } from '../StyledComponents/StyledComponents';
@@ -110,24 +111,25 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
   } = useDeployStepsContext();
 
   return (
-    <SafeOptionsWrapper ref={ref}>
-      <Typography sx={{ p: 2 }} align="left" fontWeight={600}>
-        Safe Options
-      </Typography>
+    <SafeOptionsOverlay role="presentation">
+      <SafeOptionsWrapper role="presentation" ref={ref}>
+        <Typography sx={{ p: 2 }} align="left" fontWeight={600}>
+          Safe Options
+        </Typography>
 
-      <Divider />
-      {isLoggedIn && (
-      <Box>
-        <AddSafe onClick={() => {
-          closeSafe();
-          openDeployNewContractModal();
-        }}
-        >
-          <AddIcon />
-          Add a new safe
-        </AddSafe>
-        <Box maxHeight={385} overflow="auto">
-          {Array.isArray(attachedMultisigContracts) &&
+        <Divider />
+        {isLoggedIn && (
+        <Box>
+          <AddSafe onClick={() => {
+            closeSafe();
+            openDeployNewContractModal();
+          }}
+          >
+            <AddIcon />
+            Add a new safe
+          </AddSafe>
+          <Box maxHeight={385} overflow="auto">
+            {Array.isArray(attachedMultisigContracts) &&
         attachedMultisigContracts.map((fetchedContract: any) => (
           <Box key={fetchedContract.address}>
             <Divider />
@@ -174,16 +176,17 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
           </Box>
         ))
         }
+          </Box>
         </Box>
-      </Box>
-      )}
-      {isLoggedIn === false && (
+        )}
+        {isLoggedIn === false && (
         <Box minHeight={200} display={'flex'} justifyContent={'center'} alignItems={'center'}>
           <Text>Login first</Text>
         </Box>
-      )}
+        )}
 
-    </SafeOptionsWrapper>
+      </SafeOptionsWrapper>
+    </SafeOptionsOverlay>
   );
 });
 
