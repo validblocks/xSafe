@@ -10,7 +10,7 @@ import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { useQueryClient } from 'react-query';
 import useNft from 'src/utils/useNft';
 import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import * as Styled from '../../../components/Utils/styled';
@@ -114,9 +114,11 @@ const ProposeSendNft = ({
 
   const memoizedAddress = useMemo(() => new Address(address2), [address2]);
 
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
+
   return (
     <Box>
-      <Box sx={{ p: '16px 48px 0.9rem' }}>
+      <Box sx={{ p: maxWidth600 ? '16px' : '16px 48px 0.9rem' }}>
         <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}><Text>NFT name:</Text></Typography>
         <div className="mb-3">
           <img src={searchedNft.url} alt="" width={40} height={40} className="rounded mr-2" />
@@ -131,7 +133,7 @@ const ProposeSendNft = ({
         />
       </Box>
       <Styled.ModalDivider />
-      <Box sx={{ p: '1.25rem 48px 0', m: ' 0 0 1rem' }}>
+      <Box sx={{ p: maxWidth600 ? '1.25rem 16px 0' : '1.25rem 48px 0', m: ' 0 0 1rem' }}>
         <FormikInputField
           label={t('Send to')}
           name={'address'}
