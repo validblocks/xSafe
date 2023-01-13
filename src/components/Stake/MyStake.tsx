@@ -8,7 +8,10 @@ import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { useEffect, useState } from 'react';
 import { useTheme } from 'styled-components';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import {
+  currentMultisigContractSelector,
+  currentMultisigTransactionIdSelector,
+} from 'src/redux/selectors/multisigContractsSelectors';
 import {
   IDelegation,
   IdentityWithColumns,
@@ -20,7 +23,7 @@ import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelect
 import { setActiveDelegationRows } from 'src/redux/slices/accountGeneralInfoSlice';
 import axios from 'axios';
 import { TokenPayment } from '@elrondnetwork/erdjs/out';
-import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
+import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
 import { MainButton } from '../Theme/StyledComponents';
@@ -51,17 +54,18 @@ const MyStake = () => {
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    axios.get(`http://localhost:3000/proxy?route=https://devnet-delegation-api.multiversx.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
+    axios.get(`/proxy?route=https://devnet-delegation-api.multiversx.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
 
   const {
     data: fetchedDelegations,
     isFetching: isFetchingDelegations,
     isLoading: isLoadingDelegations,
     isError: isErrorOnFetchDelegations,
+    refetch: refetchDelegations,
   } = useQuery([QueryKeys.FETCHED_DELEGATIONS], fetchDelegations, {
     ...USE_QUERY_DEFAULT_CONFIG,
     keepPreviousData: true,
-    refetchOnMount: false,
+    refetchOnMount: true,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
@@ -164,12 +168,16 @@ const MyStake = () => {
     );
   }, [dispatch, fetchedDelegations, fetchedProviderIdentities]);
 
-  const maxWidth800 = useMediaQuery('(max-width:787px)');
+  const maxWidth787 = useMediaQuery('(max-width:787px)');
   const widthBetween787and1038 = useMediaQuery('(min-width: 787px) and (max-width: 1038px)');
 
-  if (isFetchingDelegations || isLoadingDelegations) {
-    return <LoadingDataIndicator dataName="delegation" />;
-  }
+  const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
+  useTrackTransactionStatus({
+    transactionId: currentMultisigTransactionId,
+    onSuccess: () => {
+      refetchDelegations();
+    },
+  });
 
   if (isErrorOnFetchDelegations) {
     return <ErrorOnFetchIndicator dataName="delegation" />;
@@ -186,7 +194,7 @@ const MyStake = () => {
         }}
       >
         <Grid container gap={'12px'} marginBottom={'12px'}>
-          <Grid item width={maxWidth800 ? '100%' : widthBetween787and1038 ? '48.8%' : 'auto'}>
+          <Grid item width={maxWidth787 ? '100%' : widthBetween787and1038 ? '48.8%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={totalActiveStake}
               amountUnityMeasure={'EGLD'}
@@ -210,9 +218,11 @@ const MyStake = () => {
                   Stake
                 </MainButton>
               )}
+              isLoading={isLoadingDelegations || isFetchingDelegations}
+
             />
           </Grid>
-          <Grid item width={maxWidth800 ? '100%' : widthBetween787and1038 ? '48.8%' : 'auto'}>
+          <Grid item width={maxWidth787 ? '100%' : widthBetween787and1038 ? '48.8%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={getDenominatedBalance<number>(totalClaimableRewards, {
                 needsDenomination: false,
@@ -240,12 +250,15 @@ const MyStake = () => {
                 </Button>
               )}
               title={'My Claimable Rewards'}
+              isLoading={isLoadingDelegations || isFetchingDelegations}
+
             />
           </Grid>
-          <Grid item width={maxWidth800 ? '100%' : widthBetween787and1038 ? '48.8%' : 'auto'}>
+          <Grid item width={maxWidth787 ? '100%' : widthBetween787and1038 ? '48.8%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={totalUndelegatedFunds}
               amountUnityMeasure={'EGLD'}
+              isLoading={isLoadingDelegations || isFetchingDelegations}
               actionButton={(
                 <MainButton
                   key="0"

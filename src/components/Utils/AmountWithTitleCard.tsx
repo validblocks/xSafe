@@ -1,4 +1,4 @@
-import { useMediaQuery } from '@mui/material';
+import { CircularProgress, useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import { CardSkeleton } from '../Skeletons/CardSkeleton';
 import { CardTitle, MultisigCard, Text } from '../StyledComponents/StyledComponents';
@@ -9,6 +9,7 @@ interface Props {
   amountUnityMeasure: string;
   actionButton?: React.ReactElement | null;
   needsDollarSign?: boolean;
+  isLoading?: boolean;
 }
 
 const AmountWithTitleCard = ({
@@ -17,6 +18,7 @@ const AmountWithTitleCard = ({
   amountUnityMeasure = '',
   actionButton = null,
   needsDollarSign = true,
+  isLoading = false,
 }: Props) => {
   const { t } = useTranslation();
 
@@ -25,8 +27,6 @@ const AmountWithTitleCard = ({
   if (Number.isNaN(amountValue)) return <CardSkeleton />;
 
   const cardAmount = amountValue ? Number(amountValue).toLocaleString() : '';
-
-  console.log({ amountValue });
 
   return (
     <MultisigCard>
@@ -37,9 +37,21 @@ const AmountWithTitleCard = ({
         fontWeight={500}
       >{t(title) as string}:
       </CardTitle>
-      <Text fontSize={maxWidth600 ? '20px' : '24px'} fontWeight="bolder" sx={{ display: 'flex', gap: 1 }}>
-        {(`${cardAmount} ${needsDollarSign ? '$' : ''}${amountUnityMeasure}`)}
-      </Text>
+
+      {isLoading ? (
+        <CircularProgress
+          size={30}
+          sx={{
+            '&.MuiCircularProgress-root': {
+              color: '#4c2FFC !important',
+            },
+          }}
+        />
+      ) : (
+        <Text fontSize={maxWidth600 ? '20px' : '24px'} fontWeight="bolder" sx={{ display: 'flex', gap: 1 }}>
+          {(`${cardAmount} ${needsDollarSign ? '$' : ''}${amountUnityMeasure}`)}
+        </Text>
+      )}
       {actionButton}
     </MultisigCard>
   );
