@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { Box, Button, Grid, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
@@ -167,6 +168,9 @@ const MyStake = () => {
     );
   }, [dispatch, fetchedDelegations, fetchedProviderIdentities]);
 
+  const maxWidth804 = useMediaQuery('(max-width:804px)');
+  const widthBetween805and1038 = useMediaQuery('(min-width: 805px) and (max-width: 1038px)');
+
   const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
   useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
@@ -174,8 +178,6 @@ const MyStake = () => {
       refetchDelegations();
     },
   });
-
-  const maxWidth800 = useMediaQuery('(max-width:800px)');
 
   if (isErrorOnFetchDelegations) {
     return <ErrorOnFetchIndicator dataName="delegation" />;
@@ -191,8 +193,8 @@ const MyStake = () => {
           gap: '12px',
         }}
       >
-        <Grid container>
-          <Grid item width={maxWidth800 ? '100%' : 'auto'}>
+        <Grid container gap={'12px'} marginBottom={'12px'}>
+          <Grid item width={maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={totalActiveStake}
               amountUnityMeasure={'EGLD'}
@@ -220,7 +222,7 @@ const MyStake = () => {
 
             />
           </Grid>
-          <Grid item width={maxWidth800 ? '100%' : 'auto'}>
+          <Grid item width={maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={getDenominatedBalance<number>(totalClaimableRewards, {
                 needsDenomination: false,
@@ -252,7 +254,7 @@ const MyStake = () => {
 
             />
           </Grid>
-          <Grid item width={maxWidth800 ? '100%' : 'auto'}>
+          <Grid item width={maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={totalUndelegatedFunds}
               amountUnityMeasure={'EGLD'}
