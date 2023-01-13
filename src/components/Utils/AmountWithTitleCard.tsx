@@ -26,7 +26,7 @@ const AmountWithTitleCard = ({
 
   if (Number.isNaN(amountValue)) return <CardSkeleton />;
 
-  const cardAmount = amountValue ? Number(amountValue).toLocaleString() : '';
+  const cardAmount = amountValue || amountValue === 0 ? Number(amountValue).toLocaleString() : '';
 
   return (
     <MultisigCard>

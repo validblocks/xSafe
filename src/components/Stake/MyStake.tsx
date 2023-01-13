@@ -179,6 +179,8 @@ const MyStake = () => {
     },
   });
 
+  const allClaimableRewards = Number(TokenPayment.egldFromAmount(totalClaimableRewards).toRationalNumber());
+
   if (isErrorOnFetchDelegations) {
     return <ErrorOnFetchIndicator dataName="delegation" />;
   }
@@ -224,10 +226,7 @@ const MyStake = () => {
           </Grid>
           <Grid item width={maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'}>
             <AmountWithTitleCard
-              amountValue={getDenominatedBalance<number>(totalClaimableRewards, {
-                needsDenomination: false,
-                precisionAfterComma: 5,
-              })}
+              amountValue={allClaimableRewards}
               amountUnityMeasure={'EGLD'}
               actionButton={(
                 <Button
