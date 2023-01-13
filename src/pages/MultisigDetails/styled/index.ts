@@ -47,6 +47,11 @@ export const StyledSelect = styled(Select)<any>`
     background-color: transparent;
     color: ${(props) => props.theme.palette.text.primary};
   }
+  && {
+    @media (max-width: 600px) {
+      width: 100%;
+    }
+  }
 `;
 
 export const StakedAssetsSelect = styled(Select)<any>`

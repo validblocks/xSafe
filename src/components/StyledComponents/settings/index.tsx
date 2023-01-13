@@ -24,6 +24,11 @@ export const SettingsInput = styled(TextField)(({ theme }) => ({
     color: theme.palette.text.primary,
     zIndex: 0,
   },
+  '&&': {
+    '@media (max-width: 600px)': {
+      width: '100%',
+    },
+  },
 }));
 
 export const MultisigAutocomplete = styled(TextField)(({ theme }) => ({

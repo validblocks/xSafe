@@ -71,7 +71,7 @@ function SafeSettings() {
         />
         <MainButton
           variant="outlined"
-          sx={{ display: 'block', mt: 2 }}
+          sx={{ display: 'block', mt: 2, ml: maxWidth600 ? 'auto' : '0' }}
           onClick={saveUpdates}
         >
           Change Safe Name
