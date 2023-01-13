@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,8 @@ function ThemeColor() {
   const dispatch = useDispatch();
   const themesList: string[] = ['Light', 'Dark'];
   const theme = useSelector(selectedThemeSelector);
+
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const onChangeTheme = useCallback((_event: any, newTheme: string | null) => {
     if (!newTheme) return;
@@ -25,7 +27,7 @@ function ThemeColor() {
         PopperComponent={Styled.MultisigPopper}
         id="themes-states-demo"
         options={themesList}
-        sx={{ width: 250 }}
+        sx={{ width: maxWidth600 ? '100%' : 250 }}
         renderInput={(params) => <TextField {...params} label="Theme" />}
       />
     </Box>

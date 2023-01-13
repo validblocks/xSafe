@@ -16,10 +16,11 @@ export const SettingsWrapper = styled(Box)`
   }
 `;
 
-export const NoteSpan = styled.div`
-  background-color: ${(props) => props.theme.palette.background.main};
-  padding: 5px 10px;
-  line-height: 1.4;
-  border-radius: ${(props) => props.theme.shape.radius};
-  display: table;
-`;
+export const NoteSpan = styled(Box)(({ theme: _ }) => ({
+  backgroundColor: _.palette.background.main,
+  padding: '5px 10px',
+  lineHeight: 1.4,
+  borderRadius: _.shape.radius,
+  display: 'table',
+  color: _.palette.text.primary,
+}));

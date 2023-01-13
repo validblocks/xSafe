@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeCurrency from 'src/components/ChangeCurrency';
-import { MainButton, TypographyBold } from 'src/components/Theme/StyledComponents';
+import { MainButton } from 'src/components/Theme/StyledComponents';
 import ThemeColor from 'src/components/ThemeColor';
 import { setSafeName } from 'src/redux/slices/safeNameSlice';
 import { SettingsInput } from 'src/components/StyledComponents/settings';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { updateMultisigContractOnServer } from 'src/apiCalls/multisigContractsCalls';
 import { updateMultisigContract } from 'src/redux/slices/multisigContractsSlice';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { NoteSpan, Span } from './settings-style';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
@@ -48,19 +49,17 @@ function SafeSettings() {
 
   return (
     <Box>
-      <TypographyBold sx={{ mb: 1, fontSize: '18px' }}>
+      <Text sx={{ mb: 1, fontSize: '18px' }} fontWeight={600}>
         Your safe name:
-      </TypographyBold>
+      </Text>
       <Typography sx={{ mb: 2 }} fontSize={maxWidth600 ? '15px' : '14px'}>
         Here you can change the name of your Safe.
       </Typography>
-      <Typography sx={{ mb: 3 }}>
-        <NoteSpan>
-          <Span>Note: </Span>
-          This name is only stored locally. (You&apos;re the only one who&apos;s
-          seeing it)
-        </NoteSpan>
-      </Typography>
+      <NoteSpan mb={3}>
+        <Span>Note: </Span>
+        This name is only stored locally. (You&apos;re the only one who&apos;s
+        seeing it)
+      </NoteSpan>
       <Box>
         <SettingsInput
           label="Safe Name"
@@ -72,23 +71,23 @@ function SafeSettings() {
         />
         <MainButton
           variant="outlined"
-          sx={{ display: 'block', mt: 2 }}
+          sx={{ display: 'block', mt: 2, ml: maxWidth600 ? 'auto' : '0' }}
           onClick={saveUpdates}
         >
           Change Safe Name
         </MainButton>
       </Box>
-      <TypographyBold sx={{ mb: 1, mt: 2, fontSize: '18px' }}>
-        Default Currency
-      </TypographyBold>
+      <Text sx={{ mb: 1, mt: 2, fontSize: '18px' }} fontWeight={600}>
+        Default Currency:
+      </Text>
 
       <Typography sx={{ mb: 2 }} fontSize={maxWidth600 ? '15px' : '14px'}>
         Pick a default currency for your Safe.
       </Typography>
       <ChangeCurrency />
-      <TypographyBold sx={{ mb: 1, mt: 2, fontSize: '18px' }}>
-        Appearance
-      </TypographyBold>
+      <Text sx={{ mb: 1, mt: 2, fontSize: '18px' }} fontWeight={600}>
+        Appearance:
+      </Text>
 
       <Typography sx={{ mb: 2 }} fontSize={maxWidth600 ? '15px' : '14px'}>
         You can choose between a dark and a light theme.
