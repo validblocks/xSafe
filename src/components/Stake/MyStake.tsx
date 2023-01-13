@@ -54,7 +54,7 @@ const MyStake = () => {
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    axios.get(`/proxy?route=https://devnet-delegation-api.multiversx.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
+    axios.get(`http://localhost:3000/proxy?route=https://devnet-delegation-api.multiversx.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
 
   const {
     data: fetchedDelegations,
@@ -168,8 +168,8 @@ const MyStake = () => {
     );
   }, [dispatch, fetchedDelegations, fetchedProviderIdentities]);
 
-  const maxWidth787 = useMediaQuery('(max-width:787px)');
-  const widthBetween787and1038 = useMediaQuery('(min-width: 787px) and (max-width: 1038px)');
+  const maxWidth804 = useMediaQuery('(max-width:804px)');
+  const widthBetween805and1038 = useMediaQuery('(min-width: 805px) and (max-width: 1038px)');
 
   const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
   useTrackTransactionStatus({
@@ -194,7 +194,7 @@ const MyStake = () => {
         }}
       >
         <Grid container gap={'12px'} marginBottom={'12px'}>
-          <Grid item width={maxWidth787 ? '100%' : widthBetween787and1038 ? '48.8%' : 'auto'}>
+          <Grid item width={maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={totalActiveStake}
               amountUnityMeasure={'EGLD'}
@@ -222,7 +222,7 @@ const MyStake = () => {
 
             />
           </Grid>
-          <Grid item width={maxWidth787 ? '100%' : widthBetween787and1038 ? '48.8%' : 'auto'}>
+          <Grid item width={maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={getDenominatedBalance<number>(totalClaimableRewards, {
                 needsDenomination: false,
@@ -254,7 +254,7 @@ const MyStake = () => {
 
             />
           </Grid>
-          <Grid item width={maxWidth787 ? '100%' : widthBetween787and1038 ? '48.8%' : 'auto'}>
+          <Grid item width={maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={totalUndelegatedFunds}
               amountUnityMeasure={'EGLD'}
