@@ -7,7 +7,10 @@ import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { useEffect, useState } from 'react';
 import { useTheme } from 'styled-components';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import {
+  currentMultisigContractSelector,
+  currentMultisigTransactionIdSelector,
+} from 'src/redux/selectors/multisigContractsSelectors';
 import {
   IDelegation,
   IdentityWithColumns,
@@ -19,7 +22,7 @@ import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelect
 import { setActiveDelegationRows } from 'src/redux/slices/accountGeneralInfoSlice';
 import axios from 'axios';
 import { TokenPayment } from '@elrondnetwork/erdjs/out';
-import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
+import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
 import { MainButton } from '../Theme/StyledComponents';
@@ -57,10 +60,11 @@ const MyStake = () => {
     isFetching: isFetchingDelegations,
     isLoading: isLoadingDelegations,
     isError: isErrorOnFetchDelegations,
+    refetch: refetchDelegations,
   } = useQuery([QueryKeys.FETCHED_DELEGATIONS], fetchDelegations, {
     ...USE_QUERY_DEFAULT_CONFIG,
     keepPreviousData: true,
-    refetchOnMount: false,
+    refetchOnMount: true,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   });
@@ -163,11 +167,15 @@ const MyStake = () => {
     );
   }, [dispatch, fetchedDelegations, fetchedProviderIdentities]);
 
-  const maxWidth800 = useMediaQuery('(max-width:800px)');
+  const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
+  useTrackTransactionStatus({
+    transactionId: currentMultisigTransactionId,
+    onSuccess: () => {
+      refetchDelegations();
+    },
+  });
 
-  if (isFetchingDelegations || isLoadingDelegations) {
-    return <LoadingDataIndicator dataName="delegation" />;
-  }
+  const maxWidth800 = useMediaQuery('(max-width:800px)');
 
   if (isErrorOnFetchDelegations) {
     return <ErrorOnFetchIndicator dataName="delegation" />;
@@ -208,6 +216,8 @@ const MyStake = () => {
                   Stake
                 </MainButton>
               )}
+              isLoading={isLoadingDelegations || isFetchingDelegations}
+
             />
           </Grid>
           <Grid item width={maxWidth800 ? '100%' : 'auto'}>
@@ -238,12 +248,15 @@ const MyStake = () => {
                 </Button>
               )}
               title={'My Claimable Rewards'}
+              isLoading={isLoadingDelegations || isFetchingDelegations}
+
             />
           </Grid>
           <Grid item width={maxWidth800 ? '100%' : 'auto'}>
             <AmountWithTitleCard
               amountValue={totalUndelegatedFunds}
               amountUnityMeasure={'EGLD'}
+              isLoading={isLoadingDelegations || isFetchingDelegations}
               actionButton={(
                 <MainButton
                   key="0"

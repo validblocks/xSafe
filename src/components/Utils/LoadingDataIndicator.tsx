@@ -9,12 +9,14 @@ type Props = {
 
 const LoadingDataIndicator = ({ dataName }: Props) => {
   const { t } = useTranslation();
+  const data = dataName.length > 0 ? `${dataName}s` : dataName;
+  const loadingMessage = `Loading ${data}...`;
   return (
     <CenteredBox
       sx={{ justifyContent: 'start !important', marginTop: '1.5rem' }}
     >
       <CircularProgress />
-      <Box sx={{ marginLeft: '10px' }}><Text>{t(`Loading ${dataName}s`) as string}...</Text></Box>
+      <Box sx={{ marginLeft: '10px' }}><Text>{t(loadingMessage) as string}</Text></Box>
     </CenteredBox>
   );
 };
