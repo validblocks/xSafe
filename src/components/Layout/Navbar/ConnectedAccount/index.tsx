@@ -95,6 +95,8 @@ const ConnectedAccount = () => {
           <DisconnectButton
             variant="outlined"
             onClick={onDisconnectClick}
+            onKeyDown={(e) => e.preventDefault()}
+            onKeyUp={(e) => e.preventDefault()}
             sx={{ margin: 'auto', mt: 2, mb: 2, width: '100%' }}
           >
             <div>

@@ -310,7 +310,12 @@ function TotalBalance() {
         }}
       >
         {!isInReadOnlyMode ? (
-          <NewTransactionButton variant="outlined" onClick={onNewTransactionClick}>
+          <NewTransactionButton
+            variant="outlined"
+            onClick={onNewTransactionClick}
+            onKeyDown={(e) => e.preventDefault()}
+            onKeyUp={(e) => e.preventDefault()}
+          >
             Send Token
           </NewTransactionButton>
         ) : (

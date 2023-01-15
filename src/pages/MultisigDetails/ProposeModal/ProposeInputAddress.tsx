@@ -55,6 +55,7 @@ function ProposeInputAddress({
         id={address}
         disabled={disabled}
         value={address}
+        inputRef={(input) => input?.focus()}
         autoComplete="off"
         onChange={handleAddressChanged}
         helperText={error ? errorMessage : null}

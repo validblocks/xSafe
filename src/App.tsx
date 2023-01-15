@@ -29,6 +29,7 @@ import PageNotFound from './components/PageNotFound';
 import { persistor, store } from './redux/store';
 import OrganizationInfoContextProvider from './pages/Organization/OrganizationInfoContextProvider';
 import CustomThemeProvider from './components/Theme/CustomThemeProvider';
+import { SpotlightCommands } from './components/Utils/SpotlightCommands';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -90,26 +91,30 @@ export const App = () => (
                   }}
                   environment={EnvironmentsEnum.devnet}
                 >
-                  <OrganizationInfoContextProvider>
-                    <Layout>
+                  <>
+                    <SpotlightCommands />
+                    <OrganizationInfoContextProvider>
+                      <Layout>
 
-                      <>
-                        <TransactionsToastList />
-                        <NotificationModal />
-                        <SignTransactionsModals className="custom-class-for-modals" />
-                        <Routes>
-                          {routes.map((route) => (
-                            <Route
-                              path={route.path}
-                              key={route.path}
-                              element={<route.component />}
-                            />
-                          ))}
-                          <Route element={PageNotFound()} />
-                        </Routes>
-                      </>
-                    </Layout>
-                  </OrganizationInfoContextProvider>
+                        <>
+                          <TransactionsToastList />
+                          <NotificationModal />
+
+                          <SignTransactionsModals className="custom-class-for-modals" />
+                          <Routes>
+                            {routes.map((route) => (
+                              <Route
+                                path={route.path}
+                                key={route.path}
+                                element={<route.component />}
+                              />
+                            ))}
+                            <Route element={PageNotFound()} />
+                          </Routes>
+                        </>
+                      </Layout>
+                    </OrganizationInfoContextProvider>
+                  </>
                 </DappProvider>
               </Router>
             </AxiosInterceptorContext.Interceptor>

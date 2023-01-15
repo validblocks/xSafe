@@ -225,6 +225,8 @@ const ProposeMultiselectModal = ({
     <MainButton
       disabled={submitDisabled}
       onClick={onProposeClicked}
+      onKeyDown={(e) => e.preventDefault()}
+      onKeyUp={(e) => e.preventDefault()}
       sx={{ boxShadow: 'none !important', width: '100%' }}
     >
       {t('Create proposal')}

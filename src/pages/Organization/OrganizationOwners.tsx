@@ -170,6 +170,8 @@ const OrganizationsOwnersTable = () => {
       <MainButtonNoShadow
         disabled={isInReadOnlyMode}
         onClick={() => onAddBoardMember()}
+        onKeyDown={(e) => e.preventDefault()}
+        onKeyUp={(e) => e.preventDefault()}
         sx={{ mb: '.9rem !important' }}
       >
         Add member

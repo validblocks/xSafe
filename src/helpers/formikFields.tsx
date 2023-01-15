@@ -1,6 +1,7 @@
 import { TextField } from '@mui/material';
 import { useTheme } from 'styled-components';
 import { FormikRoundedCheckBox, InputWrapper } from 'src/components/Theme/StyledComponents';
+import React, { useCallback } from 'react';
 
 export interface FormikInputFieldPropsType {
   label: string;
@@ -22,7 +23,7 @@ interface FormikCheckboxPropsType {
   handleChange?: (e: any) => void;
 }
 
-export function FormikInputField({
+export const FormikInputField = ({
   label,
   name,
   value,
@@ -33,8 +34,11 @@ export function FormikInputField({
   disabled,
   className,
   type = 'text',
-}: FormikInputFieldPropsType) {
+}: FormikInputFieldPropsType) => {
   const theme: any = useTheme();
+
+  const focusInput = useCallback((input: any) => input?.focus(), []);
+
   return (
     <div>
       <InputWrapper className={error != null ? 'input-wrapper invalid' : 'input-wrapper'}>
@@ -43,6 +47,7 @@ export function FormikInputField({
           label={label}
           type={type}
           id={name}
+          inputRef={focusInput}
           value={value}
           name={name}
           disabled={disabled}
@@ -103,7 +108,7 @@ export function FormikInputField({
       {footer != null && footer}
     </div>
   );
-}
+};
 
 export function FormikCheckbox({
   label,
@@ -126,3 +131,5 @@ export function FormikCheckbox({
     </FormikRoundedCheckBox>
   );
 }
+
+export default FormikInputField;

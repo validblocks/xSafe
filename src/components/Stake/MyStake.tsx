@@ -6,7 +6,7 @@ import { ProposalsTypes } from 'src/types/Proposals';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
-import { useEffect, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import { useTheme } from 'styled-components';
 import {
   currentMultisigContractSelector,
@@ -54,7 +54,7 @@ const MyStake = () => {
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    axios.get(`/proxy?route=https://devnet-delegation-api.multiversx.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
+    axios.get(`http://localhost:3000/proxy?route=https://devnet-delegation-api.multiversx.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
 
   const {
     data: fetchedDelegations,
@@ -216,6 +216,8 @@ const MyStake = () => {
                   onClick={() =>
                     handleOptionSelected(ProposalsTypes.stake_tokens)
                   }
+                  onKeyDown={(e: KeyboardEvent) => e.preventDefault()}
+                  onKeyUp={(e: KeyboardEvent) => e.preventDefault()}
                 >
                   Stake
                 </MainButton>
@@ -273,6 +275,8 @@ const MyStake = () => {
                   onClick={() =>
                     handleOptionSelected(ProposalsTypes.withdraw_funds)
                   }
+                  onKeyDown={(e) => e.preventDefault()}
+                  onKeyUp={(e) => e.preventDefault()}
                 >
                   Details
                 </MainButton>

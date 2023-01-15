@@ -65,6 +65,8 @@ function Account() {
       <AccountButton
         variant="outlined"
         onClick={handleClick}
+        onKeyDown={(e) => e.preventDefault()}
+        onKeyUp={(e) => e.preventDefault()}
         size="large"
         ref={accountButtonRef}
         className={isMainButtonActive ? 'isActive' : ''}

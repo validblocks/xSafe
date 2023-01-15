@@ -125,7 +125,6 @@ const ProposeSendToken = ({
 
           if (newAmount === 0) {
             setSubmitDisabled(true);
-            console.log('set submit disabled');
             return (
               testContext?.createError({
                 message: 'The amount should be greater than 0',

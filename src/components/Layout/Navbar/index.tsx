@@ -35,6 +35,7 @@ const MiniDrawer = () => {
   const theme: any = useTheme();
   const location = useLocation();
   const locationString = location.pathname.substring(1);
+  console.log({ locationString });
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const open = true;

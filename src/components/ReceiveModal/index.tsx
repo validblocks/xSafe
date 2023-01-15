@@ -49,6 +49,8 @@ const ReceiveModal = ({
             }),
             fontWeight: '500 !important',
           }}
+          onKeyDown={(e) => e.preventDefault()}
+          onKeyUp={(e) => e.preventDefault()}
         >
           <Styled.QrCodeReceivePurple />
           Receive
