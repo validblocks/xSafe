@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, MenuItem, SelectChangeEvent, Tab } from '@mui/material';
+import { Box, MenuItem, SelectChangeEvent, Tab, useMediaQuery } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useDispatch } from 'react-redux';
 import { MainSelect } from 'src/components/Theme/StyledComponents';
@@ -9,6 +9,7 @@ import {
   setIntervalStartTimestamp,
   setIntervalStartTimestampForFiltering,
 } from 'src/redux/slices/transactionsSlice';
+import makeStyles from '@mui/styles/makeStyles/makeStyles';
 import TransactionHistory from './TransactionHistory';
 import {
   HistoryInterval,
@@ -52,9 +53,29 @@ function a11yProps(index: number) {
 
 export default function TransactionsPage() {
   const theme: any = useTheme();
+  const useStyles = makeStyles(() => ({
+    dropdown: {
+      '& .MuiPaper-root': {
+        marginTop: '6px',
+        width: '155px',
+        backgroundColor: theme.palette.background.secondary,
+        '& .MuiButtonBase-root': {
+          color: theme.palette.text.primary,
+        },
+      },
+      '@media (max-width:600px)': {
+        '& .MuiPaper-root': {
+          width: '100%',
+        },
+      },
+    },
+  }));
   const [value, setValue] = React.useState(0);
+  const styleProp = useStyles();
 
   const [intervalLabel, setIntervalLabel] = useState('Last day');
+
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -81,12 +102,11 @@ export default function TransactionsPage() {
     <Box width={'100%'}>
       <Box>
         <Box
-          sx={{
-            display: 'flex',
-            width: '100%',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
+          display={'flex'}
+          width={'100%'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          flexDirection={maxWidth600 ? 'column' : 'row'}
         >
           <Styled.MainTab
             value={value}
@@ -97,14 +117,21 @@ export default function TransactionsPage() {
             <Tab label="HISTORY" {...a11yProps(1)} sx={{ color: theme.palette.text.secondary }} />
           </Styled.MainTab>
           {value === 1 && (
-            <Box>
+            <Box
+              width={maxWidth600 ? '100%' : 'auto'}
+              marginTop={maxWidth600 ? '12px' : 0}
+            >
               <MainSelect
                 id="demo-simple-select"
                 value={intervalLabel}
-                sx={{ minWidth: '155px' }}
+                sx={{
+                  minWidth: '155px',
+                  width: maxWidth600 ?? '100%',
+                }}
                 size="small"
                 variant="standard"
                 onChange={handleChangeOnHistoryInterval as any}
+                MenuProps={{ className: styleProp.dropdown }}
               >
                 {HISTORY_INTERVALS.map(
                   ({ intervalStartTimestamp, label }: HistoryInterval) => (

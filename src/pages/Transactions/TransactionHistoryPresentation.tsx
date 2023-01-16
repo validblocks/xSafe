@@ -34,9 +34,9 @@ const TransactionHistoryPresentation = ({
     };
 
   const { t } = useTranslation();
-  const fullActionHistory = Object.keys(fullActionHistoryGroupedByDate).length;
+  const fullActionHistorySize = Object.keys(fullActionHistoryGroupedByDate).length;
 
-  if (!fullActionHistoryGroupedByDate || fullActionHistory === 0) {
+  if (!fullActionHistoryGroupedByDate || fullActionHistorySize === 0) {
     return (
       <NoActionsOverlay message={t('No transactions found for this period')} />
     );
