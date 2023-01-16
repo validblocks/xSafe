@@ -16,9 +16,11 @@ import { useSelector } from 'react-redux';
 import ErrorOnFetchIndicator from 'src/components/Utils/ErrorOnFetchIndicator';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
+import { useTranslation } from 'react-i18next';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
+import NoActionsOverlay from './utils/NoActionsOverlay';
 
 const useStyles = makeStyles(() => ({
   expanded: { margin: 0 },
@@ -42,6 +44,7 @@ const TransactionQueue = () => {
     MultisigActionDetailed[]
   >([]);
   const [expanded, setExpanded] = React.useState<string | false>(false);
+  const { t } = useTranslation();
 
   const {
     boardMembersState: [boardMembers],
@@ -130,16 +133,18 @@ const TransactionQueue = () => {
           </AccordionDetails>
         </TransactionAccordion>
       ))}
-      <PaginationWithItemsPerPage
-        data={untruncatedData}
-        setParentCurrentPage={setCurrentPage}
-        setParentItemsPerPage={setActionsPerPage}
-        setParentDataForCurrentPage={setActionsForCurrentPage}
-        setParentTotalPages={setTotalPages}
-        currentPage={currentPage}
-        itemsPerPage={actionsPerPage}
-        totalPages={totalPages}
-      />
+      {allPendingActions.length === 0 ? <NoActionsOverlay message={t('No transactions found')} /> : (
+        <PaginationWithItemsPerPage
+          data={untruncatedData}
+          setParentCurrentPage={setCurrentPage}
+          setParentItemsPerPage={setActionsPerPage}
+          setParentDataForCurrentPage={setActionsForCurrentPage}
+          setParentTotalPages={setTotalPages}
+          currentPage={currentPage}
+          itemsPerPage={actionsPerPage}
+          totalPages={totalPages}
+        />
+      )}
     </>
   );
 };

@@ -162,31 +162,40 @@ export const WithdrawButton = styled(AccountButton)`
   }
 `;
 
-export const MainSelect = styled(Select)<any>`
-  &&& {
-    color: ${(props) => props.theme.palette.primary.main};
-    border: 1px solid #4c2ffc;
-    background-color: ${(props) => props.theme.palette.background.main};
-    box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
-    border-radius: 4px;
-    padding: 0.25rem 0.75rem;
-    & svg path {
-      fill: ${(props) => props.theme.palette.background.svg};
-      fill-opacity: 1;
-    }
-    &:before {
-      display: none;
-    }
-    &:hover {
-      border-color: ${(props) => props.theme.palette.background.button};
-      background-color: ${(props) => props.theme.palette.background.button};
-      color: ${(props) => props.theme.palette.background.white};
-    }
-    &:after {
-      border-bottom: none;
-    }
-  }
-`;
+export const MainSelect = styled(Select)<any>(({ theme: _ }) => ({
+  '&&&': {
+    color: _.palette.primary.main,
+    border: `solid 1px ${_.palette.borders.secondary}`,
+    backgroundColor: _.palette.background.secondary,
+    borderRadius: '4px',
+    padding: '6px 8px 2px',
+    transition: 'all 300ms linear',
+    '& svg path': {
+      fill: _.palette.background.svg,
+      fillOpacity: 1,
+      transition: 'all 300ms linear',
+    },
+    '& svg': {
+      marginRight: '2px',
+    },
+    '&:before': {
+      display: 'none',
+    },
+    '&:hover': {
+      borderColor: _.palette.borders.active,
+    },
+    '&:after': {
+      borderBottom: 'none',
+    },
+    '&.Mui-focused': {
+      borderColor: _.palette.borders.active,
+      backgroundColor: _.palette.background.secondary,
+      '& svg path': {
+        fill: _.palette.background.safeOptions.svg,
+      },
+    },
+  },
+}));
 
 export const TypographyBold = styled(Typography)`
   &&& {
