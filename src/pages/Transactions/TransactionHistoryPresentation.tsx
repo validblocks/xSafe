@@ -8,6 +8,7 @@ import { ArrowDropDown } from '@mui/icons-material';
 import TransactionDescription from './TransactionDescription';
 import { PairOfTransactionAndDecodedAction } from './TransactionHistory';
 import TransactionSummary from './TransactionSummary';
+import NoActionsOverlay from './utils/NoActionsOverlay';
 
 const useStyles = makeStyles(() => ({
   expanded: { margin: 0 },
@@ -31,20 +32,13 @@ const TransactionHistoryPresentation = ({
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
-  const { t } = useTranslation();
 
-  if (!fullActionHistoryGroupedByDate || Object.keys(fullActionHistoryGroupedByDate).length === 0) {
+  const { t } = useTranslation();
+  const fullActionHistory = Object.keys(fullActionHistoryGroupedByDate).length;
+
+  if (!fullActionHistoryGroupedByDate || fullActionHistory === 0) {
     return (
-      <Typography
-        sx={{
-          padding: '1rem',
-          marginTop: '1.5rem',
-          minHeight: '65vh',
-        }}
-        color="text.secondary"
-        variant="body1"
-      > <Text>{t('No transactions found for this period') as string}</Text>
-      </Typography>
+      <NoActionsOverlay message={t('No transactions found for this period')} />
     );
   }
 

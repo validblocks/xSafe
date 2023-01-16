@@ -16,9 +16,11 @@ import { useSelector } from 'react-redux';
 import ErrorOnFetchIndicator from 'src/components/Utils/ErrorOnFetchIndicator';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
+import { useTranslation } from 'react-i18next';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
+import NoActionsOverlay from './utils/NoActionsOverlay';
 
 const useStyles = makeStyles(() => ({
   expanded: { margin: 0 },
@@ -42,6 +44,7 @@ const TransactionQueue = () => {
     MultisigActionDetailed[]
   >([]);
   const [expanded, setExpanded] = React.useState<string | false>(false);
+  const { t } = useTranslation();
 
   const {
     boardMembersState: [boardMembers],
@@ -88,48 +91,50 @@ const TransactionQueue = () => {
 
   return (
     <>
-      {actionsForCurrentPage.map((action) => (
-        <TransactionAccordion
-          key={action.actionId}
-          onChange={handleChange(action.actionId.toString())}
-          expanded={expanded === action.actionId.toString()}
-        >
-          <AccordionSummary
-            expandIcon={(<ArrowDropDown />)}
-            aria-controls="panel1a-content"
-            className="pl-0 m-0"
-            classes={{
-              content: classes.content,
-              expanded: classes.expanded,
-            }}
-            id="panel1a-header"
+      {actionsForCurrentPage.length === 0 ?
+        <NoActionsOverlay message={t('No transactions found')} /> : actionsForCurrentPage.map((action) => (
+          <TransactionAccordion
+            key={action.actionId}
+            onChange={handleChange(action.actionId.toString())}
+            expanded={expanded === action.actionId.toString()}
           >
-            <PendingActionSummary action={action} />
-          </AccordionSummary>
-          <AccordionDetails sx={{ padding: '0' }}>
-            <TransactionDescription
-              boardMembers={boardMembers}
-              action={action}
-              signers={action.signers}
-              description={action.description()}
-              bottomLeftChild={(
-                <TransactionActionsCard
-                  boardMembers={boardMembers}
-                  key={action.actionId}
-                  type={action.typeNumber()}
-                  actionId={action.actionId}
-                  title={action.title()}
-                  tooltip={action.tooltip()}
-                  value={action.description()}
-                  data={action.getData()}
-                  action={action}
-                  signers={action.signers}
-                />
+            <AccordionSummary
+              expandIcon={(<ArrowDropDown />)}
+              aria-controls="panel1a-content"
+              className="pl-0 m-0"
+              classes={{
+                content: classes.content,
+                expanded: classes.expanded,
+              }}
+              id="panel1a-header"
+            >
+              <PendingActionSummary action={action} />
+            </AccordionSummary>
+            <AccordionDetails sx={{ padding: '0' }}>
+              <TransactionDescription
+                boardMembers={boardMembers}
+                action={action}
+                signers={action.signers}
+                description={action.description()}
+                bottomLeftChild={(
+                  <TransactionActionsCard
+                    boardMembers={boardMembers}
+                    key={action.actionId}
+                    type={action.typeNumber()}
+                    actionId={action.actionId}
+                    title={action.title()}
+                    tooltip={action.tooltip()}
+                    value={action.description()}
+                    data={action.getData()}
+                    action={action}
+                    signers={action.signers}
+                  />
               )}
-            />
-          </AccordionDetails>
-        </TransactionAccordion>
-      ))}
+              />
+            </AccordionDetails>
+          </TransactionAccordion>
+        ))}
+      {actionsForCurrentPage.length !== 0 ?? (
       <PaginationWithItemsPerPage
         data={untruncatedData}
         setParentCurrentPage={setCurrentPage}
@@ -140,6 +145,7 @@ const TransactionQueue = () => {
         itemsPerPage={actionsPerPage}
         totalPages={totalPages}
       />
+      )}
     </>
   );
 };

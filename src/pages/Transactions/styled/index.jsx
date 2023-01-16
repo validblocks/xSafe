@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import { CardBox } from 'src/components/NftComponent/nft-style';
 import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
 import styled from 'styled-components';
 
@@ -146,3 +147,35 @@ export const SuccesContainerBox = styled(PendingContainerBox)`
   background-color: ${(props) => props.theme.palette.button.success};
   color: ${(props) => props.theme.palette.text.success};
 `;
+
+export const NoActionsOverlayCard = styled(CardBox)(({ theme: _ }) => ({
+  '&&&': {
+    height: '300px',
+    width: '100%',
+    maxWidth: '300px',
+    margin: '12px 0 0',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    span: {
+      color: _.palette.text.secondary,
+      opacity: 0.5,
+      fontSize: '15px',
+      fontWeight: _.font.weight.lg,
+      position: 'relative',
+      top: 'auto',
+      left: 'auto',
+    },
+    '&:hover': {
+      span: {
+        top: 'auto',
+        left: 'auto',
+        cursor: 'default',
+      },
+    },
+    '@media (max-width:600px)': {
+      maxWidth: '100%',
+      marginTop: '20px',
+    },
+  },
+}));
