@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Address } from '@elrondnetwork/erdjs';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
 import { ProposeAddressInput } from 'src/components/Theme/StyledComponents';
+import { useMediaQuery } from '@mui/material';
 
 interface ProposeInputAddressType {
   handleParamsChange: (params: Address) => void;
@@ -47,6 +48,9 @@ function ProposeInputAddress({
     }
   };
 
+  const minWidth600 = useMediaQuery('(min-width:600px)');
+  const focusInput = useCallback((input: any) => { if (minWidth600) input?.focus(); }, [minWidth600]);
+
   return (
     <div>
       <ProposeAddressInput
@@ -55,7 +59,7 @@ function ProposeInputAddress({
         id={address}
         disabled={disabled}
         value={address}
-        inputRef={(input) => input?.focus()}
+        inputRef={focusInput}
         autoComplete="off"
         onChange={handleAddressChanged}
         helperText={error ? errorMessage : null}
