@@ -120,9 +120,14 @@ export const SpotlightCommands = () => {
         case 'cm': {
           dispatch(
             setProposeMultiselectSelectedOption(null),
-          ); break;
+          );
+          dispatch(
+            setProposeModalSelectedOption(null),
+          );
+          break;
         }
-        case 'st': {
+        case 'st':
+        case 'send token': {
           dispatch(
             setProposeMultiselectSelectedOption({
               option: ProposalsTypes.send_token,
