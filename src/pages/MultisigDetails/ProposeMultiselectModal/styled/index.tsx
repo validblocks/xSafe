@@ -78,7 +78,9 @@ export const AmountWithTokenSelectionBox = styled(InputsContainer)(({ theme }) =
     borderColor: theme.palette.borders.active,
     color: theme.palette.borders.active,
   },
-
+  '&:has(div.MuiInputBase-root.Mui-focused)': {
+    borderColor: theme.palette.borders.active,
+  },
 }));
 
 export const DataTextField = styled(TextField)(({ theme }) => ({
