@@ -91,60 +91,59 @@ const TransactionQueue = () => {
 
   return (
     <>
-      {actionsForCurrentPage.length === 0 ?
-        <NoActionsOverlay message={t('No transactions found')} /> : actionsForCurrentPage.map((action) => (
-          <TransactionAccordion
-            key={action.actionId}
-            onChange={handleChange(action.actionId.toString())}
-            expanded={expanded === action.actionId.toString()}
+      {actionsForCurrentPage.map((action) => (
+        <TransactionAccordion
+          key={action.actionId}
+          onChange={handleChange(action.actionId.toString())}
+          expanded={expanded === action.actionId.toString()}
+        >
+          <AccordionSummary
+            expandIcon={(<ArrowDropDown />)}
+            aria-controls="panel1a-content"
+            className="pl-0 m-0"
+            classes={{
+              content: classes.content,
+              expanded: classes.expanded,
+            }}
+            id="panel1a-header"
           >
-            <AccordionSummary
-              expandIcon={(<ArrowDropDown />)}
-              aria-controls="panel1a-content"
-              className="pl-0 m-0"
-              classes={{
-                content: classes.content,
-                expanded: classes.expanded,
-              }}
-              id="panel1a-header"
-            >
-              <PendingActionSummary action={action} />
-            </AccordionSummary>
-            <AccordionDetails sx={{ padding: '0' }}>
-              <TransactionDescription
-                boardMembers={boardMembers}
-                action={action}
-                signers={action.signers}
-                description={action.description()}
-                bottomLeftChild={(
-                  <TransactionActionsCard
-                    boardMembers={boardMembers}
-                    key={action.actionId}
-                    type={action.typeNumber()}
-                    actionId={action.actionId}
-                    title={action.title()}
-                    tooltip={action.tooltip()}
-                    value={action.description()}
-                    data={action.getData()}
-                    action={action}
-                    signers={action.signers}
-                  />
+            <PendingActionSummary action={action} />
+          </AccordionSummary>
+          <AccordionDetails sx={{ padding: '0' }}>
+            <TransactionDescription
+              boardMembers={boardMembers}
+              action={action}
+              signers={action.signers}
+              description={action.description()}
+              bottomLeftChild={(
+                <TransactionActionsCard
+                  boardMembers={boardMembers}
+                  key={action.actionId}
+                  type={action.typeNumber()}
+                  actionId={action.actionId}
+                  title={action.title()}
+                  tooltip={action.tooltip()}
+                  value={action.description()}
+                  data={action.getData()}
+                  action={action}
+                  signers={action.signers}
+                />
               )}
-              />
-            </AccordionDetails>
-          </TransactionAccordion>
-        ))}
-      {actionsForCurrentPage.length !== 0 ?? (
-      <PaginationWithItemsPerPage
-        data={untruncatedData}
-        setParentCurrentPage={setCurrentPage}
-        setParentItemsPerPage={setActionsPerPage}
-        setParentDataForCurrentPage={setActionsForCurrentPage}
-        setParentTotalPages={setTotalPages}
-        currentPage={currentPage}
-        itemsPerPage={actionsPerPage}
-        totalPages={totalPages}
-      />
+            />
+          </AccordionDetails>
+        </TransactionAccordion>
+      ))}
+      {allPendingActions.length === 0 ? <NoActionsOverlay message={t('No transactions found')} /> : (
+        <PaginationWithItemsPerPage
+          data={untruncatedData}
+          setParentCurrentPage={setCurrentPage}
+          setParentItemsPerPage={setActionsPerPage}
+          setParentDataForCurrentPage={setActionsForCurrentPage}
+          setParentTotalPages={setTotalPages}
+          currentPage={currentPage}
+          itemsPerPage={actionsPerPage}
+          totalPages={totalPages}
+        />
       )}
     </>
   );
