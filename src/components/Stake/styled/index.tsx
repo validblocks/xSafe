@@ -8,6 +8,7 @@ export const DelegationCardContainer = styled(MobileCardOfTokens)(({ theme: _ })
   display: 'flex',
   flexDirection: 'column',
   gap: '10px',
+  padding: '16px',
 }));
 
 export const DelegationInfoBox = styled(Box)(({ theme: _ }) => ({
