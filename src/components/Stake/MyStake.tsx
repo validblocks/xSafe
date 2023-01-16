@@ -54,7 +54,7 @@ const MyStake = () => {
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    axios.get(`http://localhost:3000/proxy?route=https://devnet-delegation-api.multiversx.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
+    axios.get(`/proxy?route=https://devnet-delegation-api.multiversx.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
 
   const {
     data: fetchedDelegations,
