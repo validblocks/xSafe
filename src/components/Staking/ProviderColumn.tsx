@@ -20,12 +20,14 @@ const ProviderColumn = ({
 
   return (
     <Box sx={{ display: 'flex', gap: '12px', height: '68px', alignItems: 'center' }}>
+      {avatar !== '#' && (
       <Box
         width={48}
         height={48}
         sx={{ backgroundImage: `url(${avatar})`, backgroundSize: 'cover' }}
         borderRadius="10px"
       />
+      )}
       <Box>
         <Text
           sx={{ letterSpacing: '-0.01em', color: `${theme.palette.text.primary} !important` }}

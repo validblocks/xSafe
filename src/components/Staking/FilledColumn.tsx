@@ -12,9 +12,9 @@ const FilledColumn = ({ columnData: { filledPercentage } = { filledPercentage: 1
 
   const percentage = (filledPercentage === Infinity
     || filledPercentage.toString() === '∞'
-    || filledPercentage.toString() === 'Uncapped'
+    || filledPercentage.toString() === 'N/A'
   )
-    ? 'Uncapped'
+    ? 'N/A'
     : Math.min(100, filledPercentage);
 
   return (

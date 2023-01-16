@@ -85,7 +85,7 @@ export default function useProviderIdentitiesAfterSelection({
             filledPercentage:
               providerBeforeIdentityFetch?.delegationCap !== '0'
                 ? shortenedPercentage
-                : ('Uncapped' as any),
+                : ('N/A' as any),
           },
         };
       }),

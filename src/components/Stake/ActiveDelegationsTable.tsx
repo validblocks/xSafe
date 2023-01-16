@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setProposeMultiselectSelectedOption,
   setSelectedStakingProvider } from 'src/redux/slices/modalsSlice';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import { IProviderColumn, IDelegatedColumn, IClaimableRewardsColumn } from 'src/types/staking';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
@@ -25,6 +25,7 @@ import DelegatedColumn from '../Staking/DelegatedColumn';
 import ClaimableRewardsColumn from '../Staking/ClaimableRewardsColumn';
 import * as Styled from '../../pages/Organization/styled';
 import noRowsOverlay from '../Utils/noRowsOverlay';
+import DelegationMobileCards from './DelegationMobileCards';
 
 interface Props {
     isFetching?: boolean;
@@ -130,6 +131,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
   }, [dispatch]);
 
   const onPageSizeChange = useCallback(() => (newPageSize: number) => setPageSize(newPageSize), []);
+  const maxWidth600 = useMediaQuery('(max-width: 600px)');
 
   if (isLoading || isFetching) {
     return (
@@ -148,20 +150,27 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
     <Box
       sx={{ padding: '0 !important' }}
     >
-      <Styled.MainTable
-        autoHeight
-        rowHeight={68}
-        rows={rows ?? []}
-        columns={columns}
-        headerHeight={48}
-        onSelectionModelChange={onSelectionModelChanged}
-        pagination
-        rowsPerPageOptions={[10, 20, 50, 100]}
-        selectionModel={selectionModel}
-        pageSize={pageSize}
-        onPageSizeChange={onPageSizeChange}
-        components={{ NoRowsOverlay: noRowsOverlay }}
-      />
+      {maxWidth600 ? (
+        <DelegationMobileCards
+          items={rows ?? []}
+          actionButton={getTableActions(rows)}
+        />
+      ) : (
+        <Styled.MainTable
+          autoHeight
+          rowHeight={68}
+          rows={rows ?? []}
+          columns={columns}
+          headerHeight={48}
+          onSelectionModelChange={onSelectionModelChanged}
+          pagination
+          rowsPerPageOptions={[10, 20, 50, 100]}
+          selectionModel={selectionModel}
+          pageSize={pageSize}
+          onPageSizeChange={onPageSizeChange}
+          components={{ NoRowsOverlay: noRowsOverlay }}
+        />
+      )}
     </Box>
   );
 };

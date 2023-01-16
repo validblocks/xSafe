@@ -141,7 +141,7 @@ const DeployMultisigStepOne = ({
         <Box borderRadius={'10px'}>
           <Text
             width="100%"
-            color={theme.palette.grey['700']}
+            color={'#9C9BA5 !important'}
             textAlign={'left'}
             mb={1}
             fontSize={15}
@@ -150,7 +150,7 @@ const DeployMultisigStepOne = ({
           </Text>
           <Text
             mt={2}
-            color={theme.palette.grey['600']}
+            color={'#9C9BA5!important'}
           >
             After picking your name and signing the transaction, your brand new Safe will be deployed on the MultiversX blockchain.
           </Text>
@@ -165,6 +165,7 @@ const DeployMultisigStepOne = ({
                 focused={false}
                 value={name}
                 autoComplete="off"
+                placeholder="Safe Name"
                 onChange={handleNameChange}
               />
               <label htmlFor="newQuorumSize">{t('Safe Name') as string}</label>
@@ -185,7 +186,7 @@ const DeployMultisigStepOne = ({
           <Box display="flex" gap={2} alignItems={'center'}>
             <Box flex={1}>
               <FinalStepActionButton
-                disabled={!isLoggedIn || name.length <= 3 || isLoading}
+                disabled={!isLoggedIn || name.length < 3 || isLoading}
                 onClick={() => onDeploy()}
               >
                 {isLoading && (

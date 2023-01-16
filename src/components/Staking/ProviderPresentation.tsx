@@ -1,5 +1,7 @@
-import { Box } from '@mui/material';
+import { Box, Divider, useMediaQuery } from '@mui/material';
+import { useMemo } from 'react';
 import { IdentityWithColumns } from 'src/types/staking';
+import { Text } from '../StyledComponents/StyledComponents';
 import APRColumn from './APRColumn';
 import FilledColumn from './FilledColumn';
 import ProviderColumn from './ProviderColumn';
@@ -9,14 +11,63 @@ interface Props {
 }
 
 const ProviderPresentation = ({ provider }: Props) => {
+  const minWidth480 = useMediaQuery('(min-width: 480px)');
+
+  const tabletTopBox = useMemo(() => {
+    if (minWidth480) {
+      return {
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      };
+    }
+    return {
+      width: '100%',
+      display: 'flex',
+      alignItems: 'start',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      gap: '10px',
+    };
+  }, [minWidth480]);
+
   if (!provider) {
     return <div>No provider to show</div>;
   }
   return (
-    <Box height={68} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <Box
+      height={68}
+      sx={tabletTopBox}
+    >
       <ProviderColumn columnData={provider.providerColumn} />
-      <APRColumn columnData={provider.aprColumn} />
-      <FilledColumn columnData={provider.filledColumn} />
+      <Box sx={{
+        display: 'flex',
+        gap: '12px',
+        width: minWidth480 ? 'auto' : '100%',
+        alignItems: 'center',
+        justifyContent: minWidth480 ? '' : 'flex-start',
+      }}
+      >
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+        }}
+        >
+          {!minWidth480 && <Text mr={0.5}>APR:</Text>}
+          <APRColumn columnData={provider.aprColumn} />
+        </Box>
+        <Divider orientation="vertical" sx={{ borderColor: '#312870', height: '60%' }} />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {!minWidth480 && <Text mr={0.5}>Fill:</Text>}
+          <FilledColumn columnData={provider.filledColumn} />
+        </Box>
+      </Box>
     </Box>
   );
 };
