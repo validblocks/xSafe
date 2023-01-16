@@ -76,7 +76,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, any> = {
   },
   multisig: {
     path: '/multisig',
-    title: 'Get started',
+    title: '',
     component: DashboardPage,
   },
   unlock: {

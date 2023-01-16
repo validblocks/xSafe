@@ -48,7 +48,7 @@ const Unlock = () => {
           >
             <div className="d-flex justify-content-between align-items-center method">
               <IconMaiarWallet />
-              <UnlockText>Maiar DeFi Wallet</UnlockText>
+              <UnlockText>MultiversX DeFi Wallet</UnlockText>
               <Styled.ArrowToRight />
             </div>
           </a>
@@ -58,7 +58,7 @@ const Unlock = () => {
           <ExtensionLoginButton {...commonProps}>
             <div className="d-flex justify-content-between align-items-center method">
               <IconMaiarWallet />
-              <UnlockText>Maiar DeFi Wallet</UnlockText>
+              <UnlockText>MultiversX DeFi Wallet</UnlockText>
               <Styled.ArrowToRight />
             </div>
           </ExtensionLoginButton>
@@ -74,7 +74,7 @@ const Unlock = () => {
         >
           <div className="d-flex justify-content-between align-items-center method">
             <IconMaiar />
-            <UnlockText>Maiar App</UnlockText>
+            <UnlockText>xPortal Mobile Wallet</UnlockText>
             <Styled.ArrowToRight />
           </div>
         </WalletConnectLoginButton>
@@ -90,7 +90,7 @@ const Unlock = () => {
         <WebWalletLoginButton {...commonProps}>
           <div className="d-flex justify-content-between align-items-center method">
             <StyledIconElrond />
-            <UnlockText>Elrond Web Wallet</UnlockText>
+            <UnlockText>MultiversX Web Wallet</UnlockText>
             <Styled.ArrowToRight />
           </div>
         </WebWalletLoginButton>
