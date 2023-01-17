@@ -190,7 +190,6 @@ const TransactionHistory = () => {
       <TransactionHistoryPresentation
         fullActionHistoryGroupedByDate={fullActionHistoryGroupedByDate}
       />
-      {fullActionHistoryGroupedByDate !== null ?? (
       <PaginationWithItemsPerPage
         data={actionAccumulator}
         setParentCurrentPage={setCurrentPage}
@@ -201,7 +200,6 @@ const TransactionHistory = () => {
         itemsPerPage={actionsPerPage}
         totalPages={totalPages}
       />
-      )}
     </>
   );
 };
