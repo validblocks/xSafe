@@ -186,8 +186,6 @@ const TransactionHistory = () => {
     return <div>{t('An error occured while fetching actions') as string}...</div>;
   }
 
-  console.log(actionAccumulator);
-
   return (
     <>
       {actionAccumulator.length < 1 ? <NoActionsOverlay message={t('No transactions found for this period')} /> : (
