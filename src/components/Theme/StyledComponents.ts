@@ -194,6 +194,9 @@ export const MainSelect = styled(Select)<any>(({ theme: _ }) => ({
         fill: _.palette.background.safeOptions.svg,
       },
     },
+    '& .MuiSelect-select:focus': {
+      backgroundColor: 'transparent',
+    },
   },
 }));
 
