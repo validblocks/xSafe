@@ -73,6 +73,7 @@ export const theme = createTheme({
       main: '#4c2ffc8a',
       secondary: '#6C757D',
       connectedAccount: '#4c2ffc8a',
+      transactions: '#4c2ffc8a',
     },
     divider: {
       main: '#DFDFE8',
@@ -245,7 +246,9 @@ export const darkTheme = createTheme({
     },
     anchor: {
       main: '#6C757D',
+      secondary: '#F0F6FF8A',
       connectedAccount: '#fff',
+      transactions: '#F0F6FF8A',
     },
     divider: {
       main: '#DFDFE8',

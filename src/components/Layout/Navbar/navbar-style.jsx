@@ -73,9 +73,9 @@ export const Anchor = styled.a`
 
 export const AnchorPurple = styled.a(({ theme: _ }) => ({
   '& svg': {
-    fill: _.palette.anchor.main,
+    fill: _.palette.anchor.transactions,
   },
-  color: _.palette.anchor.main,
+  color: _.palette.anchor.transactions,
 }));
 
 export const AnchorConnectedAccount = styled.a(({ theme: _ }) => ({

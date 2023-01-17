@@ -1,10 +1,10 @@
 import { useCallback, useState } from 'react';
-import ContentPasteGoIcon from '@mui/icons-material/ContentPasteGo';
+import SearchIcon from '@mui/icons-material/Search';
 import { Button, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import dayjs from 'dayjs';
 import CopyButton from 'src/components/CopyButton';
-import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
+import { AnchorPurple } from 'src/components/Layout/Navbar/navbar-style';
 import { network } from 'src/config';
 import { getDate } from 'src/utils/transactionUtils';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
@@ -38,15 +38,15 @@ function TransactionTechnicalDetails({ transaction }: Props) {
           ...
           {transaction?.txHash.slice(transaction?.txHash.length - 15)}
         </Text>
-        <CopyButton className="ml-2" text={transaction?.txHash} link={Styled.CopyIconLink} />
-        <Anchor
+        <CopyButton className="ml-2" text={transaction?.txHash} link={Styled.CopyIconLinkPurple} />
+        <AnchorPurple
           href={`${network.explorerAddress}/transactions/${transaction?.txHash}`}
           target="_blank"
           rel="noreferrer"
-          className="ml-2 color-grey"
+          className="ml-2"
         >
-          <ContentPasteGoIcon />
-        </Anchor>
+          <SearchIcon />
+        </AnchorPurple>
       </Typography>
 
       <Typography component="div" className="my-1">
