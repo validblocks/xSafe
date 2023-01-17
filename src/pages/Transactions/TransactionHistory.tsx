@@ -25,6 +25,7 @@ import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
 import TransactionHistoryPresentation from './TransactionHistoryPresentation';
+import NoActionsOverlay from './utils/NoActionsOverlay';
 
 const dateFormat = 'MMM D, YYYY';
 
@@ -187,19 +188,23 @@ const TransactionHistory = () => {
 
   return (
     <>
-      <TransactionHistoryPresentation
-        fullActionHistoryGroupedByDate={fullActionHistoryGroupedByDate}
-      />
-      <PaginationWithItemsPerPage
-        data={actionAccumulator}
-        setParentCurrentPage={setCurrentPage}
-        setParentItemsPerPage={setActionsPerPage}
-        setParentDataForCurrentPage={setActionsForCurrentPage}
-        setParentTotalPages={setTotalPages}
-        currentPage={currentPage}
-        itemsPerPage={actionsPerPage}
-        totalPages={totalPages}
-      />
+      {actionAccumulator.length < 1 ? <NoActionsOverlay message={t('No transactions found for this period')} /> : (
+        <TransactionHistoryPresentation
+          fullActionHistoryGroupedByDate={fullActionHistoryGroupedByDate}
+        />
+      )}
+      {actionAccumulator.length > 0 ? (
+        <PaginationWithItemsPerPage
+          data={actionAccumulator}
+          setParentCurrentPage={setCurrentPage}
+          setParentItemsPerPage={setActionsPerPage}
+          setParentDataForCurrentPage={setActionsForCurrentPage}
+          setParentTotalPages={setTotalPages}
+          currentPage={currentPage}
+          itemsPerPage={actionsPerPage}
+          totalPages={totalPages}
+        />
+      ) : ''}
     </>
   );
 };

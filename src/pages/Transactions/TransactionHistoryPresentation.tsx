@@ -1,14 +1,12 @@
 import { AccordionDetails, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { TransactionAccordion, TransactionAccordionSummary } from 'src/components/StyledComponents/transactions';
 import { ArrowDropDown } from '@mui/icons-material';
 import TransactionDescription from './TransactionDescription';
 import { PairOfTransactionAndDecodedAction } from './TransactionHistory';
 import TransactionSummary from './TransactionSummary';
-import NoActionsOverlay from './utils/NoActionsOverlay';
 
 const useStyles = makeStyles(() => ({
   expanded: { margin: 0 },
@@ -32,15 +30,6 @@ const TransactionHistoryPresentation = ({
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
-
-  const { t } = useTranslation();
-  const fullActionHistorySize = Object.keys(fullActionHistoryGroupedByDate).length;
-
-  if (!fullActionHistoryGroupedByDate || fullActionHistorySize === 0) {
-    return (
-      <NoActionsOverlay message={t('No transactions found for this period')} />
-    );
-  }
 
   return (
     <div>
