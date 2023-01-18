@@ -285,7 +285,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                           variant="contained"
                           size="small"
                         >
-                          <HourglassTopRoundedIcon sx={{ mr: 1 }} />
+                          <HourglassTopRoundedIcon sx={{ mr: '3px' }} />
                           <Text fontSize="12px">Wait</Text>
                         </MainButtonNoShadow>
                       </HtmlTooltip>
