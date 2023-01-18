@@ -1,4 +1,4 @@
-import { Box, InputAdornment } from '@mui/material';
+import { Box, InputAdornment, useMediaQuery } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
@@ -21,6 +21,7 @@ const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
   }, [selectedStakingProvider, enableNextStep]);
 
   const [searchParam, setSearchParam] = useState('');
+  const maxWidth600 = useMediaQuery('(max-width: 600px)');
 
   const debouncedSearchParam = useDebounce(searchParam, 500);
   return (
@@ -39,9 +40,12 @@ const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
         }}
       />
       <Box
-        padding={'0 3rem'}
+        padding={maxWidth600 ? '16px 16px 50px' : '16px 40px 50px'}
         sx={{
           position: 'relative',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
           '&:after': {
             position: 'absolute',
             width: '470px',
@@ -56,7 +60,12 @@ const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
           },
         }}
       >
-        <ProvidersWithUndelegationDetails searchParam={debouncedSearchParam} />
+        <Box
+          overflow="auto"
+          width="100%"
+        >
+          <ProvidersWithUndelegationDetails searchParam={debouncedSearchParam} />
+        </Box>
       </Box>
     </Box>
   );

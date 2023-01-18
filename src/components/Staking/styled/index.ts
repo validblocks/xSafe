@@ -8,7 +8,8 @@ export const UndelegationContainer = styled(Box)`
   display: flex;
   align-items: flex-start;
   flex-direction: column;
-  overflow: scroll;
+  min-height: 250px;
+  max-height: 350px;
   & > .MuiPaper-root:last-child {
     margin-bottom: 0 !important;
   }
@@ -23,39 +24,37 @@ export const NoUndelegationsTypography = styled(Typography)`
 `;
 
 export const UndelegationAccordion = styled(TransactionAccordion)`
-  overflow: scroll;
   margin: 0 0 12px 0 !important;
   width: 100%;
+  border: '1px solid #312870';
 `;
 
-export const UndelegationAccordionSummary = styled(AccordionSummary)(
-  ({ theme }) => ({
-    outline: 'none !important',
-    flexWrap: 'wrap',
-    width: '100%',
-    padding: '0',
-    '& .MuiSvgIcon-root': {
-      color: theme.palette.text.primary,
-    },
-    '& .MuiAccordionSummary-expandIconWrapper': {
-      width: '100% !important',
-      justifyContent: 'center !important',
-      alignItems: 'center !important',
-      backgroundColor: theme.palette.background.expand,
-      padding: '0.25rem',
-    },
-  }),
-);
+export const UndelegationAccordionSummary = styled(AccordionSummary)(({ theme }) => ({
+  outline: 'none !important',
+  flexWrap: 'wrap',
+  width: '100%',
+  padding: '0',
+  '& .MuiSvgIcon-root': {
+    color: theme.palette.text.primary,
+  },
+  '& .MuiAccordionSummary-expandIconWrapper': {
+    width: '100% !important',
+    justifyContent: 'center !important',
+    alignItems: 'center !important',
+    backgroundColor: 'rgba(76, 47, 252, 0.1)',
+    padding: '0.25rem',
+    marginLeft: '0 !important',
+    border: '1px solid #312870',
+    borderTop: 'none',
+    borderRadius: '0 0 10px 10px',
+  },
+}));
 
-export const UndelegationGridContainer = styled(Grid)(({ theme }) => ({
-  padding: '0.5rem 1.25rem 0.55rem',
-  backgroundColor: 'theme.palette.background.secondary',
+export const UndelegationGridContainer = styled(Grid)(({ theme: _ }) => ({
+  padding: '0 10px 10px',
+  backgroundColor: 'rgba(76,47,252,0.1)',
   width: '100% !important',
-  border: `solid 1px ${theme.palette.borders.expand}`,
+  border: '1px solid #312870',
   borderRadius: '10px',
   transition: 'all .2s linear',
-  ':hover': {
-    borderColor: '#4c2ffc',
-    boxShadow: 'inset 0px 0px 6px #4c2ffc2e !important',
-  },
 }));

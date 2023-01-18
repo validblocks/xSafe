@@ -1,9 +1,10 @@
 import {
   GridExpandMoreIcon,
 } from '@mui/x-data-grid';
+import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
 import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
 import { useMemo, useState } from 'react';
-import { AccordionDetails, Box, Button, Grid } from '@mui/material';
+import { AccordionDetails, Box, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import { IDelegation, IdentityWithColumns, IUndelegatedFunds } from 'src/types/staking';
@@ -12,14 +13,13 @@ import useReactQueryState from 'src/react-query/useReactQueryState';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
-import AccessTimeRoundedIcon from '@mui/icons-material/AccessTimeRounded';
-import { useTheme } from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
+import HourglassTopRoundedIcon from '@mui/icons-material/HourglassTop';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ProviderColumn from './ProviderColumn';
-import { WithdrawButton } from '../Theme/StyledComponents';
+import { MainButtonNoShadow, WithdrawButton } from '../Theme/StyledComponents';
 import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
 import { HtmlTooltip } from '../Utils/HtmlTooltip';
 import CountdownTimer from '../Utils/CountdownTimer';
@@ -31,11 +31,16 @@ interface Props {
 }
 
 const useStyles = makeStyles(() => ({
-  expanded: { margin: 0 },
+  expanded: { margin: 0,
+    borderRadius: '0 !important',
+    '.MuiAccordionSummary-expandIconWrapper': {
+      transition: 'all .2s linear',
+      transform: 'rotate(180deg)',
+    },
+  },
   content: {
     margin: 0,
     display: 'flex',
-
     justifyContent: 'space-between',
     '&$expanded': {
       margin: 0,
@@ -44,7 +49,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
-  const theme: any = useTheme();
   const config = useMemo(() => ({ searchParam }), [searchParam]);
   const { t } = useTranslation();
 
@@ -129,12 +133,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
   if (isErrorOnFetchingProviderIdentities) return <ErrorOnFetchIndicator dataName="provider" />;
 
   return (
-    <Styled.UndelegationContainer
-      maxHeight={rows.length <= 2 ? 271 : 310}
-      minHeight={rows.length <= 2 ? 271 : 310}
-      padding={rows.length <= 2 ? 0 : '38px 0'}
-      justifyContent={rows.length <= 2 ? 'center' : 'flex-start'}
-    >
+    <Styled.UndelegationContainer justifyContent={rows.length === 0 ? 'center' : 'flex-start'}>
       {rows.length === 0 ? (
         <Styled.NoUndelegationsTypography>No funds waiting to be withdrawn at this moment
         </Styled.NoUndelegationsTypography>
@@ -143,9 +142,17 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
           key={row.id}
           onChange={handleChange(row.identity)}
           expanded={expanded === row.identity}
+          sx={{
+            '.MuiButtonBase-root.MuiAccordionSummary-root': {
+              px: 0,
+              '.MuiPaper-root.MuiAccordion-root': {
+                marginBottom: '100px',
+              },
+            },
+          }}
         >
           <Styled.UndelegationAccordionSummary
-            expandIcon={<GridExpandMoreIcon />}
+            expandIcon={expanded === row.identity ? <ExpandLessRoundedIcon /> : <GridExpandMoreIcon />}
             aria-controls="panel1a-content"
             classes={{
               content: classes.content,
@@ -154,20 +161,23 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
             id="panel1a-header"
             sx={{
               '& .MuiAccordionSummary-expandIconWrapper': {
+                transition: 'all .2s linear',
+                transform: 'none !important',
                 display: row.withdrawableUndelegationsAmount === row.totalRequestedUndelegations ? 'none' : 'flex',
-
               },
             }}
           >
             <Styled.UndelegationGridContainer
+              sx={{
+                borderBottomLeftRadius: row?.pendingWithdrawals?.length === 0 ? '10px' : 0,
+                borderBottomRightRadius: row?.pendingWithdrawals?.length === 0 ? '10px' : 0,
+              }}
+              justifyContent="space-between"
               container
             >
               <Grid
                 item
                 xs={7}
-                md={5}
-                maxWidth={'50%'}
-                overflow={'scroll'}
                 sx={{
                   display: 'flex',
                   justifyContent: 'flex-start',
@@ -177,9 +187,8 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                 <ProviderColumn columnData={row.providerColumn} />
               </Grid>
               <Grid
-                item
                 xs={5}
-                md={4}
+                item
                 sx={{
                   padding: '.5rem 1rem',
                   fontSize: '0.85rem',
@@ -197,7 +206,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                   <Text fontSize={12}>{row.withdrawableUndelegationsAmount} / {row.totalRequestedUndelegations} $EGLD</Text>
                 </div>
               </Grid>
-              <Grid item xs={12} md={3} display={'flex'} alignItems={'center'}>
+              <Grid item xs={12} display={'flex'} alignItems={'center'}>
                 <WithdrawButton
                   key="0"
                   variant="outlined"
@@ -216,12 +225,20 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                       new BigUIntValue(new BigNumber(0)),
                       'withdraw');
                   }}
-                > Withdraw
+                >
+                  <Text fontWeight="600">Withdraw</Text>
                 </WithdrawButton>
               </Grid>
             </Styled.UndelegationGridContainer>
           </Styled.UndelegationAccordionSummary>
-          <AccordionDetails sx={{ padding: '0', backgroundColor: theme.palette.background.accordion }}>
+          <AccordionDetails sx={{
+            padding: '0',
+            backgroundColor: 'rgba(76, 47, 252, 0.1)',
+            borderRadius: '0 0 10px 10px !important',
+            border: '1px solid #312870',
+            borderTop: 'none',
+          }}
+          >
             {
                 row.pendingWithdrawals?.map((withdrawal: IUndelegatedFunds) => (
                   <Box key={withdrawal.seconds} padding={'1rem'} display="flex" justifyContent={'space-between'}>
@@ -257,18 +274,20 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                         )}
                         placement="top"
                       >
-                        <Button
+                        <MainButtonNoShadow
                           sx={{
                             height: '30px',
                             textTransform: 'none',
                             cursor: 'auto !important',
+                            paddingLeft: '5px !important',
+                            paddingBottom: '5px !important',
                           }}
                           variant="contained"
                           size="small"
                         >
-                          <AccessTimeRoundedIcon fontSize="small" sx={{ marginRight: '0.5rem' }} />
-                          Wait
-                        </Button>
+                          <HourglassTopRoundedIcon sx={{ mr: 1 }} />
+                          <Text fontSize="12px">Wait</Text>
+                        </MainButtonNoShadow>
                       </HtmlTooltip>
                     </Box>
                   </Box>
