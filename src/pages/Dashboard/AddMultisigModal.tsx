@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useCallback } from 'react';
 import { Address } from '@elrondnetwork/erdjs';
 import { useTranslation } from 'react-i18next';
+import * as Yup from 'yup';
 import {
   addContractToMultisigContractsList,
 } from 'src/apiCalls/multisigContractsCalls';
@@ -13,15 +14,23 @@ import {
   FinalStepActionButton,
   MainButton,
   ModalContainer,
-  ProposeAddressInput,
 } from 'src/components/Theme/StyledComponents';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
-import ProposeInputAddress from '../MultisigDetails/ProposeModal/ProposeInputAddress';
+import { FormikProps, useFormik } from 'formik';
+import FormikInputField from 'src/helpers/formikFields';
+import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { useDispatch } from 'react-redux';
+import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 
 interface AddMultisigModalType {
   show: boolean;
   handleClose: () => void;
   setNewContracts: (contracts: MultisigContractInfoType[]) => void;
+}
+
+interface IFormValues {
+  address: string;
+  name: string;
 }
 
 function AddMultisigModal({
@@ -31,37 +40,57 @@ function AddMultisigModal({
 }: AddMultisigModalType) {
   const { t } = useTranslation();
 
-  const [address, setAddress] = useState(Address.Zero());
-  const [submitDisabled, setSubmitDisabled] = useState(false);
-  const [invalidMultisigAddress, setInvalidMultisigAddress] = useState(false);
-  const [name, setName] = useState('');
   const { isLoggedIn } = useGetLoginInfo();
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
-  async function onAddressParamChange(newAddress: Address) {
-    setInvalidMultisigAddress(false);
-    setAddress(newAddress);
-  }
-  async function onContractNameChange(e: any) {
-    setName(e.target.value);
-  }
-  async function onAddClicked() {
-    const contractAddress = address.bech32();
+  const theme: any = useTheme();
+  const formik: FormikProps<IFormValues> = useFormik({
+    initialValues: {
+      address: '',
+      name: '',
+    },
+    validationSchema: Yup.object().shape({
+      address: Yup.string()
+        .min(2, 'Too Short!')
+        .max(500, 'Too Long!')
+        .required('Required')
+        .test('is valid address', 'Not a valid address', (value?: string) => {
+          try {
+            const _address = new Address(value).bech32();
+            return true;
+          } catch (err) {
+            return false;
+          }
+        }),
+      name: Yup.string()
+        .min(3, 'Too Short!')
+        .max(10, 'Too Long!')
+        .required('Required'),
+    }),
+    validateOnChange: true,
+    validateOnMount: true,
+  } as any);
+
+  const { touched, errors, values } = formik;
+  const { address: safeAddress, name } = values;
+  const hasAddressErrors = touched.address && errors.address;
+  const hasSafeNameErrors = touched.name && errors.name;
+
+  const dispatch = useDispatch();
+  const onAddClicked = useCallback(async () => {
+    const contractAddress = safeAddress;
     const isAddressValid = await ElrondApiProvider.validateMultisigAddress(contractAddress);
     if (isAddressValid) {
       const newContracts = await addContractToMultisigContractsList({
         address: contractAddress,
         name,
       });
+      dispatch(setMultisigContracts(newContracts));
       setNewContracts(newContracts);
       handleClose();
-    } else {
-      setInvalidMultisigAddress(true);
     }
-  }
-
-  const theme: any = useTheme();
+  }, [safeAddress, name, dispatch, setNewContracts, handleClose]);
 
   return (
     <ModalContainer
@@ -75,58 +104,42 @@ function AddMultisigModal({
       <Box sx={{ backgroundColor: theme.palette.background.secondary }} className="modal-content">
         <ModalCardTitle title={t('Add Multisig') as string} handleClose={handleClose} />
         <Box py={2} px={maxWidth600 ? 2 : 4} mt={maxWidth600 ? 0 : 2}>
-          <ProposeInputAddress
-            invalidAddress={invalidMultisigAddress}
-            setSubmitDisabled={setSubmitDisabled}
-            handleParamsChange={(newAddress) =>
-              onAddressParamChange(newAddress)
-            }
+          <FormikInputField
+            label={t('Safe address')}
+            name="address"
+            value={safeAddress}
+            error={hasAddressErrors}
+            handleChange={formik.handleChange}
+            handleBlur={formik.handleBlur}
+            className={hasAddressErrors != null ? 'isError' : ''}
           />
           <Box mt={3}>
-            <ProposeAddressInput
-              label={`${t('Contract name')}`}
-              id={name}
+            <FormikInputField
+              label={t('Safe name')}
+              name="name"
               value={name}
-              autoComplete="off"
-              onChange={(e) => onContractNameChange(e)}
-              sx={{
-                '& input': {
-                  color: theme.palette.text.primary,
-                },
-                '& label': {
-                  color: theme.palette.text.secondary,
-                },
-                '&:hover fieldset': {
-                  borderColor: `${theme.palette.borders.active} !important`,
-                },
-                '& p.MuiFormHelperText-root': {
-                  ml: '.35rem !important',
-                  fontSize: '11.2px',
-                },
-                '& fieldset': {
-                  borderColor: `${theme.palette.borders.secondary} !important`,
-                },
-                '&:focus-within': {
-                  '& fieldset': { borderColor: `${theme.palette.borders.active} !important` },
-                  '& label': { color: '#4c2ffc' },
-                },
-                '&.isAddressError:focus-within': {
-                  '& label': { color: '#e51a3e !important' },
-                },
-              }}
+              error={hasSafeNameErrors}
+              handleChange={formik.handleChange}
+              handleBlur={formik.handleBlur}
+              className={hasSafeNameErrors != null ? 'isError' : ''}
             />
           </Box>
           <Box className="modal-action-btns" marginTop={maxWidth600 ? '24px !important' : ''}>
             <MainButton
               onClick={handleClose}
-              sx={{ boxShadow: 'none !important' }}
+              sx={{
+                boxShadow: 'none !important',
+                height: '34px !important',
+                maxWidth: 'none !important',
+              }}
             >
-              {t('Cancel') as string}
+              <Text>{t('Cancel') as string}</Text>
             </MainButton>
 
             <FinalStepActionButton
-              disabled={(submitDisabled || !isLoggedIn)}
+              disabled={(!!hasSafeNameErrors || !!hasAddressErrors || !isLoggedIn)}
               onClick={() => onAddClicked()}
+              sx={{ height: '34px !important', maxWidth: 'none !important' }}
             >
               {isLoggedIn ? (t('Add') as string) : (t('Login first') as string)}
             </FinalStepActionButton>
