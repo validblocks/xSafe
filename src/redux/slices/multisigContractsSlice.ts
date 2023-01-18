@@ -22,12 +22,6 @@ export const multisigContractsSlice = createSlice({
   name: 'multisigContracts',
   initialState,
   reducers: {
-    setMultisigContractsFetched: (
-      state: StateType,
-      action: PayloadAction<boolean>,
-    ) => {
-      state.fetched = action.payload;
-    },
     setMultisigContracts: (
       state: StateType,
       action: PayloadAction<MultisigContractInfoType[]>,
@@ -99,7 +93,6 @@ export const multisigContractsSlice = createSlice({
 });
 
 export const {
-  setMultisigContractsFetched,
   setCurrentMultisigContract,
   setIsMultisigContractInvalid,
   setCurrentMultisigTransactionId,
