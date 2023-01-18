@@ -59,7 +59,7 @@ function TransactionDescription({
         child1: {
           gridRow: '1 / 2',
           gridColumn: '1 / 2',
-          borderTop: `1px solid ${theme.palette.divider.secondary}`,
+          borderTop: `1px solid ${theme.palette.divider.sidebar}`,
           minWidth: '90%',
           overflow: 'auto',
           padding: '2rem',
@@ -70,8 +70,8 @@ function TransactionDescription({
         child2: {
           gridRow: '1 / 3',
           gridColumn: '2 / 3',
-          borderLeft: `1px solid ${theme.palette.divider.secondary}`,
-          borderTop: `1px solid ${theme.palette.divider.secondary}`,
+          borderLeft: `1px solid ${theme.palette.divider.sidebar}`,
+          borderTop: `1px solid ${theme.palette.divider.sidebar}`,
           padding: '1rem 2rem',
           minWidth: '33%',
           '@media (max-width: 600px)': {
@@ -80,7 +80,7 @@ function TransactionDescription({
           },
         },
       }),
-    [theme.palette.divider.secondary],
+    [theme.palette.divider.sidebar],
   );
 
   const StyledStatusText = withStyles({

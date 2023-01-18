@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unused-prop-types */
 import { Address } from '@elrondnetwork/erdjs/out';
 import { gasLimit as defaultGasLimit } from 'src/config';
-import { Typography, useMediaQuery } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import {
   mutateSign,
@@ -85,8 +84,6 @@ function TransactionActionsCard({
     },
   });
 
-  const maxWidth600 = useMediaQuery('@media(max-width:600px)');
-
   if (isInReadOnlyMode) {
     return <Text>Actions are not allowed in Read-Only Mode.</Text>;
   }
@@ -96,45 +93,40 @@ function TransactionActionsCard({
   }
 
   return (
-    <>
-      <Typography variant="h6" color="black">
-        <Text fontSize={maxWidth600 ? 14 : 17}><strong>Available Actions</strong></Text>
-      </Typography>
-      <div className="text-black py-3">
-        <div className="d-flex">
-          <div className="d-flex btns action-btns">
-            {canSign && (
-              <PerformActionButton
-                disabled={isLoading}
-                size="large"
-                onClick={sign}
-              >
-                {t('Approve') as string}
-              </PerformActionButton>
-            )}
-            {canUnsign && (
+    <div className="text-black py-3">
+      <div className="d-flex">
+        <div className="d-flex btns action-btns">
+          {canSign && (
+          <PerformActionButton
+            disabled={isLoading}
+            size="large"
+            onClick={sign}
+          >
+            {t('Approve') as string}
+          </PerformActionButton>
+          )}
+          {canUnsign && (
             <DiscardActionButton disabled={isLoading} size="large" onClick={unsign}>
               {t('Discard') as string}
             </DiscardActionButton>
-            )}
-            {canPerformAction && (
-              <PerformActionButton
-                disabled={isLoading}
-                size="large"
-                onClick={performAction}
-              >
-                {t('Perform') as string}
-              </PerformActionButton>
-            )}
-            {canDiscardAction && (
-              <DiscardActionButton disabled={isLoading} size="large" onClick={discardAction}>
-                {t('Discard') as string}
-              </DiscardActionButton>
-            )}
-          </div>
+          )}
+          {canPerformAction && (
+          <PerformActionButton
+            disabled={isLoading}
+            size="large"
+            onClick={performAction}
+          >
+            {t('Perform') as string}
+          </PerformActionButton>
+          )}
+          {canDiscardAction && (
+          <DiscardActionButton disabled={isLoading} size="large" onClick={discardAction}>
+            {t('Discard') as string}
+          </DiscardActionButton>
+          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 export default TransactionActionsCard;

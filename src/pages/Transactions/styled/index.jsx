@@ -26,6 +26,9 @@ export const ActionIdBox = styled(CenteredBox)`
   padding: 1rem;
   width: 60px;
   grid-area: actionIdBox;
+  & > p {
+    color: ${(props) => props.theme.palette.text.homeCards};
+  }
   @media (max-width: 600px) {
     width: 100%;
     padding: 5px 9px;
@@ -39,7 +42,7 @@ export const ActionTitleBox = styled(Box)`
   display: flex;
   justify-content: start;
   align-items: center;
-  border-left: 1px solid ${(props) => props.theme.palette.divider.secondary};
+  border-left: 1px solid ${(props) => props.theme.palette.divider.sidebar};
   padding: 14px 8px;
   font-weight: bold;
   min-width: 150px;
@@ -56,14 +59,21 @@ export const ActionTitleBox = styled(Box)`
 `;
 
 export const ActionSignersBox = styled(CenteredBox)`
-  border-left: 1px solid ${(props) => props.theme.palette.divider.secondary};
+  border-left: 1px solid ${(props) => props.theme.palette.divider.sidebar};
   padding: 1rem;
-  font-size: 0.85rem;
+  font-size: 15px;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
   min-width: 150px;
   grid-area: actionSignersBox;
+  font-family: 'IBM Plex Sans', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
+    'Courier New', monospace;
+  font-weight: 500;  
+  span {
+    color: ${(props) => props.theme.palette.text.homeCards};
+  };
   @media (max-width: 1300px){
     & div {
       display: flex;
@@ -77,7 +87,7 @@ export const ActionSignersBox = styled(CenteredBox)`
     width: 100%;
     min-width: 0;
     padding: 5px 9px;
-    & > p{
+    & > p, & > span{
       font-size: 13px;
     }
   };
@@ -87,8 +97,11 @@ export const ActionCreatorBox = styled(Box)`
   padding: 1rem;
   font-size: 0.85rem;
   min-width: 250px;
-  border-left: 1px solid ${(props) => props.theme.palette.divider.secondary};
+  border-left: 1px solid ${(props) => props.theme.palette.divider.sidebar};
   grid-area: actionCreatorBox;
+  & > p {
+    color: ${(props) => props.theme.palette.text.homeCards};
+  }
   & .MuiTypography-root {
     min-width: 79px;
     margin-bottom: .25rem;
@@ -98,7 +111,7 @@ export const ActionCreatorBox = styled(Box)`
     flex-direction: row;
   }
   @media (max-width: 1300px) {
-    border-top: solid 1px ${(props) => props.theme.palette.divider.secondary};
+    border-top: solid 1px ${(props) => props.theme.palette.divider.sidebar};
     border-left: none;
     border-bottom: none;
     display: flex;
@@ -120,9 +133,9 @@ export const ActionCreatorBox = styled(Box)`
 
 export const ActionStatusBox = styled(Box)`
   display: flex;
-  justify-content: flex-end;
-  border-left: 1px solid ${(props) => props.theme.palette.divider.secondary};
-  padding: 1rem;
+  justify-content: flex-start;
+  border-left: 1px solid ${(props) => props.theme.palette.divider.sidebar};
+  padding: 1rem 1rem 1rem 30px;
   font-size: 15px;
   grid-area: actionStatusBox;
   @media (max-width: 1300px) {
@@ -135,13 +148,14 @@ export const ActionStatusBox = styled(Box)`
   }
 `;
 
-export const PendingContainerBox = styled(Box)`
-  background-color: #FF8946;
-  color: ${(props) => props.theme.palette.button.pending};
-  border-radius: 4px;
-  padding: 2px 6px;
-  font-weight: bold;
-`;
+export const PendingContainerBox = styled(Box)(({ theme: _ }) => ({
+  backgroundColor: _.palette.button.pending,
+  color: _.palette.text.pending,
+  borderRadius: '4px',
+  padding: '2px 6px',
+  fontWeight: _.font.weight.md,
+  fontFamily: 'IBM Plex Sans, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
+}));
 
 export const SuccesContainerBox = styled(PendingContainerBox)`
   background-color: ${(props) => props.theme.palette.button.success};

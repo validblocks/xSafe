@@ -61,7 +61,8 @@ export const theme = createTheme({
       xSafeDescription: '#08041D',
       homeCards: '#08041D',
       cardsTitle: '#08041D',
-      discardButton: '#F0F6FF',
+      discardButton: '#e51a3e',
+      pending: '#7a3d16',
     },
     sidebar: {
       primary: '#fff',
@@ -87,7 +88,7 @@ export const theme = createTheme({
     },
     button: {
       success: '#3BE292',
-      pending: '#fff',
+      pending: '#FF8946',
       copy: '#1392ff',
       qr: '#08041D',
       paste: '#4c2ffc8a',
@@ -201,6 +202,7 @@ export const darkTheme = createTheme({
       homeCards: '#9C9BA5',
       cardsTitle: '#9C9BA580',
       discardButton: '#F0F6FF',
+      pending: '#FF8946',
     },
     black: {
       main: '#08041D',
@@ -226,7 +228,7 @@ export const darkTheme = createTheme({
       menu: '#181626',
       overlay: '#14131C',
       accordion: '#242837',
-      expand: '#4c2FFCF0',
+      expand: '#F0F6FF8A',
       safeOptions: {
         main: '#14131C',
         svg: '#4c2FFC',
@@ -260,7 +262,7 @@ export const darkTheme = createTheme({
     },
     button: {
       success: '#2FFCBE40',
-      pending: '#684D0C',
+      pending: '#FF89464D',
       copy: '#6c757d',
       qr: '#6c757d',
       paste: '#6c757d',

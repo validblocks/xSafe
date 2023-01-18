@@ -261,27 +261,33 @@ export const MultisigPopper = styled(Popper)(({ theme }) => ({
     boxShadow: 'none',
   },
 }));
-
+// schimba culoarea la incons - send token table - FIGMA
 export const MainTab = styled(Tabs)(({ theme: _ }) => ({
   '&&&': {
+    marginBottom: '-2px',
     '& .MuiButtonBase-root': {
       color: _.palette.text.secondaryMenu,
-      fontWeight: _.font.weight.lg,
+      fontWeight: _.font.weight.md,
       fontSize: _.font.size.lg,
       textTransform: 'capitalize',
+      fontFamily:
+        'IBM Plex Sans, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace !important',
+      padding: '12px 45px',
     },
     '& .MuiButtonBase-root.Mui-selected': {
-      color: _.palette.primary.main,
+      color: '#4c2FFC',
     },
     '& .MuiTabs-indicator': {
-      backgroundColor: _.palette.primary.main,
-      boxShadow: `0px 0px 2px ${_.palette.primary.main}`,
+      backgroundColor: '#4c2FFC',
+      boxShadow: '0px 0px 2px #4c2FFC',
     },
     '@media (max-width:600px)': {
       width: '100%',
+      marginBottom: 0,
       '& .MuiButtonBase-root': {
         width: '50%',
         borderBottom: `2px solid ${_.palette.divider.tabs} !important`,
+        padding: '12px 16px',
       },
     },
     'a:hover': {

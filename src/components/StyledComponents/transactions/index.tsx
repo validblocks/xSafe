@@ -18,6 +18,9 @@ export const TransactionAccordion = styled(Accordion)`
     outline: none;
     & .MuiAccordionSummary-expandIconWrapper {
       margin-left: 15px;
+      & > svg {
+          fill: ${(props) => props.theme.palette.background.expand};
+        }
     };
   };
   @media (max-width: 600px){
@@ -28,9 +31,6 @@ export const TransactionAccordion = styled(Accordion)`
         position: absolute;
         right: 20px;
         top: calc(50% + 6px);
-        & > svg {
-          fill: ${(props) => props.theme.palette.background.expand};
-        }
       }
     }
   };
