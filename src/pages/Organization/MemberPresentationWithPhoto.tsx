@@ -10,6 +10,7 @@ import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { useSelector } from 'react-redux';
 import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
 import * as Styled from '../../components/Utils/styled/index';
+import * as Cutomed from './styled';
 
 type Props = {
   memberAddress: Address;
@@ -28,11 +29,11 @@ const MemberPresentationWithPhoto = ({
       className="d-flex align-items-center w-100"
     >
       {
-        <div
+        <Cutomed.SvgBox
           dangerouslySetInnerHTML={{ __html: toSvg(memberAddress?.bech32(), 40) }}
         />
     }
-      <Box sx={{ ml: '0.7rem' }}>
+      <Box sx={{ ml: '7px' }}>
         <Typography sx={{ fontWeight: 600, color: theme.palette.text.primary }}>@herotag</Typography>
         <Box sx={{ display: 'flex' }}>
           <Box sx={{ color: theme.palette.text.primary }}>

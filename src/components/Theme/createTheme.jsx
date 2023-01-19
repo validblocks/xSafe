@@ -44,13 +44,15 @@ export const theme = createTheme({
       quorumCounter: '#8675C8',
       quorumContent: '#EEEBFF',
       arrow: '#08041D',
+      timelineConnector: '#4c2FFC',
+      timelineStatusPending: '#4c2ffc',
     },
     text: {
       primary: '#08041D',
       secondary: '#00000099',
       button: '#4c2FFC',
       disabled: '#A9A9A9',
-      success: '#145737',
+      success: '#1EC173',
       menuItems: '#08041D8a',
       tableHeaders: '#000000de',
       readOnly: '#7A7883',
@@ -62,7 +64,7 @@ export const theme = createTheme({
       homeCards: '#08041D',
       cardsTitle: '#08041D',
       discardButton: '#e51a3e',
-      pending: '#7a3d16',
+      pending: '#FF8946',
     },
     sidebar: {
       primary: '#fff',
@@ -87,8 +89,8 @@ export const theme = createTheme({
       expand: '#eee',
     },
     button: {
-      success: '#3BE292',
-      pending: '#FF8946',
+      success: '#16C6714D',
+      pending: '#FF89464D',
       copy: '#1392ff',
       qr: '#08041D',
       paste: '#4c2ffc8a',
@@ -102,6 +104,7 @@ export const theme = createTheme({
       menuItems: '#08041D8a',
       quorumCounter: '#F0F6FF',
       homeIcons: '#4c2FFC8a',
+      timeline: '#FFF',
     },
     hover: {
       secondary: 'rgba(0, 0, 0, 0.04)',
@@ -238,6 +241,8 @@ export const darkTheme = createTheme({
       quorumCounter: '#2A2848',
       quorumContent: '#2A284880',
       arrow: '#F0F6FF',
+      timelineConnector: '#2FFCBE',
+      timelineStatusPending: '#FF8946',
     },
     sidebar: {
       primary: '#29273E',
@@ -276,6 +281,7 @@ export const darkTheme = createTheme({
       menuItems: '#F0F6FF8a',
       quorumCounter: '#F0F6FF',
       homeIcons: '#4c2FFC',
+      timeline: '#1A1920',
     },
     hover: {
       secondary: '#181626',

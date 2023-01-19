@@ -3,6 +3,7 @@ import { Address } from '@elrondnetwork/erdjs/out';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import {
   Timeline,
   TimelineConnector,
@@ -10,7 +11,6 @@ import {
   TimelineDot,
   TimelineItem,
   TimelineOppositeContent,
-  TimelineSeparator,
 } from '@mui/lab';
 import { Box, Typography } from '@mui/material';
 import { makeStyles, withStyles } from '@mui/styles';
@@ -19,6 +19,7 @@ import { useTheme } from 'styled-components';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import TransactionTechnicalDetails from 'src/pages/Transactions/TransactionTechnicalDetails';
 import MemberPresentationWithPhoto from '../Organization/MemberPresentationWithPhoto';
+import * as Styled from './styled';
 
 type Props = Partial<{
   description: React.ReactNode;
@@ -120,24 +121,24 @@ function TransactionDescription({
           <Timeline position="right">
             <TimelineItem>
               <TimelineOppositeContent sx={{ display: 'none' }} />
-              <TimelineSeparator>
+              <Styled.XSafeTimelineSeparator>
                 <StyledDot>
                   <AddIcon sx={dotIconStyles} />{' '}
                 </StyledDot>
                 <TimelineConnector />
-              </TimelineSeparator>
+              </Styled.XSafeTimelineSeparator>
               <TimelineContent>
                 <StyledStatusText>Created</StyledStatusText>
               </TimelineContent>
             </TimelineItem>
             <TimelineItem>
               <TimelineOppositeContent sx={{ display: 'none' }} />
-              <TimelineSeparator>
+              <Styled.XSafeTimelineSeparator>
                 <StyledDot>
                   <DoneIcon sx={dotIconStyles} />{' '}
                 </StyledDot>
                 <TimelineConnector />
-              </TimelineSeparator>
+              </Styled.XSafeTimelineSeparator>
               <TimelineContent>
                 <StyledStatusText>
                   {' '}
@@ -155,28 +156,38 @@ function TransactionDescription({
             </TimelineItem>
             {areAllSignersVisible &&
               signers.map((signer: Address) => (
-                <TimelineItem key={signer.bech32().toString()}>
+                <TimelineItem key={signer.bech32().toString()} sx={{ marginBottom: '-16px' }}>
                   <TimelineOppositeContent sx={{ display: 'none' }} />
-                  <TimelineSeparator>
-                    <TimelineDot sx={{ marginLeft: '10px' }} />
+                  <Styled.XSafeTimelineSeparator>
+                    <TimelineDot sx={{ marginLeft: '10px', backgroundColor: theme.palette.background.timeline }} />
                     <TimelineConnector sx={{ marginLeft: '10px' }} />
-                  </TimelineSeparator>
-                  <TimelineContent>
+                  </Styled.XSafeTimelineSeparator>
+                  <TimelineContent sx={{ marginTop: '-10px' }}>
                     <MemberPresentationWithPhoto memberAddress={signer} />
                   </TimelineContent>
                 </TimelineItem>
               ))}
             <TimelineItem>
               <TimelineOppositeContent sx={{ display: 'none' }} />
-              <TimelineSeparator>
-                <TimelineDot sx={{ marginLeft: '10px' }} />
-                <TimelineConnector sx={{ marginLeft: '10px' }} />
-              </TimelineSeparator>
+              <Styled.XSafeTimelineSeparator>
+                <TimelineDot
+                  sx={{
+                    backgroundColor: theme.palette.background.timeline,
+                    color: theme.palette.svg.timeline,
+                  }}
+                ><ArrowDropUpIcon sx={{
+                  transform: areAllSignersVisible ? 'rotate(180deg)' : 'rotate(0deg)',
+                  marginTop: areAllSignersVisible ? '1px' : 0,
+                }}
+                />
+                </TimelineDot>
+                <TimelineConnector />
+              </Styled.XSafeTimelineSeparator>
               <TimelineContent>
                 <Text
                   onClick={toggleShowAllSigners}
                   fontWeight={400}
-                  sx={{ cursor: 'pointer', marginTop: '2px' }}
+                  sx={{ cursor: 'pointer', marginTop: '10px', textDecoration: 'underline' }}
                 >
                   {toggleSignerVisibilityButtonText}
                 </Text>
@@ -185,11 +196,14 @@ function TransactionDescription({
 
             <TimelineItem>
               <TimelineOppositeContent sx={{ display: 'none' }} />
-              <TimelineSeparator>
+              <Styled.XSafeTimelineSeparator>
                 <TimelineDot
                   sx={{
                     backgroundColor:
-                      transaction?.status === 'success' ? theme.palette.background.timeline : 'grey',
+                      transaction?.status === 'success' ?
+                        theme.palette.background.timeline : theme.palette.background.timelineStatusPending,
+                    borderColor: transaction?.status === 'success' ?
+                      theme.palette.background.timeline : theme.palette.background.timelineStatusPending,
                   }}
                   variant={
                     transaction?.status === 'success' ? 'filled' : 'outlined'
@@ -200,11 +214,16 @@ function TransactionDescription({
                     <DoneIcon sx={dotIconStyles} />
                   ) : (
                     <HourglassTopIcon
-                      sx={{ ...dotIconStyles, color: theme.palette.text.primary }}
+                      sx={{
+                        ...dotIconStyles,
+                        color: theme.palette.svg.timeline,
+                        backgroundColor: theme.palette.background.timelineStatusPending,
+                        transform: 'rotate(180deg)',
+                      }}
                     />
                   )}{' '}
                 </TimelineDot>
-              </TimelineSeparator>
+              </Styled.XSafeTimelineSeparator>
               <TimelineContent>
                 <StyledStatusText sx={{ marginBottom: '5px' }}>
                   {transaction?.status === 'success' ? 'Executed' : 'Pending'}

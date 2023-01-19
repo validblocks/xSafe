@@ -116,6 +116,12 @@ export const MobileCardOfTokens = styled(Box)(({ theme: _ }) => ({
   },
 }));
 
+export const SvgBox = styled(Box)(({ theme: _ }) => ({
+  '& svg path': {
+    borderRadius: '4px',
+  },
+}));
+
 export const MobileCardOfMembers = styled(MobileCardOfTokens)`
   flex-direction: row;
 `;

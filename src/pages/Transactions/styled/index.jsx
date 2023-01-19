@@ -1,3 +1,4 @@
+import { TimelineSeparator } from '@mui/lab';
 import { Box } from '@mui/material';
 import { CardBox } from 'src/components/NftComponent/nft-style';
 import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
@@ -191,5 +192,14 @@ export const NoActionsOverlayCard = styled(CardBox)(({ theme: _ }) => ({
       maxWidth: '100%',
       marginTop: '20px',
     },
+  },
+}));
+
+export const XSafeTimelineSeparator = styled(TimelineSeparator)(({ theme: _ }) => ({
+  '& span.MuiTimelineConnector-root': {
+    backgroundColor: _.palette.background.timelineConnector,
+    width: '1px',
+    height: '20px',
+    maxHeight: '20px',
   },
 }));
