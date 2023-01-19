@@ -85,7 +85,17 @@ function TransactionDescription({
   );
 
   const StyledStatusText = withStyles({
-    root: { color: theme.palette.text.button, marginTop: '10px' },
+    root: {
+      color: theme.palette.text.button,
+      marginTop: '10px',
+      fontWeight: '600',
+      fontFamily: 'IBM Plex Sans, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
+      '& span': {
+        color: '#9C9BA5',
+        marginLeft: '3px',
+        fontWeight: '600',
+      },
+    },
   })(Typography);
 
   const classes = useStyles();
@@ -143,14 +153,7 @@ function TransactionDescription({
                 <StyledStatusText>
                   {' '}
                   Confirmations{' '}
-                  <span
-                    style={{
-                      color: 'rgb(93, 109, 116)',
-                      marginLeft: '3px',
-                    }}
-                  >
-                    ({`${signers.length}/${quorumCount}`})
-                  </span>
+                  <span>({`${signers.length}/${quorumCount}`})</span>
                 </StyledStatusText>
               </TimelineContent>
             </TimelineItem>
