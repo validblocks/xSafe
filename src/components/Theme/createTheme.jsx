@@ -105,6 +105,7 @@ export const theme = createTheme({
       quorumCounter: '#F0F6FF',
       homeIcons: '#4c2FFC8a',
       timeline: '#FFF',
+      assets: '#4C2FFC8A',
     },
     hover: {
       secondary: 'rgba(0, 0, 0, 0.04)',
@@ -282,6 +283,7 @@ export const darkTheme = createTheme({
       quorumCounter: '#F0F6FF',
       homeIcons: '#4c2FFC',
       timeline: '#1A1920',
+      assets: '#F0F6FF8A',
     },
     hover: {
       secondary: '#181626',

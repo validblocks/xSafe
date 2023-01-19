@@ -261,7 +261,7 @@ export const MultisigPopper = styled(Popper)(({ theme }) => ({
     boxShadow: 'none',
   },
 }));
-// schimba culoarea la incons - send token table - FIGMA
+
 export const MainTab = styled(Tabs)(({ theme: _ }) => ({
   '&&&': {
     marginBottom: '-2px',

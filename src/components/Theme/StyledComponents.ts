@@ -141,8 +141,8 @@ export const AssetActionButton = styled(MainButton)`
     box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
     background-color: ${(props) => props.theme.palette.background.main};
     color: ${(props) => props.theme.palette.text.button};
-    '& svg': {
-      color: ${(props) => props.theme.palette.text.svg};
+    & svg path {
+      fill: ${(props) => props.theme.palette.svg.assets};
     }
   }
 

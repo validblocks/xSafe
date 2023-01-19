@@ -27,7 +27,7 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
     '& .MuiButtonBase-root:hover': {
       backgroundColor: theme.palette.hover.secondary,
       '& svg': {
-        fill: '#4C2FFC',
+        // fill: '#4C2FFC',
         opacity: '1 !important',
         transition: 'none',
       },
@@ -60,7 +60,7 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
       },
     },
     '.MuiDataGrid-actionsCell': {
-      paddingLeft: '20px',
+      padding: '0 20px',
     },
     '& .MuiDataGrid-footerContainer': {
       borderTopColor: theme.palette.divider.secondary,
