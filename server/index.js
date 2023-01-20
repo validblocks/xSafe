@@ -15,9 +15,15 @@ app.get('/hello', (req, res, _next) => {
 });
 app.get('/proxy', (req, res, _next) => {
   const { route } = req.query;
-  axios.get(route).then((response) => {
-    res.send(response.data);
-  });
+  try {
+    axios.get(route).then((response) => {
+      res.send(response.data);
+    }).catch((e) => {
+      console.log(e);
+    });
+  } catch (e) {
+    console.log(e);
+  }
 });
 app.options('/proxy', cors());
 app.post('/proxy', cors(), (req, res, _next) => {

@@ -11,7 +11,7 @@ export const TransactionAccordion = styled(Accordion)`
   &:before {
     display: none;
   };
-  overflow: hidden;
+  overflow: unset;
   & .MuiAccordionSummary-root {
     border-radius: 10px;
     border: none;

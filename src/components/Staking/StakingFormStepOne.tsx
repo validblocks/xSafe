@@ -1,4 +1,4 @@
-import { Box, InputAdornment } from '@mui/material';
+import { Box, InputAdornment, useMediaQuery } from '@mui/material';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
@@ -38,6 +38,7 @@ const StakingFormStepOne = ({ enableNextStep = () => null }: Props) => {
   const debouncedSearchParam = useDebounce(searchParam, 500);
 
   const resultOfSetScroll = isScrollToBottom ? 'scrolledToBottom' : '';
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   return (
     <Box>
@@ -55,7 +56,7 @@ const StakingFormStepOne = ({ enableNextStep = () => null }: Props) => {
         }}
       />
       <Box
-        padding="0 3rem"
+        padding={maxWidth600 ? 0 : '0 3rem'}
         className={`containerOfProvList ${resultOfSetScroll}`}
         sx={{
           position: 'relative',

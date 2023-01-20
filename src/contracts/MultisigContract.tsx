@@ -34,6 +34,7 @@ import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContractsSlice';
 import { store } from 'src/redux/store';
 import { ProxyNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
+import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { buildTransaction } from './transactionUtils';
 
 const proposeDeployGasLimit = 256_000_000;
@@ -395,8 +396,11 @@ export function queryUserRole(userAddress: string): Promise<number> {
   );
 }
 
-export function queryUserRoleOnContract(userAddress: string, contractAddress: string): Promise<number> {
-  if (!userAddress || !contractAddress) return Promise.resolve(-1);
+export async function queryUserRoleOnContract(userAddress: string, contractAddress: string): Promise<number> {
+  const isValidMultisigContract = await ElrondApiProvider.validateMultisigAddress(
+    contractAddress,
+  );
+  if (!userAddress || !contractAddress || !isValidMultisigContract) return Promise.resolve(-1);
   return queryNumberOnContract(
     multisigContractFunctionNames.userRole,
     contractAddress,
