@@ -15,7 +15,7 @@ import {
   LedgerLoginButton,
   WalletConnectLoginButton,
   WebWalletLoginButton,
-} from '@elrondnetwork/dapp-core/UI';
+} from '@multiversx/sdk-dapp/UI';
 import * as Styled from './styled';
 
 declare global {

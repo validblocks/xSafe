@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs';
+import { Address } from '@multiversx/sdk-core';
 import { PlainMultisigAddressType } from '../types/multisigContracts';
 
 export function PlainAddress(address: Address): PlainMultisigAddressType {

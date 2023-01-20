@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { Address, TokenPayment } from '@elrondnetwork/erdjs/out';
+import { Address, TokenPayment } from '@multiversx/sdk-core/out';
 import {
   BigUIntValue,
   BytesValue,
-} from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
+} from '@multiversx/sdk-core/out/smartcontracts/typesystem';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useFormik } from 'formik';

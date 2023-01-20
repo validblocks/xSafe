@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs';
+import { Address } from '@multiversx/sdk-core';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import * as Yup from 'yup';
 

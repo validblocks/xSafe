@@ -1,12 +1,12 @@
 import { ReactElement } from 'react';
-import { Address, BinaryCodec } from '@elrondnetwork/erdjs/out';
+import { Address, BinaryCodec } from '@multiversx/sdk-core/out';
 import {
   BigUIntType,
   BigUIntValue,
   BytesValue,
   U32Type,
   U32Value,
-} from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
+} from '@multiversx/sdk-core/out/smartcontracts/typesystem';
 import i18next from 'i18next';
 import startCase from 'lodash/startCase';
 import { Box, Grid } from '@mui/material';

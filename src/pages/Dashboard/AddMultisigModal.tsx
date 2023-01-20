@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { Address } from '@elrondnetwork/erdjs';
+import { Address } from '@multiversx/sdk-core';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import {
@@ -7,7 +7,7 @@ import {
 } from 'src/apiCalls/multisigContractsCalls';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { Box, useMediaQuery } from '@mui/material';
 import { useTheme } from 'styled-components';
 import {

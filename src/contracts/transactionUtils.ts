@@ -1,4 +1,4 @@
-import { getChainID } from '@elrondnetwork/dapp-core/utils/network';
+import { getChainID } from '@multiversx/sdk-dapp/utils/network';
 import {
   ContractFunction,
   Transaction,
@@ -9,10 +9,10 @@ import {
   TransactionVersion,
   Address,
   TokenPayment,
-} from '@elrondnetwork/erdjs';
+} from '@multiversx/sdk-core';
 import { gasLimit } from 'src/config';
-import { LoginMethodsEnum } from '@elrondnetwork/dapp-core/types';
-import { getAddress } from '@elrondnetwork/dapp-core/utils';
+import { LoginMethodsEnum } from '@multiversx/sdk-dapp/types';
+import { getAddress } from '@multiversx/sdk-dapp/utils';
 import { multisigContractFunctionNames } from '../types/multisigFunctionNames';
 
 interface TransactionPayloadType {

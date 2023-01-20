@@ -1,4 +1,4 @@
-import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@multiversx/sdk-core/out';
 import axios from 'axios';
 import { useCallback } from 'react';
 import { useQuery } from 'react-query';

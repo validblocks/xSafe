@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { operations } from '@elrondnetwork/dapp-utils';
-import { Address, BigUIntValue, BytesValue, TokenPayment } from '@elrondnetwork/erdjs/out';
+import { nominate } from '@multiversx/sdk-dapp/utils/operations';
+import { Address, BigUIntValue, BytesValue, TokenPayment } from '@multiversx/sdk-core/out';
 import { InputLabel, MenuItem, SelectChangeEvent, useMediaQuery } from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -139,7 +139,7 @@ const ProposeUnstakeTokens = ({
 
   const getProposal = (): MultisigSmartContractCall | null => {
     try {
-      const nominatedAmount = operations.nominate(
+      const nominatedAmount = nominate(
         amount.toString(),
         denomination,
       );

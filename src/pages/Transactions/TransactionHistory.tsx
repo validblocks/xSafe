@@ -20,10 +20,10 @@ import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { parseInt } from 'lodash';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
-import { ITransactionEventTopic, ITransactionOnNetwork } from '@elrondnetwork/erdjs/out';
+import { ITransactionEventTopic, ITransactionOnNetwork } from '@multiversx/sdk-core/out';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
-import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
+import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import TransactionHistoryPresentation from './TransactionHistoryPresentation';
 import NoActionsOverlay from './utils/NoActionsOverlay';
 

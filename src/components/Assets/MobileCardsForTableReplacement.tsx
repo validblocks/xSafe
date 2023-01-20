@@ -1,17 +1,13 @@
-import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
-import { ReactComponent as ElrondLogoWhite } from 'src/assets/img/elrond-logo-white.svg';
-import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
-import { useSelector } from 'react-redux';
 import { Typography } from '@mui/material';
-import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@multiversx/sdk-core/out';
 import * as Styled from '../../pages/Organization/styled';
+import MultiversXLogo from '../Utils/MultiversXLogo';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 export const SQUARE_SMALL_IMAGE_WIDTH = 20;
 
 const MobileCardsForTableReplacement = ({ items, actionButton }:
     { items: any, actionButton: JSX.Element[] }) => {
-  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   return (
     items.map((item: any) => (
       <Styled.MobileCardOfTokens key={item.id + item.balanceDetails.identifier}>
@@ -28,18 +24,10 @@ const MobileCardsForTableReplacement = ({ items, actionButton }:
                 />
               )}
               {item.balanceDetails.identifier === 'EGLD' && (
-                isDarkThemeEnabled ? (
-                  <ElrondLogoWhite
+                  <MultiversXLogo
                     width={SQUARE_SMALL_IMAGE_WIDTH}
                     height={SQUARE_SMALL_IMAGE_WIDTH}
                   />
-                )
-                  : (
-                    <ElrondLogo
-                      width={SQUARE_SMALL_IMAGE_WIDTH}
-                      height={SQUARE_SMALL_IMAGE_WIDTH}
-                    />
-                  )
               )}
               <strong>{item.balanceDetails.identifier}</strong>
             </li>

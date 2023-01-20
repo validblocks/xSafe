@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import { createDeepEqualSelector } from './helpers';
 import { RootState } from '../store';
 

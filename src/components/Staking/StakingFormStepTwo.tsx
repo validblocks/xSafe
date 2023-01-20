@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
-import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue, TokenPayment } from '@multiversx/sdk-core/out';
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
 import * as Yup from 'yup';
@@ -12,7 +12,7 @@ import { organizationTokensSelector } from 'src/redux/selectors/accountSelector'
 import { OrganizationToken } from 'src/pages/Organization/types';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
+import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import ProviderPresentation from './ProviderPresentation';
 import { useMultistepFormContext } from '../Utils/MultistepForm';

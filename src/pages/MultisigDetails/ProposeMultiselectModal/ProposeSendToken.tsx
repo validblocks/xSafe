@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { operations } from '@elrondnetwork/dapp-utils';
-import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue, TokenPayment } from '@multiversx/sdk-core/out';
 import { Box, useMediaQuery } from '@mui/material';
 import { FormikProps, FormikProvider, useFormik } from 'formik';
 import { motion } from 'framer-motion';
@@ -10,7 +9,6 @@ import * as Yup from 'yup';
 import { FormikInputField } from 'src/helpers/formikFields';
 import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
-import { denomination } from 'src/config';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { TokenTableRowItem } from 'src/pages/Organization/types';
 import { TestContext } from 'yup';
@@ -166,12 +164,9 @@ const ProposeSendToken = ({
 
   const getSendTokenProposal = useCallback((): MultisigSendToken | null => {
     try {
-      const nominatedAmount = operations.nominate(
-        amount,
-        denomination,
-      );
+      const nominatedAmount = TokenPayment.egldFromAmount(amount);
 
-      const amountNumeric = Number(nominatedAmount?.replaceAll(',', '') ?? 0);
+      const amountNumeric = Number(nominatedAmount.toRationalNumber() ?? 0);
       if (Number.isNaN(amountNumeric)) {
         return null;
       }

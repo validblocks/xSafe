@@ -3,8 +3,8 @@ import { useCallback, useEffect } from 'react';
 import {
   useGetAccountInfo,
   useGetLoginInfo,
-} from '@elrondnetwork/dapp-core/hooks/account';
-import { AuthenticatedRoutesWrapper, AxiosInterceptorContext } from '@elrondnetwork/dapp-core/wrappers';
+} from '@multiversx/sdk-dapp/hooks/account';
+import { AuthenticatedRoutesWrapper, AxiosInterceptorContext } from '@multiversx/sdk-dapp/wrappers';
 import { Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,7 +31,7 @@ import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import axios from 'axios';
 import { network } from 'src/config';
-import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@multiversx/sdk-core/out';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';

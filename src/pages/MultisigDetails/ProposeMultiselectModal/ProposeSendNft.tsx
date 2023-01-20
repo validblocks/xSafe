@@ -5,13 +5,13 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { selectedNftToSendSelector } from 'src/redux/selectors/modalsSelector';
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { useQueryClient } from 'react-query';
 import useNft from 'src/utils/useNft';
 import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
 import { Box, Typography, useMediaQuery } from '@mui/material';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import * as Styled from '../../../components/Utils/styled';
 

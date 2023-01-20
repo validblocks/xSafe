@@ -5,7 +5,7 @@ import uniqBy from 'lodash/uniqBy';
 import { verifiedContractsHashes } from 'src/helpers/constants';
 import { network } from 'src/config';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { getAddress, getIsLoggedIn } from '@elrondnetwork/dapp-core/utils';
+import { getAddress, getIsLoggedIn } from '@multiversx/sdk-dapp/utils';
 
 const contractsInfoStorageEndpoint = `${network.storageApi}/settings/multisig`;
 

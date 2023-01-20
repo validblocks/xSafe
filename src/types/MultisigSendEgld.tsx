@@ -1,8 +1,8 @@
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import {
   BigUIntValue,
   BytesValue,
-} from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
+} from '@multiversx/sdk-core/out/smartcontracts/typesystem';
 import i18next from 'i18next';
 import { MultisigAction } from './MultisigAction';
 

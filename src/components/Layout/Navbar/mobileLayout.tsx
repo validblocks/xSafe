@@ -14,7 +14,7 @@ import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationI
 import pxToRem from 'src/components/Utils/pxToRem';
 import { useSelector } from 'react-redux';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import SafeDark from 'src/assets/img/Safe-dark.png';
 import { useLocalStorage } from 'src/utils/useLocalStorage';

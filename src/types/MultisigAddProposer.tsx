@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import i18next from 'i18next';
 import ActionOnAddress from 'src/components/Actions/ActionOnAddress';
 

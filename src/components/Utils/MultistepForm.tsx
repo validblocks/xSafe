@@ -1,4 +1,4 @@
-import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
+import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { Box } from '@mui/material';
 import React, { createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';

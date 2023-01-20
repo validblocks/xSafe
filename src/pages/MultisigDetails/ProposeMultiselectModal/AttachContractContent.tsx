@@ -1,5 +1,5 @@
-import { sendTransactions } from '@elrondnetwork/dapp-core/services';
-import { Address } from '@elrondnetwork/erdjs';
+import { sendTransactions } from '@multiversx/sdk-dapp/services';
+import { Address } from '@multiversx/sdk-core';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ import { ProposalsTypes } from 'src/types/Proposals';
 import { ActionResponseButton } from 'src/components/Theme/StyledComponents';
 import { Box } from '@mui/material';
 import { FormikInputField } from 'src/helpers/formikFields';
-import { useGetAccountProvider } from '@elrondnetwork/dapp-core/hooks';
+import { useGetAccountProvider } from '@multiversx/sdk-dapp/hooks';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import * as Styled from './styled';
 

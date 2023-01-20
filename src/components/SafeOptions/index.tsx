@@ -19,8 +19,8 @@ import { useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { queryUserRoleOnContract } from 'src/contracts/MultisigContract';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { useTheme } from 'styled-components';
 import {
   setIntervalEndTimestamp, setIntervalStartTimestamp, setIntervalStartTimestampForFiltering,

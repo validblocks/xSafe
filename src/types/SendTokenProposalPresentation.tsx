@@ -1,8 +1,8 @@
-import { Address, TokenPayment } from '@elrondnetwork/erdjs/out';
+import { Address, TokenPayment } from '@multiversx/sdk-core/out';
 import { Box, Grid, useMediaQuery } from '@mui/material';
 import SouthIcon from '@mui/icons-material/South';
 import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
-import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
+import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { StyledStakingProvider } from 'src/components/StyledComponents/staking';

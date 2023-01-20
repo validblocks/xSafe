@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';

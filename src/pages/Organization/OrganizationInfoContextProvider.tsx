@@ -1,5 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   queryBoardMemberAddresses,
@@ -21,14 +21,14 @@ import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { parseMultisigAddress } from 'src/utils/addressUtils';
 import { setIntervalEndTimestamp } from 'src/redux/slices/transactionsSlice';
 import { toastDisappearDelay } from 'src/helpers/constants';
-import { removeSignedTransaction } from '@elrondnetwork/dapp-core/services';
+import { removeSignedTransaction } from '@multiversx/sdk-dapp/services';
 import {
   useGetAccountInfo,
   useGetLoginInfo,
   useGetPendingTransactions,
   useTrackTransactionStatus,
-} from '@elrondnetwork/dapp-core/hooks';
-import { SignedTransactionsBodyType } from '@elrondnetwork/dapp-core/types';
+} from '@multiversx/sdk-dapp/hooks';
+import { SignedTransactionsBodyType } from '@multiversx/sdk-dapp/types';
 import { OrganizationInfoContextType } from './types';
 
 type Props = {

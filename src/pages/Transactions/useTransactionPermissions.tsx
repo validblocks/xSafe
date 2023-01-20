@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 
 export default function useTransactionPermissions(
   action: MultisigActionDetailed,

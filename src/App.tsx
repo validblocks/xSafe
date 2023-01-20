@@ -14,14 +14,14 @@ import {
   sampleAuthenticatedDomains,
 } from 'src/config';
 import routes from 'src/routes';
-import { AxiosInterceptorContext, DappProvider } from '@elrondnetwork/dapp-core/wrappers';
+import { AxiosInterceptorContext, DappProvider } from '@multiversx/sdk-dapp/wrappers';
 import {
   TransactionsToastList,
   SignTransactionsModals,
   NotificationModal,
-} from '@elrondnetwork/dapp-core/UI';
+} from '@multiversx/sdk-dapp/UI';
 import i18next from 'i18next';
-import { EnvironmentsEnum } from '@elrondnetwork/dapp-core/types';
+import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 import { englishTranslations } from './i18n/en';
 import { germanTranslations } from './i18n/de';
 import Layout from './components/Layout';

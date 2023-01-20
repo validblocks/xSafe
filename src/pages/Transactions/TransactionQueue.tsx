@@ -15,7 +15,7 @@ import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multis
 import { useSelector } from 'react-redux';
 import ErrorOnFetchIndicator from 'src/components/Utils/ErrorOnFetchIndicator';
 import { ArrowDropDown } from '@mui/icons-material';
-import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
+import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { useTranslation } from 'react-i18next';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';

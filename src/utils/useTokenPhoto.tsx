@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getTokenPhotoUrlById, accountSelector } from 'src/redux/selectors/accountSelector';
 import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
-import { ReactComponent as ElrondLogoWhite } from 'src/assets/img/elrond-logo-white.svg';
+import { ReactComponent as ElrondLogoWhite } from 'src/assets/img/multiversx-symbol.svg';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';

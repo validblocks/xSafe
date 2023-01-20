@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs';
+import { Address } from '@multiversx/sdk-core';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';

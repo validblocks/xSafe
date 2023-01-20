@@ -1,9 +1,9 @@
 import {
   getAccount,
   getAddress,
-} from '@elrondnetwork/dapp-core/utils/account';
-import { getChainID } from '@elrondnetwork/dapp-core/utils/network';
-import { sendTransactions } from '@elrondnetwork/dapp-core/services';
+} from '@multiversx/sdk-dapp/utils/account';
+import { getChainID } from '@multiversx/sdk-dapp/utils/network';
+import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import {
   Address,
   AddressValue,
@@ -13,8 +13,8 @@ import {
   CodeMetadata,
   DeployArguments,
   TokenPayment,
-} from '@elrondnetwork/erdjs';
-import { Code } from '@elrondnetwork/erdjs/out/smartcontracts/code';
+} from '@multiversx/sdk-core';
+import { Code } from '@multiversx/sdk-core/out/smartcontracts/code';
 
 import { smartContractCode } from 'src/helpers/constants';
 

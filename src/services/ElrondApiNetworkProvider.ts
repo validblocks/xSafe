@@ -1,5 +1,5 @@
-import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
-import { ITransactionOnNetwork } from '@elrondnetwork/erdjs/out';
+import { ApiNetworkProvider } from '@multiversx/sdk-network-providers/out';
+import { ITransactionOnNetwork } from '@multiversx/sdk-core/out';
 import { network } from 'src/config';
 import { NFTType } from 'src/types/nfts';
 

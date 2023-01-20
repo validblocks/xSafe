@@ -1,5 +1,5 @@
-import { sendTransactions } from '@elrondnetwork/dapp-core/services';
-import { getAccountProviderType, refreshAccount } from '@elrondnetwork/dapp-core/utils/account';
+import { sendTransactions } from '@multiversx/sdk-dapp/services';
+import { getAccountProviderType, refreshAccount } from '@multiversx/sdk-dapp/utils/account';
 import {
   ContractFunction,
   Address,
@@ -9,9 +9,9 @@ import {
   Query,
   TokenPayment,
   ResultsParser,
-} from '@elrondnetwork/erdjs';
-import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
-import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
+} from '@multiversx/sdk-core';
+import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
+import { NumericalBinaryCodec } from '@multiversx/sdk-core/out/smartcontracts/codec/numerical';
 import {
   AddressValue,
   BigUIntValue,
@@ -21,7 +21,7 @@ import {
   TypedValue,
   U32Type,
   U32Value,
-} from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
+} from '@multiversx/sdk-core/out/smartcontracts/typesystem';
 import { gasLimit, minGasLimit, issueTokenContractAddress, network } from 'src/config';
 import { parseAction, parseActionDetailed } from 'src/helpers/converters';
 import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
@@ -33,7 +33,7 @@ import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
 import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContractsSlice';
 import { store } from 'src/redux/store';
-import { ProxyNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
 import { buildTransaction } from './transactionUtils';
 

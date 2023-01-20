@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, Typography } from '@mui/material';
 import CopyButton from 'src/components/CopyButton';

@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import { useEffect, useState } from 'react';
 import MultistepForm from 'src/components/Utils/MultistepForm';
 import { steps } from 'src/pages/Stake/steps';

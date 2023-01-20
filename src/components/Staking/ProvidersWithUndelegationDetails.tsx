@@ -2,7 +2,7 @@ import {
   GridExpandMoreIcon,
 } from '@mui/x-data-grid';
 import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
-import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
+import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
 import { useMemo, useState } from 'react';
 import { AccordionDetails, Box, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
@@ -11,7 +11,7 @@ import { IDelegation, IdentityWithColumns, IUndelegatedFunds } from 'src/types/s
 import { useQueryClient } from 'react-query';
 import useReactQueryState from 'src/react-query/useReactQueryState';
 import { QueryKeys } from 'src/react-query/queryKeys';
-import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue, TokenPayment } from '@multiversx/sdk-core/out';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { useTranslation } from 'react-i18next';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
