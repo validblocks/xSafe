@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 import { Box, Select } from '@mui/material';
 import { MainButtonNoShadow } from 'src/components/Theme/StyledComponents';
 import styled from 'styled-components';
@@ -20,34 +21,63 @@ export const DetailsCardContainerBox = styled(Box)`
 `;
 
 export const StyledSelect = styled(Select)<any>`
-  border-radius: 0.33rem;
-  border: solid 1px ${(props) => props.theme.palette.borders.secondary};
-  &:hover {
-    transition: all 0.3s linear;
-    border-color: ${(props) => props.theme.palette.borders.active};
-  }
-  &.Mui-focused {
-    border-color: ${(props) => props.theme.palette.borders.active};
-  }
-  & fieldset {
-    display: none;
-  }
-  & .MuiTypography-root {
-    color: ${(props) => props.theme.palette.text.primary} !important;
-  }
-  & .MuiSvgIcon-root {
-    color: ${(props) => props.theme.palette.text.primary} !important;
-  }
-  & .MuiSelect-nativeInput {
-    opacity: 1;
-    padding-left: 12px;
-    border: none;
-    left: auto;
-    bottom: auto;
-    background-color: transparent;
-    color: ${(props) => props.theme.palette.text.primary};
-  }
   && {
+    border-radius: 0.33rem;
+    border: solid 1px ${(props) => props.theme.palette.borders.secondary};
+    &:hover {
+      transition: all 0.3s linear;
+      border: solid 1px ${(props) => props.theme.palette.borders.active};
+      & fieldset {
+        border-color: transparent;
+      }
+    }
+    & fieldset {
+      top: -5px;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      border-color: transparent;
+      overflow: visible;
+      & legend {
+        max-width: 100%;
+        overflow: visible;
+        visibility: visible;
+        position: absolute;
+        left: 6px;
+        top: -8px;
+        & span {
+          opacity: 1;
+          color: ${(props) => props.theme.palette.text.primary};
+          background-color: ${(props) =>
+            props.theme.palette.background.secondary};
+        }
+      }
+    }
+    &.Mui-focused {
+      border: solid 1px ${(props) => props.theme.palette.borders.active};
+    }
+    &.Mui-focused fieldset legend {
+      top: -9px;
+      left: 5px;
+    }
+    &.Mui-focused fieldset {
+      border-color: transparent;
+    }
+    & .MuiTypography-root {
+      color: ${(props) => props.theme.palette.text.primary} !important;
+    }
+    & .MuiSvgIcon-root {
+      color: ${(props) => props.theme.palette.text.primary} !important;
+    }
+    & .MuiSelect-nativeInput {
+      opacity: 0;
+      padding-left: 12px;
+      border: none;
+      left: auto;
+      bottom: auto;
+      background-color: transparent;
+      color: ${(props) => props.theme.palette.text.primary};
+    }
     @media (max-width: 600px) {
       width: 100%;
     }
