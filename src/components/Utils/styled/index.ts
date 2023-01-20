@@ -59,7 +59,7 @@ export const CopyIconLink = styled(Link)(({ theme: _ }) => ({
 
 export const CopyIconLinkPurple = styled(CopyIconLink)(({ theme: _ }) => ({
   '&.MuiTypography-root svg > path': {
-    fill: `${_.palette.anchor.main} !important`,
+    fill: `${_.palette.anchor.transactions} !important`,
   },
 }));
 
