@@ -65,7 +65,7 @@ const PaginationWithItemsPerPage = memo(({
     <CenteredBox
       sx={{
         padding: '1rem 0',
-        justifyContent: 'start !important',
+        justifyContent: 'end !important',
         gap: '2rem',
       }}
     >

@@ -1,9 +1,7 @@
-import PeopleIcon from '@mui/icons-material/People';
 import { useMediaQuery } from '@mui/material';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { useTheme } from 'styled-components';
 import ShortMemberPresentation from './ShortMemberPresentation';
 import * as Styled from './styled';
 
@@ -16,7 +14,6 @@ const PendingActionSummary = ({ action }: Props) => {
     quorumCountState: [quorumCount],
   } = useOrganizationInfoContext();
 
-  const theme: any = useTheme();
   const minWidth600 = useMediaQuery('(min-width: 600px)');
   return (
     <Styled.ActionSummaryContainer>
@@ -29,8 +26,8 @@ const PendingActionSummary = ({ action }: Props) => {
       </Styled.ActionTitleBox>
 
       <Styled.ActionSignersBox>
-        <PeopleIcon htmlColor={theme.palette.primary.dark} className="mr-2" />
-        <Text fontWeight={500} fontSize={14}>
+        <span>Confirmations:</span>
+        <Text fontWeight={500} fontSize={15}>
           {action.signers.length} out of {quorumCount}
         </Text>
       </Styled.ActionSignersBox>

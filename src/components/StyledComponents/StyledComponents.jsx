@@ -62,6 +62,7 @@ export const DiscardActionButton = styled(Button)(({ theme: _, disabled }) => ({
     '&:hover': {
       background: _.palette.danger.main,
       boxShadow: `0px 0px 8px ${_.shadows.main}`,
+      color: '#F0F6FF',
     },
   },
 }));
