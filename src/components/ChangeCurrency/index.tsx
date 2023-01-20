@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, SelectChangeEvent } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import './ChangeCurrency.scss';
 import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
@@ -11,14 +11,15 @@ import { Text } from '../StyledComponents/StyledComponents';
 
 interface ICurrencySelectItem {
     code: string;
-    label: string;
+  label: string;
+  description: string
     suggested?: boolean;
 }
 
 const currencyList: ICurrencySelectItem[] = [
-  { code: 'US', label: 'USD' },
-  { code: 'EU', label: 'EUR' },
-  { code: 'RO', label: 'RON' },
+  { code: 'US', label: 'USD', description: 'United States Dollar (USD)' },
+  { code: 'EU', label: 'EUR', description: 'Euro (EUR)' },
+  { code: 'RO', label: 'RON', description: 'Ron (RON)' },
 ];
 
 function ChangeCurrency() {
@@ -33,8 +34,8 @@ function ChangeCurrency() {
     <Box>
       <StyledSelect
         value={globallySelectedCurrency}
-        defaultValue={globallySelectedCurrency}
-        label={'Change Currency'}
+        // defaultValue={globallySelectedCurrency}
+        label="Default Currency"
         sx={{ width: 250 }}
         MenuProps={{
           sx: {
@@ -52,23 +53,24 @@ function ChangeCurrency() {
             },
           },
         }}
-        onChange={(e: any) => changeCurrency(e.target.value as SupportedCurrencies)}
+        onChange={(event: SelectChangeEvent) => changeCurrency(event.target.value as SupportedCurrencies)}
       >
         {currencyList.map((currency) => (
-          <Styled.ThemePrimaryMenuItem>
+          <Styled.ThemePrimaryMenuItem key={currency.code} value={currency.label}>
             <Styled.ThemePrimaryBox
               display="flex"
-              sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
+              sx={{ '& > img': { m: '5px 10px 0 0', flexShrink: 0, borderRadius: '2px' } }}
             >
               <img
                 loading="lazy"
-                width="20"
+                width="17"
+                height="12"
                 src={`https://flagcdn.com/w20/${currency.code.toLowerCase()}.png`}
                 srcSet={`https://flagcdn.com/w40/${currency.code.toLowerCase()}.png 2x`}
                 alt="flag"
               />
               <Text>
-                {currency.label}
+                {currency.description}
               </Text>
             </Styled.ThemePrimaryBox>
           </Styled.ThemePrimaryMenuItem>
