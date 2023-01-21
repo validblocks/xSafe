@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { List, Accordion, IconButton } from '@mui/material';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -6,7 +6,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import { Link, useLocation } from 'react-router-dom';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';
@@ -18,6 +17,14 @@ import { useSelector } from 'react-redux';
 import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 import { useTheme } from 'styled-components';
 import { motion } from 'framer-motion';
+import { queryAllActions } from 'src/contracts/MultisigContract';
+import { useQuery } from 'react-query';
+import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import {
+  useGetAccountInfo,
+  useGetLoginInfo,
+} from '@multiversx/sdk-dapp/hooks';
 import AccountDetails from './NavbarAccountDetails';
 import './menu.scss';
 import {
@@ -27,6 +34,7 @@ import {
   AccordionDetail,
   SidebarDrawer,
   PinnedIconBox,
+  LinkInfoNumber,
 } from './navbar-style';
 import * as Styled from '../../Utils/styled';
 import BottomMenu from './MenuItems/BottomMenu';
@@ -35,8 +43,8 @@ const MiniDrawer = () => {
   const theme: any = useTheme();
   const location = useLocation();
   const locationString = location.pathname.substring(1);
-  console.log({ locationString });
   const currentContract = useSelector(currentMultisigContractSelector);
+  const { address } = useGetAccountInfo();
 
   const open = true;
 
@@ -56,6 +64,30 @@ const MiniDrawer = () => {
     ...availableApps
       .filter((app: MenuItem) => installedApps.includes(app.id)),
   ].filter((app: MenuItem) => pinnedApps.includes(app.id))), [installedApps, pinnedApps]);
+
+  const {
+    data: allPendingActions,
+    refetch: refetchPendingActions,
+  } = useQuery(
+    QueryKeys.ALL_PENDING_ACTIONS,
+    () => queryAllActions().then((resp) => resp),
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+    },
+  );
+
+  useEffect(() => {
+    refetchPendingActions();
+  }, [currentContract.address, refetchPendingActions]);
+
+  const actionableByCurrentWallet = useMemo(() => allPendingActions?.reduce((acc, item) => {
+    const bech32Signers = item.signers.map((s) => s.bech32());
+
+    if (!bech32Signers.includes(address)) acc += 1;
+    return acc;
+  }, 0), [address, allPendingActions]);
+
+  console.log({ allPendingActions });
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -302,7 +334,23 @@ const MiniDrawer = () => {
                         primary={<Text>{el.name}</Text>}
                         sx={{ opacity: open ? 1 : 0 }}
                       />
-
+                      {el.name === 'Transactions' && (
+                      <>
+                        <LinkInfoNumber
+                          sx={{
+                            backgroundColor: '#ff894691 !important',
+                            color: '#FF8946 !important',
+                          }}
+                          mr={0.75}
+                        >
+                          <Text width="100% !important" textAlign="center">{actionableByCurrentWallet}</Text>
+                        </LinkInfoNumber>
+                        <Text> {'/'} </Text>
+                        <LinkInfoNumber ml={0.75}>
+                          <Text width="100% !important" textAlign="center">{allPendingActions?.length ?? 0}</Text>
+                        </LinkInfoNumber>
+                      </>
+                      )}
                     </ListItem>
                   </Link>
                   )}
