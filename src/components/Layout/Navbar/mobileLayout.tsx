@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import xSafeLogo from 'src/assets/img/xSafe-Logo.svg';
 import { Box, IconButton, Tab, Typography, useMediaQuery } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -25,6 +24,7 @@ import CopyButton from 'src/components/CopyButton';
 import { network } from 'src/config';
 import { CopyIconLinkConnectedAccount } from 'src/components/Utils/styled';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
+import { XSafeLogo } from 'src/components/Utils/XSafeLogo';
 import {
   AnchorConnectedAccount,
   BottomMenuButton,
@@ -62,8 +62,6 @@ const MobileLayout = () => {
 
   const addressChars = useMemo(() => {
     if (minWidth535) return 12;
-    if (minWidth425) return 7;
-    if (minWidth410) return 7;
     if (minWidth380) return 7;
     return 3;
   }, [minWidth380, minWidth410, minWidth425, minWidth535]);
@@ -118,7 +116,7 @@ const MobileLayout = () => {
       >
         <TopMobileMenu>
           <TopMobileMenuLogoBox onClick={handleRedirectToHome}>
-            <img src={xSafeLogo} alt="Logo" width="50" />
+            <XSafeLogo />
           </TopMobileMenuLogoBox>
           <TopMobileMenuSafeBox sx={{
             px: 2,
