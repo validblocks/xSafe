@@ -79,6 +79,7 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
       QueryKeys.ADDRESS_ESDT_TOKENS,
       QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
     ]);
+    queryClient.invalidateQueries(QueryKeys.ALL_PENDING_ACTIONS);
 
     navigate(`/multisig/${newSafeAddress}`);
     closeSafe();

@@ -188,6 +188,8 @@ function OrganizationInfoContextProvider({ children }: Props) {
         ],
       );
 
+      queryClient.invalidateQueries(QueryKeys.ALL_PENDING_ACTIONS);
+
       dispatch(setIntervalEndTimestamp(Math.floor(new Date().getTime() / 1000)));
       setTimeout(() => {
         removeSignedTransaction(currentMultisigTransactionId);
