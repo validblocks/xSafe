@@ -11,7 +11,7 @@ import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { useGetAccountProvider, useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { useTheme } from 'styled-components';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { Text, TextxSafeDescription } from 'src/components/StyledComponents/StyledComponents';
 import { dAppName, network } from 'src/config';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
@@ -45,7 +45,7 @@ function Dashboard() {
 
   async function checkSingleContractValidity() {
     if (uniqueContractAddress || !network.storageApi) {
-      const isValidMultisigContract = await ElrondApiProvider.validateMultisigAddress(
+      const isValidMultisigContract = await MultiversxApiProvider.validateMultisigAddress(
         uniqueContractAddress,
       );
       if (!isValidMultisigContract) {

@@ -17,7 +17,7 @@ import * as Styled from './styled';
 import { Text } from '../StyledComponents/StyledComponents';
 import { AssetActionButton } from '../Theme/StyledComponents';
 import ProviderPresentation from '../Staking/ProviderPresentation';
-import ElrondLogo from '../Utils/MultiversXLogo';
+import { MultiversXLogo } from '../Utils/MultiversXLogo';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 export const SQUARE_SMALL_IMAGE_WIDTH = 20;
@@ -56,14 +56,14 @@ const DelegationMobileCards = ({ items, actionButton }:
           <Styled.DelegationInfoBox>
             <Text>Delegated</Text>
             <Text display="flex" alignItems="center">
-              <ElrondLogo width={15} height={15} marginRight={1} />
+              <MultiversXLogo width={15} height={15} marginRight={1} />
               {Number(item?.delegatedColumn?.delegatedAmount).toLocaleString()} $EGLD
             </Text>
           </Styled.DelegationInfoBox>
           <Styled.DelegationInfoBox>
             <Text>Rewards</Text>
             <Text display="flex" alignItems="center">
-              <ElrondLogo width={15} height={15} marginRight={1} />
+              <MultiversXLogo width={15} height={15} marginRight={1} />
               {Number(item?.claimableRewardsColumn?.claimableRewards).toLocaleString()} $EGLD
             </Text>
           </Styled.DelegationInfoBox>

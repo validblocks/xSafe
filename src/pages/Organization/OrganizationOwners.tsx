@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 import { queryBoardMemberAddresses } from 'src/contracts/MultisigContract';
 import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
 import { RootState } from 'src/redux/store';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { MainButtonNoShadow } from 'src/components/Theme/StyledComponents';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
@@ -49,7 +49,7 @@ const OrganizationsOwnersTable = () => {
     getAddresses()
       .then((ownerAddresses) => {
         Promise.all(
-          ownerAddresses.map((address) => ElrondApiProvider.getAccountData(new Address(address).bech32())),
+          ownerAddresses.map((address) => MultiversxApiProvider.getAccountData(new Address(address).bech32())),
         ).then((accountsInformation) => {
           setAddresses(accountsInformation.map(addAddressBookEntry));
         });

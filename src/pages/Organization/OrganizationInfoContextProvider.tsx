@@ -16,7 +16,7 @@ import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { parseMultisigAddress } from 'src/utils/addressUtils';
 import { setIntervalEndTimestamp } from 'src/redux/slices/transactionsSlice';
@@ -60,7 +60,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const fetchMemberDetails = useCallback(async (isMounted: boolean) => {
     if (!currentContract?.address || !isLoggedIn) return;
 
-    const isValidMultisigContract = await ElrondApiProvider.validateMultisigAddress(
+    const isValidMultisigContract = await MultiversxApiProvider.validateMultisigAddress(
       currentContract?.address,
     );
 
@@ -82,7 +82,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
   }, [currentContract?.address, isLoggedIn]);
 
   const fetchNftCount = useCallback(
-    () => ElrondApiProvider.fetchOrganizationNFTCount(currentContract?.address), [currentContract?.address],
+    () => MultiversxApiProvider.fetchOrganizationNFTCount(currentContract?.address), [currentContract?.address],
   );
 
   const {

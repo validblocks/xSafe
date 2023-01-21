@@ -1,23 +1,21 @@
+import { Box } from '@mui/system';
 import { ReactComponent as MultiversXLogoSymbol } from 'src/assets/img/multiversx-symbol.svg';
-import { CenteredBox } from '../StyledComponents/StyledComponents';
 
 interface IProps {
     height?: number;
     width?: number;
-    marginRight?: number;
+    marginRight?: number | string;
 }
 
-const MultiversXLogo = ({
+export const MultiversXLogo = ({
   height = 30,
   width = 30,
-  marginRight = 10,
+  marginRight = '14px',
 }: IProps) => (
-  <CenteredBox marginRight={marginRight}>
+  <Box marginRight={marginRight}>
     <MultiversXLogoSymbol
       width={width}
       height={height}
     />
-  </CenteredBox>
+  </Box>
 );
-
-export default MultiversXLogo;

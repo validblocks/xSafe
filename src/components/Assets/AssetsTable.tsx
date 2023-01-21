@@ -21,7 +21,7 @@ import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { TokenPayment } from '@multiversx/sdk-core/out';
 import * as Styled from '../../pages/Organization/styled';
 import MobileCardsForTableReplacement from './MobileCardsForTableReplacement';
-import MultiversXLogo from '../Utils/MultiversXLogo';
+import { MultiversXLogo } from '../Utils/MultiversXLogo';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 export const SQUARE_SMALL_IMAGE_WIDTH = 20;
@@ -105,7 +105,6 @@ const AssetsTable = () => {
                   <MultiversXLogo
                     width={SQUARE_IMAGE_WIDTH}
                     height={SQUARE_IMAGE_WIDTH}
-                    className="mr-3"
                   />
                 )
               )}

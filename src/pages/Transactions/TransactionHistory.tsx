@@ -19,7 +19,7 @@ import { getDate } from 'src/utils/transactionUtils';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { parseInt } from 'lodash';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { ITransactionEventTopic, ITransactionOnNetwork } from '@multiversx/sdk-core/out';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
@@ -71,7 +71,7 @@ const TransactionHistory = () => {
         from: cursorPointer.toString(),
       });
       // eslint-disable-next-line no-await-in-loop
-      const data = await ElrondApiProvider.getAddressTransactions(currentContract?.address, urlParams);
+      const data = await MultiversxApiProvider.getAddressTransactions(currentContract?.address, urlParams);
 
       if (!data) break;
 

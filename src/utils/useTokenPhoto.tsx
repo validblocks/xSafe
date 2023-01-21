@@ -1,11 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { getTokenPhotoUrlById, accountSelector } from 'src/redux/selectors/accountSelector';
-import { ReactComponent as ElrondLogo } from 'src/assets/img/logo.svg';
-import { ReactComponent as ElrondLogoWhite } from 'src/assets/img/multiversx-symbol.svg';
-import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
+import { MultiversXLogo } from 'src/components/Utils/MultiversXLogo';
 
 interface IUseTokenPhotoOptions {
     width?: number;
@@ -16,7 +14,6 @@ export default function useTokenPhoto(identifier: string, options: IUseTokenPhot
   width: 30,
   height: 30,
 }) {
-  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const tokenPhotoByUrlSelector = useMemo(() => createDeepEqualSelector(accountSelector,
     (state: StateType) => getTokenPhotoUrlById(state, identifier)), [identifier]);
   const photoUrl = useSelector<StateType, string>(tokenPhotoByUrlSelector);
@@ -30,13 +27,5 @@ export default function useTokenPhoto(identifier: string, options: IUseTokenPhot
     );
   }, [options.height, options.width, photoUrl]);
 
-  const [elrondLogo, setElrondLogo] = useState(() =>
-    (isDarkThemeEnabled ? <ElrondLogoWhite className="mr-2" /> : <ElrondLogo className="mr-2" />),
-  );
-
-  useEffect(() => {
-    setElrondLogo(isDarkThemeEnabled ? <ElrondLogoWhite className="mr-2" /> : <ElrondLogo className="mr-2" />);
-  }, [isDarkThemeEnabled]);
-
-  return { tokenPhotoJSX: photoUrl ? tokenPhotoJSX : elrondLogo };
+  return { tokenPhotoJSX: photoUrl ? tokenPhotoJSX : <MultiversXLogo marginRight={2} /> };
 }

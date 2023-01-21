@@ -6,7 +6,7 @@ import {
   addContractToMultisigContractsList,
 } from 'src/apiCalls/multisigContractsCalls';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { Box, useMediaQuery } from '@mui/material';
 import { useTheme } from 'styled-components';
@@ -80,7 +80,7 @@ function AddMultisigModal({
   const dispatch = useDispatch();
   const onAddClicked = useCallback(async () => {
     const contractAddress = safeAddress;
-    const isAddressValid = await ElrondApiProvider.validateMultisigAddress(contractAddress);
+    const isAddressValid = await MultiversxApiProvider.validateMultisigAddress(contractAddress);
     if (isAddressValid) {
       const newContracts = await addContractToMultisigContractsList({
         address: contractAddress,

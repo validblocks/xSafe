@@ -21,7 +21,7 @@ import { Main } from 'src/components/Theme/StyledComponents';
 import { useTheme } from 'styled-components';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import routeNames from 'src/routes/routeNames';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
@@ -52,7 +52,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const fetchAccountData = useCallback(async () => {
-    const accountData = await ElrondApiProvider.getAccountData(address);
+    const accountData = await MultiversxApiProvider.getAccountData(address);
     if (accountData !== null) {
       dispatch(setAccountData(accountData));
     }
@@ -107,7 +107,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   }, [isLoggedIn, address, dispatch, currentContract?.address, navigate, fetchAccountData, attachedContracts, isFetchingContracts, isLoadingContracts]);
 
   const fetchEconomics = useCallback(async () => {
-    const economics = await ElrondApiProvider.getEconomicsData();
+    const economics = await MultiversxApiProvider.getEconomicsData();
     if (economics !== null) {
       dispatch(setEconomics(economics));
     }

@@ -8,7 +8,7 @@ const Footer = () => (
           target: '_blank',
         }}
         className="d-flex align-items-center"
-        href="https://elrond.com/"
+        href="https://multiversx.com/"
       >
         Made with
         {' '}

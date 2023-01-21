@@ -22,7 +22,7 @@ import {
   StateType,
 } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { priceSelector } from 'src/redux/selectors/economicsSelector';
@@ -45,7 +45,7 @@ function TotalBalance() {
   const minWidth600 = useMediaQuery('(min-width:600px)');
 
   const fetchAddressEsdts = useCallback(
-    () => ElrondApiProvider.getAddressTokens(currentContract?.address),
+    () => MultiversxApiProvider.getAddressTokens(currentContract?.address),
     [currentContract],
   );
 
@@ -55,7 +55,7 @@ function TotalBalance() {
   );
 
   const fetchNFTs = useCallback(
-    () => ElrondApiProvider.fetchOrganizationNFTs(currentContract?.address),
+    () => MultiversxApiProvider.fetchOrganizationNFTs(currentContract?.address),
     [currentContract],
   );
 
