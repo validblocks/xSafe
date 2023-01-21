@@ -1,4 +1,4 @@
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo, useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import { useEffect, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
@@ -10,18 +10,20 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 export const usePendingActions = () => {
   const currentContract = useSelector(currentMultisigContractSelector);
   const { address } = useGetAccountInfo();
+  const { isLoggedIn } = useGetLoginInfo();
   const { data: allPendingActions, refetch: refetchPendingActions } =
       useQuery(
         QueryKeys.ALL_PENDING_ACTIONS,
         () => queryAllActions().then((resp) => resp),
         {
           ...USE_QUERY_DEFAULT_CONFIG,
+          enabled: isLoggedIn,
         },
       );
 
   useEffect(() => {
-    refetchPendingActions();
-  }, [currentContract.address, refetchPendingActions]);
+    if (isLoggedIn) { refetchPendingActions(); }
+  }, [currentContract.address, isLoggedIn, refetchPendingActions]);
 
   const actionableByCurrentWallet = useMemo(
     () =>
