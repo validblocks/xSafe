@@ -20,7 +20,7 @@ import { FormikProps, useFormik } from 'formik';
 import FormikInputField from 'src/helpers/formikFields';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useDispatch } from 'react-redux';
-import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
+import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 
 interface AddMultisigModalType {
   show: boolean;
@@ -86,7 +86,8 @@ function AddMultisigModal({
         address: contractAddress,
         name,
       });
-      dispatch(setMultisigContracts(newContracts));
+      await dispatch(setMultisigContracts(newContracts));
+      dispatch(setCurrentMultisigContract(contractAddress));
       setNewContracts(newContracts);
       handleClose();
     }
