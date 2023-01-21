@@ -1,7 +1,8 @@
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { TokenPayment } from '@multiversx/sdk-core/out';
+import { ReactComponent as MultiversXLogoSymbol } from 'src/assets/img/multiversx-symbol.svg';
 import * as Styled from '../../pages/Organization/styled';
-import { MultiversXLogo } from '../Utils/MultiversXLogo';
+import { Text } from '../StyledComponents/StyledComponents';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 export const SQUARE_SMALL_IMAGE_WIDTH = 20;
@@ -12,7 +13,7 @@ const MobileCardsForTableReplacement = ({ items, actionButton }:
       <Styled.TokenDetailsBox>
         <Styled.CategoryName>
           <Typography component="span">Assets</Typography>
-          <li>
+          <Box display="flex" gap={1}>
             {item.balanceDetails.identifier !== 'EGLD' && (
               <img
                 width={SQUARE_SMALL_IMAGE_WIDTH}
@@ -22,13 +23,15 @@ const MobileCardsForTableReplacement = ({ items, actionButton }:
               />
             )}
             {item.balanceDetails.identifier === 'EGLD' && (
-              <MultiversXLogo
-                width={SQUARE_SMALL_IMAGE_WIDTH}
-                height={SQUARE_SMALL_IMAGE_WIDTH}
-              />
+            <MultiversXLogoSymbol
+              width={SQUARE_SMALL_IMAGE_WIDTH}
+              height={SQUARE_SMALL_IMAGE_WIDTH}
+            />
             )}
-            <strong>{item.balanceDetails.identifier}</strong>
-          </li>
+            <Text fontWeight={700}>
+              {item.balanceDetails.identifier}
+            </Text>
+          </Box>
         </Styled.CategoryName>
         <Styled.CategoryName>
           <Typography component="span">Balance</Typography>
