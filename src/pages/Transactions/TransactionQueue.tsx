@@ -49,7 +49,6 @@ const TransactionQueue = () => {
 
   const queryClient = useQueryClient();
   const allPendingActions = queryClient.getQueryData(QueryKeys.ALL_PENDING_ACTIONS) as any[];
-  console.log({ allPendingActions });
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {

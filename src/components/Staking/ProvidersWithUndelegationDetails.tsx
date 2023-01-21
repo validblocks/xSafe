@@ -16,6 +16,9 @@ import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { useTranslation } from 'react-i18next';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import HourglassTopRoundedIcon from '@mui/icons-material/HourglassTop';
+import { useSelector } from 'react-redux';
+import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ProviderColumn from './ProviderColumn';
@@ -57,6 +60,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
     isFetchingProviderIdentities,
     isLoadingProviderIdentities,
     isErrorOnFetchingProviderIdentities,
+    refetchProviders,
   } = useProviderIdentitiesAfterSelection(config);
 
   const classes = useStyles();
@@ -112,12 +116,35 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
   }, [fetchedDelegations, fetchedProviderIdentities]);
 
   const [expanded, setExpanded] = useState<string | false>(false);
+  const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 
   const NOW_IN_MS = new Date().getTime();
+
+  const transactionId = useSelector(currentMultisigTransactionIdSelector);
+
+  useTrackTransactionStatus({
+    transactionId,
+    onSuccess: () => {
+      refetchProviders();
+      setIsWithdrawing(false);
+    },
+    onCancelled: () => {
+      refetchProviders();
+      setIsWithdrawing(false);
+    },
+    onTimedOut: () => {
+      refetchProviders();
+      setIsWithdrawing(false);
+    },
+    onFail: () => {
+      refetchProviders();
+      setIsWithdrawing(false);
+    },
+  });
 
   if (isFetchingProviderIdentities || isLoadingProviderIdentities) {
     return (
@@ -217,9 +244,10 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                     p: '.17rem .5rem 0rem !important',
                     mr: '0 !important',
                   }}
-                  disabled={row.withdrawableUndelegationsAmount === 0}
+                  disabled={row.withdrawableUndelegationsAmount === 0 || isWithdrawing}
                   className="shadow-sm rounded mr-2"
                   onClick={() => {
+                    setIsWithdrawing(true);
                     mutateSmartContractCall(
                       new Address(row.provider),
                       new BigUIntValue(new BigNumber(0)),

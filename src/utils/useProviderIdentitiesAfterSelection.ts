@@ -28,7 +28,7 @@ export default function useProviderIdentitiesAfterSelection({
     [],
   );
 
-  const { data: fetchedProviders } = useQuery(
+  const { data: fetchedProviders, refetch: refetchProviders } = useQuery(
     [QueryKeys.FETCHED_PROVIDERS],
     fetchProviders,
     {
@@ -228,5 +228,6 @@ export default function useProviderIdentitiesAfterSelection({
     isFetchingProviderIdentities,
     isLoadingProviderIdentities,
     isErrorOnFetchingProviderIdentities,
+    refetchProviders,
   };
 }
