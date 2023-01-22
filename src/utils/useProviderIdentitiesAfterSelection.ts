@@ -92,7 +92,7 @@ export default function useProviderIdentitiesAfterSelection({
     [fetchedProviders],
   );
 
-  const bringValidBlocksFirst = useCallback((data: IdentityWithColumns[]) => {
+  const _bringValidBlocksFirst = useCallback((data: IdentityWithColumns[]) => {
     const validBlocksIndex = data.findIndex(
       (p) => p.identity === 'validblocks',
     );
@@ -197,14 +197,12 @@ export default function useProviderIdentitiesAfterSelection({
         buildColumns,
         addProvidersWithoutIdentity,
         shuffle,
-        bringValidBlocksFirst,
       )(data),
     [
       filterBySearchParam,
       buildColumns,
       addProvidersWithoutIdentity,
       shuffle,
-      bringValidBlocksFirst,
     ],
   );
   const {
