@@ -10,10 +10,11 @@ import { QueryKeys } from 'src/react-query/queryKeys';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
-import ErrorOnFetchIndicator from 'src/components/Utils/ErrorOnFetchIndicator';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { useTranslation } from 'react-i18next';
+import { usePendingActions } from 'src/utils/usePendingActions';
+import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
@@ -48,7 +49,8 @@ const TransactionQueue = () => {
   } = useOrganizationInfoContext();
 
   const queryClient = useQueryClient();
-  const allPendingActions = queryClient.getQueryData(QueryKeys.ALL_PENDING_ACTIONS) as any[];
+  // const allPendingActions = queryClient.getQueryData(QueryKeys.ALL_PENDING_ACTIONS) as any[];
+  const { allPendingActions } = usePendingActions();
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -67,7 +69,7 @@ const TransactionQueue = () => {
   });
 
   if (!allPendingActions) {
-    return <ErrorOnFetchIndicator dataName="proposal" />;
+    return <LoadingDataIndicator dataName="proposal" />;
   }
 
   return (

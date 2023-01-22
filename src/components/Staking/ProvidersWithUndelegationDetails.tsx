@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   GridExpandMoreIcon,
 } from '@mui/x-data-grid';
 import ExpandLessRoundedIcon from '@mui/icons-material/ExpandLessRounded';
 import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
 import { useMemo, useState } from 'react';
-import { AccordionDetails, Box, Grid } from '@mui/material';
+import { AccordionDetails, Box, Grid, Typography, useMediaQuery } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import { IDelegation, IdentityWithColumns, IUndelegatedFunds } from 'src/types/staking';
@@ -54,6 +55,8 @@ const useStyles = makeStyles(() => ({
 const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
   const config = useMemo(() => ({ searchParam }), [searchParam]);
   const { t } = useTranslation();
+  const maxWidth460 = useMediaQuery('(max-width: 460px)');
+  const maxWidth600 = useMediaQuery('(max-width: 600px)');
 
   const {
     fetchedProviderIdentities,
@@ -230,7 +233,9 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                   <Text fontSize={12}><strong>Withdrawable:</strong></Text>
                 </div>
                 <div className="d-flex align-items-center mt-1">
-                  <Text fontSize={12}>{row.withdrawableUndelegationsAmount} / {row.totalRequestedUndelegations} $EGLD</Text>
+                  <Text fontSize={12}>
+                    {row.withdrawableUndelegationsAmount} / {row.totalRequestedUndelegations} $EGLD
+                  </Text>
                 </div>
               </Grid>
               <Grid item xs={12} display={'flex'} alignItems={'center'}>
@@ -269,15 +274,30 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
           >
             {
                 row.pendingWithdrawals?.map((withdrawal: IUndelegatedFunds) => (
-                  <Box key={withdrawal.seconds} padding={'1rem'} display="flex" justifyContent={'space-between'}>
-                    <Box>
+                  <Box
+                    key={withdrawal.seconds}
+                    display="flex"
+                    justifyContent={'space-between'}
+                    flexWrap="wrap"
+                  >
+                    <Box flex={1} paddingTop="10px" paddingLeft="10px" paddingBottom="10px">
                       <TokenPresentationWithPrice
                         identifier="EGLD"
                         withTokenAmount={false}
                         withTokenValue={false}
                       />
                     </Box>
-                    <Box display="flex" alignItems="start" flexDirection={'column'}>
+                    <Box
+                      display="flex"
+                      flexDirection={'column'}
+                      flex={1}
+                      paddingTop="10px"
+                      paddingRight={maxWidth460 ? '10px' : '0'}
+                      paddingLeft={maxWidth460 ? '14px' : '0'}
+                      paddingBottom="10px"
+                      alignItems={maxWidth460 ? 'flex-start' : 'center'}
+                      borderLeft={maxWidth460 ? '1px solid #312870' : 'none'}
+                    >
                       <Box><Text>Amount: {' '}</Text></Box>
                       <Box>
                         <Text>
@@ -289,34 +309,67 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                     </Box>
                     <Box
                       display="flex"
+                      flex={maxWidth460 ? '100%' : 1}
                       alignItems="center"
+                      borderTop={maxWidth460 ? '1px solid #312870' : 'none'}
+                      paddingTop="10px"
+                      paddingRight={maxWidth460 ? '0' : '10px'}
+                      paddingBottom={maxWidth460 ? '10px' : '10px'}
+                      paddingLeft={maxWidth460 ? '10px' : '10px'}
+                      justifyContent="center"
                     >
-                      <HtmlTooltip
-                        disableFocusListener
-                        disableTouchListener
-                        title={(
-                          <Box display={'flex'}>
-                            <CountdownTimer targetDate={NOW_IN_MS + withdrawal.seconds * 1000} />
-                            <span className="ml-1">{t('left until unbonding ends') as string}</span>
+                      {!maxWidth600 ? (
+                        <HtmlTooltip
+                          disableFocusListener
+                          disableTouchListener
+                          title={(
+                            <Box display="flex" alignItems="center">
+                              <CountdownTimer targetDate={NOW_IN_MS + withdrawal.seconds * 1000} />
+                              <Typography
+                                component="span"
+                                className="ml-1"
+                                fontSize={11}
+                              >
+                                {t('left until unbonding ends') as string}
+                              </Typography>
+                            </Box>
+                        )}
+                          placement="top"
+                        >
+                          <MainButtonNoShadow
+                            sx={{
+                              height: '30px',
+                              textTransform: 'none',
+                              cursor: 'auto !important',
+                              paddingLeft: '5px !important',
+                              paddingBottom: '5px !important',
+                            }}
+                            variant="contained"
+                            size="small"
+                          >
+                            <HourglassTopRoundedIcon sx={{ mr: '3px' }} />
+                            <Text fontSize="12px">Unbonding</Text>
+                          </MainButtonNoShadow>
+                        </HtmlTooltip>
+                      ) :
+                        (
+                          <Box width="100%" display="flex" justifyContent="center">
+                            <Box
+                              display={maxWidth460 ? 'flex' : 'block'}
+                              width="100%"
+                              justifyContent="center"
+                            >
+                              <Text mr={1}>Unbonding in:</Text>
+                              <Box display="flex" alignItems="center">
+                                <HourglassTopRoundedIcon sx={{ fontSize: '1rem', marginRight: '3px' }} />
+                                <CountdownTimer targetDate={
+                                NOW_IN_MS + withdrawal.seconds * 1000
+                              }
+                                />
+                              </Box>
+                            </Box>
                           </Box>
                         )}
-                        placement="top"
-                      >
-                        <MainButtonNoShadow
-                          sx={{
-                            height: '30px',
-                            textTransform: 'none',
-                            cursor: 'auto !important',
-                            paddingLeft: '5px !important',
-                            paddingBottom: '5px !important',
-                          }}
-                          variant="contained"
-                          size="small"
-                        >
-                          <HourglassTopRoundedIcon sx={{ mr: '3px' }} />
-                          <Text fontSize="12px">Wait</Text>
-                        </MainButtonNoShadow>
-                      </HtmlTooltip>
                     </Box>
                   </Box>
                 ))
