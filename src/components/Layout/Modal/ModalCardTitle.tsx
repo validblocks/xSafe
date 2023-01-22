@@ -16,11 +16,11 @@ const ModalCardTitle = ({ title, handleClose, activeStepNumber = 0, totalSteps =
     <ModalCardTitleContainer sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <Text
-          fontSize={maxWidth600 && totalSteps > 0 ? '16px' : '24px'}
+          fontSize={maxWidth600 && totalSteps > 0 ? '16px' : '20px'}
           sx={{ '&:first-letter': { textTransform: 'uppercase !important' } }}
         > {title}
         </Text>
-        <Typography sx={{ mt: '0.3rem' }}>
+        <Typography sx={{ color: `${theme.palette.text.secondaryMenu} !important` }}>
           {totalSteps > 0 && <Text color="black.main" fontSize="12px"> Step {activeStepNumber} of {totalSteps}</Text>}
         </Typography>
       </Box>
