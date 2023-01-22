@@ -26,12 +26,6 @@ export const TransactionAccordion = styled(Accordion)`
   @media (max-width: 600px){
     & .MuiAccordionSummary-root {
       padding: 0;
-      & .MuiAccordionSummary-expandIconWrapper {
-        margin-left: 0;
-        position: absolute;
-        right: 20px;
-        top: calc(50% + 6px);
-      }
     }
   };
 `;
