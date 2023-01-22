@@ -62,7 +62,7 @@ const ProposeUnstakeTokens = ({
 
   const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
-      amount: 0.1,
+      amount: 1,
     },
     validationSchema: Yup.object().shape({
       amount: Yup.string()
@@ -81,8 +81,8 @@ const ProposeUnstakeTokens = ({
               }) ?? false
             );
           }
-          if (newAmount < 0) {
-            formik.setFieldValue('amount', 0.1);
+          if (newAmount < 1) {
+            formik.setFieldValue('amount', 1);
           }
 
           const delegatedAmount = Number(selectedStakingProvider?.delegatedColumn?.delegatedAmount ?? 0);
