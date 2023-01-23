@@ -69,7 +69,7 @@ export default function useMultisigDetailsCards() {
         tokens: totalOrganizationValueToDisplay === '0' ? 0 : organizationTokens?.length,
       }),
     );
-  }, [organizationTokens, currentContract.address, totalOrganizationValueToDisplay]);
+  }, [organizationTokens, currentContract?.address, totalOrganizationValueToDisplay]);
 
   useEffect(() => {
     const value = Number(parseFloat(totalUsdValueConverted.toFixed(2))).toLocaleString();

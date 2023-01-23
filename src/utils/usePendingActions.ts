@@ -23,7 +23,7 @@ export const usePendingActions = () => {
 
   useEffect(() => {
     if (isLoggedIn) { refetchPendingActions(); }
-  }, [currentContract.address, isLoggedIn, refetchPendingActions]);
+  }, [currentContract?.address, isLoggedIn, refetchPendingActions]);
 
   const actionableByCurrentWallet = useMemo(
     () =>
