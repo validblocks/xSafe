@@ -103,8 +103,17 @@ function AddMultisigModal({
       centered
     >
       <Box sx={{ backgroundColor: theme.palette.background.secondary }} className="modal-content">
-        <ModalCardTitle title={t('Add Multisig') as string} handleClose={handleClose} />
+        <ModalCardTitle title={t('Load an existing Safe') as string} handleClose={handleClose} />
         <Box py={2} px={maxWidth600 ? 2 : 4} mt={maxWidth600 ? 0 : 2}>
+          <FormikInputField
+            label={t('Safe name')}
+            name="name"
+            value={name}
+            error={hasSafeNameErrors}
+            handleChange={formik.handleChange}
+            handleBlur={formik.handleBlur}
+            className={hasSafeNameErrors != null ? 'isError' : ''}
+          />
           <FormikInputField
             label={t('Safe address')}
             name="address"
@@ -114,17 +123,6 @@ function AddMultisigModal({
             handleBlur={formik.handleBlur}
             className={hasAddressErrors != null ? 'isError' : ''}
           />
-          <Box mt={3}>
-            <FormikInputField
-              label={t('Safe name')}
-              name="name"
-              value={name}
-              error={hasSafeNameErrors}
-              handleChange={formik.handleChange}
-              handleBlur={formik.handleBlur}
-              className={hasSafeNameErrors != null ? 'isError' : ''}
-            />
-          </Box>
           <Box className="modal-action-btns" marginTop={maxWidth600 ? '24px !important' : ''}>
             <MainButton
               onClick={handleClose}
