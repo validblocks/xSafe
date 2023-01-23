@@ -244,7 +244,7 @@ const MobileLayout = () => {
                     width="100% !important"
                     textAlign="center"
                   >
-                    {actionableByCurrentWallet}
+                    {actionableByCurrentWallet ?? 0}
                   </Text>
                 </LinkInfoNumber>
                 )}

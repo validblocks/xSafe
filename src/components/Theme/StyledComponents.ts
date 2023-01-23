@@ -574,6 +574,15 @@ export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
     '& .modal-content': {
       backgroundColor: _.palette.background.secondary,
     },
+    '~ .dapp-ledger-login-container .dapp-ledger-address-table': {
+      backgroundColor: _.palette.background.secondary,
+      '.dapp-core-component__main__table': {
+        color: `${_.palette.text.primary}!important`,
+        '.dapp-core-component__main__text-black-50': {
+          color: `${_.palette.text.primary}!important`,
+        },
+      },
+    },
     '~ .dapp-wallet-connect-login-modal, ~ .dapp-ledger-login-container': {
       '.dapp-core-component__dappModalStyles__dappModalContent': {
         backgroundColor: _.palette.background.secondary,
