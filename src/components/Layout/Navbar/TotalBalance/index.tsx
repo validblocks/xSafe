@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { getAccountBalance as getAccount } from '@multiversx/sdk-dapp/utils/account';
 import { TokenPayment } from '@multiversx/sdk-core/out';
@@ -9,7 +10,9 @@ import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/typ
 import {
   selectedCurrencySelector,
 } from 'src/redux/selectors/currencySelector';
-import { currentMultisigContractSelector, currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import {
+  currentMultisigContractSelector, currentMultisigTransactionIdSelector,
+} from 'src/redux/selectors/multisigContractsSelectors';
 import { setValueInUsd } from 'src/redux/slices/currencySlice';
 import { setProposeModalSelectedOption, setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
@@ -309,31 +312,46 @@ function TotalBalance() {
           justifyContent: minWidth600 ? 'center' : 'flex-end',
         }}
       >
-        {!isInReadOnlyMode ? (
+        {!isInReadOnlyMode || (isLoggedIn && (!currentContract?.address || currentContract?.address === '')) ? (
           <NewTransactionButton
             variant="outlined"
             onClick={onNewTransactionClick}
             onKeyDown={(e) => e.preventDefault()}
             onKeyUp={(e) => e.preventDefault()}
+            disabled={!currentContract?.address || currentContract?.address === ''}
           >
             Send Token
           </NewTransactionButton>
         ) : (
           <Text height={'40px'} display="flex" alignItems={'center'}>
-            {isLoggedIn ? 'Read-Only Mode' : (
-              <AccountButton
-                variant="outlined"
-                onClick={handleConnectClick}
-                size="large"
-              >
-                <Box className="d-flex">
-                  <BoltIcon />
-                  <Typography sx={{ textTransform: isLoggedIn ? 'lowercase' : 'none' }}>
-                    Connect
-                  </Typography>
-                </Box>
-              </AccountButton>
-            )}
+            {isLoggedIn
+              ? currentContract?.address && currentContract?.address !== ''
+                ? 'Read-Only Mode'
+                : (
+                  <NewTransactionButton
+                    variant="outlined"
+                    onClick={onNewTransactionClick}
+                    onKeyDown={(e) => e.preventDefault()}
+                    onKeyUp={(e) => e.preventDefault()}
+                    disabled
+                  >
+                    Send Token
+                  </NewTransactionButton>
+                )
+              : (
+                <AccountButton
+                  variant="outlined"
+                  onClick={handleConnectClick}
+                  size="large"
+                >
+                  <Box className="d-flex">
+                    <BoltIcon />
+                    <Typography sx={{ textTransform: isLoggedIn ? 'lowercase' : 'none' }}>
+                      Connect
+                    </Typography>
+                  </Box>
+                </AccountButton>
+              )}
           </Text>
         )}
       </Box>
