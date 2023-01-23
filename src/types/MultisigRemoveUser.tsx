@@ -1,7 +1,7 @@
-import { Ui } from '@elrondnetwork/dapp-utils';
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import i18next from 'i18next';
 import ExplorerLink from 'src/components/ExplorerLink';
+import Trim from 'src/components/Trim';
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
 
@@ -23,7 +23,7 @@ export class MultisigRemoveUser extends MultisigAction {
         page={`accounts/${this.address.bech32()}`}
         text={(
           <div className="address">
-            <Ui.Trim text={this.address.bech32()} />
+            <Trim text={this.address.bech32()} />
           </div>
 )}
       />

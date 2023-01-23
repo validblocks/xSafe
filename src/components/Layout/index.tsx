@@ -3,8 +3,8 @@ import { useCallback, useEffect } from 'react';
 import {
   useGetAccountInfo,
   useGetLoginInfo,
-} from '@elrondnetwork/dapp-core/hooks/account';
-import { AuthenticatedRoutesWrapper, AxiosInterceptorContext } from '@elrondnetwork/dapp-core/wrappers';
+} from '@multiversx/sdk-dapp/hooks/account';
+import { AuthenticatedRoutesWrapper, AxiosInterceptorContext } from '@multiversx/sdk-dapp/wrappers';
 import { Box } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ import { Main } from 'src/components/Theme/StyledComponents';
 import { useTheme } from 'styled-components';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import routeNames from 'src/routes/routeNames';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { Nav } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
@@ -31,7 +31,7 @@ import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import axios from 'axios';
 import { network } from 'src/config';
-import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@multiversx/sdk-core/out';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
@@ -52,7 +52,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const fetchAccountData = useCallback(async () => {
-    const accountData = await ElrondApiProvider.getAccountData(address);
+    const accountData = await MultiversxApiProvider.getAccountData(address);
     if (accountData !== null) {
       dispatch(setAccountData(accountData));
     }
@@ -107,7 +107,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   }, [isLoggedIn, address, dispatch, currentContract?.address, navigate, fetchAccountData, attachedContracts, isFetchingContracts, isLoadingContracts]);
 
   const fetchEconomics = useCallback(async () => {
-    const economics = await ElrondApiProvider.getEconomicsData();
+    const economics = await MultiversxApiProvider.getEconomicsData();
     if (economics !== null) {
       dispatch(setEconomics(economics));
     }

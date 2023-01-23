@@ -1,11 +1,10 @@
 import { useContext, useEffect, useMemo } from 'react';
-import { operations } from '@elrondnetwork/dapp-utils';
 import {
   Address,
   BigUIntValue,
   BytesValue,
   TokenPayment,
-} from '@elrondnetwork/erdjs/out';
+} from '@multiversx/sdk-core/out';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormikProps, useFormik } from 'formik';
@@ -15,7 +14,6 @@ import * as Yup from 'yup';
 import { TestContext } from 'yup';
 import MultisigDetailsContext from 'src/context/MultisigDetailsContext';
 import { FormikInputField } from 'src/helpers/formikFields';
-import { denomination } from 'src/config';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { useTheme } from 'styled-components';
@@ -131,12 +129,7 @@ const ProposeSmartContractCall = ({
 
   const denominatedValue = useMemo(
     () =>
-      operations.denominate({
-        input: multisigBalance.toString(),
-        denomination,
-        decimals: 4,
-        showLastNonZeroDecimal: true,
-      }),
+      TokenPayment.egldFromBigInteger(multisigBalance.toString()).toRationalNumber(),
     [multisigBalance],
   );
 

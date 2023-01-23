@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs';
+import { Address } from '@multiversx/sdk-core';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -10,7 +10,7 @@ import useMultisigDetailsCards from 'src/utils/useMultisigDetailsCards';
 import routeNames from 'src/routes/routeNames';
 import { parseMultisigAddress } from 'src/utils/addressUtils';
 import { useEffect } from 'react';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { MultisigCardGrid } from 'src/components/StyledComponents/StyledComponents';
 import * as Styled from './styled';
 

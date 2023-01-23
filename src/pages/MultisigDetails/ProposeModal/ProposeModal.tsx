@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import {
@@ -16,7 +16,7 @@ import { MainButton, MainButtonNoShadow, ModalConnectContainer } from 'src/compo
 import { Box, useMediaQuery } from '@mui/material';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import Unlock from 'src/pages/Unlock';
-import { getIsLoggedIn } from '@elrondnetwork/dapp-core/utils';
+import { getIsLoggedIn } from '@multiversx/sdk-dapp/utils';
 import ConnectedAccount from 'src/components/Layout/Navbar/ConnectedAccount';
 import EditOwner from './EditOwner';
 import ProposeChangeQuorum from './ProposeChangeQuorum';

@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import TransactionParameter from 'src/types/TransactionParameter';
 
 export async function tryParseTransactionParameter(

@@ -1,12 +1,12 @@
-import { Address, INonce } from '@elrondnetwork/erdjs';
-import { NumericalBinaryCodec } from '@elrondnetwork/erdjs/out/smartcontracts/codec/numerical';
+import { Address, INonce } from '@multiversx/sdk-core';
+import { NumericalBinaryCodec } from '@multiversx/sdk-core/out/smartcontracts/codec/numerical';
 import {
   BigUIntType,
   BytesValue,
   U32Value,
   U64Value,
-} from '@elrondnetwork/erdjs/out/smartcontracts/typesystem';
-import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
+} from '@multiversx/sdk-core/out/smartcontracts/typesystem';
+import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
 import createKeccakHash from 'keccak';
 import { MultisigAction } from 'src/types/MultisigAction';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';

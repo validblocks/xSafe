@@ -1,4 +1,4 @@
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { Box } from '@mui/system';
 import { HtmlTooltip } from 'src/components/Utils/HtmlTooltip';
 import menuItems from 'src/utils/menuItems';

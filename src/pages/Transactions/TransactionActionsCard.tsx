@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unused-prop-types */
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import { gasLimit as defaultGasLimit } from 'src/config';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,7 +14,7 @@ import { gasLimits } from 'src/components/PerformActionModal';
 import { setIntervalEndTimestamp } from 'src/redux/slices/transactionsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
+import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { useState } from 'react';
 import useTransactionPermissions from './useTransactionPermissions';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';

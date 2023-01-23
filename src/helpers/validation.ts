@@ -1,5 +1,5 @@
-import { Address } from '@elrondnetwork/erdjs';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { Address } from '@multiversx/sdk-core';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import * as Yup from 'yup';
 
 export const validateContractAddressOwner =
@@ -18,7 +18,7 @@ export const validateContractAddressOwner =
             }) ?? false
           );
         }
-        const contractInfo = await ElrondApiProvider.getAccountData(value);
+        const contractInfo = await MultiversxApiProvider.getAccountData(value);
         const isCurrentUserOwner = new Address(contractInfo.ownerAddress).equals(
           ownerAddress,
         );

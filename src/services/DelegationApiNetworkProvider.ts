@@ -1,4 +1,4 @@
-import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
+import { ApiNetworkProvider } from '@multiversx/sdk-network-providers/out';
 
 export class DelegationApiNetworkProvider extends ApiNetworkProvider {
   async getDelegations(address: string) {

@@ -1,4 +1,4 @@
-import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@multiversx/sdk-core/out';
 import React from 'react';
 
 const MultisigDetailsContext = React.createContext({

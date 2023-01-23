@@ -1,4 +1,4 @@
-import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
+import { ApiNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { useEffect, useState } from 'react';
 
 export interface IDelegationConstants {

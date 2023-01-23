@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-nested-ternary */
-import { sendTransactions } from '@elrondnetwork/dapp-core/services';
+import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import {
   useGetAccountProvider,
   useGetPendingTransactions,
   useTrackTransactionStatus,
-} from '@elrondnetwork/dapp-core/hooks';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
-import { Address } from '@elrondnetwork/erdjs/out';
+} from '@multiversx/sdk-dapp/hooks';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
+import { Address } from '@multiversx/sdk-core/out';
 import { Box } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

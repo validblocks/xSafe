@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import { Box } from '@mui/material';
 import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
 import { Text } from '../StyledComponents/StyledComponents';

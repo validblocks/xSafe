@@ -1,4 +1,4 @@
-import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@multiversx/sdk-core/out';
 import axios from 'axios';
 import { useCallback } from 'react';
 import { useQuery } from 'react-query';
@@ -28,7 +28,7 @@ export default function useProviderIdentitiesAfterSelection({
     [],
   );
 
-  const { data: fetchedProviders } = useQuery(
+  const { data: fetchedProviders, refetch: refetchProviders } = useQuery(
     [QueryKeys.FETCHED_PROVIDERS],
     fetchProviders,
     {
@@ -92,7 +92,7 @@ export default function useProviderIdentitiesAfterSelection({
     [fetchedProviders],
   );
 
-  const bringValidBlocksFirst = useCallback((data: IdentityWithColumns[]) => {
+  const _bringValidBlocksFirst = useCallback((data: IdentityWithColumns[]) => {
     const validBlocksIndex = data.findIndex(
       (p) => p.identity === 'validblocks',
     );
@@ -197,14 +197,12 @@ export default function useProviderIdentitiesAfterSelection({
         buildColumns,
         addProvidersWithoutIdentity,
         shuffle,
-        bringValidBlocksFirst,
       )(data),
     [
       filterBySearchParam,
       buildColumns,
       addProvidersWithoutIdentity,
       shuffle,
-      bringValidBlocksFirst,
     ],
   );
   const {
@@ -228,5 +226,6 @@ export default function useProviderIdentitiesAfterSelection({
     isFetchingProviderIdentities,
     isLoadingProviderIdentities,
     isErrorOnFetchingProviderIdentities,
+    refetchProviders,
   };
 }

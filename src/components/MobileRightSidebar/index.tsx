@@ -11,7 +11,7 @@ import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
 import { useSelector } from 'react-redux';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import SafeSettings from 'src/pages/Settings/SafeSettings';
 import { useTheme } from 'styled-components';
 import * as Styled from './styled';

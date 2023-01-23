@@ -2,21 +2,19 @@ import React, { useMemo, useState } from 'react';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import { makeStyles } from '@mui/styles';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import { TransactionAccordion } from 'src/components/StyledComponents/transactions';
-import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
 import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItemsPerPage';
-import { queryAllActions } from 'src/contracts/MultisigContract';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
-import ErrorOnFetchIndicator from 'src/components/Utils/ErrorOnFetchIndicator';
 import { ArrowDropDown } from '@mui/icons-material';
-import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
+import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { useTranslation } from 'react-i18next';
+import { usePendingActions } from 'src/utils/usePendingActions';
+import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
@@ -51,19 +49,8 @@ const TransactionQueue = () => {
   } = useOrganizationInfoContext();
 
   const queryClient = useQueryClient();
-
-  const {
-    data: allPendingActions,
-    isLoading,
-    isFetching,
-    isError,
-  } = useQuery(
-    QueryKeys.ALL_PENDING_ACTIONS,
-    () => queryAllActions().then((resp) => resp),
-    {
-      ...USE_QUERY_DEFAULT_CONFIG,
-    },
-  );
+  // const allPendingActions = queryClient.getQueryData(QueryKeys.ALL_PENDING_ACTIONS) as any[];
+  const { allPendingActions } = usePendingActions();
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -81,12 +68,8 @@ const TransactionQueue = () => {
     },
   });
 
-  if (isLoading || isFetching) {
-    return <LoadingDataIndicator dataName="action" />;
-  }
-
-  if (isError || !allPendingActions) {
-    return <ErrorOnFetchIndicator dataName="proposal" />;
+  if (!allPendingActions) {
+    return <LoadingDataIndicator dataName="proposal" />;
   }
 
   return (

@@ -1,6 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
-import { getAccountBalance as getAccount } from '@elrondnetwork/dapp-core/utils/account';
-import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { getAccountBalance as getAccount } from '@multiversx/sdk-dapp/utils/account';
+import { TokenPayment } from '@multiversx/sdk-core/out';
 import { Box, CircularProgress, Typography, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import BoltIcon from '@mui/icons-material/Bolt';
@@ -22,7 +22,7 @@ import {
   StateType,
 } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { priceSelector } from 'src/redux/selectors/economicsSelector';
@@ -30,7 +30,7 @@ import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { useGetLoginInfo, useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
+import { useGetLoginInfo, useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { CenteredText } from '../navbar-style';
 import * as Styled from '../styled';
 
@@ -45,7 +45,7 @@ function TotalBalance() {
   const minWidth600 = useMediaQuery('(min-width:600px)');
 
   const fetchAddressEsdts = useCallback(
-    () => ElrondApiProvider.getAddressTokens(currentContract?.address),
+    () => MultiversxApiProvider.getAddressTokens(currentContract?.address),
     [currentContract],
   );
 
@@ -55,7 +55,7 @@ function TotalBalance() {
   );
 
   const fetchNFTs = useCallback(
-    () => ElrondApiProvider.fetchOrganizationNFTs(currentContract?.address),
+    () => MultiversxApiProvider.fetchOrganizationNFTs(currentContract?.address),
     [currentContract],
   );
 

@@ -7,17 +7,17 @@ import { uniqueContractAddress } from 'src/multisigConfig';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { refreshAccount } from '@elrondnetwork/dapp-core/utils';
-import { useGetAccountProvider, useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
+import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { useGetAccountProvider, useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { useTheme } from 'styled-components';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { Text, TextxSafeDescription } from 'src/components/StyledComponents/StyledComponents';
 import { dAppName, network } from 'src/config';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
-import { LoginMethodsEnum } from '@elrondnetwork/dapp-core/types';
-import xSafeLogo from 'src/assets/img/xSafe-Logo.svg';
+import { LoginMethodsEnum } from '@multiversx/sdk-dapp/types';
+import { XSafeLogo } from 'src/components/Utils/XSafeLogo';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
@@ -45,7 +45,7 @@ function Dashboard() {
 
   async function checkSingleContractValidity() {
     if (uniqueContractAddress || !network.storageApi) {
-      const isValidMultisigContract = await ElrondApiProvider.validateMultisigAddress(
+      const isValidMultisigContract = await MultiversxApiProvider.validateMultisigAddress(
         uniqueContractAddress,
       );
       if (!isValidMultisigContract) {
@@ -134,7 +134,7 @@ function Dashboard() {
                     >
                       {t('Welcome to')}
                     </Text>
-                    <img width="98" height="33" src={xSafeLogo} alt="logo" />
+                    <XSafeLogo width={98} height={33} />
                   </Box>
                   <TextxSafeDescription margin={'12px 0 45px 0'} fontWeight={500}>
                     {dAppName}

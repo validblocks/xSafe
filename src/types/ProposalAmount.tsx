@@ -1,4 +1,4 @@
-import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@multiversx/sdk-core/out';
 import { useCallback, useMemo } from 'react';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { MultisigSmartContractCall } from './MultisigSmartContractCall';

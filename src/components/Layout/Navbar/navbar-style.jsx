@@ -12,7 +12,7 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Navbar as NavItem } from 'react-bootstrap';
 import styled from 'styled-components';
-import { ReactComponent as ElrondLogo } from 'src/assets/img/elrond.svg';
+import { ReactComponent as MultiversX } from 'src/assets/img/multiversx-symbol.svg';
 import CopyButton from 'src/components/CopyButton';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import MuiDrawer from '@mui/material/Drawer';
@@ -96,6 +96,16 @@ export const MembersBox = styled(Box)`
 }
 `;
 
+export const LinkInfoNumber = styled(Box)`
+&&& {
+  min-width: 17px;
+  background-color: ${(props) => props.theme.palette.background.safe};
+  border-radius: 4px;
+  padding: 0px 3px;
+  color: ${(props) => props.theme.palette.primary.main};
+}
+`;
+
 export const SmallWarningBox = styled(MembersBox)`
   background-color: #ffececb1;
 `;
@@ -131,7 +141,7 @@ export const NavLogo = styled(NavItem)(({ theme: _ }) => ({
   },
 }));
 
-export const Logo = styled(ElrondLogo)`
+export const Logo = styled(MultiversX)`
   width: 85px;
 `;
 

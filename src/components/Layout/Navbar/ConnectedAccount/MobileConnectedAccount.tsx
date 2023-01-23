@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
-import { logout } from '@elrondnetwork/dapp-core/utils';
-import { useGetAccountInfo } from '@elrondnetwork/dapp-core/hooks';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
+import { logout } from '@multiversx/sdk-dapp/utils';
+import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import SearchIcon from '@mui/icons-material/Search';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Box, useMediaQuery } from '@mui/material';
@@ -12,7 +12,7 @@ import CopyButton from 'src/components/CopyButton';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@multiversx/sdk-core/out';
 import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountGeneralInfoSlice';
 import { useDispatch } from 'react-redux';
 import * as Styled from '../../../Utils/styled';

@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Address } from '@elrondnetwork/erdjs';
+import { Address } from '@multiversx/sdk-core';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from 'styled-components';
 import { ProposeAddressInput } from 'src/components/Theme/StyledComponents';

@@ -1,9 +1,9 @@
-import { ApiNetworkProvider } from '@elrondnetwork/erdjs-network-providers/out';
-import { ITransactionOnNetwork } from '@elrondnetwork/erdjs/out';
+import { ApiNetworkProvider } from '@multiversx/sdk-network-providers/out';
+import { ITransactionOnNetwork } from '@multiversx/sdk-core/out';
 import { network } from 'src/config';
 import { NFTType } from 'src/types/nfts';
 
-export class ElrondApiNetworkProvider extends ApiNetworkProvider {
+export class MultiversxApiNetworkProvider extends ApiNetworkProvider {
   async getDetailsOfAllTokens() {
     return this.doGetGeneric('mex/tokens');
   }
@@ -89,6 +89,6 @@ export class ElrondApiNetworkProvider extends ApiNetworkProvider {
   }
 }
 
-export const ElrondApiProvider = new ElrondApiNetworkProvider(
+export const MultiversxApiProvider = new MultiversxApiNetworkProvider(
   network?.apiAddress ?? '',
 );

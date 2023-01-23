@@ -1,7 +1,7 @@
 import { BalanceDetails } from 'src/pages/Organization/types';
 import { useState, useEffect } from 'react';
 import { AssetValue } from 'src/components/Theme/StyledComponents';
-import { TokenPayment } from '@elrondnetwork/erdjs/out';
+import { TokenPayment } from '@multiversx/sdk-core/out';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
 import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
 import { useSelector } from 'react-redux';

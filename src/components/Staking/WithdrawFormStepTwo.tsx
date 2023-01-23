@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
 import Form from 'react-bootstrap/Form';
-import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue, TokenPayment } from '@multiversx/sdk-core/out';
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
 import * as Yup from 'yup';

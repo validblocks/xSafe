@@ -162,9 +162,7 @@ const routes: RouteType[] = [
 
 const wrappedRoutes = () =>
   routes.map((route) => {
-    const title = route.title
-      ? `${route.title} • ${dAppName}`
-      : `${dAppName}`;
+    const title = route.title ? `${dAppName} • ${route.title}` : `${dAppName}`;
     return {
       path: route.path,
       authenticatedRoute: Boolean(route.authenticatedRoute),

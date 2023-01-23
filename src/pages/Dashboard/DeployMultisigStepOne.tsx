@@ -1,19 +1,19 @@
 /* eslint-disable no-nested-ternary */
 import { Box, IconButton, useMediaQuery } from '@mui/material';
-import { refreshAccount } from '@elrondnetwork/dapp-core/utils';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
-import { useGetAccountInfo, useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
+import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
+import { useGetAccountInfo, useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { addContractToMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { useGetPendingTransactions } from '@elrondnetwork/dapp-core/hooks/transactions';
+import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions';
 import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';
 import { FinalStepActionButton, InputsContainer } from 'src/components/Theme/StyledComponents';
 import { deployMultisigContract } from 'src/contracts/ManagerContract';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { useTheme } from 'styled-components';
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 import { useMultistepFormContext } from 'src/components/Utils/MultistepForm';
 import * as Styled from 'src/components/Utils/styled';
 import { useMultisigCreationFormContext } from './DeployMultisigModal';

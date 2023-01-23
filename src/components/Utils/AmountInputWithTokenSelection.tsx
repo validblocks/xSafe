@@ -7,7 +7,7 @@ import { OrganizationToken } from 'src/pages/Organization/types';
 import { useCallback, useMemo } from 'react';
 import { accountSelector, getTokenPhotoById } from 'src/redux/selectors/accountSelector';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
-import { StateType } from '@elrondnetwork/dapp-core/reduxStore/slices';
+import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
 import { useSelector } from 'react-redux';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { FormikProps } from 'formik';

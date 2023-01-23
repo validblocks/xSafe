@@ -1,10 +1,10 @@
-import { Box } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
-import { Address, BigUIntValue, TokenPayment } from '@elrondnetwork/erdjs/out';
+import { Address, BigUIntValue, TokenPayment } from '@multiversx/sdk-core/out';
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
 import * as Yup from 'yup';
@@ -12,7 +12,7 @@ import { organizationTokensSelector } from 'src/redux/selectors/accountSelector'
 import { OrganizationToken } from 'src/pages/Organization/types';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { useTrackTransactionStatus } from '@elrondnetwork/dapp-core/hooks';
+import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import ProviderPresentation from './ProviderPresentation';
 import { useMultistepFormContext } from '../Utils/MultistepForm';
@@ -177,20 +177,22 @@ const StakingFormStepTwo = () => {
     },
   });
 
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
+  const maxWidth480 = useMediaQuery('(max-width:480px)');
+
   const buttonStyle = useMemo(() => ({
     display: 'flex',
     alignItems: 'center',
     flexWrap: 'wrap',
-    padding: '0 14px',
     justifyContent: 'center',
     gap: buttonWidth > 90 ? 0 : 3,
     background: 'rgba(76, 47, 252, 0.1)',
-    paddingBottom: buttonWidth > 90 ? '9px' : '0 !important',
+    padding: maxWidth480 ? '1rem' : '0 1rem 1rem',
     borderRadius: '10px',
-  }), [buttonWidth]);
+  }), [buttonWidth, maxWidth480]);
 
   return (
-    <Box sx={{ padding: '2rem 3rem 0', display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box sx={{ padding: maxWidth600 ? '16px' : '2rem 3rem 0', display: 'flex', flexDirection: 'column', gap: 2 }}>
       <Box sx={buttonStyle}>
         <Box sx={{ flex: 4 }}>
           <ProviderPresentation provider={selectedProvider} />
@@ -200,6 +202,7 @@ const StakingFormStepTwo = () => {
             disabled={isProcessingTransaction}
             ref={buttonRef}
             onClick={proceedToPreviousStep}
+            sx={{ marginTop: maxWidth480 ? '1rem' : 0 }}
           >
             {t('Change') as string}
           </ChangeStepButton>
@@ -217,7 +220,7 @@ const StakingFormStepTwo = () => {
       <Box
         display={'flex'}
         gap={2}
-        paddingBottom={4}
+        paddingBottom={maxWidth600 ? '4px' : 4}
       >
         <ChangeStepButton disabled={isProcessingTransaction} onClick={proceedToPreviousStep}>
           <Text>{t('Back') as string}</Text>

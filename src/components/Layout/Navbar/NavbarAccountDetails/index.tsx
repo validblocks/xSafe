@@ -19,8 +19,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { network } from 'src/config';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import DeployStepsModal from 'src/pages/Dashboard/DeployMultisigModal';
 import { CustomStateType } from 'src/pages/Organization/types';
 import { HtmlTooltip } from 'src/components/Utils/HtmlTooltip';
@@ -89,7 +89,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
 
   useEffect(() => {
     ((async function checkContractOwnership() {
-      const contractDetails = await ElrondApiProvider.getAccountDetails(currentContract?.address);
+      const contractDetails = await MultiversxApiProvider.getAccountDetails(currentContract?.address);
       const isItsOwnOwner = contractDetails?.ownerAddress === contractDetails?.address;
       setDisplayOwnershipWarning(!isItsOwnOwner);
     })());

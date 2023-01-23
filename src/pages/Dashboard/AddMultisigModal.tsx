@@ -1,13 +1,13 @@
 import { useCallback } from 'react';
-import { Address } from '@elrondnetwork/erdjs';
+import { Address } from '@multiversx/sdk-core';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import {
   addContractToMultisigContractsList,
 } from 'src/apiCalls/multisigContractsCalls';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { ElrondApiProvider } from 'src/services/ElrondApiNetworkProvider';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { Box, useMediaQuery } from '@mui/material';
 import { useTheme } from 'styled-components';
 import {
@@ -20,7 +20,7 @@ import { FormikProps, useFormik } from 'formik';
 import FormikInputField from 'src/helpers/formikFields';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useDispatch } from 'react-redux';
-import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
+import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 
 interface AddMultisigModalType {
   show: boolean;
@@ -80,13 +80,14 @@ function AddMultisigModal({
   const dispatch = useDispatch();
   const onAddClicked = useCallback(async () => {
     const contractAddress = safeAddress;
-    const isAddressValid = await ElrondApiProvider.validateMultisigAddress(contractAddress);
+    const isAddressValid = await MultiversxApiProvider.validateMultisigAddress(contractAddress);
     if (isAddressValid) {
       const newContracts = await addContractToMultisigContractsList({
         address: contractAddress,
         name,
       });
-      dispatch(setMultisigContracts(newContracts));
+      await dispatch(setMultisigContracts(newContracts));
+      dispatch(setCurrentMultisigContract(contractAddress));
       setNewContracts(newContracts);
       handleClose();
     }

@@ -1,4 +1,4 @@
-import { Address } from '@elrondnetwork/erdjs/out';
+import { Address } from '@multiversx/sdk-core/out';
 
 export function truncateInTheMiddle(address: string, howMany: number): string {
   return `${address?.slice(0, howMany)}...${address?.slice(

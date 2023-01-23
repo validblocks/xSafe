@@ -24,8 +24,6 @@ export default function useMultisigDetailsCards() {
   const organizationTokens = useSelector(organizationTokensSelector);
   const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
 
-  console.log({ totalUsdValue });
-
   const [organizatonAssets, setOrganizationAssets] = useState({
     tokens: 0,
   });
@@ -73,7 +71,6 @@ export default function useMultisigDetailsCards() {
     );
   }, [organizationTokens, currentContract.address, totalOrganizationValueToDisplay]);
 
-  console.log({ totalUsdValueConverted });
   useEffect(() => {
     const value = Number(parseFloat(totalUsdValueConverted.toFixed(2))).toLocaleString();
     setTotalOrganizationValueToDisplay(value);
@@ -118,8 +115,6 @@ export default function useMultisigDetailsCards() {
     ],
     [currentContract?.address, getCurrency, isInReadOnlyMode, onNewTransactionClick, t, totalOrganizationValueToDisplay, userRoleAsString, userRoleDescription],
   );
-
-  console.log({ totalOrganizationValueToDisplay });
 
   const bottomSectionCards = useMemo(
     () => [

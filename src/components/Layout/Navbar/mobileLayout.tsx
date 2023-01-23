@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import xSafeLogo from 'src/assets/img/xSafe-Logo.svg';
 import { Box, IconButton, Tab, Typography, useMediaQuery } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -14,7 +13,7 @@ import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationI
 import pxToRem from 'src/components/Utils/pxToRem';
 import { useSelector } from 'react-redux';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { useGetLoginInfo } from '@elrondnetwork/dapp-core/hooks/account';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import SafeDark from 'src/assets/img/Safe-dark.png';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
@@ -25,9 +24,12 @@ import CopyButton from 'src/components/CopyButton';
 import { network } from 'src/config';
 import { CopyIconLinkConnectedAccount } from 'src/components/Utils/styled';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
+import { XSafeLogo } from 'src/components/Utils/XSafeLogo';
+import { usePendingActions } from 'src/utils/usePendingActions';
 import {
   AnchorConnectedAccount,
   BottomMenuButton,
+  LinkInfoNumber,
   MobileMenu,
   MobileSecondaryMenu,
   TopMobileMenu,
@@ -62,8 +64,6 @@ const MobileLayout = () => {
 
   const addressChars = useMemo(() => {
     if (minWidth535) return 12;
-    if (minWidth425) return 7;
-    if (minWidth410) return 7;
     if (minWidth380) return 7;
     return 3;
   }, [minWidth380, minWidth410, minWidth425, minWidth535]);
@@ -107,6 +107,8 @@ const MobileLayout = () => {
     navigate(route);
   };
 
+  const { allPendingActions, actionableByCurrentWallet } = usePendingActions();
+
   return (
     <Box>
       <Box
@@ -118,7 +120,7 @@ const MobileLayout = () => {
       >
         <TopMobileMenu>
           <TopMobileMenuLogoBox onClick={handleRedirectToHome}>
-            <img src={xSafeLogo} alt="Logo" width="50" />
+            <XSafeLogo width={50} />
           </TopMobileMenuLogoBox>
           <TopMobileMenuSafeBox sx={{
             px: 2,
@@ -226,21 +228,58 @@ const MobileLayout = () => {
               installedAndPinnedApps[0]?.link : el.link}
             style={{ width: '100%' }}
           >
+
             <BottomMenuButton>
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  display: 'block',
-                  textAlign: 'center',
-                  color: 'currentcolor',
-                  '& svg': {
-                    fill: 'currentcolor',
-                  },
-                }}
-              >
-                {el.name === 'Apps' && installedAndPinnedApps.length > 0 ?
-                  installedAndPinnedApps[0].icon : el.icon}
-              </ListItemIcon>
+              <Box display="flex" alignItems="center">
+                {el.name === 'Transactions' && (
+                <LinkInfoNumber
+                  sx={{
+                    backgroundColor: '#ff894691 !important',
+                    padding: '1px 3px !important',
+                  }}
+                  mr={0.5}
+                >
+                  <Text
+                    fontSize="11px"
+                    width="100% !important"
+                    textAlign="center"
+                  >
+                    {actionableByCurrentWallet}
+                  </Text>
+                </LinkInfoNumber>
+                )}
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    display: 'block',
+                    textAlign: 'center',
+                    color: 'currentcolor',
+                    '& svg': {
+                      fill: 'currentcolor',
+                    },
+                  }}
+                >
+                  {el.name === 'Apps' && installedAndPinnedApps.length > 0 ?
+                    installedAndPinnedApps[0].icon : el.icon}
+
+                </ListItemIcon>
+                {el.name === 'Transactions' && (
+                <LinkInfoNumber
+                  ml={0.5}
+                  sx={{
+                    padding: '1px 3px !important',
+                  }}
+                >
+                  <Text
+                    fontSize="11px"
+                    width="100% !important"
+                    textAlign="center"
+                  >
+                    {allPendingActions?.length ?? 0}
+                  </Text>
+                </LinkInfoNumber>
+                )}
+              </Box>
               <Typography component="span">{el.name === 'Apps' && installedAndPinnedApps.length > 0 ?
                 installedAndPinnedApps[0]?.name : el.name}
               </Typography>

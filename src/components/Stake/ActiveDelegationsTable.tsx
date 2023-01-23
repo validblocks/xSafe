@@ -13,8 +13,8 @@ import { IProviderColumn, IDelegatedColumn, IClaimableRewardsColumn } from 'src/
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
-import { Address, BigUIntValue } from '@elrondnetwork/erdjs/out';
-import BigNumber from '@elrondnetwork/erdjs/node_modules/bignumber.js';
+import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
+import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import ProviderColumn from '../Staking/ProviderColumn';
