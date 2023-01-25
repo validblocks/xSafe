@@ -627,6 +627,8 @@ export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
             },
             '.dapp-core-component__main__p-4': {
               padding: 0,
+              marginLeft: 0,
+              marginRight: 0,
             },
           },
           '.dapp-core-component__main__my-3, .dapp-core-component__main__my-4':
@@ -636,7 +638,15 @@ export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
               marginBottom: 0,
               marginTop: 0,
               '.dapp-core-component__main__qr-code-svg-container': {
-                marginBottom: '4px',
+                marginBottom: 0,
+              },
+              'svg.dapp-core-component__main__mb-4': {
+                marginBottom: 0,
+                marginTop: '4px',
+              },
+              'h4.dapp-core-component__main__h4': {
+                fontWeight: `${_.font.weight.lg} !important`,
+                marginTop: '24px',
               },
               'a.dapp-core-component__main__btn , button': {
                 backgroundColor: _.palette.background.main,
