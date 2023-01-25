@@ -194,7 +194,7 @@ const MiniDrawer = () => {
                               }}
                             />
                             <ListItemText
-                              primary={<Text>{subEl.name}</Text>}
+                              primary={<Text fontWeight={'400 !important'}>{subEl.name}</Text>}
                               sx={{ opacity: open ? 1 : 0, ml: open ? '20px' : 0 }}
                             />
                             {el.name === 'Apps' && (
@@ -250,7 +250,7 @@ const MiniDrawer = () => {
                               }}
                             />
                             <ListItemText
-                              primary={<Text>{subEl.name}</Text>}
+                              primary={<Text fontWeight={'400 !important'}>{subEl.name}</Text>}
                               sx={{ opacity: open ? 1 : 0, ml: open ? '20px' : 0 }}
                             />
                             {el.name === 'Apps' && (
