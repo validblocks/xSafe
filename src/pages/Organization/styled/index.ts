@@ -12,6 +12,9 @@ export const MainTable = styled(DataGrid)(({ theme }) => ({
       '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
     backgroundColor: theme.palette.background.secondary,
     border: 'none',
+    '& .MuiDataGrid-main div:first-child': {
+      zIndex: 0,
+    },
     '& .MuiDataGrid-columnSeparator': {
       display: 'none',
     },
