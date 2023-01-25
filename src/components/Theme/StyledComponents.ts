@@ -24,6 +24,7 @@ export const MainButton = styled(Button)`
     box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
     font-family: 'IBM Plex Sans', SFMono-Regular, Menlo, Monaco, Consolas,
       'Liberation Mono', 'Courier New', monospace;
+    letter-spacing: -0.5px;
     & svg path {
       fill: ${(props) => props.theme.palette.background.svg};
       fill-opacity: 1;

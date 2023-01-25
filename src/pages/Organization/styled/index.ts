@@ -221,7 +221,7 @@ export const QuorumCounterButton = styled(Button)(({ theme: _ }) => ({
 }));
 
 export const QuorumContent = styled.span(({ theme: _ }) => ({
-  padding: '0 28px',
+  padding: '0 20px',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -230,6 +230,7 @@ export const QuorumContent = styled.span(({ theme: _ }) => ({
   fontWeight: 600,
   fontFamily:
     'IBM Plex Sans, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
+  letterSpacing: '-0.5px',
   '& span': {
     fontFamily:
       'IBM Plex Sans, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',

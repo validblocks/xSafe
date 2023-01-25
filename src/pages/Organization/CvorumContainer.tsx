@@ -71,7 +71,7 @@ const CvorumContainer = () => {
   return (
     <Styled.CvorumContainer>
       <Box>
-        <Text fontSize={21} fontWeight={450}>Required Confirmations</Text>
+        <Text fontSize={21} fontWeight={600} letterSpacing={'-0.5px'}>Required confirmations</Text>
         <Box fontSize={14} marginTop={2}>
           <Text
             color={theme.palette.text.homeCards}
