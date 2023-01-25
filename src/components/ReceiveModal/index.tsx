@@ -65,7 +65,17 @@ const ReceiveModal = ({
         centered
       >
         <div className="card">
-          <Box className="card-body text-center receive" sx={{ backgroundColor: theme.palette.background.secondary, borderRadius: '10px' }}>
+          <Box
+            className="card-body text-center receive"
+            sx={{
+              backgroundColor: theme.palette.background.secondary,
+              borderRadius: '10px',
+              '& canvas': {
+                backgroundColor: '#fff',
+                border: 'none',
+              },
+            }}
+          >
             <p className="h3 mb-spacer title" data-testid="delegateTitle">
               <Text fontSize={24}>Deposit</Text>
             </p>
@@ -75,7 +85,12 @@ const ReceiveModal = ({
               className="h6 mb-spacer copy-address"
               data-testid="delegateSubTitle"
             >
-              <textarea style={{ borderColor: '#4c2ffc', backgroundColor: theme.palette.background.secondary }} readOnly value={address} className="address" />
+              <textarea
+                style={{ borderColor: '#4c2ffc', backgroundColor: theme.palette.background.secondary }}
+                readOnly
+                value={address}
+                className="address"
+              />
               <Typography
                 className="copy-btn"
                 sx={{
