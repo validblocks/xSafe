@@ -18,16 +18,16 @@ const PendingActionSummary = ({ action }: Props) => {
   return (
     <Styled.ActionSummaryContainer>
       <Styled.ActionIdBox>
-        <Text letterSpacing={'-0.5px'}>{action?.actionId}</Text>
+        <Text>{action?.actionId}</Text>
       </Styled.ActionIdBox>
 
       <Styled.ActionTitleBox>
-        <Text fontWeight={600} letterSpacing={'-0.5px'}>{action?.title()}</Text>
+        <Text fontWeight={600}>{action?.title()}</Text>
       </Styled.ActionTitleBox>
 
       <Styled.ActionSignersBox>
         <span>Confirmations:</span>
-        <Text fontWeight={500} fontSize={14} letterSpacing={'-0.5px'}>
+        <Text fontWeight={500} fontSize={14}>
           {action.signers.length} out of {quorumCount}
         </Text>
       </Styled.ActionSignersBox>

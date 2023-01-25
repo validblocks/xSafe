@@ -1,9 +1,9 @@
 export enum DelegationFunctionTitles {
-  'WithdrawRewards' = 'Withdraw Rewards',
-  'RestakeRewards' = 'Restake Rewards',
-  'ClaimRewards' = 'Claim Rewards',
-  'UnstakeTokens' = 'Unstake Tokens',
-  'StakeTokens' = 'Stake Tokens',
+  'WithdrawRewards' = 'Withdraw rewards',
+  'RestakeRewards' = 'Restake rewards',
+  'ClaimRewards' = 'Claim rewards',
+  'UnstakeTokens' = 'Unstake tokens',
+  'StakeTokens' = 'Stake tokens',
 }
 
 export const DelegationFunctionDescriptions: Record<

@@ -13,7 +13,7 @@ export class MultisigAddBoardMember extends MultisigAction {
   }
 
   title() {
-    return i18next.t('Add Board Member');
+    return i18next.t('Add member');
   }
 
   description() {
