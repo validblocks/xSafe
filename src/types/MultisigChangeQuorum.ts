@@ -11,11 +11,11 @@ export class MultisigChangeQuorum extends MultisigAction {
   }
 
   title() {
-    return i18next.t('Change Quorum');
+    return i18next.t('Change quorum');
   }
 
   description() {
-    return `${i18next.t('New Quorum Size')}: ${this.newSize.toString()}`;
+    return `${i18next.t('New quorum size')}: ${this.newSize.toString()}`;
   }
 
   tooltip() {

@@ -75,6 +75,7 @@ export const ActionSignersBox = styled(CenteredBox)`
   span {
     color: ${(props) => props.theme.palette.text.homeCards};
     font-size: 14px;
+    letter-spacing: -0.5px;
   };
   @media (max-width: 1300px){
     & div {
