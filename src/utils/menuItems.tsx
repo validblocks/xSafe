@@ -137,7 +137,7 @@ const topItems: MenuItem[] = [
         icon: <GroupsIcon />,
       },
       {
-        name: 'Cvorum',
+        name: 'Quorum',
         link: 'cvorum',
         id: 'cvorum-menu-item',
         icon: <PeopleIcon />,

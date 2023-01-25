@@ -99,6 +99,7 @@ export const Text = styled(Typography)`
   color: ${(props) => props.theme.palette.text.primary};
   font-family: 'IBM Plex Sans', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono',
     'Courier New', monospace !important;
+    letter-spacing: -0.5px !important;
 `;
 
 export const TextxSafeDescription = styled(Text)(({ theme: _ }) => ({

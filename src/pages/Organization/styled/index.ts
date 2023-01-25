@@ -200,24 +200,26 @@ export const QuorumCounterContainer = styled(Box)(({ theme: _ }) => ({
 }));
 
 export const QuorumCounterButton = styled(Button)(({ theme: _ }) => ({
-  Width: '36px',
-  height: '36px',
-  backgroundColor: _.palette.background.quorumCounter,
-  minWidth: '36px',
-  padding: 0,
-  '&.Mui-disabled': {
-    backgroundColor: _.palette.background.disabled,
-  },
-  '& .MuiButton-startIcon': {
-    marginLeft: 0,
-    marginRight: 0,
-  },
-  '& .MuiButton-startIcon>*:nth-of-type(1)': {
-    fontSize: '28px',
-    color: _.palette.svg.quorumCounter,
-  },
-  '&.Mui-disabled .MuiButton-startIcon>*:nth-of-type(1)': {
-    color: _.palette.text.disabled,
+  '&&&': {
+    width: '36px',
+    height: '36px',
+    backgroundColor: _.palette.background.quorumCounter,
+    minWidth: '36px',
+    padding: 0,
+    '&.Mui-disabled': {
+      backgroundColor: _.palette.background.disabled,
+    },
+    '& .MuiButton-startIcon': {
+      marginLeft: 0,
+      marginRight: 0,
+    },
+    '& .MuiButton-startIcon>*:nth-of-type(1)': {
+      fontSize: '28px',
+      color: _.palette.svg.quorumCounter,
+    },
+    '&.Mui-disabled .MuiButton-startIcon>*:nth-of-type(1)': {
+      color: _.palette.text.disabled,
+    },
   },
 }));
 
@@ -229,8 +231,12 @@ export const QuorumContent = styled.span(({ theme: _ }) => ({
   color: _.palette.text.quorumContent,
   fontSize: pxToRem(17),
   fontWeight: 600,
-  fontFamily: 'IBM Plex Sans',
+  fontFamily:
+    'IBM Plex Sans, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
+  letterSpacing: '-0.5px',
   '& span': {
+    fontFamily:
+      'IBM Plex Sans, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
     color: _.palette.text.quorumDigits,
     fontSize: pxToRem(17),
     fontWeight: 600,

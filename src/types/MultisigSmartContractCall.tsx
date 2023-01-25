@@ -77,11 +77,11 @@ export class MultisigSmartContractCall extends MultisigAction {
       case multisigContractFunctionNames.issue:
         return i18next.t('Issue Token');
       case multisigContractFunctionNames.ESDTTransfer:
-        return i18next.t('Send Token');
+        return i18next.t('Send token');
       case multisigContractFunctionNames.ESDTNFTTransfer:
         return i18next.t('Send NFT');
       case delegationFunctionNames.delegate:
-        return i18next.t('Stake Tokens');
+        return i18next.t('Stake tokens');
       case delegationFunctionNames.reDelegateRewards:
         return i18next.t(DelegationFunctionTitles.RestakeRewards);
       case delegationFunctionNames.unDelegate:

@@ -90,6 +90,7 @@ function TransactionDescription({
       marginTop: '10px',
       fontWeight: '600',
       fontFamily: 'IBM Plex Sans, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
+      letterSpacing: '-0.5px',
       '& span': {
         color: '#9C9BA5',
         marginLeft: '3px',

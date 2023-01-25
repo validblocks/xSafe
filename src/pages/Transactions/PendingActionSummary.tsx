@@ -22,12 +22,12 @@ const PendingActionSummary = ({ action }: Props) => {
       </Styled.ActionIdBox>
 
       <Styled.ActionTitleBox>
-        <Text fontWeight={700}>{action?.title()}</Text>
+        <Text fontWeight={600}>{action?.title()}</Text>
       </Styled.ActionTitleBox>
 
       <Styled.ActionSignersBox>
         <span>Confirmations:</span>
-        <Text fontWeight={500} fontSize={15}>
+        <Text fontWeight={500} fontSize={14}>
           {action.signers.length} out of {quorumCount}
         </Text>
       </Styled.ActionSignersBox>

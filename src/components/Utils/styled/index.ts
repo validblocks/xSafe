@@ -273,6 +273,7 @@ export const MainTab = styled(Tabs)(({ theme: _ }) => ({
       fontFamily:
         'IBM Plex Sans, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace !important',
       padding: '12px 45px',
+      letterSpacing: '-0.5px',
     },
     '& .MuiButtonBase-root.Mui-selected': {
       color: '#4c2FFC',
