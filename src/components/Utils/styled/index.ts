@@ -296,6 +296,18 @@ export const MainTab = styled(Tabs)(({ theme: _ }) => ({
   },
 }));
 
+export const TransactionsTab = styled(MainTab)(({ theme: _ }) => ({
+  '&&&': {
+    '@media (max-width:600px)': {
+      position: 'absolute',
+      marginTop: '-16.5px',
+      left: 0,
+      zIndex: 2,
+      backgroundColor: _.palette.background.default,
+    },
+  },
+}));
+
 export const MultistepForm = styled(Box)(({ theme }) => ({
   '&&&': {
     backgroundColor: theme.palette.background.secondary,
