@@ -109,18 +109,18 @@ export default function TransactionsPage() {
           flexDirection={maxWidth600 ? 'column' : 'row'}
           borderBottom={maxWidth600 ? 'none' : `2px solid ${theme.palette.divider.tabs}`}
         >
-          <Styled.MainTab
+          <Styled.TransactionsTab
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
             <Tab label="QUEUE" {...a11yProps(0)} />
             <Tab label="HISTORY" {...a11yProps(1)} />
-          </Styled.MainTab>
+          </Styled.TransactionsTab>
           {value === 1 && (
             <Box
               width={maxWidth600 ? '100%' : 'auto'}
-              marginTop={maxWidth600 ? '12px' : 0}
+              marginTop={maxWidth600 ? '50px' : 0}
             >
               <MainSelect
                 id="demo-simple-select"

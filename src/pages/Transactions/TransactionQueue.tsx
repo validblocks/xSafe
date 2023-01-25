@@ -15,6 +15,7 @@ import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { useTranslation } from 'react-i18next';
 import { usePendingActions } from 'src/utils/usePendingActions';
 import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
+import { Box, useMediaQuery } from '@mui/material';
 import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
@@ -43,6 +44,8 @@ const TransactionQueue = () => {
   >([]);
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const { t } = useTranslation();
+
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const {
     boardMembersState: [boardMembers],
@@ -73,7 +76,7 @@ const TransactionQueue = () => {
   }
 
   return (
-    <>
+    <Box paddingTop={maxWidth600 ? '37px' : 0}>
       {actionsForCurrentPage.map((action) => (
         <TransactionAccordion
           key={action.actionId}
@@ -128,7 +131,7 @@ const TransactionQueue = () => {
           totalPages={totalPages}
         />
       )}
-    </>
+    </Box>
   );
 };
 
