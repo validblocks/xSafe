@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { mutateProposeChangeQuorum } from 'src/contracts/MultisigContract';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import { useTheme } from 'styled-components';
 import * as Styled from './styled/index';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
@@ -31,6 +32,7 @@ const CvorumContainer = () => {
   const boardMembersCount = boardMembers.length;
 
   const { t } = useTranslation();
+  const theme: any = useTheme();
 
   const handleIncrementCount = () => setNewQuorum((newQuorum) => {
     const quorumValue = newQuorum + 1;
@@ -71,7 +73,10 @@ const CvorumContainer = () => {
       <Box>
         <Text fontSize={21} fontWeight={450}>Required Confirmations</Text>
         <Box fontSize={14} marginTop={2}>
-          <Text>Performing an action requires the confirmation of:</Text>
+          <Text
+            color={theme.palette.text.homeCards}
+          >Performing an action requires the confirmation of:
+          </Text>
         </Box>
 
         <Styled.QuorumCounterContainer>

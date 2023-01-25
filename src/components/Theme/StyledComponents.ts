@@ -22,6 +22,8 @@ export const MainButton = styled(Button)`
     border: 1px solid #4c2ffc;
     background-color: ${(props) => props.theme.palette.background.main};
     box-shadow: 0px 0px 8px ${(props) => props.theme.shadows.main};
+    font-family: 'IBM Plex Sans', SFMono-Regular, Menlo, Monaco, Consolas,
+      'Liberation Mono', 'Courier New', monospace;
     & svg path {
       fill: ${(props) => props.theme.palette.background.svg};
       fill-opacity: 1;
@@ -72,6 +74,7 @@ export const ChangeQuorumButton = styled(NewTransactionButton)`
   &&& {
     padding: ${(props) => props.theme.padding.value.md} 25px
       ${(props) => props.theme.padding.value.sm};
+    text-transform: none;
     @media (max-width: 600px) {
       width: 100%;
     }
