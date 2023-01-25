@@ -26,7 +26,7 @@ function TransactionSummary({
         <div>
           {minWidth600 && <strong><Text fontSize={12} fontWeight={700}>Execution Time:</Text></strong>}
           <Text
-            fontSize={13}
+            fontSize={12}
             fontWeight={minWidth600 ? 400 : 500}
           >{dayjs(getDate(transaction.timestamp)).format('H:mm A')}
           </Text>
