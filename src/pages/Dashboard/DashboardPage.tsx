@@ -6,9 +6,8 @@ import { Box, Button, Grid, useMediaQuery } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
-import { useGetAccountProvider, useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { useTheme } from 'styled-components';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
@@ -16,7 +15,6 @@ import { Text, TextxSafeDescription } from 'src/components/StyledComponents/Styl
 import { dAppName, network } from 'src/config';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
-import { LoginMethodsEnum } from '@multiversx/sdk-dapp/types';
 import { XSafeLogo } from 'src/components/Utils/XSafeLogo';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
@@ -27,8 +25,6 @@ function Dashboard() {
   const theme: any = useTheme();
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
-  const { providerType } = useGetAccountProvider();
-  const isWalletProvider = providerType === LoginMethodsEnum.wallet;
   const [showAddMultisigModal, setShowAddMultisigModal] = useState(false);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const [invalidMultisigContract, setInvalidMultisigContract] = useState(false);
@@ -72,31 +68,14 @@ function Dashboard() {
 
   const deployButton = (
     <Styled.CreateNewSafeButton
-      disabled={isWalletProvider && isLoggedIn}
       onClick={handleCreateNewSafeButtonClick}
-      sx={{
-        pointerEvents: isWalletProvider && isLoggedIn ? 'none' : 'auto',
-      }}
     >
       {t('Create a new Safe')}
     </Styled.CreateNewSafeButton>
   );
 
-  const deployButtonContainer = isWalletProvider && isLoggedIn ? (
-    <OverlayTrigger
-      placement="top"
-      delay={{ show: 250, hide: 400 }}
-      overlay={(props) => (
-        <Tooltip id="deploy-button-tooltip" {...props}>
-          {t('Please use another login method to deploy a contract')}
-        </Tooltip>
-      )}
-    >
-      <Box>{deployButton}</Box>
-    </OverlayTrigger>
-  ) : (
-    deployButton
-  );
+  const deployButtonContainer =
+    deployButton;
 
   useEffect(() => {
     checkSingleContractValidity();
