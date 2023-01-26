@@ -76,7 +76,7 @@ const TransactionQueue = () => {
   }
 
   return (
-    <Box paddingTop={maxWidth600 ? '37px' : 0}>
+    <Box paddingTop={maxWidth600 ? '37px' : 0} paddingBottom={maxWidth600 ? '52px' : 0}>
       {actionsForCurrentPage.map((action) => (
         <TransactionAccordion
           key={action.actionId}
@@ -84,7 +84,7 @@ const TransactionQueue = () => {
           expanded={expanded === action.actionId.toString()}
         >
           <AccordionSummary
-            expandIcon={(<ArrowDropDown />)}
+            expandIcon={(<ArrowDropDown sx={{ '& svg': { fill: 'red' } }} />)}
             aria-controls="panel1a-content"
             className="pl-0 m-0"
             classes={{

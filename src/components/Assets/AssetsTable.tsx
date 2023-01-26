@@ -16,7 +16,7 @@ import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sha
 import { ProposalsTypes } from 'src/types/Proposals';
 import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
-import { Typography, useMediaQuery } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { TokenPayment } from '@multiversx/sdk-core/out';
 import * as Styled from '../../pages/Organization/styled';
@@ -164,7 +164,11 @@ const AssetsTable = () => {
           rows={tokenTableRows ?? []}
           columns={columns}
         />
-      ) : (<MobileCardsForTableReplacement items={tokenTableRows} actionButton={getTableActions(tokenTableRows)} />)}
+      ) : (
+        <Box paddingBottom={'62px'}>
+          <MobileCardsForTableReplacement items={tokenTableRows} actionButton={getTableActions(tokenTableRows)} />
+        </Box>
+      )}
       <ReceiveModal
         showQrFromSidebar={showQr}
         address={currentContract?.address}

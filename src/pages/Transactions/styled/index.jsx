@@ -125,6 +125,7 @@ export const ActionCreatorBox = styled(Box)`
     };
   };
   @media (max-width: 600px){
+    border-right: 1px solid ${(props) => props.theme.palette.divider.sidebar};
     & .MuiTypography-root span {
       font-size: 13px;
     }
@@ -148,6 +149,7 @@ export const ActionStatusBox = styled(Box)`
     padding: 5px 9px;
     padding-right: 0;
     justify-content: flex-start;
+    border-right: 1px solid ${(props) => props.theme.palette.divider.sidebar};
   }
 `;
 

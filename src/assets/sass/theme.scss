@@ -37,6 +37,15 @@ html {
   min-height: 100%;
   font-size: 14px;
 }
+
+@media (max-width: 600px) {
+  html {
+    height: 100%;
+    scroll-behavior: smooth;
+    text-rendering: optimizeLegibility;
+  }
+}
+
 .h1,
 h2,
 h3,

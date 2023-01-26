@@ -368,7 +368,7 @@ export const MobileMenu = styled(Box)(({ theme: _ }) => ({
     boxShadow: _.palette.shadows.bottomNavbar,
     backgroundColor: _.palette.background.secondary,
     position: 'fixed',
-    bottom: 0,
+    bottom: '-0.5px',
     '& a.active span': {
       color: `${_.palette.primary.main} !important`,
     },
@@ -440,7 +440,6 @@ export const MobileSecondaryMenu = styled(Box)`
 
 export const TotalBalanceWrapper = styled(Box)`
   /* margin-top: 68px; */
-  z-index: 1000;
   width: 100%;
   background-color: ${(props) => props.theme.palette.background.secondary};
   border-bottom-left-radius: 10px;
@@ -450,6 +449,7 @@ export const TotalBalanceWrapper = styled(Box)`
     border-top: solid 1px ${(props) => props.theme.palette.divider.sidebar};
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+    overflow: hidden;
   }
 `;
 

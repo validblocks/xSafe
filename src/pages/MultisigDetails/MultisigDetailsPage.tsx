@@ -32,6 +32,7 @@ function MultisigDetailsPage() {
   const { isLoggedIn } = useGetLoginInfo();
   const currentContract = useSelector(currentMultisigContractSelector);
   const widthBetween520And600 = useMediaQuery('(min-width:520px) and (max-width:600px)');
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const {
     topSectionCards,
@@ -67,6 +68,7 @@ function MultisigDetailsPage() {
           container
           justifyContent={widthBetween520And600 ? 'space-between' : ''}
           gap={'12px'}
+          paddingBottom={maxWidth600 ? '60px' : 0}
         >
           {bottomSectionCards.map(
             (bottomCard) => <MultisigCardGrid key={bottomCard.props.title} item> {bottomCard} </MultisigCardGrid>,
