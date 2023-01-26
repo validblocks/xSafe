@@ -59,7 +59,6 @@ const MobileLayout = () => {
   const minWidth425 = useMediaQuery('(min-width:425px)');
   const minWidth410 = useMediaQuery('(min-width:410px)');
   const minWidth535 = useMediaQuery('(min-width:535px)');
-  // const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const [selectedTab, setSelectedTab] = useState(0);
 
