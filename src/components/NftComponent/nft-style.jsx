@@ -51,7 +51,7 @@ export const CardBox = styled(Card)`
   box-shadow: none;
   transition: all .2s linear;
   transform: scale(1);
-  overflow: hidden;
+  overflow: visible;
   background-color: ${(props) => props.theme.palette.background.secondary};
   & span {
     position: absolute;

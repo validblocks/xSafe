@@ -16,11 +16,17 @@ import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
 import { useTranslation } from 'react-i18next';
 import { useContractNFTs } from 'src/utils/useContractNFTs';
 import { Fragment } from 'react';
+import { useQueryClient } from 'react-query';
+import { QueryKeys } from 'src/react-query/queryKeys';
+import { multisigContractFunctionNames } from 'src/types/multisigFunctionNames';
+import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import { TypedValue } from '@multiversx/sdk-core/out';
 import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import { NftCollectionTitle } from './NftCollectionTitle';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import * as Styled from './styled';
+import PendingNftProposalAnnouncer from './PendingNftProposalAnnouncer';
 
 function NftComponent() {
   const theme: any = useTheme();
@@ -30,6 +36,25 @@ function NftComponent() {
   const navbarSearchParam = useSelector(navbarSearchSelector);
   const width600px = useMediaQuery('(max-width:600px)');
   const width472px = useMediaQuery('(max-width:472px)');
+  const queryClient = useQueryClient();
+  const cachedPendingActions = queryClient.getQueryData(QueryKeys.ALL_PENDING_ACTIONS) as MultisigActionDetailed[];
+  const isAlreadyProposed = cachedPendingActions
+    ?.filter((p: MultisigActionDetailed) => {
+      if ('functionName' in p.action && 'args' in p.action) {
+        return p.action.functionName === multisigContractFunctionNames.ESDTNFTTransfer;
+      }
+      return false;
+    })
+    ?.reduce((acc, p) => {
+      if ('args' in p.action) {
+        const proposalArgs = p.action.args as TypedValue[];
+        const arg0 = proposalArgs[0].valueOf().toString();
+        const arg1 = proposalArgs[1].valueOf().toString('hex');
+        const collectionAndNonce = `${arg0}-${arg1}`;
+        acc[collectionAndNonce] = true;
+      }
+      return acc;
+    }, {} as Record<string, boolean>) ?? {};
 
   const {
     isFetchingNFTs,
@@ -99,6 +124,7 @@ function NftComponent() {
                   </TextDivider>
                 </CollectionName>
               )}
+
               <Grid
                 xs={12}
                 sm={8}
@@ -119,7 +145,11 @@ function NftComponent() {
                 flexGrow={0}
                 flexShrink={0}
               >
-                <CardBox>
+
+                <CardBox sx={{ position: 'relative' }}>
+                  {isAlreadyProposed[item.identifier] && (
+                  <PendingNftProposalAnnouncer />
+                  )}
                   <Box sx={{
                     m: '0',
                     width: '100%',
@@ -153,7 +183,7 @@ function NftComponent() {
                       {item.name}
                     </Typography>
                     <Styled.SendNFTButton
-                      disabled={isInReadOnlyMode}
+                      disabled={isInReadOnlyMode || isAlreadyProposed[item.identifier]}
                       onClick={(event) => {
                         handleOptionSelected(ProposalsTypes.send_nft, item);
                         event.currentTarget.blur();
