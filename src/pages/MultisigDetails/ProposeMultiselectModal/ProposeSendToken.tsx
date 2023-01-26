@@ -16,6 +16,7 @@ import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
+import { nominate } from '@multiversx/sdk-dapp/utils/operations';
 import * as Styled from './styled';
 
 interface ProposeSendTokenType {
@@ -93,7 +94,6 @@ const ProposeSendToken = ({
         }),
       amount: Yup.string()
         .required('Required')
-        .transform((value) => value.replaceAll(',', ''))
         .test((value?: string, testContext?: TestContext) => {
           if (value == null) {
             return true;
@@ -162,31 +162,30 @@ const ProposeSendToken = ({
     }
   }, [address, data, formik.values.amount]);
 
-  const getSendTokenProposal = useCallback((): MultisigSendToken | null => {
+  const getSendTokenProposal = useCallback((amountParam: string): MultisigSendToken | null => {
     try {
-      const nominatedAmount = TokenPayment.egldFromAmount(amount);
-
-      const amountNumeric = Number(nominatedAmount.toRationalNumber() ?? 0);
+      amountParam = amountParam.replaceAll(',', '');
+      const amountNumeric = Number(amountParam ?? 0);
       if (Number.isNaN(amountNumeric)) {
         return null;
       }
       const parsedAddress = new Address(address);
 
-      return new MultisigSendToken(parsedAddress, identifier, amountNumeric);
+      return new MultisigSendToken(parsedAddress, identifier, Number(nominate(amountParam)));
     } catch (err) {
       return null;
     }
-  }, [address, amount, identifier]);
+  }, [address, identifier]);
 
   const refreshProposal = useCallback(() => {
     setTimeout(() => {
-      const proposal = identifier === 'EGLD' ? getEgldProposal() : getSendTokenProposal();
+      const proposal = identifier === 'EGLD' ? getEgldProposal() : getSendTokenProposal(amount);
 
       if (proposal !== null) {
         handleChange(proposal);
       }
     }, 100);
-  }, [getEgldProposal, getSendTokenProposal, handleChange, identifier]);
+  }, [getEgldProposal, getSendTokenProposal, handleChange, amount, identifier]);
 
   const amountError = touched.amount && errors.amount;
   const addressError = touched.address && errors.address;
