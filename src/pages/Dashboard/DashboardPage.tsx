@@ -123,6 +123,7 @@ function Dashboard() {
                 flexDirection={'column'}
                 flex={2}
                 justifyContent={'center'}
+                paddingBottom={maxWidth600 ? '66px' : 0}
               >
                 <Box>
                   <Box display="flex" alignItems="center">

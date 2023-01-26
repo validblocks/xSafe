@@ -86,6 +86,7 @@ function NftComponent() {
           marginLeft={width600px ? '0px' : '-16px'}
           flex={width600px ? '0 1 auto' : ''}
           justifyContent={width472px ? 'center' : '' || width600px ? 'space-between' : ''}
+          paddingBottom={width600px ? '44px' : 0}
         >
           {contractNfts?.map((item: NFTType, index: number) => (
             <Fragment key={item.identifier}>

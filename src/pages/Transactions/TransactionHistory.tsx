@@ -24,6 +24,7 @@ import { ITransactionEventTopic, ITransactionOnNetwork } from '@multiversx/sdk-c
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
+import { Box, useMediaQuery } from '@mui/material';
 import TransactionHistoryPresentation from './TransactionHistoryPresentation';
 import NoActionsOverlay from './utils/NoActionsOverlay';
 
@@ -46,6 +47,8 @@ const TransactionHistory = () => {
   const [actionsPerPage, setActionsPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const globalIntervalEndTimestamp = useSelector<StateType, number>(intervalEndTimestampSelector);
   const globalIntervalStartTimestamp = useSelector<StateType, number>(
@@ -187,7 +190,7 @@ const TransactionHistory = () => {
   }
 
   return (
-    <>
+    <Box paddingBottom={maxWidth600 ? '52px' : 0}>
       {actionAccumulator.length < 1 ? <NoActionsOverlay message={t('No transactions found for this period')} /> : (
         <TransactionHistoryPresentation
           fullActionHistoryGroupedByDate={fullActionHistoryGroupedByDate}
@@ -205,7 +208,7 @@ const TransactionHistory = () => {
           totalPages={totalPages}
         />
       ) : ''}
-    </>
+    </Box>
   );
 };
 

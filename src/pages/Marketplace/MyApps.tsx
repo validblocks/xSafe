@@ -32,6 +32,7 @@ const MyApps = () => {
       flexDirection={widthBetween460And600 ? 'row' : minWidth600 ? 'row' : 'column'}
       justifyContent={widthBetween460And600 ? 'space-between' : 'flex-start'}
       marginTop={maxWidth600 ? '50px' : 0}
+      paddingBottom={maxWidth600 ? '42px' : 0}
     >
       {
         installedApps.map((app: MarketplaceApp) => (

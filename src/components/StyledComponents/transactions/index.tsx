@@ -27,6 +27,12 @@ export const TransactionAccordion = styled(Accordion)`
     & .MuiAccordionSummary-root {
       padding: 0;
     }
+    & .MuiAccordionSummary-expandIconWrapper {
+      margin: 5px !important;
+      & > svg {
+          fill: ${(props) => props.theme.palette.background.transactionsExpand} !important;
+        }
+    };
   };
 `;
 

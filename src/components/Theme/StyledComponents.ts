@@ -217,6 +217,7 @@ export const Main = styled.main`
   padding: 20px;
   @media (max-width: 600px) {
     padding: 16px;
+    overflow-y: visible;
   }
 `;
 
