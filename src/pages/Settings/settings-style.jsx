@@ -16,6 +16,11 @@ export const SettingsWrapper = styled(Box)`
   }
 `;
 
+export const MobileSettingsWrapper = styled(Box)(({ theme: _ }) => ({
+  backgroundColor: _.palette.background.secondary,
+  padding: '8px 16px 16px',
+}));
+
 export const NoteSpan = styled(Box)(({ theme: _ }) => ({
   backgroundColor: _.palette.background.main,
   padding: '5px 10px',
