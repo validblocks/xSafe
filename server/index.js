@@ -10,6 +10,7 @@ const PORT = 3000;
 const HOST = 'localhost';
 app.use(cors());
 app.use(morgan('dev'));
+app.set('etag', false);
 app.get('/hello', (req, res, _next) => {
   res.send('Alive');
 });
