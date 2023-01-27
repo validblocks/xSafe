@@ -55,6 +55,7 @@ export const FormikInputField = ({
           onChange={handleChange}
           onBlur={handleBlur}
           className={className}
+          autoFocus={false}
           sx={{
             width: '100%',
             transition: 'margin-bottom .3s linear',

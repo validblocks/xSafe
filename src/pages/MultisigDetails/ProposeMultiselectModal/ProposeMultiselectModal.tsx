@@ -272,7 +272,7 @@ const ProposeMultiselectModal = ({
       size="lg"
       onHide={handleClose}
       className="modal-container proposal-modal"
-      animation={false}
+      animation
       centered
     >
       {modalContent}

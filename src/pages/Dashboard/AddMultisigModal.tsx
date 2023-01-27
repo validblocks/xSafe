@@ -99,11 +99,12 @@ function AddMultisigModal({
       show={show}
       onHide={handleClose}
       className="modal-container"
-      animation={false}
+      animation
       centered
+      autoFocus={false}
     >
       <Box sx={{ backgroundColor: theme.palette.background.secondary }} className="modal-content">
-        <ModalCardTitle title={t('Add Multisig') as string} handleClose={handleClose} />
+        <ModalCardTitle title={t('Load an existing Safe') as string} handleClose={handleClose} />
         <Box py={2} px={maxWidth600 ? 2 : 4} mt={maxWidth600 ? 0 : 2}>
           <FormikInputField
             label={t('Safe address')}
