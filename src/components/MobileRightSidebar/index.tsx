@@ -14,6 +14,7 @@ import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelecto
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import SafeSettings from 'src/pages/Settings/SafeSettings';
 import { useTheme } from 'styled-components';
+import { MobileSettingsWrapper } from 'src/pages/Settings/settings-style';
 import * as Styled from './styled';
 import {
   MobileMenuAccordion,
@@ -156,8 +157,10 @@ export default function MobileRightSidebar() {
                 </Link>
               ))}
               {item.name === 'Settings' && (
-                <AccordionDetails>
-                  <SafeSettings />
+                <AccordionDetails sx={{ padding: 0 }}>
+                  <MobileSettingsWrapper>
+                    <SafeSettings />
+                  </MobileSettingsWrapper>
                 </AccordionDetails>
               )}
             </MobileMenuAccordion>
