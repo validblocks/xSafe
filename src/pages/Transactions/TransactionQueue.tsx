@@ -72,7 +72,7 @@ const TransactionQueue = () => {
   });
 
   if (!allPendingActions) {
-    return <LoadingDataIndicator dataName="proposal" />;
+    return <Box marginTop={maxWidth600 ? '60px' : 0}><LoadingDataIndicator dataName="proposal" /></Box>;
   }
 
   return (
