@@ -624,7 +624,7 @@ export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
           },
         },
         '.dapp-core-component__dappModalStyles__dappModalBody': {
-          padding: '24px 48px !important',
+          padding: '24px 40px !important',
           '.dapp-core-component__main__card': {
             border: 'none',
             '.dapp-core-component__main__card-body': {
