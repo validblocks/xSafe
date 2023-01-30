@@ -41,7 +41,7 @@ const UnknownOwnerMobileWarning = () => {
           }}
         >
           <Typography>
-            <PriorityHighIcon color="warning" sx={{ marginTop: '-3px', fontSize: '20px' }} />
+            <PriorityHighIcon color="warning" sx={{ marginTop: '-3px', fontSize: '17px' }} />
           </Typography>
         </MembersBox>
       </Box>
