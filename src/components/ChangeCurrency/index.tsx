@@ -35,7 +35,7 @@ function ChangeCurrency() {
       <StyledSelect
         value={globallySelectedCurrency}
         // defaultValue={globallySelectedCurrency}
-        label="Default currency"
+        label="Default Currency"
         sx={{ width: 250 }}
         MenuProps={{
           sx: {
