@@ -107,23 +107,23 @@ function AddMultisigModal({
         <ModalCardTitle title={t('Load an existing Safe') as string} handleClose={handleClose} />
         <Box py={2} px={maxWidth600 ? 2 : 4} mt={maxWidth600 ? 0 : 2}>
           <FormikInputField
-            label={t('Safe address')}
-            name="address"
-            value={safeAddress}
-            error={hasAddressErrors}
+            label={t('Safe name')}
+            name="name"
+            value={name}
+            error={hasSafeNameErrors}
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
-            className={hasAddressErrors != null ? 'isError' : ''}
+            className={hasSafeNameErrors != null ? 'isError' : ''}
           />
           <Box mt={3}>
             <FormikInputField
-              label={t('Safe name')}
-              name="name"
-              value={name}
-              error={hasSafeNameErrors}
+              label={t('Safe address')}
+              name="address"
+              value={safeAddress}
+              error={hasAddressErrors}
               handleChange={formik.handleChange}
               handleBlur={formik.handleBlur}
-              className={hasSafeNameErrors != null ? 'isError' : ''}
+              className={hasAddressErrors != null ? 'isError' : ''}
             />
           </Box>
           <Box className="modal-action-btns" marginTop={maxWidth600 ? '24px !important' : ''}>
