@@ -180,7 +180,7 @@ export const MultisigAutocomplete = styled(Autocomplete)(({ theme }) => ({
       '& .MuiAutocomplete-endAdornment': {
         '& button': {
           '& svg': {
-            color: theme.palette.text.primary,
+            color: theme.palette.background.transactionsExpand,
           },
         },
       },
