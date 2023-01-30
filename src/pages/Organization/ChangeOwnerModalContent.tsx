@@ -1,12 +1,12 @@
 import { Box, CircularProgress } from '@mui/material';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';
 import { Address } from '@multiversx/sdk-core/out';
 import { buildBlockchainTransaction } from 'src/contracts/transactionUtils';
 import { gasLimit, network } from 'src/config';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { useGetAccountInfo, useGetAccountProvider } from '@multiversx/sdk-dapp/hooks';
-import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContractsSlice';
+import { useGetAccountInfo, useGetAccountProvider, useGetPendingTransactions, useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
+import { setCurrentMultisigTransactionId, setHasUnknownOwner } from 'src/redux/slices/multisigContractsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import CopyButton from 'src/components/CopyButton';
@@ -17,11 +17,14 @@ import SearchIcon from '@mui/icons-material/Search';
 import { FinalStepActionButton } from 'src/components/Theme/StyledComponents';
 import { useContractData } from 'src/utils/useContractData';
 import { useFullRowAddressCut } from 'src/utils/useFullRowAddressCut';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 
 const ChangeOwnerModalContent = () => {
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
   const address = currentContract?.address;
+  const [sessionId, setSessionId] = useState<string | null>(null);
 
   const { address: walletAddress } = useGetAccountInfo();
   const { providerType } = useGetAccountProvider();
@@ -33,13 +36,14 @@ const ChangeOwnerModalContent = () => {
       const transaction = await buildBlockchainTransaction(
         0,
         providerType,
-        address,
+        contractAddress,
         data,
         gasLimit,
       );
 
       const { sessionId } = await sendTransactions({ transactions: [transaction] });
       dispatch(setCurrentMultisigTransactionId(sessionId));
+      setSessionId(sessionId);
 
       return sessionId;
     } catch (error) {
@@ -49,12 +53,41 @@ const ChangeOwnerModalContent = () => {
     return null;
   }, [address, dispatch, providerType]);
 
+  const updateOwnership = useCallback(async () => {
+    const contractDetails = await MultiversxApiProvider.getAccountDetails(currentContract?.address);
+    const isItsOwnOwner = contractDetails?.ownerAddress === contractDetails?.address;
+    console.log({ isItsOwnOwner });
+    dispatch(setHasUnknownOwner(!isItsOwnOwner));
+  }, [currentContract?.address, dispatch]);
+
+  useTrackTransactionStatus({
+    transactionId: sessionId,
+    onSuccess: () => {
+      updateOwnership();
+      dispatch(setProposeModalSelectedOption(null));
+    },
+    onCancelled: () => {
+      updateOwnership();
+      dispatch(setProposeModalSelectedOption(null));
+    },
+    onTimedOut: () => {
+      updateOwnership();
+      dispatch(setProposeModalSelectedOption(null));
+    },
+    onFail: () => {
+      updateOwnership();
+      dispatch(setProposeModalSelectedOption(null));
+    },
+  });
+
   const { charsLeft } = useFullRowAddressCut();
 
   const {
     isLoading,
     contractData,
   } = useContractData();
+
+  const pendingTransactions = useGetPendingTransactions();
 
   if (isLoading) {
     return (
@@ -126,10 +159,34 @@ const ChangeOwnerModalContent = () => {
       </Box>
       <Box>
         <FinalStepActionButton
-          disabled={contractData?.ownerAddress !== walletAddress || isLoading}
+          disabled={
+                      contractData?.ownerAddress !== walletAddress
+                      || isLoading
+                      || pendingTransactions.hasPendingTransactions}
           onClick={() => onSignChangeContractOwner()}
         >
-          Change owner
+          {pendingTransactions.hasPendingTransactions ? (
+            <Box sx={{
+              fontWeight: 'bold',
+              display: 'inline-block',
+              fontSize: '15px',
+              clipPath: 'inset(0 1ch 0 0)',
+              animation: 'l 1s steps(4) infinite',
+              '@keyframes l': {
+                to: {
+                  clipPath: 'inset(0 -1ch 0 0)',
+                },
+              },
+            }
+                      }
+            >Changing Owner...
+            </Box>
+          ) : (
+            <Text>
+
+              Change owner
+            </Text>
+          )}
         </FinalStepActionButton>
       </Box>
     </Box>

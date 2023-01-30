@@ -34,3 +34,8 @@ export const currentMultisigAddressSelector = createDeepEqualSelector(
     return address;
   },
 );
+
+export const hasUnknownOwnerSelector = createDeepEqualSelector(
+  mainSelector,
+  (state) => state.hasUnknownOwner,
+);
