@@ -1,7 +1,7 @@
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { MultisigActionType } from 'src/types/MultisigActionType';
-import { SelectedOptionType } from 'src/types/Proposals';
+import { ModalOptionType, SelectedOptionType } from 'src/types/Proposals';
 import { logoutAction } from '../commonActions';
 
 interface TxSubmittedModal {
@@ -32,7 +32,7 @@ interface PerformActionModal {
 }
 
 interface ProposeModal {
-  selectedOption?: SelectedOptionType;
+  selectedOption?: SelectedOptionType | ModalOptionType;
 }
 
 interface ProposeMultiselectModal {
@@ -86,7 +86,7 @@ export const modalsSlice = createSlice({
     },
     setProposeModalSelectedOption: (
       state: ModalsSliceState,
-      action: PayloadAction<SelectedOptionType | null>,
+      action: PayloadAction<SelectedOptionType | ModalOptionType | null>,
     ) => {
       state.proposeModal.selectedOption = action.payload;
     },

@@ -11,13 +11,14 @@ import {
 import { addEntry } from 'src/redux/slices/addressBookSlice';
 import { useTheme } from 'styled-components';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
+import { ModalOptionType, ModalTypes, ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import { MainButton, MainButtonNoShadow, ModalConnectContainer } from 'src/components/Theme/StyledComponents';
 import { Box, useMediaQuery } from '@mui/material';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import Unlock from 'src/pages/Unlock';
 import { getIsLoggedIn } from '@multiversx/sdk-dapp/utils';
 import ConnectedAccount from 'src/components/Layout/Navbar/ConnectedAccount';
+import ChangeOwnerModalContent from 'src/pages/Organization/ChangeOwnerModalContent';
 import EditOwner from './EditOwner';
 import ProposeChangeQuorum from './ProposeChangeQuorum';
 import ProposeInputAddress from './ProposeInputAddress';
@@ -25,7 +26,7 @@ import ProposeRemoveUser from './ProposeRemoveUser';
 import ReplaceOwner from './ReplaceOwner';
 
 interface ProposeModalPropsType {
-  selectedOption: SelectedOptionType;
+  selectedOption: SelectedOptionType | ModalOptionType;
 }
 
 function ProposeModal({ selectedOption }: ProposeModalPropsType) {
@@ -121,7 +122,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
             handleParamsChange={handleAddressParamChange}
           />
         );
-      case ProposalsTypes.connect_wallet:
+      case ModalTypes.connect_wallet:
       {
         if (isLoggedIn) return <Box width="100%"><ConnectedAccount /></Box>;
         return <Unlock />;
@@ -149,6 +150,10 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
             handleSetName={(value) => setSelectedNameParam(value)}
             selectedOption={selectedOption}
           />
+        );
+      case ModalTypes.change_owner:
+        return (
+          <ChangeOwnerModalContent />
         );
       default:
     }
@@ -179,18 +184,26 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
       case (ProposalsTypes.remove_user): {
         return 'Remove Member';
       }
-      case (ProposalsTypes.connect_wallet): {
+      case (ModalTypes.connect_wallet): {
         const isLoggedIn = getIsLoggedIn();
         if (isLoggedIn) return 'Account Details';
         return 'Connect Wallet';
+      }
+      case (ModalTypes.change_owner): {
+        return 'Change Owner';
       }
       default:
         return 'Add member';
     }
   };
 
+  const actionsWithoutGenericProposalHandler: Array<ModalTypes | ProposalsTypes> = [
+    ModalTypes.connect_wallet,
+    ModalTypes.change_owner,
+  ];
+
   const getModalActions = () => {
-    if (selectedOption.option === ProposalsTypes.connect_wallet) return <div />;
+    if (actionsWithoutGenericProposalHandler.includes(selectedOption.option)) return <div />;
     return (
       <Box className="modal-action-btns" sx={{ mt: '24px !important' }}>
         <MainButton

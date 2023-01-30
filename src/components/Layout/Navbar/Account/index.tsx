@@ -8,7 +8,7 @@ import { AccountButton } from 'src/components/Theme/StyledComponents';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePrevious } from 'src/utils/usePrevious';
-import { ProposalsTypes } from 'src/types/Proposals';
+import { ModalTypes } from 'src/types/Proposals';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { proposeModalSelectedOptionSelector } from 'src/redux/selectors/modalsSelector';
 
@@ -32,7 +32,7 @@ function Account() {
     setIsMainButtonActive(true);
     dispatch(
       setProposeModalSelectedOption({
-        option: ProposalsTypes.connect_wallet,
+        option: ModalTypes.connect_wallet,
       }),
     );
   };
@@ -57,7 +57,7 @@ function Account() {
   const selectedOption = useSelector(proposeModalSelectedOptionSelector);
 
   useEffect(() => {
-    setIsMainButtonActive(selectedOption === ProposalsTypes.connect_wallet);
+    setIsMainButtonActive(selectedOption === ModalTypes.connect_wallet);
   }, [selectedOption]);
 
   return (

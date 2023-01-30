@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ProposalsTypes } from 'src/types/Proposals';
+import { ModalTypes } from 'src/types/Proposals';
 import * as Styled from './styled';
 
 interface IMenuLinkProps {
@@ -26,7 +26,7 @@ const MenuLink = ({ menuItem, shouldRequireLogin }: IMenuLinkProps) => {
       key={menuItem.id}
       to={menuItem.link}
       onClick={() => {
-        if (shouldRequireLogin) { dispatch(setProposeModalSelectedOption({ option: ProposalsTypes.connect_wallet })); }
+        if (shouldRequireLogin) { dispatch(setProposeModalSelectedOption({ option: ModalTypes.connect_wallet })); }
       }}
       className={
         locationString === menuItem.link
