@@ -21,7 +21,15 @@ export enum ProposalsTypes {
   'stake_tokens' = 'stake_tokens',
   'unstake_tokens' = 'unstake_tokens',
   'withdraw_funds' = 'withdraw_funds',
+}
+
+export enum ModalTypes {
+  'change_owner' = 'change_owner',
   'connect_wallet' = 'connect_wallet',
+}
+
+export interface ModalOptionType {
+  option: ModalTypes;
 }
 
 export interface RemoveUserOptionType {

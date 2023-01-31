@@ -8,7 +8,7 @@ import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { useNavigate } from 'react-router-dom';
 import routeNames from 'src/routes/routeNames';
 import { setProposeModalSelectedOption, setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ProposalsTypes } from 'src/types/Proposals';
+import { ModalTypes, ProposalsTypes } from 'src/types/Proposals';
 import { logout } from '@multiversx/sdk-dapp/utils';
 import { TokenPayment } from '@multiversx/sdk-core/out';
 import { setMultisigBalance, setTokenTableRows, setOrganizationTokens } from 'src/redux/slices/accountGeneralInfoSlice';
@@ -76,14 +76,14 @@ export const SpotlightCommands = () => {
         case 'login':
           dispatch(
             setProposeModalSelectedOption({
-              option: ProposalsTypes.connect_wallet,
+              option: ModalTypes.connect_wallet,
             }),
           );
           break;
         case 'ad':
           dispatch(
             setProposeModalSelectedOption({
-              option: ProposalsTypes.connect_wallet,
+              option: ModalTypes.connect_wallet,
             }),
           );
           break;

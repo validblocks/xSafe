@@ -8,6 +8,7 @@ interface StateType {
   currentMultisigContract: MultisigContractInfoType | null;
   isMultisigContractInvalid: boolean;
   currentMultisigTransactionId: string | null;
+  hasUnknownOwner: boolean | null;
 }
 
 const initialState: StateType = {
@@ -16,6 +17,7 @@ const initialState: StateType = {
   isMultisigContractInvalid: false,
   currentMultisigContract: null,
   currentMultisigTransactionId: null,
+  hasUnknownOwner: null,
 };
 
 export const multisigContractsSlice = createSlice({
@@ -28,6 +30,12 @@ export const multisigContractsSlice = createSlice({
     ) => {
       state.multisigContracts = action.payload;
       state.fetched = true;
+    },
+    setHasUnknownOwner: (
+      state: StateType,
+      action: PayloadAction<boolean>,
+    ) => {
+      state.hasUnknownOwner = action.payload;
     },
     setIsMultisigContractInvalid: (
       state: StateType,
@@ -98,6 +106,7 @@ export const {
   setCurrentMultisigTransactionId,
   updateMultisigContract,
   setMultisigContracts,
+  setHasUnknownOwner,
 } = multisigContractsSlice.actions;
 
 export default multisigContractsSlice.reducer;

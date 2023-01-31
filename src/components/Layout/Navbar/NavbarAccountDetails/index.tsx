@@ -4,7 +4,7 @@ import {
   Box, Typography, Grid,
 } from '@mui/material';
 import Grow from '@mui/material/Grow';
-import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
+import { setHasUnknownOwner, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { useDispatch, useSelector } from 'react-redux';
 import Safe from 'src/assets/img/safe.png';
@@ -14,7 +14,9 @@ import CopyButton from 'src/components/CopyButton';
 import ReceiveModal from 'src/components/ReceiveModal';
 import SafeOptions from 'src/components/SafeOptions';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import {
+  currentMultisigContractSelector, hasUnknownOwnerSelector,
+} from 'src/redux/selectors/multisigContractsSelectors';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { network } from 'src/config';
@@ -50,7 +52,6 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   const [showQr, setShowQr] = useState(false);
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
   const [displayableAddress, setDisplayableAddress] = useState(uniqueAddress);
-  const [displayOwnershipWarning, setDisplayOwnershipWarning] = useState(false);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
@@ -60,6 +61,8 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
   const updateMultisigContract = useCallback(
     (newContracts: MultisigContractInfoType[]) => dispatch(setMultisigContracts(newContracts)),
     [dispatch]);
+
+  const hasUnknownOwner = useSelector(hasUnknownOwnerSelector);
 
   const openDeployNewContractModal = useCallback(() => {
     setShowDeployMultisigModal(true);
@@ -91,9 +94,9 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
     ((async function checkContractOwnership() {
       const contractDetails = await MultiversxApiProvider.getAccountDetails(currentContract?.address);
       const isItsOwnOwner = contractDetails?.ownerAddress === contractDetails?.address;
-      setDisplayOwnershipWarning(!isItsOwnOwner);
+      dispatch(setHasUnknownOwner(!isItsOwnOwner));
     })());
-  }, [currentContract?.address]);
+  }, [currentContract?.address, dispatch]);
 
   useEffect(() => {
     const result = uniqueAddress.length === 0 ? 'No safe' : uniqueAddress;
@@ -133,7 +136,7 @@ const NavbarAccountDetails = React.memo(({ uniqueAddress }: { uniqueAddress: str
             <Box display="table">
               <img src={isDarkThemeEnabled ? SafeDark : Safe} alt="safe" width="60px" height="60px" />
             </Box>
-            <Grow in={displayOwnershipWarning}>
+            <Grow in={hasUnknownOwner}>
               <div>
                 <UnknownOwner />
               </div>

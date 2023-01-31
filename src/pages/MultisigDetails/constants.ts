@@ -1,4 +1,4 @@
-import { ProposalsTypes } from 'src/types/Proposals';
+import { ModalTypes, ProposalsTypes } from 'src/types/Proposals';
 
 export const titles = {
   [ProposalsTypes.add_proposer]: 'add proposer',
@@ -23,5 +23,6 @@ export const titles = {
   [ProposalsTypes.stake_tokens]: 'Choose a Staking Provider',
   [ProposalsTypes.unstake_tokens]: 'Unstake tokens',
   [ProposalsTypes.withdraw_funds]: 'Withdraw funds',
-  [ProposalsTypes.connect_wallet]: 'Connect Wallet',
+  [ModalTypes.connect_wallet]: 'Connect Wallet',
+  [ModalTypes.change_owner]: 'Change Owner',
 };

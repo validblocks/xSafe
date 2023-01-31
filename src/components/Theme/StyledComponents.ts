@@ -61,13 +61,13 @@ export const MainButtonNoShadow = styled(MainButton)`
 export const NewTransactionButton = styled(MainButton)`
   &&& {
     height: 40px;
-    min-width: 156px;
+    /* min-width: 156px; */
     font-size: 15px;
     font-weight: ${(props) => props.theme.font.weight.md};
-    @media (max-width: 600px) {
+    /* @media (max-width: 600px) {
       min-width: 175px;
       width: '100%';
-    }
+    } */
   }
 `;
 

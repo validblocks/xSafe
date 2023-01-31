@@ -152,7 +152,7 @@ const DeployMultisigStepTwo = ({
             </Box>
           </Box>
           <Text mt={2} sx={{ opacity: 0.5 }}>
-            This step is very important, as it allows the safe to handle all future upgrades through proposals
+            This step is very important, as it allows the safe to handle all future upgrades through proposals.
           </Text>
 
         </Box>

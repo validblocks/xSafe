@@ -14,7 +14,7 @@ import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider
 import { Text, TextxSafeDescription } from 'src/components/StyledComponents/StyledComponents';
 import { dAppName, network } from 'src/config';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ProposalsTypes } from 'src/types/Proposals';
+import { ModalTypes } from 'src/types/Proposals';
 import { XSafeLogo } from 'src/components/Utils/XSafeLogo';
 import AddMultisigModal from './AddMultisigModal';
 import DeployStepsModal from './DeployMultisigModal';
@@ -55,7 +55,7 @@ function Dashboard() {
       setShowDeployMultisigModal(true);
       return;
     }
-    dispatch(setProposeModalSelectedOption({ option: ProposalsTypes.connect_wallet }));
+    dispatch(setProposeModalSelectedOption({ option: ModalTypes.connect_wallet }));
   }, [dispatch, isLoggedIn]);
 
   const handleAddExistingSafeButtonClick = useCallback(() => {
@@ -63,7 +63,7 @@ function Dashboard() {
       setShowAddMultisigModal(true);
       return;
     }
-    dispatch(setProposeModalSelectedOption({ option: ProposalsTypes.connect_wallet }));
+    dispatch(setProposeModalSelectedOption({ option: ModalTypes.connect_wallet }));
   }, [dispatch, isLoggedIn]);
 
   const deployButton = (

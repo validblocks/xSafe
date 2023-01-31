@@ -15,7 +15,7 @@ import {
 } from 'src/redux/selectors/multisigContractsSelectors';
 import { setValueInUsd } from 'src/redux/slices/currencySlice';
 import { setProposeModalSelectedOption, setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ProposalsTypes } from 'src/types/Proposals';
+import { ModalTypes, ProposalsTypes } from 'src/types/Proposals';
 import Divider from '@mui/material/Divider';
 import {
   setMultisigBalance,
@@ -36,6 +36,8 @@ import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useGetLoginInfo, useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { CenteredText } from '../navbar-style';
 import * as Styled from '../styled';
+import { useSendTokenButtonMinWidth } from './useSendTokenButtonMinWidth';
+import UnknownOwnerMobileWarning from './UnknownOwnerMobileWarning';
 
 export const identifierWithoutUniqueHash = (identifier: string) => identifier?.split('-')[0] ?? '';
 export const DECIMAL_POINTS_UI = 3;
@@ -245,7 +247,7 @@ function TotalBalance() {
       totalAssetsValue + totalEgldValue,
     );
     dispatch(setTotalUsdBalance(totalAssetsValue + totalEgldValue));
-  }, [egldBalanceDetails, egldPrice, newTokensWithPrices]);
+  }, [dispatch, egldBalanceDetails, egldPrice, newTokensWithPrices]);
 
   useEffect(() => {
     if (!totalValue) return;
@@ -277,10 +279,12 @@ function TotalBalance() {
   const handleConnectClick = () => {
     dispatch(
       setProposeModalSelectedOption({
-        option: ProposalsTypes.connect_wallet,
+        option: ModalTypes.connect_wallet,
       }),
     );
   };
+
+  const { dynamicMinWidth } = useSendTokenButtonMinWidth();
 
   return (
     <Box
@@ -313,15 +317,19 @@ function TotalBalance() {
         }}
       >
         {!isInReadOnlyMode || (isLoggedIn && (!currentContract?.address || currentContract?.address === '')) ? (
-          <NewTransactionButton
-            variant="outlined"
-            onClick={onNewTransactionClick}
-            onKeyDown={(e) => e.preventDefault()}
-            onKeyUp={(e) => e.preventDefault()}
-            disabled={!currentContract?.address || currentContract?.address === ''}
-          >
-            Send Token
-          </NewTransactionButton>
+          <Box display="flex" alignItems="center">
+            <NewTransactionButton
+              variant="outlined"
+              onClick={onNewTransactionClick}
+              onKeyDown={(e) => e.preventDefault()}
+              onKeyUp={(e) => e.preventDefault()}
+              sx={{ minWidth: `${dynamicMinWidth}px !important` }}
+              disabled={!currentContract?.address || currentContract?.address === ''}
+            >
+              Send Token
+            </NewTransactionButton>
+            <UnknownOwnerMobileWarning />
+          </Box>
         ) : (
           <Text height={'40px'} display="flex" alignItems={'center'}>
             {isLoggedIn

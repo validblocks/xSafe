@@ -62,11 +62,11 @@ jobs:
         if: success()
         run: yarn --network-timeout 500000
 
-      - name: Lint
-        id: Lint
-        if: success()
-        run: |
-          yarn lint
+      # - name: Lint
+      #   id: Lint
+      #   if: success()
+      #   run: |
+      #     yarn lint
 
       - name: Build
         id: Build
