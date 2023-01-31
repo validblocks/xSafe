@@ -50,6 +50,10 @@ export const StyledSelect = styled(Select)<any>`
           color: ${(props) => props.theme.palette.text.primary};
           background-color: ${(props) =>
             props.theme.palette.background.secondary};
+          font-size: 12px;
+          font-weight: 400;
+          font-family: 'IBM Plex Sans', SFMono-Regular, Menlo, Monaco, Consolas,
+            'Liberation Mono', 'Courier New', monospace;
         }
       }
     }
@@ -67,7 +71,13 @@ export const StyledSelect = styled(Select)<any>`
       color: ${(props) => props.theme.palette.text.primary} !important;
     }
     & .MuiSvgIcon-root {
-      color: ${(props) => props.theme.palette.text.primary} !important;
+      color: ${(props) =>
+        props.theme.palette.background.transactionsExpand} !important;
+    }
+    &.Mui-focused {
+      & .MuiSvgIcon-root {
+        color: #4c2ffc !important;
+      }
     }
     & .MuiSelect-nativeInput {
       opacity: 0;

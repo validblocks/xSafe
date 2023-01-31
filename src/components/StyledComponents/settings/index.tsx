@@ -15,14 +15,13 @@ export const SettingsInput = styled(TextField)(({ theme }) => ({
     },
   },
   '& .Mui-disabled': {
-    WebkitTextFillColor: '#6c757d',
     '& fieldset': {
       borderColor: `${theme.palette.borders.secondary} !important`,
     },
   },
   '& .MuiInputLabel-root,& .MuiInputLabel-formControl': {
     color: theme.palette.text.primary,
-    zIndex: 0,
+    zIndex: 1,
   },
   '&&': {
     '@media (max-width: 600px)': {

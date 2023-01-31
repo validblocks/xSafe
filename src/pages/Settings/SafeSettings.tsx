@@ -10,6 +10,7 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import { updateMultisigContractOnServer } from 'src/apiCalls/multisigContractsCalls';
 import { updateMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { useTheme } from 'styled-components';
 import { NoteSpan, Span } from './settings-style';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
@@ -20,6 +21,7 @@ function SafeSettings() {
   const safeName = currentContract?.name;
   const [name, setName] = useState(safeName);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
+  const theme: any = useTheme();
 
   useEffect(() => {
     setName(safeName);
@@ -52,7 +54,7 @@ function SafeSettings() {
       <Text sx={{ mb: 1, fontSize: '18px' }} fontWeight={600}>
         Your safe name:
       </Text>
-      <Typography sx={{ mb: 2 }} fontSize={maxWidth600 ? '15px' : '14px'}>
+      <Typography sx={{ mb: 2, color: theme.palette.text.primary }} fontSize={maxWidth600 ? '15px' : '14px'}>
         Here you can change the name of your Safe.
       </Typography>
       <NoteSpan mb={3}>
@@ -78,10 +80,10 @@ function SafeSettings() {
         </MainButton>
       </Box>
       <Text sx={{ mb: 1, mt: 2, fontSize: '18px' }} fontWeight={600}>
-        Default Currency:
+        Default currency:
       </Text>
 
-      <Typography sx={{ mb: 2 }} fontSize={maxWidth600 ? '15px' : '14px'}>
+      <Typography sx={{ mb: 2, color: theme.palette.text.primary }} fontSize={maxWidth600 ? '15px' : '14px'}>
         Pick a default currency for your Safe.
       </Typography>
       <ChangeCurrency />
@@ -89,7 +91,7 @@ function SafeSettings() {
         Appearance:
       </Text>
 
-      <Typography sx={{ mb: 2 }} fontSize={maxWidth600 ? '15px' : '14px'}>
+      <Typography sx={{ mb: 2, color: theme.palette.text.primary }} fontSize={maxWidth600 ? '15px' : '14px'}>
         You can choose between a dark and a light theme.
       </Typography>
       <ThemeColor />

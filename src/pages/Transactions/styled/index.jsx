@@ -47,14 +47,16 @@ export const ActionTitleBox = styled(Box)`
   padding: 14px 8px;
   font-weight: bold;
   min-width: 150px;
-  font-size: 17px;
+  & > p{
+      font-size: 17px;
+    }
   grid-area: actionTitleBox;
   @media (max-width: 600px) {
     width: 100%;
     min-width: 0;
     padding: 5px 9px;
     & > p{
-      font-size: 13px;
+      font-size: 15px;
     }
   }
 `;
