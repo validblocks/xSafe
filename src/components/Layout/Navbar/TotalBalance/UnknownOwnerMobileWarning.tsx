@@ -1,6 +1,6 @@
 import { Typography, useMediaQuery } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ModalTypes } from 'src/types/Proposals';
