@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,cAAc,CAAA;EACZ,gBAAgB,EAAE,gBAAgB;EAClC,OAAO,EAAE,iBAAiB;EAC1B,SAAS,EAAE,iBAAiB;CAC7B",
-    "sources": [
-        "trustedBadge.scss"
-    ],
-    "names": [],
-    "file": "trustedBadge.css"
-}

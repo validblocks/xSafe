@@ -1,7 +1,4 @@
 import DashboardPage from 'src/pages/Dashboard/DashboardPage';
-import Welcome from 'src/pages/Welcome';
-import Decisions from 'src/pages/Decisions';
-import DecisionActions from 'src/pages/DecisionActions';
 import MultisigDetailsPage from 'src/pages/MultisigDetails/MultisigDetailsPage';
 import Unlock from 'src/pages/Unlock';
 import AssetsTable from 'src/pages/AssetsPage/AssetsPage';
@@ -22,12 +19,9 @@ import routeNames from './routeNames';
 type RouteType = any & { title: string };
 
 export type ForegroundRoutesType =
-  | 'welcome'
   | 'unlock'
   | 'home'
   | 'dashboard'
-  | 'decisions'
-  | 'decisionActions'
   | 'multisig'
   | 'multisigAddress'
   | 'tokenTableRows'
@@ -45,27 +39,10 @@ export type ForegroundRoutesType =
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
 export const foregroundRoutes: Record<ForegroundRoutesType, any> = {
-  welcome: {
-    path: routeNames.welcome,
-    title: 'Welcome',
-    component: Welcome,
-  },
   dashboard: {
     path: routeNames.dashboard,
     title: 'Dashboard',
     component: MultisigDetailsPage,
-    authenticatedRoute: true,
-  },
-  decisions: {
-    path: routeNames.decisions,
-    title: 'Decisions',
-    component: Decisions,
-    authenticatedRoute: true,
-  },
-  decisionActions: {
-    path: routeNames.decisionActions,
-    title: 'Decision Actions',
-    component: DecisionActions,
     authenticatedRoute: true,
   },
   multisigAddress: {
