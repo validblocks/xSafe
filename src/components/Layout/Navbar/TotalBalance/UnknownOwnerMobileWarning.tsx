@@ -4,9 +4,11 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ModalTypes } from 'src/types/Proposals';
-import { useContractData } from 'src/utils/useContractData';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import {
+  currentMultisigContractSelector,
+  hasUnknownOwnerSelector,
+} from 'src/redux/selectors/multisigContractsSelectors';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import { MembersBox } from '../navbar-style';
@@ -20,9 +22,9 @@ const UnknownOwnerMobileWarning = () => {
 
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
   const maxWidth600 = useMediaQuery('(max-width: 600px)');
-  const { contractData } = useContractData();
+  const hasUnknownOwner = useSelector(hasUnknownOwnerSelector);
 
-  if (maxWidth600 && currentContract?.address && contractData?.ownerAddress !== currentContract?.address) {
+  if (maxWidth600 && currentContract?.address && hasUnknownOwner) {
     return (
       <Box
         sx={{ cursor: 'pointer' }}
