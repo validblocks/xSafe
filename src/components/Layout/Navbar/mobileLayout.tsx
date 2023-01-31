@@ -109,13 +109,39 @@ const MobileLayout = () => {
 
   const { allPendingActions, actionableByCurrentWallet } = usePendingActions();
 
+  const [hideHeader, setHideHeader] = useState(false);
+  const prevScrollPos = useRef(window.pageYOffset);
+  const [_transformPercent, setTransformPercent] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      if (prevScrollPos.current > currentScrollPos) {
+        console.log('top');
+        setTransformPercent(100);
+        setHideHeader(false);
+      } else {
+        console.log('down');
+        setTransformPercent(0);
+        setHideHeader(true);
+      }
+      prevScrollPos.current = currentScrollPos;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScrollPos]);
+
   return (
     <Box>
       <Box
         sx={{
           zIndex: 1301,
-          position: 'sticky',
+          position: 'fixed',
           width: '100%',
+          // transform: hideHeader ? 'translateY(-100%)' : `translateY(${transformPercent}%)`,
+          top: hideHeader ? '-112px' : '0',
+          transition: 'all 0.3s ease-out',
         }}
       >
         <TopMobileMenu>
