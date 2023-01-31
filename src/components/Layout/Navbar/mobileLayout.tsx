@@ -26,6 +26,7 @@ import { CopyIconLinkConnectedAccount } from 'src/components/Utils/styled';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { XSafeLogo } from 'src/components/Utils/XSafeLogo';
 import { usePendingActions } from 'src/utils/usePendingActions';
+import { useTheme } from 'styled-components';
 import {
   AnchorConnectedAccount,
   BottomMenuButton,
@@ -61,6 +62,8 @@ const MobileLayout = () => {
   const minWidth535 = useMediaQuery('(min-width:535px)');
 
   const [selectedTab, setSelectedTab] = useState(0);
+
+  const theme: any = useTheme();
 
   const addressChars = useMemo(() => {
     if (minWidth535) return 12;
@@ -109,31 +112,57 @@ const MobileLayout = () => {
 
   const { allPendingActions, actionableByCurrentWallet } = usePendingActions();
 
+  const [hideHeader, setHideHeader] = useState(false);
+  const prevScrollPos = useRef(window.scrollY);
+  const [_transformPercent, setTransformPercent] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollPos = window.scrollY;
+      if (prevScrollPos.current > currentScrollPos) {
+        setTransformPercent(100);
+        setHideHeader(false);
+      } else {
+        setTransformPercent(0);
+        setHideHeader(true);
+      }
+      prevScrollPos.current = currentScrollPos;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [prevScrollPos]);
+
   return (
     <Box>
-      <Box
-        sx={{
-          zIndex: 1301,
-          position: 'sticky',
-          width: '100%',
-        }}
-      >
-        <TopMobileMenu>
-          <TopMobileMenuLogoBox onClick={handleRedirectToHome}>
-            <XSafeLogo width={50} />
-          </TopMobileMenuLogoBox>
-          <TopMobileMenuSafeBox sx={{
-            px: 2,
-            minHeight: '54.1px',
+      <Box height={minWidth425 ? '123px' : '111.14px'}>
+        <Box
+          sx={{
+            zIndex: 1301,
+            position: 'fixed',
+            width: '100%',
+            top: hideHeader ? '-112px' : '0',
+            transition: 'all 0.3s ease-out',
+            backgroundColor: theme.palette.background.secondary,
+            borderRadius: '0 0 10px 10px',
           }}
-          >
-            {minWidth425 && (
-            <Box>
-              <img src={isDarkThemeEnabled ? SafeDark : Safe} alt="safe" width="50px" height="50px" />
-            </Box>
-            )}
-            <Box className="d-flex" alignItems={'center'} width="100%">
-              {(currentContract?.address?.length > 0 && isLoggedIn) && (
+        >
+          <TopMobileMenu>
+            <TopMobileMenuLogoBox onClick={handleRedirectToHome}>
+              <XSafeLogo width={50} />
+            </TopMobileMenuLogoBox>
+            <TopMobileMenuSafeBox sx={{
+              px: 2,
+              minHeight: '54.1px',
+            }}
+            >
+              {minWidth425 && (
+              <Box>
+                <img src={isDarkThemeEnabled ? SafeDark : Safe} alt="safe" width="50px" height="50px" />
+              </Box>
+              )}
+              <Box className="d-flex" alignItems={'center'} width="100%">
+                {(currentContract?.address?.length > 0 && isLoggedIn) && (
                 <Box
                   width={'100%'}
                   display={'flex'}
@@ -174,44 +203,45 @@ const MobileLayout = () => {
                     </Box>
                   </Box>
                 </Box>
-              )}
-              <Box className="d-flex" ml={minWidth380 ? '12px' : 0}>
-                {openedSafeSelect === true && (
-                <Box>
-                  <IconButton
-                    size="small"
-                    onClick={() => setOpenedSafeSelect(false)}
-                  >
-                    <WifiProtectedSetupOutlinedIcon sx={{ color: '#FFF' }} />
-                  </IconButton>
-                  <SafeOptions
-                    closeSafe={() => setOpenedSafeSelect(false)}
-                    ref={menuRef}
-                  />
-                </Box>
                 )}
-                {openedSafeSelect === false && isMultiWalletMode && (
-                <Box>
-                  {isLoggedIn && currentContract?.address.length > 0 ? (
+                <Box className="d-flex" ml={minWidth380 ? '12px' : 0}>
+                  {openedSafeSelect === true && (
+                  <Box>
                     <IconButton
                       size="small"
-                      onClick={() => setOpenedSafeSelect(true)}
+                      onClick={() => setOpenedSafeSelect(false)}
                     >
                       <WifiProtectedSetupOutlinedIcon sx={{ color: '#FFF' }} />
                     </IconButton>
-                  ) : <Text>No safe available</Text>}
+                    <SafeOptions
+                      closeSafe={() => setOpenedSafeSelect(false)}
+                      ref={menuRef}
+                    />
+                  </Box>
+                  )}
+                  {openedSafeSelect === false && isMultiWalletMode && (
+                  <Box>
+                    {isLoggedIn && currentContract?.address.length > 0 ? (
+                      <IconButton
+                        size="small"
+                        onClick={() => setOpenedSafeSelect(true)}
+                      >
+                        <WifiProtectedSetupOutlinedIcon sx={{ color: '#FFF' }} />
+                      </IconButton>
+                    ) : <Text>No safe available</Text>}
+                  </Box>
+                  )}
                 </Box>
-                )}
               </Box>
-            </Box>
-          </TopMobileMenuSafeBox>
-          <TopMobileMenuActionBox>
-            <MobileRightSidebar />
-          </TopMobileMenuActionBox>
-        </TopMobileMenu>
-        <TotalBalanceWrapper>
-          <TotalBalance />
-        </TotalBalanceWrapper>
+            </TopMobileMenuSafeBox>
+            <TopMobileMenuActionBox>
+              <MobileRightSidebar />
+            </TopMobileMenuActionBox>
+          </TopMobileMenu>
+          <TotalBalanceWrapper>
+            <TotalBalance />
+          </TotalBalanceWrapper>
+        </Box>
       </Box>
       <MobileMenu>
         {menuItems.mobileBottomItems.map((el) => (
