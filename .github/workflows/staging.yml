@@ -1,4 +1,4 @@
-name: multisig-deploy-staging
+name: xsafe-deploy-staging
 
 on:
   workflow_dispatch:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy-staging:
-    runs-on: [self-hosted, graffino]
+    runs-on: [ubuntu-latest]
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
     strategy:
@@ -31,17 +31,11 @@ jobs:
 
       - name: Create .env
         run: |
-          awk -v EXTRAS_API_DEVNET="${{ secrets.EXTRAS_API_DEVNET }}" \
-              -v MAIAR_ID_API_DEVNET="${{ secrets.MAIAR_ID_API_DEVNET }}" \
-              -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
+          awk -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
               -v UNIQUE_CONTRACT_NAME="${{ secrets.UNIQUE_CONTRACT_NAME }}" \
-              -v NPMRC="${{ secrets.NPMRC }}" \
               '{ \
-                  sub(/XXX_EXTRAS_API_DEVNET_XXX/, EXTRAS_API_DEVNET); \
-                  sub(/XXX_MAIAR_ID_API_DEVNET_XXX/, MAIAR_ID_API_DEVNET); \
                   sub(/XXX_UNIQUE_CONTRACT_ADDRESS_XXX/, UNIQUE_CONTRACT_ADDRESS); \
                   sub(/XXX_UNIQUE_CONTRACT_NAME_XXX/, UNIQUE_CONTRACT_NAME); \
-                  sub(/XXX_NPMRC_XXX/, NPMRC); \
                   print; \
               }' \
               .env.staging > .env
