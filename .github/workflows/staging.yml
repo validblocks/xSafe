@@ -79,7 +79,7 @@ jobs:
         env:
           HOST: staging.xsafe.app
           USER: graffino
-          KEY: ${{secrets.DEPLOY_SSH_KEY}}
+          KEY: ${{ secrets.NEW_DEPLOY_SSH_KEY }}
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
           VERBOSE: true
