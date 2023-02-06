@@ -1,5 +1,5 @@
 import { Box, CircularProgress } from '@mui/material';
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';
 import { Address } from '@multiversx/sdk-core/out';
 import { buildBlockchainTransaction } from 'src/contracts/transactionUtils';
@@ -8,7 +8,7 @@ import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import { useGetAccountInfo, useGetAccountProvider, useGetPendingTransactions, useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { setCurrentMultisigTransactionId, setHasUnknownOwner } from 'src/redux/slices/multisigContractsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { currentMultisigContractSelector, hasUnknownOwnerSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import CopyButton from 'src/components/CopyButton';
 import { CopyIconLink } from 'src/components/Utils/styled';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
@@ -88,6 +88,15 @@ const ChangeOwnerModalContent = () => {
   } = useContractData();
 
   const pendingTransactions = useGetPendingTransactions();
+  const hasUnknownOwner = useSelector(hasUnknownOwnerSelector);
+
+  const safeOwnerAddress = useMemo(() => {
+    let baseAddress = walletAddress;
+    if (hasUnknownOwner) {
+      baseAddress = contractData?.ownerAddress ?? '';
+    }
+    return truncateInTheMiddle(baseAddress, charsLeft);
+  }, [charsLeft, contractData?.ownerAddress, hasUnknownOwner, walletAddress]);
 
   if (isLoading) {
     return (
@@ -135,7 +144,7 @@ const ChangeOwnerModalContent = () => {
           <Text> Safe owner address:</Text>
           <Box display={'flex'} my={1} border={'1px solid #eee'} p={1} borderRadius={'10px'}>
             <Text>
-              {truncateInTheMiddle(walletAddress, charsLeft)}
+              {safeOwnerAddress}
             </Text>
             <Box sx={{ mr: 1.35, ml: 1.35 }}>
               <CopyButton text={walletAddress} link={CopyIconLink} />
