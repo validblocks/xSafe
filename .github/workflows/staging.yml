@@ -83,17 +83,6 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
-          
-      - name: Deploy to prod server
-        uses: appleboy/ssh-action@master
-        with:
-          host: connect.xsafe.io
-          username: github-runners-dynamic
-          key: ${{ secrets.NEW_DEPLOY_SSH_KEY }}
-          script: |
-            cd /var/www/html/my-awesome-project
-            git stash
-            git pull origin master
 
       - name: Deploy
         id: Deploy
