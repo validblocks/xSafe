@@ -90,7 +90,7 @@ jobs:
         if: success()
         env:
           HOST: connect.xsafe.io
-          USER: github-runners-dynamic
+          USER: graffino
 
           KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
@@ -113,7 +113,7 @@ jobs:
         if: success()
         env:
           HOST: connect.xsafe.io
-          USER: github-runners-dynamic
+          USER: graffino
 
           KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
