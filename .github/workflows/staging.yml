@@ -79,7 +79,7 @@ jobs:
         env:
           HOST: connect.xsafe.io
           USER: graffino
-          KEY: ${{ secrets.NEW_DEPLOY_SSH_KEY }}
+          KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
           VERBOSE: true
@@ -99,7 +99,7 @@ jobs:
         uses: up9cloud/action-rsync@v1.1
         if: success()
         env:
-          HOST: staging.xsafe.app
+          HOST: connect.xsafe.io
           USER: graffino
           KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
