@@ -84,73 +84,73 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
           
-      # - name: Deploy to prod server
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: connect.xsafe.io
-      #     username: github-runners-dynamic
-      #     key: ${{ secrets.NEW_DEPLOY_SSH_KEY }}
-      #     script: |
-      #       cd /var/www/html/my-awesome-project
-      #       git stash
-      #       git pull origin master
+      - name: Deploy to prod server
+        uses: appleboy/ssh-action@master
+        with:
+          host: connect.xsafe.io
+          username: github-runners-dynamic
+          key: ${{ secrets.NEW_DEPLOY_SSH_KEY }}
+          script: |
+            cd /var/www/html/my-awesome-project
+            git stash
+            git pull origin master
 
-      # - name: Deploy
-      #   id: Deploy
-      #   uses: up9cloud/action-rsync@v1.1
-      #   if: success()
-      #   env:
-      #     HOST: connect.xsafe.io
-      #     USER: github-runners-dynamic
+      - name: Deploy
+        id: Deploy
+        uses: up9cloud/action-rsync@v1.1
+        if: success()
+        env:
+          HOST: connect.xsafe.io
+          USER: github-runners-dynamic
 
-      #     KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
-      #     SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+          KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
+          SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
-      #     VERBOSE: true
-      #     ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
+          VERBOSE: true
+          ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
 
-      #     TARGET: ~/staging.xsafe.app/
-      #     SOURCE: ./build/
+          TARGET: ~/staging.xsafe.app/
+          SOURCE: ./build/
 
-      #     PRE_SCRIPT: |
-      #       echo "Start at: " $(date -u)
+          PRE_SCRIPT: |
+            echo "Start at: " $(date -u)
 
-      #     POST_SCRIPT: |
-      #       echo "Stop at: " $(date -u)
+          POST_SCRIPT: |
+            echo "Stop at: " $(date -u)
 
-      # - name: DeployServer
-      #   id: DeployServer
-      #   uses: up9cloud/action-rsync@v1.1
-      #   if: success()
-      #   env:
-      #     HOST: connect.xsafe.io
-      #     USER: github-runners-dynamic
+      - name: DeployServer
+        id: DeployServer
+        uses: up9cloud/action-rsync@v1.1
+        if: success()
+        env:
+          HOST: connect.xsafe.io
+          USER: github-runners-dynamic
 
-      #     KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
-      #     SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+          KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
+          SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
-      #     VERBOSE: true
-      #     ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache --exclude Makefile
+          VERBOSE: true
+          ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache --exclude Makefile
 
-      #     TARGET: ~/staging.xsafe.app/server/
-      #     SOURCE: ./server/
+          TARGET: ~/staging.xsafe.app/server/
+          SOURCE: ./server/
 
-      #     PRE_SCRIPT: |
-      #       echo "Start at: " $(date -u)
+          PRE_SCRIPT: |
+            echo "Start at: " $(date -u)
 
-      #     POST_SCRIPT: |
-      #       cd ~/staging.xsafe.app/server
-      #       npm install
-      #       echo "Stop at: " $(date -u)
+          POST_SCRIPT: |
+            cd ~/staging.xsafe.app/server
+            npm install
+            echo "Stop at: " $(date -u)
                 
-      # - name: Remove Github Actions IP from security group
-      #   run: |
-      #     aws ec2 revoke-security-group-ingress --group-name ${{ env.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
-      #   env:
-      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION }}
-      #   if: always()
+      - name: Remove Github Actions IP from security group
+        run: |
+          aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        if: always()
 
       - uses: act10ns/slack@v1.2.2
         if: always()
