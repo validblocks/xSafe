@@ -17,106 +17,140 @@ jobs:
         node: [14]
 
     steps:
-      - uses: act10ns/slack@v1
-        with:
-          status: starting
-        if: always()
+      # - uses: act10ns/slack@v1
+      #   with:
+      #     status: starting
+      #   if: always()
 
-      - name: Checkout
-        id: Checkout
-        uses: actions/checkout@master
-        with:
-          ref: 'develop'
-        if: success()
+      # - name: Checkout
+      #   id: Checkout
+      #   uses: actions/checkout@master
+      #   with:
+      #     ref: 'develop'
+      #   if: success()
 
-      - name: Create .env
+      # - name: Create .env
+      #   run: |
+      #     awk -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
+      #         -v UNIQUE_CONTRACT_NAME="${{ secrets.UNIQUE_CONTRACT_NAME }}" \
+      #         '{ \
+      #             sub(/XXX_UNIQUE_CONTRACT_ADDRESS_XXX/, UNIQUE_CONTRACT_ADDRESS); \
+      #             sub(/XXX_UNIQUE_CONTRACT_NAME_XXX/, UNIQUE_CONTRACT_NAME); \
+      #             print; \
+      #         }' \
+      #         .env.staging > .env
+
+      # - name: Config setup
+      #   run: |
+      #     make setup-wallet
+
+      # - uses: actions/cache@v2
+      #   with:
+      #     path: '**/node_modules'
+      #     key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16
+      # - name: YARN Install
+      #   id: YARN-Install
+      #   if: success()
+      #   run: yarn --network-timeout 500000
+
+      # - name: Lint
+      #   id: Lint
+      #   if: success()
+      #   run: |
+      #     yarn lint
+
+      # - name: Build
+      #   id: Build
+      #   if: success()
+      #   run: |
+      #     export NODE_OPTIONS="--max-old-space-size=2048"
+      #     export CI=false
+      #     export DISABLE_ESLINT_PLUGIN=true
+      #     yarn build
+
+      - name: Get Github action IP
+        id: ip
+        uses: haythem/public-ip@v1.2
+          
+      - name: Add Github Actions IP to Security group
         run: |
-          awk -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
-              -v UNIQUE_CONTRACT_NAME="${{ secrets.UNIQUE_CONTRACT_NAME }}" \
-              '{ \
-                  sub(/XXX_UNIQUE_CONTRACT_ADDRESS_XXX/, UNIQUE_CONTRACT_ADDRESS); \
-                  sub(/XXX_UNIQUE_CONTRACT_NAME_XXX/, UNIQUE_CONTRACT_NAME); \
-                  print; \
-              }' \
-              .env.staging > .env
-
-      - name: Config setup
-        run: |
-          make setup-wallet
-
-      - uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - name: YARN Install
-        id: YARN-Install
-        if: success()
-        run: yarn --network-timeout 500000
-
-      - name: Lint
-        id: Lint
-        if: success()
-        run: |
-          yarn lint
-
-      - name: Build
-        id: Build
-        if: success()
-        run: |
-          export NODE_OPTIONS="--max-old-space-size=2048"
-          export CI=false
-          export DISABLE_ESLINT_PLUGIN=true
-          yarn build
-
-      - name: Deploy
-        id: Deploy
-        uses: up9cloud/action-rsync@v1.1
-        if: success()
+          aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32    
         env:
-          HOST: connect.xsafe.io
-          USER: graffino
-          KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
-          SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          
+      # - name: Deploy to prod server
+      #   uses: appleboy/ssh-action@master
+      #   with:
+      #     host: connect.xsafe.io
+      #     username: github-runners-dynamic
+      #     key: ${{ secrets.NEW_DEPLOY_SSH_KEY }}
+      #     script: |
+      #       cd /var/www/html/my-awesome-project
+      #       git stash
+      #       git pull origin master
 
-          VERBOSE: true
-          ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
+      # - name: Deploy
+      #   id: Deploy
+      #   uses: up9cloud/action-rsync@v1.1
+      #   if: success()
+      #   env:
+      #     HOST: connect.xsafe.io
+      #     USER: github-runners-dynamic
 
-          TARGET: ~/staging.xsafe.app/
-          SOURCE: ./build/
+      #     KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
+      #     SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
-          PRE_SCRIPT: |
-            echo "Start at: " $(date -u)
+      #     VERBOSE: true
+      #     ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
 
-          POST_SCRIPT: |
-            echo "Stop at: " $(date -u)
+      #     TARGET: ~/staging.xsafe.app/
+      #     SOURCE: ./build/
 
-      - name: DeployServer
-        id: DeployServer
-        uses: up9cloud/action-rsync@v1.1
-        if: success()
-        env:
-          HOST: connect.xsafe.io
-          USER: graffino
-          KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
-          SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+      #     PRE_SCRIPT: |
+      #       echo "Start at: " $(date -u)
 
-          VERBOSE: true
-          ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache --exclude Makefile
+      #     POST_SCRIPT: |
+      #       echo "Stop at: " $(date -u)
 
-          TARGET: ~/staging.xsafe.app/server/
-          SOURCE: ./server/
+      # - name: DeployServer
+      #   id: DeployServer
+      #   uses: up9cloud/action-rsync@v1.1
+      #   if: success()
+      #   env:
+      #     HOST: connect.xsafe.io
+      #     USER: github-runners-dynamic
 
-          PRE_SCRIPT: |
-            echo "Start at: " $(date -u)
+      #     KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
+      #     SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
-          POST_SCRIPT: |
-            cd ~/staging.xsafe.app/server
-            npm install
-            echo "Stop at: " $(date -u)
+      #     VERBOSE: true
+      #     ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache --exclude Makefile
+
+      #     TARGET: ~/staging.xsafe.app/server/
+      #     SOURCE: ./server/
+
+      #     PRE_SCRIPT: |
+      #       echo "Start at: " $(date -u)
+
+      #     POST_SCRIPT: |
+      #       cd ~/staging.xsafe.app/server
+      #       npm install
+      #       echo "Stop at: " $(date -u)
+                
+      # - name: Remove Github Actions IP from security group
+      #   run: |
+      #     aws ec2 revoke-security-group-ingress --group-name ${{ env.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     AWS_DEFAULT_REGION: ${{ env.AWS_DEFAULT_REGION }}
+      #   if: always()
 
       - uses: act10ns/slack@v1.2.2
         if: always()
