@@ -17,60 +17,60 @@ jobs:
         node: [14]
 
     steps:
-      # - uses: act10ns/slack@v1
-      #   with:
-      #     status: starting
-      #   if: always()
+      - uses: act10ns/slack@v1
+        with:
+          status: starting
+        if: always()
 
-      # - name: Checkout
-      #   id: Checkout
-      #   uses: actions/checkout@master
-      #   with:
-      #     ref: 'develop'
-      #   if: success()
+      - name: Checkout
+        id: Checkout
+        uses: actions/checkout@master
+        with:
+          ref: 'develop'
+        if: success()
 
-      # - name: Create .env
-      #   run: |
-      #     awk -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
-      #         -v UNIQUE_CONTRACT_NAME="${{ secrets.UNIQUE_CONTRACT_NAME }}" \
-      #         '{ \
-      #             sub(/XXX_UNIQUE_CONTRACT_ADDRESS_XXX/, UNIQUE_CONTRACT_ADDRESS); \
-      #             sub(/XXX_UNIQUE_CONTRACT_NAME_XXX/, UNIQUE_CONTRACT_NAME); \
-      #             print; \
-      #         }' \
-      #         .env.staging > .env
+      - name: Create .env
+        run: |
+          awk -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
+              -v UNIQUE_CONTRACT_NAME="${{ secrets.UNIQUE_CONTRACT_NAME }}" \
+              '{ \
+                  sub(/XXX_UNIQUE_CONTRACT_ADDRESS_XXX/, UNIQUE_CONTRACT_ADDRESS); \
+                  sub(/XXX_UNIQUE_CONTRACT_NAME_XXX/, UNIQUE_CONTRACT_NAME); \
+                  print; \
+              }' \
+              .env.staging > .env
 
-      # - name: Config setup
-      #   run: |
-      #     make setup-wallet
+      - name: Config setup
+        run: |
+          make setup-wallet
 
-      # - uses: actions/cache@v2
-      #   with:
-      #     path: '**/node_modules'
-      #     key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
 
-      # - uses: actions/setup-node@v3
-      #   with:
-      #     node-version: 16
-      # - name: YARN Install
-      #   id: YARN-Install
-      #   if: success()
-      #   run: yarn --network-timeout 500000
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: YARN Install
+        id: YARN-Install
+        if: success()
+        run: yarn --network-timeout 500000
 
-      # - name: Lint
-      #   id: Lint
-      #   if: success()
-      #   run: |
-      #     yarn lint
+      - name: Lint
+        id: Lint
+        if: success()
+        run: |
+          yarn lint
 
-      # - name: Build
-      #   id: Build
-      #   if: success()
-      #   run: |
-      #     export NODE_OPTIONS="--max-old-space-size=2048"
-      #     export CI=false
-      #     export DISABLE_ESLINT_PLUGIN=true
-      #     yarn build
+      - name: Build
+        id: Build
+        if: success()
+        run: |
+          export NODE_OPTIONS="--max-old-space-size=2048"
+          export CI=false
+          export DISABLE_ESLINT_PLUGIN=true
+          yarn build
 
       - name: Get Github action IP
         id: ip
