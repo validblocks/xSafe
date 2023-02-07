@@ -21,6 +21,7 @@ import FormikInputField from 'src/helpers/formikFields';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useDispatch } from 'react-redux';
 import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
+import { verifiedContractsHashes } from 'src/helpers/constants';
 
 interface AddMultisigModalType {
   show: boolean;
@@ -55,10 +56,11 @@ function AddMultisigModal({
         .min(2, 'Too Short!')
         .max(500, 'Too Long!')
         .required('Required')
-        .test('is valid address', 'Not a valid address', (value?: string) => {
+        .test('is valid address', 'Not a valid multisig address', async (value?: string) => {
           try {
             const _address = new Address(value).bech32();
-            return true;
+            const returnedAccountDetails = await MultiversxApiProvider.getAccountDetails(_address.valueOf());
+            return returnedAccountDetails && verifiedContractsHashes.includes(returnedAccountDetails.codeHash);
           } catch (err) {
             return false;
           }
@@ -76,6 +78,8 @@ function AddMultisigModal({
   const { address: safeAddress, name } = values;
   const hasAddressErrors = touched.address && errors.address;
   const hasSafeNameErrors = touched.name && errors.name;
+  const hasErrors = !!hasSafeNameErrors || !!hasAddressErrors || !isLoggedIn;
+  const isDisabled = !touched.address || !touched.name || hasErrors;
 
   const dispatch = useDispatch();
   const onAddClicked = useCallback(async () => {
@@ -139,7 +143,7 @@ function AddMultisigModal({
             </MainButton>
 
             <FinalStepActionButton
-              disabled={(!!hasSafeNameErrors || !!hasAddressErrors || !isLoggedIn)}
+              disabled={isDisabled}
               onClick={() => onAddClicked()}
               sx={{ height: '34px !important', maxWidth: 'none !important' }}
             >

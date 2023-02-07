@@ -15,17 +15,17 @@ import {
   TokenPayment,
 } from '@multiversx/sdk-core';
 import { Code } from '@multiversx/sdk-core/out/smartcontracts/code';
-
-import { smartContractCode } from 'src/helpers/constants';
+import { requireContractCode } from 'src/utils/requireContractCode';
 
 export const deployContractGasLimit = 400_000_000;
 
 export async function deployMultisigContract() {
-  function getDeployContractTransaction(
+  async function getDeployContractTransaction(
     quorum: number,
     boardMembers: AddressValue[],
   ) {
     // NetworkConfig.getDefault().ChainID = getChainID();
+    const smartContractCode = await requireContractCode();
     const contract = new SmartContract({});
     const code = Code.fromBuffer(Buffer.from(smartContractCode, 'hex'));
     const codeMetadata = new CodeMetadata(false, true, true);
@@ -52,7 +52,7 @@ export async function deployMultisigContract() {
     );
     const boardMembers = [new AddressValue(new Address(address))];
     const quorum = 1;
-    const deployTransaction = getDeployContractTransaction(quorum, boardMembers);
+    const deployTransaction = await getDeployContractTransaction(quorum, boardMembers);
 
     const transactions = [deployTransaction];
     const { sessionId, error } = await sendTransactions({
