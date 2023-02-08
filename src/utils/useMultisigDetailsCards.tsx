@@ -58,7 +58,7 @@ export default function useMultisigDetailsCards() {
 
   const userRoleDescriptions = useMemo(() => ({
     'No rights': 'You have no rights',
-    'Board Member': 'Propose and sign',
+    'Board Member': 'Send Token',
     'Not logged in': 'Login to propose',
   }), []);
 
