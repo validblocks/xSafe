@@ -135,6 +135,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
       case ProposalsTypes.remove_user:
         return (
           <ProposeRemoveUser
+            setSubmitDisabled={setSubmitDisabled}
             handleSetAddress={handleAddressParamChange}
             selectedOption={selectedOption}
           />
