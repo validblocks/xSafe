@@ -97,6 +97,11 @@ function AddMultisigModal({
     }
   }, [safeAddress, name, dispatch, setNewContracts, handleClose]);
 
+  const handleCloseAddExistingMultisig = useCallback(() => {
+    formik.handleReset();
+    handleClose();
+  }, [formik, handleClose]);
+
   return (
     <ModalContainer
       size="lg"
@@ -108,7 +113,10 @@ function AddMultisigModal({
       autoFocus={false}
     >
       <Box sx={{ backgroundColor: theme.palette.background.secondary }} className="modal-content">
-        <ModalCardTitle title={t('Load an existing Safe') as string} handleClose={handleClose} />
+        <ModalCardTitle
+          title={t('Load an existing Safe') as string}
+          handleClose={handleCloseAddExistingMultisig}
+        />
         <Box py={2} px={maxWidth600 ? 2 : 4} mt={maxWidth600 ? 0 : 2}>
           <FormikInputField
             label={t('Safe name')}
@@ -132,7 +140,7 @@ function AddMultisigModal({
           </Box>
           <Box className="modal-action-btns" marginTop={maxWidth600 ? '24px !important' : ''}>
             <MainButton
-              onClick={handleClose}
+              onClick={handleCloseAddExistingMultisig}
               sx={{
                 boxShadow: 'none !important',
                 height: '34px !important',

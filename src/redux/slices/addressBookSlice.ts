@@ -17,7 +17,6 @@ export const addressBookSlice = createSlice({
       state: StateType,
       { payload: { contractAddress, address, name } }: any,
     ) {
-      console.log({ contractAddress, address, name });
       return {
         addressBook: {
           ...state.addressBook,
