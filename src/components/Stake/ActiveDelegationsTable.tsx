@@ -87,6 +87,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
       {
         field: 'providerColumn',
         headerName: 'Provider',
+        sortable: false,
         flex: 1.7,
         renderCell: (params: GridRenderCellParams<IProviderColumn>) => (
           <ProviderColumn withAPR columnData={params.value as IProviderColumn} />
@@ -96,6 +97,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
         field: 'delegatedColumn',
         headerName: 'Delegated',
         flex: 1.2,
+        sortable: false,
         renderCell: (params: GridRenderCellParams<IDelegatedColumn>) => (
           <DelegatedColumn columnData={params.value ?? { delegatedAmount: '0' }} />
         ),
@@ -104,6 +106,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
         field: 'claimableRewardsColumn',
         headerName: 'Rewards',
         flex: 1.4,
+        sortable: false,
         renderCell: (params: GridRenderCellParams<IClaimableRewardsColumn>) => (
           <ClaimableRewardsColumn columnData={params.value as IClaimableRewardsColumn} />
         ),
@@ -113,6 +116,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
         type: 'actions',
         flex: 2.5,
         width: 210,
+        sortable: false,
         headerName: '',
         getActions: (params: GridRenderCellParams) => getTableActions(params),
       },
@@ -160,6 +164,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
           autoHeight
           rowHeight={68}
           rows={rows ?? []}
+          disableColumnMenu
           columns={columns}
           headerHeight={48}
           onSelectionModelChange={onSelectionModelChanged}

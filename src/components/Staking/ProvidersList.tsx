@@ -42,6 +42,7 @@ const ProvidersList = ({ searchParam }: Props) => {
           field: 'providerColumn',
           headerName: 'Provider',
           flex: 2.5,
+          sortable: false,
           renderCell: (params: GridRenderCellParams<IProviderColumn>) => (
             <ProviderColumn columnData={params.value as IProviderColumn} />
           ),
@@ -50,6 +51,8 @@ const ProvidersList = ({ searchParam }: Props) => {
           field: 'aprColumn',
           headerName: 'APR',
           flex: 1,
+          sortComparator:
+            (a: IAPRColumn, b: IAPRColumn) => (a?.apr ?? 0) - (b?.apr ?? 0),
           renderCell: (params: GridRenderCellParams<IAPRColumn>) => (
             <APRColumn columnData={params.value as IAPRColumn} />
           ),
@@ -58,6 +61,7 @@ const ProvidersList = ({ searchParam }: Props) => {
           field: 'filledColumn',
           headerName: 'Filled',
           flex: 1,
+          sortable: false,
           renderCell: (params: GridRenderCellParams<IFilledColumn>) => (
             <FilledColumn columnData={params.value as IFilledColumn} />
           ),
@@ -119,6 +123,8 @@ const ProvidersList = ({ searchParam }: Props) => {
         selectionModel={selectionModel}
         pageSize={pageSize}
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
+        disableColumnFilter
+        disableColumnMenu
         sx={{
           '& .MuiDataGrid-columnHeaderCheckbox': {
             display: 'none',
