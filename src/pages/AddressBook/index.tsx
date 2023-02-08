@@ -19,6 +19,7 @@ import { AddressBook as AddressBookType } from 'src/pages/Organization/types';
 import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
 import { addEntry, removeEntry } from 'src/redux/slices/addressBookSlice';
 import { RootState } from 'src/redux/store';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import ExportModal from './ExportModal';
 import ImportModal from './ImportModal';
 import NewEntryModal from './NewEntryModal';
@@ -105,6 +106,7 @@ const AddressBook = () => {
   const addressBook = useSelector<RootState, AddressBookType>(
     addressBookSelector,
   );
+  const currentContract = useSelector(currentMultisigContractSelector);
   const rows = Object.entries(addressBook).map(([key, value]) => ({
     id: key,
     address: key,
@@ -122,7 +124,7 @@ const AddressBook = () => {
       name: '',
     },
     onSubmit: ({ address, name }) => {
-      dispatch(addEntry({ address, name }));
+      dispatch(addEntry({ address, name, contractAddress: currentContract?.address }));
       setModalState(false);
     },
     validationSchema,

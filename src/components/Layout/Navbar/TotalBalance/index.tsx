@@ -33,7 +33,9 @@ import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { useGetLoginInfo, useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
+import {
+  useGetLoginInfo, useTrackTransactionStatus,
+} from '@multiversx/sdk-dapp/hooks';
 import { CenteredText } from '../navbar-style';
 import * as Styled from '../styled';
 import { useSendTokenButtonMinWidth } from './useSendTokenButtonMinWidth';

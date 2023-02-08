@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Address } from '@multiversx/sdk-core/out';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   mutateProposeChangeQuorum,
   mutateProposeAddProposer,
@@ -19,6 +19,7 @@ import Unlock from 'src/pages/Unlock';
 import { getIsLoggedIn } from '@multiversx/sdk-dapp/utils';
 import ConnectedAccount from 'src/components/Layout/Navbar/ConnectedAccount';
 import ChangeOwnerModalContent from 'src/pages/Organization/ChangeOwnerModalContent';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import EditOwner from './EditOwner';
 import ProposeChangeQuorum from './ProposeChangeQuorum';
 import ProposeInputAddress from './ProposeInputAddress';
@@ -33,6 +34,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
   const theme: any = useTheme();
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   const [submitDisabled, setSubmitDisabled] = useState(false);
   const [selectedNumericParam, setSelectedNumericParam] = useState(1);
@@ -66,6 +68,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
         case ProposalsTypes.edit_owner:
           dispatch(
             addEntry({
+              contractAddress: currentContract?.address,
               address: selectedAddressParam.bech32(),
               name: selectedNameParam,
             }),
@@ -76,6 +79,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
           mutateProposeAddBoardMember(selectedReplacementAddressParam);
           dispatch(
             addEntry({
+              contractAddress: currentContract?.address,
               address: selectedReplacementAddressParam.bech32(),
               name: selectedNameParam,
             }),
