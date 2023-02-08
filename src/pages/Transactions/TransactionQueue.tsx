@@ -75,6 +75,10 @@ const TransactionQueue = () => {
     return <Box marginTop={maxWidth600 ? '60px' : 0}><LoadingDataIndicator dataName="proposal" /></Box>;
   }
 
+  if (allPendingActions.length === 0) {
+    return <NoActionsOverlay message={t('No transactions found')} />;
+  }
+
   return (
     <Box paddingTop={maxWidth600 ? '37px' : 0} paddingBottom={maxWidth600 ? '52px' : 0}>
       {actionsForCurrentPage.map((action) => (
@@ -119,18 +123,16 @@ const TransactionQueue = () => {
           </AccordionDetails>
         </TransactionAccordion>
       ))}
-      {allPendingActions.length === 0 ? <NoActionsOverlay message={t('No transactions found')} /> : (
-        <PaginationWithItemsPerPage
-          data={untruncatedData}
-          setParentCurrentPage={setCurrentPage}
-          setParentItemsPerPage={setActionsPerPage}
-          setParentDataForCurrentPage={setActionsForCurrentPage}
-          setParentTotalPages={setTotalPages}
-          currentPage={currentPage}
-          itemsPerPage={actionsPerPage}
-          totalPages={totalPages}
-        />
-      )}
+      <PaginationWithItemsPerPage
+        data={untruncatedData}
+        setParentCurrentPage={setCurrentPage}
+        setParentItemsPerPage={setActionsPerPage}
+        setParentDataForCurrentPage={setActionsForCurrentPage}
+        setParentTotalPages={setTotalPages}
+        currentPage={currentPage}
+        itemsPerPage={actionsPerPage}
+        totalPages={totalPages}
+      />
     </Box>
   );
 };
