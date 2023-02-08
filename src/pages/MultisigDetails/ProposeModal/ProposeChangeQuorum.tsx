@@ -47,7 +47,6 @@ function ProposeChangeQuorum({
       <Styled.TextField
         id="newQuorumSize"
         type="number"
-        // className={error != null ? 'form-control is-invalid' : 'form-control'}
         value={newQuorumSize}
         autoComplete="off"
         focused={false}

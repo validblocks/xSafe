@@ -30,6 +30,7 @@ const CvorumContainer = () => {
   const [newQuorum, setNewQuorum] = useState(quorumCount);
   const [boardMembers] = boardMembersState;
   const boardMembersCount = boardMembers.length;
+  const isSameQuorum = newQuorum === quorumCount;
 
   const { t } = useTranslation();
   const theme: any = useTheme();
@@ -101,7 +102,7 @@ const CvorumContainer = () => {
       </Box>
 
       <ChangeQuorumButton
-        disabled={isInReadOnlyMode || error !== null}
+        disabled={isInReadOnlyMode || error !== null || isSameQuorum}
         size="large"
         onClick={onChangeQuorum}
       >
