@@ -1,7 +1,6 @@
 import { Address } from '@multiversx/sdk-core/out';
 import i18next from 'i18next';
-import ExplorerLink from 'src/components/ExplorerLink';
-import Trim from 'src/components/Trim';
+import ActionOnAddress from 'src/components/Actions/ActionOnAddress';
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
 
@@ -19,14 +18,7 @@ export class MultisigRemoveUser extends MultisigAction {
 
   description() {
     return (
-      <ExplorerLink
-        page={`accounts/${this.address.bech32()}`}
-        text={(
-          <div className="address">
-            <Trim text={this.address.bech32()} />
-          </div>
-)}
-      />
+      <ActionOnAddress title={this.title()} address={this.address} />
     );
   }
 
