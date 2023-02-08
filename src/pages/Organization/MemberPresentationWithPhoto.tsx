@@ -1,6 +1,6 @@
 import { Address } from '@multiversx/sdk-core/out';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import CopyButton from 'src/components/CopyButton';
 import { toSvg } from 'jdenticon';
 import { AnchorPurple } from 'src/components/Layout/Navbar/navbar-style';
@@ -34,7 +34,7 @@ const MemberPresentationWithPhoto = ({
         />
     }
       <Box sx={{ ml: '7px' }}>
-        <Typography sx={{ fontWeight: 600, color: theme.palette.text.primary }}>@herotag</Typography>
+        {/* <Typography sx={{ fontWeight: 600, color: theme.palette.text.primary }}>@herotag</Typography> */}
         <Box sx={{ display: 'flex' }}>
           <Box sx={{ color: theme.palette.text.primary }}>
             {addressBook[memberAddress?.bech32()] ?? truncateInTheMiddle(
