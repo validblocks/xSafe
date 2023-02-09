@@ -53,6 +53,7 @@ jobs:
         if: success()
         run: |
           npm config set fetch-retries 5
+          npm config set fetch-retry-maxtimeout 200000
           npm config set fetch-retry-mintimeout 100000
           npm install --legacy-peer-deps
 
