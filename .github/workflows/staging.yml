@@ -17,11 +17,6 @@ jobs:
         node: [14]
 
     steps:
-      - uses: act10ns/slack@v1
-        with:
-          status: starting
-        if: always()
-
       - name: Checkout
         id: Checkout
         uses: actions/checkout@master
@@ -98,7 +93,7 @@ jobs:
           VERBOSE: true
           ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
 
-          TARGET: ~/staging.xsafe.app/
+          TARGET: ~/devnet.xsafe.io/
           SOURCE: ./build/
 
           PRE_SCRIPT: |
@@ -121,14 +116,14 @@ jobs:
           VERBOSE: true
           ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache --exclude Makefile
 
-          TARGET: ~/staging.xsafe.app/server/
+          TARGET: ~/devnet.xsafe.io/server/
           SOURCE: ./server/
 
           PRE_SCRIPT: |
             echo "Start at: " $(date -u)
 
           POST_SCRIPT: |
-            cd ~/staging.xsafe.app/server
+            cd ~/devnet.xsafe.io/server
             npm install
             echo "Stop at: " $(date -u)
                 
@@ -140,9 +135,3 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
         if: always()
-
-      - uses: act10ns/slack@v1.2.2
-        if: always()
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
