@@ -47,15 +47,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-
-      - name: NPM Legacy-Install
-        id: NPM-Legacy-Install
+      - name: YARN Install
+        id: YARN-Install
         if: success()
-        run: |
-          npm config set fetch-retries 5
-          npm config set fetch-retry-maxtimeout 200000
-          npm config set fetch-retry-mintimeout 100000
-          npm install --legacy-peer-deps
+        run: yarn --network-timeout 500000
 
       - name: Lint
         id: Lint
