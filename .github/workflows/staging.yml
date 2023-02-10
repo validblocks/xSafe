@@ -67,6 +67,16 @@ jobs:
           export DISABLE_ESLINT_PLUGIN=true
           yarn build
 
+      - name: Build Server
+        id: Build-Server
+        if: success()
+        run: |
+          cd server
+          export NODE_OPTIONS="--max-old-space-size=2048"
+          export CI=false
+          export DISABLE_ESLINT_PLUGIN=true
+          yarn build
+
       - name: Get Github action IP
         id: ip
         uses: haythem/public-ip@v1.2
@@ -119,13 +129,12 @@ jobs:
           TARGET: ~/devnet.xsafe.io/server/
           SOURCE: ./server/
 
-          PRE_SCRIPT: |
-            echo "Start at: " $(date -u)
-
-          POST_SCRIPT: |
-            cd ~/devnet.xsafe.io/server
-            npm install
-            echo "Stop at: " $(date -u)
+      - name: Restart NodeJS
+        id: restart-node-js
+        if: success()
+        run: |
+          # Restart NodeJS Daemon
+          curl -X POST "https://ploi.io/api/servers/42795/daemons/25460/restart" -H "Authorization: Bearer ${{ secrets.PLOI_API_KEY }}" -H "Content-Type: application/json" -H "Accept: application/json"
                 
       - name: Remove Github Actions IP from security group
         run: |
