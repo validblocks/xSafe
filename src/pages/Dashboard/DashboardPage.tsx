@@ -116,7 +116,7 @@ function Dashboard() {
                     </Text>
                     <XSafeLogo width={98} height={33} />
                   </Box>
-                  <TextxSafeDescription margin={'12px 0 45px 0'} fontWeight={500}>
+                  <TextxSafeDescription margin={'12px 0 24px 0'} fontWeight={500}>
                     {dAppName}
                     {t(' is the first platform for digital assets management built on the MultiversX.')}
                   </TextxSafeDescription>
