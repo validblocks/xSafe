@@ -54,6 +54,9 @@ function TotalBalance() {
   const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
   const minWidth600 = useMediaQuery('(min-width:600px)');
 
+  const queryClient = useQueryClient();
+  const { isLoggedIn } = useGetLoginInfo();
+
   const fetchAddressEsdts = useCallback(
     () => MultiversxApiProvider.getAddressTokens(currentContract?.address),
     [currentContract],
@@ -122,11 +125,9 @@ function TotalBalance() {
     {
       ...USE_QUERY_DEFAULT_CONFIG,
       refetchInterval: 5000,
+      enabled: isLoggedIn,
     },
   );
-
-  const queryClient = useQueryClient();
-  const { isLoggedIn } = useGetLoginInfo();
 
   useEffect(() => {
     if (newTransactions && newTransactions.length > 0) {
