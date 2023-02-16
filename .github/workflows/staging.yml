@@ -102,30 +102,6 @@ jobs:
           POST_SCRIPT: |
             echo "Stop at: " $(date -u)
 
-      - name: DeployServer
-        id: DeployServer
-        uses: up9cloud/action-rsync@v1.1
-        if: success()
-        env:
-          HOST: connect.xsafe.io
-          USER: graffino
-
-          KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
-          SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-
-          VERBOSE: true
-          ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache --exclude Makefile
-
-          TARGET: ~/devnet.xsafe.io/server/
-          SOURCE: ./server/
-
-      - name: Restart NodeJS
-        id: restart-node-js
-        if: success()
-        run: |
-          # Restart NodeJS Daemon
-          curl -X POST "https://ploi.io/api/servers/42795/daemons/25460/restart" -H "Authorization: Bearer ${{ secrets.PLOI_API_KEY }}" -H "Content-Type: application/json" -H "Accept: application/json"
-                
       - name: Remove Github Actions IP from security group
         run: |
           aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
