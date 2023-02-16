@@ -152,7 +152,7 @@ const ActiveDelegationsTable = ({ isError, isFetching, isLoading, dataName = 'da
 
   return (
     <Box
-      sx={{ padding: '0 !important' }}
+      sx={{ padding: maxWidth600 ? '0 0 55px 0' : '0 !important' }}
     >
       {maxWidth600 ? (
         <DelegationMobileCards
