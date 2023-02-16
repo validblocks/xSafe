@@ -1,4 +1,4 @@
-name: multisig-deploy-production
+name: xsafe-deploy-staging
 
 on:
   workflow_dispatch:
@@ -7,16 +7,16 @@ on:
       - 'master'
 
 jobs:
-  deploy-production:
-    runs-on: [self-hosted, graffino]
+  deploy-staging:
+    runs-on: [ubuntu-latest]
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-    steps:
-      - uses: act10ns/slack@v1
-        with:
-          status: starting
-        if: always()
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node: [14]
 
+    steps:
       - name: Checkout
         id: Checkout
         uses: actions/checkout@master
@@ -26,20 +26,14 @@ jobs:
 
       - name: Create .env
         run: |
-          awk -v EXTRAS_API_DEVNET="${{ secrets.EXTRAS_API_DEVNET }}" \
-              -v MAIAR_ID_API_DEVNET="${{ secrets.MAIAR_ID_API_DEVNET }}" \
-              -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
+          awk -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
               -v UNIQUE_CONTRACT_NAME="${{ secrets.UNIQUE_CONTRACT_NAME }}" \
-              -v NPM_AUTH_TOKEN="${{ secrets.NPMRC }}" \
               '{ \
-                  sub(/XXX_EXTRAS_API_DEVNET_XXX/, EXTRAS_API_DEVNET); \
-                  sub(/XXX_MAIAR_ID_API_DEVNET_XXX/, MAIAR_ID_API_DEVNET); \
                   sub(/XXX_UNIQUE_CONTRACT_ADDRESS_XXX/, UNIQUE_CONTRACT_ADDRESS); \
                   sub(/XXX_UNIQUE_CONTRACT_NAME_XXX/, UNIQUE_CONTRACT_NAME); \
-                  sub(/XXX_NPM_AUTH_TOKEN_XXX/, NPM_AUTH_TOKEN); \
                   print; \
               }' \
-              .env.prod > .env
+              .env.staging > .env
 
       - name: Config setup
         run: |
@@ -49,18 +43,20 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
-      
-      - uses: actions/setup-node@v2-beta
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - name: YARN Install
         id: YARN-Install
         if: success()
-        run: yarn install
+        run: yarn --network-timeout 500000
 
-      # - name: Lint
-      #   id: Lint
-      #   if: success()
-      #   run: |
-      #     yarn lint
+      - name: Lint
+        id: Lint
+        if: success()
+        run: |
+          yarn lint
 
       - name: Build
         id: Build
@@ -71,20 +67,33 @@ jobs:
           export DISABLE_ESLINT_PLUGIN=true
           yarn build
 
+      - name: Get Github action IP
+        id: ip
+        uses: haythem/public-ip@v1.2
+
+      - name: Add Github Actions IP to Security group
+        run: |
+          aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+
       - name: Deploy
         id: Deploy
         uses: up9cloud/action-rsync@v1.1
         if: success()
         env:
-          HOST: connect.validblocks.com
+          HOST: connect.xsafe.io
           USER: graffino
-          KEY: ${{secrets.DEPLOY_SSH_KEY}}
+
+          KEY: ${{secrets.NEW_DEPLOY_SSH_KEY}}
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 
           VERBOSE: true
           ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
 
-          TARGET: ~/control.validblocks.com/
+          TARGET: ~/xsafe.io/
           SOURCE: ./build/
 
           PRE_SCRIPT: |
@@ -93,8 +102,11 @@ jobs:
           POST_SCRIPT: |
             echo "Stop at: " $(date -u)
 
-      - uses: act10ns/slack@v1.2.2
+      - name: Remove Github Actions IP from security group
+        run: |
+          aws ec2 revoke-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
         if: always()
-        with:
-          status: ${{ job.status }}
-          steps: ${{ toJson(steps) }}
