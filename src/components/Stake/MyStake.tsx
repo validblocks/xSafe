@@ -24,6 +24,7 @@ import { setActiveDelegationRows } from 'src/redux/slices/accountGeneralInfoSlic
 import axios from 'axios';
 import { TokenPayment } from '@multiversx/sdk-core/out';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
+import { xSafeApiUrl } from 'src/helpers/constants';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
 import { MainButton } from '../Theme/StyledComponents';
@@ -54,7 +55,7 @@ const MyStake = () => {
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    axios.get(`/proxy?route=https://devnet-delegation-api.multiversx.com/accounts/${currentContract?.address}/delegations?forceRefresh=true`).then((r) => r.data);
+    axios.get(`${xSafeApiUrl}/${currentContract?.address}`).then((r) => r.data);
 
   const {
     data: fetchedDelegations,

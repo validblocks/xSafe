@@ -88,7 +88,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const {
     data: nftCount,
     refetch: refetchNftCount,
-  } = useQuery([QueryKeys.NFT_COUNT],
+  } = useQuery(QueryKeys.NFT_COUNT,
     fetchNftCount,
     USE_QUERY_DEFAULT_CONFIG,
   );
