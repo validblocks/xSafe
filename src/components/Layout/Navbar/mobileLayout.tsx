@@ -154,7 +154,9 @@ const MobileLayout = () => {
               alignItems="flex-start"
               onClick={handleRedirectToHome}
             >
-              <XSafeLogo width={50} />
+              <Box mb="5px" display="flex">
+                <XSafeLogo width={50} height={17} />
+              </Box>
               <NetworkAnnouncer network={network.name} />
             </TopMobileMenuLogoBox>
             <TopMobileMenuSafeBox sx={{
