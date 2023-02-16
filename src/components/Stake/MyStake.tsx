@@ -55,7 +55,7 @@ const MyStake = () => {
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    axios.get(`${xSafeApiUrl}/${currentContract?.address}`).then((r) => r.data);
+    axios.get(`${xSafeApiUrl}/delegations/${currentContract?.address}`).then((r) => r.data);
 
   const {
     data: fetchedDelegations,
