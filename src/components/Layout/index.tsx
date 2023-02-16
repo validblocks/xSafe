@@ -36,6 +36,7 @@ import MobileLayout from './Navbar/mobileLayout';
 import Navbar from './Navbar/index';
 import NavbarLogo from './Navbar/Logo';
 import { CenteredBox } from '../StyledComponents/StyledComponents';
+import NetworkAnnouncer from '../Utils/NetworkAnnouncer';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const theme: any = useTheme();
@@ -139,7 +140,10 @@ function Layout({ children }: { children: React.ReactNode }) {
                 <PageBreadcrumbs />
               </Box>
             </Box>
-            <Account />
+            <Box display="flex">
+              <NetworkAnnouncer network={network.name} />
+              <Account />
+            </Box>
           </TopHeader>
         ) : (
           ''
