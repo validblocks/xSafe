@@ -80,8 +80,10 @@ export type OrganizationInfoContextType = {
 export type AddressBook = Record<string, string>;
 export type AccountInfo = Record<string, any>;
 
-export type Owner = {
-  address: Address;
+export type Bech32Address = string;
+
+export type MultisigMember = {
+  address: Bech32Address;
   herotag?: string;
   name?: string;
 };

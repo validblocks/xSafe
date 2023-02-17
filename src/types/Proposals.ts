@@ -1,4 +1,4 @@
-import { Owner } from 'src/pages/Organization/types';
+import { MultisigMember } from 'src/pages/Organization/types';
 
 export enum ProposalsTypes {
   'change_quorum' = 'change_quorum',
@@ -45,7 +45,7 @@ export interface EditOwnerOptionType {
 
 export interface ReplaceOwnerOptionType {
   option: ProposalsTypes.replace_owner;
-  currentOwner: Owner;
+  currentOwner: MultisigMember;
 }
 
 export interface SimpleSelectedOptionType {

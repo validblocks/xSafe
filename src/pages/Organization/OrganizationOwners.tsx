@@ -13,27 +13,23 @@ import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider
 import { MainButtonNoShadow } from 'src/components/Theme/StyledComponents';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { Button, useMediaQuery } from '@mui/material';
-import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
+import { useMediaQuery } from '@mui/material';
 import noRowsOverlay from 'src/components/Utils/noRowsOverlay';
-import { AccountInfo, AddressBook, Owner } from './types';
+import { AccountInfo, AddressBook, Bech32Address, MultisigMember } from './types';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 import * as Styled from './styled';
 import { useOwnerManipulationFunctions } from './utils';
-import MobileCardsForTableReplacementMemebers from './utils/MobileCardsForTableReplacementMemebers';
+import MultisigMemberMobileCards from './utils/MultisigMemberMobileCards';
 
 const OrganizationsOwnersTable = () => {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
-  const [addresses, setAddresses] = useState<Array<Owner>>([]);
+  const [multisigMembers, setMultisigMembers] = useState<Array<MultisigMember>>([]);
   const getAddresses = useCallback(() => queryBoardMemberAddresses(), []);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
-  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
 
-  // Set the address book
-  // Test the address book and herotag
   const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
 
-  const addAddressBookEntry = useCallback((accountInformation: AccountInfo): Owner => ({
+  const addAddressBookEntry = useCallback((accountInformation: AccountInfo): MultisigMember => ({
     address: accountInformation.address,
     ...(!!accountInformation.username && {
       herotag: accountInformation.username,
@@ -51,16 +47,21 @@ const OrganizationsOwnersTable = () => {
         Promise.all(
           ownerAddresses.map((address) => MultiversxApiProvider.getAccountData(new Address(address).bech32())),
         ).then((accountsInformation) => {
-          setAddresses(accountsInformation.map(addAddressBookEntry));
+          setMultisigMembers(accountsInformation.map(addAddressBookEntry));
         });
       });
-  }, [addAddressBookEntry]);
+  }, [addAddressBookEntry, getAddresses]);
 
   const {
-    onRemoveUser,
-    onEditOwner,
+    onRemoveMember,
+    onEditMember,
     onAddBoardMember,
   } = useOwnerManipulationFunctions();
+
+  const onEditMemberClick = useCallback((multisigMemberAddress: Bech32Address) => {
+    const multisigMember = multisigMembers.find((address) => address.address === multisigMemberAddress);
+    if (multisigMember) { onEditMember(multisigMember); }
+  }, [multisigMembers, onEditMember]);
 
   const columns = useMemo(
     () => [
@@ -107,63 +108,26 @@ const OrganizationsOwnersTable = () => {
             icon={<DeleteIcon sx={{ opacity: '0.54' }} />}
             disabled={isInReadOnlyMode}
             label="Delete"
-            onClick={() => onRemoveUser(new Address(params.id))}
+            onClick={() => onRemoveMember(new Address(params.id))}
           />,
           <GridActionsCellItem
             key={params.id}
             icon={<EditIcon sx={{ opacity: '0.54' }} />}
             disabled={isInReadOnlyMode}
             label="Edit Owner"
-            onClick={() =>
-              onEditOwner(
-                addresses.find(
-                  (address) => address.address === params.id,
-                ) as Owner,
-              )}
+            onClick={() => onEditMemberClick(params.id)}
           />,
         ],
       },
     ],
-    [isInReadOnlyMode, onRemoveUser, onEditOwner, addresses],
+    [isInReadOnlyMode, onRemoveMember, onEditMemberClick],
   );
 
-  const rows = addresses.map((owner: Owner) => ({
+  const rows = multisigMembers.map((owner: MultisigMember) => ({
     id: owner.address,
     owner: { name: owner.name, herotag: owner.herotag },
     address: { address: owner.address, identicon: toSvg(owner.address, 100) },
   }));
-
-  const getMobileActions = (params: any) => [
-    <Button
-      key={params.id}
-      startIcon={(
-        <DeleteIcon sx={{
-          // eslint-disable-next-line no-nested-ternary
-          color: isInReadOnlyMode ? isDarkThemeEnabled ? '#eeeeee8a' : '#08041D8a' : '#4c2ffc',
-        }}
-        />
-)}
-      disabled={isInReadOnlyMode}
-      onClick={() => onRemoveUser(new Address(params.id))}
-    />,
-    <Button
-      key={params.id}
-      startIcon={(
-        <EditIcon sx={{
-          // eslint-disable-next-line no-nested-ternary
-          color: isDarkThemeEnabled ? isInReadOnlyMode ? '#eeeeee8a' : '#4c2ffc' : '#08041D8a',
-        }}
-        />
-)}
-      disabled={isInReadOnlyMode}
-      onClick={() =>
-        onEditOwner(
-                addresses.find(
-                  (address) => address.address === params.id,
-                ) as Owner,
-        )}
-    />,
-  ];
 
   return (
     <>
@@ -177,15 +141,21 @@ const OrganizationsOwnersTable = () => {
         Add member
       </MainButtonNoShadow>
 
-      {maxWidth600 ? <MobileCardsForTableReplacementMemebers items={addresses} action={getMobileActions(addresses)} /> : (
-        <Styled.MainTable
-          autoHeight
-          rowHeight={65}
-          rows={rows}
-          columns={columns}
-          components={{ NoRowsOverlay: noRowsOverlay }}
-        />
-      )}
+      {maxWidth600
+        ? (
+          <MultisigMemberMobileCards
+            multisigMembers={multisigMembers}
+          />
+        )
+        : (
+          <Styled.MainTable
+            autoHeight
+            rowHeight={65}
+            rows={rows}
+            columns={columns}
+            components={{ NoRowsOverlay: noRowsOverlay }}
+          />
+        )}
     </>
   );
 };

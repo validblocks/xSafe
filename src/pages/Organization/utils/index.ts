@@ -2,11 +2,11 @@ import { Address } from '@multiversx/sdk-core/out';
 import { useDispatch } from 'react-redux';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ProposalsTypes } from 'src/types/Proposals';
-import { Owner } from '../types';
+import { MultisigMember } from '../types';
 
 export const useOwnerManipulationFunctions = () => {
   const dispatch = useDispatch();
-  const onRemoveUser = (address: Address) =>
+  const onRemoveMember = (address: Address) =>
     dispatch(
       setProposeModalSelectedOption({
         option: ProposalsTypes.remove_user,
@@ -14,12 +14,12 @@ export const useOwnerManipulationFunctions = () => {
       }),
     );
 
-  const onEditOwner = (owner: Owner) =>
+  const onEditMember = (owner: MultisigMember) =>
     dispatch(
       setProposeModalSelectedOption({
         option: ProposalsTypes.edit_owner,
-        name: owner.name,
-        address: new Address(owner.address).bech32(),
+        name: owner?.name ?? '',
+        address: owner?.address ?? '',
       }),
     );
 
@@ -31,8 +31,8 @@ export const useOwnerManipulationFunctions = () => {
     );
 
   return {
-    onRemoveUser,
-    onEditOwner,
+    onRemoveMember,
+    onEditMember,
     onAddBoardMember,
   };
 };
