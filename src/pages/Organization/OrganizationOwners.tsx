@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Address } from '@multiversx/sdk-core/out';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-
 import { GridActionsCellItem, GridRenderCellParams } from '@mui/x-data-grid';
 import { toSvg } from 'jdenticon';
 import { useSelector } from 'react-redux';
@@ -13,7 +12,7 @@ import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider
 import { MainButtonNoShadow } from 'src/components/Theme/StyledComponents';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { useMediaQuery } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import noRowsOverlay from 'src/components/Utils/noRowsOverlay';
 import { AccountInfo, AddressBook, Bech32Address, MultisigMember } from './types';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
@@ -85,16 +84,18 @@ const OrganizationsOwnersTable = () => {
         headerName: 'Address',
         width: 280,
         type: 'object',
-        /**
-         *
-         * @todo: add style component for avatar
-         */
         renderCell: (params: any) => (
-          <div className="d-flex flex-row align-items-center">
+          <Box display="flex" alignItems="center">
+            <Box
+              sx={{ borderRadius: '4px', overflow: 'hidden' }}
+              dangerouslySetInnerHTML={{
+                __html: toSvg(params.value.address, 20, { padding: 0 }),
+              }}
+            />
             <strong>
               {truncateInTheMiddle(params.value.address, 17)}
             </strong>
-          </div>
+          </Box>
         ),
       },
       {
