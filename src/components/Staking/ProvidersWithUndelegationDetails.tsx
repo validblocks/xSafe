@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   GridExpandMoreIcon,
 } from '@mui/x-data-grid';

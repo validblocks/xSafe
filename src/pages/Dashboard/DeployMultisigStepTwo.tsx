@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-nested-ternary */
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
 import {
@@ -15,7 +14,7 @@ import CopyButton from 'src/components/CopyButton';
 import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
 import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';
 import { useMultistepFormContext } from 'src/components/Utils/MultistepForm';
-import ContentPasteGoOutlinedIcon from '@mui/icons-material/ContentPasteGoOutlined';
+import SearchIcon from '@mui/icons-material/Search';
 import { gasLimit, network } from 'src/config';
 import { buildBlockchainTransaction } from 'src/contracts/transactionUtils';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
@@ -147,7 +146,7 @@ const DeployMultisigStepTwo = ({
                 rel="noreferrer"
                 color="#6c757d"
               >
-                <ContentPasteGoOutlinedIcon />
+                <SearchIcon />
               </Anchor>
             </Box>
           </Box>

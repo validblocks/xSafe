@@ -134,7 +134,6 @@ const ProposeSmartContractCall = ({
   );
 
   const { touched, errors, values } = formik;
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { amount, receiver, functionName, args } = values;
   const getProposal = (): MultisigSmartContractCall | null => {
     try {

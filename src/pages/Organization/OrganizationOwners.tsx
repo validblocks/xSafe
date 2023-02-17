@@ -70,11 +70,11 @@ const OrganizationsOwnersTable = () => {
         minWidth: 230,
         maxWidth: 290,
         type: 'object',
-        renderCell: (params: GridRenderCellParams<any>) => (
+        renderCell: (params: GridRenderCellParams<MultisigMember>) => (
           <div className="d-flex flex-column justify-content-center">
-            <strong className="mb-0">{params.value.name}</strong>
+            <strong className="mb-0">{params?.value?.name}</strong>
             <strong>
-              <Text>{params.value.herotag}</Text>
+              <Text>{params?.value?.herotag}</Text>
             </strong>
           </div>
         ),
@@ -84,16 +84,16 @@ const OrganizationsOwnersTable = () => {
         headerName: 'Address',
         width: 280,
         type: 'object',
-        renderCell: (params: any) => (
+        renderCell: (params: GridRenderCellParams<MultisigMember>) => (
           <Box display="flex" alignItems="center">
             <Box
               sx={{ borderRadius: '4px', overflow: 'hidden' }}
               dangerouslySetInnerHTML={{
-                __html: toSvg(params.value.address, 20, { padding: 0 }),
+                __html: toSvg(params.value?.address, 20, { padding: 0 }),
               }}
             />
             <strong>
-              {truncateInTheMiddle(params.value.address, 17)}
+              {truncateInTheMiddle(params.value?.address ?? '', 17)}
             </strong>
           </Box>
         ),
@@ -102,21 +102,20 @@ const OrganizationsOwnersTable = () => {
         field: 'actions',
         type: 'actions',
         headerName: 'Action',
-        // eslint-disable-next-line react/no-unstable-nested-components
-        getActions: (params: any) => [
+        getActions: (params: GridRenderCellParams<MultisigMember>) => [
           <GridActionsCellItem
             key={params.id}
             icon={<DeleteIcon sx={{ opacity: '0.54' }} />}
             disabled={isInReadOnlyMode}
             label="Delete"
-            onClick={() => onRemoveMember(new Address(params.id))}
+            onClick={() => onRemoveMember(new Address(params.value?.address ?? ''))}
           />,
           <GridActionsCellItem
             key={params.id}
             icon={<EditIcon sx={{ opacity: '0.54' }} />}
             disabled={isInReadOnlyMode}
             label="Edit Owner"
-            onClick={() => onEditMemberClick(params.id)}
+            onClick={() => onEditMemberClick(params.value?.address ?? '')}
           />,
         ],
       },

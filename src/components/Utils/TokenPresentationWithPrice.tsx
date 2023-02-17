@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { OrganizationToken } from 'src/pages/Organization/types';
 import { useSelector } from 'react-redux';
 import { TokenPresentationProps } from 'src/pages/MultisigDetails/ProposeMultiselectModal/ProposeSendToken';
 import {
   getTokenPhotoById,
   accountSelector } from 'src/redux/selectors/accountSelector';
-import useTokenPhoto from 'src/utils/useTokenPhoto';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
 import { useMemo } from 'react';
@@ -28,8 +26,6 @@ const TokenPresentationWithPrice = ({
   withTokenAmount = true,
   withTokenValue = true,
   withPrice = true }: TokenPresentationWithPriceProps) => {
-  const { tokenPhotoJSX } = useTokenPhoto(identifier);
-
   const selector = useMemo(
     () => createDeepEqualSelector(accountSelector, (state: StateType) => getTokenPhotoById(state, identifier)),
     [identifier]);

@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
-import { Box, Typography, useMediaQuery } from '@mui/material';
-import { Address, BigUIntValue, TokenPayment } from '@multiversx/sdk-core/out';
+import { Box, useMediaQuery } from '@mui/material';
+import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
 import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { useCallback, useMemo } from 'react';
@@ -12,7 +10,6 @@ import {
   setProposeMultiselectSelectedOption,
   setSelectedStakingProvider,
 } from 'src/redux/slices/modalsSlice';
-import * as StyledRemote from '../../pages/Organization/styled';
 import * as Styled from './styled';
 import { Text } from '../StyledComponents/StyledComponents';
 import { AssetActionButton } from '../Theme/StyledComponents';
@@ -22,9 +19,8 @@ import { MultiversXLogo } from '../Utils/MultiversXLogo';
 export const SQUARE_IMAGE_WIDTH = 30;
 export const SQUARE_SMALL_IMAGE_WIDTH = 20;
 
-const DelegationMobileCards = ({ items, actionButton }:
+const DelegationMobileCards = ({ items }:
     { items: any, actionButton: JSX.Element[] }) => {
-  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const dispatch = useDispatch();
   const handleOptionSelected = useCallback((
     option: ProposalsTypes,

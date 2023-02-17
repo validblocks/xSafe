@@ -38,7 +38,7 @@ import { ActionIconsBox } from './styled/index';
 interface IDeployStepsContextType {
   showDeployMultisigModalState: CustomStateType<boolean>;
   openDeployNewContractModal: () => void;
-  updateMultisigContract: (newContracts: MultisigContractInfoType[]) => any
+  updateMultisigContract: (newContracts: MultisigContractInfoType[]) => void
 }
 
 const DeployStepsContext = createContext<IDeployStepsContextType>(
