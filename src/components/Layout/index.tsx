@@ -4,7 +4,7 @@ import {
   useGetLoginInfo,
 } from '@multiversx/sdk-dapp/hooks/account';
 import { AuthenticatedRoutesWrapper, AxiosInterceptorContext } from '@multiversx/sdk-dapp/wrappers';
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -27,6 +27,9 @@ import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import axios from 'axios';
 import { network } from 'src/config';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import { setSelectedTheme } from 'src/redux/slices/appConfigSlice';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
@@ -121,6 +124,10 @@ function Layout({ children }: { children: React.ReactNode }) {
   }, [isDarkThemeEnabled, theme.palette.background.default]);
 
   const minWidth600 = useMediaQuery('(min-width:600px)');
+  const onChangeTheme = useCallback(() => {
+    const newTheme = isDarkThemeEnabled ? 'Light' : 'Dark';
+    dispatch(setSelectedTheme(newTheme));
+  }, [dispatch, isDarkThemeEnabled]);
 
   return (
     <Box sx={{ height: '100vh' }}>
@@ -141,6 +148,12 @@ function Layout({ children }: { children: React.ReactNode }) {
               </Box>
             </Box>
             <Box display="flex">
+              <IconButton onClick={onChangeTheme} color="inherit" sx={{ mr: '16px' }}>
+                {isDarkThemeEnabled
+                  ? <Brightness7Icon htmlColor="#fff" />
+                  : <DarkModeIcon htmlColor="#4c2ffc" />
+                }
+              </IconButton>
               <NetworkAnnouncer network={network.name} />
               <Account />
             </Box>
