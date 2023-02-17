@@ -14,9 +14,6 @@ const NetworkAnnouncer = ({ network = 'Mainnet' }: IProps) => {
         display: 'flex',
         alignItems: 'center',
         px: maxWidth600 ? 0 : 3,
-        '& > *': {
-          cursor: 'pointer',
-        },
       }}
     >
       <Box
