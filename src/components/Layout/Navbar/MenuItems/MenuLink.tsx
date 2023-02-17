@@ -25,8 +25,11 @@ const MenuLink = ({ menuItem, shouldRequireLogin }: IMenuLinkProps) => {
     <Link
       key={menuItem.id}
       to={menuItem.link}
-      onClick={() => {
-        if (shouldRequireLogin) { dispatch(setProposeModalSelectedOption({ option: ModalTypes.connect_wallet })); }
+      onClick={(e: any) => {
+        if (shouldRequireLogin) {
+          e.preventDefault();
+          dispatch(setProposeModalSelectedOption({ option: ModalTypes.connect_wallet }));
+        }
       }}
       className={
         locationString === menuItem.link
