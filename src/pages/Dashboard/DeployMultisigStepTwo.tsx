@@ -7,8 +7,8 @@ import {
 } from '@multiversx/sdk-dapp/hooks';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { Address } from '@multiversx/sdk-core/out';
-import { Box } from '@mui/material';
-import { useCallback, useEffect, useState } from 'react';
+import { Box, Checkbox } from '@mui/material';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CopyButton from 'src/components/CopyButton';
 import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
@@ -107,21 +107,32 @@ const DeployMultisigStepTwo = ({
     setIsLoading(false);
   }, []);
 
+  const [checked, setChecked] = useState(false);
+
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
   return (
     <div className="card">
       <Box>
-        <CenteredBox px={5} textAlign="left" borderBottom={`1px solid ${theme.palette.borders.secondary}`}>
+        <CenteredBox
+          justifyContent="space-between"
+          px={5}
+          textAlign="left"
+          borderBottom={`1px solid ${theme.palette.borders.secondary}`}
+        >
           <Text
-            width="100%"
+            width="80%"
             textAlign={'left'}
             py={2}
-            fontSize={22}
+            fontSize={21}
           >
-            {t('Create a new Safe') as string}
+            {t('Safe deployed! One more step...') as string}
           </Text>
           <Text
-            width="100%"
-            textAlign={'left'}
+            width="20%"
+            textAlign="right"
             py={2}
             fontSize={12}
           >
@@ -129,9 +140,7 @@ const DeployMultisigStepTwo = ({
           </Text>
         </CenteredBox>
         <Box pt={3} px={5}>
-          <Text fontSize={21} fontWeight={500}>Safe deployed! One more step... </Text>
-          <Text sx={{ opacity: 0.5 }} fontSize={16} fontWeight={500} my={2}>Your Safe has been created!</Text>
-          <Text> Your Safe wallet address:</Text>
+          <Text> Your safe smart contract addresss:</Text>
           <Box display={'flex'} my={1} border={'1px solid #eee'} p={1} borderRadius={'10px'}>
             <Text>
               {truncateInTheMiddle(pendingDeploymentContractData?.multisigAddress, 20)}
@@ -150,14 +159,36 @@ const DeployMultisigStepTwo = ({
               </Anchor>
             </Box>
           </Box>
-          <Text mt={2} sx={{ opacity: 0.5 }}>
-            This step is very important, as it allows the safe to handle all future upgrades through proposals.
-          </Text>
-
+          <ul className="deploy-safe-ul">
+            <li>
+              <Text mt={2} mb={1} sx={{ opacity: 0.5 }}>
+                As the deployer of the safe smart contract, you are the initial owner.
+              </Text>
+            </li>
+            <li>
+              <Text sx={{ opacity: 0.5 }}>
+                It is very important to transfer the ownership of the safe smart contract to itself, so that any future upgrades can only be triggered through a smart contract proposal.
+              </Text>
+            </li>
+          </ul>
+          <Box display="flex" alignItems="center" pt={1}>
+            <Checkbox
+              checked={checked}
+              onChange={handleCheckboxChange}
+              sx={{
+                padding: 0,
+                marginRight: '5px',
+              }}
+              inputProps={{
+                'aria-label': 'controlled',
+              }}
+            />
+            <Text>I understand the necessity of transferring the ownership</Text>
+          </Box>
         </Box>
         <Box py={3} px={5}>
           <FinalStepActionButton
-            disabled={!isLoggedIn || isLoading}
+            disabled={!isLoggedIn || isLoading || !checked}
             onClick={() => onSignChangeContractOwner()}
           >
             {isLoading && (

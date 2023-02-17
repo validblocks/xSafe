@@ -14,6 +14,7 @@ const NetworkAnnouncer = ({ network = 'Mainnet' }: IProps) => {
         display: 'flex',
         alignItems: 'center',
         px: maxWidth600 ? 0 : 3,
+        pl: 0,
       }}
     >
       <Box
@@ -33,7 +34,7 @@ const NetworkAnnouncer = ({ network = 'Mainnet' }: IProps) => {
           display="flex"
           alignItems="center"
         >
-          <Text color="#fff" fontSize={maxWidth600 ? 11 : '14px'} fontWeight="600">{network}</Text>
+          <Text fontSize={maxWidth600 ? 11 : '14px'} fontWeight="600">{network}</Text>
         </Box>
         <Box display="flex" alignItems="center" pt="2px">
           <Box

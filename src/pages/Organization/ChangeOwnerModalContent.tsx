@@ -1,16 +1,24 @@
-import { Box, CircularProgress } from '@mui/material';
-import { useCallback, useMemo, useState } from 'react';
+import { Box, Checkbox, CircularProgress } from '@mui/material';
+import { ChangeEvent, useCallback, useMemo, useState } from 'react';
 import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';
 import { Address } from '@multiversx/sdk-core/out';
 import { buildBlockchainTransaction } from 'src/contracts/transactionUtils';
 import { gasLimit, network } from 'src/config';
+import { CopyIconLink } from 'src/components/Utils/styled';
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { useGetAccountInfo, useGetAccountProvider, useGetPendingTransactions, useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
+import {
+  useGetAccountInfo,
+  useGetAccountProvider,
+  useGetPendingTransactions,
+  useTrackTransactionStatus,
+} from '@multiversx/sdk-dapp/hooks';
 import { setCurrentMultisigTransactionId, setHasUnknownOwner } from 'src/redux/slices/multisigContractsSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { currentMultisigContractSelector, hasUnknownOwnerSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import {
+  currentMultisigContractSelector,
+  hasUnknownOwnerSelector,
+} from 'src/redux/selectors/multisigContractsSelectors';
 import CopyButton from 'src/components/CopyButton';
-import { CopyIconLink } from 'src/components/Utils/styled';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
 import SearchIcon from '@mui/icons-material/Search';
@@ -19,6 +27,8 @@ import { useContractData } from 'src/utils/useContractData';
 import { useFullRowAddressCut } from 'src/utils/useFullRowAddressCut';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
+import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
+import * as Styled from '../../components/Utils/styled/index';
 
 const ChangeOwnerModalContent = () => {
   const dispatch = useDispatch();
@@ -28,6 +38,7 @@ const ChangeOwnerModalContent = () => {
 
   const { address: walletAddress } = useGetAccountInfo();
   const { providerType } = useGetAccountProvider();
+
   const onSignChangeContractOwner = useCallback(async () => {
     try {
       const contractAddress = new Address(address);
@@ -98,9 +109,16 @@ const ChangeOwnerModalContent = () => {
     return truncateInTheMiddle(baseAddress, charsLeft);
   }, [charsLeft, contractData?.ownerAddress, hasUnknownOwner, walletAddress]);
 
+  const [checked, setChecked] = useState(false);
+
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setChecked(event.target.checked);
+  };
+
+  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
+
   if (isLoading) {
     return (
-
       <CenteredBox
         sx={{
           justifyContent: 'center !important',
@@ -121,25 +139,6 @@ const ChangeOwnerModalContent = () => {
   return (
     <Box>
       <Box>
-        <Text> Safe address:</Text>
-        <Box display={'flex'} my={1} border={'1px solid #eee'} p={1} borderRadius={'10px'}>
-          <Text>
-            {truncateInTheMiddle(address, charsLeft)}
-          </Text>
-          <Box sx={{ mr: 1.35, ml: 1.35 }}>
-            <CopyButton text={address} link={CopyIconLink} />
-          </Box>
-          <Box>
-            <Anchor
-              href={`${network.explorerAddress}/accounts/${address}`}
-              target="_blank"
-              rel="noreferrer"
-              color="#6c757d"
-            >
-              <SearchIcon sx={{ color: '#6C757D !important' }} />
-            </Anchor>
-          </Box>
-        </Box>
         <Box marginTop="21px">
           <Text> Safe owner address:</Text>
           <Box display={'flex'} my={1} border={'1px solid #eee'} p={1} borderRadius={'10px'}>
@@ -160,18 +159,64 @@ const ChangeOwnerModalContent = () => {
             </Box>
           </Box>
         </Box>
-      </Box>
-      <Box pt="14px" pb="21px">
-        <Text sx={{ opacity: 0.5 }}>
-          This step is very important, as it allows the safe to handle all future upgrades through proposals.
-        </Text>
-      </Box>
-      <Box>
+        <Box pt={2}>
+          <Text> Your safe smart contract addresss:</Text>
+          <Box display={'flex'} my={1} border={'1px solid #eee'} p={1} borderRadius={'10px'}>
+            <Text>
+              {truncateInTheMiddle(contractData?.address ?? '', 20)}
+            </Text>
+            <Box sx={{ mr: 1.35, ml: 1.35 }}>
+              <CopyButton text={walletAddress} link={Styled.CopyIconLink} />
+            </Box>
+            <Box>
+              <Anchor
+                href={`${network.explorerAddress}/accounts/${walletAddress}`}
+                target="_blank"
+                rel="noreferrer"
+                color="#6c757d"
+              >
+                <SearchIcon />
+              </Anchor>
+            </Box>
+          </Box>
+          <ul className={isDarkThemeEnabled ? 'deploy-safe-ul__dark' : 'deploy-safe-ul'}>
+            <li>
+              <Text mt={2} mb={1} sx={{ opacity: 0.5 }}>
+                As the deployer of the safe smart contract, you are the initial owner.
+              </Text>
+            </li>
+            <li>
+              <Text sx={{ opacity: 0.5 }}>
+                It is very important to transfer the ownership of the safe smart contract to itself, so that any future upgrades can only be triggered through a smart contract proposal.
+              </Text>
+            </li>
+          </ul>
+          <Box display="flex" alignItems="center" pt={1} mb="21px">
+            <Checkbox
+              checked={checked}
+              onChange={handleCheckboxChange}
+              sx={{
+                padding: 0,
+                marginRight: '5px',
+                color: isDarkThemeEnabled ? '#fff' : '',
+                '&.Mui-checked': {
+                  color: '#fff !important',
+                },
+              }}
+              inputProps={{
+                'aria-label': 'controlled',
+              }}
+            />
+            <Text>I understand the necessity of transferring the ownership</Text>
+          </Box>
+        </Box>
         <FinalStepActionButton
           disabled={
-                      contractData?.ownerAddress !== walletAddress
-                      || isLoading
-                      || pendingTransactions.hasPendingTransactions}
+            contractData?.ownerAddress !== walletAddress
+            || !checked
+            || isLoading
+            || pendingTransactions.hasPendingTransactions
+          }
           onClick={() => onSignChangeContractOwner()}
         >
           {pendingTransactions.hasPendingTransactions ? (

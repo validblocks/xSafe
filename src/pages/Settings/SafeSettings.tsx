@@ -95,6 +95,13 @@ function SafeSettings() {
         You can choose between a dark and a light theme.
       </Typography>
       <ThemeColor />
+
+      <Text sx={{ mb: 1, mt: 2, fontSize: '18px' }} fontWeight={600}>
+        Additional information:
+      </Text>
+      <Typography sx={{ mb: 2, color: theme.palette.text.primary }} fontSize={maxWidth600 ? '15px' : '14px'}>
+        DApp Version: xSafe v0.1
+      </Typography>
     </Box>
   );
 }
