@@ -2,12 +2,10 @@
 import { Box, Button, Typography, useMediaQuery } from '@mui/material';
 import { Address } from '@multiversx/sdk-core/out';
 import { useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
-import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { toSvg } from 'jdenticon';
+import { CustomEditIcon } from 'src/components/Utils/CustomEditIcon';
+import { CustomDeleteIcon } from 'src/components/Utils/CustomDeleteIcon';
 import { useOrganizationInfoContext } from '../OrganizationInfoContextProvider';
 import * as Styled from '../styled/index';
 import { useOwnerManipulationFunctions } from '.';
@@ -20,7 +18,6 @@ interface IProps {
 export const MobileCardsForTableReplacement = ({ multisigMembers }: IProps) => {
   const minWidth475 = useMediaQuery('(min-width:475px)');
   const minWidth530 = useMediaQuery('(min-width:530px)');
-  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const { isInReadOnlyMode } = useOrganizationInfoContext();
 
   const {
@@ -66,24 +63,12 @@ export const MobileCardsForTableReplacement = ({ multisigMembers }: IProps) => {
             </Typography>
             <Styled.ActionButtonsBoxMembers>
               <Button
-                startIcon={(
-                  <DeleteIcon sx={{
-                  // eslint-disable-next-line no-nested-ternary
-                    color: isInReadOnlyMode ? isDarkThemeEnabled ? '#eeeeee8a' : '#08041D8a' : '#4c2ffc',
-                  }}
-                  />
-)}
+                startIcon={<CustomDeleteIcon />}
                 disabled={isInReadOnlyMode}
                 onClick={() => onRemoveMember(new Address(multisigMember.address))}
               />
               <Button
-                startIcon={(
-                  <EditIcon sx={{
-                  // eslint-disable-next-line no-nested-ternary
-                    color: isDarkThemeEnabled ? isInReadOnlyMode ? '#eeeeee8a' : '#4c2ffc' : '#08041D8a',
-                  }}
-                  />
-)}
+                startIcon={<CustomEditIcon />}
                 disabled={isInReadOnlyMode}
                 onClick={() => onEditMemberClick(multisigMember)}
               />
