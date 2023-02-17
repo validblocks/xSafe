@@ -17,9 +17,10 @@ import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { useTranslation } from 'react-i18next';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import HourglassTopRoundedIcon from '@mui/icons-material/HourglassTop';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
+import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ProviderColumn from './ProviderColumn';
@@ -128,6 +129,8 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
   const NOW_IN_MS = new Date().getTime();
 
   const transactionId = useSelector(currentMultisigTransactionIdSelector);
+
+  const dispatch = useDispatch();
 
   useTrackTransactionStatus({
     transactionId,
@@ -257,6 +260,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                       new Address(row.provider),
                       new BigUIntValue(new BigNumber(0)),
                       'withdraw');
+                    dispatch(setProposeMultiselectSelectedOption(null));
                   }}
                 >
                   <Text fontWeight="600">Withdraw</Text>
