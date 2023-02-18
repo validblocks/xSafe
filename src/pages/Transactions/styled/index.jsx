@@ -173,8 +173,8 @@ export const NoActionsOverlayCard = styled(CardBox)(({ theme: _ }) => ({
   '&&&': {
     height: '300px',
     width: '100%',
+    margin: 0,
     maxWidth: '300px',
-    margin: '12px 0 0',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -196,7 +196,6 @@ export const NoActionsOverlayCard = styled(CardBox)(({ theme: _ }) => ({
     },
     '@media (max-width:600px)': {
       maxWidth: '100%',
-      marginTop: '20px',
     },
   },
 }));

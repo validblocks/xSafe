@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react';
+import { AppIdentifiers } from 'src/pages/Marketplace/appIds';
 import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
 import {
   availableApps,
@@ -25,11 +26,9 @@ export const useApps = (): IUseAppsReturnType => {
   );
 
   const allMarketplaceApps = useMemo(
-    () =>
-      availableApps.map((app) => ({
-        ...app,
-        isInstalled: installedAppIds.includes(app.id),
-      })),
+    () => availableApps
+      .map((app) => ({ ...app, isInstalled: installedAppIds.includes(app.id) }))
+      .filter((app) => app.id !== AppIdentifiers.NoAppsInstalled),
     [installedAppIds],
   );
 
@@ -38,7 +37,11 @@ export const useApps = (): IUseAppsReturnType => {
       installedAppIds.includes(app.id),
     );
 
-    return [...preinstalledApps, ...alreadyInstalledApps];
+    const preinstalledFilteredApps = alreadyInstalledApps.length === 0
+      ? preinstalledApps
+      : preinstalledApps.filter((app) => app.id !== AppIdentifiers.NoAppsInstalled);
+
+    return [...preinstalledFilteredApps, ...alreadyInstalledApps];
   }, [installedAppIds]);
 
   const installApp = useCallback(

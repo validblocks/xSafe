@@ -38,11 +38,11 @@ export type MarketplaceApp = MenuItem & {
 
 export const preinstalledApps: MarketplaceApp[] = [
   {
-    name: 'Marketplace',
-    link: 'marketplace',
-    id: AppIdentifiers.Marketplace,
+    name: 'No apps installed',
+    link: 'apps',
+    id: AppIdentifiers.NoAppsInstalled,
     icon: <StorefrontOutlinedIcon />,
-    description: 'Boost your user experience by installing apps with one click.',
+    description: '',
     imageUrlLight: StakeAppThumbnail,
     imageUrlDark: StakeAppThumbnailDark,
     isInstallable: true,
@@ -199,7 +199,7 @@ const mobileBottomItems = [
   },
   {
     name: 'Apps',
-    link: 'marketplace',
+    link: 'apps',
     id: 'apps-mobile-menu-item',
     icon: <AppsIcon />,
     submenu: [
@@ -217,7 +217,7 @@ const mobileDropDownItems = [
   },
   {
     name: 'Apps',
-    link: 'marketplace',
+    link: 'apps',
     id: 'apps-mobile-menu-item',
     icon: <AppsIcon />,
     submenu: [

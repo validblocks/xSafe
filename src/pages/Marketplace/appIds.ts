@@ -1,4 +1,4 @@
 export enum AppIdentifiers {
-  'Marketplace' = 'Marketplace',
+  'NoAppsInstalled' = 'NoAppsInstalled',
   'Staking' = 'Staking',
 }

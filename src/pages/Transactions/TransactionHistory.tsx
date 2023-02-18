@@ -191,7 +191,12 @@ const TransactionHistory = () => {
 
   return (
     <Box paddingBottom={maxWidth600 ? '52px' : 0}>
-      {actionAccumulator.length < 1 ? <NoActionsOverlay message={t('No transactions found for this period')} /> : (
+      {actionAccumulator.length === 0 ? (
+        <Box
+          pt="12px"
+        ><NoActionsOverlay message={t('No transactions found for this period')} />
+        </Box>
+      ) : (
         <TransactionHistoryPresentation
           fullActionHistoryGroupedByDate={fullActionHistoryGroupedByDate}
         />

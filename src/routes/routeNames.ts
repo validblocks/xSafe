@@ -24,6 +24,8 @@ export default {
 
   members: '/members',
 
+  apps: '/apps',
+
   stake: '/stake',
 
   settings: '/settings',

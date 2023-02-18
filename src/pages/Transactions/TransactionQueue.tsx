@@ -76,7 +76,12 @@ const TransactionQueue = () => {
   }
 
   if (allPendingActions.length === 0) {
-    return <NoActionsOverlay message={t('No transactions found')} />;
+    return (
+      <Box
+        pt={maxWidth600 ? '45px' : '12px'}
+      ><NoActionsOverlay message={t('No transactions found')} />
+      </Box>
+    );
   }
 
   return (

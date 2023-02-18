@@ -1,17 +1,26 @@
 import { Grid, useMediaQuery } from '@mui/material';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { MarketplaceApp } from 'src/utils/menuItems';
 import { useApps } from 'src/utils/useApps';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
+import NoActionsOverlay from '../Transactions/utils/NoActionsOverlay';
 import AppCard from './AppCard';
+import { AppIdentifiers } from './appIds';
 import { LOCAL_STORAGE_KEYS } from './localStorageKeys';
 
 const MyApps = () => {
+  const { t } = useTranslation();
   const {
     installedApps,
     uninstallApp,
   } = useApps();
+
+  const myApps = useMemo(() => installedApps
+    .filter((app) => app.id !== AppIdentifiers.NoAppsInstalled), [installedApps],
+  );
 
   const widthBetween460And600 = useMediaQuery('(min-width:460px) and (max-width:600px)');
   const maxWidth600 = useMediaQuery('(max-width:600px)');
@@ -34,8 +43,9 @@ const MyApps = () => {
       marginTop={maxWidth600 ? '50px' : 0}
       paddingBottom={maxWidth600 ? '42px' : 0}
     >
-      {
-        installedApps.map((app: MarketplaceApp) => (
+      {myApps.length === 0 ?
+        <NoActionsOverlay message={t('No apps installed')} /> :
+        myApps.map((app: MarketplaceApp) => (
           <Grid
             item
             key={app.id}

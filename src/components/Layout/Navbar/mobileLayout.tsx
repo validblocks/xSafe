@@ -265,15 +265,15 @@ const MobileLayout = () => {
       <MobileMenu>
         {menuItems.mobileBottomItems.map((el) => (
           <Link
-            to={el.link === 'marketplace' && installedAndPinnedApps.length > 0 ?
+            to={el.link === 'apps' && installedAndPinnedApps.length > 0 ?
               installedAndPinnedApps[0]?.link : el.link}
             className={
-                locationString === (el.link === 'marketplace' && installedAndPinnedApps.length > 0 ?
+                locationString === (el.link === 'apps' && installedAndPinnedApps.length > 0 ?
                   installedAndPinnedApps[0]?.link : el.link)
                   ? 'active link-decoration'
                   : 'link-decoration'
               }
-            key={el.link === 'marketplace' && installedAndPinnedApps.length > 0 ?
+            key={el.link === 'apps' && installedAndPinnedApps.length > 0 ?
               installedAndPinnedApps[0]?.link : el.link}
             style={{ width: '100%' }}
           >

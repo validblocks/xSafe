@@ -32,7 +32,7 @@ export type ForegroundRoutesType =
   | 'settings'
   | 'nft'
   | 'stake'
-  | 'marketplace'
+  | 'apps'
   | 'help-center'
   | 'addressBook';
 
@@ -111,9 +111,9 @@ export const foregroundRoutes: Record<ForegroundRoutesType, any> = {
     title: 'Stake',
     component: StakingDashboard,
   },
-  marketplace: {
-    path: '/marketplace',
-    title: 'Marketplace',
+  apps: {
+    path: '/apps',
+    title: 'Apps',
     component: AppsPage,
   },
   home: {
