@@ -1,12 +1,13 @@
 import * as React from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import Typography from '@mui/material/Typography';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { AccordionDetails, AccordionSummary, Box } from '@mui/material';
-import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
+import menuItems, { MenuItem } from 'src/utils/menuItems';
 import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
 import { useSelector } from 'react-redux';
@@ -15,6 +16,8 @@ import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import SafeSettings from 'src/pages/Settings/SafeSettings';
 import { useTheme } from 'styled-components';
 import { MobileSettingsWrapper } from 'src/pages/Settings/settings-style';
+import { useApps } from 'src/utils/useApps';
+import routeNames from 'src/routes/routeNames';
 import * as Styled from './styled';
 import {
   MobileMenuAccordion,
@@ -48,17 +51,20 @@ export function StyledExpandMoreIcon() {
 export default function MobileRightSidebar() {
   const [open, setOpen] = React.useState(false);
   const [pinnedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.PINNED_APPS, []);
-  const [installedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
-  const installedAndPinnedApps = React.useMemo(() => ([
-    ...preinstalledApps,
-    ...availableApps
-      .filter((app: MenuItem) => installedApps.includes(app.id)),
-  ].filter((app: MenuItem) => pinnedApps.includes(app.id))), [installedApps, pinnedApps]);
+
+  const { installedApps } = useApps();
+
+  console.log({ installedApps });
+
+  const installedAndPinnedApps = React.useMemo(() => (
+    installedApps.filter((app: MenuItem) => pinnedApps.includes(app.id))),
+  [installedApps, pinnedApps],
+  );
 
   const handleClickOpen = () => {
     setOpen((open) => !open);
@@ -70,6 +76,7 @@ export default function MobileRightSidebar() {
 
   const { isLoggedIn } = useGetLoginInfo();
   const theme: any = useTheme();
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -124,11 +131,21 @@ export default function MobileRightSidebar() {
                 expandIcon={<StyledExpandMoreIcon />}
                 sx={{ minHeight: '55px' }}
               >
-                {item.name === 'Settings' ?
+                {item.name === 'Apps' ?
                   (
-                    <MobileMenuAccordionSummaryContent>
-                      {item.icon}
-                      <Typography>{item.name}</Typography>
+                    <MobileMenuAccordionSummaryContent display="flex" justifyContent={'space-between'}>
+                      <Box display="flex" alignItems="center">
+                        {item.icon}
+                        <Typography>{item.name}</Typography>
+                      </Box>
+                      <AssetActionButton
+                        onClick={() => {
+                          handleClose();
+                          navigate(routeNames.apps);
+                        }}
+                        sx={{ opacity: 1, p: '1px 10px 0 10px !important', mr: 1 }}
+                      >View Apps
+                      </AssetActionButton>
                     </MobileMenuAccordionSummaryContent>
                   ) : (
                     <MobileMenuAccordionSummaryContent>
@@ -136,6 +153,7 @@ export default function MobileRightSidebar() {
                       <Typography>{item.name}</Typography>
                     </MobileMenuAccordionSummaryContent>
                   )}
+
               </MobileMenuAccordionSummary>
               {item.submenu?.map((subItem: MenuItem) => (
                 <Link key={subItem.id} onClick={handleClose} to={subItem.link}>
@@ -145,17 +163,15 @@ export default function MobileRightSidebar() {
                   </MobileSubmenuAccordionSummary>
                 </Link>
               ))}
-              {item.name === 'Apps' && [
-                ...availableApps
-                  .filter((app: MenuItem) => installedApps.includes(app.id)),
-              ].map((subItem: MenuItem) => (
-                <Link key={subItem.id} to={subItem.link}>
-                  <MobileSubmenuAccordionSummary key={subItem.id}>
-                    {subItem.icon}
-                    {subItem.name}
-                  </MobileSubmenuAccordionSummary>
-                </Link>
-              ))}
+              {item.name === 'Apps' &&
+                installedApps.map((subItem: MenuItem) => (
+                  <Link key={subItem.id} to={subItem.link}>
+                    <MobileSubmenuAccordionSummary key={subItem.id}>
+                      {subItem.icon}
+                      {subItem.name}
+                    </MobileSubmenuAccordionSummary>
+                  </Link>
+                ))}
               {item.name === 'Settings' && (
                 <AccordionDetails sx={{ padding: 0 }}>
                   <MobileSettingsWrapper>

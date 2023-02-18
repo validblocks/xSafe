@@ -220,9 +220,7 @@ const mobileDropDownItems = [
     link: 'apps',
     id: 'apps-mobile-menu-item',
     icon: <AppsIcon />,
-    submenu: [
-      ...preinstalledApps,
-    ],
+    submenu: [],
   },
   {
     name: 'Organization',

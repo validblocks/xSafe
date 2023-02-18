@@ -238,7 +238,6 @@ const MiniDrawer = () => {
                           onClick={(e: any) => {
                             e.preventDefault();
                             e.stopPropagation();
-                            console.log(app.link);
                             navigate(`/${app.link}`);
                           }}
                           className={

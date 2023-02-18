@@ -241,6 +241,7 @@ export const MobileMenuAccordionSummary = styled(AccordionSummary)(({ theme: _ }
 export const MobileMenuAccordionSummaryContent = styled(Box)(({ theme: _ }) => ({
   width: '100%',
   display: 'flex',
+  alignItems: 'center',
   flexDirection: 'row',
   '& p': {
     marginLeft: '8px',
