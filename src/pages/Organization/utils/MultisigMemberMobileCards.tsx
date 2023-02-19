@@ -15,7 +15,7 @@ interface IProps {
   multisigMembers: MultisigMember[];
 }
 
-export const MobileCardsForTableReplacement = ({ multisigMembers }: IProps) => {
+export const MultisigMemberMobileCards = ({ multisigMembers }: IProps) => {
   const minWidth475 = useMediaQuery('(min-width:475px)');
   const minWidth530 = useMediaQuery('(min-width:530px)');
   const { isInReadOnlyMode } = useOrganizationInfoContext();
@@ -80,4 +80,4 @@ export const MobileCardsForTableReplacement = ({ multisigMembers }: IProps) => {
   );
 };
 
-export default MobileCardsForTableReplacement;
+export default MultisigMemberMobileCards;

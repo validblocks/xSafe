@@ -20,7 +20,6 @@ export const useContractData = () => {
           );
       setContractData(fetchedContractData);
       setIsLoading(false);
-      console.log({ contractData });
     })();
   }, [currentContract?.address]);
 

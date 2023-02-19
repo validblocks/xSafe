@@ -67,7 +67,6 @@ const ChangeOwnerModalContent = () => {
   const updateOwnership = useCallback(async () => {
     const contractDetails = await MultiversxApiProvider.getAccountDetails(currentContract?.address);
     const isItsOwnOwner = contractDetails?.ownerAddress === contractDetails?.address;
-    console.log({ isItsOwnOwner });
     dispatch(setHasUnknownOwner(!isItsOwnOwner));
   }, [currentContract?.address, dispatch]);
 

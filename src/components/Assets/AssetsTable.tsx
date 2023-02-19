@@ -60,8 +60,7 @@ const AssetsTable = () => {
         key="0"
         variant="outlined"
         className="shadow-sm rounded mr-2"
-        onClick={(_e: any) => (handleOptionSelected(ProposalsTypes.send_token, params.row))
-              }
+        onClick={() => (handleOptionSelected(ProposalsTypes.send_token, params.row))}
       >
         <AssetActionIcon width="30px" height="30px" /> Send
       </AssetActionButton>,
@@ -166,7 +165,11 @@ const AssetsTable = () => {
         />
       ) : (
         <Box paddingBottom={'62px'}>
-          <MobileCardsForTableReplacement items={tokenTableRows} actionButton={getTableActions(tokenTableRows)} />
+          <MobileCardsForTableReplacement
+            handleQrModal={handleQrModal}
+            handleOptionSelected={handleOptionSelected}
+            tokenTableRows={tokenTableRows}
+          />
         </Box>
       )}
       <ReceiveModal

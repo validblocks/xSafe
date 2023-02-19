@@ -59,8 +59,6 @@ export default function MobileRightSidebar() {
 
   const { installedApps } = useApps();
 
-  console.log({ installedApps });
-
   const installedAndPinnedApps = React.useMemo(() => (
     installedApps.filter((app: MenuItem) => pinnedApps.includes(app.id))),
   [installedApps, pinnedApps],

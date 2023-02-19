@@ -42,6 +42,7 @@ export type BalanceDetails = {
   decimals: number;
   tokenPrice: string | number;
   photoUrl: string;
+  identifier: string;
 };
 
 export type TokenTableRowItem = Partial<

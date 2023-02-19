@@ -65,8 +65,6 @@ const MiniDrawer = () => {
   const { allPendingActions, actionableByCurrentWallet } = usePendingActions();
   const navigate = useNavigate();
 
-  console.log({ installedApps });
-
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
