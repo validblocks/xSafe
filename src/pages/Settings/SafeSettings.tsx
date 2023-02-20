@@ -11,11 +11,14 @@ import { updateMultisigContractOnServer } from 'src/apiCalls/multisigContractsCa
 import { updateMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useTheme } from 'styled-components';
+import { ReactComponent as HeartIcon } from 'src/assets/img/heart.svg';
+import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { NoteSpan, Span } from './settings-style';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 
 function SafeSettings() {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
+  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
 
   const currentContract = useSelector(currentMultisigContractSelector);
   const safeName = currentContract?.name;
@@ -96,11 +99,26 @@ function SafeSettings() {
       </Typography>
       <ThemeColor />
 
-      <Text sx={{ mb: 1, mt: 2, fontSize: '18px' }} fontWeight={600}>
-        Additional information:
-      </Text>
-      <Typography sx={{ mb: 2, color: theme.palette.text.primary }} fontSize={maxWidth600 ? '15px' : '14px'}>
-        DApp Version: xSafe v0.1
+      <a
+        {...{
+          target: '_blank',
+        }}
+        className="d-flex align-items-center mt-3"
+        href="https://validblocks.com/"
+      >
+        <Text>
+          Made with <HeartIcon className="mx-1" /> by ValidBlocks.
+        </Text>
+      </a>
+      <Typography
+        sx={{
+          mt: 0.25,
+          fontSize: '12px',
+          color: isDarkThemeEnabled ? '#F0F6FF8a' : '000',
+        }}
+        fontSize={maxWidth600 ? '15px' : '14px'}
+      >
+        xSafe v0.1
       </Typography>
     </Box>
   );
