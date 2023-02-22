@@ -28,12 +28,14 @@ jobs:
         run: |
           awk -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
               -v UNIQUE_CONTRACT_NAME="${{ secrets.UNIQUE_CONTRACT_NAME }}" \
+              -v GOOGLE_ANALYTICS_KEY="${{ secrets.GOOGLE_ANALYTICS_KEY_DEVNET }}" \
               '{ \
                   sub(/XXX_UNIQUE_CONTRACT_ADDRESS_XXX/, UNIQUE_CONTRACT_ADDRESS); \
                   sub(/XXX_UNIQUE_CONTRACT_NAME_XXX/, UNIQUE_CONTRACT_NAME); \
+                  sub(/XXX_ GOOGLE_ANALYTICS_KEY_XXX/,  GOOGLE_ANALYTICS_KEY); \
                   print; \
               }' \
-              .env.stagingo > .env
+              .env.staging > .env
 
       - name: Config setup
         run: |
