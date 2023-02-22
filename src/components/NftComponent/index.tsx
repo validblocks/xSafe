@@ -48,8 +48,8 @@ function NftComponent() {
     ?.reduce((acc, p) => {
       if ('args' in p.action) {
         const proposalArgs = p.action.args as TypedValue[];
-        const arg0 = proposalArgs[0].valueOf().toString();
-        const arg1 = proposalArgs[1].valueOf().toString('hex');
+        const arg0 = proposalArgs?.[0].valueOf().toString() ?? '';
+        const arg1 = proposalArgs?.[1].valueOf().toString('hex') ?? '';
         const collectionAndNonce = `${arg0}-${arg1}`;
         acc[collectionAndNonce] = true;
       }
@@ -169,7 +169,7 @@ function NftComponent() {
                     <CardMedia
                       component="img"
                       height="auto"
-                      image={`${item.media[0].url}?w=150&h=150&fit=crop&auto=format`}
+                      image={`${item.media?.[0].url}?w=150&h=150&fit=crop&auto=format`}
                       alt="nft"
                     />
                   </Box>
