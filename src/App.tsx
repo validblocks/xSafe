@@ -89,7 +89,7 @@ export const App = () => (
                     apiTimeout,
                     walletConnectV2ProjectId,
                   }}
-                  environment={EnvironmentsEnum.devnet}
+                  environment={EnvironmentsEnum.mainnet}
                 >
                   <>
                     <SpotlightCommands />

@@ -18,8 +18,8 @@ setup:
 	docker network create proxy || true
 	docker compose up --build -d
 
-.PHONY: setup-wallet
-setup-wallet:
+.PHONY: setup-wallet-devnet
+setup-wallet-devnet:
 	rm -f ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
 	cp -p ./src/config.devnet.ts ./src/config.ts
 	rm -f ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
@@ -29,6 +29,19 @@ ifeq "$(SINGLE_WALLET)" "true"
 	echo "export const uniqueContractAddress = '$(UNIQUE_CONTRACT_ADDRESS)';" >> ./src/multisigConfig.ts
 	echo "export const uniqueContractName = '$(UNIQUE_CONTRACT_NAME)';" >> ./src/multisigConfig.ts
 endif
+
+.PHONY: setup-wallet-mainnet
+setup-wallet-mainnet:
+	rm -f ./src/multisigExtrasConfig.ts ; touch ./src/multisigExtrasConfig.ts
+	cp -p ./src/config.mainnet.ts ./src/config.ts
+	rm -f ./src/multisigConfig.ts ; touch ./src/multisigConfig.ts
+	echo "export const storageApi = '$(EXTRAS_API_MAINNET)';" >> ./src/multisigExtrasConfig.ts
+
+ifeq "$(SINGLE_WALLET)" "true"
+	echo "export const uniqueContractAddress = '$(UNIQUE_CONTRACT_ADDRESS)';" >> ./src/multisigConfig.ts
+	echo "export const uniqueContractName = '$(UNIQUE_CONTRACT_NAME)';" >> ./src/multisigConfig.ts
+endif
+
 
 .PHONY: setup-single-wallet
 setup-single-wallet:

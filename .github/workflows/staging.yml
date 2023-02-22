@@ -33,11 +33,11 @@ jobs:
                   sub(/XXX_UNIQUE_CONTRACT_NAME_XXX/, UNIQUE_CONTRACT_NAME); \
                   print; \
               }' \
-              .env.staging > .env
+              .env.stagingo > .env
 
       - name: Config setup
         run: |
-          make setup-wallet
+          make setup-wallet-devnet
 
       - uses: actions/cache@v2
         with:

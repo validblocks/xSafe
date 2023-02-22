@@ -5,7 +5,7 @@ Description: Multisig Hosting
 Parameters:
   Stage:
     Type: String
-    Default: devnet
+    Default: mainnet
     AllowedValues:
       - mainnet
       - staging

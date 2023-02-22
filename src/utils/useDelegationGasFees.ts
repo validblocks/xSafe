@@ -15,7 +15,7 @@ export interface IDelegationConstants {
 }
 
 const networkProvider2 = new ApiNetworkProvider(
-  'https://devnet-delegation-api.multiversx.com',
+  'https://delegation-api.multiversx.com',
 );
 
 export default function useDelegationGasFees() {
