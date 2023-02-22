@@ -107,7 +107,7 @@ function TransactionActionsCard({
           )}
           {canUnsign && (
             <DiscardActionButton disabled={isLoading} size="large" onClick={unsign}>
-              {t('Discard') as string}
+              {t('Withdraw vote') as string}
             </DiscardActionButton>
           )}
           {canPerformAction && (
