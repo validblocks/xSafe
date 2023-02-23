@@ -17,6 +17,12 @@ interface IProps {
   handleOptionSelected: (option: ProposalsTypes, token: TokenTableRowItem) => void;
 }
 
+const getTokenValue = (tokenRow: TokenTableRowItem) => (tokenRow.identifier === 'EGLD'
+  ? TokenPayment.egldFromBigInteger(tokenRow?.balanceDetails?.amount ?? '').toRationalNumber()
+  : TokenPayment.fungibleFromBigInteger(
+    tokenRow?.identifier ?? '', tokenRow?.balanceDetails?.amount ?? '', tokenRow?.balanceDetails?.decimals ?? 18,
+  ).toRationalNumber());
+
 export const MobileTokenCard = ({ tokenRow, handleQrModal, handleOptionSelected }: IProps) => (
   <Styled.MobileCardOfTokens key={uniqueId()}>
     <Styled.TokenDetailsBox>
@@ -45,10 +51,7 @@ export const MobileTokenCard = ({ tokenRow, handleQrModal, handleOptionSelected 
       <Styled.CategoryName>
         <Typography component="span">Balance</Typography>
         <Typography component="h6" className="mb-0 font-weight-normal">
-          {
-            Number(
-              TokenPayment.egldFromBigInteger(tokenRow.balanceDetails?.amount ?? 0).toRationalNumber()).toLocaleString()
-            }
+          {Number(getTokenValue(tokenRow)).toLocaleString()}
           {' '} ${tokenRow.balanceDetails?.identifier}
         </Typography>
       </Styled.CategoryName>
