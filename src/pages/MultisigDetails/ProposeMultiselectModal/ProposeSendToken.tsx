@@ -50,7 +50,11 @@ const ProposeSendToken = ({
     () =>
       tokenTableRows?.map((token: TokenTableRowItem) => ({
         identifier: token.identifier,
-        balance: TokenPayment.egldFromBigInteger(token?.balanceDetails?.amount ?? '').toRationalNumber(),
+        balance: token.identifier === 'EGLD'
+          ? TokenPayment.egldFromBigInteger(token?.balanceDetails?.amount ?? '').toRationalNumber()
+          : TokenPayment.fungibleFromBigInteger(
+            token?.identifier ?? '', token?.balanceDetails?.amount ?? '', token?.balanceDetails?.decimals ?? 18,
+          ).toRationalNumber(),
       })),
     [tokenTableRows],
   );

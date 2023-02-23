@@ -119,9 +119,11 @@ function TotalBalance() {
     [
       'TRANSACTION_PROCESSOR',
     ],
-    () => axios
-      .get<TransactionOnNetwork[]>(`${xSafeApiUrl}/transactions-processor/${currentContract?.address}`)
-      .then((r) => r?.data ?? []),
+    () => (currentContract?.address
+      ? axios
+        .get<TransactionOnNetwork[]>(`${xSafeApiUrl}/transactions-processor/${currentContract?.address}`)
+        .then((r) => r?.data ?? [])
+      : []),
     {
       ...USE_QUERY_DEFAULT_CONFIG,
       refetchInterval: 5000,
@@ -205,6 +207,7 @@ function TotalBalance() {
         tokenPrice: parseFloat(token.price?.toString()),
         decimals: token.decimals as number,
         amount: token.balance as string,
+        valueUsd: token.valueUsd,
       },
     }))];
 
@@ -232,13 +235,21 @@ function TotalBalance() {
       try {
         const organizationTokens: OrganizationToken[] = newTokensWithPrices.map(({
           identifier, balanceDetails, value }: TokenTableRowItem) => {
-          const amountAsRationalNumber = TokenPayment.egldFromBigInteger(
+          const amountAsRationalNumber = identifier === 'EGLD'
+            ? TokenPayment.egldFromBigInteger(
             value?.amount as string,
-          ).toRationalNumber();
+            ).toRationalNumber()
+            : TokenPayment.fungibleFromBigInteger(
+              identifier ?? '',
+              value?.amount as string,
+              value?.decimals,
+            ).toRationalNumber();
 
           const denominatedAmountForCalcs = Number(amountAsRationalNumber);
           const priceAsNumber = value?.tokenPrice as number;
-          const totalUsdValue = Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(2));
+          const totalUsdValue = balanceDetails && 'usdValue' in balanceDetails
+            ? balanceDetails.usdValue as number
+            : Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(2));
           const tokenPrice = parseFloat(Number(priceAsNumber).toPrecision(4));
 
           return ({

@@ -3,11 +3,10 @@ import * as StyledRemote from 'src/pages/MultisigDetails/ProposeMultiselectModal
 import { useTranslation } from 'react-i18next';
 import { MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
 import { NumericFormat } from 'react-number-format';
-import { OrganizationToken } from 'src/pages/Organization/types';
-import { useCallback, useMemo } from 'react';
-import { accountSelector, getTokenPhotoById } from 'src/redux/selectors/accountSelector';
-import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
-import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
+import { useCallback } from 'react';
+import {
+  organizationTokenByIdentifierSelector,
+} from 'src/redux/selectors/accountSelector';
 import { useSelector } from 'react-redux';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { FormikProps } from 'formik';
@@ -49,14 +48,13 @@ const AmountInputWithTokenSelection = ({
   const { t } = useTranslation();
   const theme: any = useTheme();
   const { identifier = 'EGLD' } = useSelector(selectedTokenToSendSelector);
-  const selector = useMemo(
-    () => createDeepEqualSelector(accountSelector, (state: StateType) => getTokenPhotoById(state, identifier)),
-    [identifier]);
 
   const {
     tokenAmount,
     prettyIdentifier,
-  } = useSelector<StateType, OrganizationToken>(selector);
+  } = useSelector(organizationTokenByIdentifierSelector(identifier));
+
+  console.log({ tokenAmount });
 
   const maxButtonClickHandler = useCallback(() => {
     if (handleMaxButtonClick) {

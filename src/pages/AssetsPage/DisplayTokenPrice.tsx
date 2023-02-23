@@ -11,8 +11,10 @@ interface Props {
 }
 
 const calculatePrice = (balanceDetails: BalanceDetails) => {
-  const { amount, tokenPrice } = balanceDetails;
-  const tokenAmount = Number(TokenPayment.egldFromBigInteger(amount).toRationalNumber());
+  if ('valueUsd' in balanceDetails) return balanceDetails.valueUsd;
+
+  const { amount, tokenPrice, decimals } = balanceDetails;
+  const tokenAmount = Number(TokenPayment.fungibleFromBigInteger('', amount, decimals).toRationalNumber());
 
   const tokenPriceValue = parseFloat(tokenPrice?.toString());
 
