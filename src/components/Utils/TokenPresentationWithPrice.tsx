@@ -2,12 +2,8 @@ import { Box } from '@mui/material';
 import { OrganizationToken } from 'src/pages/Organization/types';
 import { useSelector } from 'react-redux';
 import { TokenPresentationProps } from 'src/pages/MultisigDetails/ProposeMultiselectModal/ProposeSendToken';
-import {
-  getTokenPhotoById,
-  accountSelector } from 'src/redux/selectors/accountSelector';
+import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accountSelector';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
-import { createDeepEqualSelector } from 'src/redux/selectors/helpers';
-import { useMemo } from 'react';
 import { Text } from '../StyledComponents/StyledComponents';
 import { TokenPhoto } from './TokenPhoto';
 
@@ -16,6 +12,9 @@ type TokenPresentationConfig = {
     withTokenAmount: boolean;
     withTokenValue: boolean;
     withPrice: boolean;
+    logoMarginRight?: string;
+    logoWidth?: number;
+    logoHeight?: number;
 };
 
 type TokenPresentationWithPriceProps = TokenPresentationProps & Partial<TokenPresentationConfig>;
@@ -25,17 +24,16 @@ const TokenPresentationWithPrice = ({
   withPhoto = true,
   withTokenAmount = true,
   withTokenValue = true,
+  logoMarginRight = '0',
+  logoWidth = 35,
+  logoHeight = 35,
   withPrice = true }: TokenPresentationWithPriceProps) => {
-  const selector = useMemo(
-    () => createDeepEqualSelector(accountSelector, (state: StateType) => getTokenPhotoById(state, identifier)),
-    [identifier]);
-
   const {
     prettyIdentifier,
     tokenPrice,
     tokenValue,
     tokenAmount,
-  } = useSelector<StateType, OrganizationToken>(selector);
+  } = useSelector<StateType, OrganizationToken>(organizationTokenByIdentifierSelector(identifier));
 
   return (
     <Box sx={{
@@ -51,7 +49,7 @@ const TokenPresentationWithPrice = ({
           '& svg, & img': { width: '35px', height: '35px', m: '0 !important' },
         }}
       >
-        <TokenPhoto identifier={identifier} options={{ width: 20 }} />
+        <TokenPhoto identifier={identifier} options={{ width: logoWidth, height: logoHeight, logoMarginRight }} />
       </Box>
       )}
       <Box sx={{

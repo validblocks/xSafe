@@ -21,7 +21,8 @@ import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { TokenPayment } from '@multiversx/sdk-core/out';
 import * as Styled from '../../pages/Organization/styled';
 import MobileCardsForTableReplacement from './MobileCardsForTableReplacement';
-import { MultiversXLogo } from '../Utils/MultiversXLogo';
+// import { MultiversXLogo } from '../Utils/MultiversXLogo';
+import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 export const SQUARE_SMALL_IMAGE_WIDTH = 20;
@@ -89,28 +90,14 @@ const AssetsTable = () => {
           flex: 0.8,
           type: 'string',
           renderCell: (params: GridRenderCellParams) => (
-            <div className="d-flex justify-content-center align-items-center font-weight-normal">
-              {params.value.tokenIdentifier !== 'EGLD' && (
-              <img
-                width={SQUARE_IMAGE_WIDTH}
-                height={SQUARE_IMAGE_WIDTH}
-                src={params.value.photoUrl}
-                alt={params.value.tokenIdentifier}
-                className="mr-3 rounded-circle"
-              />
-              )}
-              {params.value.tokenIdentifier === 'EGLD' && (
-                (
-                  <MultiversXLogo
-                    width={SQUARE_IMAGE_WIDTH}
-                    height={SQUARE_IMAGE_WIDTH}
-                  />
-                )
-              )}
-              <p className="mb-0">
-                {params.value.tokenIdentifier?.split('-')[0] ?? 'unknown'}
-              </p>
-            </div>
+            <TokenPresentationWithPrice
+              identifier={params.id.toString()}
+              withTokenAmount={false}
+              withTokenValue={false}
+              logoMarginRight="5px"
+              logoWidth={20}
+              logoHeight={20}
+            />
           ),
         },
         {
