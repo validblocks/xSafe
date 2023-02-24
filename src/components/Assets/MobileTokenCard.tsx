@@ -63,6 +63,7 @@ export const MobileTokenCard = ({ tokenRow, handleQrModal, handleOptionSelected 
               tokenRow.value
               ?? { amount: '0', decimals: 0, tokenPrice: 0, photoUrl: '', identifier: '' }
             }
+            tokenIdentifier={tokenRow.id?.toString() ?? ''}
           />
         </Typography>
       </Styled.CategoryName>

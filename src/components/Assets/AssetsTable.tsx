@@ -138,6 +138,7 @@ const AssetsTable = () => {
             <Typography variant="subtitle1" className="text-center mb-0 font-weight-normal">
               <DisplayTokenPrice
                 balanceDetails={params.value}
+                tokenIdentifier={params.id.toString() ?? ''}
               />
             </Typography>
           ),

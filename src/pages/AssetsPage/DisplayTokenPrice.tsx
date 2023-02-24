@@ -7,14 +7,17 @@ import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
 import { useSelector } from 'react-redux';
 
 interface Props {
-    balanceDetails: BalanceDetails;
+  balanceDetails: BalanceDetails;
+  tokenIdentifier: string;
 }
 
-const calculatePrice = (balanceDetails: BalanceDetails) => {
+export const calculatePrice = (balanceDetails: BalanceDetails, identifier: string) => {
   if ('valueUsd' in balanceDetails) return balanceDetails.valueUsd;
 
   const { amount, tokenPrice, decimals } = balanceDetails;
-  const tokenAmount = Number(TokenPayment.fungibleFromBigInteger('', amount, decimals).toRationalNumber());
+  const tokenAmount = identifier !== 'EGLD' ?
+    Number(TokenPayment.fungibleFromBigInteger('', amount, decimals).toRationalNumber())
+    : Number(TokenPayment.egldFromBigInteger(amount).toRationalNumber());
 
   const tokenPriceValue = parseFloat(tokenPrice?.toString());
 
@@ -22,13 +25,14 @@ const calculatePrice = (balanceDetails: BalanceDetails) => {
   return price;
 };
 
-const DisplayTokenPrice = ({ balanceDetails }: Props) => {
-  const [totalValue, _setTotalValue] = useState(() => calculatePrice(balanceDetails));
+const DisplayTokenPrice = ({ tokenIdentifier, balanceDetails }: Props) => {
+  console.log({ tokenIdentifier });
+  const [totalValue, _setTotalValue] = useState(() => calculatePrice(balanceDetails, tokenIdentifier));
   const convertedValue = useCurrencyConversion(Number(totalValue));
   const activeCurrency = useSelector(selectedCurrencySelector);
   useEffect(() => {
-    _setTotalValue(calculatePrice(balanceDetails));
-  }, [balanceDetails]);
+    _setTotalValue(calculatePrice(balanceDetails, tokenIdentifier));
+  }, [balanceDetails, tokenIdentifier]);
 
   return (
     <AssetValue>{
