@@ -89,6 +89,9 @@ export const App = () => (
                     apiTimeout,
                     walletConnectV2ProjectId,
                   }}
+                  dappConfig={{
+                    shouldUseWebViewProvider: true,
+                  }}
                   environment={EnvironmentsEnum.mainnet}
                 >
                   <>
