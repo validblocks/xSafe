@@ -6,6 +6,11 @@ import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { StyledStakingProvider } from 'src/components/StyledComponents/staking';
+import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
+import { useMemo } from 'react';
+import { useSelector } from 'react-redux';
+import { TokenTableRowItem } from 'src/pages/Organization/types';
+import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 
 interface ISendTokenProposalPresentationProps {
   address: Address;
@@ -16,6 +21,22 @@ interface ISendTokenProposalPresentationProps {
 
 const SendTokenProposalPresentation = (
   { address, amount, identifier, title }: ISendTokenProposalPresentationProps) => {
+  const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
+  const selectedTokenDetails = useMemo(
+    () => tokenTableRows?.find(
+      (token: TokenTableRowItem) => token?.identifier === identifier,
+    ),
+    [identifier, tokenTableRows],
+  );
+  const proposalAmount = useMemo(() => Number(
+    TokenPayment.fungibleFromBigInteger(
+      identifier,
+      amount,
+      selectedTokenDetails?.value?.decimals,
+    ).toRationalNumber(),
+  ).toLocaleString() ?? '0',
+  [amount, identifier, selectedTokenDetails?.value?.decimals]);
+
   const maxWidth600 = useMediaQuery('@media(max-width:600px)');
   const maxWidth500 = useMediaQuery('@media(max-width:500px)');
   return (
@@ -38,7 +59,7 @@ const SendTokenProposalPresentation = (
         </Box>
         <Box display={'flex'} flexDirection={'column'}>
           <Text fontWeight={500} marginRight={1}> Amount: </Text>
-          {Number(TokenPayment.egldFromBigInteger(amount).toRationalNumber()).toLocaleString() ?? '0'}{' '}
+          {proposalAmount}{' '}
         </Box>
       </StyledStakingProvider>
       <Grid item display={'flex'} justifyContent={'center'} alignItems={'center'}>
