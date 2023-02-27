@@ -14,6 +14,7 @@ export const verifiedContractsHashes = [
   'wn1ekMME1HiG2upX3AUnP+78TuOBTImXUtN3Z2975DM=',
   'OFuNGNyeOfaCy5JAdyEmF5/6YMWjFpkUk/Ak4KcDRb8=',
   '9938dFP1KrCWzNsXrzWlEPCWjfaLJt+r35npJ3T2UtA=',
+  'Tj26cQFkLWBEmiXYEfTV6FuQT92n/0p58IaGsy/+5lM=',
 ];
 
 export const toastDisappearDelay = 15_000;
