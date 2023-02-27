@@ -66,6 +66,13 @@ const ProposeSendToken = ({
     [availableTokensWithBalances, identifier],
   );
 
+  const selectedTokenDetails = useMemo(
+    () => tokenTableRows?.find(
+      (token: TokenTableRowItem) => token?.identifier === identifier,
+    ),
+    [identifier, tokenTableRows],
+  );
+
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const formik: FormikProps<IFormValues> = useFormik({
@@ -174,12 +181,19 @@ const ProposeSendToken = ({
         return null;
       }
       const parsedAddress = new Address(address);
+      const amountToSend = Number(
+        TokenPayment
+          .fungibleFromAmount(identifier, amountParam, selectedTokenDetails?.value?.decimals ?? 18).toString(),
+      );
 
-      return new MultisigSendToken(parsedAddress, identifier, Number(nominate(amountParam)));
+      const a = Number(nominate(amountParam));
+      console.log({ a });
+      console.log({ amountToSend });
+      return new MultisigSendToken(parsedAddress, identifier, amountToSend);
     } catch (err) {
       return null;
     }
-  }, [address, identifier]);
+  }, [address, identifier, selectedTokenDetails]);
 
   const refreshProposal = useCallback(() => {
     setTimeout(() => {
