@@ -54,8 +54,6 @@ const AmountInputWithTokenSelection = ({
     prettyIdentifier,
   } = useSelector(organizationTokenByIdentifierSelector(identifier));
 
-  console.log({ tokenAmount });
-
   const maxButtonClickHandler = useCallback(() => {
     if (handleMaxButtonClick) {
       return handleMaxButtonClick();

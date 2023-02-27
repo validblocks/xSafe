@@ -16,7 +16,6 @@ import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
-import { nominate } from '@multiversx/sdk-dapp/utils/operations';
 import * as Styled from './styled';
 
 interface ProposeSendTokenType {
@@ -64,6 +63,13 @@ const ProposeSendToken = ({
       (token: TokenTableRowItem) => token?.identifier === identifier,
     )?.balance as string,
     [availableTokensWithBalances, identifier],
+  );
+
+  const selectedTokenDetails = useMemo(
+    () => tokenTableRows?.find(
+      (token: TokenTableRowItem) => token?.identifier === identifier,
+    ),
+    [identifier, tokenTableRows],
   );
 
   const currentContract = useSelector(currentMultisigContractSelector);
@@ -174,12 +180,16 @@ const ProposeSendToken = ({
         return null;
       }
       const parsedAddress = new Address(address);
+      const amountToSend = Number(
+        TokenPayment
+          .fungibleFromAmount(identifier, amountParam, selectedTokenDetails?.value?.decimals ?? 18).toString(),
+      );
 
-      return new MultisigSendToken(parsedAddress, identifier, Number(nominate(amountParam)));
+      return new MultisigSendToken(parsedAddress, identifier, amountToSend);
     } catch (err) {
       return null;
     }
-  }, [address, identifier]);
+  }, [address, identifier, selectedTokenDetails]);
 
   const refreshProposal = useCallback(() => {
     setTimeout(() => {
