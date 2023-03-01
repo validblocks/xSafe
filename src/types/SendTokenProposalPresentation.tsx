@@ -29,11 +29,13 @@ const SendTokenProposalPresentation = (
     [identifier, tokenTableRows],
   );
   const proposalAmount = useMemo(() => Number(
-    TokenPayment.fungibleFromBigInteger(
-      identifier,
-      amount,
-      selectedTokenDetails?.value?.decimals,
-    ).toRationalNumber(),
+    identifier !== 'EGLD'
+      ? TokenPayment.fungibleFromBigInteger(
+        identifier,
+        amount,
+        selectedTokenDetails?.value?.decimals,
+      ).toRationalNumber()
+      : TokenPayment.egldFromBigInteger(amount).toRationalNumber(),
   ).toLocaleString() ?? '0',
   [amount, identifier, selectedTokenDetails?.value?.decimals]);
 
