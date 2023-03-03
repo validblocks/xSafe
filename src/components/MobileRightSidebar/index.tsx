@@ -168,7 +168,6 @@ export default function MobileRightSidebar() {
                     to={subItem.link}
                     onClick={() => {
                       handleClose();
-                      // navigate(routeNames.apps);
                     }}
                   >
                     <MobileSubmenuAccordionSummary key={subItem.id}>
