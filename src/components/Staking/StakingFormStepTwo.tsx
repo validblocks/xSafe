@@ -117,7 +117,8 @@ const StakingFormStepTwo = () => {
     try {
       const addressParam = new Address(selectedProvider?.provider);
 
-      const amountNumeric = Number(formik.values.amount);
+      const inputAmount = formik.values.amount.toString().replaceAll(',', '');
+      const amountNumeric = Number(inputAmount);
       if (Number.isNaN(amountNumeric)) {
         return;
       }
@@ -136,11 +137,19 @@ const StakingFormStepTwo = () => {
     setButtonWidth(buttonRef?.current?.offsetWidth);
   }, []);
 
+  const dispatch = useDispatch();
+
+  const closeModal = () => {
+    dispatch(setProposeMultiselectSelectedOption(null));
+  };
+
   const proposeStake = useCallback(() => {
     setIsProcessingTransaction(true);
     const addressParam = new Address(selectedProvider?.provider);
 
-    const amountNumeric = Number(formik.values.amount);
+    const formikAmount = formik.values.amount.toString();
+    const inputAmount = formikAmount.replaceAll(',', '');
+    const amountNumeric = Number(inputAmount);
     if (Number.isNaN(amountNumeric)) {
       return;
     }
@@ -150,16 +159,10 @@ const StakingFormStepTwo = () => {
     );
 
     mutateSmartContractCall(addressParam, amountParam, 'delegate');
+    closeModal();
   }, [formik.values.amount, selectedProvider?.provider]);
 
-  const dispatch = useDispatch();
-
-  const closeModal = () => {
-    dispatch(setProposeMultiselectSelectedOption(null));
-  };
-
   const transactionId = useSelector(currentMultisigTransactionIdSelector);
-
   useTrackTransactionStatus({
     transactionId,
     onSuccess: () => {
