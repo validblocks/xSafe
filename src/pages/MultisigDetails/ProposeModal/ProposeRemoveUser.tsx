@@ -34,7 +34,7 @@ function ProposeRemoveUser({
   const removeUserProposals = useMemo(() => {
     const cachedPendingActions = queryClient.getQueryData(QueryKeys.ALL_PENDING_ACTIONS) as MultisigActionDetailed[];
     return cachedPendingActions
-      ?.filter((p: MultisigActionDetailed) => p.action instanceof MultisigRemoveUser);
+      ?.filter((p: MultisigActionDetailed) => p.action instanceof MultisigRemoveUser) ?? [];
   }, [queryClient]);
 
   const [isAlreadyProposed, setIsAlreadyProposed] = useState(false);
