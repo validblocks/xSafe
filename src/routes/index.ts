@@ -15,26 +15,9 @@ import { uniqueContractAddress } from 'src/multisigConfig';
 import AppsPage from 'src/pages/Apps';
 import HelpCenter from 'src/pages/HelpCenter';
 import routeNames from './routeNames';
+import { ForegroundRoutesType } from './types';
 
 type RouteType = any & { title: string };
-
-export type ForegroundRoutesType =
-  | 'unlock'
-  | 'home'
-  | 'dashboard'
-  | 'multisig'
-  | 'multisigAddress'
-  | 'tokenTableRows'
-  | 'assets'
-  | 'cvorum'
-  | 'members'
-  | 'transactions'
-  | 'settings'
-  | 'nft'
-  | 'stake'
-  | 'apps'
-  | 'help-center'
-  | 'addressBook';
 
 export type ModalRoutesType = 'walletconnect' | 'ledger';
 
