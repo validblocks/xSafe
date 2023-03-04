@@ -24,18 +24,17 @@ jobs:
           ref: 'master'
         if: success()
 
-      - name: Create .env
-        run: |
-          awk -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
-            -v UNIQUE_CONTRACT_NAME="${{ secrets.UNIQUE_CONTRACT_NAME }}" \
-            -v GOOGLE_ANALYTICS_KEY="${{ secrets.GOOGLE_ANALYTICS_KEY_MAINNET }}" \
-            '{ \
-            sub(/XXX_UNIQUE_CONTRACT_ADDRESS_XXX/, UNIQUE_CONTRACT_ADDRESS); \
-            sub(/XXX_UNIQUE_CONTRACT_NAME_XXX/, UNIQUE_CONTRACT_NAME); \
-            sub(/XXX_GOOGLE_ANALYTICS_KEY_XXX/,  GOOGLE_ANALYTICS_KEY); \
-            print; \
-            }' \
-            .env.prod > .env
+      - uses: nightstory/replace-env@v1
+        id: create-env
+        env:
+          GH_ACCESS_TOKEN: "${{ secrets.GH_ACCESS_TOKEN }}"
+          UNIQUE_CONTRACT_ADDRESS: "${{ secrets.UNIQUE_CONTRACT_ADDRESS }}"
+          UNIQUE_CONTRACT_NAME: "${{ secrets.UNIQUE_CONTRACT_NAME }}"
+          GOOGLE_ANALYTICS_KEY: "${{ secrets.GOOGLE_ANALYTICS_KEY_DEVNET }}"
+        with:
+          input_file: .env.template
+          output_file: .env
+          pattern: double_underscore
 
       - name: Config setup
         run: |
