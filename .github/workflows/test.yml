@@ -28,22 +28,17 @@ jobs:
           ref: 'develop'
         if: success()
 
-      - name: Create .env
-        run: |
-          awk -v EXTRAS_API_DEVNET="${{ secrets.EXTRAS_API_DEVNET }}" \
-              -v MAIAR_ID_API_DEVNET="${{ secrets.MAIAR_ID_API_DEVNET }}" \
-              -v UNIQUE_CONTRACT_ADDRESS="${{ secrets.UNIQUE_CONTRACT_ADDRESS }}" \
-              -v UNIQUE_CONTRACT_NAME="${{ secrets.UNIQUE_CONTRACT_NAME }}" \
-              -v NPM_AUTH_TOKEN="${{ secrets.NPMRC }}" \
-              '{ \
-                  sub(/XXX_EXTRAS_API_DEVNET_XXX/, EXTRAS_API_DEVNET); \
-                  sub(/XXX_MAIAR_ID_API_DEVNET_XXX/, MAIAR_ID_API_DEVNET); \
-                  sub(/XXX_UNIQUE_CONTRACT_ADDRESS_XXX/, UNIQUE_CONTRACT_ADDRESS); \
-                  sub(/XXX_UNIQUE_CONTRACT_NAME_XXX/, UNIQUE_CONTRACT_NAME); \
-                  sub(/XXX_NPM_AUTH_TOKEN_XXX/, NPM_AUTH_TOKEN); \
-                  print; \
-              }' \
-              .env.staging > .env
+      - uses: nightstory/replace-env@v1
+        id: create-env
+        env:
+          GH_ACCESS_TOKEN: "${{ secrets.GH_ACCESS_TOKEN }}"
+          UNIQUE_CONTRACT_ADDRESS: "${{ secrets.UNIQUE_CONTRACT_ADDRESS }}"
+          UNIQUE_CONTRACT_NAME: "${{ secrets.UNIQUE_CONTRACT_NAME }}"
+          GOOGLE_ANALYTICS_KEY: "${{ secrets.GOOGLE_ANALYTICS_KEY_DEVNET }}"
+        with:
+          input_file: .env.template
+          output_file: .env
+          pattern: double_underscore
 
       - name: Config setup
         run: |
