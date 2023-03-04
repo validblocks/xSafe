@@ -17,6 +17,7 @@ import OtherAppThumbnailDark from 'src/assets/img/OtherAppThumbnailDark.png';
 import StakeAppThumbnailDark from 'src/assets/img/StakeAppThumbnailDark.png';
 import MoreAppsLight from 'src/assets/img/MoreAppsLight.png';
 import MoreAppsDark from 'src/assets/img/MoreAppsDark.png';
+import { appsWithRouteConfig } from 'src/apps/apps';
 import { ReactComponent as StakingIcon } from '../assets/img/staking.svg';
 
 export type MenuItem = {
@@ -80,6 +81,16 @@ export const availableApps: MarketplaceApp[] = [
     imageUrlDark: MoreAppsDark,
     isInstallable: false,
   },
+  ...appsWithRouteConfig.map((app) => ({
+    name: app.name,
+    link: app.link,
+    id: app.id,
+    description: app.description,
+    icon: app.icon,
+    imageUrlLight: app.imageUrlLight,
+    imageUrlDark: app.imageUrlDark,
+    isInstallable: app.isInstallable,
+  })),
 ];
 
 const topItems: MenuItem[] = [
