@@ -22,6 +22,7 @@ import {
 } from '@multiversx/sdk-dapp/UI';
 import i18next from 'i18next';
 import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
+import { Suspense } from 'react';
 import { englishTranslations } from './i18n/en';
 import { germanTranslations } from './i18n/de';
 import Layout from './components/Layout';
@@ -30,6 +31,7 @@ import { persistor, store } from './redux/store';
 import OrganizationInfoContextProvider from './pages/Organization/OrganizationInfoContextProvider';
 import CustomThemeProvider from './components/Theme/CustomThemeProvider';
 import { SpotlightCommands } from './components/Utils/SpotlightCommands';
+import { appsWithRouteConfig, AppWithRouteConfig } from './apps/apps';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -72,58 +74,68 @@ i18next.use(initReactI18next).init({
 
 const queryClient = new QueryClient();
 
-export const App = () => (
-  <ReduxProvider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
-      <CssBaseline />
-      <CustomThemeProvider>
-        <QueryClientProvider client={queryClient}>
-          <AxiosInterceptorContext.Provider>
-            <AxiosInterceptorContext.Interceptor
-              authenticatedDomanis={sampleAuthenticatedDomains}
-            >
-              <Router>
-                <DappProvider
-                  customNetworkConfig={{
-                    name: 'customConfig',
-                    apiTimeout,
-                    walletConnectV2ProjectId,
-                  }}
-                  dappConfig={{
-                    shouldUseWebViewProvider: true,
-                  }}
-                  environment={EnvironmentsEnum.mainnet}
-                >
-                  <>
-                    <SpotlightCommands />
-                    <OrganizationInfoContextProvider>
-                      <Layout>
+export const App = () =>
+  (
+    <ReduxProvider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <CssBaseline />
+        <CustomThemeProvider>
+          <QueryClientProvider client={queryClient}>
+            <AxiosInterceptorContext.Provider>
+              <AxiosInterceptorContext.Interceptor
+                authenticatedDomanis={sampleAuthenticatedDomains}
+              >
+                <Router>
+                  <Suspense fallback={<div>Loading...</div>}>
+                    <DappProvider
+                      customNetworkConfig={{
+                        name: 'customConfig',
+                        apiTimeout,
+                        walletConnectV2ProjectId,
+                      }}
+                      dappConfig={{
+                        shouldUseWebViewProvider: true,
+                      }}
+                      environment={EnvironmentsEnum.devnet}
+                    >
+                      <>
+                        <SpotlightCommands />
+                        <OrganizationInfoContextProvider>
+                          <Layout>
 
-                        <>
-                          <TransactionsToastList />
-                          <NotificationModal />
+                            <>
+                              <TransactionsToastList />
+                              <NotificationModal />
 
-                          <SignTransactionsModals className="custom-class-for-modals" />
-                          <Routes>
-                            {routes.map((route) => (
-                              <Route
-                                path={route.path}
-                                key={route.path}
-                                element={<route.component />}
-                              />
-                            ))}
-                            <Route element={PageNotFound()} />
-                          </Routes>
-                        </>
-                      </Layout>
-                    </OrganizationInfoContextProvider>
-                  </>
-                </DappProvider>
-              </Router>
-            </AxiosInterceptorContext.Interceptor>
-          </AxiosInterceptorContext.Provider>
-        </QueryClientProvider>
-      </CustomThemeProvider>
-    </PersistGate>
-  </ReduxProvider>
-);
+                              <SignTransactionsModals className="custom-class-for-modals" />
+                              <Routes>
+                                {routes.map((route: any) => (
+                                  <Route
+                                    path={route.path}
+                                    key={route.path}
+                                    element={<route.component />}
+                                  />
+                                ))}
+                                {appsWithRouteConfig.map((route: AppWithRouteConfig) => (
+                                  <Route
+                                    path={route.path}
+                                    key={route.path}
+                                    element={<route.component />}
+                                  />
+                                ))}
+                                <Route element={PageNotFound()} />
+                              </Routes>
+                            </>
+                          </Layout>
+                        </OrganizationInfoContextProvider>
+                      </>
+                    </DappProvider>
+                  </Suspense>
+                </Router>
+              </AxiosInterceptorContext.Interceptor>
+            </AxiosInterceptorContext.Provider>
+          </QueryClientProvider>
+        </CustomThemeProvider>
+      </PersistGate>
+    </ReduxProvider>
+  );
