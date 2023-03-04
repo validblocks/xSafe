@@ -115,21 +115,17 @@ const MobileLayout = () => {
 
   const { allPendingActions, actionableByCurrentWallet } = usePendingActions();
 
-  const [hideHeader, setHideHeader] = useState(false);
-  const prevScrollPos = useRef(window.scrollY);
-  const [_transformPercent, setTransformPercent] = useState(0);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScrollPos = window.scrollY;
-      if (prevScrollPos.current > currentScrollPos) {
-        setTransformPercent(100);
-        setHideHeader(false);
-      } else {
-        setTransformPercent(0);
-        setHideHeader(true);
-      }
-      prevScrollPos.current = currentScrollPos;
+      const currentScrollPos = window.pageYOffset;
+      const isScrollingDown = currentScrollPos > prevScrollPos;
+      const shouldHideHeader = isScrollingDown && currentScrollPos > 100;
+      const shouldShowHeader = !isScrollingDown && currentScrollPos < prevScrollPos - 100;
+      setIsHeaderVisible(!shouldHideHeader && !shouldShowHeader);
+      setPrevScrollPos(currentScrollPos);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -144,7 +140,7 @@ const MobileLayout = () => {
             zIndex: 1301,
             position: 'fixed',
             width: '100%',
-            top: hideHeader ? '-112px' : '0',
+            top: !isHeaderVisible ? '-112px' : '0',
             transition: 'all 0.3s ease-out',
             backgroundColor: theme.palette.background.secondary,
             borderRadius: '0 0 10px 10px',
