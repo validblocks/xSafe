@@ -10,7 +10,7 @@ import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/
 import { uniqueContractAddress } from 'src/multisigConfig';
 import addressShorthand from 'src/helpers/addressShorthand';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
@@ -27,6 +27,8 @@ import { XSafeLogo } from 'src/components/Utils/XSafeLogo';
 import { usePendingActions } from 'src/utils/usePendingActions';
 import { useTheme } from 'styled-components';
 import NetworkAnnouncer from 'src/components/Utils/NetworkAnnouncer';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+import { ModalTypes } from 'src/types/Proposals';
 import {
   AnchorConnectedAccount,
   BottomMenuButton,
@@ -64,6 +66,7 @@ const MobileLayout = () => {
   const [selectedTab, setSelectedTab] = useState(0);
 
   const theme: any = useTheme();
+  const dispatch = useDispatch();
 
   const addressChars = useMemo(() => {
     if (minWidth535) return 12;
@@ -267,6 +270,15 @@ const MobileLayout = () => {
           <Link
             to={el.link === 'apps' && installedAndPinnedApps.length > 0 ?
               installedAndPinnedApps[0]?.link : el.link}
+            onClick={(e) => {
+              e.preventDefault();
+              if (isLoggedIn) {
+                navigate(el.link === 'apps' && installedAndPinnedApps.length > 0 ?
+                  installedAndPinnedApps[0]?.link : el.link);
+              } else {
+                dispatch(setProposeModalSelectedOption({ option: ModalTypes.connect_wallet }));
+              }
+            }}
             className={
                 locationString === (el.link === 'apps' && installedAndPinnedApps.length > 0 ?
                   installedAndPinnedApps[0]?.link : el.link)
