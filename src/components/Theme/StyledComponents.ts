@@ -591,6 +591,7 @@ export const ModalConnectContainer = styled(Modal)(({ theme: _ }) => ({
     '~ .dapp-wallet-connect-login-modal, ~ .dapp-ledger-login-container': {
       '.dapp-core-component__dappModalStyles__dappModalContent': {
         backgroundColor: _.palette.background.secondary,
+        color: `${_.palette.text.primary}!important`,
         border: 'none',
         borderRadius: '12px',
         '.dapp-core-component__dappModalStyles__dappModalHeader': {
