@@ -9,13 +9,13 @@
     },
     {
       "sizes": "192x192",
-      "src": "logo192.png",
-      "type": "image/png"
+      "src": "xSafeRoundLogo.svg",
+      "type": "image/svg"
     },
     {
       "sizes": "512x512",
-      "src": "logo512.png",
-      "type": "image/png"
+      "src": "xSafeRoundLogo.svg",
+      "type": "image/svg"
     }
   ],
   "name": "Create React App Sample",
