@@ -90,7 +90,7 @@ function NftComponent() {
   }
 
   return (
-    <Box>
+    <Box padding="14px 0">
       {(
         <Grid
           layout

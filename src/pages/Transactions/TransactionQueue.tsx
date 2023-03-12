@@ -8,7 +8,7 @@ import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItems
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { currentMultisigContractSelector, currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
@@ -61,6 +61,7 @@ const TransactionQueue = () => {
     };
 
   const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   const untruncatedData = useMemo(() => allPendingActions?.slice().reverse() ?? [], [allPendingActions]);
 
@@ -70,6 +71,15 @@ const TransactionQueue = () => {
       queryClient.invalidateQueries(QueryKeys.ALL_PENDING_ACTIONS);
     },
   });
+
+  if (!currentContract?.address) {
+    return (
+      <Box
+        pt={maxWidth600 ? '45px' : '12px'}
+      ><NoActionsOverlay message={t('No safe available')} />
+      </Box>
+    );
+  }
 
   if (!allPendingActions) {
     return <Box marginTop={maxWidth600 ? '60px' : 0}><LoadingDataIndicator dataName="proposal" /></Box>;
