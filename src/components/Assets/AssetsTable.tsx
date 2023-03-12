@@ -19,6 +19,7 @@ import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { TokenPayment } from '@multiversx/sdk-core/out';
+import NoActionsOverlay from 'src/pages/Transactions/utils/NoActionsOverlay';
 import * as Styled from '../../pages/Organization/styled';
 import MobileCardsForTableReplacement from './MobileCardsForTableReplacement';
 // import { MultiversXLogo } from '../Utils/MultiversXLogo';
@@ -153,11 +154,13 @@ const AssetsTable = () => {
         />
       ) : (
         <Box paddingBottom={'62px'}>
-          <MobileCardsForTableReplacement
-            handleQrModal={handleQrModal}
-            handleOptionSelected={handleOptionSelected}
-            tokenTableRows={tokenTableRows}
-          />
+          {currentContract?.address ? (
+            <MobileCardsForTableReplacement
+              handleQrModal={handleQrModal}
+              handleOptionSelected={handleOptionSelected}
+              tokenTableRows={tokenTableRows}
+            />
+          ) : <NoActionsOverlay message={'No safe available'} />}
         </Box>
       )}
       <ReceiveModal

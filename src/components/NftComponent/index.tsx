@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { Box, Grid, Typography, useMediaQuery } from '@mui/material';
 import { motion } from 'framer-motion';
-import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +12,6 @@ import { NFTType } from 'src/types/nfts';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { useTheme } from 'styled-components';
 import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
-import { useTranslation } from 'react-i18next';
 import { useContractNFTs } from 'src/utils/useContractNFTs';
 import { Fragment } from 'react';
 import { useQueryClient } from 'react-query';
@@ -21,7 +19,8 @@ import { QueryKeys } from 'src/react-query/queryKeys';
 import { multisigContractFunctionNames } from 'src/types/multisigFunctionNames';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { TypedValue } from '@multiversx/sdk-core/out';
-import { EmptyList, CollectionName, TextDivider, CardBox } from './nft-style';
+import NoActionsOverlay from 'src/pages/Transactions/utils/NoActionsOverlay';
+import { CollectionName, TextDivider, CardBox } from './nft-style';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import { NftCollectionTitle } from './NftCollectionTitle';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
@@ -30,7 +29,6 @@ import PendingNftProposalAnnouncer from './PendingNftProposalAnnouncer';
 
 function NftComponent() {
   const theme: any = useTheme();
-  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const navbarSearchParam = useSelector(navbarSearchSelector);
@@ -85,14 +83,7 @@ function NftComponent() {
     return (
       <Grid container margin={width600px ? '0px' : '-9px 0 0 -9px'}>
         <Grid xs={12} item>
-          <CardBox
-            className="d-flex align-items-center justify-content-center"
-            sx={{ height: '300px', m: '0 !important' }}
-          >
-            <CardContent>
-              <EmptyList>{ t('No NFTs to show') as string}</EmptyList>
-            </CardContent>
-          </CardBox>
+          <NoActionsOverlay message={'No NFTs to show'} />
         </Grid>
       </Grid>
     );
