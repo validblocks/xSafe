@@ -9,12 +9,12 @@
     },
     {
       "sizes": "192x192",
-      "src": "PWAicon.png",
+      "src": "PWAicon192.png",
       "type": "image/png"
     },
     {
       "sizes": "512x512",
-      "src": "PWAicon.png",
+      "src": "PWAicon512.png",
       "type": "image/png"
     }
   ],
