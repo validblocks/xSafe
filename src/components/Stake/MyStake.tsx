@@ -24,7 +24,7 @@ import { setActiveDelegationRows } from 'src/redux/slices/accountGeneralInfoSlic
 import axios from 'axios';
 import { TokenPayment } from '@multiversx/sdk-core/out';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
-import { xSafeApiUrl } from 'src/helpers/constants';
+import { xSafeApiUrl } from 'src/config';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
 import { MainButton } from '../Theme/StyledComponents';

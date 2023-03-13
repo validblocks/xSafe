@@ -38,7 +38,7 @@ import {
 } from '@multiversx/sdk-dapp/hooks';
 import axios from 'axios';
 import { TransactionOnNetwork } from '@multiversx/sdk-network-providers/out';
-import { xSafeApiUrl } from 'src/helpers/constants';
+import { xSafeApiUrl } from 'src/config';
 import { CenteredText } from '../navbar-style';
 import * as Styled from '../styled';
 import { useSendTokenButtonMinWidth } from './useSendTokenButtonMinWidth';

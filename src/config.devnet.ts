@@ -51,3 +51,7 @@ networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
 export const sampleAuthenticatedDomains = [
   network.storageApi,
 ];
+
+export const relatedBranch = 'develop';
+
+export const xSafeApiUrl = 'https://devnet-api.xsafe.io';
