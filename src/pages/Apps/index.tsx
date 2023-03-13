@@ -9,7 +9,7 @@ const AppsPage = () => {
   const panels = useMemo(() => [
     { title: 'Available Apps', content: <Marketplace /> },
     { title: 'My Apps', content: <MyApps /> },
-    // { title: 'Development', content: <Docs /> },
+    { title: 'Development', content: <Docs /> },
   ], []);
 
   return <ContainerWithPanels panels={panels} />;
