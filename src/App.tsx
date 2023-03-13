@@ -96,7 +96,7 @@ export const App = () =>
                       dappConfig={{
                         shouldUseWebViewProvider: true,
                       }}
-                      environment={EnvironmentsEnum.devnet}
+                      environment={EnvironmentsEnum.mainnet}
                     >
                       <>
                         <SpotlightCommands />
