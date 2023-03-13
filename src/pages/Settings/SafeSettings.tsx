@@ -15,6 +15,7 @@ import { ReactComponent as HeartIcon } from 'src/assets/img/heart.svg';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { NoteSpan, Span } from './settings-style';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
+import BuildNumber from './BuildNumber';
 
 function SafeSettings() {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
@@ -112,14 +113,14 @@ function SafeSettings() {
       </a>
       <Typography
         sx={{
-          mt: 0.25,
           fontSize: '12px',
-          color: isDarkThemeEnabled ? '#F0F6FF8a' : '000',
+          color: isDarkThemeEnabled ? '#F0F6FF8a' : '#000',
         }}
         fontSize={maxWidth600 ? '15px' : '14px'}
       >
         xSafe v0.1
       </Typography>
+      <BuildNumber />
     </Box>
   );
 }

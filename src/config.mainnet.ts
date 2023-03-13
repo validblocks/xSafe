@@ -50,3 +50,7 @@ networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
 });
 
 export const sampleAuthenticatedDomains = [network.storageApi];
+
+export const relatedBranch = 'master';
+
+export const xSafeApiUrl = 'https://api.xsafe.io';

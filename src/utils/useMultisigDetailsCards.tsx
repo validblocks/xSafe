@@ -147,7 +147,7 @@ export default function useMultisigDetailsCards() {
       <AmountWithTitleCard
         needsDollarSign={false}
         amountValue={contractInfo.totalBoardMembers ?? 0}
-        amountUnityMeasure={'Owners'}
+        amountUnityMeasure={contractInfo.totalBoardMembers?.toString() === '1' ? 'Member' : 'Members'}
         actionButton={(
           <Styled.CardButton
             key="0"
@@ -155,16 +155,16 @@ export default function useMultisigDetailsCards() {
             className="shadow-sm rounded mr-2"
             onClick={() => navigate(routeNames.members)}
           >
-            View Owners
+            View Members
           </Styled.CardButton>
         )}
-        title={'Organization Owners'}
+        title={'Organization Members'}
       />,
       <AmountWithTitleCard
         needsDollarSign={false}
         amountUnityMeasure={`${contractInfo.quorumSize?.toString() ?? '0'}/${
           contractInfo.totalBoardMembers
-        } Owners`}
+        } ${contractInfo.totalBoardMembers?.toString() === '1' ? 'Member' : 'Members'}`}
         actionButton={(
           <Styled.CardButton
             key="0"
