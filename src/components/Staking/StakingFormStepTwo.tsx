@@ -166,7 +166,6 @@ const StakingFormStepTwo = () => {
   useTrackTransactionStatus({
     transactionId,
     onSuccess: () => {
-      closeModal();
       setIsProcessingTransaction(false);
     },
     onCancelled: () => {
