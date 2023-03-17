@@ -13,13 +13,13 @@ import ModalCardTitle from '../Layout/Modal/ModalCardTitle';
 
 export const gasLimits = {
   [MultisigActionType.Nothing]: 10_000_000,
-  [MultisigActionType.AddBoardMember]: 10_000_000,
-  [MultisigActionType.AddProposer]: 10_000_000,
   [MultisigActionType.RemoveUser]: 10_000_000,
+  [MultisigActionType.AddProposer]: 10_000_000,
   [MultisigActionType.ChangeQuorum]: 10_000_000,
-  [MultisigActionType.SendTransferExecute]: 60_000_000,
-  [MultisigActionType.SendAsyncCall]: 60_000_000,
+  [MultisigActionType.SendAsyncCall]: 20_000_000,
+  [MultisigActionType.AddBoardMember]: 10_000_000,
   [MultisigActionType.SCDeployFromSource]: 80_000_000,
+  [MultisigActionType.SendTransferExecute]: 60_000_000,
   [MultisigActionType.SCUpgradeFromSource]: 80_000_000,
 };
 
