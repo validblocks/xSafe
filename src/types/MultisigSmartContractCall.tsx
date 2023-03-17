@@ -41,7 +41,7 @@ export class MultisigSmartContractCall extends MultisigAction {
     functionName: string,
     args: BytesValue[] = [],
   ) {
-    super(MultisigActionType.SendTransferExecute);
+    super(MultisigActionType.SendAsyncCall);
     this.address = address;
     this.amount = amount;
     this.functionName = functionName;
