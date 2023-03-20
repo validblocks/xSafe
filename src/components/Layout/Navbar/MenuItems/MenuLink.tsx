@@ -30,6 +30,10 @@ const MenuLink = ({ menuItem, shouldRequireLogin }: IMenuLinkProps) => {
           e.preventDefault();
           dispatch(setProposeModalSelectedOption({ option: ModalTypes.connect_wallet }));
         }
+        if (menuItem.id === 'help-center-menu-item') {
+          e.preventDefault();
+          window.open('https://docs.xsafe.io', '_blank');
+        }
       }}
       className={
         locationString === menuItem.link
