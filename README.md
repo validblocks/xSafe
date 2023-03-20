@@ -24,3 +24,9 @@ At Valid Blocks, we have worked hard to bring the first version of xSafe to the 
 The project is now open source and we really appreciate the community jumping in and helping us continue to build and shape the future of xSafe!
 
 If you're a smart contract developer/project building on MultiversX or just an xSafe user willing to contribute, don't hesitate to contact us at contact@xsafe.io or [DM us on Twitter](https://twitter.com/xSafeApp).
+
+
+## ⚙️ Changelog
+
+2023-03-19  v0.1  Build 42b25d8
+- update sdk-core and sdk-dapp to latest version
