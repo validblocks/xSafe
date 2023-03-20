@@ -28,4 +28,5 @@ If you're a smart contract developer/project building on MultiversX or just an x
 
 ## ⚙️ Changelog
 
-2023-03-20  v0.1  Build 42b25d8
+2023-03-19  v0.1  Build 42b25d8
+- update sdk-core and sdk-dapp to latest version
