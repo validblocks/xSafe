@@ -35,19 +35,9 @@ const BottomMenu = () => {
         }
 
         return (
-          <HtmlTooltip
-            key={el.id}
-            arrow
-            title={(
-              <span className="ml-1">{'Coming soon!'}</span>
-                )}
-            placement="right"
-          >
-            <Box>
-              <MenuLink menuItem={el} />
-            </Box>
-          </HtmlTooltip>
-
+          <Box>
+            <MenuLink menuItem={el} />
+          </Box>
         );
       })}
     </BottomMenuList>
