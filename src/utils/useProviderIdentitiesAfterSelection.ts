@@ -103,6 +103,17 @@ export default function useProviderIdentitiesAfterSelection({
     return data;
   }, []);
 
+  const filterBySearchParam = useCallback(
+    (data: IProviderIdentity[]) => {
+      console.log({ filteringData: data });
+      if (!searchParam) return data;
+      return data.filter((p) =>
+        'identity' in p && p.identity.toLowerCase().includes(searchParam.toLowerCase()),
+      );
+    },
+    [searchParam],
+  );
+
   const addProvidersWithoutIdentity = useCallback(
     (data: IdentityWithColumns[]) => {
       const newProviders =
@@ -161,16 +172,6 @@ export default function useProviderIdentitiesAfterSelection({
     [fetchedProviders],
   );
 
-  const filterBySearchParam = useCallback(
-    (data: IProviderIdentity[]) => {
-      if (!searchParam) return data;
-      return data.filter((p) =>
-        p.identity.toLowerCase().includes(searchParam.toLowerCase()),
-      );
-    },
-    [searchParam],
-  );
-
   const shuffle = useCallback((inputArray: IdentityWithColumns[]) => {
     const array = inputArray.slice();
     for (let i = array.length - 1; i > 0; i--) {
@@ -193,15 +194,15 @@ export default function useProviderIdentitiesAfterSelection({
   const select = useCallback(
     (data: IProviderIdentity[]) =>
       pipe(
-        filterBySearchParam,
         buildColumns,
         addProvidersWithoutIdentity,
+        filterBySearchParam,
         shuffle,
       )(data),
     [
-      filterBySearchParam,
       buildColumns,
       addProvidersWithoutIdentity,
+      filterBySearchParam,
       shuffle,
     ],
   );
