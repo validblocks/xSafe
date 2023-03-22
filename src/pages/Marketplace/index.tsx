@@ -2,9 +2,11 @@ import { Grid, useMediaQuery } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { MarketplaceApp } from 'src/utils/menuItems';
 import { useApps } from 'src/utils/useApps';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
+import { NoteSpan } from '../Settings/settings-style';
 import AppCard from './AppCard';
 import { LOCAL_STORAGE_KEYS } from './localStorageKeys';
 
@@ -17,6 +19,7 @@ const Marketplace = () => {
   const widthBetween460And600 = useMediaQuery('(min-width:460px) and (max-width:600px)');
   const minWidth600 = useMediaQuery('(min-width:600px)');
   const maxWidth600 = useMediaQuery('(max-width:600px)');
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
 
@@ -51,6 +54,13 @@ const Marketplace = () => {
       marginTop={maxWidth600 ? '50px' : 0}
       paddingBottom={maxWidth600 ? '42px' : 0}
     >
+      {
+        !(currentContract?.address.length > 0) && (
+        <NoteSpan mb="5px">
+          Looks like you don't have a safe available yet. Simply connect your wallet, create a new safe, and start installing any app you need.
+        </NoteSpan>
+        )
+      }
       {
         allMarketplaceApps.map((app: MarketplaceApp) => (
           <Grid
