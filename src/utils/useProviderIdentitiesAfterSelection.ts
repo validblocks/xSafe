@@ -108,7 +108,9 @@ export default function useProviderIdentitiesAfterSelection({
       console.log({ filteringData: data });
       if (!searchParam) return data;
       return data.filter((p) =>
-        'identity' in p && p.identity.toLowerCase().includes(searchParam.toLowerCase()),
+        ('identity' in p && p.identity.toLowerCase().trim().includes(searchParam.toLowerCase().trim()))
+        || ('name' in p && p.name.toLowerCase().trim().includes(searchParam.toLowerCase().trim()))
+        || ('provider' in p && (p.provider as string).toLowerCase().trim().includes(searchParam.toLowerCase().trim())),
       );
     },
     [searchParam],
