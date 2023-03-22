@@ -38,57 +38,58 @@ export default function useProviderIdentitiesAfterSelection({
   );
 
   const buildColumns = useCallback(
-    (data: IProviderIdentity[]): IdentityWithColumns[] =>
-      data.map((provider: IProviderIdentity) => {
-        const stakedAmount = Number(
-          TokenPayment.egldFromBigInteger(provider.locked).toRationalNumber(),
-        );
+    (data: IProviderIdentity[]): IdentityWithColumns[] => data.map((provider: IProviderIdentity) => {
+      const providerBeforeIdentityFetch = fetchedProviders?.find(
+        (p) => p.identity === provider.identity,
+      );
 
-        const providerBeforeIdentityFetch = fetchedProviders?.find(
-          (p) => p.identity === provider.identity,
-        );
-        const providerDelegationCap = Number(
-          TokenPayment.egldFromBigInteger(
-            providerBeforeIdentityFetch?.delegationCap ?? '0',
-          ).toRationalNumber(),
-        );
+      const stakedAmount = Number(
+        TokenPayment.egldFromBigInteger(
+          providerBeforeIdentityFetch?.locked ?? '0',
+        ).toRationalNumber(),
+      );
+      const providerDelegationCap = Number(
+        TokenPayment.egldFromBigInteger(
+          providerBeforeIdentityFetch?.delegationCap ?? '0',
+        ).toRationalNumber(),
+      );
 
-        let filledPercentage = 0;
-        if (providerDelegationCap !== 0) {
-          filledPercentage = stakedAmount / providerDelegationCap;
-          filledPercentage = Math.min(100, filledPercentage);
-        }
+      let filledPercentage = 0;
+      if (providerDelegationCap !== 0) {
+        filledPercentage = stakedAmount / providerDelegationCap;
+        filledPercentage = Math.min(100, filledPercentage);
+      }
 
-        const shortenedPercentage = getDenominatedBalance<number>(
-          (filledPercentage * 100).toString(),
-          {
-            precisionAfterComma: 1,
-            needsDenomination: false,
-          },
-        );
+      const shortenedPercentage = getDenominatedBalance<number>(
+        (filledPercentage * 100).toString(),
+        {
+          precisionAfterComma: 1,
+          needsDenomination: false,
+        },
+      );
 
-        return {
-          ...provider,
-          provider: providerBeforeIdentityFetch?.provider ?? '',
-          numNodes: providerBeforeIdentityFetch?.numNodes ?? 0,
-          id: provider.identity,
-          providerColumn: {
-            avatar: provider.avatar,
-            name: provider.name,
-            website: provider.website,
-            apr: providerBeforeIdentityFetch?.apr ?? 0,
-          },
-          aprColumn: {
-            apr: providerBeforeIdentityFetch?.apr ?? 0,
-          },
-          filledColumn: {
-            filledPercentage:
+      return {
+        ...provider,
+        provider: providerBeforeIdentityFetch?.provider ?? '',
+        numNodes: providerBeforeIdentityFetch?.numNodes ?? 0,
+        id: provider.identity,
+        providerColumn: {
+          avatar: provider.avatar,
+          name: provider.name,
+          website: provider.website,
+          apr: providerBeforeIdentityFetch?.apr ?? 0,
+        },
+        aprColumn: {
+          apr: providerBeforeIdentityFetch?.apr ?? 0,
+        },
+        filledColumn: {
+          filledPercentage:
               providerBeforeIdentityFetch?.delegationCap !== '0'
                 ? shortenedPercentage
                 : ('N/A' as any),
-          },
-        };
-      }),
+        },
+      };
+    }),
     [fetchedProviders],
   );
 
