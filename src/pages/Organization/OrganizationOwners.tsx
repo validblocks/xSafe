@@ -14,11 +14,17 @@ import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { Box, useMediaQuery } from '@mui/material';
 import noRowsOverlay from 'src/components/Utils/noRowsOverlay';
+import CopyButton from 'src/components/CopyButton';
+import { AnchorPurple } from 'src/components/Layout/Navbar/navbar-style';
+import SearchIcon from '@mui/icons-material/Search';
+import { network } from 'src/config';
 import { AccountInfo, AddressBook, Bech32Address, MultisigMember } from './types';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 import * as Styled from './styled';
 import { useOwnerManipulationFunctions } from './utils';
 import MultisigMemberMobileCards from './utils/MultisigMemberMobileCards';
+
+import * as StyledUtils from '../../components/Utils/styled/index';
 
 const OrganizationsOwnersTable = () => {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
@@ -85,16 +91,31 @@ const OrganizationsOwnersTable = () => {
         width: 280,
         type: 'object',
         renderCell: (params: GridRenderCellParams<MultisigMember>) => (
-          <Box display="flex" alignItems="center">
-            <Box
-              sx={{ borderRadius: '4px', overflow: 'hidden' }}
-              dangerouslySetInnerHTML={{
-                __html: toSvg(params.value?.address, 20, { padding: 0 }),
-              }}
-            />
-            <strong>
-              {truncateInTheMiddle(params.value?.address ?? '', 17)}
-            </strong>
+          <Box display="flex" alignItems="center" justifyContent="space-between">
+            <Box display="flex" alignItems="center">
+              <Box
+                sx={{ borderRadius: '4px', overflow: 'hidden' }}
+                dangerouslySetInnerHTML={{
+                  __html: toSvg(params.value?.address, 20, { padding: 0 }),
+                }}
+              />
+              <strong>
+                {truncateInTheMiddle(params.value?.address ?? '', 10)}
+              </strong>
+            </Box>
+            <Box display="flex" alignItems="center">
+              <CopyButton className="ml-2" link={StyledUtils.CopyIconLinkPurple} text={params.value?.address ?? ''} />
+              <AnchorPurple
+                href={`${
+                  network.explorerAddress
+                }/accounts/${params.value?.address}`}
+                target="_blank"
+                rel="noreferrer"
+                className="ml-2"
+              >
+                <SearchIcon />
+              </AnchorPurple>
+            </Box>
           </Box>
         ),
       },
