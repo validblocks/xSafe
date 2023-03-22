@@ -6,10 +6,15 @@ import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { toSvg } from 'jdenticon';
 import { CustomEditIcon } from 'src/components/Utils/CustomEditIcon';
 import { CustomDeleteIcon } from 'src/components/Utils/CustomDeleteIcon';
+import { AnchorPurple } from 'src/components/Layout/Navbar/navbar-style';
+import CopyButton from 'src/components/CopyButton';
+import SearchIcon from '@mui/icons-material/Search';
+import { network } from 'src/config';
 import { useOrganizationInfoContext } from '../OrganizationInfoContextProvider';
 import * as Styled from '../styled/index';
 import { useOwnerManipulationFunctions } from '.';
 import { MultisigMember } from '../types';
+import * as StyledUtils from '../../../components/Utils/styled/index';
 
 interface IProps {
   multisigMembers: MultisigMember[];
@@ -47,10 +52,23 @@ export const MultisigMemberMobileCards = ({ multisigMembers }: IProps) => {
                 }}
               />
               <Typography component="h6" className="mb-0 font-weight-normal">
-                {minWidth530 ? truncateInTheMiddle(multisigMember.address, 14) :
-                  minWidth475 ? truncateInTheMiddle(multisigMember.address, 11) :
-                    truncateInTheMiddle(multisigMember.address, 8)}
+                {minWidth530 ? truncateInTheMiddle(multisigMember.address, 11) :
+                  minWidth475 ? truncateInTheMiddle(multisigMember.address, 5) :
+                    truncateInTheMiddle(multisigMember.address, 5)}
               </Typography>
+              <Box display="flex" alignItems="center">
+                <CopyButton className="ml-2" link={StyledUtils.CopyIconLinkPurple} text={multisigMember.address} />
+                <AnchorPurple
+                  href={`${
+                    network.explorerAddress
+                  }/accounts/${multisigMember.address}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="ml-2"
+                >
+                  <SearchIcon />
+                </AnchorPurple>
+              </Box>
             </Box>
           </Styled.CategoryName>
           <Styled.CategoryName>
