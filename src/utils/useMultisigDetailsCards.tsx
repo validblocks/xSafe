@@ -50,7 +50,7 @@ export default function useMultisigDetailsCards() {
       case 0:
         return 'No rights';
       case 2:
-        return 'Board Member';
+        return 'Member';
       default:
         return 'Not logged in';
     }
@@ -58,7 +58,7 @@ export default function useMultisigDetailsCards() {
 
   const userRoleDescriptions = useMemo(() => ({
     'No rights': 'You have no rights',
-    'Board Member': 'Send Token',
+    Member: 'Send Token',
     'Not logged in': 'Login to propose',
   }), []);
 

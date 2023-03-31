@@ -74,7 +74,7 @@ const breadcrumbItems: any = {
     },
     {
       link: '/decisions/add-board-member-to-organization',
-      name: 'Add Board Member To Organization',
+      name: 'Add Member To Organization',
     },
   ],
   transactions: [

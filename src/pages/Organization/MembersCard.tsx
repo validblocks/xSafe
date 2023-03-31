@@ -17,7 +17,7 @@ function MembersCard() {
   const memberTypes = [
     {
       icon: <GroupsIcon htmlColor="#dc3545" fontSize="medium" />,
-      memberTypeTitle: t('Board Members'),
+      memberTypeTitle: t('Members'),
       memberCount: boardMembers.length.toString(),
     },
     {

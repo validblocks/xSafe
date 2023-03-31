@@ -104,7 +104,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
 
   const allMemberAddresses = useMemo(
     () =>
-      boardMembers.map((item) => ({ role: 'Board Member', member: item }))
+      boardMembers.map((item) => ({ role: 'Member', member: item }))
         .map((item, idx) => ({ ...item, id: idx })),
     [boardMembers],
   );
