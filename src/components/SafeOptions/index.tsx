@@ -41,7 +41,7 @@ export const userRoleAsString = (roleNumber: number) => {
     case 0:
       return 'No rights';
     case 2:
-      return 'Board Member';
+      return 'Member';
     default:
       return 'Not logged in';
   }
