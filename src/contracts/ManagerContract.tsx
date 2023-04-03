@@ -17,7 +17,7 @@ import {
 import { Code } from '@multiversx/sdk-core/out/smartcontracts/code';
 import { requireContractCode } from 'src/utils/requireContractCode';
 
-export const deployContractGasLimit = 400_000_000;
+export const deployContractGasLimit = 30_000_000;
 
 export async function deployMultisigContract() {
   async function getDeployContractTransaction(
