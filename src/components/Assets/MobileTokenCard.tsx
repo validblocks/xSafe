@@ -1,11 +1,11 @@
 import { Box, Typography } from '@mui/material';
-import { TokenPayment } from '@multiversx/sdk-core/out';
 import { uniqueId } from 'lodash';
 import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
 import { ReactComponent as MultiversXLogoSymbol } from 'src/assets/img/multiversx-symbol.svg';
 import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
 import { TokenTableRowItem } from 'src/pages/Organization/types';
 import { ProposalsTypes } from 'src/types/Proposals';
+import RationalNumber from 'src/utils/RationalNumber';
 import * as Styled from '../../pages/Organization/styled';
 import { Text } from '../StyledComponents/StyledComponents';
 import { AssetActionButton } from '../Theme/StyledComponents';
@@ -17,11 +17,9 @@ interface IProps {
   handleOptionSelected: (option: ProposalsTypes, token: TokenTableRowItem) => void;
 }
 
-const getTokenValue = (tokenRow: TokenTableRowItem) => (tokenRow.identifier === 'EGLD'
-  ? TokenPayment.egldFromBigInteger(tokenRow?.balanceDetails?.amount ?? '').toRationalNumber()
-  : TokenPayment.fungibleFromBigInteger(
-    tokenRow?.identifier ?? '', tokenRow?.balanceDetails?.amount ?? '', tokenRow?.balanceDetails?.decimals ?? 18,
-  ).toRationalNumber());
+const getTokenValue = (tokenRow: TokenTableRowItem) => (RationalNumber.fromDynamicTokenAmount(
+  tokenRow?.identifier ?? '', tokenRow?.balanceDetails?.amount ?? '', tokenRow?.balanceDetails?.decimals ?? 18,
+));
 
 export const MobileTokenCard = ({ tokenRow, handleQrModal, handleOptionSelected }: IProps) => (
   <Styled.MobileCardOfTokens key={uniqueId()}>

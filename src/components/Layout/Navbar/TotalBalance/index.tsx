@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { getAccountBalance as getAccount } from '@multiversx/sdk-dapp/utils/account';
-import { TokenPayment } from '@multiversx/sdk-core/out';
+import { TokenTransfer } from '@multiversx/sdk-core/out';
 import { Box, CircularProgress, Typography, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import BoltIcon from '@mui/icons-material/Bolt';
@@ -39,6 +39,7 @@ import {
 import axios from 'axios';
 import { TransactionOnNetwork } from '@multiversx/sdk-network-providers/out';
 import { xSafeApiUrl } from 'src/config';
+import RationalNumber from 'src/utils/RationalNumber';
 import { CenteredText } from '../navbar-style';
 import * as Styled from '../styled';
 import { useSendTokenButtonMinWidth } from './useSendTokenButtonMinWidth';
@@ -235,15 +236,11 @@ function TotalBalance() {
       try {
         const organizationTokens: OrganizationToken[] = newTokensWithPrices.map(({
           identifier, balanceDetails, value }: TokenTableRowItem) => {
-          const amountAsRationalNumber = identifier === 'EGLD'
-            ? TokenPayment.egldFromBigInteger(
-            value?.amount as string,
-            ).toRationalNumber()
-            : TokenPayment.fungibleFromBigInteger(
-              identifier ?? '',
+          const amountAsRationalNumber = RationalNumber.fromDynamicTokenAmount(
+            identifier ?? '',
               value?.amount as string,
               value?.decimals,
-            ).toRationalNumber();
+          );
 
           const denominatedAmountForCalcs = Number(amountAsRationalNumber);
           const priceAsNumber = value?.tokenPrice as number;
@@ -262,7 +259,7 @@ function TotalBalance() {
           });
         });
 
-        const persistedBalance = JSON.stringify(TokenPayment.egldFromBigInteger(egldBalanceDetails));
+        const persistedBalance = JSON.stringify(TokenTransfer.egldFromBigInteger(egldBalanceDetails));
 
         dispatch(setMultisigBalance(persistedBalance));
         dispatch(setTokenTableRows(newTokensWithPrices));
@@ -283,7 +280,7 @@ function TotalBalance() {
         acc + (parseFloat(token?.valueUsd?.toString() ?? '0')), 0);
 
     const totalEgldValue = Number(
-      TokenPayment.egldFromBigInteger(egldBalanceDetails ?? 0).toRationalNumber(),
+      RationalNumber.fromBigInteger(egldBalanceDetails ?? 0),
     ) * egldPrice ?? '0';
     setTotalUsdValue(
       totalAssetsValue + totalEgldValue,

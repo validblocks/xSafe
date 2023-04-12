@@ -1,9 +1,11 @@
-import { TokenPayment } from '@multiversx/sdk-core/out';
+import RationalNumber from './RationalNumber';
 
 export interface IDenominatedBalanceConfig {
   precisionAfterComma?: number;
   needsDenomination?: boolean;
 }
+
+// export const fungibleFromBigInteger = (tokenIdentifier: string, amountAsBigInteger: BigNumber.Value, numDecimals?: number | undefined) => '0';
 
 export const getDenominatedBalance = <T extends string | number>(
   stringBalance: string,
@@ -14,7 +16,7 @@ export const getDenominatedBalance = <T extends string | number>(
 ): T => {
   const balanceAfterDenomination = parseFloat(
     needsDenomination
-      ? TokenPayment.egldFromBigInteger(stringBalance ?? 0).toRationalNumber()
+      ? RationalNumber.fromBigInteger(stringBalance ?? 0)
       : stringBalance,
   );
   const balanceFloor = Math.floor(balanceAfterDenomination);

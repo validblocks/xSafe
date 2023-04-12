@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Address, TokenPayment } from '@multiversx/sdk-core/out';
+import { Address, TokenTransfer } from '@multiversx/sdk-core/out';
 import {
   BigUIntValue,
   BytesValue,
@@ -89,7 +89,7 @@ const ProposeDeployContractFromSource = ({
       return null;
     }
 
-    const amountParam = new BigUIntValue(TokenPayment.egldFromAmount(amountNumeric).valueOf());
+    const amountParam = new BigUIntValue(TokenTransfer.egldFromAmount(amountNumeric).valueOf());
     const argsParams = args.map((arg: string) => BytesValue.fromHex(arg));
 
     return new MultisigDeployContractFromSource(

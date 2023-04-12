@@ -1,6 +1,6 @@
-import { TokenPayment } from '@multiversx/sdk-core/out';
 import { useCallback, useMemo } from 'react';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
+import RationalNumber from 'src/utils/RationalNumber';
 import { MultisigSmartContractCall } from './MultisigSmartContractCall';
 import { DelegationFunctionTitles } from './types';
 
@@ -12,7 +12,7 @@ interface Props {
 function getAmountFromTransactionData(data: string): string {
   const amountParamHex = data.split('@')[1];
   const amountParamDecimal = parseInt(amountParamHex ?? '0', 16).toString();
-  const denominatedAmountParam = TokenPayment.egldFromBigInteger(amountParamDecimal).toRationalNumber();
+  const denominatedAmountParam = RationalNumber.fromBigInteger(amountParamDecimal);
   const prettyBalance = getDenominatedBalance<string>(
     denominatedAmountParam,
     { precisionAfterComma: 3, needsDenomination: false },
@@ -46,7 +46,7 @@ const ProposalAmount = ({
       case DelegationFunctionTitles.StakeTokens: {
         const { amount } = multisigSmartContractCall;
         const amountToString = amount.valueOf().toString();
-        const balance = TokenPayment.egldFromBigInteger(amountToString).toRationalNumber();
+        const balance = RationalNumber.fromBigInteger(amountToString);
         const denominatedBalance = getDenominatedBalance<string>(
           balance,
           { precisionAfterComma: 3, needsDenomination: false },

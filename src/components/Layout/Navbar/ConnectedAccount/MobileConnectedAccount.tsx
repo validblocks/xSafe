@@ -12,7 +12,7 @@ import CopyButton from 'src/components/CopyButton';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { TokenPayment } from '@multiversx/sdk-core/out';
+import { TokenTransfer } from '@multiversx/sdk-core/out';
 import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountGeneralInfoSlice';
 import { useDispatch } from 'react-redux';
 import * as Styled from '../../../Utils/styled';
@@ -35,7 +35,7 @@ export const MobileConnectedAccount: React.FC<Props> = ({ closeSidebar }) => {
     sessionStorage.clear();
     dispatch(setCurrentMultisigContract(''));
     dispatch(setProposeModalSelectedOption(null));
-    dispatch(setMultisigBalance(JSON.stringify(TokenPayment.egldFromAmount('0'))));
+    dispatch(setMultisigBalance(JSON.stringify(TokenTransfer.egldFromAmount('0'))));
     dispatch(setTokenTableRows([]));
     dispatch(setOrganizationTokens([]));
     dispatch(setCurrentMultisigContract(''));

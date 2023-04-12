@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { nominate } from '@multiversx/sdk-dapp/utils/operations';
-import { Address, BigUIntValue, BytesValue, TokenPayment } from '@multiversx/sdk-core/out';
+import { Address, BigUIntValue, BytesValue, TokenTransfer } from '@multiversx/sdk-core/out';
 import { InputLabel, MenuItem, SelectChangeEvent, useMediaQuery } from '@mui/material';
 import { FormikProps, useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -158,7 +158,7 @@ const ProposeUnstakeTokens = ({
       return new MultisigSmartContractCall(
         parsedAddress,
         new BigUIntValue(
-          TokenPayment.egldFromAmount(0).valueOf(),
+          TokenTransfer.egldFromAmount(0).valueOf(),
         ),
         delegationFunctionNames.unDelegate,
         [unDelegateAmount],

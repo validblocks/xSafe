@@ -22,9 +22,9 @@ import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import { setActiveDelegationRows } from 'src/redux/slices/accountGeneralInfoSlice';
 import axios from 'axios';
-import { TokenPayment } from '@multiversx/sdk-core/out';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { xSafeApiUrl } from 'src/config';
+import RationalNumber from 'src/utils/RationalNumber';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
 import { MainButton } from '../Theme/StyledComponents';
@@ -78,7 +78,7 @@ const MyStake = () => {
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
         parseFloat(
-          TokenPayment.egldFromBigInteger(delegation?.userActiveStake ?? 0).toRationalNumber(),
+          RationalNumber.fromBigInteger(delegation?.userActiveStake ?? 0),
         ),
       0,
     );
@@ -87,7 +87,7 @@ const MyStake = () => {
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
         parseFloat(
-          TokenPayment.egldFromBigInteger(delegation?.claimableRewards ?? 0).toRationalNumber(),
+          RationalNumber.fromBigInteger(delegation?.claimableRewards ?? 0),
         ),
       0,
     );
@@ -109,7 +109,7 @@ const MyStake = () => {
     const totalUndelegations = contractUndelegations.reduce(
       (totalSum: number, undelegation: IUndelegatedFunds) => {
         const amount = parseFloat(
-          TokenPayment.egldFromBigInteger(undelegation?.amount ?? 0).toRationalNumber(),
+          RationalNumber.fromBigInteger(undelegation?.amount ?? 0),
         );
         return totalSum + amount;
       },
@@ -180,7 +180,7 @@ const MyStake = () => {
     },
   });
 
-  const allClaimableRewards = Number(TokenPayment.egldFromAmount(totalClaimableRewards).toRationalNumber());
+  const allClaimableRewards = Number(RationalNumber.fromBigInteger(totalClaimableRewards));
 
   if (isErrorOnFetchDelegations) {
     return <ErrorOnFetchIndicator dataName="delegation" />;
