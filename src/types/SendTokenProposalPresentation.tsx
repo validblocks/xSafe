@@ -1,4 +1,4 @@
-import { Address, TokenPayment } from '@multiversx/sdk-core/out';
+import { Address } from '@multiversx/sdk-core/out';
 import { Box, Grid, useMediaQuery } from '@mui/material';
 import SouthIcon from '@mui/icons-material/South';
 import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
@@ -11,6 +11,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { TokenTableRowItem } from 'src/pages/Organization/types';
 import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
+import RationalNumber from 'src/utils/RationalNumber';
 
 interface ISendTokenProposalPresentationProps {
   address: Address;
@@ -29,13 +30,10 @@ const SendTokenProposalPresentation = (
     [identifier, tokenTableRows],
   );
   const proposalAmount = useMemo(() => Number(
-    identifier !== 'EGLD'
-      ? TokenPayment.fungibleFromBigInteger(
-        identifier,
-        amount,
-        selectedTokenDetails?.value?.decimals,
-      ).toRationalNumber()
-      : TokenPayment.egldFromBigInteger(amount).toRationalNumber(),
+    RationalNumber.fromDynamicTokenAmount(
+      identifier,
+      amount,
+      selectedTokenDetails?.value?.decimals),
   ).toLocaleString() ?? '0',
   [amount, identifier, selectedTokenDetails?.value?.decimals]);
 

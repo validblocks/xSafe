@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from 'react';
-import { Address, BigUIntValue, TokenPayment } from '@multiversx/sdk-core/out';
+import { Address, BigUIntValue, TokenTransfer } from '@multiversx/sdk-core/out';
 import { Box, useMediaQuery } from '@mui/material';
 import { FormikProps, FormikProvider, useFormik } from 'formik';
 import { motion } from 'framer-motion';
@@ -16,6 +16,8 @@ import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
+import { nominate } from '@multiversx/sdk-dapp/utils/operations';
+import RationalNumber from 'src/utils/RationalNumber';
 import * as Styled from './styled';
 
 interface ProposeSendTokenType {
@@ -49,11 +51,9 @@ const ProposeSendToken = ({
     () =>
       tokenTableRows?.map((token: TokenTableRowItem) => ({
         identifier: token.identifier,
-        balance: token.identifier === 'EGLD'
-          ? TokenPayment.egldFromBigInteger(token?.balanceDetails?.amount ?? '').toRationalNumber()
-          : TokenPayment.fungibleFromBigInteger(
-            token?.identifier ?? '', token?.balanceDetails?.amount ?? '', token?.balanceDetails?.decimals ?? 18,
-          ).toRationalNumber(),
+        balance: RationalNumber.fromDynamicTokenAmount(
+          token?.identifier ?? '', token?.balanceDetails?.amount ?? '', token?.balanceDetails?.decimals ?? 18,
+        ),
       })),
     [tokenTableRows],
   );
@@ -162,7 +162,7 @@ const ProposeSendToken = ({
       }
 
       const amountParam = new BigUIntValue(
-        TokenPayment.egldFromAmount(amountNumeric).valueOf(),
+        TokenTransfer.egldFromAmount(amountNumeric).valueOf(),
       );
 
       return new MultisigSendEgld(addressParam, amountParam, data ?? '');
@@ -181,7 +181,7 @@ const ProposeSendToken = ({
       }
       const parsedAddress = new Address(address);
       const amountToSend = Number(
-        TokenPayment
+        TokenTransfer
           .fungibleFromAmount(identifier, amountParam, selectedTokenDetails?.value?.decimals ?? 18).toString(),
       );
 

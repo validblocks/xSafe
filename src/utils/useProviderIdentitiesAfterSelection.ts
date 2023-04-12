@@ -1,4 +1,3 @@
-import { TokenPayment } from '@multiversx/sdk-core/out';
 import axios from 'axios';
 import { useCallback } from 'react';
 import { useQuery } from 'react-query';
@@ -12,6 +11,7 @@ import {
 } from 'src/types/staking';
 import { getDenominatedBalance } from './balanceUtils';
 import pipe from './compose';
+import RationalNumber from './RationalNumber';
 
 interface InputParams {
   searchParam?: string;
@@ -44,14 +44,14 @@ export default function useProviderIdentitiesAfterSelection({
       );
 
       const stakedAmount = Number(
-        TokenPayment.egldFromBigInteger(
+        RationalNumber.fromBigInteger(
           providerBeforeIdentityFetch?.locked ?? '0',
-        ).toRationalNumber(),
+        ),
       );
       const providerDelegationCap = Number(
-        TokenPayment.egldFromBigInteger(
+        RationalNumber.fromBigInteger(
           providerBeforeIdentityFetch?.delegationCap ?? '0',
-        ).toRationalNumber(),
+        ),
       );
 
       let filledPercentage = 0;
@@ -124,16 +124,16 @@ export default function useProviderIdentitiesAfterSelection({
           ?.filter((p) => !p.identity)
           .map((provider) => {
             const stakedAmount = Number(
-              TokenPayment.egldFromBigInteger(provider.locked).toRationalNumber(),
+              RationalNumber.fromBigInteger(provider.locked),
             );
 
             const providerBeforeIdentityFetch = fetchedProviders?.find(
               (p) => p.identity === provider.identity,
             );
             const providerDelegationCap = Number(
-              TokenPayment.egldFromBigInteger(
+              RationalNumber.fromBigInteger(
                 providerBeforeIdentityFetch?.delegationCap ?? '0',
-              ).toRationalNumber(),
+              ),
             );
 
             let filledPercentage = 0;

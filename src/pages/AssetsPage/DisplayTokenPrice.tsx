@@ -1,10 +1,10 @@
 import { BalanceDetails } from 'src/pages/Organization/types';
 import { useState, useEffect } from 'react';
 import { AssetValue } from 'src/components/Theme/StyledComponents';
-import { TokenPayment } from '@multiversx/sdk-core/out';
 import useCurrencyConversion from 'src/utils/useCurrencyConversion';
 import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
 import { useSelector } from 'react-redux';
+import RationalNumber from 'src/utils/RationalNumber';
 
 interface Props {
   balanceDetails: BalanceDetails;
@@ -15,9 +15,8 @@ export const calculatePrice = (balanceDetails: BalanceDetails, identifier: strin
   if ('valueUsd' in balanceDetails) return balanceDetails.valueUsd;
 
   const { amount, tokenPrice, decimals } = balanceDetails;
-  const tokenAmount = identifier !== 'EGLD' ?
-    Number(TokenPayment.fungibleFromBigInteger('', amount, decimals).toRationalNumber())
-    : Number(TokenPayment.egldFromBigInteger(amount).toRationalNumber());
+  const tokenAmount =
+    Number(RationalNumber.fromDynamicTokenAmount(identifier, amount, decimals));
 
   const tokenPriceValue = parseFloat(tokenPrice?.toString());
 

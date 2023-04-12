@@ -10,7 +10,7 @@ import routeNames from 'src/routes/routeNames';
 import { setProposeModalSelectedOption, setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ModalTypes, ProposalsTypes } from 'src/types/Proposals';
 import { logout } from '@multiversx/sdk-dapp/utils';
-import { TokenPayment } from '@multiversx/sdk-core/out';
+import { TokenTransfer } from '@multiversx/sdk-core/out';
 import { setMultisigBalance, setTokenTableRows, setOrganizationTokens } from 'src/redux/slices/accountGeneralInfoSlice';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { CenteredBox } from '../StyledComponents/StyledComponents';
@@ -59,7 +59,7 @@ export const SpotlightCommands = () => {
     sessionStorage.clear();
     dispatch(setCurrentMultisigContract(''));
     dispatch(setProposeModalSelectedOption(null));
-    dispatch(setMultisigBalance(JSON.stringify(TokenPayment.egldFromAmount('0'))));
+    dispatch(setMultisigBalance(JSON.stringify(TokenTransfer.egldFromAmount('0'))));
     dispatch(setTokenTableRows([]));
     dispatch(setOrganizationTokens([]));
     dispatch(setCurrentMultisigContract(''));

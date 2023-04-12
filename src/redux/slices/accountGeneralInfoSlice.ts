@@ -1,4 +1,4 @@
-import { TokenPayment } from '@multiversx/sdk-core';
+import { TokenTransfer } from '@multiversx/sdk-core';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   OrganizationToken,
@@ -34,7 +34,7 @@ const initialState: StateType = {
   shard: 0,
   tokenTableRows: [],
   organizationTokens: [],
-  multisigBalance: TokenPayment.egldFromAmount(0),
+  multisigBalance: TokenTransfer.egldFromAmount(0),
   activeDelegationsRows: [],
   isMultiWalletMode: false,
   isInReadOnlyMode: true,

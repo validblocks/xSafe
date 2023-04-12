@@ -12,7 +12,7 @@ import {
   U8Value,
   CodeMetadata,
   DeployArguments,
-  TokenPayment,
+  TokenTransfer,
 } from '@multiversx/sdk-core';
 import { Code } from '@multiversx/sdk-core/out/smartcontracts/code';
 import { requireContractCode } from 'src/utils/requireContractCode';
@@ -26,12 +26,13 @@ export async function deployMultisigContract() {
   ) {
     // NetworkConfig.getDefault().ChainID = getChainID();
     const smartContractCode = await requireContractCode();
+    const address = await getAddress();
     const contract = new SmartContract({});
     const code = Code.fromBuffer(Buffer.from(smartContractCode, 'hex'));
     const codeMetadata = new CodeMetadata(true, true, true, true);
     const quorumTyped = new U8Value(quorum);
     const initArguments: TypedValue[] = [quorumTyped, ...boardMembers];
-    const value = TokenPayment.egldFromAmount(0);
+    const value = TokenTransfer.egldFromAmount(0);
     const deployArguments: DeployArguments = {
       code,
       codeMetadata,
@@ -39,6 +40,7 @@ export async function deployMultisigContract() {
       value,
       chainID: getChainID(),
       gasLimit: deployContractGasLimit,
+      deployer: new Address(address),
     };
     return contract.deploy(deployArguments);
   }

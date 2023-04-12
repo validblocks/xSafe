@@ -1,7 +1,8 @@
-import { TokenPayment, BigUIntValue, Address } from '@multiversx/sdk-core/out';
+import { BigUIntValue, Address } from '@multiversx/sdk-core/out';
 /* eslint-disable indent */
 import { BytesValue } from '@multiversx/sdk-core/out/smartcontracts/typesystem';
 import i18next from 'i18next';
+import RationalNumber from 'src/utils/RationalNumber';
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
 
@@ -52,9 +53,9 @@ export class MultisigDeployContractFromSource extends MultisigAction {
   }
 
   description() {
-    const denominatedAmount = TokenPayment.egldFromBigInteger(
+    const denominatedAmount = RationalNumber.fromBigInteger(
       this.amount.valueOf().toString(),
-    ).toRationalNumber();
+    );
     return `${i18next.t('Amount')}: ${denominatedAmount}`;
   }
 

@@ -20,6 +20,7 @@ import { useTheme } from 'styled-components';
 import { Box, TextField, useMediaQuery } from '@mui/material';
 import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
+import RationalNumber from 'src/utils/RationalNumber';
 import * as Styled from './styled';
 
 interface ProposeSmartContractCallType {
@@ -86,7 +87,7 @@ const ProposeSmartContractCall = ({
     if (validatedAmount < 0) {
       formik.setFieldValue('amount', 0);
     }
-    if (validatedAmount > Number(multisigBalance.toRationalNumber())) {
+    if (validatedAmount > Number(multisigBalance)) {
       return (
         testContext?.createError({
           message:
@@ -129,7 +130,7 @@ const ProposeSmartContractCall = ({
 
   const denominatedValue = useMemo(
     () =>
-      TokenPayment.egldFromBigInteger(multisigBalance.toString()).toRationalNumber(),
+      RationalNumber.fromBigInteger(multisigBalance.toString()),
     [multisigBalance],
   );
 

@@ -7,7 +7,7 @@ import {
   BinaryCodec,
   CodeMetadata,
   Query,
-  TokenPayment,
+  TokenTransfer,
   ResultsParser,
 } from '@multiversx/sdk-core';
 import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
@@ -338,7 +338,7 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
 
 export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
   const esdtAddress = new Address(issueTokenContractAddress);
-  const esdtAmount = new BigUIntValue(TokenPayment.egldFromAmount(0.05).valueOf());
+  const esdtAmount = new BigUIntValue(TokenTransfer.egldFromAmount(0.05).valueOf());
 
   const args = [];
   args.push(BytesValue.fromUTF8(proposal.name));

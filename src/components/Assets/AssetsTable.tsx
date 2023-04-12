@@ -18,11 +18,10 @@ import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
-import { TokenPayment } from '@multiversx/sdk-core/out';
 import NoActionsOverlay from 'src/pages/Transactions/utils/NoActionsOverlay';
+import RationalNumber from 'src/utils/RationalNumber';
 import * as Styled from '../../pages/Organization/styled';
 import MobileCardsForTableReplacement from './MobileCardsForTableReplacement';
-// import { MultiversXLogo } from '../Utils/MultiversXLogo';
 import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
 
 export const SQUARE_IMAGE_WIDTH = 30;
@@ -109,11 +108,11 @@ const AssetsTable = () => {
           renderCell: (params: GridRenderCellParams) => (
             <h6 className="text-center mb-0 font-weight-normal">
               {
-                Number(TokenPayment.fungibleFromBigInteger(
+                Number(RationalNumber.fromDynamicTokenAmount(
                   params.value?.identifier,
                   params.value?.amount,
                   params.value?.identifier === 'EGLD' ? 18 : params.value?.decimals,
-                ).toRationalNumber()).toLocaleString()
+                )).toLocaleString()
             } {' $'}{params.value?.identifier}
             </h6>
           ),

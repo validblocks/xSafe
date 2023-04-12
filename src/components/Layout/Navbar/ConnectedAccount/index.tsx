@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountGeneralInfoSlice';
-import { TokenPayment } from '@multiversx/sdk-core/out';
+import { TokenTransfer } from '@multiversx/sdk-core/out';
 import * as Styled from '../../../Utils/styled';
 import {
   ConnectItems,
@@ -30,7 +30,7 @@ const ConnectedAccount = () => {
     console.log('Logged out. Deleting Redux info.');
     dispatch(setCurrentMultisigContract(''));
     dispatch(setProposeModalSelectedOption(null));
-    dispatch(setMultisigBalance(JSON.stringify(TokenPayment.egldFromAmount('0'))));
+    dispatch(setMultisigBalance(JSON.stringify(TokenTransfer.egldFromAmount('0'))));
     dispatch(setTokenTableRows([]));
     dispatch(setOrganizationTokens([]));
     dispatch(setCurrentMultisigContract(''));

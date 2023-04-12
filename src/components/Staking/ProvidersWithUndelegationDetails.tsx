@@ -11,7 +11,7 @@ import { IDelegation, IdentityWithColumns, IUndelegatedFunds } from 'src/types/s
 import { useQueryClient } from 'react-query';
 import useReactQueryState from 'src/react-query/useReactQueryState';
 import { QueryKeys } from 'src/react-query/queryKeys';
-import { Address, BigUIntValue, TokenPayment } from '@multiversx/sdk-core/out';
+import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { useTranslation } from 'react-i18next';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
+import RationalNumber from 'src/utils/RationalNumber';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ProviderColumn from './ProviderColumn';
@@ -89,7 +90,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
         const totalRequestedUndelegations = delegation?.userUndelegatedList
           .reduce((totalSum: number, undelegation: IUndelegatedFunds) => {
-            const amount = parseFloat(TokenPayment.egldFromBigInteger(undelegation.amount).toRationalNumber());
+            const amount = parseFloat(RationalNumber.fromBigInteger(undelegation.amount));
             return totalSum + amount;
           }, 0);
 
@@ -98,7 +99,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
         const withdrawableUndelegationsAmount =
           withdrawableUndelegations?.reduce((totalSum: number, undelegation: IUndelegatedFunds) => {
-            const amount = parseFloat(TokenPayment.egldFromBigInteger(undelegation.amount).toRationalNumber());
+            const amount = parseFloat(RationalNumber.fromBigInteger(undelegation.amount));
             return totalSum + amount;
           }, 0);
 

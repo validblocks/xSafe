@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { Address, BigUIntValue, TokenPayment } from '@multiversx/sdk-core/out';
+import { Address, BigUIntValue, TokenTransfer } from '@multiversx/sdk-core/out';
 import { FormikProps, useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -123,7 +123,7 @@ const ProposeSendEgld = ({
       }
 
       const amountParam = new BigUIntValue(
-        TokenPayment.egldFromAmount(amountNumeric).valueOf(),
+        TokenTransfer.egldFromAmount(amountNumeric).valueOf(),
       );
 
       return new MultisigSendEgld(addressParam, amountParam, data);
