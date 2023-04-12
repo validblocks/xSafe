@@ -8,7 +8,8 @@ import {
   TransactionOptions,
   TransactionVersion,
   Address,
-  TokenPayment,
+  TokenTransfer,
+  Interaction,
 } from '@multiversx/sdk-core';
 import { gasLimit } from 'src/config';
 import { LoginMethodsEnum } from '@multiversx/sdk-dapp/types';
@@ -19,7 +20,7 @@ interface TransactionPayloadType {
   chainID: any;
   receiver: Address;
   sender?: Address;
-  value: TokenPayment;
+  value: TokenTransfer;
   gasLimit: any;
   data: TransactionPayload;
   options?: TransactionOptions;
@@ -35,24 +36,34 @@ export async function buildTransaction(
   ...args: TypedValue[]
 ) {
   const walletAddress = await getAddress();
-  const func = new ContractFunction(functionName);
-  const payload = TransactionPayload.contractCall()
-    .setFunction(func)
-    .setArgs(args)
-    .build();
-  const transactionPayload: TransactionPayloadType = {
-    chainID: getChainID(),
-    receiver: new Address(contract.getAddress().bech32()),
-    sender: new Address(walletAddress),
-    value: TokenPayment.egldFromAmount(value ?? 0),
-    gasLimit: transactionGasLimit,
-    data: payload,
-  };
-  if (providerType === LoginMethodsEnum.ledger) {
-    transactionPayload.options = TransactionOptions.withTxHashSignOptions();
-    transactionPayload.version = TransactionVersion.withTxHashSignVersion();
-  }
-  return new Transaction(transactionPayload as any);
+  // const func = new ContractFunction(functionName);
+  // const payload = TransactionPayload.contractCall()
+  //   .setFunction(func)
+  //   .setArgs(args)
+  //   .build();
+
+  const interaction = new Interaction(
+    contract,
+    new ContractFunction(functionName),
+    args,
+  )
+    .withChainID(getChainID())
+    .withGasLimit(transactionGasLimit)
+    .withSender(new Address(walletAddress))
+    .withExplicitReceiver(new Address(contract.getAddress().bech32()))
+    .withValue(TokenTransfer.egldFromAmount(value ?? 0));
+
+  const t = interaction.buildTransaction();
+  return t;
+  // const transactionPayload: TransactionPayloadType = {
+  //   data: payload,
+  // };
+
+  // if (providerType === LoginMethodsEnum.ledger) {
+  //   transactionPayload.options = new TransactionOptions(value);
+  //   transactionPayload.version = new TransactionVersion(value);
+  // }
+  // return new Transaction(transactionPayload as any);
 }
 
 export async function buildBlockchainTransaction(
@@ -69,14 +80,14 @@ export async function buildBlockchainTransaction(
     chainID: getChainID(),
     receiver,
     sender: new Address(address),
-    value: TokenPayment.egldFromAmount(value),
+    value: TokenTransfer.egldFromAmount(value),
     gasLimit: transactionGasLimit,
     data: new TransactionPayload(data),
   };
 
   if (providerType === LoginMethodsEnum.ledger) {
-    transactionPayload.options = TransactionOptions.withTxHashSignOptions();
-    transactionPayload.version = TransactionVersion.withTxHashSignVersion();
+    transactionPayload.options = new TransactionOptions(value);
+    transactionPayload.version = new TransactionVersion(value);
   }
   return new Transaction(transactionPayload as any);
 }
