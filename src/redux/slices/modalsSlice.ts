@@ -2,6 +2,7 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { MultisigActionType } from 'src/types/MultisigActionType';
 import { ModalOptionType, SelectedOptionType } from 'src/types/Proposals';
+import { NFTType } from 'src/types/nfts';
 import { logoutAction } from '../commonActions';
 
 interface TxSubmittedModal {
@@ -110,7 +111,7 @@ export const modalsSlice = createSlice({
     },
     setSelectedNftToSend: (
       state: ModalsSliceState,
-      action: PayloadAction<any>,
+      action: PayloadAction<NFTType>,
     ) => {
       state.performActionModal.selectedNft = action.payload;
     },

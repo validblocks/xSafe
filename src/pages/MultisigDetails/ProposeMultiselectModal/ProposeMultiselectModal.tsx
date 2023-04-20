@@ -172,6 +172,14 @@ const ProposeMultiselectModal = ({
           />
         );
       }
+      case ProposalsTypes.send_sft: {
+        return (
+          <ProposeSendNft
+            setSubmitDisabled={setSubmitDisabled}
+            handleChange={handleProposalChange}
+          />
+        );
+      }
       case ProposalsTypes.deploy_contract_from_source:
         return (
           <ProposeDeployContractFromSource
