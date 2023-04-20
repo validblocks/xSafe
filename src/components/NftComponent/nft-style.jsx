@@ -10,12 +10,12 @@ export const EmptyList = styled.p`
 
 export const CollectionName = styled.div`
   width: 100%;
+  padding-bottom: 24px;
   color: ${(props) => props.theme.palette.text.primary}
 `;
 
 export const TextDivider = styled.div`
   margin-top: 0;
-  margin-bottom: 2rem;
   position: relative;
   & .collectionLight{
     font-weight: 500;
@@ -45,8 +45,8 @@ export const TextDivider = styled.div`
 export const CardBox = styled(Card)`
 &&& {
   height: ${(props) => props.height};
-  width: 250px;
-  margin: 0 20px 20px 20px;
+  max-width: 250px;
+  /* margin: 0 20px 20px 20px; */
   border-radius: .7rem;
   box-shadow: none;
   transition: all .2s linear;
@@ -64,30 +64,34 @@ export const CardBox = styled(Card)`
     transition: font-size .2s linear, top .2s linear;
   };
   & button {
-    position: absolute;
-    width: 225.63px;
-    bottom: -50px;
-    left: 11.2px;
-    transition: bottom .2s linear;
+    @media (min-width: 600px){
+      /* position: absolute; */
+      /* width: 225.63px; */
+      transform: translateY(85px);
+      /* bottom: -50px; */
+      transition: all .2s linear;
 
-    &:disabled {
-      background-color: ${(props) => props.theme.palette.background.disabled};
-      border-color: ${(props) => props.theme.palette.background.disabled};
-      color: ${(props) => props.theme.palette.text.disabled};
+      &:disabled {
+        background-color: ${(props) => props.theme.palette.background.disabled};
+        border-color: ${(props) => props.theme.palette.background.disabled};
+        color: ${(props) => props.theme.palette.text.disabled};
+      },
     },
   };
   &:hover{
-    & span {
-      top: 13px;
-      font-size: 15px;
-    };
-    & button {
-      bottom: 15px;
-    };
+    @media (min-width: 600px){
+      & span {
+        top: 13px;
+        font-size: 15px;
+      };
+      & button {
+        transform: translateY(35px);
+      };
+    }
   };
   @media (max-width: 600px){
     width: 100%;
-    margin: 0 0 20px 0;
+    margin: 0;
     text-align: left;
     & button {
       display: flex;
