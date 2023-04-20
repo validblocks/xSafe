@@ -9,6 +9,7 @@ export const titles = {
   [ProposalsTypes.issue_token]: 'Issue token',
   [ProposalsTypes.send_token]: 'Send Token',
   [ProposalsTypes.send_nft]: 'Send NFT',
+  [ProposalsTypes.send_sft]: 'Send SFT',
   [ProposalsTypes.multiselect_proposal_options]: 'select proposal type',
   [ProposalsTypes.smart_contract_call]: 'Smart contract call',
   [ProposalsTypes.deploy_contract]: 'Deploy smart contract',
