@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
@@ -12,12 +12,21 @@ import { NFTType } from 'src/types/nfts';
 interface IUseContractNftsConfig {
   withSearchFilter?: boolean;
   searchParam: string;
+  leaveSftsLast?: boolean;
+  groupByCollection?: boolean;
 }
 
 export const useContractNFTs = (
-  { withSearchFilter, searchParam }: IUseContractNftsConfig = {
+  {
+    withSearchFilter,
+    searchParam,
+    leaveSftsLast,
+    groupByCollection,
+  }: IUseContractNftsConfig = {
     withSearchFilter: false,
     searchParam: '',
+    leaveSftsLast: false,
+    groupByCollection: false,
   },
 ) => {
   const currentContract = useSelector<StateType, MultisigContractInfoType>(
@@ -39,30 +48,53 @@ export const useContractNFTs = (
     USE_QUERY_DEFAULT_CONFIG,
   );
 
-  let contractNfts = nftList?.sort((first: NFTType, second: NFTType) =>
-    first.collection.localeCompare(second.collection),
-  );
+  const contractNfts = useMemo(() => {
+    let contractNftsResult = nftList?.sort((first: NFTType, second: NFTType) =>
+      first.collection.localeCompare(second.collection),
+    );
 
-  if (withSearchFilter) {
-    contractNfts = contractNfts?.filter((nft) => {
-      const lowerCaseSearchParam = searchParam.toLowerCase();
-      return (
-        nft.collection.toLowerCase().includes(lowerCaseSearchParam) ||
-        nft.name.toLowerCase().includes(lowerCaseSearchParam) ||
-        nft.tags?.map((t) => t.toLowerCase()).includes(lowerCaseSearchParam) ||
-        nft.ticker?.toLowerCase().includes(lowerCaseSearchParam) ||
-        nft.metadata?.attributes
-          ?.map((i) => i.trait_type.toLowerCase())
-          .includes(lowerCaseSearchParam) ||
-        nft.metadata?.tags?.toLowerCase().includes(lowerCaseSearchParam)
-      );
-    });
-  }
+    if (withSearchFilter) {
+      contractNftsResult = contractNftsResult?.filter((nft) => {
+        const lowerCaseSearchParam = searchParam.toLowerCase();
+        return (
+          nft.collection.toLowerCase().includes(lowerCaseSearchParam) ||
+          nft.name.toLowerCase().includes(lowerCaseSearchParam) ||
+          nft.tags
+            ?.map((t) => t.toLowerCase())
+            .includes(lowerCaseSearchParam) ||
+          nft.ticker?.toLowerCase().includes(lowerCaseSearchParam) ||
+          nft.metadata?.attributes
+            ?.map((i) => i.trait_type.toLowerCase())
+            .includes(lowerCaseSearchParam) ||
+          nft.metadata?.tags?.toLowerCase().includes(lowerCaseSearchParam)
+        );
+      });
+    }
+
+    if (leaveSftsLast) {
+      contractNftsResult = contractNftsResult?.sort((nft) => ('balance' in nft ? 1 : -1));
+    }
+
+    return contractNftsResult;
+  }, [leaveSftsLast, nftList, searchParam, withSearchFilter]);
+
+  const nftsGroupedByCollection = useMemo(() => {
+    if (groupByCollection && contractNfts) {
+      return contractNfts.reduce((nftCollectionMap, nft) => {
+        if (!nftCollectionMap[nft.collection]) { nftCollectionMap[nft.collection] = []; }
+        nftCollectionMap[nft.collection].push(nft);
+        return nftCollectionMap;
+      }, {} as Record<string, NFTType[]>) ?? ({} as Record<string, NFTType[]>);
+    }
+
+    return {} as Record<string, NFTType[]>;
+  }, [contractNfts, groupByCollection]);
 
   return {
-    isFetchingNFTs,
     isLoadingNFTs,
+    isFetchingNFTs,
     isErrorOnFetchNFTs,
     contractNfts,
+    nftsGroupedByCollection,
   };
 };
