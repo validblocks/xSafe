@@ -70,7 +70,7 @@ export class MultiversxApiNetworkProvider extends ApiNetworkProvider {
     if (!address) return [];
 
     try {
-      return this.doGetGeneric(`accounts/${address}/nfts`);
+      return this.doGetGeneric(`accounts/${address}/nfts?excludeMetaESDT=true`);
     } catch (err) {
       console.error('Error fetching NFTs');
       return [];
