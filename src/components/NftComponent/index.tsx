@@ -5,6 +5,7 @@ import {
   AccordionSummary,
   Box,
   Grid,
+  Typography,
   useMediaQuery,
 } from '@mui/material';
 import { motion } from 'framer-motion';
@@ -65,7 +66,7 @@ function NftComponent() {
           exit={{ opacity: 0 }}
         >
           {Object.entries(nftsGroupedByCollection).map(([collection, collectionNfts]) => (
-            <Box key={collection}>
+            <Box key={collection} mb={2}>
               <Accordion
                 sx={{
                   background: '#1E1D2A',
@@ -81,11 +82,32 @@ function NftComponent() {
                   id="panel1a-header"
                 >
                   <Grid container spacing={2} sx={{ alignItems: 'center' }}>
-                    <Grid item xs={6} md={3}>
+                    <Grid item xs={5} md={3}>
                       <NftCollectionTitle value={collection} />
                     </Grid>
-                    <Grid item xs={6} md={2}>
-                      Owns: {collectionNfts.length} {collectionNfts.length === 1 ? 'NFT' : 'NFTs'}
+                    <Grid
+                      item
+                      display="flex"
+                      alignItems="center"
+                      xs={collectionNfts.length > (window.innerWidth > 540 ? 2 : 1) ? 5 : 4}
+                      md={2}
+                    >
+                      <Typography
+                        // component="span"
+                        mr={1}
+                        fontWeight={400}
+                        fontSize={14}
+                        sx={{
+                          color: theme.palette.text.menuItems,
+                        }}
+                      >
+                        Owns:
+                      </Typography>
+                      <Typography sx={{ whiteSpace: 'nowrap' }} fontWeight={900} fontSize={13}>
+                        {collectionNfts.length} {collectionNfts.length === 1
+                          ? collectionNfts.some((nft) => 'balance' in nft) ? 'SFT' : 'NFT'
+                          : collectionNfts.some((nft) => 'balance' in nft) ? 'SFTs' : 'NFTs'}
+                      </Typography>
                     </Grid>
                     <Grid item display="flex">
                       {collectionNfts.slice(0, 5).map((nft) => (
@@ -102,16 +124,7 @@ function NftComponent() {
                   </Grid>
                 </AccordionSummary>
                 <AccordionDetails sx={{ background: theme.palette.background.default, p: 0, pr: 2, pb: 2 }}>
-                  <Grid
-                    container
-                    spacing={2}
-                    sx={{
-                      margin: 0,
-                      width: '100% !important',
-                    }}
-                  >
-                    <NftGrid nfts={collectionNfts} />
-                  </Grid>
+                  <NftGrid nfts={collectionNfts} />
                 </AccordionDetails>
               </Accordion>
             </Box>

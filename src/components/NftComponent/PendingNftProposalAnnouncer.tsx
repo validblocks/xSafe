@@ -7,18 +7,18 @@ const PendingNftProposalAnnouncer = () => (
       position: 'absolute',
       color: '#fff',
       left: '-10px',
-      top: '-13px',
+      top: '-10px',
       zIndex: '1',
       display: 'flex',
-      padding: '5px 10px',
+      padding: '3px 8px',
       alignItems: 'center',
       justifyContent: 'center',
       background: '#4c2FFC',
-      borderRadius: '6px',
+      borderRadius: '4px',
       cursor: 'pointer',
     }}
   >
-    <Text fontSize="12px" fontWeight="700">Proposal pending</Text>
+    <Text fontSize="10px" fontWeight="700">Proposal pending</Text>
   </Box>
 );
 

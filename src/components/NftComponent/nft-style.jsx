@@ -47,7 +47,7 @@ export const CardBox = styled(Card)`
   height: ${(props) => props.height};
   /* max-width: 250px; */
   /* margin: 0 20px 20px 20px; */
-  border-radius: .7rem;
+  border-radius: 4px;
   box-shadow: none;
   transition: all .2s linear;
   transform: scale(1);
