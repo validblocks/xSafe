@@ -5,7 +5,6 @@ import {
   AccordionSummary,
   Box,
   Grid,
-  Typography,
   useMediaQuery,
 } from '@mui/material';
 import { motion } from 'framer-motion';
@@ -14,12 +13,12 @@ import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
 import { useContractNFTs } from 'src/utils/useContractNFTs';
 import NoActionsOverlay from 'src/pages/Transactions/utils/NoActionsOverlay';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-// import { CollectionName, TextDivider } from './nft-style';
 import { useTheme } from 'styled-components';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import { NftCollectionTitle } from './NftCollectionTitle';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import NftGrid from './NftGrid';
+import { Text } from '../StyledComponents/StyledComponents';
 
 function NftComponent() {
   const navbarSearchParam = useSelector(navbarSearchSelector);
@@ -69,7 +68,7 @@ function NftComponent() {
             <Box key={collection} mb={2}>
               <Accordion
                 sx={{
-                  background: '#1E1D2A',
+                  background: theme.palette.background.secondary,
                   border: '1px solid #D6CFFF1A',
                   color: '#fff',
                   borderRadius: '4px',
@@ -77,7 +76,15 @@ function NftComponent() {
                 }}
               >
                 <AccordionSummary
-                  expandIcon={<ExpandMoreIcon sx={{ color: '#ddd' }} />}
+                  expandIcon={(
+                    <ExpandMoreIcon
+                      sx={{
+                        color: theme.palette.text.menuItems,
+                        border: `1px solid ${theme.palette.background.disabled}`,
+                        borderRadius: '4px',
+                      }}
+                    />
+)}
                   aria-controls="panel1a-content"
                   id="panel1a-header"
                 >
@@ -92,8 +99,7 @@ function NftComponent() {
                       xs={collectionNfts.length > (window.innerWidth > 540 ? 2 : 1) ? 5 : 4}
                       md={2}
                     >
-                      <Typography
-                        // component="span"
+                      <Text
                         mr={1}
                         fontWeight={400}
                         fontSize={14}
@@ -102,12 +108,12 @@ function NftComponent() {
                         }}
                       >
                         Owns:
-                      </Typography>
-                      <Typography sx={{ whiteSpace: 'nowrap' }} fontWeight={900} fontSize={13}>
+                      </Text>
+                      <Text sx={{ whiteSpace: 'nowrap' }} fontWeight={900} fontSize={13}>
                         {collectionNfts.length} {collectionNfts.length === 1
                           ? collectionNfts.some((nft) => 'balance' in nft) ? 'SFT' : 'NFT'
                           : collectionNfts.some((nft) => 'balance' in nft) ? 'SFTs' : 'NFTs'}
-                      </Typography>
+                      </Text>
                     </Grid>
                     <Grid item display="flex">
                       {collectionNfts.slice(0, 5).map((nft) => (

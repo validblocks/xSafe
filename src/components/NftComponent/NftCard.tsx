@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import CardMedia from '@mui/material/CardMedia';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { useDispatch } from 'react-redux';
@@ -16,6 +16,7 @@ import { useIsAlreadyProposedMap } from 'src/utils/useIsAlreadyProposedMap';
 import { CardBox } from './nft-style';
 import * as Styled from './styled';
 import PendingNftProposalAnnouncer from './PendingNftProposalAnnouncer';
+import { Text } from '../StyledComponents/StyledComponents';
 
 type Props = {
   nft: NFTType;
@@ -77,6 +78,24 @@ function NftCard({ nft }: Props) {
             borderTopRightRadius: '4px',
           }}
         />
+        {'balance' in nft && (
+        <Box
+          sx={{
+            position: 'absolute',
+            left: 5,
+            bottom: 5,
+            background: theme.palette.background.secondary,
+            borderRadius: '4px',
+            padding: '8px',
+            minWidth: '34px',
+            display: 'flex',
+            textAlign: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Text textAlign="center" width="100%" fontWeight={700} fontSize={12}>{nft.balance as string}</Text>
+        </Box>
+        )}
       </Styled.CardMediaContainer>
       <Styled.NftCardContent>
         <Typography
