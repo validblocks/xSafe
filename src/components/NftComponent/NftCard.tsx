@@ -55,7 +55,13 @@ function NftCard({ nft }: Props) {
   }, [nft.name, typographyRef]);
 
   return (
-    <CardBox sx={{ position: 'relative' }}>
+    <CardBox sx={{
+      position: 'relative',
+      border: `1px solid ${theme.palette.background.disabled}`,
+      borderRadius: '4px',
+      cursor: 'pointer',
+    }}
+    >
       {isAlreadyProposed[nft.identifier] && (
       <PendingNftProposalAnnouncer />
       )}
@@ -66,6 +72,10 @@ function NftCard({ nft }: Props) {
           image={`${nft.media?.[0].thumbnailUrl}?w=150&h=150&fit=crop&auto=format`}
           alt="nft"
           loading="lazy"
+          sx={{
+            borderTopLeftRadius: '4px',
+            borderTopRightRadius: '4px',
+          }}
         />
       </Styled.CardMediaContainer>
       <Styled.NftCardContent>

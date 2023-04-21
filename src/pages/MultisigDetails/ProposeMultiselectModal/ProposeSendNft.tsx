@@ -119,6 +119,8 @@ const ProposeSendNft = ({
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
+  console.log({ searchedNft });
+
   return (
     <Box>
       <Box sx={{ p: maxWidth600 ? '16px' : '16px 48px 0.9rem' }}>
@@ -133,7 +135,7 @@ const ProposeSendNft = ({
               justifyContent: 'center',
             }}
           >
-            <img src={searchedNft.url} alt="Nft Preview" className="rounded mr-2 w-100" />
+            <img src={searchedNft.media?.[0].thumbnailUrl} alt="Nft Preview" className="rounded mr-2 w-100" />
           </Grid>
 
         </Grid>

@@ -10,7 +10,14 @@ type Props = {
 
 function NftGrid({ nfts }: Props) {
   return (
-    <>
+    <Grid
+      container
+      spacing={2}
+      sx={{
+        margin: 0,
+        width: '100% !important',
+      }}
+    >
       {nfts.map((nft: NFTType) => (
         <Grid
           xs={6}
@@ -23,7 +30,7 @@ function NftGrid({ nfts }: Props) {
           <NftCard nft={nft} />
         </Grid>
       ))}
-    </>
+    </Grid>
   );
 }
 
