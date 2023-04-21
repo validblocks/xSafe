@@ -45,7 +45,7 @@ export const TextDivider = styled.div`
 export const CardBox = styled(Card)`
 &&& {
   height: ${(props) => props.height};
-  max-width: 250px;
+  /* max-width: 250px; */
   /* margin: 0 20px 20px 20px; */
   border-radius: .7rem;
   box-shadow: none;

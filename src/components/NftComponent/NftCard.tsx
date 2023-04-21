@@ -49,7 +49,7 @@ function NftCard({ nft }: Props) {
   useEffect(() => {
     if (typographyRef.current) {
       setAdjustedText(adjustTextByWidth({
-        text: nft.name, containerWidth: typographyRef.current?.offsetWidth ?? 0, containerPadding2X: 30,
+        text: nft.name, containerWidth: typographyRef.current?.offsetWidth ?? 0, containerPadding2X: 25,
       }));
     }
   }, [nft.name, typographyRef]);
@@ -63,8 +63,9 @@ function NftCard({ nft }: Props) {
         <CardMedia
           component="img"
           height="auto"
-          image={`${nft.media?.[0].url}?w=150&h=150&fit=crop&auto=format`}
+          image={`${nft.media?.[0].thumbnailUrl}?w=150&h=150&fit=crop&auto=format`}
           alt="nft"
+          loading="lazy"
         />
       </Styled.CardMediaContainer>
       <Styled.NftCardContent>
