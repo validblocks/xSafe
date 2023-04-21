@@ -104,7 +104,7 @@ export const Text = styled(Typography)`
 
 export const TextxSafeDescription = styled(Text)(({ theme: _ }) => ({
   '&&&': {
-    color: _.palette.text.xSafeDescription,
+    color: _.palette.text.homeCards,
     maxWidth: '398px',
     fontSize: '19px',
     '@media (max-width:600px)': {
