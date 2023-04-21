@@ -73,10 +73,6 @@ function NftComponent() {
                   color: '#fff',
                   borderRadius: '4px',
                   mb: 2,
-                  '& .MuiPaper-root': {
-                    mb: '16px !important',
-                  },
-
                 }}
               >
                 <AccordionSummary
@@ -95,7 +91,7 @@ function NftComponent() {
                       {collectionNfts.slice(0, 5).map((nft) => (
                         <Box ml={1}>
                           <img
-                            src={`${nft.media?.[0].url}?w=30&h=30&fit=crop&auto=format`}
+                            src={`${nft.media?.[0].thumbnailUrl}?w=30&h=30&fit=crop&auto=format`}
                             alt="nft"
                             width={40}
                             height={40}
@@ -105,11 +101,13 @@ function NftComponent() {
                     </Grid>
                   </Grid>
                 </AccordionSummary>
-                <AccordionDetails sx={{ background: theme.palette.background.default, p: 2, pb: 0 }}>
+                <AccordionDetails sx={{ background: theme.palette.background.default, p: 0, pr: 2, pb: 2 }}>
                   <Grid
                     container
+                    spacing={2}
                     sx={{
                       margin: 0,
+                      width: '100% !important',
                     }}
                   >
                     <NftGrid nfts={collectionNfts} />
