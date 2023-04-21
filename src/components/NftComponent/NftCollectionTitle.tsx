@@ -1,7 +1,7 @@
-import { Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { useEffect, useRef, useState } from 'react';
 import { adjustTextByWidth } from 'src/utils/stringUtils';
+import { Text } from '../StyledComponents/StyledComponents';
 
 interface IProps {
     value: string;
@@ -20,12 +20,12 @@ export const NftCollectionTitle = ({ value }: IProps) => {
   }, [value, typographyRef]);
   return (
     <Box sx={{ mt: 0.2, mb: 0.2, pl: 1 }}>
-      <Typography
+      <Text
         ref={typographyRef}
         sx={{ whiteSpace: 'nowrap' }}
         className="font-weight-bold"
       >{adjustedText}
-      </Typography>
+      </Text>
     </Box>
   );
 };
