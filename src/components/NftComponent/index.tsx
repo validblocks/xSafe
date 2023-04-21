@@ -1,11 +1,20 @@
 /* eslint-disable no-nested-ternary */
-import { Box, Grid, useMediaQuery } from '@mui/material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Grid,
+  useMediaQuery,
+} from '@mui/material';
 import { motion } from 'framer-motion';
 import { useSelector } from 'react-redux';
 import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
 import { useContractNFTs } from 'src/utils/useContractNFTs';
 import NoActionsOverlay from 'src/pages/Transactions/utils/NoActionsOverlay';
-import { CollectionName, TextDivider } from './nft-style';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+// import { CollectionName, TextDivider } from './nft-style';
+import { useTheme } from 'styled-components';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import { NftCollectionTitle } from './NftCollectionTitle';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
@@ -14,6 +23,7 @@ import NftGrid from './NftGrid';
 function NftComponent() {
   const navbarSearchParam = useSelector(navbarSearchSelector);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
+  const theme: any = useTheme();
 
   const {
     isFetchingNFTs,
@@ -56,19 +66,56 @@ function NftComponent() {
         >
           {Object.entries(nftsGroupedByCollection).map(([collection, collectionNfts]) => (
             <Box key={collection}>
-              <CollectionName>
-                <TextDivider>
-                  <NftCollectionTitle value={collection} />
-                </TextDivider>
-              </CollectionName>
-              <Grid
-                container
+              <Accordion
                 sx={{
-                  margin: 0,
+                  background: '#1E1D2A',
+                  border: '1px solid #D6CFFF1A',
+                  color: '#fff',
+                  borderRadius: '4px',
+                  mb: 2,
+                  '& .MuiPaper-root': {
+                    mb: '16px !important',
+                  },
+
                 }}
               >
-                <NftGrid nfts={collectionNfts} />
-              </Grid>
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon sx={{ color: '#ddd' }} />}
+                  aria-controls="panel1a-content"
+                  id="panel1a-header"
+                >
+                  <Grid container spacing={2} sx={{ alignItems: 'center' }}>
+                    <Grid item xs={6} md={3}>
+                      <NftCollectionTitle value={collection} />
+                    </Grid>
+                    <Grid item xs={6} md={2}>
+                      Owns: {collectionNfts.length} {collectionNfts.length === 1 ? 'NFT' : 'NFTs'}
+                    </Grid>
+                    <Grid item display="flex">
+                      {collectionNfts.slice(0, 5).map((nft) => (
+                        <Box ml={1}>
+                          <img
+                            src={`${nft.media?.[0].url}?w=30&h=30&fit=crop&auto=format`}
+                            alt="nft"
+                            width={40}
+                            height={40}
+                          />
+                        </Box>
+                      ))}
+                    </Grid>
+                  </Grid>
+                </AccordionSummary>
+                <AccordionDetails sx={{ background: theme.palette.background.default, p: 2, pb: 0 }}>
+                  <Grid
+                    container
+                    sx={{
+                      margin: 0,
+                    }}
+                  >
+                    <NftGrid nfts={collectionNfts} />
+                  </Grid>
+                </AccordionDetails>
+              </Accordion>
             </Box>
           ))}
 

@@ -79,7 +79,6 @@ function NftCard({ nft }: Props) {
             fontFamily: 'IBM Plex Sans',
             whiteSpace: 'nowrap',
             display: 'block',
-            textAlign: 'left',
           }}
         >
           {adjustedText}
