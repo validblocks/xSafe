@@ -69,7 +69,6 @@ function NftComponent() {
               <Accordion
                 sx={{
                   background: theme.palette.background.secondary,
-                  border: '1px solid #D6CFFF1A',
                   color: '#fff',
                   borderRadius: '4px',
                   mb: 2,
@@ -80,8 +79,6 @@ function NftComponent() {
                     <ExpandMoreIcon
                       sx={{
                         color: theme.palette.text.menuItems,
-                        border: `1px solid ${theme.palette.background.disabled}`,
-                        borderRadius: '4px',
                       }}
                     />
 )}
@@ -129,7 +126,18 @@ function NftComponent() {
                     </Grid>
                   </Grid>
                 </AccordionSummary>
-                <AccordionDetails sx={{ background: theme.palette.background.default, p: 0, pr: 2, pb: 2 }}>
+                <AccordionDetails
+                  sx={{
+                    background: theme.palette.background.default,
+                    p: 0,
+                    pr: 2,
+                    pb: 2,
+                    border: `1px solid ${theme.palette.background.secondary}`,
+                    borderTop: 'none',
+                    borderBottomLeftRadius: '4px',
+                    borderBottomRightRadius: '4px',
+                  }}
+                >
                   <NftGrid nfts={collectionNfts} />
                 </AccordionDetails>
               </Accordion>

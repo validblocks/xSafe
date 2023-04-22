@@ -38,6 +38,7 @@ export interface NFTType {
   metadata: NFTMetadata;
   name: string;
   nonce: number;
+  rank: string;
   royalties: number;
   tags: string[];
   ticker: string;
@@ -45,4 +46,5 @@ export interface NFTType {
   type: string;
   uris: string[];
   url: string;
+  balance?: string;
 }

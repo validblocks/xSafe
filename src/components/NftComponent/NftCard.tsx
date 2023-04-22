@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Box, Typography } from '@mui/material';
-import CardMedia from '@mui/material/CardMedia';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Typography } from '@mui/material';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { useDispatch } from 'react-redux';
 import {
@@ -13,7 +12,6 @@ import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationI
 import { useTheme } from 'styled-components';
 import { adjustTextByWidth } from 'src/utils/stringUtils';
 import { useIsAlreadyProposedMap } from 'src/utils/useIsAlreadyProposedMap';
-import { CardBox } from './nft-style';
 import * as Styled from './styled';
 import PendingNftProposalAnnouncer from './PendingNftProposalAnnouncer';
 import { Text } from '../StyledComponents/StyledComponents';
@@ -25,8 +23,12 @@ type Props = {
 function NftCard({ nft }: Props) {
   const theme: any = useTheme();
   const dispatch = useDispatch();
-  const { isInReadOnlyMode } = useOrganizationInfoContext();
+  const typographyRef = useRef<HTMLDivElement>(null);
+  const isSFT = useMemo(() => 'balance' in nft, [nft]);
   const { isAlreadyProposed } = useIsAlreadyProposedMap();
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
+  const [adjustedText, setAdjustedText] = useState<string>(nft.name);
+  const sendButtonText = useMemo(() => (isSFT ? 'Send SFT' : 'Send NFT'), [isSFT]);
 
   const handleOptionSelected = useCallback((option: ProposalsTypes, nft: NFTType) => {
     dispatch(setProposeMultiselectSelectedOption({ option }));
@@ -37,15 +39,11 @@ function NftCard({ nft }: Props) {
 
   const handleSendNftClick = useCallback((nft: NFTType) => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     handleOptionSelected(
-      'balance' in nft
+      isSFT
         ? ProposalsTypes.send_sft
         : ProposalsTypes.send_nft, nft);
     event.currentTarget.blur();
-  }, [handleOptionSelected]);
-
-  const typographyRef = useRef<HTMLDivElement>(null);
-
-  const [adjustedText, setAdjustedText] = useState<string>(nft.name);
+  }, [handleOptionSelected, isSFT]);
 
   useEffect(() => {
     if (typographyRef.current) {
@@ -56,45 +54,22 @@ function NftCard({ nft }: Props) {
   }, [nft.name, typographyRef]);
 
   return (
-    <CardBox sx={{
-      position: 'relative',
-      border: `1px solid ${theme.palette.background.disabled}`,
-      borderRadius: '4px',
-      cursor: 'pointer',
-    }}
-    >
+    <Styled.NftCardBox>
       {isAlreadyProposed[nft.identifier] && (
       <PendingNftProposalAnnouncer />
       )}
       <Styled.CardMediaContainer>
-        <CardMedia
+        <Styled.NftCardMedia
           component="img"
           height="auto"
           image={`${nft.media?.[0].thumbnailUrl}?w=150&h=150&fit=crop&auto=format`}
           alt="nft"
           loading="lazy"
-          sx={{
-            borderTopLeftRadius: '4px',
-            borderTopRightRadius: '4px',
-          }}
         />
-        {'balance' in nft && (
-        <Box
-          sx={{
-            position: 'absolute',
-            left: 5,
-            bottom: 5,
-            background: theme.palette.background.secondary,
-            borderRadius: '4px',
-            padding: '8px',
-            minWidth: '34px',
-            display: 'flex',
-            textAlign: 'center',
-            alignItems: 'center',
-          }}
-        >
+        {isSFT && (
+        <Styled.SftBalanceAnnouncer>
           <Text textAlign="center" width="100%" fontWeight={700} fontSize={12}>{nft.balance as string}</Text>
-        </Box>
+        </Styled.SftBalanceAnnouncer>
         )}
       </Styled.CardMediaContainer>
       <Styled.NftCardContent>
@@ -120,10 +95,10 @@ function NftCard({ nft }: Props) {
             width: '30px important',
           }}
         >
-          {'balance' in nft ? 'Send SFT' : 'Send NFT'}
+          {sendButtonText}
         </Styled.SendNFTButton>
       </Styled.NftCardContent>
-    </CardBox>
+    </Styled.NftCardBox>
   );
 }
 
