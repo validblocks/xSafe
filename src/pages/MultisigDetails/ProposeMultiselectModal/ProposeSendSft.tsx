@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect } from 'react';
 import { FormikProps, useFormik } from 'formik';
 import { FormikInputField } from 'src/helpers/formikFields';
 import * as Yup from 'yup';
@@ -6,17 +6,16 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { selectedNftToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { Address } from '@multiversx/sdk-core/out';
-import { MultisigSendNft } from 'src/types/MultisigSendNft';
+import { MultisigSendSft } from 'src/types/MultisigSendSft';
 import { useQueryClient } from 'react-query';
 import useNft from 'src/utils/useNft';
-import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
-import { Box, Typography, useMediaQuery } from '@mui/material';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { Text } from 'src/components/StyledComponents/StyledComponents';
+import { Box, useMediaQuery } from '@mui/material';
+import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
+import NftPresentation from 'src/components/NftComponent/NftPresentation';
 import * as Styled from '../../../components/Utils/styled';
 
 interface ProposeSendSftType {
-  handleChange: (proposal: MultisigSendNft) => void;
+  handleChange: (proposal: MultisigSendSft) => void;
   setSubmitDisabled: (value: boolean) => void;
 }
 
@@ -24,6 +23,7 @@ interface IFormValues {
   address: string;
   identifier: string;
   nonce: string;
+  amount: string;
 }
 
 function validateRecipient(value?: string) {
@@ -42,33 +42,67 @@ const ProposeSendSft = ({
 }: ProposeSendSftType) => {
   const { t } = useTranslation();
 
-  let formik: FormikProps<IFormValues>;
-
   const selectedNft = useSelector(selectedNftToSendSelector);
 
-  const validationSchema = useMemo(
-    () =>
-      Yup.object().shape({
-        address: Yup.string()
-          .min(2, 'Too Short!')
-          .max(500, 'Too Long!')
-          .required('Required')
-          .test(validateRecipient),
-        identifier: Yup.string().required('Required'),
-        nonce: Yup.string().required('Required'),
-      }),
-    [],
-  );
-
-  // eslint-disable-next-line prefer-const
-  formik = useFormik({
+  const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
       address: '',
+      amount: '1',
       identifier: selectedNft?.identifier ?? '',
       nonce: selectedNft?.nonce ?? '',
     },
     onSubmit: () => undefined,
-    validationSchema,
+    validationSchema: Yup.object().shape({
+      address: Yup.string()
+        .min(2, 'Too Short!')
+        .max(500, 'Too Long!')
+        .required('Required')
+        .test(validateRecipient),
+      amount: Yup.string()
+        .required('Required')
+        .test((value?: string, testContext?: Yup.TestContext) => {
+          if (value == null) {
+            return true;
+          }
+
+          const newAmount = Number(value?.replaceAll(',', ''));
+          if (Number.isNaN(newAmount)) {
+            setSubmitDisabled(true);
+            return (
+              testContext?.createError({
+                message: 'Invalid amount',
+              }) ?? false
+            );
+          }
+          if (newAmount < 0) {
+            formik.setFieldValue('amount', 0);
+          }
+          if (newAmount > Number(selectedNft.balance)) {
+            setSubmitDisabled(true);
+            return (
+              testContext?.createError({
+                message:
+            `Insufficient balance. There are only ${selectedNft.balance} ${selectedNft.name} SFTs available.`,
+              }) ?? false
+            );
+          }
+
+          if (newAmount === 0) {
+            setSubmitDisabled(true);
+            return (
+              testContext?.createError({
+                message: 'The amount should be greater than 0',
+              }) ?? false
+            );
+          }
+
+          const isDisabled = !formik.isValid || !formik.dirty;
+          setSubmitDisabled(isDisabled);
+          return true;
+        }),
+      identifier: Yup.string().required('Required'),
+      nonce: Yup.string().required('Required'),
+    }),
     validateOnChange: true,
     validateOnMount: true,
   } as any);
@@ -78,13 +112,12 @@ const ProposeSendSft = ({
   const { searchedNft } = useNft(queryClient, selectedNft.identifier);
 
   const { touched, errors, values } = formik;
-  // eslint-disable-next-line prefer-const
-  let { address, identifier, nonce } = values;
+  const { address, identifier, nonce, amount } = values;
 
-  const getProposal = (): MultisigSendNft | null => {
+  const getProposal = (): MultisigSendSft | null => {
     try {
       const parsedAddress = new Address(address);
-      return new MultisigSendNft(parsedAddress, identifier, nonce);
+      return new MultisigSendSft(parsedAddress, identifier, amount, nonce);
     } catch (err) {
       return null;
     }
@@ -110,28 +143,13 @@ const ProposeSendSft = ({
     refreshProposal();
   }, [address, identifier, nonce]);
 
-  const { address: address2 } = useGetAccountInfo();
-
-  const memoizedAddress = useMemo(() => new Address(address2), [address2]);
+  const amountError = touched.amount && errors.amount;
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   return (
     <Box>
-      <Box sx={{ p: maxWidth600 ? '16px' : '16px 48px 0.9rem' }}>
-        <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}><Text>NFT name:</Text></Typography>
-        <div className="mb-3">
-          <img src={searchedNft.url} alt="" width={40} height={40} className="rounded mr-2" />
-          <Text display={'inline'}><span className="nftName">{searchedNft.name}</span></Text>
-        </div>
-        <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>
-          <Text>Sending from:</Text>
-        </Typography>
-        <MemberPresentationWithPhoto
-          memberAddress={memoizedAddress}
-          charactersLeftAfterTruncation={15}
-        />
-      </Box>
+      <NftPresentation nft={searchedNft} />
       <Styled.ModalDivider />
       <Box sx={{ p: maxWidth600 ? '1.25rem 16px 0' : '1.25rem 48px 0', m: ' 0 0 1rem' }}>
         <FormikInputField
@@ -142,6 +160,21 @@ const ProposeSendSft = ({
           error={addressError}
           handleBlur={formik.handleBlur}
           className={addressError ? 'isError' : ''}
+        />
+      </Box>
+      <Box sx={{ p: maxWidth600 ? '0 16px 0' : '0 48px 0', m: ' 0 0 1rem' }}>
+        <AmountInputWithTokenSelection
+          amount={amount}
+          formik={formik}
+          amountError={amountError}
+          handleInputBlur={formik.handleBlur}
+          handleInputChange={formik.handleChange}
+          handleMaxButtonClick={() => formik.setFieldValue('amount', selectedNft.balance)}
+          resetAmount={() => formik.setFieldValue('amount', 0)}
+          config={{
+            withTokenSelection: false,
+            isEsdtOrEgldRelated: false,
+          }}
         />
       </Box>
     </Box>

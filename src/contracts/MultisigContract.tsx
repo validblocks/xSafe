@@ -35,6 +35,7 @@ import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContra
 import { store } from 'src/redux/store';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
+import { MultisigSendSft } from 'src/types/MultisigSendSft';
 import { buildTransaction } from './transactionUtils';
 
 const proposeDeployGasLimit = 256_000_000;
@@ -332,6 +333,27 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
     BytesValue.fromUTF8(identifierWithoutNonce),
     new U32Value(new BigNumber(proposal.nonce)),
     new U32Value(1),
+    new AddressValue(proposal.address),
+  );
+}
+
+export function mutateEsdtSendSft(proposal: MultisigSendSft) {
+  const identifierWithoutNonce = proposal.identifier.split('-').slice(0, 2).join('-');
+  const currentMultisigAddress = currentMultisigAddressSelector(
+    store.getState(),
+  );
+
+  const smartContract = new SmartContract({
+    address: currentMultisigAddress,
+  });
+
+  mutateSmartContractCall(
+    new Address(smartContract.getAddress().bech32()),
+    new BigUIntValue(new BigNumber(0)),
+    multisigContractFunctionNames.ESDTNFTTransfer,
+    BytesValue.fromUTF8(identifierWithoutNonce),
+    new U32Value(new BigNumber(proposal.nonce)),
+    new U32Value(Number(proposal.amount)),
     new AddressValue(proposal.address),
   );
 }

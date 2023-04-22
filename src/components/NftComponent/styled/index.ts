@@ -1,6 +1,7 @@
-import { Box, CardContent } from '@mui/material';
+import { Box, CardContent, CardMedia } from '@mui/material';
 import { MainButton } from 'src/components/Theme/StyledComponents';
 import styled from 'styled-components';
+import { CardBox } from '../nft-style';
 
 export const NftCardContent = styled(CardContent)(({ theme: _ }) => ({
   '&&&': {
@@ -42,4 +43,28 @@ export const CardMediaContainer = styled(Box)(({ theme: _ }) => ({
       backgroundColor: 'rgba(76, 47, 252, 0.1)',
     },
   },
+}));
+
+export const SftBalanceAnnouncer = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  left: 5,
+  bottom: 5,
+  background: theme.palette.background.secondary,
+  borderRadius: '4px',
+  padding: '8px',
+  minWidth: '34px',
+  display: 'flex',
+  textAlign: 'center',
+  alignItems: 'center',
+}));
+
+export const NftCardBox = styled(CardBox)(({ theme: _ }) => ({
+  position: 'relative',
+  borderRadius: '4px',
+  cursor: 'pointer',
+}));
+
+export const NftCardMedia = styled(CardMedia)<any>(({ theme: _ }) => ({
+  borderTopLeftRadius: '4px',
+  borderTopRightRadius: '4px',
 }));

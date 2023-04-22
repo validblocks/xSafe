@@ -9,6 +9,7 @@ import {
   mutateEsdtIssueToken,
   mutateEsdtSendToken,
   mutateEsdtSendNft,
+  mutateEsdtSendSft,
 } from 'src/contracts/MultisigContract';
 import { setProposeMultiselectSelectedOption, setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
 import { MultisigAction } from 'src/types/MultisigAction';
@@ -23,6 +24,7 @@ import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import { MainButton, ModalContainer } from 'src/components/Theme/StyledComponents';
 import { Box, useMediaQuery } from '@mui/material';
+import { MultisigSendSft } from 'src/types/MultisigSendSft';
 import { titles } from '../constants';
 import AttachContractContent from './AttachContractContent';
 import ProposeDeployContractFromSource from './ProposeDeployContractFromSource';
@@ -38,6 +40,7 @@ import ProposeSendNft from './ProposeSendNft';
 import StakeTokensModalContent from './StakeTokensModalContent';
 import ProposeUnstakeTokens from './ProposeUnstakeTokens';
 import ProposeWithdrawFunds from './ProposeWithdrawFunds';
+import ProposeSendSft from './ProposeSendSft';
 
 interface ProposeMultiselectModalPropsType {
   selectedOption: SelectedOptionType;
@@ -101,6 +104,8 @@ const ProposeMultiselectModal = ({
         mutateEsdtSendToken(selectedProposal as MultisigSendToken);
       } else if (selectedProposal instanceof MultisigSendNft) {
         mutateEsdtSendNft(selectedProposal as MultisigSendNft);
+      } else if (selectedProposal instanceof MultisigSendSft) {
+        mutateEsdtSendSft(selectedProposal as MultisigSendSft);
       } else if (selectedProposal instanceof MultisigDeployContractFromSource) {
         mutateDeployContractFromSource(
           selectedProposal.amount,
@@ -174,7 +179,7 @@ const ProposeMultiselectModal = ({
       }
       case ProposalsTypes.send_sft: {
         return (
-          <ProposeSendNft
+          <ProposeSendSft
             setSubmitDisabled={setSubmitDisabled}
             handleChange={handleProposalChange}
           />

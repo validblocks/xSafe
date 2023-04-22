@@ -24,8 +24,9 @@ interface IProps {
     amountError: string | false | undefined;
     formik?: FormikProps<any>;
     config?: Partial<{
-        withAvailableAmount: boolean;
-        withTokenSelection: boolean;
+      withAvailableAmount: boolean;
+      withTokenSelection: boolean;
+      isEsdtOrEgldRelated: boolean;
     }>
 }
 
@@ -40,9 +41,11 @@ const AmountInputWithTokenSelection = ({
   config: {
     withAvailableAmount,
     withTokenSelection,
+    isEsdtOrEgldRelated,
   } = {
     withAvailableAmount: true,
     withTokenSelection: true,
+    isEsdtOrEgldRelated: true,
   },
 }: IProps) => {
   const { t } = useTranslation();
@@ -65,7 +68,10 @@ const AmountInputWithTokenSelection = ({
     <StyledRemote.AmountWithTokenSelectionBox
       className={amountError != null ? 'invalid' : ''}
       sx={{
-        display: 'flex !important', alignItems: 'center', justifyContent: 'space-between',
+        display: 'flex !important',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        ...(!isEsdtOrEgldRelated ? { padding: '12px 0' } : {}),
       }}
     >
       <Box sx={{ flexGrow: 1 }}>
@@ -90,38 +96,42 @@ const AmountInputWithTokenSelection = ({
           {`${t('Amount')}`}
         </label>
       </Box>
-      <Box px={1}>
+      <Box padding="0 12px 0 1rem">
         <MaxSendEGLDButton onClick={maxButtonClickHandler}>
           Max
         </MaxSendEGLDButton>
       </Box>
-      {withTokenSelection ? (
-        <Box minWidth="160px">
-          <TokenSelection
-            amountError={amountError}
-            resetAmount={resetAmount}
-          />
-        </Box>
-      ) : (
-        <Box
-          className="egld-staked"
-          sx={{
-            borderLeft: `1px solid ${theme.palette.borders.secondary}`,
-            borderTopLeftRadius: '5rem',
-            borderBottomLeftRadius: '5rem',
-            transition: 'all 0.3s linear',
-            padding: '10px',
-            ':hover': {
-              borderLeft: `1px solid ${theme.palette.borders.active}`,
-            },
-          }}
-        >
-          <TokenPresentationWithPrice
-            identifier="EGLD"
-            withTokenAmount={false}
-            withTokenValue={false}
-          />
-        </Box>
+      {isEsdtOrEgldRelated && (
+      <Box>
+        { withTokenSelection ? (
+          <Box minWidth="160px">
+            <TokenSelection
+              amountError={amountError}
+              resetAmount={resetAmount}
+            />
+          </Box>
+        ) : (
+          <Box
+            className="egld-staked"
+            sx={{
+              borderLeft: `1px solid ${theme.palette.borders.secondary}`,
+              borderTopLeftRadius: '5rem',
+              borderBottomLeftRadius: '5rem',
+              transition: 'all 0.3s linear',
+              padding: '10px',
+              ':hover': {
+                borderLeft: `1px solid ${theme.palette.borders.active}`,
+              },
+            }}
+          >
+            <TokenPresentationWithPrice
+              identifier="EGLD"
+              withTokenAmount={false}
+              withTokenValue={false}
+            />
+          </Box>
+        )}
+      </Box>
       )}
       <span className="errorMessage">{amountError}</span>
       {withAvailableAmount && (
