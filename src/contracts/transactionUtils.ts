@@ -14,7 +14,7 @@ import {
 import { gasLimit } from 'src/config';
 import { LoginMethodsEnum } from '@multiversx/sdk-dapp/types';
 import { getAddress } from '@multiversx/sdk-dapp/utils';
-import { multisigContractFunctionNames } from '../types/multisigFunctionNames';
+import { MultisigContractFunction } from '../types/multisigFunctionNames';
 
 interface TransactionPayloadType {
   chainID: any;
@@ -29,7 +29,7 @@ interface TransactionPayloadType {
 
 export async function buildTransaction(
   value: number,
-  functionName: multisigContractFunctionNames,
+  functionName: MultisigContractFunction,
   providerType: string,
   contract: SmartContract,
   transactionGasLimit: number,
@@ -93,12 +93,12 @@ export async function buildBlockchainTransaction(
 }
 
 export const functionsWithActionIds = [
-  multisigContractFunctionNames.sign,
-  multisigContractFunctionNames.unsign,
-  multisigContractFunctionNames.performAction,
-  multisigContractFunctionNames.discardAction,
-  multisigContractFunctionNames.ESDTNFTTransfer,
-  multisigContractFunctionNames.quorumReached,
+  MultisigContractFunction.SIGN,
+  MultisigContractFunction.UNSIGN,
+  MultisigContractFunction.PERFORM_ACTION,
+  MultisigContractFunction.DISCARD_ACTION,
+  MultisigContractFunction.ESDT_NFT_TRANSFER,
+  MultisigContractFunction.QUORUM_REACHED,
 ];
 
 export enum TransactionTypesWithoutSCInteraction {

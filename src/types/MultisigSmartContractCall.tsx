@@ -18,7 +18,7 @@ import NorthIcon from '@mui/icons-material/North';
 import { StyledStakingProvider } from 'src/components/StyledComponents/staking';
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
-import { multisigContractFunctionNames } from './multisigFunctionNames';
+import { MultisigContractFunction } from './multisigFunctionNames';
 import { delegationFunctionNames } from './staking/delegationFunctionNames';
 import { DelegationFunctionTitles } from './types';
 import ProposalAmount from './ProposalAmount';
@@ -51,7 +51,7 @@ export class MultisigSmartContractCall extends MultisigAction {
 
   tooltip() {
     switch (this.functionName) {
-      case multisigContractFunctionNames.issue:
+      case MultisigContractFunction.ISSUE:
         return this.getIssueTokenToolTip();
       default:
     }
@@ -61,9 +61,9 @@ export class MultisigSmartContractCall extends MultisigAction {
 
   getData() {
     switch (this.functionName) {
-      case multisigContractFunctionNames.issue:
-      case multisigContractFunctionNames.ESDTTransfer:
-      case multisigContractFunctionNames.ESDTNFTTransfer:
+      case MultisigContractFunction.ISSUE:
+      case MultisigContractFunction.ESDT_TRANSFER:
+      case MultisigContractFunction.ESDT_NFT_TRANSFER:
         return null;
       default:
     }
@@ -74,11 +74,11 @@ export class MultisigSmartContractCall extends MultisigAction {
 
   title() {
     switch (this.functionName) {
-      case multisigContractFunctionNames.issue:
+      case MultisigContractFunction.ISSUE:
         return i18next.t('Issue Token');
-      case multisigContractFunctionNames.ESDTTransfer:
+      case MultisigContractFunction.ESDT_TRANSFER:
         return i18next.t('Send token');
-      case multisigContractFunctionNames.ESDTNFTTransfer:
+      case MultisigContractFunction.ESDT_NFT_TRANSFER:
         return i18next.t('Send NFT');
       case delegationFunctionNames.delegate:
         return i18next.t('Stake tokens');
@@ -98,11 +98,11 @@ export class MultisigSmartContractCall extends MultisigAction {
 
   description() {
     switch (this.functionName) {
-      case multisigContractFunctionNames.issue:
+      case MultisigContractFunction.ISSUE:
         return this.getIssueTokenDescription();
-      case multisigContractFunctionNames.ESDTTransfer:
+      case MultisigContractFunction.ESDT_TRANSFER:
         return this.getSendTokenDescription();
-      case multisigContractFunctionNames.ESDTNFTTransfer:
+      case MultisigContractFunction.ESDT_NFT_TRANSFER:
         return this.getSendNFTDescription();
       case delegationFunctionNames.delegate:
         return this.getStakeTokensDescription(DelegationFunctionTitles.StakeTokens, <SouthIcon />);

@@ -2,7 +2,7 @@ import { TypedValue } from '@multiversx/sdk-core/out';
 import { useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { multisigContractFunctionNames } from 'src/types/multisigFunctionNames';
+import { MultisigContractFunction } from 'src/types/multisigFunctionNames';
 
 export const useIsAlreadyProposedMap = () => {
   const queryClient = useQueryClient();
@@ -15,7 +15,7 @@ export const useIsAlreadyProposedMap = () => {
         if ('functionName' in p.action && 'args' in p.action) {
           return (
             p.action.functionName ===
-            multisigContractFunctionNames.ESDTNFTTransfer
+            MultisigContractFunction.ESDT_NFT_TRANSFER
           );
         }
         return false;
