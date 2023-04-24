@@ -27,7 +27,7 @@ import { parseAction, parseActionDetailed } from 'src/helpers/converters';
 import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { MultisigAction } from 'src/types/MultisigAction';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { multisigContractFunctionNames } from 'src/types/multisigFunctionNames';
+import { MultisigContractFunction } from 'src/types/multisigFunctionNames';
 import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
 import { MultisigSendNft } from 'src/types/MultisigSendNft';
 import { MultisigSendToken } from 'src/types/MultisigSendToken';
@@ -127,7 +127,7 @@ export async function queryAddressArray(
 }
 
 export async function sendTransaction(
-  functionName: multisigContractFunctionNames,
+  functionName: MultisigContractFunction,
   transactionGasLimit = gasLimit,
   ...args: TypedValue[]
 ) {
@@ -160,7 +160,7 @@ export async function sendTransaction(
 
 export function mutateSign(actionId: number) {
   return sendTransaction(
-    multisigContractFunctionNames.sign,
+    MultisigContractFunction.SIGN,
     gasLimit,
     new U32Value(actionId),
   );
@@ -168,7 +168,7 @@ export function mutateSign(actionId: number) {
 
 export function mutateUnsign(actionId: number) {
   return sendTransaction(
-    multisigContractFunctionNames.unsign,
+    MultisigContractFunction.UNSIGN,
     gasLimit,
     new U32Value(actionId),
   );
@@ -179,7 +179,7 @@ export function mutatePerformAction(
   transactionGasLimit: number,
 ) {
   return sendTransaction(
-    multisigContractFunctionNames.performAction,
+    MultisigContractFunction.PERFORM_ACTION,
     transactionGasLimit,
     new U32Value(actionId),
   );
@@ -187,7 +187,7 @@ export function mutatePerformAction(
 
 export function mutateDiscardAction(actionId: number) {
   return sendTransaction(
-    multisigContractFunctionNames.discardAction,
+    MultisigContractFunction.DISCARD_ACTION,
     gasLimit,
     new U32Value(actionId),
   );
@@ -195,7 +195,7 @@ export function mutateDiscardAction(actionId: number) {
 
 export function mutateProposeChangeQuorum(quorumSize: number) {
   return sendTransaction(
-    multisigContractFunctionNames.proposeChangeQuorum,
+    MultisigContractFunction.PROPOSE_CHANGE_QUORUM,
     gasLimit,
     new U32Value(quorumSize),
   );
@@ -203,7 +203,7 @@ export function mutateProposeChangeQuorum(quorumSize: number) {
 
 export function mutateProposeAddProposer(address: Address) {
   return sendTransaction(
-    multisigContractFunctionNames.proposeAddProposer,
+    MultisigContractFunction.PROPOSE_ADD_PROPOSER,
     gasLimit,
     new AddressValue(address),
   );
@@ -211,7 +211,7 @@ export function mutateProposeAddProposer(address: Address) {
 
 export function mutateProposeAddBoardMember(address: Address) {
   return sendTransaction(
-    multisigContractFunctionNames.proposeAddBoardMember,
+    MultisigContractFunction.PROPOSE_ADD_BOARD_MEMBER,
     gasLimit,
     new AddressValue(address),
   );
@@ -219,7 +219,7 @@ export function mutateProposeAddBoardMember(address: Address) {
 
 export function mutateProposeRemoveUser(address: Address) {
   return sendTransaction(
-    multisigContractFunctionNames.proposeRemoveUser,
+    MultisigContractFunction.PROPOSE_REMOVE_USER,
     gasLimit,
     new AddressValue(address),
   );
@@ -232,7 +232,7 @@ export function mutateSendEgld(
   ...args: BytesValue[]
 ) {
   return sendTransaction(
-    multisigContractFunctionNames.proposeTransferExecute,
+    MultisigContractFunction.PROPOSE_TRANSFER_EXECUTE,
     gasLimit,
     new AddressValue(address),
     amount,
@@ -255,7 +255,7 @@ export function mutateSmartContractCall(
   ];
 
   return sendTransaction(
-    multisigContractFunctionNames.proposeAsyncCall,
+    MultisigContractFunction.PROPOSE_ASYNC_CALL,
     gasLimit,
     ...allArgs,
   );
@@ -274,7 +274,7 @@ export function mutateDeployContractFromSource(
   const allArgs = [amount, new AddressValue(source), contractMetadata, ...args];
 
   return sendTransaction(
-    multisigContractFunctionNames.proposeSCDeployFromSource,
+    MultisigContractFunction.PROPOSE_SC_DEPLOY_FROM_SOURCE,
     gasLimit,
     ...allArgs,
   );
@@ -300,7 +300,7 @@ export function mutateUpgradeContractFromSource(
   ];
 
   return sendTransaction(
-    multisigContractFunctionNames.proposeSCUpgradeFromSource,
+    MultisigContractFunction.PROPOSE_SC_UPGRADE_FROM_SOURCE,
     proposeDeployGasLimit,
     ...allArgs,
   );
@@ -310,7 +310,7 @@ export function mutateEsdtSendToken(proposal: MultisigSendToken) {
   mutateSmartContractCall(
     proposal.address,
     new BigUIntValue(new BigNumber(0)),
-    multisigContractFunctionNames.ESDTTransfer,
+    MultisigContractFunction.ESDT_TRANSFER,
     BytesValue.fromUTF8(proposal.identifier),
     new U32Value(proposal.amount),
   );
@@ -329,7 +329,7 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
   mutateSmartContractCall(
     new Address(smartContract.getAddress().bech32()),
     new BigUIntValue(new BigNumber(0)),
-    multisigContractFunctionNames.ESDTNFTTransfer,
+    MultisigContractFunction.ESDT_NFT_TRANSFER,
     BytesValue.fromUTF8(identifierWithoutNonce),
     new U32Value(new BigNumber(proposal.nonce)),
     new U32Value(1),
@@ -350,7 +350,7 @@ export function mutateEsdtSendSft(proposal: MultisigSendSft) {
   mutateSmartContractCall(
     new Address(smartContract.getAddress().bech32()),
     new BigUIntValue(new BigNumber(0)),
-    multisigContractFunctionNames.ESDTNFTTransfer,
+    MultisigContractFunction.ESDT_NFT_TRANSFER,
     BytesValue.fromUTF8(identifierWithoutNonce),
     new U32Value(new BigNumber(proposal.nonce)),
     new U32Value(Number(proposal.amount)),
@@ -406,14 +406,14 @@ export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
   mutateSmartContractCall(
     esdtAddress,
     esdtAmount,
-    multisigContractFunctionNames.issue,
+    MultisigContractFunction.ISSUE,
     ...args,
   );
 }
 
 export function queryUserRole(userAddress: string): Promise<number> {
   return queryNumber(
-    multisigContractFunctionNames.userRole,
+    MultisigContractFunction.USER_ROLE,
     new AddressValue(new Address(userAddress)),
   );
 }
@@ -424,58 +424,58 @@ export async function queryUserRoleOnContract(userAddress: string, contractAddre
   );
   if (!userAddress || !contractAddress || !isValidMultisigContract) return Promise.resolve(-1);
   return queryNumberOnContract(
-    multisigContractFunctionNames.userRole,
+    MultisigContractFunction.USER_ROLE,
     contractAddress,
     new AddressValue(new Address(userAddress)),
   );
 }
 
 export function queryBoardMemberAddresses(): Promise<Address[]> {
-  return queryAddressArray(multisigContractFunctionNames.getAllBoardMembers);
+  return queryAddressArray(MultisigContractFunction.GET_ALL_BOARD_MEMBERS);
 }
 
 export function queryProposerAddresses(): Promise<Address[]> {
-  return queryAddressArray(multisigContractFunctionNames.getAllProposers);
+  return queryAddressArray(MultisigContractFunction.GET_ALL_PROPOSERS);
 }
 
 export function queryActionSignerAddresses(
   actionId: number,
 ): Promise<Address[]> {
   return queryAddressArray(
-    multisigContractFunctionNames.getActionSigners,
+    MultisigContractFunction.GET_ACTION_SIGNERS,
     new U32Value(actionId),
   );
 }
 
 export function queryProposersCount(): Promise<number> {
-  return queryNumber(multisigContractFunctionNames.getNumProposers);
+  return queryNumber(MultisigContractFunction.GET_NUM_PROPOSERS);
 }
 
 export function queryQuorumCount(): Promise<number> {
-  return queryNumber(multisigContractFunctionNames.getQuorum);
+  return queryNumber(MultisigContractFunction.GET_QUORUM);
 }
 
 export function queryActionLastId(): Promise<number> {
-  return queryNumber(multisigContractFunctionNames.getActionLastIndex);
+  return queryNumber(MultisigContractFunction.GET_ACTION_LAST_INDEX);
 }
 
 export function queryActionSignerCount(actionId: number): Promise<number> {
   return queryNumber(
-    multisigContractFunctionNames.getActionSignerCount,
+    MultisigContractFunction.GET_ACTION_SIGNER_COUNT,
     new U32Value(actionId),
   );
 }
 
 export function queryActionValidSignerCount(actionId: number): Promise<number> {
   return queryNumber(
-    multisigContractFunctionNames.getActionValidSignerCount,
+    MultisigContractFunction.GET_ACTION_VALID_SIGNER_COUNT,
     new U32Value(actionId),
   );
 }
 
 export function queryActionIsQuorumReached(actionId: number): Promise<boolean> {
   return queryBoolean(
-    multisigContractFunctionNames.quorumReached,
+    MultisigContractFunction.QUORUM_REACHED,
     new U32Value(actionId),
   );
 }
@@ -485,14 +485,14 @@ export function queryActionIsSignedByAddress(
   actionId: number,
 ): Promise<boolean> {
   return queryBoolean(
-    multisigContractFunctionNames.signed,
+    MultisigContractFunction.SIGNED,
     new AddressValue(userAddress),
     new U32Value(actionId),
   );
 }
 
 export function queryBoardMembersCount(): Promise<number> {
-  return queryNumber(multisigContractFunctionNames.getNumBoardMembers);
+  return queryNumber(MultisigContractFunction.GET_NUM_BOARD_MEMBERS);
 }
 
 export async function queryActionContainer(
@@ -516,7 +516,7 @@ export function queryActionData(
   actionId: number,
 ): Promise<MultisigAction | null> {
   return queryActionContainer(
-    multisigContractFunctionNames.getActionData,
+    MultisigContractFunction.GET_ACTION_DATA,
     new U32Value(actionId),
   );
 }
@@ -541,6 +541,6 @@ export async function queryActionContainerArray(
 
 export function queryAllActions(): Promise<MultisigActionDetailed[]> {
   return queryActionContainerArray(
-    multisigContractFunctionNames.getPendingActionFullInfo,
+    MultisigContractFunction.GET_PENDING_ACTION_FULL_INFO,
   );
 }
