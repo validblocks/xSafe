@@ -12,7 +12,7 @@ export const PropertyKeyBox = ({ propertyKey }: Props) => {
   return (
     <Box>
       <Text sx={{
-        color: theme.palette.text.cardsTitle,
+        color: theme.palette.text.homeCards,
         fontWeight: 500,
         fontSize: '14px',
         mr: 1,

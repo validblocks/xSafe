@@ -23,7 +23,7 @@ const IssueNftCollectionProposalPresentation = ({ parsedArgs: {
     </Box>
     <Box>
       <PropertyKeyBox propertyKey={'Properties'} />
-      <Box>{
+      <Box px={2}>{
         Object.entries(properties).map(([key, value]: [string, boolean]) => (
           <Box display="flex">
             <PropertyKeyBox propertyKey={key} />
