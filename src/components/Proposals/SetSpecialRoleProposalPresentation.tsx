@@ -2,6 +2,7 @@ import { Box } from '@mui/system';
 import React from 'react';
 import { PropertyKeyBox } from '../Utils/PropertKeyBox';
 import { PropertyValueBox } from '../Utils/PropertyValueBox';
+import { BasicChip } from './styled';
 
 type Props = {
   parsedArgs: {
@@ -21,9 +22,15 @@ const SetSpecialRoleProposalPresentation = ({ parsedArgs: {
       <PropertyKeyBox propertyKey={'Address'} />
       <PropertyValueBox value={address} />
     </Box>
-    <Box display="flex">
+    <Box display="flex" alignItems="center" py={1}>
       <PropertyKeyBox propertyKey={'Roles'} />
-      <PropertyValueBox value={roles.join(', ')} />
+      <Box>
+        {
+          roles.map((role) => (
+            <BasicChip label={role} />
+          ))
+        }
+      </Box>
     </Box>
     <Box display="flex">
       <PropertyKeyBox propertyKey={'Token Identifer'} />
