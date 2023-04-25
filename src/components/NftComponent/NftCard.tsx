@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/media-has-caption */
 /* eslint-disable no-nested-ternary */
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Typography } from '@mui/material';
@@ -53,6 +54,8 @@ function NftCard({ nft }: Props) {
     }
   }, [nft.name, typographyRef]);
 
+  const isVideoNft = useMemo(() => nft.media?.[0].fileType === 'video/mp4', [nft.media]);
+
   return (
     <Styled.NftCardBox>
       {isAlreadyProposed[nft.identifier] && (
@@ -60,11 +63,18 @@ function NftCard({ nft }: Props) {
       )}
       <Styled.CardMediaContainer>
         <Styled.NftCardMedia
-          component="img"
-          height="auto"
-          image={`${nft.media?.[0].thumbnailUrl}?w=150&h=150&fit=crop&auto=format`}
+          component={nft.media?.[0].fileType === 'video/mp4' ? 'video' : 'img'}
+          controlsList="nodownload"
+          autoplay
+          loop
+          // height="auto"]
+          controls
+          image={
+            isVideoNft
+              ? nft.media?.[0].url
+              : `${nft.media?.[0].thumbnailUrl}?w=150&h=150&fit=crop&auto=format`
+          }
           alt="nft"
-          loading="lazy"
         />
         {isSFT && (
         <Styled.SftBalanceAnnouncer>

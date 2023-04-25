@@ -16,7 +16,6 @@ import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
-import { nominate } from '@multiversx/sdk-dapp/utils/operations';
 import RationalNumber from 'src/utils/RationalNumber';
 import * as Styled from './styled';
 
