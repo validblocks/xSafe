@@ -17,6 +17,11 @@ import SouthIcon from '@mui/icons-material/South';
 import NorthIcon from '@mui/icons-material/North';
 import { StyledStakingProvider } from 'src/components/StyledComponents/staking';
 import { ArgumentsParser } from 'src/utils/parsers/ArgumentsParser';
+import IssueNftCollectionProposalPresentation from 'src/components/Proposals/IssueNftCollectionProposalPresentation';
+import ESDTNFTCreateProposalPresentation from 'src/components/Proposals/ESDTNFTCreateProposalPresentation';
+import IssueSftCollectionProposalPresentation from 'src/components/Proposals/IssueSftCollectionProposalPresentation';
+import AuctionNftProposalPresentation from 'src/components/Proposals/AuctionNftProposalPresentation';
+import SetSpecialRoleProposalPresentation from 'src/components/Proposals/SetSpecialRoleProposalPresentation';
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
 import { MultisigContractFunction } from './multisigFunctionNames';
@@ -59,7 +64,8 @@ export class MultisigSmartContractCall extends MultisigAction {
     });
 
     if (this.functionName === 'setSpecialRole') {
-      const parseSetRole = new ArgumentsParser().parseArguments(ExternalContractFunction.SET_SPECIAL_ROLE, args);
+      const parseSetRole = new ArgumentsParser()
+        .parseArguments(ExternalContractFunction.SET_SPECIAL_ROLE, args);
       console.log({ parseSetRole });
     }
 
@@ -69,12 +75,14 @@ export class MultisigSmartContractCall extends MultisigAction {
     }
 
     if (this.functionName === ExternalContractFunction.ISSUE_NON_FUNGIBLE) {
-      const parsedIssue = new ArgumentsParser().parseArguments(ExternalContractFunction.ISSUE_NON_FUNGIBLE, args);
+      const parsedIssue = new ArgumentsParser()
+        .parseArguments(ExternalContractFunction.ISSUE_NON_FUNGIBLE, args);
       console.log({ parsedIssue });
     }
 
     if (this.functionName === ExternalContractFunction.ISSUE_SEMI_FUNGIBLE) {
-      const parsedSemiFungible = new ArgumentsParser().parseArguments(ExternalContractFunction.ISSUE_NON_FUNGIBLE, args);
+      const parsedSemiFungible = new ArgumentsParser()
+        .parseArguments(ExternalContractFunction.ISSUE_NON_FUNGIBLE, args);
       console.log({ parsedSemiFungible });
     }
   }
@@ -117,24 +125,18 @@ export class MultisigSmartContractCall extends MultisigAction {
         return i18next.t(DelegationFunctionTitles.UnstakeTokens);
       case delegationFunctionNames.claimRewards:
         return i18next.t(DelegationFunctionTitles.ClaimRewards);
-      case delegationFunctionNames.withdraw: {
+      case delegationFunctionNames.withdraw:
         return i18next.t(DelegationFunctionTitles.WithdrawRewards);
-      }
-      case ExternalContractFunction.ISSUE_NON_FUNGIBLE: {
+      case ExternalContractFunction.ISSUE_NON_FUNGIBLE:
         return i18next.t('Mint NFT Collection');
-      }
-      case ExternalContractFunction.ISSUE_SEMI_FUNGIBLE: {
+      case ExternalContractFunction.ISSUE_SEMI_FUNGIBLE:
         return i18next.t('Mint SFT Collection');
-      }
-      case ExternalContractFunction.AUCTION_TOKEN: {
+      case ExternalContractFunction.AUCTION_TOKEN:
         return i18next.t('Auction Token');
-      }
-      case ExternalContractFunction.ESDT_NFT_CREATE: {
+      case ExternalContractFunction.ESDT_NFT_CREATE:
         return i18next.t('Create NFT');
-      }
-      case ExternalContractFunction.SET_SPECIAL_ROLE: {
+      case ExternalContractFunction.SET_SPECIAL_ROLE:
         return i18next.t('Set Special Role');
-      }
       default:
         return 'Unknown function';
     }
@@ -158,6 +160,31 @@ export class MultisigSmartContractCall extends MultisigAction {
         return this.getStakeTokensDescription(DelegationFunctionTitles.ClaimRewards, <NorthIcon />);
       case delegationFunctionNames.reDelegateRewards:
         return this.getStakeTokensDescription(DelegationFunctionTitles.RestakeRewards, <SouthIcon />);
+      case ExternalContractFunction.SET_SPECIAL_ROLE: {
+        const parsedArgs = new ArgumentsParser()
+          .parseArguments(ExternalContractFunction.SET_SPECIAL_ROLE, this.args);
+        return <SetSpecialRoleProposalPresentation parsedArgs={parsedArgs} />;
+      }
+      case ExternalContractFunction.ISSUE_NON_FUNGIBLE: {
+        const parsedArgs = new ArgumentsParser()
+          .parseArguments(ExternalContractFunction.ISSUE_NON_FUNGIBLE, this.args);
+        return <IssueNftCollectionProposalPresentation parsedArgs={parsedArgs} />;
+      }
+      case ExternalContractFunction.ISSUE_SEMI_FUNGIBLE: {
+        const parsedArgs = new ArgumentsParser()
+          .parseArguments(ExternalContractFunction.ISSUE_NON_FUNGIBLE, this.args);
+        return <IssueSftCollectionProposalPresentation parsedArgs={parsedArgs} />;
+      }
+      case ExternalContractFunction.ESDT_NFT_CREATE: {
+        const parsedArgs = new ArgumentsParser()
+          .parseArguments(ExternalContractFunction.ESDT_NFT_CREATE, this.args);
+        return <ESDTNFTCreateProposalPresentation parsedArgs={parsedArgs} />;
+      }
+      case ExternalContractFunction.AUCTION_TOKEN: {
+        const parsedArgs = new ArgumentsParser()
+          .parseArguments(ExternalContractFunction.AUCTION_TOKEN, this.args);
+        return <AuctionNftProposalPresentation parsedArgs={parsedArgs} />;
+      }
       default:
         return this.title();
     }
