@@ -67,7 +67,6 @@ function NftCard({ nft }: Props) {
           controlsList="nodownload"
           autoplay
           loop
-          // height="auto"]
           controls
           image={
             isVideoNft

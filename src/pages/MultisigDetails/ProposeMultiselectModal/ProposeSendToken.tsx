@@ -184,9 +184,6 @@ const ProposeSendToken = ({
           .fungibleFromAmount(identifier, amountParam, selectedTokenDetails?.value?.decimals ?? 18).toString(),
       );
 
-      const a = Number(nominate(amountParam));
-      console.log({ a });
-      console.log({ amountToSend });
       return new MultisigSendToken(parsedAddress, identifier, amountToSend);
     } catch (err) {
       return null;
