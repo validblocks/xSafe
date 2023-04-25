@@ -3,7 +3,7 @@ import { Address } from '@multiversx/sdk-core/out';
 import AddIcon from '@mui/icons-material/Add';
 import DoneIcon from '@mui/icons-material/Done';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import {
   Timeline,
   TimelineConnector,
@@ -179,7 +179,7 @@ function TransactionDescription({
                     backgroundColor: theme.palette.background.timeline,
                     color: theme.palette.svg.timeline,
                   }}
-                ><ArrowDropUpIcon sx={{
+                ><ArrowDropDownIcon sx={{
                   transform: areAllSignersVisible ? 'rotate(180deg)' : 'rotate(0deg)',
                   marginTop: areAllSignersVisible ? '1px' : 0,
                 }}
