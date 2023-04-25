@@ -14,11 +14,9 @@ import { useTheme } from 'styled-components';
 import { ReactComponent as HeartIcon } from 'src/assets/img/heart.svg';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { NoteSpan, Span } from './settings-style';
-import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 import BuildNumber from './BuildNumber';
 
 function SafeSettings() {
-  const { isInReadOnlyMode } = useOrganizationInfoContext();
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
 
   const currentContract = useSelector(currentMultisigContractSelector);
@@ -70,7 +68,6 @@ function SafeSettings() {
         <SettingsInput
           label="Safe Name"
           variant="outlined"
-          disabled={isInReadOnlyMode}
           onChange={changeSafeName}
           value={name}
           sx={{ width: 250 }}
