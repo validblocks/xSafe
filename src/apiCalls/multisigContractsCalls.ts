@@ -35,6 +35,7 @@ export async function validateMultisigAddress(
   address: string,
 ): Promise<boolean> {
   try {
+    axios.defaults.headers.common['x-auth-key'] = '457323bfc27041997b84a0e901618089';
     const response = await axios.get(
       `${network.apiAddress}/accounts/${address}`,
     );
@@ -54,6 +55,7 @@ export async function getIsContractTrusted(address?: string) {
     if (address == null) {
       return false;
     }
+    axios.defaults.headers.common['x-auth-key'] = '457323bfc27041997b84a0e901618089';
     const response = await axios.get(
       `${network.apiAddress}/address/${address}`,
     );
