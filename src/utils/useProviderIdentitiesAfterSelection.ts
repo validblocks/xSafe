@@ -21,12 +21,10 @@ export default function useProviderIdentitiesAfterSelection({
   searchParam,
 }: InputParams = {}) {
   const fetchProviders = useCallback(
-    (): Promise<IProvider[]> => {
-      axios.defaults.headers.common['x-auth-key'] = '457323bfc27041997b84a0e901618089';
-      return axios
+    (): Promise<IProvider[]> =>
+      axios
         .get(`${network.apiAddress}/providers`)
-        .then((res) => res.data);
-    },
+        .then((res) => res.data),
     [],
   );
 
@@ -191,8 +189,6 @@ export default function useProviderIdentitiesAfterSelection({
     const providerIds = fetchedProviders
       ?.map((provider: IProvider) => provider.identity)
       .join(',');
-
-    axios.defaults.headers.common['x-auth-key'] = '457323bfc27041997b84a0e901618089';
     return axios
       .get(`${network.apiAddress}/identities?identities=${providerIds}`)
       .then((res) => res.data);

@@ -39,11 +39,7 @@ import { MultisigSendSft } from 'src/types/MultisigSendSft';
 import { buildTransaction } from './transactionUtils';
 
 const proposeDeployGasLimit = 256_000_000;
-const proxy = new ProxyNetworkProvider(network?.apiAddress ?? '', {
-  headers: {
-    'x-auth-key': '457323bfc27041997b84a0e901618089',
-  },
-});
+const proxy = new ProxyNetworkProvider(network?.apiAddress ?? '');
 
 export async function queryOnContract(functionName: string, contractAddress: string, ...args: TypedValue[]) {
   const smartContract = new SmartContract({

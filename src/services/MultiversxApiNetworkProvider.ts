@@ -91,9 +91,4 @@ export class MultiversxApiNetworkProvider extends ApiNetworkProvider {
 
 export const MultiversxApiProvider = new MultiversxApiNetworkProvider(
   network?.apiAddress ?? '',
-  {
-    headers: {
-      'x-auth-key': '457323bfc27041997b84a0e901618089',
-    },
-  },
 );
