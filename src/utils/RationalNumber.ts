@@ -1,3 +1,4 @@
+import { formatAmount } from '@multiversx/sdk-dapp/utils';
 import BigNumber from 'bignumber.js';
 
 export default class RationalNumber {
@@ -13,9 +14,9 @@ export default class RationalNumber {
   static fromBigInteger(amount: BigNumber.Value) {
     console.log({ amount });
 
-    const decimals = new BigNumber(10).pow(18);
-    const rational = new RationalNumber(amount, decimals);
-    return rational.toDecimalString();
+    return formatAmount({
+      input: amount.toString(),
+    });
   }
 
   static fromFungibleBigInteger(
@@ -41,6 +42,7 @@ export default class RationalNumber {
         ? RationalNumber.fromFungibleBigInteger(amountAsBigInteger, numDecimals)
         : RationalNumber.fromBigInteger(amountAsBigInteger);
 
+    console.log({ result });
     return result;
   }
 
