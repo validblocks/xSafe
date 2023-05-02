@@ -22,6 +22,7 @@ const MobileCardsForTableReplacement = ({
   <Box>
     { tokenTableRows.map((item: TokenTableRowItem) => (
       <MobileTokenCard
+        key={item.identifier}
         tokenRow={item}
         handleOptionSelected={handleOptionSelected}
         handleQrModal={handleQrModal}
