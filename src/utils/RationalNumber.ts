@@ -14,9 +14,15 @@ export default class RationalNumber {
   static fromBigInteger(amount: BigNumber.Value) {
     console.log({ amount });
 
-    return formatAmount({
-      input: amount.toString(),
-    });
+    try {
+      return formatAmount({
+        input: amount.toString(),
+      });
+    } catch (e) {
+      console.error(e);
+    }
+
+    return '0';
   }
 
   static fromFungibleBigInteger(
