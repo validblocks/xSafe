@@ -48,7 +48,11 @@ const AmountWithTitleCard = ({
           }}
         />
       ) : (
-        <Text fontSize={maxWidth600 ? '20px' : '24px'} fontWeight="bolder" sx={{ display: 'flex', gap: 1 }}>
+        <Text
+          fontSize={maxWidth600 ? '20px' : '24px'}
+          fontWeight="bolder"
+          sx={{ display: 'flex', gap: 1 }}
+        >
           {(`${cardAmount} ${needsDollarSign ? '$' : ''}${amountUnityMeasure}`)}
         </Text>
       )}

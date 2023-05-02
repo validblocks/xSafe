@@ -32,6 +32,8 @@ export default function useMultisigDetailsCards() {
     setTotalOrganizationValueToDisplay,
   ] = useState('0');
 
+  console.log({ totalOrganizationValueToDisplay });
+
   const {
     boardMembersCount: totalBoardMembers,
     quorumCountState: [quorumSize],

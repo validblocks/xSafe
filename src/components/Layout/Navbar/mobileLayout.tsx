@@ -60,7 +60,6 @@ const MobileLayout = () => {
   const minWidth380 = useMediaQuery('(min-width:380px)');
   const minWidth480 = useMediaQuery('(min-width:480px)');
   const minWidth425 = useMediaQuery('(min-width:425px)');
-  const minWidth410 = useMediaQuery('(min-width:410px)');
   const minWidth535 = useMediaQuery('(min-width:535px)');
 
   const [selectedTab, setSelectedTab] = useState(0);
@@ -72,7 +71,7 @@ const MobileLayout = () => {
     if (minWidth535) return 12;
     if (minWidth380) return 7;
     return 3;
-  }, [minWidth380, minWidth410, minWidth425, minWidth535]);
+  }, [minWidth380, minWidth535]);
 
   useEffect(() => {
     // eslint-disable-next-line no-nested-ternary
@@ -115,23 +114,6 @@ const MobileLayout = () => {
 
   const { allPendingActions, actionableByCurrentWallet } = usePendingActions();
 
-  const [isHeaderVisible, setIsHeaderVisible] = useState(true);
-  const [prevScrollPos, setPrevScrollPos] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollPos = window.pageYOffset;
-      const isScrollingDown = currentScrollPos > prevScrollPos;
-      const shouldHideHeader = isScrollingDown && currentScrollPos > 100;
-      const shouldShowHeader = !isScrollingDown && currentScrollPos < prevScrollPos - 100;
-      setIsHeaderVisible(!shouldHideHeader && !shouldShowHeader);
-      setPrevScrollPos(currentScrollPos);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [prevScrollPos]);
-
   return (
     <Box>
       <Box height={minWidth425 ? '123px' : '111.14px'}>
@@ -140,7 +122,7 @@ const MobileLayout = () => {
             zIndex: 1301,
             position: 'fixed',
             width: '100%',
-            top: !isHeaderVisible ? '-112px' : '0',
+            top: '0',
             transition: 'all 0.3s ease-out',
             backgroundColor: theme.palette.background.secondary,
             borderRadius: '0 0 10px 10px',
