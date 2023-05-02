@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-nested-ternary */
 import { Box, Button, Grid, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
@@ -93,7 +94,7 @@ const MyStake = () => {
     );
 
     const allClaimableRewardsString = getDenominatedBalance<string>(
-      allClaimableRewards,
+      allClaimableRewards.toString(),
       { precisionAfterComma: 4, needsDenomination: false },
     );
     setTotalClaimableRewards(allClaimableRewardsString);
@@ -117,7 +118,7 @@ const MyStake = () => {
     );
 
     setTotalUndelegatedFunds(
-      getDenominatedBalance<number>(totalUndelegations, {
+      getDenominatedBalance<number>(totalUndelegations.toString(), {
         precisionAfterComma: 5,
         needsDenomination: false,
       }),
@@ -180,7 +181,7 @@ const MyStake = () => {
     },
   });
 
-  const allClaimableRewards = Number(RationalNumber.fromBigInteger(totalClaimableRewards));
+  const allClaimableRewards = Number(Number(totalClaimableRewards).toLocaleString());
 
   if (isErrorOnFetchDelegations) {
     return <ErrorOnFetchIndicator dataName="delegation" />;

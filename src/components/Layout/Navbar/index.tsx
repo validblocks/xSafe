@@ -165,7 +165,7 @@ const MiniDrawer = () => {
                           {el.icon}
                         </ListItemIcon>
                         <ListItemText
-                          primary={<Text> {el.name}</Text>}
+                          primary={<Box><Text> {el.name}</Text></Box>}
                           sx={{
                             opacity: open ? 1 : 0,
                           }}
