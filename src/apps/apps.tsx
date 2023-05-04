@@ -1,7 +1,7 @@
 import ClaimEarningsLight from 'src/assets/img/claimearnings_light.svg';
 import ClaimEarningsDark from 'src/assets/img/claimearnings_dark.svg';
 import { lazy } from 'react';
-import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 import { RawTransactionType } from 'src/helpers/types';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { withInstallGuard } from './withInstallGuard';
@@ -36,7 +36,7 @@ export const apps: AppWithRouteConfig[] = [
     imageUrlLight: ClaimEarningsLight,
     imageUrlDark: ClaimEarningsDark,
     isInstallable: true,
-    icon: <FileDownloadIcon />,
+    icon: <DownloadRoundedIcon />,
     path: '/xspotlight-claim',
     title: 'xSpotlight Claim',
   },

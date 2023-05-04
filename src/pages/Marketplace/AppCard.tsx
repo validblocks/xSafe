@@ -1,6 +1,5 @@
 import { Box, useMediaQuery } from '@mui/material';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { useTheme } from 'styled-components';
 import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
 import * as Styled from './styled';
 
@@ -28,7 +27,6 @@ const AppCard = ({
   pinStatus,
 }: Props) => {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
-  const theme: any = useTheme();
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   return (
@@ -49,11 +47,6 @@ const AppCard = ({
         <Styled.InstallButton
           onClick={actionButtonOnClick}
           sx={{
-            ...(isInstalled && {
-              backgroundColor: `${theme.palette.background.button} !important`,
-              border: `1px solid ${theme.palette.background.button} !important`,
-              color: '#fff !important',
-            }),
             marginRight: isInstallable && isInstalled && maxWidth600 ? '12px' : '0',
           }}
           disabled={!isInstallable || isInReadOnlyMode || title === 'Marketplace'}
@@ -63,7 +56,7 @@ const AppCard = ({
           <Styled.PinButton
             onClick={actionButtonOnPin}
           >
-            {pinStatus ? 'Pinned' : 'Pin App'}
+            {pinStatus ? 'Unpin' : 'Pin App'}
           </Styled.PinButton>
         ) : ''}
       </Box>
