@@ -1,6 +1,7 @@
 import { Box, Grid } from '@mui/material';
 import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
 import React, { useCallback, useMemo } from 'react';
+import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MainButton } from 'src/components/Theme/StyledComponents';
 import { MultiversXLogo } from 'src/components/Utils/MultiversXLogo';
@@ -17,6 +18,7 @@ import * as Styled from './styled';
 
 const ClaimNftAuction = () => {
   const claimableAmountResult = useNftAuctionClaimableAmount();
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
 
   const claimableAmount = useMemo(() => {
     if (!claimableAmountResult) return 0;
@@ -95,6 +97,7 @@ const ClaimNftAuction = () => {
                   >
                     <MainButton
                       onClick={handleClaimButtonClick}
+                      disabled={isInReadOnlyMode}
                       fullWidth
                     >
                       Propose Claim

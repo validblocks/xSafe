@@ -77,6 +77,7 @@ export const availableApps: MarketplaceApp[] = [
   })),
   {
     name: 'Address Book',
+    title: 'Address Book',
     link: 'app-coming-soon',
     id: 'app-coming-soon-2-menu-sub-item',
     description: 'Save a list of frequently used addresses. They will be available for further use.',
@@ -87,6 +88,7 @@ export const availableApps: MarketplaceApp[] = [
   },
   {
     name: 'More Apps',
+    title: 'More Apps',
     link: 'more-apps-coming-soon',
     id: 'more-apps-coming-soon-2-menu-sub-item',
     description: 'You will find more community developed apps here very soon!',
