@@ -61,6 +61,17 @@ export const availableApps: MarketplaceApp[] = [
     imageUrlDark: StakeAppThumbnailDark,
     isInstallable: true,
   },
+
+  ...appsWithRouteConfig.map((app) => ({
+    name: app.name,
+    link: app.link,
+    id: app.id,
+    description: app.description,
+    icon: app.icon,
+    imageUrlLight: app.imageUrlLight,
+    imageUrlDark: app.imageUrlDark,
+    isInstallable: app.isInstallable,
+  })),
   {
     name: 'Address Book',
     link: 'app-coming-soon',
@@ -81,16 +92,6 @@ export const availableApps: MarketplaceApp[] = [
     imageUrlDark: MoreAppsDark,
     isInstallable: false,
   },
-  ...appsWithRouteConfig.map((app) => ({
-    name: app.name,
-    link: app.link,
-    id: app.id,
-    description: app.description,
-    icon: app.icon,
-    imageUrlLight: app.imageUrlLight,
-    imageUrlDark: app.imageUrlDark,
-    isInstallable: app.isInstallable,
-  })),
 ];
 
 const topItems: MenuItem[] = [
