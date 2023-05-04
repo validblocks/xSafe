@@ -1,7 +1,10 @@
-// import MoreAppsLight from 'src/assets/img/MoreAppsLight.png';
-// import MoreAppsDark from 'src/assets/img/MoreAppsDark.png';
-// import { lazy } from 'react';
-// import DiamondIcon from '@mui/icons-material/Diamond';
+import MoreAppsLight from 'src/assets/img/MoreAppsLight.png';
+import MoreAppsDark from 'src/assets/img/MoreAppsDark.png';
+import ClaimEarningsLight from 'src/assets/img/claimearnings_light.svg';
+import ClaimEarningsDark from 'src/assets/img/claimearnings_dark.svg';
+import { lazy } from 'react';
+import DiamondIcon from '@mui/icons-material/Diamond';
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { RawTransactionType } from 'src/helpers/types';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { withInstallGuard } from './withInstallGuard';
@@ -24,25 +27,23 @@ export interface AppWithRouteConfig {
 }
 
 export const apps: AppWithRouteConfig[] = [
-  // {
-  //   name: 'My Awesome App',
-  //   component: lazy(() =>
-  //     import('./example-app/index').then((module) => ({
-  //       default: module.default,
-  //     })),
-  //   ),
-  //   link: 'example-app',
-  //   id: 'example-app',
-  //   description: 'Congrats! You successfully created your first app for xSafe!',
-  //   imageUrlLight: MoreAppsLight,
-  //   imageUrlDark: MoreAppsDark,
-  //   isInstallable: true,
-  //   icon: <DiamondIcon />,
-  //   path: '/example-app',
-  //   title: 'My Awesome App',
-  //   transaction: sampleTransaction,
-  //   action: sampleAddAction,
-  // },
+  {
+    name: 'Auction Earnings',
+    component: lazy(() =>
+      import('./nft-auctions/index').then((module) => ({
+        default: module.default,
+      })),
+    ),
+    link: 'claim-auction-earnings',
+    id: 'claim-auction-earnings',
+    description: 'Claim the resulting funds ($EGLD) from your NFT Auctions on xSpotlight.com!',
+    imageUrlLight: ClaimEarningsLight,
+    imageUrlDark: ClaimEarningsDark,
+    isInstallable: true,
+    icon: <FileDownloadIcon />,
+    path: '/claim-auction-earnings',
+    title: 'Claim Auction Earnings',
+  },
   // {
   //   name: 'My Awesome App 2',
   //   component: lazy(() =>
