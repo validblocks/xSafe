@@ -54,3 +54,6 @@ export const sampleAuthenticatedDomains = [network.storageApi];
 export const relatedBranch = 'master';
 
 export const xSafeApiUrl = 'https://api.xsafe.io';
+
+export const xSpotlightContractAddress =
+  'erd1qqqqqqqqqqqqqpgqra34kjj9zu6jvdldag72dyknnrh2ts9aj0wqp4acqh';

@@ -35,6 +35,7 @@ export type MarketplaceApp = MenuItem & {
   imageUrlDark?: string;
   isInstalled?: boolean;
   isInstallable: boolean;
+  title?: string;
 };
 
 export const preinstalledApps: MarketplaceApp[] = [
@@ -53,6 +54,7 @@ export const preinstalledApps: MarketplaceApp[] = [
 export const availableApps: MarketplaceApp[] = [
   {
     name: 'Stake',
+    title: 'Stake',
     link: 'stake',
     id: AppIdentifiers.Staking,
     description: 'Stake your tokens, secure the network and earn rewards.',
@@ -64,6 +66,7 @@ export const availableApps: MarketplaceApp[] = [
 
   ...appsWithRouteConfig.map((app) => ({
     name: app.name,
+    title: app.title,
     link: app.link,
     id: app.id,
     description: app.description,

@@ -12,7 +12,7 @@ export const MultiversXLogo = ({
   width = 30,
   marginRight = '14px',
 }: IProps) => (
-  <Box marginRight={marginRight}>
+  <Box marginRight={marginRight} display="flex" alignItems="center">
     <MultiversXLogoSymbol
       width={width}
       height={height}

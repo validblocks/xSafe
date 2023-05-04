@@ -4,4 +4,5 @@ export enum ExternalContractFunction {
   SET_SPECIAL_ROLE = 'setSpecialRole',
   ESDT_NFT_CREATE = 'ESDTNFTCreate',
   AUCTION_TOKEN = 'auctionToken',
+  CLAIM_AUCTION_TOKENS = 'claimTokens',
 }
