@@ -3,10 +3,10 @@ import MoreAppsDark from 'src/assets/img/MoreAppsDark.png';
 import ClaimEarningsLight from 'src/assets/img/claimearnings_light.svg';
 import ClaimEarningsDark from 'src/assets/img/claimearnings_dark.svg';
 import { lazy } from 'react';
-import DiamondIcon from '@mui/icons-material/Diamond';
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import { RawTransactionType } from 'src/helpers/types';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import DiamondIcon from '@mui/icons-material/Diamond';
 import { withInstallGuard } from './withInstallGuard';
 import { sampleAddAction, sampleRemoveAction, sampleTransaction } from './example-app/samples';
 
@@ -28,21 +28,21 @@ export interface AppWithRouteConfig {
 
 export const apps: AppWithRouteConfig[] = [
   {
-    name: 'Auction Earnings',
+    name: 'xSpotlight',
     component: lazy(() =>
       import('./nft-auctions/index').then((module) => ({
         default: module.default,
       })),
     ),
-    link: 'claim-auction-earnings',
-    id: 'claim-auction-earnings',
+    link: 'xspotlight-claim',
+    id: 'xspotlight-claim',
     description: 'Claim the resulting funds ($EGLD) from your NFT Auctions on xSpotlight.com!',
     imageUrlLight: ClaimEarningsLight,
     imageUrlDark: ClaimEarningsDark,
     isInstallable: true,
     icon: <FileDownloadIcon />,
-    path: '/claim-auction-earnings',
-    title: 'Claim Auction Earnings',
+    path: '/xspotlight-claim',
+    title: 'xSpotlight Claim',
     transaction: sampleTransaction,
     action: sampleAddAction,
   },

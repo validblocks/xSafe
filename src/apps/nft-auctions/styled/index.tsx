@@ -12,9 +12,7 @@ export const NFTMarketplaceCard = styled(Card)(({ theme }) => ({
     boxShadow: 'none',
     transition: 'all .2s linear',
     minWidth: '250px',
-    maxWidth: '320px',
     backgroundColor: theme.palette.background.secondary,
-
   },
 }));
 
