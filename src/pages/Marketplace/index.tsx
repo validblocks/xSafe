@@ -77,7 +77,7 @@ const Marketplace = () => {
             <AppCard
               key={app.id}
               imgUrl={isDarkThemeEnabled ? app.imageUrlDark : app.imageUrlLight}
-              title={app.name}
+              title={app.title}
               description={app?.description}
               isInstallable={app.isInstallable}
               isInstalled={app?.isInstalled ?? false}

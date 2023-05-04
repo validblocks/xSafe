@@ -107,7 +107,7 @@ export class MultisigSmartContractCall extends MultisigAction {
       case ExternalContractFunction.SET_SPECIAL_ROLE:
         return i18next.t('Set Special Role');
       case ExternalContractFunction.CLAIM_AUCTION_TOKENS:
-        return i18next.t('Claim Auction Tokens');
+        return i18next.t('Claim Auction Earnings');
       default:
         return 'Unknown function';
     }

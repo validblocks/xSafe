@@ -22,7 +22,7 @@ import {
   U32Type,
   U32Value,
 } from '@multiversx/sdk-core/out/smartcontracts/typesystem';
-import { gasLimit, minGasLimit, issueTokenContractAddress, network } from 'src/config';
+import { gasLimit, minGasLimit, issueTokenContractAddress, network, xSpotlightContractAddress } from 'src/config';
 import { parseAction, parseActionDetailed } from 'src/helpers/converters';
 import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { MultisigAction } from 'src/types/MultisigAction';
@@ -254,6 +254,8 @@ export function mutateSmartContractCall(
     ...args,
   ];
 
+  console.log({ allArgs });
+
   return sendTransaction(
     MultisigContractFunction.PROPOSE_ASYNC_CALL,
     gasLimit,
@@ -334,6 +336,32 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
     new U32Value(new BigNumber(proposal.nonce)),
     new U32Value(1),
     new AddressValue(proposal.address),
+  );
+}
+
+export function mutateAuctionNftOnXSpotlight(proposal: MultisigSendNft) {
+  const identifierWithoutNonce = proposal.identifier.split('-').slice(0, 2).join('-');
+  const currentMultisigAddress = currentMultisigAddressSelector(
+    store.getState(),
+  );
+
+  const smartContract = new SmartContract({
+    address: currentMultisigAddress,
+  });
+
+  mutateSmartContractCall(
+    new Address(smartContract.getAddress().bech32()),
+    new BigUIntValue(new BigNumber(0)),
+    MultisigContractFunction.ESDT_NFT_TRANSFER,
+    BytesValue.fromUTF8(identifierWithoutNonce),
+    new U32Value(new BigNumber(proposal.nonce)),
+    new U32Value(1),
+    new AddressValue(new Address(xSpotlightContractAddress)),
+    BytesValue.fromUTF8('auctionToken'),
+    BytesValue.fromHex('5af3107a4000'),
+    BytesValue.fromHex(''),
+    BytesValue.fromHex('64c4f7fe'),
+    BytesValue.fromHex('45474c44'),
   );
 }
 

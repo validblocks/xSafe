@@ -45,7 +45,7 @@ const MyApps = () => {
     >
       {myApps.length === 0 ?
         <NoActionsOverlay message={t('No apps installed')} /> :
-        myApps.map((app: MarketplaceApp) => (
+        myApps.map((app) => (
           <Grid
             item
             key={app.id}
@@ -60,7 +60,7 @@ const MyApps = () => {
             <AppCard
               key={app.id}
               imgUrl={isDarkThemeEnabled ? app.imageUrlDark : app.imageUrlLight}
-              title={app.name}
+              title={app?.title ?? ''}
               description={app?.description}
               isInstallable={app.isInstallable}
               isInstalled={app?.isInstalled ?? false}
