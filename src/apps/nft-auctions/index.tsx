@@ -1,4 +1,4 @@
-import { Box, Grid } from '@mui/material';
+import { Box, Grid, useMediaQuery } from '@mui/material';
 import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
 import React, { useCallback, useMemo } from 'react';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
@@ -19,6 +19,7 @@ import * as Styled from './styled';
 const ClaimNftAuction = () => {
   const claimableAmountResult = useNftAuctionClaimableAmount();
   const { isInReadOnlyMode } = useOrganizationInfoContext();
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const claimableAmount = useMemo(() => {
     if (!claimableAmountResult) return 0;
@@ -50,7 +51,7 @@ const ClaimNftAuction = () => {
             key={marketplace.title}
             item
           >
-            <Styled.NFTMarketplaceCard>
+            <Styled.NFTMarketplaceCard sx={{ maxWidth: maxWidth600 ? '100%' : '320px' }}>
               <Styled.NFTMarketplaceImgContainer>
                 {marketplace.imgComponent}
                 <Box pt={1}>

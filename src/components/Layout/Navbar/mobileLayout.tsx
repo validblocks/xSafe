@@ -268,7 +268,7 @@ const MobileLayout = () => {
             style={{ width: '100%' }}
           >
 
-            <BottomMenuButton>
+            <BottomMenuButton sx={{ textTransform: 'none !important' }}>
               <Box display="flex" alignItems="center">
                 {el.name === 'Transactions' && (
                 <LinkInfoNumber
