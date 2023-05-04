@@ -54,37 +54,6 @@ export class MultisigSmartContractCall extends MultisigAction {
     this.functionName = functionName;
     this.args = args;
     MultisigSmartContractCall.stakingProviders = [];
-
-    console.log({
-      [this.functionName]: this.getData(),
-      args: this.args.map((arg) => ({
-        str: arg.valueOf().toString(),
-        hex: arg.valueOf().toString('hex'),
-      })),
-    });
-
-    if (this.functionName === 'setSpecialRole') {
-      const parseSetRole = new ArgumentsParser()
-        .parseArguments(ExternalContractFunction.SET_SPECIAL_ROLE, args);
-      console.log({ parseSetRole });
-    }
-
-    if (this.functionName === ExternalContractFunction.ESDT_NFT_CREATE) {
-      const parsedResult = new ArgumentsParser().parseArguments(ExternalContractFunction.ESDT_NFT_CREATE, args);
-      console.log({ parsedResult });
-    }
-
-    if (this.functionName === ExternalContractFunction.ISSUE_NON_FUNGIBLE) {
-      const parsedIssue = new ArgumentsParser()
-        .parseArguments(ExternalContractFunction.ISSUE_NON_FUNGIBLE, args);
-      console.log({ parsedIssue });
-    }
-
-    if (this.functionName === ExternalContractFunction.ISSUE_SEMI_FUNGIBLE) {
-      const parsedSemiFungible = new ArgumentsParser()
-        .parseArguments(ExternalContractFunction.ISSUE_NON_FUNGIBLE, args);
-      console.log({ parsedSemiFungible });
-    }
   }
 
   tooltip() {
@@ -137,6 +106,8 @@ export class MultisigSmartContractCall extends MultisigAction {
         return i18next.t('Create NFT');
       case ExternalContractFunction.SET_SPECIAL_ROLE:
         return i18next.t('Set Special Role');
+      case ExternalContractFunction.CLAIM_AUCTION_TOKENS:
+        return i18next.t('Claim Auction Tokens');
       default:
         return 'Unknown function';
     }

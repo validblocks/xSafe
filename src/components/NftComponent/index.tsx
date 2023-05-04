@@ -37,8 +37,6 @@ function NftComponent() {
     groupByCollection: true,
   });
 
-  console.log({ nftsGroupedByCollection });
-
   if (isErrorOnFetchNFTs) {
     return <ErrorOnFetchIndicator dataName="NFT" />;
   }

@@ -315,8 +315,6 @@ function TotalBalance() {
     setMultisigAllCoinsValue(totalValue);
   }, [totalUsdValueConverted]);
 
-  console.log({ multisigAllCoinsValue });
-
   const handleConnectClick = () => {
     dispatch(
       setProposeModalSelectedOption({

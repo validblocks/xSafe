@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-nested-ternary */
 import { Box, Button, Grid, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';

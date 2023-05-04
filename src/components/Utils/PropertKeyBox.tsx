@@ -8,7 +8,6 @@ type Props = {
 
 export const PropertyKeyBox = ({ propertyKey }: Props) => {
   const theme: any = useTheme();
-  console.log({ propertyKey });
   return (
     <Box>
       <Text sx={{

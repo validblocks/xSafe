@@ -35,7 +35,6 @@ export const AppSelect = ({ apps, selectedApp, setSelectedApp }: Props) => {
   const styleProp = useStyles();
 
   const changeApp = (param: any) => {
-    console.log({ param });
     setSelectedApp((oldApp) => apps.find((app) => app.name === param?.target?.value) ?? oldApp);
   };
   return (
