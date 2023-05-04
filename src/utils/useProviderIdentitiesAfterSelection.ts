@@ -106,7 +106,6 @@ export default function useProviderIdentitiesAfterSelection({
 
   const filterBySearchParam = useCallback(
     (data: IProviderIdentity[]) => {
-      console.log({ filteringData: data });
       if (!searchParam) return data;
       return data.filter((p) =>
         ('identity' in p && p.identity.toLowerCase().trim().includes(searchParam.toLowerCase().trim()))

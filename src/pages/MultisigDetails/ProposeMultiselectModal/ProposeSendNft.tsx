@@ -110,8 +110,6 @@ const ProposeSendNft = ({
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
-  console.log({ searchedNft });
-
   return (
     <Box>
       <NftPresentation

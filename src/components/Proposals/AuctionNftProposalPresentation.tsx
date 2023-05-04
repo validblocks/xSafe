@@ -5,9 +5,8 @@ type Props = {
   parsedArgs: any;
 };
 
-const AuctionNftProposalPresentation = ({ parsedArgs }: Props) => {
+const AuctionNftProposalPresentation = ({ parsedArgs: _ }: Props) => {
   const text = 'AuctionNftProposal';
-  console.log({ parsedArgs });
   return (
     <Box>
       {text}

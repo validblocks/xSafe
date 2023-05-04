@@ -25,7 +25,6 @@ export const calculatePrice = (balanceDetails: BalanceDetails, identifier: strin
 };
 
 const DisplayTokenPrice = ({ tokenIdentifier, balanceDetails }: Props) => {
-  console.log({ tokenIdentifier });
   const [totalValue, _setTotalValue] = useState(() => calculatePrice(balanceDetails, tokenIdentifier));
   const convertedValue = useCurrencyConversion(Number(totalValue));
   const activeCurrency = useSelector(selectedCurrencySelector);
