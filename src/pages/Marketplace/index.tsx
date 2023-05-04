@@ -6,6 +6,7 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import { MarketplaceApp } from 'src/utils/menuItems';
 import { useApps } from 'src/utils/useApps';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
+import { useNavigate } from 'react-router-dom';
 import { NoteSpan } from '../Settings/settings-style';
 import AppCard from './AppCard';
 import { LOCAL_STORAGE_KEYS } from './localStorageKeys';
@@ -16,6 +17,7 @@ const Marketplace = () => {
     allMarketplaceApps,
   } = useApps();
 
+  const navigate = useNavigate();
   const widthBetween460And600 = useMediaQuery('(min-width:460px) and (max-width:600px)');
   const minWidth600 = useMediaQuery('(min-width:600px)');
   const maxWidth600 = useMediaQuery('(max-width:600px)');
@@ -81,8 +83,8 @@ const Marketplace = () => {
               description={app?.description}
               isInstallable={app.isInstallable}
               isInstalled={app?.isInstalled ?? false}
-              actionButtonText={app.isInstalled ? 'Installed' : 'Install App'}
-              actionButtonOnClick={() => installApp(app)}
+              actionButtonText={app.isInstalled ? 'Open' : 'Install App'}
+              actionButtonOnClick={() => (!app.isInstalled ? installApp(app) : navigate(`/${app.link}`))}
               actionButtonOnPin={() => handlePinApps(app)}
               pinStatus={pinnedApps.includes(app.id)}
             />
