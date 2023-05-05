@@ -1,150 +1,122 @@
-/* eslint-disable no-nested-ternary */
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
   Box,
-  Grid,
+  Divider,
+  OutlinedInput,
   useMediaQuery,
 } from '@mui/material';
 import { motion } from 'framer-motion';
-import { useSelector } from 'react-redux';
-import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
-import { useContractNFTs } from 'src/utils/useContractNFTs';
-import NoActionsOverlay from 'src/pages/Transactions/utils/NoActionsOverlay';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { useDispatch } from 'react-redux';
 import { useTheme } from 'styled-components';
-import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
-import { NftCollectionTitle } from './NftCollectionTitle';
-import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
-import NftGrid from './NftGrid';
-import { Text } from '../StyledComponents/StyledComponents';
+import { FormSearchInput } from 'src/components/Theme/StyledComponents';
+import { ReactComponent as SearchIcon } from 'src/assets/img/searchFilled.svg';
+import { setNavbarSearchParam } from 'src/redux/slices/searchSlice';
+import useDebounce from 'src/utils/useDebounce';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import ListGridViewSelection from './ListGridViewSelection';
+import CardDetailsViewSelection from './CardDetailsViewSelection';
+import NftControlledGrid from './NftControlledGrid';
+
+interface NftPageContextType {
+  hasNftDetailsEnabled: boolean;
+}
+
+const NftPageContext = createContext<NftPageContextType>(
+  { hasNftDetailsEnabled: true } as NftPageContextType,
+);
+
+export const useNftPageContext = () =>
+  useContext(NftPageContext);
 
 function NftComponent() {
-  const navbarSearchParam = useSelector(navbarSearchSelector);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
   const theme: any = useTheme();
+  const dispatch = useDispatch();
 
-  const {
-    isFetchingNFTs,
-    isLoadingNFTs,
-    isErrorOnFetchNFTs,
-    nftsGroupedByCollection,
-  } = useContractNFTs({
-    withSearchFilter: true,
-    searchParam: navbarSearchParam,
-    leaveSftsLast: true,
-    groupByCollection: true,
-  });
+  const [searchParam, setSearchParam] = useState('');
+  const [isGroupedByCollection, setIsGroupedByCollection] = useState(true);
+  const [areNftDetailsEnabled, setAreNftDetailsEnabled] = useState(true);
+  const debouncedSearchParam = useDebounce(searchParam, 500);
 
-  if (isErrorOnFetchNFTs) {
-    return <ErrorOnFetchIndicator dataName="NFT" />;
-  }
+  const handleSearchInputChange = useCallback(
+    (e: any) => setSearchParam(e.target.value),
+    []);
 
-  if (isLoadingNFTs || isFetchingNFTs) {
-    return <LoadingDataIndicator dataName="NFT" />;
-  }
-
-  if (Object.keys(nftsGroupedByCollection)?.length === 0) {
-    return (
-      <Grid container margin={maxWidth600 ? '0px' : '-9px 0 0 -9px'}>
-        <Grid xs={12} item>
-          <NoActionsOverlay message={'No NFTs to show'} />
-        </Grid>
-      </Grid>
-    );
-  }
+  useEffect(() => {
+    dispatch(setNavbarSearchParam(debouncedSearchParam));
+  }, [dispatch, debouncedSearchParam]);
 
   return (
-    <Box padding="0" paddingBottom={maxWidth600 ? '44px' : 0}>
-      {(
+    <NftPageContext.Provider value={useMemo(() => ({
+      hasNftDetailsEnabled: areNftDetailsEnabled,
+    }),
+    [areNftDetailsEnabled])}
+    >
+      <Box
+        padding="0"
+        paddingBottom={
+        // eslint-disable-next-line no-nested-ternary
+        maxWidth600
+          ? isGroupedByCollection ? '60px' : '70px'
+          : 0
+      }
+      >
+        <Box>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '100%',
+              borderTopRightRadius: '4px',
+              borderTopLeftRadius: '4px',
+              borderBottomRightRadius: isGroupedByCollection ? '4px' : 0,
+              borderBottomLeftRadius: isGroupedByCollection ? '4px' : 0,
+              backgroundColor: theme.palette.background?.secondary,
+              padding: '0.5rem 1rem',
+            }}
+          >
+            <Box>
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box component="form" noValidate autoComplete="off">
+                  <FormSearchInput>
+                    <SearchIcon />
+                    <OutlinedInput onChange={handleSearchInputChange} placeholder="Search..." />
+                  </FormSearchInput>
+                </Box>
+              </Box>
+            </Box>
+            <Box display="flex" alignItems="center" justifyContent="flex-end">
+              <ListGridViewSelection setIsGroupedByCollection={setIsGroupedByCollection} />
+              <Divider
+                sx={{
+                  marginLeft: '0.5rem',
+                  background: '#dfdfe821',
+                  height: '33px',
+                }}
+                orientation="vertical"
+              />
+              <CardDetailsViewSelection setAreNftDetailsEnabled={setAreNftDetailsEnabled} />
+            </Box>
+          </Box>
+        </Box>
         <Box
           component={motion.div}
           exit={{ opacity: 0 }}
+          sx={{
+            border: isGroupedByCollection ? 'none' : '1px solid rgb(30, 29, 42)',
+            borderBottomRightRadius: '4px',
+            borderBottomLeftRadius: '4px',
+            paddingRight: isGroupedByCollection ? 0 : '16px',
+            paddingTop: isGroupedByCollection ? '10px' : 0,
+            paddingBottom: isGroupedByCollection ? 0 : '16px',
+          }}
         >
-          {Object.entries(nftsGroupedByCollection).map(([collection, collectionNfts]) => (
-            <Box key={collection} mb={2}>
-              <Accordion
-                sx={{
-                  background: theme.palette.background.secondary,
-                  color: '#fff',
-                  borderRadius: '4px',
-                  mb: 2,
-                }}
-              >
-                <AccordionSummary
-                  expandIcon={(
-                    <ExpandMoreIcon
-                      sx={{
-                        color: theme.palette.text.menuItems,
-                      }}
-                    />
-)}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  <Grid container spacing={2} sx={{ alignItems: 'center' }}>
-                    <Grid item xs={5} md={3}>
-                      <NftCollectionTitle value={collection} />
-                    </Grid>
-                    <Grid
-                      item
-                      display="flex"
-                      alignItems="center"
-                      xs={collectionNfts.length > (window.innerWidth > 540 ? 2 : 1) ? 5 : 4}
-                      md={2}
-                    >
-                      <Text
-                        mr={1}
-                        fontWeight={400}
-                        fontSize={14}
-                        sx={{
-                          color: theme.palette.text.menuItems,
-                        }}
-                      >
-                        Owns:
-                      </Text>
-                      <Text sx={{ whiteSpace: 'nowrap' }} fontWeight={900} fontSize={13}>
-                        {collectionNfts.length} {collectionNfts.length === 1
-                          ? collectionNfts.some((nft) => 'balance' in nft) ? 'SFT' : 'NFT'
-                          : collectionNfts.some((nft) => 'balance' in nft) ? 'SFTs' : 'NFTs'}
-                      </Text>
-                    </Grid>
-                    <Grid item display="flex">
-                      {collectionNfts.slice(0, 5).map((nft) => (
-                        <Box ml={1}>
-                          <img
-                            src={`${nft.media?.[0].thumbnailUrl}?w=30&h=30&fit=crop&auto=format`}
-                            alt="nft"
-                            width={40}
-                            height={40}
-                          />
-                        </Box>
-                      ))}
-                    </Grid>
-                  </Grid>
-                </AccordionSummary>
-                <AccordionDetails
-                  sx={{
-                    background: theme.palette.background.default,
-                    p: 0,
-                    pr: 2,
-                    pb: 2,
-                    border: `1px solid ${theme.palette.background.secondary}`,
-                    borderTop: 'none',
-                    borderBottomLeftRadius: '4px',
-                    borderBottomRightRadius: '4px',
-                  }}
-                >
-                  <NftGrid nfts={collectionNfts} />
-                </AccordionDetails>
-              </Accordion>
-            </Box>
-          ))}
-
+          <NftControlledGrid
+            isGroupedByCollection={isGroupedByCollection}
+          />
         </Box>
-      )}
-    </Box>
+      </Box>
+    </NftPageContext.Provider>
   );
 }
 
