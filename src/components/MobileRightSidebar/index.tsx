@@ -170,8 +170,13 @@ export default function MobileRightSidebar() {
                       handleClose();
                     }}
                   >
-                    <MobileSubmenuAccordionSummary key={subItem.id}>
-                      {subItem.icon}
+                    <MobileSubmenuAccordionSummary sx={{ pl: 5 }} key={subItem.id}>
+                      <Box sx={{
+                        width: '33px',
+                      }}
+                      >
+                        {subItem.icon}
+                      </Box>
                       {subItem.name}
                     </MobileSubmenuAccordionSummary>
                   </Link>

@@ -259,7 +259,6 @@ export const MobileSubmenuAccordionSummary = styled(AccordionDetails)(({ theme: 
   borderTop: `solid 1px ${_.palette.divider.secondary}`,
   '& svg': {
     fill: 'currentcolor',
-    margin: '0 8px 0 40px',
   },
 }));
 
