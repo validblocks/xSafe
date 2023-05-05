@@ -64,6 +64,10 @@ const MobileLayout = () => {
 
   const [selectedTab, setSelectedTab] = useState(0);
 
+  useEffect(() => {
+    setSelectedTab(locationString === 'nft' ? 1 : 0);
+  }, [locationString]);
+
   const theme: any = useTheme();
   const dispatch = useDispatch();
 
