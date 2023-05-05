@@ -232,14 +232,14 @@ export const AssetValue = styled(Box)`
 
 export const FormSearchInput = styled(Box)`
   &&& {
-    width: 23ch;
-    margin-left: 0.93rem;
-    padding: 0.12rem 0.5rem;
     display: flex;
     flex-direction: row;
-    aling-items: center;
+    align-items: center;
+    max-width: 23ch;
+    height: 33px;
     border-radius: 0.3rem;
-    background-color: rgba(76, 47, 252, 0.06);
+    padding: 0.12rem 0.5rem;
+    background-color: rgba(76, 47, 252, 0.1);
     & svg {
       margin-top: 2px;
     }

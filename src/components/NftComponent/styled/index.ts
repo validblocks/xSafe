@@ -41,6 +41,7 @@ export const CardMediaContainer = styled(Box)(({ theme: _ }) => ({
       top: 0,
       left: 0,
       backgroundColor: 'rgba(76, 47, 252, 0.1)',
+      borderRadius: '4px',
     },
   },
 }));
