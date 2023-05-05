@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useTheme } from 'styled-components';
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { NftCollectionTitle } from './NftCollectionTitle';
 import NftGrid from './NftGrid';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
@@ -104,7 +105,7 @@ const NftsByCollection = () => {
                       : collectionNfts.some((nft) => 'balance' in nft) ? 'SFTs' : 'NFTs'}
                   </Text>
                 </Grid>
-                <Grid item display="flex">
+                <Grid item display="flex" alignItems="center">
                   {collectionNfts.slice(0, 5).map((nft) => (
                     <Box ml={1}>
                       <img
@@ -115,6 +116,19 @@ const NftsByCollection = () => {
                       />
                     </Box>
                   ))}
+                  {collectionNfts.length > 5 && (
+                  <Box
+                    sx={{
+                      background: 'rgba(76, 47, 252, 0.1)',
+                      padding: '0.25rem',
+                      marginLeft: '0.5rem',
+                      borderRadius: '4px',
+                      color: '#4c2ffc',
+                    }}
+                  >
+                    <AddRoundedIcon />
+                  </Box>
+                  )}
                 </Grid>
               </Grid>
             </AccordionSummary>
