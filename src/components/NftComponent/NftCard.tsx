@@ -16,6 +16,7 @@ import { useIsAlreadyProposedMap } from 'src/utils/useIsAlreadyProposedMap';
 import * as Styled from './styled';
 import PendingNftProposalAnnouncer from './PendingNftProposalAnnouncer';
 import { Text } from '../StyledComponents/StyledComponents';
+import { useNftPageContext } from '.';
 
 type Props = {
   nft: NFTType;
@@ -55,14 +56,23 @@ function NftCard({ nft }: Props) {
   }, [nft.name, typographyRef]);
 
   const isVideoNft = useMemo(() => nft.media?.[0].fileType === 'video/mp4', [nft.media]);
+  const { hasNftDetailsEnabled } = useNftPageContext();
 
   return (
     <Styled.NftCardBox>
       {isAlreadyProposed[nft.identifier] && (
       <PendingNftProposalAnnouncer />
       )}
-      <Styled.CardMediaContainer>
+      <Styled.CardMediaContainer
+        sx={{
+          borderRadius: '4px !important',
+        }}
+      >
         <Styled.NftCardMedia
+          sx={{
+            borderBottomLeftRadius: hasNftDetailsEnabled ? '0' : '4px !important',
+            borderBottomRightRadius: hasNftDetailsEnabled ? '0' : '4px !important',
+          }}
           component={nft.media?.[0].fileType === 'video/mp4' ? 'video' : 'img'}
           controlsList="nodownload"
           autoplay
@@ -81,6 +91,7 @@ function NftCard({ nft }: Props) {
         </Styled.SftBalanceAnnouncer>
         )}
       </Styled.CardMediaContainer>
+      {hasNftDetailsEnabled && (
       <Styled.NftCardContent>
         <Typography
           gutterBottom
@@ -107,6 +118,7 @@ function NftCard({ nft }: Props) {
           {sendButtonText}
         </Styled.SendNFTButton>
       </Styled.NftCardContent>
+      )}
     </Styled.NftCardBox>
   );
 }
