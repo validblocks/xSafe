@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const CardDetailsViewSelection = ({ setAreNftDetailsEnabled }: Props) => {
-  const [isSimplePhoto, setIsSimplePhoto] = useState(true);
+  const [isSimplePhoto, setIsSimplePhoto] = useState(false);
   const simplePhotoClick = useCallback(() => {
     if (!isSimplePhoto) setIsSimplePhoto(true);
   }, [isSimplePhoto]);
