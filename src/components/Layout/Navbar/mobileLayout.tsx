@@ -332,7 +332,7 @@ const MobileLayout = () => {
           locationString === 'nft') && (
           <Styled.MainTab value={selectedTab} onChange={handleChange}>
             <Tab component={Link} label="Tokens" to="/tokens" />
-            <Tab component={Link} label="NFT's" to="/nft" />
+            <Tab component={Link} label="NFTs" to="/nft" />
           </Styled.MainTab>
         )}
       </MobileSecondaryMenu>

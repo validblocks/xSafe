@@ -108,7 +108,7 @@ export const CardBox = styled(Card)`
       padding-left: 3px;
       top: initial;
       left: initial;
-      font-size: 15px;
+      font-size: 14px !important;
     }
     &:hover{
       & span {

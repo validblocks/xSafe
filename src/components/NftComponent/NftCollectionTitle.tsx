@@ -18,8 +18,9 @@ export const NftCollectionTitle = ({ value }: IProps) => {
       }));
     }
   }, [value, typographyRef]);
+
   return (
-    <Box sx={{ mt: 0.2, mb: 0.2, pl: 1 }}>
+    <Box sx={{ mt: 0.2, mb: 0.2 }}>
       <Text
         ref={typographyRef}
         sx={{ whiteSpace: 'nowrap' }}
