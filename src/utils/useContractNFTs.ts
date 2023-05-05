@@ -45,7 +45,10 @@ export const useContractNFTs = (
   } = useQuery(
     [QueryKeys.ALL_ORGANIZATION_NFTS],
     () => fetchNFTs(),
-    USE_QUERY_DEFAULT_CONFIG,
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+      staleTime: 60000,
+    },
   );
 
   const contractNfts = useMemo(() => {
