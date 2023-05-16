@@ -82,6 +82,25 @@ export const apps: AppWithRouteConfig[] = [
     path: '/example-app-3',
     title: 'My Awesome App 3',
   },
+  {
+    name: 'JewelSwap',
+    component: lazy(() =>
+      import('./jewelswap/index').then((module) => ({
+        default: module.default,
+      })),
+    ),
+    link: 'jewelswap',
+    id: 'jewelswap',
+    description: 'Lend directly into JewelSwap',
+    imageUrlLight: ClaimEarningsLight,
+    imageUrlDark: ClaimEarningsDark,
+    isInstallable: true,
+    icon: <FileDownloadRoundedIcon />,
+    path: '/jewelswap',
+    title: 'Jewelswap',
+    transaction: sampleTransaction,
+    action: sampleAddAction,
+  },
 ];
 
 export const appsWithRouteConfig = apps.map((app) => ({
