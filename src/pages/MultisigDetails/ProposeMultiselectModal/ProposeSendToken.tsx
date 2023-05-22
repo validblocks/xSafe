@@ -87,7 +87,7 @@ const ProposeSendToken = ({
         .required('Required')
         .test('is valid address', 'Not a valid address', (value?: string) => {
           try {
-            const _address = new Address(value).bech32();
+            new Address(value).bech32();
             return true;
           } catch (err) {
             return false;

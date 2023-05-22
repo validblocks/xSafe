@@ -1,8 +1,9 @@
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
 // Variables override
 @import './variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
 
 // Utilities
 @import './utilities';

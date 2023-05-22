@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import SafeSettings from 'src/pages/Settings/SafeSettings';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { MobileSettingsWrapper } from 'src/pages/Settings/settings-style';
 import { useApps } from 'src/utils/useApps';
 import routeNames from 'src/routes/routeNames';
@@ -53,7 +53,7 @@ export default function MobileRightSidebar() {
   const [pinnedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.PINNED_APPS, []);
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 
@@ -73,7 +73,7 @@ export default function MobileRightSidebar() {
   };
 
   const { isLoggedIn } = useGetLoginInfo();
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const navigate = useNavigate();
 
   return (

@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { uniqueId } from 'lodash';
-import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
-import { ReactComponent as MultiversXLogoSymbol } from 'src/assets/img/multiversx-symbol.svg';
+import AssetActionIcon from 'src/assets/img/arrow-back-sharp.svg';
+import MultiversXLogoSymbol from 'src/assets/img/multiversx-symbol.svg';
 import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
 import { TokenTableRowItem } from 'src/pages/Organization/types';
 import { ProposalsTypes } from 'src/types/Proposals';
@@ -36,10 +36,11 @@ export const MobileTokenCard = ({ tokenRow, handleQrModal, handleOptionSelected 
           />
           )}
           {tokenRow.balanceDetails?.identifier === 'EGLD' && (
-          <MultiversXLogoSymbol
-            width={SQUARE_SMALL_IMAGE_WIDTH}
-            height={SQUARE_SMALL_IMAGE_WIDTH}
-          />
+            <img
+              src={MultiversXLogoSymbol}
+              width={SQUARE_SMALL_IMAGE_WIDTH}
+              height={SQUARE_SMALL_IMAGE_WIDTH}
+            />
           )}
           <Text fontWeight={700}>
             {tokenRow.balanceDetails?.identifier}
@@ -73,13 +74,25 @@ export const MobileTokenCard = ({ tokenRow, handleQrModal, handleOptionSelected 
         className="shadow-sm rounded mr-2"
         onClick={() => (handleOptionSelected(ProposalsTypes.send_token, tokenRow))}
       >
-        <AssetActionIcon width="30px" height="30px" /> Send
+        <img
+          src={AssetActionIcon}
+          width="30px"
+          height="30px"
+        />
       </AssetActionButton>,
       <AssetActionButton
         key="1"
         onClick={handleQrModal}
       >
-        <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Deposit
+        <Box
+          component="span"
+          sx={{ transform: "rotate(180deg)" }}>
+          <img
+            src={AssetActionIcon}
+            width="30px"
+            height="30px"
+          />
+        </Box>
       </AssetActionButton>
     </Styled.ActionButtonsBox>
   </Styled.MobileCardOfTokens>

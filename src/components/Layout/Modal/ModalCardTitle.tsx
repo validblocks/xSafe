@@ -1,6 +1,6 @@
 import { ModalCardTitleContainer, Text } from 'src/components/StyledComponents/StyledComponents';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { Box, Typography, IconButton, useMediaQuery } from '@mui/material';
 
 interface IProps {
@@ -10,7 +10,7 @@ interface IProps {
     totalSteps?: number;
 }
 const ModalCardTitle = ({ title, handleClose, activeStepNumber = 0, totalSteps = 0 }: IProps) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const maxWidth600 = useMediaQuery('(max-width:600px)');
   return (
     <ModalCardTitleContainer sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 2 }}>

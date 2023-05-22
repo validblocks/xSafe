@@ -12,8 +12,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
-import { ReactComponent as IconLedger } from 'src/assets/img/ledger.svg';
-import { ReactComponent as IconElrond } from 'src/assets/img/elrond-web-wallet.svg';
+import IconLedger from 'src/assets/img/ledger.svg';
+import IconElrond from 'src/assets/img/elrond-web-wallet.svg';
 import styled from 'styled-components';
 
 export const MainButton = styled(Button)`
@@ -125,13 +125,13 @@ export const UnlockText = styled(Text)(({ theme: _ }) => ({
   },
 }));
 
-export const StyledIconLedger = styled(IconLedger)(({ theme: _ }) => ({
+export const StyledIconLedger = styled(() => <img src={IconLedger} />)(({ theme: _ }) => ({
   '& path': {
     fill: _.palette.text.primary,
   },
 }));
 
-export const StyledIconElrond = styled(IconElrond)(({ theme: _ }) => ({
+export const StyledIconElrond = styled(() => <img src={IconElrond} />)(({ theme: _ }) => ({
   '& path': {
     fill: _.palette.text.primary,
   },

@@ -1,5 +1,5 @@
 import { Box } from '@mui/system';
-import { ReactComponent as XSafeXLogoSymbol } from 'src/assets/img/xsafe-x.svg';
+import XSafeXLogoSymbol from 'src/assets/img/xsafe-x.svg';
 
 interface IProps {
     height?: number;
@@ -13,7 +13,8 @@ export const XSafeXSymbol = ({
   marginRight = '10px',
 }: IProps) => (
   <Box marginRight={marginRight}>
-    <XSafeXLogoSymbol
+    <img
+      src={XSafeXLogoSymbol}
       width={width}
       height={height}
     />

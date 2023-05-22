@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const AppSelect = ({ apps, selectedApp, setSelectedApp }: Props) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
 
   const useStyles = makeStyles(() => ({
     dropdown: {

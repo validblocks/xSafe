@@ -1,5 +1,5 @@
 import { TextField, useMediaQuery } from '@mui/material';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { FormikRoundedCheckBox, InputWrapper } from 'src/components/Theme/StyledComponents';
 import React, { useCallback } from 'react';
 
@@ -35,7 +35,7 @@ export const FormikInputField = ({
   className,
   type = 'text',
 }: FormikInputFieldPropsType) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
 
   const minWidth600 = useMediaQuery('(min-width:600px)');
   const focusInput = useCallback((input: any) => { if (minWidth600) input?.focus(); }, [minWidth600]);

@@ -18,7 +18,7 @@ import StakeAppThumbnailDark from 'src/assets/img/StakeAppThumbnailDark.png';
 import MoreAppsLight from 'src/assets/img/MoreAppsLight.png';
 import MoreAppsDark from 'src/assets/img/MoreAppsDark.png';
 import { appsWithRouteConfig } from 'src/apps/apps';
-import { ReactComponent as StakingIcon } from '../assets/img/staking.svg';
+import StakingIcon from 'src/assets/img/staking.svg';
 
 export type MenuItem = {
   name: string;
@@ -58,7 +58,7 @@ export const availableApps: MarketplaceApp[] = [
     link: 'stake',
     id: AppIdentifiers.Staking,
     description: 'Stake your tokens, secure the network and earn rewards.',
-    icon: <StakingIcon />,
+    icon: <img src={StakingIcon} />,
     imageUrlLight: StakeAppThumbnail,
     imageUrlDark: StakeAppThumbnailDark,
     isInstallable: true,

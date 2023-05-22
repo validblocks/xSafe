@@ -25,7 +25,9 @@ export const proposeMultiselectModalSelector = createDeepEqualSelector(
 
 export const proposeModalSelectedOptionSelector = createDeepEqualSelector(
   proposeModalSelector,
-  (state) => state.selectedOption,
+  (state) => {
+    return state.selectedOption;
+  },
 );
 
 export const proposeMultiselectModalSelectedOptionSelector =

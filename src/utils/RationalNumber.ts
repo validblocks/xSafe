@@ -12,8 +12,6 @@ export default class RationalNumber {
   }
 
   static fromBigInteger(amount: BigNumber.Value) {
-    console.log({ amount });
-
     try {
       return formatAmount({
         input: amount.toString(),
@@ -29,10 +27,6 @@ export default class RationalNumber {
     amountAsBigInteger: BigNumber.Value,
     numDecimals = 18,
   ) {
-    console.log({
-      amountAsBigInteger,
-      numDecimals,
-    });
     const decimals = new BigNumber(10).pow(numDecimals);
     const rational = new RationalNumber(amountAsBigInteger, decimals);
     return rational.toDecimalString();
@@ -48,7 +42,6 @@ export default class RationalNumber {
         ? RationalNumber.fromFungibleBigInteger(amountAsBigInteger, numDecimals)
         : RationalNumber.fromBigInteger(amountAsBigInteger);
 
-    console.log({ result });
     return result;
   }
 

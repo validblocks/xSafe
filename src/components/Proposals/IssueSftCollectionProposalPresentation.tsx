@@ -1,4 +1,3 @@
-import React from 'react';
 import IssueNftCollectionProposalPresentation from './IssueNftCollectionProposalPresentation';
 
 type Props = {

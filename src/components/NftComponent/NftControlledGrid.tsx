@@ -1,4 +1,3 @@
-import React from 'react';
 import NftsByCollection from './NftsByCollection';
 import NftsUngrouped from './NftsUngrouped';
 

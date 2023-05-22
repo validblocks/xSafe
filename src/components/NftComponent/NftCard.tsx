@@ -10,7 +10,7 @@ import {
 } from 'src/redux/slices/modalsSlice';
 import { NFTType } from 'src/types/nfts';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { adjustTextByWidth } from 'src/utils/stringUtils';
 import { useIsAlreadyProposedMap } from 'src/utils/useIsAlreadyProposedMap';
 import * as Styled from './styled';
@@ -23,7 +23,7 @@ type Props = {
 };
 
 function NftCard({ nft }: Props) {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const dispatch = useDispatch();
   const typographyRef = useRef<HTMLDivElement>(null);
   const isSFT = useMemo(() => 'balance' in nft, [nft]);

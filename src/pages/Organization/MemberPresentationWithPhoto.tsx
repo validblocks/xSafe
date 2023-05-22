@@ -5,7 +5,7 @@ import CopyButton from 'src/components/CopyButton';
 import { toSvg } from 'jdenticon';
 import { AnchorPurple } from 'src/components/Layout/Navbar/navbar-style';
 import { network } from 'src/config';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { useSelector } from 'react-redux';
 import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
@@ -21,7 +21,7 @@ const MemberPresentationWithPhoto = ({
   memberAddress,
   charactersLeftAfterTruncation = 5,
 }: Props) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const addressBook = useSelector(addressBookSelector);
   return (
     <div

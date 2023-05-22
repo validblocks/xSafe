@@ -12,7 +12,7 @@ import {
   setProposeMultiselectSelectedOption,
   setSelectedTokenToSend,
 } from 'src/redux/slices/modalsSlice';
-import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
+import AssetActionIcon from 'src/assets/img/arrow-back-sharp.svg';
 import { ProposalsTypes } from 'src/types/Proposals';
 import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import DisplayTokenPrice from 'src/pages/AssetsPage/DisplayTokenPrice';
@@ -63,13 +63,23 @@ const AssetsTable = () => {
         className="shadow-sm rounded mr-2"
         onClick={() => (handleOptionSelected(ProposalsTypes.send_token, params.row))}
       >
-        <AssetActionIcon width="30px" height="30px" /> Send
+        <img src={AssetActionIcon} width="30px" height="30px" /> Send
       </AssetActionButton>,
       <AssetActionButton
         key="1"
         onClick={handleQrModal}
       >
-        <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Deposit
+          
+        <Box
+          component="span"
+          sx={{ transform: "rotate(180deg)" }}>
+          <img
+            src={AssetActionIcon}
+            width="30px"
+            height="30px"
+          />
+        </Box>
+          Deposit
       </AssetActionButton>,
     ];
 

@@ -1,6 +1,6 @@
 import DiamondIcon from '@mui/icons-material/Diamond';
 import { NFTMarketplace } from './types';
-import xSpotlightLogo from '../../assets/img/xSpotlightLogo.svg';
+import xSpotlightLogo from 'src/assets/img/xSpotlightLogo.svg';
 
 export const marketplaces: NFTMarketplace[] = [
   {

@@ -3,7 +3,7 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import { useEffect, useState } from 'react';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import useDebounce from 'src/utils/useDebounce';
 import ProvidersList from './ProvidersList';
 import { StakingSearchBar } from '../Theme/StyledComponents';
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const StakingFormStepOne = ({ enableNextStep = () => null }: Props) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const selectedStakingProvider = useSelector(selectedStakingProviderSelector);
 
   useEffect(() => {

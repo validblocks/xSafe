@@ -1,4 +1,3 @@
-import React from 'react';
 import { Grid, useMediaQuery } from '@mui/material';
 import NoActionsOverlay from 'src/pages/Transactions/utils/NoActionsOverlay';
 import { useContractNFTs } from 'src/utils/useContractNFTs';

@@ -3,7 +3,7 @@ import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import * as Yup from 'yup';
 import { AddressBook } from 'src/pages/Organization/types';
 import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
@@ -22,7 +22,7 @@ const EditOwner = ({
   handleSetAddress,
   handleSetName,
 }: ProposeEditOwnerType) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
   const { t }: { t: any } = useTranslation();
   const address = 'address' in selectedOption! ? selectedOption?.address : '';

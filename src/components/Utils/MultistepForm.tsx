@@ -4,7 +4,7 @@ import React, { createContext, useCallback, useContext, useMemo, useState } from
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { Text } from '../StyledComponents/StyledComponents';
 import { FinalStepActionButton, ChangeStepButton } from '../Theme/StyledComponents';
 import * as Styled from './styled';
@@ -40,7 +40,7 @@ const MultistepForm = ({
   autoForwardSteps = [],
   noBackwardsSteps = [],
   emitStepChange = () => null }: IMultistepFormProps) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const [activeStepNumber, setActiveStepNumber] = useState(1);
   const [isNextButtonActive, setIsNextButtonActive] = useState(false);
   const [isFinalStepButtonActive, setIsFinalStepButtonActive] = useState(false);

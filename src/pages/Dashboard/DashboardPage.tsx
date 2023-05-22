@@ -9,7 +9,7 @@ import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { Text, TextxSafeDescription } from 'src/components/StyledComponents/StyledComponents';
 import { dAppName, network } from 'src/config';
@@ -22,7 +22,7 @@ import { useOrganizationInfoContext } from '../Organization/OrganizationInfoCont
 import * as Styled from './styled';
 
 function Dashboard() {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
   const [showAddMultisigModal, setShowAddMultisigModal] = useState(false);

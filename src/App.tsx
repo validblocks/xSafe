@@ -139,3 +139,5 @@ export const App = () =>
       </PersistGate>
     </ReduxProvider>
   );
+
+export default App;

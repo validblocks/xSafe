@@ -16,7 +16,7 @@ import MultisigDetailsContext from 'src/context/MultisigDetailsContext';
 import { FormikInputField } from 'src/helpers/formikFields';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { Box, TextField, useMediaQuery } from '@mui/material';
 import { InputsContainer, MainButton, RemoveItemsButton } from 'src/components/Theme/StyledComponents';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
@@ -30,7 +30,7 @@ interface ProposeSmartContractCallType {
 
 function validateRecipient(value?: string) {
   try {
-    const _address = new Address(value);
+    new Address(value);
     return true;
   } catch (err) {
     return false;
@@ -64,7 +64,7 @@ const ProposeSmartContractCall = ({
   handleChange,
   setSubmitDisabled,
 }: ProposeSmartContractCallType) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const { multisigBalance } = useContext(MultisigDetailsContext);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

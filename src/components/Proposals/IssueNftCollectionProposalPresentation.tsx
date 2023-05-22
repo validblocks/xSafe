@@ -1,5 +1,4 @@
 import { Box } from '@mui/system';
-import React from 'react';
 import { PropertyKeyBox } from '../Utils/PropertKeyBox';
 import { PropertyValueBox } from '../Utils/PropertyValueBox';
 

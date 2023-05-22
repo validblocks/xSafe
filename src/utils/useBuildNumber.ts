@@ -8,10 +8,10 @@ export const useBuildNumber = (lettersWanted = 7) => {
   const { data: buildNumberData } = useQuery({
     queryFn: () => axios.get(`https://api.github.com/repos/validblocks/xSafe/commits?sha=${relatedBranch}&per-page=1`, {
       headers: {
-        Authorization: `Token ${process.env.REACT_APP_GH_ACCESS_TOKEN}`,
+        Authorization: `Token ${import.meta.env.REACT_APP_GH_ACCESS_TOKEN}`,
       },
     }).then((r) => r.data),
-    enabled: !!process.env.REACT_APP_GH_ACCESS_TOKEN,
+    enabled: !!import.meta.env.REACT_APP_GH_ACCESS_TOKEN,
     queryKey: QueryKeys.BUILD_NUMBER,
   });
 

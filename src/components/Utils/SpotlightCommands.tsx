@@ -1,7 +1,7 @@
 import { InputAdornment, Modal, OutlinedInput } from '@mui/material';
 import { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import TipsAndUpdatesRoundedIcon from '@mui/icons-material/TipsAndUpdatesRounded';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
@@ -148,7 +148,7 @@ export const SpotlightCommands = () => {
     }
   }, [address, currentContract?.address, dispatch, handleCopy, logOut, navigate]);
 
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
 
   return (
     <Modal open={isCommandOpen}>
