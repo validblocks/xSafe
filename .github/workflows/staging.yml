@@ -95,7 +95,7 @@ jobs:
           ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
 
           TARGET: ~/devnet.xsafe.io/
-          SOURCE: ./build/
+          SOURCE: ./dist/
 
           PRE_SCRIPT: |
             echo "Start at: " $(date -u)
