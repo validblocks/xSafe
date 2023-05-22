@@ -153,7 +153,7 @@ const OrganizationsOwnersTable = () => {
   }));
 
   return (
-    <>
+    <Box paddingBottom="55px">
       <MainButtonNoShadow
         disabled={isInReadOnlyMode}
         onClick={() => onAddBoardMember()}
@@ -179,7 +179,7 @@ const OrganizationsOwnersTable = () => {
             components={{ NoRowsOverlay: noRowsOverlay }}
           />
         )}
-    </>
+    </Box>
   );
 };
 
