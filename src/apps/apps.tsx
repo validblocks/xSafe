@@ -1,7 +1,7 @@
 import MoreAppsLight from 'src/assets/img/MoreAppsLight.png';
 import MoreAppsDark from 'src/assets/img/MoreAppsDark.png';
 import ClaimEarningsLight from 'src/assets/img/claimearnings_light.svg';
-import ClaimEarningsDark from 'src/assets/img/claimearnings_dark.webp';
+import ClaimEarningsDark from 'src/assets/img/claimearnings_dark.svg';
 import { lazy } from 'react';
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
 import { RawTransactionType } from 'src/helpers/types';

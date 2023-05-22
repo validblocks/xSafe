@@ -79,6 +79,7 @@ export const MobileTokenCard = ({ tokenRow, handleQrModal, handleOptionSelected 
           width="30px"
           height="30px"
         />
+        Send
       </AssetActionButton>,
       <AssetActionButton
         key="1"
@@ -92,7 +93,7 @@ export const MobileTokenCard = ({ tokenRow, handleQrModal, handleOptionSelected 
             width="30px"
             height="30px"
           />
-        </Box>
+        </Box>Receive
       </AssetActionButton>
     </Styled.ActionButtonsBox>
   </Styled.MobileCardOfTokens>
