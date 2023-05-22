@@ -156,7 +156,7 @@ export default function MobileRightSidebar() {
               {item.submenu?.map((subItem: MenuItem) => (
                 <Link key={subItem.id} onClick={handleClose} to={subItem.link}>
                   <MobileSubmenuAccordionSummary key={subItem.id}>
-                    <Box pl="24px">
+                    <Box pl="24px" display="flex" alignItems="end">
                       <Box component="span" mr={1}>{subItem.icon}</Box>
                       {subItem.name}
                     </Box>
