@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const MarketplaceSelect = ({ marketplaces, selectedMarketplace, setSelectedMarketplace }: Props) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
 
   const useStyles = makeStyles(() => ({
     dropdown: {

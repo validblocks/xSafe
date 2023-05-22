@@ -6,9 +6,9 @@ import {
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useDispatch } from 'react-redux';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { FormSearchInput } from 'src/components/Theme/StyledComponents';
-import { ReactComponent as SearchIcon } from 'src/assets/img/searchFilled.svg';
+import SearchIcon from 'src/assets/img/searchFilled.svg';
 import { setNavbarSearchParam } from 'src/redux/slices/searchSlice';
 import useDebounce from 'src/utils/useDebounce';
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -29,7 +29,7 @@ export const useNftPageContext = () =>
 
 function NftComponent() {
   const maxWidth600 = useMediaQuery('(max-width:600px)');
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const dispatch = useDispatch();
 
   const [searchParam, setSearchParam] = useState('');
@@ -79,7 +79,7 @@ function NftComponent() {
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Box component="form" noValidate autoComplete="off">
                   <FormSearchInput>
-                    <SearchIcon />
+                    <img src={SearchIcon} />
                     <OutlinedInput onChange={handleSearchInputChange} placeholder="Search..." />
                   </FormSearchInput>
                 </Box>

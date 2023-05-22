@@ -6,7 +6,7 @@ import NoActionsOverlay from 'src/pages/Transactions/utils/NoActionsOverlay';
 import { useSelector } from 'react-redux';
 import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { NftCollectionTitle } from './NftCollectionTitle';
 import NftGrid from './NftGrid';
@@ -15,7 +15,7 @@ import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import { Text } from '../StyledComponents/StyledComponents';
 
 const NftsByCollection = () => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const navbarSearchParam = useSelector(navbarSearchSelector);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 

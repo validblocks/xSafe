@@ -3,7 +3,7 @@ import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from '@mui/material';
 import copyTextToClipboard from './helpers/copyToClipboard';
-import { ReactComponent as CopyIcon } from '../../assets/img/copy.svg';
+import CopyIcon from 'src/assets/img/copy.svg';
 
 interface Props {
   link: any;
@@ -23,8 +23,7 @@ const Wrapper = (props: Props) => {
       className={`side-action ${className}`}
     >
       {resultOfCopyDefault || !resultOfCopySucces ? (
-        // eslint-disable-next-line react/destructuring-assignment
-        <CopyIcon width={props.copyIconWidth ?? '15px'} />
+        <img src={CopyIcon} width={props.copyIconWidth ?? '15px'} />
       ) : (
         <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
       )}

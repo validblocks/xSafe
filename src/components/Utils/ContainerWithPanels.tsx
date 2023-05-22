@@ -1,7 +1,7 @@
 import { Box, Tab, useMediaQuery } from '@mui/material';
 import { TabPanel } from 'src/pages/Transactions/TransactionsPage';
 import { useState } from 'react';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import * as Styled from './styled';
 
 interface IPanel {
@@ -15,7 +15,7 @@ interface ContainerWithPanelProps {
 
 const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
   const [selectedTab, setSelectedTab] = useState(0);
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {

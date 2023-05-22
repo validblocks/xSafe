@@ -1,7 +1,7 @@
 import { Box } from '@mui/system';
 import { useSelector } from 'react-redux';
-import { ReactComponent as XSafeLogoDark } from 'src/assets/img/XSafeLogoDark.svg';
-import { ReactComponent as XSafeLogoLight } from 'src/assets/img/XSafeLogoLight.svg';
+import  XSafeLogoDark from 'src/assets/img/XSafeLogoDark.svg';
+import  XSafeLogoLight from 'src/assets/img/XSafeLogoLight.svg';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 
 interface IProps {
@@ -18,12 +18,14 @@ export const XSafeLogo: React.FC<IProps> = ({
   return (
     <Box>
       {isDarkThemeEnabled ? (
-        <XSafeLogoDark
+        <img
+          src={XSafeLogoDark}
           width={width}
           height={height}
         />
       ) : (
-        <XSafeLogoLight
+        <img
+          src={XSafeLogoLight}
           width={width}
           height={height}
         />

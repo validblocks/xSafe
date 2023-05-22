@@ -1,4 +1,3 @@
-import { Address } from '@multiversx/sdk-core/out';
 import { useEffect, useState } from 'react';
 import MultistepForm from 'src/components/Utils/MultistepForm';
 import { steps } from 'src/pages/Stake/steps';
@@ -10,16 +9,6 @@ interface StakeTokensModalContentType {
     setIsAtFinish: React.Dispatch<React.SetStateAction<boolean>>;
     stepChanged?: (step: number) => void | null;
     announceTotalSteps?: (step: number) => void | null;
-}
-
-function _validateRecipient(value?: string) {
-  try {
-    // eslint-disable-next-line no-new
-    new Address(value);
-    return true;
-  } catch (err) {
-    return false;
-  }
 }
 
 const StakeTokensModalContent = ({

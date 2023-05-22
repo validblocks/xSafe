@@ -14,7 +14,7 @@ import { setEconomics } from 'src/redux/slices/economicsSlice';
 import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import routes from 'src/routes';
 import { Main } from 'src/components/Theme/StyledComponents';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import routeNames from 'src/routes/routeNames';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
@@ -42,7 +42,7 @@ import { CenteredBox } from '../StyledComponents/StyledComponents';
 import NetworkAnnouncer from '../Utils/NetworkAnnouncer';
 
 function Layout({ children }: { children: React.ReactNode }) {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const { isLoggedIn, tokenLogin } = useGetLoginInfo();
   const { address } = useGetAccountInfo();
   const dispatch = useDispatch();

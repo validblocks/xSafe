@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Address } from '@multiversx/sdk-core/out';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,7 +9,7 @@ import {
   mutateProposeRemoveUser,
 } from 'src/contracts/MultisigContract';
 import { addEntry } from 'src/redux/slices/addressBookSlice';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ModalOptionType, ModalTypes, ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import { MainButton, MainButtonNoShadow, ModalConnectContainer } from 'src/components/Theme/StyledComponents';
@@ -31,7 +31,7 @@ interface ProposeModalPropsType {
 }
 
 function ProposeModal({ selectedOption }: ProposeModalPropsType) {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const dispatch = useDispatch();
   const { t }: { t: any } = useTranslation();
   const currentContract = useSelector(currentMultisigContractSelector);
@@ -46,11 +46,11 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     dispatch(setProposeModalSelectedOption(null));
-  };
+  }, [dispatch]);
 
-  const onProposeClicked = () => {
+  const onProposeClicked = useCallback(() => {
     try {
       switch (selectedOption?.option) {
         case ProposalsTypes.change_quorum:
@@ -93,21 +93,28 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
     } catch (err) {
       handleClose();
     }
-  };
+  }, [
+      currentContract?.address,
+      dispatch,
+      handleClose,
+      selectedAddressParam,
+      selectedNameParam,
+      selectedNumericParam,
+      selectedOption,
+      selectedReplacementAddressParam,
+    ]);
 
-  const handleNumericParamChange = (value: number) => {
+  const handleNumericParamChange = useCallback((value: number) => {
     setSelectedNumericParam(value);
-  };
+  }, []);
 
-  const handleAddressParamChange = (value: Address) => {
+  const handleAddressParamChange = useCallback((value: Address) => {
     setSelectedAddressParam(value);
-  };
+  }, []);
 
-  if (selectedOption == null) {
-    return null;
-  }
+  
   // eslint-disable-next-line consistent-return
-  const getModalContent = () => {
+  const getModalContent = useCallback(() => {
     const isLoggedIn = getIsLoggedIn();
     switch (selectedOption?.option) {
       case ProposalsTypes.change_quorum: {
@@ -162,7 +169,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
         );
       default:
     }
-  };
+  }, [handleAddressParamChange, handleNumericParamChange, selectedOption]);
 
   const getActionButtonText = (): string => {
     switch (selectedOption?.option) {
@@ -201,6 +208,10 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
         return 'Add member';
     }
   };
+
+  if (selectedOption == null) {
+    return null;
+  }
 
   const actionsWithoutGenericProposalHandler: Array<ModalTypes | ProposalsTypes> = [
     ModalTypes.connect_wallet,

@@ -30,9 +30,9 @@ interface ProposeUnstakeTokensType {
   setSubmitDisabled: (value: boolean) => void;
 }
 
-function _validateRecipient(value?: string) {
+function validateRecipient(value?: string) {
   try {
-    const _identifier = new Address(value);
+    new Address(value);
     return true;
   } catch (err) {
     return false;
@@ -131,7 +131,7 @@ const ProposeUnstakeTokens = ({
 
   useEffect(() => {
     if (identifier) {
-      if (!_validateRecipient(identifier)) {
+      if (!validateRecipient(identifier)) {
         formik.setFieldError('identifier', t('Invalid address'));
       }
     }

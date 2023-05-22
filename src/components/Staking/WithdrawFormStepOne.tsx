@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import { useEffect, useState } from 'react';
 import useDebounce from 'src/utils/useDebounce';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import ProvidersWithUndelegationDetails from './ProvidersWithUndelegationDetails';
 import { StakingSearchBar } from '../Theme/StyledComponents';
 
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const selectedStakingProvider = useSelector(selectedStakingProviderSelector);
 
   useEffect(() => {

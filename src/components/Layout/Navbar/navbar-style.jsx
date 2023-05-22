@@ -12,7 +12,6 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Navbar as NavItem } from 'react-bootstrap';
 import styled from 'styled-components';
-import { ReactComponent as MultiversX } from 'src/assets/img/multiversx-symbol.svg';
 import CopyButton from 'src/components/CopyButton';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import MuiDrawer from '@mui/material/Drawer';
@@ -141,9 +140,6 @@ export const NavLogo = styled(NavItem)(({ theme: _ }) => ({
   },
 }));
 
-export const Logo = styled(MultiversX)`
-  width: 85px;
-`;
 
 export const DappName = styled.span`
   font-size: 19px;

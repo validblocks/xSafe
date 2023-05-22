@@ -25,7 +25,7 @@ import { CopyIconLinkConnectedAccount } from 'src/components/Utils/styled';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { XSafeLogo } from 'src/components/Utils/XSafeLogo';
 import { usePendingActions } from 'src/utils/usePendingActions';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import NetworkAnnouncer from 'src/components/Utils/NetworkAnnouncer';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ModalTypes } from 'src/types/Proposals';
@@ -68,7 +68,7 @@ const MobileLayout = () => {
     setSelectedTab(locationString === 'nft' ? 1 : 0);
   }, [locationString]);
 
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const dispatch = useDispatch();
 
   const addressChars = useMemo(() => {

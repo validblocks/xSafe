@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
 import { FormikInputField } from 'src/helpers/formikFields';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
@@ -32,7 +32,7 @@ const ProposeSendEgld = ({
 
   const { t }: { t: any } = useTranslation();
 
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const organizationTokens = useSelector(organizationTokensSelector);
   const egldBalanceString = organizationTokens
     ?.find((token: OrganizationToken) => token.identifier === 'EGLD').tokenAmount.replaceAll(',', '') ?? 0;
@@ -46,7 +46,7 @@ const ProposeSendEgld = ({
 
   function validateRecipient(value?: string) {
     try {
-      const _address = new Address(value);
+      new Address(value);
       return true;
     } catch (err) {
       return false;

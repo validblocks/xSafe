@@ -74,16 +74,13 @@ function TotalBalance() {
   );
 
   const {
-    data: _nftList,
     refetch: refetchNFTs,
   } = useQuery(
     [
       QueryKeys.ALL_ORGANIZATION_NFTS,
     ],
     fetchNFTs,
-    {
-      ...USE_QUERY_DEFAULT_CONFIG,
-    },
+    USE_QUERY_DEFAULT_CONFIG,
   );
 
   const {
@@ -94,9 +91,7 @@ function TotalBalance() {
       QueryKeys.ADDRESS_ESDT_TOKENS,
     ],
     fetchAddressEsdts,
-    {
-      ...USE_QUERY_DEFAULT_CONFIG,
-    },
+    USE_QUERY_DEFAULT_CONFIG,
   );
 
   const {

@@ -15,11 +15,9 @@ interface ProposeInputAddressType {
 function ProposeInputAddress({
   handleParamsChange,
   setSubmitDisabled,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  invalidAddress,
   disabled,
 }: ProposeInputAddressType) {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const [address, setAddress] = useState('');
   const [error, setError] = useState(false);
   const { t }: { t: any } = useTranslation();

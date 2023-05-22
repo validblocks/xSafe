@@ -21,11 +21,12 @@ import { queryUserRoleOnContract } from 'src/contracts/MultisigContract';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import {
   setIntervalEndTimestamp, setIntervalStartTimestamp, setIntervalStartTimestampForFiltering,
 } from 'src/redux/slices/transactionsSlice';
 import { lastXDays } from 'src/pages/Transactions/TransactionHistoryIntervals';
+import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import {
   ActiveWallet,
   AddSafe,
@@ -52,7 +53,7 @@ interface ISafeOptionsProps {
 }
 
 const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -135,7 +136,7 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
           <Box key={fetchedContract.address}>
             <Divider />
             <Button sx={{ p: 0, width: '100%' }} onClick={() => onSafeChange(fetchedContract.address)}>
-              <Box sx={{ p: 1, width: '100%' }} className="d-flex align-items-center">
+              <Box sx={{ p: 1, width: '100%' }} className="d-flex align-items-center justify-content-between">
                 <Grid item sm={3}>
                   <img src={Safe} width="60px" height="60px" alt="safe" />
                 </Grid>
@@ -159,7 +160,6 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
                       </Typography>
                     </InactiveWallet>
                   )}
-
                 </Grid>
                 {
                   selectedSafe === fetchedContract.address && (
@@ -172,6 +172,13 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
                   </Grid>
                   )
                 }
+                <Box onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                }}
+                >
+                  <MoreVertRoundedIcon />
+                </Box>
               </Box>
             </Button>
           </Box>

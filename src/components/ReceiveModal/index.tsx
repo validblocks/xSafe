@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import QrCode from 'qrcode.react';
 import { Typography, Box } from '@mui/material';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import CopyButton from '../CopyButton';
 import { MainButton, DepositDoneAction, ModalContainer } from '../Theme/StyledComponents';
 import { Text } from '../StyledComponents/StyledComponents';
@@ -18,7 +18,7 @@ const ReceiveModal = ({
   address?: string;
   handleQr?: () => void;
 }) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const [showModal, setShowModal] = useState<boolean | undefined>(false);
 
   const handleOpenModal = () => setShowModal(true);

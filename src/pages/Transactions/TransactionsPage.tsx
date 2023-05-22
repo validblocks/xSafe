@@ -3,7 +3,7 @@ import { Box, MenuItem, SelectChangeEvent, Tab, useMediaQuery } from '@mui/mater
 import Typography from '@mui/material/Typography';
 import { useDispatch } from 'react-redux';
 import { MainSelect } from 'src/components/Theme/StyledComponents';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import {
   setIntervalEndTimestamp,
   setIntervalStartTimestamp,
@@ -52,7 +52,7 @@ function a11yProps(index: number) {
 }
 
 export default function TransactionsPage() {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const useStyles = makeStyles(() => ({
     dropdown: {
       '& .MuiPaper-root': {

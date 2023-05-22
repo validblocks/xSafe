@@ -9,7 +9,7 @@ import { MultisigContractInfoType } from 'src/types/multisigContracts';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { Box, useMediaQuery } from '@mui/material';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import {
   FinalStepActionButton,
   MainButton,
@@ -45,7 +45,7 @@ function AddMultisigModal({
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
       address: '',

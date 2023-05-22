@@ -8,7 +8,10 @@ import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItems
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { currentMultisigContractSelector, currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import {
+  currentMultisigContractSelector,
+  currentMultisigTransactionIdSelector,
+} from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
@@ -56,7 +59,7 @@ const TransactionQueue = () => {
   const { allPendingActions } = usePendingActions();
 
   const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 

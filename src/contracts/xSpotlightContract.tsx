@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   AbiRegistry,
   Address,
@@ -10,14 +9,9 @@ import {
   TypedValue,
   U64Value,
 } from '@multiversx/sdk-core';
-import { formatAmount, getAccount, getAddress, getLatestNonce } from '@multiversx/sdk-dapp/utils';
-import { ApiNetworkProvider, ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
+import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { network, xSpotlightContractAddress } from 'src/config';
-import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { store } from 'src/redux/store';
-import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
 import RationalNumber from 'src/utils/RationalNumber';
-import { queryOnContract } from './MultisigContract';
 
 export type ClaimableRoyaltiesReturnType = {
   rawClaimableAmount: TypedValue;
@@ -58,9 +52,6 @@ const networkProvider = new ProxyNetworkProvider(network?.apiAddress ?? '');
 const xSpotlightContract = new SmartContract({
   address: new Address(xSpotlightContractAddress),
 });
-const currentMultisigAddress = currentMultisigAddressSelector(
-  store.getState(),
-);
 
 export const queryClaimableRoyalties =
   async (contractAddress: string): Promise<ClaimableRoyaltiesReturnType | null> => {

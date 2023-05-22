@@ -1,5 +1,5 @@
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { getAccountProviderType, refreshAccount } from '@multiversx/sdk-dapp/utils/account';
+import { refreshAccount } from '@multiversx/sdk-dapp/utils/account';
 import {
   ContractFunction,
   Address,
@@ -138,12 +138,10 @@ export async function sendTransaction(
   const smartContract = new SmartContract({
     address: currentMultisigAddress,
   });
-  const providerType = getAccountProviderType();
 
   const transaction = await buildTransaction(
     0,
     functionName,
-    providerType,
     smartContract,
     transactionGasLimit,
     ...args,
@@ -254,8 +252,6 @@ export function mutateSmartContractCall(
     ...args,
   ];
 
-  console.log({ allArgs });
-
   return sendTransaction(
     MultisigContractFunction.PROPOSE_ASYNC_CALL,
     gasLimit,
@@ -285,7 +281,7 @@ export function mutateDeployContractFromSource(
 export function mutateUpgradeContractFromSource(
   address: Address,
   amount: BigUIntValue,
-  source: Address,
+  // source: Address,
   upgradeable: boolean,
   payable: boolean,
   readable: boolean,

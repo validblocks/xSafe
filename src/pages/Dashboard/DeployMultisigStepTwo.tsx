@@ -18,7 +18,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { gasLimit, network } from 'src/config';
 import { buildBlockchainTransaction } from 'src/contracts/transactionUtils';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   multisigContractsSelector,
@@ -85,7 +85,7 @@ const DeployMultisigStepTwo = ({
     setBuiltFinalActionHandler(() => () => onSignChangeContractOwner());
   }, [onSignChangeContractOwner, setBuiltFinalActionHandler, setIsFinalStepButtonActive]);
 
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
 
   useTrackTransactionStatus({
     transactionId: sessionId,

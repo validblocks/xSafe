@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import breadcrumbItems from './BreadcrumbItems';
 import * as Styled from './styled/index';
 
 function PageBreadcrumbs() {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const location = useLocation();
   const [breadcrumb, setBreadcrumb] = useState([]);
 

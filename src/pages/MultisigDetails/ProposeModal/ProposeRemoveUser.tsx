@@ -1,7 +1,7 @@
 import { Address } from '@multiversx/sdk-core';
 import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { ProposalsTypes, SelectedOptionType } from 'src/types/Proposals';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
@@ -20,7 +20,7 @@ function ProposeRemoveUser({
   handleSetAddress,
   setSubmitDisabled,
 }: ProposeRemoveUserType) {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const { t } = useTranslation();
   const address = 'address' in selectedOption! ? selectedOption?.address : '';
 

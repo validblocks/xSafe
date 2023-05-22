@@ -52,7 +52,7 @@ const PaginationWithItemsPerPage = memo(({
     setParentTotalPages(Math.ceil(data.length / itemsPerPage));
   }, [data, itemsPerPage, setParentTotalPages]);
 
-  const handleChange = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
     setParentCurrentPage(value);
   };
 

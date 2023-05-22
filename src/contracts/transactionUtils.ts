@@ -30,7 +30,7 @@ interface TransactionPayloadType {
 export async function buildTransaction(
   value: number,
   functionName: MultisigContractFunction,
-  providerType: string,
+  // providerType: string,
   contract: SmartContract,
   transactionGasLimit: number,
   ...args: TypedValue[]

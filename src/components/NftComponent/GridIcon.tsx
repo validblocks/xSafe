@@ -1,5 +1,4 @@
 import { Box } from '@mui/system';
-import React from 'react';
 
 type Props = {
   svgUrl: string;

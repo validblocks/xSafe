@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import { useMemo } from 'react';
 import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { Text } from '../StyledComponents/StyledComponents';
 import APRColumn from './APRColumn';
 import ProviderColumn from './ProviderColumn';
@@ -12,7 +12,7 @@ interface Props {
 }
 
 const StakingProviderBasedOnAddress = ({ providerAddress }: Props) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
 
   const {
     fetchedProviderIdentities,
