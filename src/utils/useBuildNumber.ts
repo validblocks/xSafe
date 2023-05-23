@@ -22,7 +22,7 @@ export const useBuildNumber = (lettersWanted = 7) => {
   });
 
   const buildNumber = useMemo(
-    () => buildNumberData?.[0]?.sha.slice(0, lettersWanted) ?? 'Unknown build',
+    () => buildNumberData?.[0]?.sha.slice(0, lettersWanted) ?? 'Unknown',
     [buildNumberData, lettersWanted],
   );
 

@@ -14,16 +14,15 @@ interface Props {
   copyIconWidth?: string;
 }
 
-const Wrapper = (props: Props) => {
-  const { link: Link, handle, className, resultOfCopyDefault, resultOfCopySucces } = props;
+const Wrapper = ({ link: Link, handle, className, resultOfCopyDefault, resultOfCopySucces, copyIconWidth }: Props) => {
   return (
     <Link
-      href="/#"
+      href="#"
       onClick={handle}
       className={`side-action ${className}`}
     >
       {resultOfCopyDefault || !resultOfCopySucces ? (
-        <img src={CopyIcon} width={props.copyIconWidth ?? '15px'} />
+        <img src={CopyIcon} width={copyIconWidth ?? '15px'} />
       ) : (
         <FontAwesomeIcon icon={faCheck} className="text-primary-highlight" />
       )}
