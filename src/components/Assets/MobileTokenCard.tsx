@@ -71,7 +71,7 @@ export const MobileTokenCard = ({ tokenRow, handleQrModal, handleOptionSelected 
       <AssetActionButton
         key="0"
         variant="outlined"
-        className="shadow-sm rounded mr-2"
+        className="shadow-sm rounded"
         onClick={() => (handleOptionSelected(ProposalsTypes.send_token, tokenRow))}
       >
         <img
@@ -80,7 +80,7 @@ export const MobileTokenCard = ({ tokenRow, handleQrModal, handleOptionSelected 
           height="30px"
         />
         Send
-      </AssetActionButton>,
+      </AssetActionButton>
       <AssetActionButton
         key="1"
         onClick={handleQrModal}
