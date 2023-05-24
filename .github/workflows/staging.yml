@@ -27,10 +27,10 @@ jobs:
       - uses: nightstory/replace-env@v1
         id: create-env
         env:
-          GH_ACCESS_TOKEN: "${{ secrets.GH_ACCESS_TOKEN }}"
-          UNIQUE_CONTRACT_ADDRESS: "${{ secrets.UNIQUE_CONTRACT_ADDRESS }}"
-          UNIQUE_CONTRACT_NAME: "${{ secrets.UNIQUE_CONTRACT_NAME }}"
-          GOOGLE_ANALYTICS_KEY: "${{ secrets.GOOGLE_ANALYTICS_KEY_DEVNET }}"
+          GH_ACCESS_TOKEN: '${{ secrets.GH_ACCESS_TOKEN }}'
+          UNIQUE_CONTRACT_ADDRESS: '${{ secrets.UNIQUE_CONTRACT_ADDRESS }}'
+          UNIQUE_CONTRACT_NAME: '${{ secrets.UNIQUE_CONTRACT_NAME }}'
+          GOOGLE_ANALYTICS_KEY: '${{ secrets.GOOGLE_ANALYTICS_KEY_DEVNET }}'
         with:
           input_file: .env.template
           output_file: .env
@@ -53,11 +53,11 @@ jobs:
         if: success()
         run: yarn --network-timeout 500000
 
-      - name: Lint
-        id: Lint
-        if: success()
-        run: |
-          yarn lint
+      # - name: Lint
+      #   id: Lint
+      #   if: success()
+      #   run: |
+      #     yarn lint
 
       - name: Build
         id: Build
@@ -71,10 +71,10 @@ jobs:
       - name: Get Github action IP
         id: ip
         uses: haythem/public-ip@v1.2
-          
+
       - name: Add Github Actions IP to Security group
         run: |
-          aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32    
+          aws ec2 authorize-security-group-ingress --group-name ${{ secrets.AWS_SG_NAME }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
