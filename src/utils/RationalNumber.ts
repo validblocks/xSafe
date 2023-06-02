@@ -13,9 +13,11 @@ export default class RationalNumber {
 
   static fromBigInteger(amount: BigNumber.Value) {
     try {
-      return formatAmount({
-        input: amount.toString(),
-      });
+      return Number(
+        formatAmount({
+          input: amount.toString(),
+        }),
+      ).toLocaleString();
     } catch (e) {
       console.error(e);
     }
@@ -46,8 +48,7 @@ export default class RationalNumber {
   }
 
   toDecimalString(): string {
-    return this.numerator
-      .dividedBy(this.denominator)
-      .toFixed(this.denominator.decimalPlaces() ?? 18);
+    return this.numerator.dividedBy(this.denominator).toString();
+    // .toFixed(this.denominator.decimalPlaces() ?? 18);
   }
 }
