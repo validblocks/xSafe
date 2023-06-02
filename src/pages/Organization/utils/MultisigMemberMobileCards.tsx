@@ -24,6 +24,7 @@ import * as Styled from '../styled/index';
 import { useOwnerManipulationFunctions } from '.';
 import { MultisigMember } from '../types';
 import * as StyledUtils from '../../../components/Utils/styled/index';
+import { uniqueId } from 'lodash';
 
 interface IProps {
   multisigMembers: MultisigMember[];
@@ -47,7 +48,7 @@ export const MultisigMemberMobileCards = ({ multisigMembers }: IProps) => {
   return (
     <Box>
       {multisigMembers.length === 0 && new Array(10).fill(0).map(() => (
-        <Box display={'flex'} flexDirection="column" height={92} mb="12px">
+        <Box display={'flex'} flexDirection="column" height={92} mb="12px" key={uniqueId()}>
           <Skeleton
             width={'100%'}
             variant='rectangular'
