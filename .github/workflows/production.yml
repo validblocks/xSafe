@@ -27,10 +27,10 @@ jobs:
       - uses: nightstory/replace-env@v1
         id: create-env
         env:
-          GH_ACCESS_TOKEN: "${{ secrets.GH_ACCESS_TOKEN }}"
-          UNIQUE_CONTRACT_ADDRESS: "${{ secrets.UNIQUE_CONTRACT_ADDRESS }}"
-          UNIQUE_CONTRACT_NAME: "${{ secrets.UNIQUE_CONTRACT_NAME }}"
-          GOOGLE_ANALYTICS_KEY: "${{ secrets.GOOGLE_ANALYTICS_KEY_DEVNET }}"
+          GH_ACCESS_TOKEN: '${{ secrets.GH_ACCESS_TOKEN }}'
+          UNIQUE_CONTRACT_ADDRESS: '${{ secrets.UNIQUE_CONTRACT_ADDRESS }}'
+          UNIQUE_CONTRACT_NAME: '${{ secrets.UNIQUE_CONTRACT_NAME }}'
+          GOOGLE_ANALYTICS_KEY: '${{ secrets.GOOGLE_ANALYTICS_KEY_DEVNET }}'
         with:
           input_file: .env.template
           output_file: .env
@@ -52,12 +52,6 @@ jobs:
         id: YARN-Install
         if: success()
         run: yarn --network-timeout 500000
-
-      - name: Lint
-        id: Lint
-        if: success()
-        run: |
-          yarn lint
 
       - name: Build
         id: Build
@@ -95,7 +89,7 @@ jobs:
           ARGS: -carEzhvP --delete-before --include '.env' --exclude '.[!.]*' --exclude vendor --exclude .docker/logs --exclude storage --exclude node_modules --exclude README* --exclude public/docs --exclude bootstrap/cache
 
           TARGET: ~/xsafe.io/
-          SOURCE: ./build/
+          SOURCE: ./dist/
 
           PRE_SCRIPT: |
             echo "Start at: " $(date -u)

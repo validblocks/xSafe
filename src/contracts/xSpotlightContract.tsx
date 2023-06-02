@@ -79,7 +79,7 @@ export const queryClaimableRoyalties =
       return {
         rawClaimableAmount,
         parsedClaimableAmount,
-        denominatedClaimableAmount,
+        denominatedClaimableAmount: denominatedClaimableAmount.toString(),
       };
     } catch (e) {
       console.error(e);

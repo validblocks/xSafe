@@ -14,11 +14,9 @@ export const getDenominatedBalance = <T extends string | number>(
     needsDenomination = true,
   }: IDenominatedBalanceConfig,
 ): T => {
-  const balanceAfterDenomination = parseFloat(
-    needsDenomination
-      ? RationalNumber.fromBigInteger(stringBalance ?? 0)
-      : stringBalance,
-  );
+  const balanceAfterDenomination = needsDenomination
+    ? RationalNumber.fromBigInteger(stringBalance ?? 0)
+    : parseFloat(stringBalance);
   const balanceFloor = Math.floor(balanceAfterDenomination);
   const balanceSubunit = balanceAfterDenomination - balanceFloor;
   const balanceSubunitAfterPrecision = parseFloat(

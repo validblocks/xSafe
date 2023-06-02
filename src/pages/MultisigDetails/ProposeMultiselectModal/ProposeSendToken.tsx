@@ -58,9 +58,9 @@ const ProposeSendToken = ({
   );
 
   const selectedTokenBalance = useMemo(
-    () => availableTokensWithBalances?.find(
-      (token: TokenTableRowItem) => token?.identifier === identifier,
-    )?.balance as string,
+    () => (availableTokensWithBalances?.find(
+      (token: any) => token?.identifier && token.identifier === identifier,
+    )?.balance) ?? '0',
     [availableTokensWithBalances, identifier],
   );
 

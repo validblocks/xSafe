@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 import { Address } from '@multiversx/sdk-core';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from 'styled-components';
 import { ProposeAddressInput } from 'src/components/Theme/StyledComponents';
 import { useMediaQuery } from '@mui/material';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 
 interface ProposeInputAddressType {
   handleParamsChange: (params: Address) => void;

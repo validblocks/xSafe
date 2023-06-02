@@ -26,7 +26,6 @@ import {
   setIntervalEndTimestamp, setIntervalStartTimestamp, setIntervalStartTimestampForFiltering,
 } from 'src/redux/slices/transactionsSlice';
 import { lastXDays } from 'src/pages/Transactions/TransactionHistoryIntervals';
-import MoreVertRoundedIcon from '@mui/icons-material/MoreVertRounded';
 import {
   ActiveWallet,
   AddSafe,

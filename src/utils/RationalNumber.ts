@@ -22,7 +22,7 @@ export default class RationalNumber {
       console.error(e);
     }
 
-    return '0';
+    return 0;
   }
 
   static fromFungibleBigInteger(

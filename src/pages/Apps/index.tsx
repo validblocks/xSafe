@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import ContainerWithPanels from 'src/components/Utils/ContainerWithPanels';
 import Marketplace from '../Marketplace';
 import MyApps from '../Marketplace/MyApps';
-import Docs from './Docs';
 
 const AppsPage = () => {
   const panels = useMemo(() => [

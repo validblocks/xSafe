@@ -90,7 +90,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
         const totalRequestedUndelegations = delegation?.userUndelegatedList
           .reduce((totalSum: number, undelegation: IUndelegatedFunds) => {
-            const amount = parseFloat(RationalNumber.fromBigInteger(undelegation.amount));
+            const amount = RationalNumber.fromBigInteger(undelegation.amount);
             return totalSum + amount;
           }, 0);
 
@@ -99,7 +99,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
         const withdrawableUndelegationsAmount =
           withdrawableUndelegations?.reduce((totalSum: number, undelegation: IUndelegatedFunds) => {
-            const amount = parseFloat(RationalNumber.fromBigInteger(undelegation.amount));
+            const amount = RationalNumber.fromBigInteger(undelegation.amount);
             return totalSum + amount;
           }, 0);
 

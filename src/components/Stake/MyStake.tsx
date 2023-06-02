@@ -77,18 +77,14 @@ const MyStake = () => {
     const totalActiveStake = fetchedDelegations.reduce(
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
-        parseFloat(
           RationalNumber.fromBigInteger(delegation?.userActiveStake ?? 0),
-        ),
       0,
     );
 
     const allClaimableRewards = fetchedDelegations.reduce(
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
-        parseFloat(
           RationalNumber.fromBigInteger(delegation?.claimableRewards ?? 0),
-        ),
       0,
     );
 
@@ -108,9 +104,9 @@ const MyStake = () => {
 
     const totalUndelegations = contractUndelegations.reduce(
       (totalSum: number, undelegation: IUndelegatedFunds) => {
-        const amount = parseFloat(
-          RationalNumber.fromBigInteger(undelegation?.amount ?? 0),
-        );
+        const amount =
+          RationalNumber.fromBigInteger(undelegation?.amount ?? 0);
+        
         return totalSum + amount;
       },
       0,
