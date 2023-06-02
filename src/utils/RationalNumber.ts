@@ -17,7 +17,7 @@ export default class RationalNumber {
         formatAmount({
           input: amount.toString(),
         }),
-      ).toLocaleString();
+      );
     } catch (e) {
       console.error(e);
     }
@@ -31,7 +31,7 @@ export default class RationalNumber {
   ) {
     const decimals = new BigNumber(10).pow(numDecimals);
     const rational = new RationalNumber(amountAsBigInteger, decimals);
-    return rational.toDecimalString();
+    return rational.toNumber();
   }
 
   static fromDynamicTokenAmount(
@@ -47,8 +47,8 @@ export default class RationalNumber {
     return result;
   }
 
-  toDecimalString(): string {
-    return this.numerator.dividedBy(this.denominator).toString();
+  toNumber(): number {
+    return Number(this.numerator.dividedBy(this.denominator).toString());
     // .toFixed(this.denominator.decimalPlaces() ?? 18);
   }
 }
