@@ -136,7 +136,7 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
           <Box key={fetchedContract.address}>
             <Divider />
             <Button sx={{ p: 0, width: '100%' }} onClick={() => onSafeChange(fetchedContract.address)}>
-              <Box sx={{ p: 1, width: '100%' }} className="d-flex align-items-center justify-content-between">
+              <Box sx={{ p: 1, width: '100%', display: 'flex', alignItems: 'center' }}>
                 <Grid item sm={3}>
                   <img src={Safe} width="60px" height="60px" alt="safe" />
                 </Grid>
@@ -172,13 +172,13 @@ const SafeOptions = React.forwardRef(({ closeSafe }: ISafeOptionsProps, ref) => 
                   </Grid>
                   )
                 }
-                <Box onClick={(e) => {
+                {/* <Box onClick={(e) => {
                   e.preventDefault();
                   e.stopPropagation();
                 }}
                 >
                   <MoreVertRoundedIcon />
-                </Box>
+                </Box> */}
               </Box>
             </Button>
           </Box>
