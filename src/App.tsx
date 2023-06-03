@@ -14,7 +14,10 @@ import {
   sampleAuthenticatedDomains,
 } from 'src/config';
 import routes from 'src/routes';
-import { AxiosInterceptorContext, DappProvider } from '@multiversx/sdk-dapp/wrappers';
+import {
+  AxiosInterceptorContext,
+  DappProvider,
+} from '@multiversx/sdk-dapp/wrappers';
 import {
   TransactionsToastList,
   SignTransactionsModals,
@@ -74,70 +77,75 @@ i18next.use(initReactI18next).init({
 
 const queryClient = new QueryClient();
 
-export const App = () =>
-  (
-    <ReduxProvider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <CssBaseline />
-        <CustomThemeProvider>
-          <QueryClientProvider client={queryClient}>
-            <AxiosInterceptorContext.Provider>
-              <AxiosInterceptorContext.Interceptor
-                authenticatedDomanis={sampleAuthenticatedDomains}
-              >
-                <Router>
-                  <Suspense fallback={<div>Loading...</div>}>
-                    <DappProvider
-                      customNetworkConfig={{
-                        name: 'customConfig',
-                        apiTimeout,
-                        walletConnectV2ProjectId,
-                      }}
-                      dappConfig={{
-                        shouldUseWebViewProvider: true,
-                      }}
-                      environment={EnvironmentsEnum.mainnet}
-                    >
-                      <>
-                        <SpotlightCommands />
-                        <OrganizationInfoContextProvider>
-                          <Layout>
+export const App = () => (
+  <ReduxProvider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <CssBaseline />
+      <CustomThemeProvider>
+        <QueryClientProvider client={queryClient}>
+          <AxiosInterceptorContext.Provider>
+            <AxiosInterceptorContext.Interceptor
+              authenticatedDomanis={sampleAuthenticatedDomains}
+            >
+              <Router>
+                <Suspense fallback={<div>Loading...</div>}>
+                  <DappProvider
+                    customNetworkConfig={{
+                      name: 'customConfig',
+                      apiTimeout,
+                      walletConnectV2ProjectId,
+                    }}
+                    dappConfig={{
+                      shouldUseWebViewProvider: true,
+                    }}
+                    environment={
+                      import.meta.env.VITE_MVX_ENVIRONMENT ===
+                      EnvironmentsEnum.mainnet
+                        ? EnvironmentsEnum.mainnet
+                        : EnvironmentsEnum.devnet
+                    }
+                  >
+                    <>
+                      <SpotlightCommands />
+                      <OrganizationInfoContextProvider>
+                        <Layout>
+                          <>
+                            <TransactionsToastList />
+                            <NotificationModal />
 
-                            <>
-                              <TransactionsToastList />
-                              <NotificationModal />
-
-                              <SignTransactionsModals className="custom-class-for-modals" />
-                              <Routes>
-                                {routes.map((route: any) => (
+                            <SignTransactionsModals className="custom-class-for-modals" />
+                            <Routes>
+                              {routes.map((route: any) => (
+                                <Route
+                                  path={route.path}
+                                  key={route.path}
+                                  element={<route.component />}
+                                />
+                              ))}
+                              {appsWithRouteConfig.map(
+                                (route: AppWithRouteConfig) => (
                                   <Route
                                     path={route.path}
                                     key={route.path}
                                     element={<route.component />}
                                   />
-                                ))}
-                                {appsWithRouteConfig.map((route: AppWithRouteConfig) => (
-                                  <Route
-                                    path={route.path}
-                                    key={route.path}
-                                    element={<route.component />}
-                                  />
-                                ))}
-                                <Route element={PageNotFound()} />
-                              </Routes>
-                            </>
-                          </Layout>
-                        </OrganizationInfoContextProvider>
-                      </>
-                    </DappProvider>
-                  </Suspense>
-                </Router>
-              </AxiosInterceptorContext.Interceptor>
-            </AxiosInterceptorContext.Provider>
-          </QueryClientProvider>
-        </CustomThemeProvider>
-      </PersistGate>
-    </ReduxProvider>
-  );
+                                ),
+                              )}
+                              <Route element={PageNotFound()} />
+                            </Routes>
+                          </>
+                        </Layout>
+                      </OrganizationInfoContextProvider>
+                    </>
+                  </DappProvider>
+                </Suspense>
+              </Router>
+            </AxiosInterceptorContext.Interceptor>
+          </AxiosInterceptorContext.Provider>
+        </QueryClientProvider>
+      </CustomThemeProvider>
+    </PersistGate>
+  </ReduxProvider>
+);
 
 export default App;

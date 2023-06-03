@@ -31,6 +31,7 @@ jobs:
           UNIQUE_CONTRACT_ADDRESS: '${{ secrets.UNIQUE_CONTRACT_ADDRESS }}'
           UNIQUE_CONTRACT_NAME: '${{ secrets.UNIQUE_CONTRACT_NAME }}'
           GOOGLE_ANALYTICS_KEY: '${{ secrets.GOOGLE_ANALYTICS_KEY_DEVNET }}'
+          MVX_ENVIRONMENT: devnet
         with:
           input_file: .env.template
           output_file: .env
