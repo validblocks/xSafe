@@ -119,6 +119,7 @@ const TransactionQueue = () => {
           }}
           viewport={{ once: true }}
           exit={{ opacity: 0, scale: 0 }}
+          key={action.actionId}
         >
           <TransactionAccordion
             key={action.actionId}

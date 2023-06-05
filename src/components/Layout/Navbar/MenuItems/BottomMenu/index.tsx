@@ -4,6 +4,7 @@ import { HtmlTooltip } from 'src/components/Utils/HtmlTooltip';
 import menuItems from 'src/utils/menuItems';
 import { BottomMenuList } from '../../navbar-style';
 import MenuLink from '../MenuLink';
+import { uniqueId } from 'lodash';
 
 const BottomMenu = () => {
   const { isLoggedIn } = useGetLoginInfo();
@@ -15,14 +16,14 @@ const BottomMenu = () => {
           if (!isLoggedIn) {
             return (
               <HtmlTooltip
-                key={el.id}
+                key={uniqueId()}
                 arrow
                 title={(
                   <span className="ml-1">{'Please login first!'}</span>
                 )}
                 placement="right"
               >
-                <Box>
+                <Box key={uniqueId()}>
                   <MenuLink shouldRequireLogin menuItem={el} />
                 </Box>
               </HtmlTooltip>
@@ -30,13 +31,13 @@ const BottomMenu = () => {
           }
 
           return (
-            <MenuLink key={el.id} menuItem={el} />
+            <MenuLink key={uniqueId()} menuItem={el} />
           );
         }
 
         return (
           <Box>
-            <MenuLink menuItem={el} />
+            <MenuLink key={uniqueId()} menuItem={el} />
           </Box>
         );
       })}
