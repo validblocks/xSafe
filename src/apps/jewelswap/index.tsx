@@ -22,7 +22,7 @@ import {
 import { JewelSwapLendingData } from './types';
 import { jewelSwapData } from './constants';
 
-const ClaimNftAuction = () => {
+const LendInJewel = () => {
   const claimableAmountResult = useNftAuctionClaimableAmount();
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const maxWidth600 = useMediaQuery('(max-width:600px)');
@@ -166,4 +166,4 @@ const ClaimNftAuction = () => {
   );
 };
 
-export default ClaimNftAuction;
+export default LendInJewel;

@@ -85,7 +85,7 @@ export const apps: AppWithRouteConfig[] = [
   {
     name: 'JewelSwap',
     component: lazy(() =>
-      import('./jewelswap/index').then((module) => ({
+      import('./jewelswap').then((module) => ({
         default: module.default,
       })),
     ),
