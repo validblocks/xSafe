@@ -4,7 +4,6 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MainButton } from 'src/components/Theme/StyledComponents';
-// import { PropertyKeyBox } from 'src/components/Utils/PropertKeyBox';
 import { useNftAuctionClaimableAmount } from 'src/utils/useNftAuctionClaimableAmount';
 import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
@@ -14,15 +13,19 @@ import { useSelector } from 'react-redux';
 import { inputLabelClasses } from '@mui/material/InputLabel';
 import { theme } from '@components/Theme/createTheme';
 import { MultiversXLogo } from '@components/Utils/MultiversXLogo';
-import { NFTMarketplace } from './types';
-import { marketplaces } from './constants';
-import * as Styled from './styled';
+import {
+  ImageText,
+  NFTMarketplaceCard,
+  NFTMarketplaceDescription,
+  NFTMarketplaceImgContainer,
+} from 'src/apps/nft-auctions/styled';
+import { JewelSwapLendingData } from './types';
+import { jewelSwapData } from './constants';
 
 const ClaimNftAuction = () => {
   const claimableAmountResult = useNftAuctionClaimableAmount();
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const maxWidth600 = useMediaQuery('(max-width:600px)');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [lendInput, setLendInput] = useState(''); // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [lendInputError, setLendInputError] = useState(false); const claimableAmount = useMemo(() => {
     if (!claimableAmountResult) return 0;
@@ -51,21 +54,22 @@ const ClaimNftAuction = () => {
   };
 
   return (
+
     <Box>
       <Box pb={2}>
         <Text fontSize={24} fontWeight={600}>Lend in JewelSwap</Text>
       </Box>
       <Grid container spacing={2} alignContent="stretch">
-        {marketplaces.map((marketplace: NFTMarketplace) => (
+        {jewelSwapData.map((marketplace: JewelSwapLendingData) => (
           <Grid
             key={marketplace.title}
             item
           >
-            <Styled.NFTMarketplaceCard sx={{ maxWidth: maxWidth600 ? '100%' : '320px' }}>
-              <Styled.NFTMarketplaceImgContainer>
+            <NFTMarketplaceCard sx={{ maxWidth: maxWidth600 ? '100%' : '320px' }}>
+              <NFTMarketplaceImgContainer>
                 {marketplace.imgComponent}
                 <Box pt={1}>
-                  <Styled.ImageText
+                  <ImageText
                     textAlign="center"
                     fontSize={12}
                     sx={{
@@ -73,9 +77,9 @@ const ClaimNftAuction = () => {
                     }}
                   >
                     The first Peer-to-Pool Lending Liquidity Protocol on MultiversX
-                  </Styled.ImageText>
+                  </ImageText>
                 </Box>
-              </Styled.NFTMarketplaceImgContainer>
+              </NFTMarketplaceImgContainer>
 
               <Box display="flex" flexDirection="column" justifyContent="space-between" height="100%">
                 <Box>
@@ -87,9 +91,9 @@ const ClaimNftAuction = () => {
                     </Box>
                   </Box>
                   <Box pb={2}>
-                    <Styled.NFTMarketplaceDescription>
+                    <NFTMarketplaceDescription>
                       {marketplace.description}
-                    </Styled.NFTMarketplaceDescription>
+                    </NFTMarketplaceDescription>
                   </Box>
                 </Box>
                 <Box mt={1}>
@@ -101,7 +105,6 @@ const ClaimNftAuction = () => {
                       padding: ' 1rem',
                     }}
                   >
-                    {/* <PropertyKeyBox propertyKey={'Claimable'} /> */}
                     <form>
                       <Box
                         display="flex"
@@ -110,8 +113,6 @@ const ClaimNftAuction = () => {
                           margin: '1rem',
                         }}
                       >
-                        {/* <Text mr={1} fontWeight={700}>{claimableAmount}</Text> */}
-                        {/* <MultiversXLogo width={15} height={15} /> */}
                         <TextField
                           value={lendInput}
                           type={'number'}
@@ -122,10 +123,8 @@ const ClaimNftAuction = () => {
                           inputProps={{ style: { color: '#fff' } }}
                           InputLabelProps={{
                             sx: {
-                            // set the color of the label when not shrinked
                               color: theme.palette.primary.main,
                               [`&.${inputLabelClasses.shrink}`]: {
-                              // set the color of the label when shrinked (usually when the TextField is focused)
                                 color: theme.palette.primary.main,
                               },
                             },
@@ -134,7 +133,6 @@ const ClaimNftAuction = () => {
                           sx={{
 
                             margin: '1rem',
-                            // input: { color: theme.palette.primary },
                           }}
                         />
                         {<MultiversXLogo width={15} height={15} />}
@@ -157,30 +155,10 @@ const ClaimNftAuction = () => {
                         padding: '0.5rem',
                       }}
                     />
-
-                    {/* <MainButton */}
-                    {/*  onClick={handleLendButtonClick} */}
-                    {/*  disabled={isInReadOnlyMode} */}
-                    {/*  fullWidth */}
-                    {/* > */}
-                    {/*  Withdraw */}
-                    {/* </MainButton> */}
-                    {/* <Box */}
-                    {/*  sx={{ */}
-                    {/*    padding: '0.5rem', */}
-                    {/*  }} */}
-                    {/* /> */}
-                    {/* <MainButton */}
-                    {/*  onClick={handleLendButtonClick} */}
-                    {/*  disabled={isInReadOnlyMode} */}
-                    {/*  fullWidth */}
-                    {/* > */}
-                    {/*  Compound */}
-                    {/* </MainButton> */}
                   </Box>
                 </Box>
               </Box>
-            </Styled.NFTMarketplaceCard>
+            </NFTMarketplaceCard>
           </Grid>
         ))}
       </Grid>

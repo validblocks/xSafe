@@ -95,7 +95,7 @@ export const apps: AppWithRouteConfig[] = [
     imageUrlLight: ClaimEarningsLight,
     imageUrlDark: ClaimEarningsDark,
     isInstallable: true,
-    icon: <FileDownloadRoundedIcon />,
+    icon: <DiamondIcon />,
     path: '/jewelswap',
     title: 'Jewelswap',
     transaction: sampleTransaction,

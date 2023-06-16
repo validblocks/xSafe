@@ -1,7 +1,6 @@
-export type NFTMarketplace = {
+export type JewelSwapLendingData = {
     title: string;
     icon?: any;
-    claimableAmount: number;
     description: string;
     imgSrc: string;
     imgComponent: any;
