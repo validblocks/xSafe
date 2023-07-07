@@ -252,6 +252,8 @@ export function mutateSmartContractCall(
     ...args,
   ];
 
+  console.log({ allArgs });
+
   return sendTransaction(
     MultisigContractFunction.PROPOSE_ASYNC_CALL,
     gasLimit,

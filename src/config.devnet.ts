@@ -52,8 +52,11 @@ export const sampleAuthenticatedDomains = [
   network.storageApi,
 ];
 
+
 export const relatedBranch = 'develop';
 
 export const xSafeApiUrl = 'https://devnet-api.xsafe.io';
 
 export const xSpotlightContractAddress = 'erd1qqqqqqqqqqqqqpgqs8gtvhtt6k7h6khkmudzd6y4z0r08rx4u00svnnxt2';
+
+export const jewelSwapLendingContractAddress = 'erd1qqqqqqqqqqqqqpgqk0f3sw6ssqn6e0f39fyrh75k8fh68mds9ckqpw42d6';

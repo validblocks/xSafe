@@ -57,3 +57,5 @@ export const xSafeApiUrl = 'https://api.xsafe.io';
 
 export const xSpotlightContractAddress =
   'erd1qqqqqqqqqqqqqpgqra34kjj9zu6jvdldag72dyknnrh2ts9aj0wqp4acqh';
+
+export const jewelSwapLendingContractAddress = 'erd1qqqqqqqqqqqqqpgqhpauarfmx75nf4pwxh2fuy520ym03p8e8jcqt466up';
