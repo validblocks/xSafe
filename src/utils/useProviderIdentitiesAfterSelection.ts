@@ -93,16 +93,17 @@ export default function useProviderIdentitiesAfterSelection({
     [fetchedProviders],
   );
 
-  const _bringValidBlocksFirst = useCallback((data: IdentityWithColumns[]) => {
-    const validBlocksIndex = data.findIndex(
-      (p) => p.identity === 'validblocks',
-    );
-    if (validBlocksIndex > -1) {
-      const validBlocks = data.splice(validBlocksIndex, 1);
-      data.unshift(validBlocks[0]);
-    }
-    return data;
-  }, []);
+  const filterBySearchParam = useCallback(
+    (data: IProviderIdentity[]) => {
+      if (!searchParam) return data;
+      return data.filter((p) =>
+        ('identity' in p && p.identity.toLowerCase().trim().includes(searchParam.toLowerCase().trim()))
+        || ('name' in p && p.name.toLowerCase().trim().includes(searchParam.toLowerCase().trim()))
+        || ('provider' in p && (p.provider as string).toLowerCase().trim().includes(searchParam.toLowerCase().trim())),
+      );
+    },
+    [searchParam],
+  );
 
   const filterBySearchParam = useCallback(
     (data: IProviderIdentity[]) => {

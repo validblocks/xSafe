@@ -1,5 +1,5 @@
 import { Box } from '@mui/system';
-import { ReactComponent as MultiversXLogoSymbol } from 'src/assets/img/multiversx-symbol.svg';
+import MultiversXLogoSymbol from 'src/assets/img/multiversx-symbol.svg';
 
 interface IProps {
     height?: number;
@@ -13,7 +13,8 @@ export const MultiversXLogo = ({
   marginRight = '14px',
 }: IProps) => (
   <Box marginRight={marginRight} display="flex" alignItems="center">
-    <MultiversXLogoSymbol
+    <img
+      src={MultiversXLogoSymbol}
       width={width}
       height={height}
     />

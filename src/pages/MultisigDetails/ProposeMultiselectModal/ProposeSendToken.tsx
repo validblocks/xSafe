@@ -58,9 +58,9 @@ const ProposeSendToken = ({
   );
 
   const selectedTokenBalance = useMemo(
-    () => availableTokensWithBalances?.find(
-      (token: TokenTableRowItem) => token?.identifier === identifier,
-    )?.balance as string,
+    () => (availableTokensWithBalances?.find(
+      (token: any) => token?.identifier && token.identifier === identifier,
+    )?.balance) ?? '0',
     [availableTokensWithBalances, identifier],
   );
 
@@ -87,7 +87,7 @@ const ProposeSendToken = ({
         .required('Required')
         .test('is valid address', 'Not a valid address', (value?: string) => {
           try {
-            const _address = new Address(value).bech32();
+            new Address(value).bech32();
             return true;
           } catch (err) {
             return false;

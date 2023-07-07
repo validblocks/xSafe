@@ -1,9 +1,10 @@
 import React from 'react';
-import { Box, MenuItem, useTheme } from '@mui/material';
+import { Box, MenuItem } from '@mui/material';
 import '../../components/ChangeCurrency/ChangeCurrency.scss';
 import { MainSelect } from 'src/components/Theme/StyledComponents';
 import { makeStyles } from '@mui/styles';
 import { AppWithRouteConfig } from 'src/apps/apps';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 
 type Props = {
   selectedApp: AppWithRouteConfig;
@@ -12,7 +13,7 @@ type Props = {
 };
 
 export const AppSelect = ({ apps, selectedApp, setSelectedApp }: Props) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
 
   const useStyles = makeStyles(() => ({
     dropdown: {

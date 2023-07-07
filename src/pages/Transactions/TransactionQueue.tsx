@@ -8,7 +8,10 @@ import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItems
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { currentMultisigContractSelector, currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import {
+  currentMultisigContractSelector,
+  currentMultisigTransactionIdSelector,
+} from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
@@ -20,6 +23,7 @@ import PendingActionSummary from './PendingActionSummary';
 import TransactionActionsCard from './TransactionActionsCard';
 import TransactionDescription from './TransactionDescription';
 import NoActionsOverlay from './utils/NoActionsOverlay';
+import { motion } from 'framer-motion';
 
 const useStyles = makeStyles(() => ({
   expanded: { margin: 0 },
@@ -56,14 +60,19 @@ const TransactionQueue = () => {
   const { allPendingActions } = usePendingActions();
 
   const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 
-  const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
+  const currentMultisigTransactionId = useSelector(
+    currentMultisigTransactionIdSelector,
+  );
   const currentContract = useSelector(currentMultisigContractSelector);
 
-  const untruncatedData = useMemo(() => allPendingActions?.slice().reverse() ?? [], [allPendingActions]);
+  const untruncatedData = useMemo(
+    () => allPendingActions?.slice().reverse() ?? [],
+    [allPendingActions],
+  );
 
   useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
@@ -74,69 +83,85 @@ const TransactionQueue = () => {
 
   if (!currentContract?.address) {
     return (
-      <Box
-        pt={maxWidth600 ? '45px' : '12px'}
-      ><NoActionsOverlay message={t('No safe available')} />
+      <Box pt={maxWidth600 ? '45px' : '12px'}>
+        <NoActionsOverlay message={t('No safe available')} />
       </Box>
     );
   }
 
   if (!allPendingActions) {
-    return <Box marginTop={maxWidth600 ? '60px' : 0}><LoadingDataIndicator dataName="proposal" /></Box>;
+    return (
+      <Box marginTop={maxWidth600 ? '60px' : 0}>
+        <LoadingDataIndicator dataName="proposal" />
+      </Box>
+    );
   }
 
   if (allPendingActions.length === 0) {
     return (
-      <Box
-        pt={maxWidth600 ? '45px' : '12px'}
-      ><NoActionsOverlay message={t('No transactions found')} />
+      <Box pt={maxWidth600 ? '45px' : '12px'}>
+        <NoActionsOverlay message={t('No transactions found')} />
       </Box>
     );
   }
 
   return (
-    <Box paddingTop={maxWidth600 ? '37px' : 0} paddingBottom={maxWidth600 ? '52px' : 0}>
-      {actionsForCurrentPage.map((action) => (
-        <TransactionAccordion
+    <Box
+      paddingTop={maxWidth600 ? '37px' : 0}
+      paddingBottom={maxWidth600 ? '52px' : 0}
+    >
+      {actionsForCurrentPage.map((action, idx) => (
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{
+            delay: 0.035 * idx,
+          }}
+          viewport={{ once: true }}
+          exit={{ opacity: 0, scale: 0 }}
           key={action.actionId}
-          onChange={handleChange(action.actionId.toString())}
-          expanded={expanded === action.actionId.toString()}
         >
-          <AccordionSummary
-            expandIcon={(<ArrowDropDown sx={{ '& svg': { fill: 'red' } }} />)}
-            aria-controls="panel1a-content"
-            className="pl-0 m-0"
-            classes={{
-              content: classes.content,
-              expanded: classes.expanded,
-            }}
-            id="panel1a-header"
+          <TransactionAccordion
+            key={action.actionId}
+            onChange={handleChange(action.actionId.toString())}
+            expanded={expanded === action.actionId.toString()}
           >
-            <PendingActionSummary action={action} />
-          </AccordionSummary>
-          <AccordionDetails sx={{ padding: '0' }}>
-            <TransactionDescription
-              boardMembers={boardMembers}
-              action={action}
-              signers={action.signers}
-              description={action.description()}
-              bottomLeftChild={(
-                <TransactionActionsCard
-                  boardMembers={boardMembers}
-                  key={action.actionId}
-                  type={action.typeNumber()}
-                  actionId={action.actionId}
-                  title={action.title()}
-                  tooltip={action.tooltip()}
-                  value={action.description()}
-                  data={action.getData()}
-                  action={action}
-                  signers={action.signers}
-                />
-              )}
-            />
-          </AccordionDetails>
-        </TransactionAccordion>
+            <AccordionSummary
+              expandIcon={<ArrowDropDown sx={{ '& svg': { fill: 'red' } }} />}
+              aria-controls="panel1a-content"
+              className="pl-0 m-0"
+              classes={{
+                content: classes.content,
+                expanded: classes.expanded,
+              }}
+              id="panel1a-header"
+            >
+              <PendingActionSummary action={action} />
+            </AccordionSummary>
+            <AccordionDetails sx={{ padding: '0' }}>
+              <TransactionDescription
+                boardMembers={boardMembers}
+                action={action}
+                signers={action.signers}
+                description={action.description()}
+                bottomLeftChild={
+                  <TransactionActionsCard
+                    boardMembers={boardMembers}
+                    key={action.actionId}
+                    type={action.typeNumber()}
+                    actionId={action.actionId}
+                    title={action.title()}
+                    tooltip={action.tooltip()}
+                    value={action.description()}
+                    data={action.getData()}
+                    action={action}
+                    signers={action.signers}
+                  />
+                }
+              />
+            </AccordionDetails>
+          </TransactionAccordion>
+        </motion.div>
       ))}
       <PaginationWithItemsPerPage
         data={untruncatedData}

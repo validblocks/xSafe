@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { mutateProposeChangeQuorum } from 'src/contracts/MultisigContract';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import * as Styled from './styled/index';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 
@@ -33,7 +33,7 @@ const CvorumContainer = () => {
   const isSameQuorum = newQuorum === quorumCount;
 
   const { t } = useTranslation();
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
 
   const handleIncrementCount = () => setNewQuorum((newQuorum) => {
     const quorumValue = newQuorum + 1;

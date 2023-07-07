@@ -90,7 +90,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
         const totalRequestedUndelegations = delegation?.userUndelegatedList
           .reduce((totalSum: number, undelegation: IUndelegatedFunds) => {
-            const amount = parseFloat(RationalNumber.fromBigInteger(undelegation.amount));
+            const amount = RationalNumber.fromBigInteger(undelegation.amount);
             return totalSum + amount;
           }, 0);
 
@@ -99,7 +99,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
         const withdrawableUndelegationsAmount =
           withdrawableUndelegations?.reduce((totalSum: number, undelegation: IUndelegatedFunds) => {
-            const amount = parseFloat(RationalNumber.fromBigInteger(undelegation.amount));
+            const amount = RationalNumber.fromBigInteger(undelegation.amount);
             return totalSum + amount;
           }, 0);
 
@@ -122,7 +122,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
   const [expanded, setExpanded] = useState<string | false>(false);
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);
   const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 

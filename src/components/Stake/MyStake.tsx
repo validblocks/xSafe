@@ -7,7 +7,7 @@ import { QueryKeys } from 'src/react-query/queryKeys';
 import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { KeyboardEvent, useEffect, useState } from 'react';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import {
   currentMultisigContractSelector,
   currentMultisigTransactionIdSelector,
@@ -31,7 +31,7 @@ import { MainButton } from '../Theme/StyledComponents';
 import ActiveDelegationsTable from './ActiveDelegationsTable';
 
 const MyStake = () => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const dispatch = useDispatch();
   const handleOptionSelected = (option: ProposalsTypes) => {
     dispatch(setProposeMultiselectSelectedOption({ option }));
@@ -77,18 +77,14 @@ const MyStake = () => {
     const totalActiveStake = fetchedDelegations.reduce(
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
-        parseFloat(
           RationalNumber.fromBigInteger(delegation?.userActiveStake ?? 0),
-        ),
       0,
     );
 
     const allClaimableRewards = fetchedDelegations.reduce(
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
-        parseFloat(
           RationalNumber.fromBigInteger(delegation?.claimableRewards ?? 0),
-        ),
       0,
     );
 
@@ -108,9 +104,9 @@ const MyStake = () => {
 
     const totalUndelegations = contractUndelegations.reduce(
       (totalSum: number, undelegation: IUndelegatedFunds) => {
-        const amount = parseFloat(
-          RationalNumber.fromBigInteger(undelegation?.amount ?? 0),
-        );
+        const amount =
+          RationalNumber.fromBigInteger(undelegation?.amount ?? 0);
+        
         return totalSum + amount;
       },
       0,

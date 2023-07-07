@@ -15,6 +15,7 @@ export const BreadcrumbsElement = styled(Breadcrumbs)(({ theme: _ }) => ({
 export const MainBreadcrumbsLink = styled(Link)(({ theme: _ }) => ({
   color: _.palette.black.reducedOpacity,
   fontWeight: _.font.weight.lg,
+  textDecoration: 'none',
   transition: 'color 256ms ease-in-out',
   '&:hover': {
     color: '#4c2FFC',

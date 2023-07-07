@@ -10,8 +10,8 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import { updateMultisigContractOnServer } from 'src/apiCalls/multisigContractsCalls';
 import { updateMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { useTheme } from 'styled-components';
-import { ReactComponent as HeartIcon } from 'src/assets/img/heart.svg';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
+import HeartIcon from 'src/assets/img/heart.svg';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { NoteSpan, Span } from './settings-style';
 import BuildNumber from './BuildNumber';
@@ -23,7 +23,7 @@ function SafeSettings() {
   const safeName = currentContract?.name;
   const [name, setName] = useState(safeName);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
 
   useEffect(() => {
     setName(safeName);
@@ -105,7 +105,7 @@ function SafeSettings() {
         href="https://validblocks.com/"
       >
         <Text>
-          Made with <HeartIcon className="mx-1" /> by ValidBlocks.
+          Made with <img src={HeartIcon} className="mx-1" /> by ValidBlocks.
         </Text>
       </a>
       <Typography

@@ -30,7 +30,7 @@ export const Docs = () => {
   const { t } = useTranslation();
   const classes = useStyles();
   const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
   const { transaction, action } = selectedApp;

@@ -1,9 +1,10 @@
 import React from 'react';
-import { Box, MenuItem, useTheme } from '@mui/material';
+import { Box, MenuItem } from '@mui/material';
 import '../../components/ChangeCurrency/ChangeCurrency.scss';
 import { MainSelect } from 'src/components/Theme/StyledComponents';
 import { makeStyles } from '@mui/styles';
 import { NFTMarketplace } from './types';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 
 type Props = {
   selectedMarketplace: NFTMarketplace;
@@ -12,7 +13,7 @@ type Props = {
 };
 
 export const MarketplaceSelect = ({ marketplaces, selectedMarketplace, setSelectedMarketplace }: Props) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
 
   const useStyles = makeStyles(() => ({
     dropdown: {

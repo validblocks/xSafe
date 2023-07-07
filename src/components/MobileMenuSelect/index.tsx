@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
 import menuItems, { availableApps, MenuItem, preinstalledApps } from 'src/utils/menuItems';
 import { useLocalStorage } from 'src/utils/useLocalStorage';
-import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
-import { useSelector } from 'react-redux';
 import {
   MobileDropDownContainer,
   MobileMenuAccordion,
@@ -19,13 +17,12 @@ const MobileMenuSelect = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [pinnedApps, _setPinnedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.PINNED_APPS, []);
   const [installedApps, _setInstalledApps] = useLocalStorage(LOCAL_STORAGE_KEYS.INSTALLED_APPS, []);
-  const _isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   const menuRef = useRef<HTMLElement>();
   const buttonMenuRef = useRef<HTMLElement>();
 
   const [expanded, setExpanded] = useState<string | false>(false);
   const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 

@@ -12,7 +12,7 @@ import { CenteredBox, Text } from 'src/components/StyledComponents/StyledCompone
 import { FinalStepActionButton, InputsContainer } from 'src/components/Theme/StyledComponents';
 import { deployMultisigContract } from 'src/contracts/ManagerContract';
 import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { Address } from '@multiversx/sdk-core/out';
 import { useMultistepFormContext } from 'src/components/Utils/MultistepForm';
 import * as Styled from 'src/components/Utils/styled';
@@ -30,7 +30,7 @@ const DeployMultisigStepOne = ({
   setNewContracts,
   enableNextStep = () => null,
 }: DeployStepsModalType) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const { t } = useTranslation();
   const [name, setName] = useState('');
   const { address } = useGetAccountInfo();

@@ -43,7 +43,7 @@ const TokenSelection = ({ amountError, resetAmount }: IProps) => {
     >
       {tokenTableRows?.map((token: TokenTableRowItem) => (
         <MenuItem
-          key={token.identifier}
+          key={token.id}
           value={token.identifier}
           sx={{ width: '230px', pl: '.1rem', pr: '.3rem' }}
         >

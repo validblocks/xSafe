@@ -167,6 +167,7 @@ export const ActionButtonsBox = styled.div(({ theme: _ }) => ({
   flexDirection: 'row',
   justifyContent: 'center',
   marginTop: '10px',
+  gap: '0.75rem',
   '& button': {
     width: '100%',
   },

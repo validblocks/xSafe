@@ -2,7 +2,7 @@ import { CircularProgress, useMediaQuery } from '@mui/material';
 import { Box } from '@mui/system';
 import { useTranslation } from 'react-i18next';
 import { Text, CenteredBox } from 'src/components/StyledComponents/StyledComponents';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 
 type Props = {
   dataName: string;
@@ -12,7 +12,7 @@ const LoadingDataIndicator = ({ dataName }: Props) => {
   const { t } = useTranslation();
   const data = dataName.length > 0 ? `${dataName}s` : dataName;
   const loadingMessage = `Loading ${data}...`;
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const maxWidth600 = useMediaQuery('(max-width:600px)');
   return (
     <CenteredBox

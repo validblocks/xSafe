@@ -52,6 +52,7 @@ export const sampleAuthenticatedDomains = [
   network.storageApi,
 ];
 
+
 export const relatedBranch = 'develop';
 
 export const xSafeApiUrl = 'https://devnet-api.xsafe.io';

@@ -121,7 +121,7 @@ const ProposeMultiselectModal = ({
         mutateUpgradeContractFromSource(
           selectedProposal.address,
           selectedProposal.amount,
-          selectedProposal.source,
+          // selectedProposal.source,
           selectedProposal.upgradeable,
           selectedProposal.payable,
           selectedProposal.readable,

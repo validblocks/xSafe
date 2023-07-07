@@ -15,7 +15,7 @@ import {
 import { Box, Typography } from '@mui/material';
 import { makeStyles, withStyles } from '@mui/styles';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import TransactionTechnicalDetails from 'src/pages/Transactions/TransactionTechnicalDetails';
 import MemberPresentationWithPhoto from '../Organization/MemberPresentationWithPhoto';
@@ -40,7 +40,7 @@ function TransactionDescription({
   child2,
   bottomLeftChild,
 }: Props) {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
 
   const StyledDot = withStyles({ root: { backgroundColor: theme.palette.background.timeline } })(
     TimelineDot,

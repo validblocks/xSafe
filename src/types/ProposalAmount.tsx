@@ -14,7 +14,7 @@ function getAmountFromTransactionData(data: string): string {
   const amountParamDecimal = parseInt(amountParamHex ?? '0', 16).toString();
   const denominatedAmountParam = RationalNumber.fromBigInteger(amountParamDecimal);
   const prettyBalance = getDenominatedBalance<string>(
-    denominatedAmountParam,
+    denominatedAmountParam.toString(),
     { precisionAfterComma: 3, needsDenomination: false },
   );
 
@@ -48,7 +48,7 @@ const ProposalAmount = ({
         const amountToString = amount.valueOf().toString();
         const balance = RationalNumber.fromBigInteger(amountToString);
         const denominatedBalance = getDenominatedBalance<string>(
-          balance,
+          balance.toString(),
           { precisionAfterComma: 3, needsDenomination: false },
         );
         proposalAmount = denominatedBalance;

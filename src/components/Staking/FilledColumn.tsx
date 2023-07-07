@@ -1,6 +1,6 @@
 import { IFilledColumn } from 'src/types/staking';
 import ContrastRoundedIcon from '@mui/icons-material/ContrastRounded';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import PercentageWithIcon from '../Utils/PercentageWithIcon';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const FilledColumn = ({ columnData: { filledPercentage } = { filledPercentage: 100 } }: Props) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
 
   const percentage = (filledPercentage === Infinity
     || filledPercentage.toString() === '∞'

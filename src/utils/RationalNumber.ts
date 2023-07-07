@@ -12,30 +12,26 @@ export default class RationalNumber {
   }
 
   static fromBigInteger(amount: BigNumber.Value) {
-    console.log({ amount });
-
     try {
-      return formatAmount({
-        input: amount.toString(),
-      });
+      return Number(
+        formatAmount({
+          input: amount.toString(),
+        }),
+      );
     } catch (e) {
       console.error(e);
     }
 
-    return '0';
+    return 0;
   }
 
   static fromFungibleBigInteger(
     amountAsBigInteger: BigNumber.Value,
     numDecimals = 18,
   ) {
-    console.log({
-      amountAsBigInteger,
-      numDecimals,
-    });
     const decimals = new BigNumber(10).pow(numDecimals);
     const rational = new RationalNumber(amountAsBigInteger, decimals);
-    return rational.toDecimalString();
+    return rational.toNumber();
   }
 
   static fromDynamicTokenAmount(
@@ -48,13 +44,11 @@ export default class RationalNumber {
         ? RationalNumber.fromFungibleBigInteger(amountAsBigInteger, numDecimals)
         : RationalNumber.fromBigInteger(amountAsBigInteger);
 
-    console.log({ result });
     return result;
   }
 
-  toDecimalString(): string {
-    return this.numerator
-      .dividedBy(this.denominator)
-      .toFixed(this.denominator.decimalPlaces() ?? 18);
+  toNumber(): number {
+    return Number(this.numerator.dividedBy(this.denominator).toString());
+    // .toFixed(this.denominator.decimalPlaces() ?? 18);
   }
 }

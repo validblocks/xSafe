@@ -1,6 +1,7 @@
 .modal-container {
   z-index: 1301;
   .modal-dialog {
+    max-width: 561px !important;
     .modal-content {
       border-radius: 12px !important;
       border: none;

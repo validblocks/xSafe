@@ -27,7 +27,7 @@ export const economicsSlice = createSlice({
   name: 'economicsSlice',
   initialState,
   reducers: {
-    setEconomics(state: StateType, action: PayloadAction<StateType>) {
+    setEconomics(_state: StateType, action: PayloadAction<StateType>) {
       return action.payload;
     },
   },

@@ -60,7 +60,7 @@ const StakingFormStepTwo = () => {
         .required('Required')
         .test((value?: string) => {
           try {
-            const _address = new Address(value);
+            new Address(value);
             return true;
           } catch (err) {
             return false;

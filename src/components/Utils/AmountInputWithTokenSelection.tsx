@@ -10,7 +10,7 @@ import {
 import { useSelector } from 'react-redux';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { FormikProps } from 'formik';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { Text } from '../StyledComponents/StyledComponents';
 import TokenSelection from './TokenSelection';
 import TokenPresentationWithPrice from './TokenPresentationWithPrice';
@@ -49,7 +49,7 @@ const AmountInputWithTokenSelection = ({
   },
 }: IProps) => {
   const { t } = useTranslation();
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const { identifier = 'EGLD' } = useSelector(selectedTokenToSendSelector);
 
   const {

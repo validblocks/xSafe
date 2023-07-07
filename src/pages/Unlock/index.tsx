@@ -1,5 +1,5 @@
-import { ReactComponent as IconMaiar } from 'src/assets/img/maiar-app.svg';
-import { ReactComponent as IconMaiarWallet } from 'src/assets/img/maiar-defi-wallet.svg';
+import IconMaiar from 'src/assets/img/maiar-app.svg';
+import IconMaiarWallet from 'src/assets/img/maiar-defi-wallet.svg';
 import { network, walletConnectV2ProjectId } from 'src/config';
 import routeNames from 'src/routes/routeNames';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
@@ -44,10 +44,10 @@ const Unlock = () => {
             rel="noreferrer"
             href="https://chrome.google.com/webstore/detail/dngmlblcodfobpdpecaadgfbcggfjfnm?authuser=0&hl=en"
             target="_blank"
-            className="btn btn-unlock btn-block"
+            className="btn btn-unlock btn-block w-100"
           >
             <div className="d-flex justify-content-between align-items-center method">
-              <IconMaiarWallet />
+              <img src={IconMaiarWallet} />
               <UnlockText>MultiversX DeFi Wallet</UnlockText>
               <Styled.ArrowToRight />
             </div>
@@ -57,7 +57,7 @@ const Unlock = () => {
         {window.elrondWallet && (
           <ExtensionLoginButton {...commonProps}>
             <div className="d-flex justify-content-between align-items-center method">
-              <IconMaiarWallet />
+              <img src={IconMaiarWallet} />
               <UnlockText>MultiversX DeFi Wallet</UnlockText>
               <Styled.ArrowToRight />
             </div>
@@ -73,7 +73,7 @@ const Unlock = () => {
             : {})}
         >
           <div className="d-flex justify-content-between align-items-center method">
-            <IconMaiar />
+            <img src={IconMaiar} />
             <UnlockText>xPortal Mobile Wallet</UnlockText>
             <Styled.ArrowToRight />
           </div>

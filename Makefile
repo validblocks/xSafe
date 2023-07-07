@@ -139,3 +139,11 @@ ssh-nginx:
 .PHONY: rebuild-nginx
 rebuild-nginx:
 	docker compose up -d --no-deps --force-recreate --build nginx
+
+.PHONY: mainnet
+mainnet:
+	cp -p ./src/config.mainnet.ts ./src/config.ts
+
+.PHONY: devnet
+devnet:
+	cp -p ./src/config.devnet.ts ./src/config.ts

@@ -1,5 +1,5 @@
 import { Box } from '@mui/system';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { Text } from '../StyledComponents/StyledComponents';
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
 };
 
 export const PropertyKeyBox = ({ propertyKey }: Props) => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   return (
     <Box>
       <Text sx={{

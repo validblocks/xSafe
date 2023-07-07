@@ -103,8 +103,10 @@ const OrganizationsOwnersTable = () => {
                 {truncateInTheMiddle(params.value?.address ?? '', 10)}
               </strong>
             </Box>
-            <Box display="flex" alignItems="center">
-              <CopyButton className="ml-2" link={StyledUtils.CopyIconLinkPurple} text={params.value?.address ?? ''} />
+            <Box display="flex" alignItems="center" >
+              <Box sx={{ paddingLeft: 1 }}>
+                <CopyButton link={StyledUtils.CopyIconLinkPurple} text={params.value?.address ?? ''} />
+              </Box>
               <AnchorPurple
                 href={`${
                   network.explorerAddress
@@ -151,7 +153,7 @@ const OrganizationsOwnersTable = () => {
   }));
 
   return (
-    <>
+    <Box paddingBottom="55px">
       <MainButtonNoShadow
         disabled={isInReadOnlyMode}
         onClick={() => onAddBoardMember()}
@@ -177,7 +179,7 @@ const OrganizationsOwnersTable = () => {
             components={{ NoRowsOverlay: noRowsOverlay }}
           />
         )}
-    </>
+    </Box>
   );
 };
 

@@ -1,4 +1,11 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { Address } from '@multiversx/sdk-core/out';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -49,46 +56,48 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const [isBoardMember, setIsBoardMember] = useState(false);
   const [boardMembers, setBoardMembers] = useState<Address[]>([]);
   const [isInReadOnlyMode, setIsInReadOnlyMode] = useState<boolean>(true);
-  const [isMultiWalletMode, setIsMultiWalletMode] = useState(uniqueContractAddress.length > 0);
-  const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
+  const [isMultiWalletMode, setIsMultiWalletMode] = useState(
+    uniqueContractAddress.length > 0,
+  );
+  const currentContract = useSelector<StateType, MultisigContractInfoType>(
+    currentMultisigContractSelector,
+  );
 
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const { address } = useGetAccountInfo();
   const { isLoggedIn } = useGetLoginInfo();
 
-  const fetchMemberDetails = useCallback(async (isMounted: boolean) => {
-    if (!currentContract?.address || !isLoggedIn) return;
+  const fetchMemberDetails = useCallback(
+    async (isMounted: boolean) => {
+      if (!currentContract?.address || !isLoggedIn) return;
 
-    const isValidMultisigContract = await MultiversxApiProvider.validateMultisigAddress(
-      currentContract?.address,
-    );
+      const isValidMultisigContract =
+        await MultiversxApiProvider.validateMultisigAddress(
+          currentContract?.address,
+        );
 
-    if (!isValidMultisigContract) return;
+      if (!isValidMultisigContract) return;
 
-    Promise.all([
-      queryBoardMemberAddresses(),
-      queryQuorumCount(),
-    ]).then(
-      ([
-        boardMembersAddresses,
-        quorumCountResponse,
-      ]) => {
-        if (!isMounted) return;
-        setBoardMembers(boardMembersAddresses);
-        setQuorumCount(quorumCountResponse);
-      },
-    );
-  }, [currentContract?.address, isLoggedIn]);
-
-  const fetchNftCount = useCallback(
-    () => MultiversxApiProvider.fetchOrganizationNFTCount(currentContract?.address), [currentContract?.address],
+      Promise.all([queryBoardMemberAddresses(), queryQuorumCount()]).then(
+        ([boardMembersAddresses, quorumCountResponse]) => {
+          if (!isMounted) return;
+          setBoardMembers(boardMembersAddresses);
+          setQuorumCount(quorumCountResponse);
+        },
+      );
+    },
+    [currentContract?.address, isLoggedIn],
   );
 
-  const {
-    data: nftCount,
-    refetch: refetchNftCount,
-  } = useQuery(QueryKeys.NFT_COUNT,
+  const fetchNftCount = useCallback(
+    () =>
+      MultiversxApiProvider.fetchOrganizationNFTCount(currentContract?.address),
+    [currentContract?.address],
+  );
+
+  const { data: nftCount, refetch: refetchNftCount } = useQuery(
+    QueryKeys.NFT_COUNT,
     fetchNftCount,
     USE_QUERY_DEFAULT_CONFIG,
   );
@@ -97,14 +106,19 @@ function OrganizationInfoContextProvider({ children }: Props) {
     const isSingleWalletMode = (uniqueContractAddress as string).length > 0;
     setIsMultiWalletMode(!isSingleWalletMode);
     if (isSingleWalletMode) {
-      const newMultisigAddressParam = parseMultisigAddress(uniqueContractAddress ?? '');
-      if (newMultisigAddressParam) { dispatch(setCurrentMultisigContract(newMultisigAddressParam?.bech32())); }
+      const newMultisigAddressParam = parseMultisigAddress(
+        uniqueContractAddress ?? '',
+      );
+      if (newMultisigAddressParam) {
+        dispatch(setCurrentMultisigContract(newMultisigAddressParam?.bech32()));
+      }
     }
   }, [dispatch]);
 
   const allMemberAddresses = useMemo(
     () =>
-      boardMembers.map((item) => ({ role: 'Member', member: item }))
+      boardMembers
+        .map((item) => ({ role: 'Member', member: item }))
         .map((item, idx) => ({ ...item, id: idx })),
     [boardMembers],
   );
@@ -144,7 +158,13 @@ function OrganizationInfoContextProvider({ children }: Props) {
     return () => {
       isMounted = false;
     };
-  }, [address, currentContract, currentContract?.address, fetchMemberDetails, refetchNftCount]);
+  }, [
+    address,
+    currentContract,
+    currentContract?.address,
+    fetchMemberDetails,
+    refetchNftCount,
+  ]);
 
   useEffect(() => {
     let isMounted = true;
@@ -154,7 +174,9 @@ function OrganizationInfoContextProvider({ children }: Props) {
       };
     }
 
-    const boardMembersAddressHex = boardMembers.map((memberAddress) => memberAddress.hex());
+    const boardMembersAddressHex = boardMembers.map((memberAddress) =>
+      memberAddress.hex(),
+    );
 
     if (isMounted) {
       setIsBoardMember(
@@ -167,7 +189,9 @@ function OrganizationInfoContextProvider({ children }: Props) {
     };
   }, [address, boardMembers]);
 
-  const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
+  const currentMultisigTransactionId = useSelector(
+    currentMultisigTransactionIdSelector,
+  );
 
   useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
@@ -179,18 +203,18 @@ function OrganizationInfoContextProvider({ children }: Props) {
     onSuccess: () => {
       fetchMemberDetails(true);
 
-      queryClient.invalidateQueries(
-        [
-          QueryKeys.ADDRESS_EGLD_TOKENS,
-          QueryKeys.ADDRESS_ESDT_TOKENS,
-          QueryKeys.ALL_ORGANIZATION_NFTS,
-          QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
-        ],
-      );
+      queryClient.invalidateQueries([
+        QueryKeys.ADDRESS_EGLD_TOKENS,
+        QueryKeys.ADDRESS_ESDT_TOKENS,
+        QueryKeys.ALL_ORGANIZATION_NFTS,
+        QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
+      ]);
 
       queryClient.invalidateQueries(QueryKeys.ALL_PENDING_ACTIONS);
 
-      dispatch(setIntervalEndTimestamp(Math.floor(new Date().getTime() / 1000)));
+      dispatch(
+        setIntervalEndTimestamp(Math.floor(new Date().getTime() / 1000)),
+      );
       setTimeout(() => {
         removeSignedTransaction(currentMultisigTransactionId);
       }, toastDisappearDelay);
@@ -202,38 +226,47 @@ function OrganizationInfoContextProvider({ children }: Props) {
   useEffect(() => {
     pendingTransactionsArray.forEach((pendingTransaction) => {
       const [sessionId, { transactions }] = pendingTransaction;
-      if (transactions
-        .every((transaction: SignedTransactionsBodyType) => transaction.status === 'success')) {
-        setTimeout(() => removeSignedTransaction(sessionId), toastDisappearDelay);
+      if (
+        transactions.every(
+          (transaction: SignedTransactionsBodyType) =>
+            transaction.status === 'success',
+        )
+      ) {
+        setTimeout(
+          () => removeSignedTransaction(sessionId),
+          toastDisappearDelay,
+        );
       }
     });
   }, [pendingTransactionsArray]);
 
   return (
     <OrganizationInfoContext.Provider
-      value={useMemo(() => ({
-        membersCountState: [membersCount, setMembersCount],
-        boardMembersState: [boardMembers, setBoardMembers],
-        boardMembersCount: boardMembers.length,
-        quorumCountState: [quorumCount, setQuorumCount],
-        userRole: userRole as number,
-        allMemberAddresses,
-        isBoardMemberState: [isBoardMember, setIsBoardMember],
-        nftCount: nftCount ?? 0,
-        isMultiWalletMode,
-        isInReadOnlyMode,
-      }),
-      [
-        membersCount,
-        boardMembers,
-        quorumCount,
-        userRole,
-        allMemberAddresses,
-        isBoardMember,
-        nftCount,
-        isMultiWalletMode,
-        isInReadOnlyMode,
-      ])}
+      value={useMemo(
+        () => ({
+          membersCountState: [membersCount, setMembersCount],
+          boardMembersState: [boardMembers, setBoardMembers],
+          boardMembersCount: boardMembers.length,
+          quorumCountState: [quorumCount, setQuorumCount],
+          userRole: userRole as number,
+          allMemberAddresses,
+          isBoardMemberState: [isBoardMember, setIsBoardMember],
+          nftCount: nftCount ?? 0,
+          isMultiWalletMode,
+          isInReadOnlyMode,
+        }),
+        [
+          membersCount,
+          boardMembers,
+          quorumCount,
+          userRole,
+          allMemberAddresses,
+          isBoardMember,
+          nftCount,
+          isMultiWalletMode,
+          isInReadOnlyMode,
+        ],
+      )}
     >
       {children}
     </OrganizationInfoContext.Provider>

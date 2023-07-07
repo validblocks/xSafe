@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 import { Address } from '@multiversx/sdk-core';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from 'styled-components';
 import { ProposeAddressInput } from 'src/components/Theme/StyledComponents';
 import { useMediaQuery } from '@mui/material';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 
 interface ProposeInputAddressType {
   handleParamsChange: (params: Address) => void;
@@ -15,11 +15,9 @@ interface ProposeInputAddressType {
 function ProposeInputAddress({
   handleParamsChange,
   setSubmitDisabled,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  invalidAddress,
   disabled,
 }: ProposeInputAddressType) {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const [address, setAddress] = useState('');
   const [error, setError] = useState(false);
   const { t }: { t: any } = useTranslation();

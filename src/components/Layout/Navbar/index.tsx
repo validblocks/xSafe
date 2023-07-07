@@ -16,7 +16,7 @@ import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
 import { useSelector } from 'react-redux';
 import routeNames from 'src/routes/routeNames';
 import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
-import { useTheme } from 'styled-components';
+import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { motion } from 'framer-motion';
 import {
   useGetLoginInfo,
@@ -39,7 +39,7 @@ import * as Styled from '../../Utils/styled';
 import BottomMenu from './MenuItems/BottomMenu';
 
 const MiniDrawer = () => {
-  const theme: any = useTheme();
+  const theme = useCustomTheme();
   const location = useLocation();
   const locationString = location.pathname.substring(1);
   const currentContract = useSelector(currentMultisigContractSelector);
@@ -50,7 +50,7 @@ const MiniDrawer = () => {
 
   const [expanded, setExpanded] = useState<string | false>(false);
   const handleChange =
-    (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    (panel: string) => (_event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 
@@ -227,7 +227,7 @@ const MiniDrawer = () => {
                             </Link>
                           </AccordionDetail>
                         );
-                      } return <div />;
+                      } return <div key={el.id} />;
                     })}
                     {el.name === 'Apps' && installedApps.map((app: MenuItem) => (
                       <AccordionDetail key={app.link} sx={{ p: 0 }}>

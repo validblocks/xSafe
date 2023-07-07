@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
-import { ReactComponent as AssetActionIcon } from 'src/assets/img/arrow-back-sharp.svg';
+import ArrowBackSharp from 'src/assets/img/arrow-back-sharp.svg';
 import { Box, useMediaQuery } from '@mui/material';
 import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
 import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
@@ -76,7 +76,7 @@ const DelegationMobileCards = ({ items }:
                   'reDelegateRewards');
               }}
             >
-              <AssetActionIcon width="30px" height="30px" /> Restake
+              <img src={ArrowBackSharp} width="30px" height="30px"  /> Restake
             </AssetActionButton>
           </Styled.ActionButtonBox>
           <Styled.ActionButtonBox>
@@ -91,7 +91,12 @@ const DelegationMobileCards = ({ items }:
                 );
               }}
             >
-              <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Claim
+              <Box
+        component="span"
+        sx={{ transform: "rotate(180deg)" }}
+      >
+        <img src={ArrowBackSharp} width="30px" height="30px"  /> Claim
+      </Box>  Claim
             </AssetActionButton>
           </Styled.ActionButtonBox>
           <Styled.ActionButtonBox>
@@ -103,7 +108,9 @@ const DelegationMobileCards = ({ items }:
                 dispatch(setSelectedStakingProvider(item));
               }}
             >
-              <AssetActionIcon width="30px" height="30px" transform="rotate(180)" /> Unstake
+              <Box component="span" sx={{ transform:"rotate(180deg)"  }}>
+                <img src={ArrowBackSharp} width="30px" height="30px" />
+              </Box>Unstake
             </AssetActionButton>
           </Styled.ActionButtonBox>
         </Box>
