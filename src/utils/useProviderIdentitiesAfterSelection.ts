@@ -93,17 +93,17 @@ export default function useProviderIdentitiesAfterSelection({
     [fetchedProviders],
   );
 
-  const filterBySearchParam = useCallback(
-    (data: IProviderIdentity[]) => {
-      if (!searchParam) return data;
-      return data.filter((p) =>
-        ('identity' in p && p.identity.toLowerCase().trim().includes(searchParam.toLowerCase().trim()))
-        || ('name' in p && p.name.toLowerCase().trim().includes(searchParam.toLowerCase().trim()))
-        || ('provider' in p && (p.provider as string).toLowerCase().trim().includes(searchParam.toLowerCase().trim())),
-      );
-    },
-    [searchParam],
-  );
+  // const filterBySearchParam = useCallback(
+  //   (data: IProviderIdentity[]) => {
+  //     if (!searchParam) return data;
+  //     return data.filter((p) =>
+  //       ('identity' in p && p.identity.toLowerCase().trim().includes(searchParam.toLowerCase().trim()))
+  //       || ('name' in p && p.name.toLowerCase().trim().includes(searchParam.toLowerCase().trim()))
+  //       || ('provider' in p && (p.provider as string).toLowerCase().trim().includes(searchParam.toLowerCase().trim())),
+  //     );
+  //   },
+  //   [searchParam],
+  // );
 
   const filterBySearchParam = useCallback(
     (data: IProviderIdentity[]) => {

@@ -7,7 +7,7 @@ import { RawTransactionType } from 'src/helpers/types';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { withInstallGuard } from './withInstallGuard';
 import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
-import { sampleTransaction, sampleRemoveAction } from './example-app/samples';
+import {sampleTransaction, sampleRemoveAction, sampleAddAction} from './example-app/samples';
 import MoreAppsDark from 'src/assets/img/MoreAppsDark.png';
 import MoreAppsLight from 'src/assets/img/MoreAppsLight.png';
 
@@ -105,6 +105,23 @@ export const apps: AppWithRouteConfig[] =
           icon: <DiamondIcon />,
           path: '/example-app-3',
           title: 'My Awesome App 3',
+        },
+        {
+          name: 'JewelSwap',
+          component: lazy(() =>
+              import('./jewelswap').then((module) => ({
+                default: module.default,
+              })),
+          ),
+          link: 'jewelswap',
+          id: 'jewelswap',
+          description: 'Lend directly into JewelSwap',
+          imageUrlLight: ClaimEarningsLight,
+          imageUrlDark: ClaimEarningsDark,
+          isInstallable: true,
+          icon: <DiamondIcon />,
+          path: '/jewelswap',
+          title: 'Jewelswap'
         },
       ];
 

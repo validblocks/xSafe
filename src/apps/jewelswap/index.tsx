@@ -11,8 +11,7 @@ import { jewelSwapLendingContractAddress } from 'src/config';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import { inputLabelClasses } from '@mui/material/InputLabel';
-import { theme } from '@components/Theme/createTheme';
-import { MultiversXLogo } from '@components/Utils/MultiversXLogo';
+import { MultiversXLogo } from 'src/components/Utils/MultiversXLogo';
 import {
   ImageText,
   NFTMarketplaceCard,
@@ -22,7 +21,7 @@ import {
 import { JewelSwapLendingData } from './types';
 import { jewelSwapData } from './constants';
 
-const LendInJewel = () => {
+const LendInJewel = (() => {
   const claimableAmountResult = useNftAuctionClaimableAmount();
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const maxWidth600 = useMediaQuery('(max-width:600px)');
@@ -121,17 +120,8 @@ const LendInJewel = () => {
                           onChange={handleTextInputChange}
                           error={lendInputError}
                           inputProps={{ style: { color: '#fff' } }}
-                          InputLabelProps={{
-                            sx: {
-                              color: theme.palette.primary.main,
-                              [`&.${inputLabelClasses.shrink}`]: {
-                                color: theme.palette.primary.main,
-                              },
-                            },
-                          }}
                           variant="outlined"
                           sx={{
-
                             margin: '1rem',
                           }}
                         />
@@ -164,6 +154,6 @@ const LendInJewel = () => {
       </Grid>
     </Box>
   );
-};
+});
 
 export default LendInJewel;
