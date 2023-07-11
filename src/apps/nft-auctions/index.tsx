@@ -7,7 +7,13 @@ import { MainButton } from 'src/components/Theme/StyledComponents';
 import { MultiversXLogo } from 'src/components/Utils/MultiversXLogo';
 import { PropertyKeyBox } from 'src/components/Utils/PropertKeyBox';
 import { useNftAuctionClaimableAmount } from 'src/utils/useNftAuctionClaimableAmount';
-import { Address, AddressValue, BigUIntValue, BytesValue, U64Value } from '@multiversx/sdk-core/out';
+import {
+  Address,
+  AddressValue,
+  BigUIntValue,
+  BytesValue,
+  U64Value,
+} from '@multiversx/sdk-core/out';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { xSpotlightContractAddress } from 'src/config';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
@@ -43,15 +49,16 @@ const ClaimNftAuction = () => {
   return (
     <Box>
       <Box pb={2}>
-        <Text fontSize={24} fontWeight={600}>Claim NFT Auction Tokens</Text>
+        <Text fontSize={24} fontWeight={600}>
+          Claim NFT Auction Tokens
+        </Text>
       </Box>
       <Grid container spacing={2} alignContent="stretch">
         {marketplaces.map((marketplace: NFTMarketplace) => (
-          <Grid
-            key={marketplace.title}
-            item
-          >
-            <Styled.NFTMarketplaceCard sx={{ maxWidth: maxWidth600 ? '100%' : '320px' }}>
+          <Grid key={marketplace.title} item>
+            <Styled.NFTMarketplaceCard
+              sx={{ maxWidth: maxWidth600 ? '100%' : '320px' }}
+            >
               <Styled.NFTMarketplaceImgContainer>
                 {marketplace.imgComponent}
                 <Box pt={1}>
@@ -61,7 +68,12 @@ const ClaimNftAuction = () => {
                 </Box>
               </Styled.NFTMarketplaceImgContainer>
 
-              <Box display="flex" flexDirection="column" justifyContent="space-between" height="100%">
+              <Box
+                display="flex"
+                flexDirection="column"
+                justifyContent="space-between"
+                height="100%"
+              >
                 <Box>
                   <Box display="flex" py={1.5}>
                     <Box>
@@ -87,7 +99,9 @@ const ClaimNftAuction = () => {
                   >
                     <PropertyKeyBox propertyKey={'Claimable'} />
                     <Box display="flex" alignItems="center">
-                      <Text mr={1} fontWeight={700}>{claimableAmount}</Text>
+                      <Text mr={1} fontWeight={700}>
+                        {claimableAmount}
+                      </Text>
                       <MultiversXLogo width={15} height={15} />
                     </Box>
                   </Box>
@@ -102,8 +116,7 @@ const ClaimNftAuction = () => {
                       fullWidth
                     >
                       Propose Claim
-                    </MainButton
-              >
+                    </MainButton>
                   </Box>
                 </Box>
               </Box>

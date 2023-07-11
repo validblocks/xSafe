@@ -1,5 +1,12 @@
 import { Box, useMediaQuery } from '@mui/material';
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
@@ -16,7 +23,10 @@ import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import ProviderPresentation from './ProviderPresentation';
 import { useMultistepFormContext } from '../Utils/MultistepForm';
-import { ChangeStepButton, FinalStepActionButton } from '../Theme/StyledComponents';
+import {
+  ChangeStepButton,
+  FinalStepActionButton,
+} from '../Theme/StyledComponents';
 import { Text } from '../StyledComponents/StyledComponents';
 import AmountInputWithTokenSelection from '../Utils/AmountInputWithTokenSelection';
 
@@ -26,26 +36,29 @@ interface IFormValues {
 
 const StakingFormStepTwo = () => {
   const { t } = useTranslation();
-  const selectedProviderIdentifier = useSelector(selectedStakingProviderSelector);
-  const { setIsFinalStepButtonActive, setBuiltFinalActionHandler } = useMultistepFormContext();
+  const selectedProviderIdentifier = useSelector(
+    selectedStakingProviderSelector,
+  );
+  const { setIsFinalStepButtonActive, setBuiltFinalActionHandler } =
+    useMultistepFormContext();
 
-  const {
-    fetchedProviderIdentities,
-  } = useProviderIdentitiesAfterSelection();
+  const { fetchedProviderIdentities } = useProviderIdentitiesAfterSelection();
 
   const selectedProvider = useMemo(
-    () => fetchedProviderIdentities
-      ?.find((provider) => provider.identity === selectedProviderIdentifier),
+    () =>
+      fetchedProviderIdentities?.find(
+        (provider) => provider.identity === selectedProviderIdentifier,
+      ),
     [fetchedProviderIdentities, selectedProviderIdentifier],
   );
 
-  const {
-    proceedToPreviousStep,
-  } = useMultistepFormContext();
+  const { proceedToPreviousStep } = useMultistepFormContext();
 
   const organizationTokens = useSelector(organizationTokensSelector);
-  const egldBalanceString = organizationTokens
-    ?.find((token: OrganizationToken) => token.identifier === 'EGLD').tokenAmount.replaceAll(',', '') ?? 0;
+  const egldBalanceString =
+    organizationTokens
+      ?.find((token: OrganizationToken) => token.identifier === 'EGLD')
+      .tokenAmount.replaceAll(',', '') ?? 0;
 
   const egldBalanceNumber = Number(egldBalanceString);
 
@@ -89,8 +102,7 @@ const StakingFormStepTwo = () => {
             setIsFinalStepButtonActive(false);
             return (
               testContext?.createError({
-                message:
-                        t('Insufficient funds'),
+                message: t('Insufficient funds'),
               }) ?? false
             );
           }
@@ -123,7 +135,9 @@ const StakingFormStepTwo = () => {
         return;
       }
 
-      const amountParam = new BigUIntValue(TokenTransfer.egldFromAmount(amountNumeric).valueOf());
+      const amountParam = new BigUIntValue(
+        TokenTransfer.egldFromAmount(amountNumeric).valueOf(),
+      );
 
       setBuiltFinalActionHandler(() => () => {
         mutateSmartContractCall(addressParam, amountParam, 'delegate');
@@ -131,7 +145,11 @@ const StakingFormStepTwo = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [formik.values.amount, selectedProvider?.provider, setBuiltFinalActionHandler]);
+  }, [
+    formik.values.amount,
+    selectedProvider?.provider,
+    setBuiltFinalActionHandler,
+  ]);
 
   useLayoutEffect(() => {
     setButtonWidth(buttonRef?.current?.offsetWidth);
@@ -182,19 +200,29 @@ const StakingFormStepTwo = () => {
   const maxWidth600 = useMediaQuery('(max-width:600px)');
   const maxWidth480 = useMediaQuery('(max-width:480px)');
 
-  const buttonStyle = useMemo(() => ({
-    display: 'flex',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    gap: buttonWidth > 90 ? 0 : 3,
-    background: 'rgba(76, 47, 252, 0.1)',
-    padding: maxWidth480 ? '1rem' : '0 1rem 1rem',
-    borderRadius: '10px',
-  }), [buttonWidth, maxWidth480]);
+  const buttonStyle = useMemo(
+    () => ({
+      display: 'flex',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      gap: buttonWidth > 90 ? 0 : 3,
+      background: 'rgba(76, 47, 252, 0.1)',
+      padding: maxWidth480 ? '1rem' : '0 1rem 1rem',
+      borderRadius: '10px',
+    }),
+    [buttonWidth, maxWidth480],
+  );
 
   return (
-    <Box sx={{ padding: maxWidth600 ? '16px' : '2rem 3rem 0', display: 'flex', flexDirection: 'column', gap: 2 }}>
+    <Box
+      sx={{
+        padding: maxWidth600 ? '16px' : '2rem 3rem 0',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2,
+      }}
+    >
       <Box sx={buttonStyle}>
         <Box sx={{ flex: 4 }}>
           <ProviderPresentation provider={selectedProvider} />
@@ -219,16 +247,17 @@ const StakingFormStepTwo = () => {
         resetAmount={() => formik.setFieldValue('amount', 0)}
         config={{ withTokenSelection: false, withAvailableAmount: true }}
       />
-      <Box
-        display={'flex'}
-        gap={2}
-        paddingBottom={maxWidth600 ? '4px' : 4}
-      >
-        <ChangeStepButton disabled={isProcessingTransaction} onClick={proceedToPreviousStep}>
+      <Box display={'flex'} gap={2} paddingBottom={maxWidth600 ? '4px' : 4}>
+        <ChangeStepButton
+          disabled={isProcessingTransaction}
+          onClick={proceedToPreviousStep}
+        >
           <Text>{t('Back') as string}</Text>
         </ChangeStepButton>
         <FinalStepActionButton
-          disabled={!!amountError || !selectedProvider || isProcessingTransaction}
+          disabled={
+            !!amountError || !selectedProvider || isProcessingTransaction
+          }
           onClick={proposeStake}
         >
           <Text>Propose</Text>
