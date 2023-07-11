@@ -77,7 +77,6 @@ const AmountInputWithTokenSelection = ({
           thousandSeparator
           onChange={handleInputChange}
           onBlur={handleInputBlur}
-          onBlurCapture={(e: any) => e.preventDefault()}
           className={amountError != null ? 'isError' : ''}
           style={{
             width: '100%',

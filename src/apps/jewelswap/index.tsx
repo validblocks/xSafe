@@ -19,13 +19,20 @@ import {
   NFTMarketplaceImgContainer,
 } from 'src/apps/nft-auctions/styled';
 import { uniqueId } from 'lodash';
-import { multisigBalanceSelector } from 'src/redux/selectors/accountSelector';
+import {
+  multisigBalanceSelector,
+  organizationTokenByIdentifierSelector,
+} from 'src/redux/selectors/accountSelector';
 import RationalNumber from 'src/utils/RationalNumber';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useEffectDebugger } from 'src/utils/useEffectDebugger';
+import BalanceDisplay from 'src/components/Utils/BalanceDisplay';
+import identifier from '@mui/material/styles/identifier';
+import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
+import { OrganizationToken } from 'src/pages/Organization/types';
 
 interface IFormValues {
   amount: string;
@@ -60,7 +67,7 @@ const LendInJewel = () => {
     initialValues: {
       amount: '1',
     },
-    onSubmit: () =>  Promise.resolve(null),
+    onSubmit: () => Promise.resolve(null),
     validationSchema: Yup.object().shape({
       amount: Yup.string()
         .required('Required')
@@ -134,15 +141,18 @@ const LendInJewel = () => {
 
   console.log('rerender parent');
 
+  const { tokenValue } = useSelector<StateType, OrganizationToken>(
+    organizationTokenByIdentifierSelector('EGLD'),
+  );
+
+  console.log({ tokenValue: tokenValue.toLocaleString().replaceAll(',', '') });
+
   useEffectDebugger(() => {
     console.log('test');
   }, [formik, amount, amountError]);
 
   return (
-    <Box pb={'55px'}>
-      {/* <Box pb={2}>
-        <img src={LendingInJewelSwapTitle} height={30} />
-      </Box> */}
+    <Box pb={'70px'}>
       <Box pb={2}>
         <img src={BigJewelSwapMobile} width={'100%'} />
       </Box>
@@ -165,8 +175,27 @@ const LendInJewel = () => {
                 <Box>
                   <img src={MultiversXWithStroke} alt="MultiversX" />
                 </Box>
-                <Box>{denominatedBalance}</Box>
-                <Box>$EGLD</Box>
+                <Box display="flex" alignItems="center" justifyContent="center">
+                  <Box pl={1}>
+                    <BalanceDisplay number={denominatedBalance} />
+                  </Box>
+                  <Box pl={1} fontSize={18}>
+                    $EGLD
+                  </Box>
+                </Box>
+              </Box>
+              <Box mt={1} display="flex" alignItems="center" justifyContent="center">
+                <Box>
+                  $
+                </Box>
+                <Box display="flex" alignItems="center" justifyContent="center">
+                  <Box pl={0.25}>
+                    <BalanceDisplay bigFontSize={16} smallFontSize={12} number={tokenValue.toLocaleString().replaceAll(',', '')} />
+                  </Box>
+                  <Box pl={0.5} fontSize={12}>
+                    USD
+                  </Box>
+                </Box>
               </Box>
             </NFTMarketplaceImgContainer>
             <Box
@@ -200,7 +229,7 @@ const LendInJewel = () => {
                     amountError={amountError}
                     // formik={formik}
                     handleInputBlur={handleBlur}
-                    handleInputChange={formik.handleChange} 
+                    handleInputChange={formik.handleChange}
                     resetAmount={() => formik.setFieldValue('amount', 0)}
                     config={{
                       withTokenSelection: false,
