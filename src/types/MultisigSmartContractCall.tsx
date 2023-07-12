@@ -25,11 +25,12 @@ import SetSpecialRoleProposalPresentation from 'src/components/Proposals/SetSpec
 import { MultisigAction } from './MultisigAction';
 import { MultisigActionType } from './MultisigActionType';
 import { MultisigContractFunction } from './multisigFunctionNames';
-import { delegationFunctionNames } from './staking/delegationFunctionNames';
 import { DelegationFunctionTitles } from './types';
 import ProposalAmount from './ProposalAmount';
 import SendTokenProposalPresentation from './SendTokenProposalPresentation';
 import { ExternalContractFunction } from './ExternalContractFunction';
+import LendInJewelSwapPresentation from 'src/components/Proposals/LendInJewelSwapPresentation';
+import { DelegationFunctionNames } from './staking/DelegationFunctionNames';
 
 export class MultisigSmartContractCall extends MultisigAction {
   address: Address;
@@ -86,15 +87,15 @@ export class MultisigSmartContractCall extends MultisigAction {
         return i18next.t('Send token');
       case MultisigContractFunction.ESDT_NFT_TRANSFER:
         return i18next.t('Send NFT');
-      case delegationFunctionNames.delegate:
+      case DelegationFunctionNames.delegate:
         return i18next.t('Stake tokens');
-      case delegationFunctionNames.reDelegateRewards:
+      case DelegationFunctionNames.reDelegateRewards:
         return i18next.t(DelegationFunctionTitles.RestakeRewards);
-      case delegationFunctionNames.unDelegate:
+      case DelegationFunctionNames.unDelegate:
         return i18next.t(DelegationFunctionTitles.UnstakeTokens);
-      case delegationFunctionNames.claimRewards:
+      case DelegationFunctionNames.claimRewards:
         return i18next.t(DelegationFunctionTitles.ClaimRewards);
-      case delegationFunctionNames.withdraw:
+      case DelegationFunctionNames.withdraw:
         return i18next.t(DelegationFunctionTitles.WithdrawRewards);
       case ExternalContractFunction.ISSUE_NON_FUNGIBLE:
         return i18next.t('Mint NFT Collection');
@@ -108,6 +109,8 @@ export class MultisigSmartContractCall extends MultisigAction {
         return i18next.t('Set Special Role');
       case ExternalContractFunction.CLAIM_AUCTION_TOKENS:
         return i18next.t('Claim Auction Earnings');
+      case ExternalContractFunction.LEND_IN_JEWELSWAP:
+        return i18next.t('Lend in JewelSwap');
       default:
         return 'Unknown function';
     }
@@ -121,15 +124,15 @@ export class MultisigSmartContractCall extends MultisigAction {
         return this.getSendTokenDescription();
       case MultisigContractFunction.ESDT_NFT_TRANSFER:
         return this.getSendNFTDescription();
-      case delegationFunctionNames.delegate:
+      case DelegationFunctionNames.delegate:
         return this.getStakeTokensDescription(DelegationFunctionTitles.StakeTokens, <SouthIcon />);
-      case delegationFunctionNames.unDelegate:
+      case DelegationFunctionNames.unDelegate:
         return this.getStakeTokensDescription(DelegationFunctionTitles.UnstakeTokens, <NorthIcon />);
-      case delegationFunctionNames.withdraw:
+      case DelegationFunctionNames.withdraw:
         return this.getStakeTokensDescription(DelegationFunctionTitles.WithdrawRewards, <NorthIcon />);
-      case delegationFunctionNames.claimRewards:
+      case DelegationFunctionNames.claimRewards:
         return this.getStakeTokensDescription(DelegationFunctionTitles.ClaimRewards, <NorthIcon />);
-      case delegationFunctionNames.reDelegateRewards:
+      case DelegationFunctionNames.reDelegateRewards:
         return this.getStakeTokensDescription(DelegationFunctionTitles.RestakeRewards, <SouthIcon />);
       case ExternalContractFunction.SET_SPECIAL_ROLE: {
         const parsedArgs = new ArgumentsParser()
@@ -155,6 +158,11 @@ export class MultisigSmartContractCall extends MultisigAction {
         const parsedArgs = new ArgumentsParser()
           .parseArguments(ExternalContractFunction.AUCTION_TOKEN, this.args);
         return <AuctionNftProposalPresentation parsedArgs={parsedArgs} />;
+      }
+      case ExternalContractFunction.LEND_IN_JEWELSWAP: {
+        const parsedArgs = new ArgumentsParser()
+          .parseArguments(ExternalContractFunction.LEND_IN_JEWELSWAP, this.amount);
+        return <LendInJewelSwapPresentation lendAmount={this.amount} parsedArgs={parsedArgs} />;
       }
       default:
         return this.title();
