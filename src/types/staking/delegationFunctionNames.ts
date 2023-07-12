@@ -1,4 +1,4 @@
-export enum delegationFunctionNames {
+export enum DelegationFunctionNames {
   'delegate' = 'delegate',
   'reDelegateRewards' = 'reDelegateRewards',
   'claimRewards' = 'claimRewards',
