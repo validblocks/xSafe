@@ -30,6 +30,7 @@ import { useTranslation } from 'react-i18next';
 import BalanceDisplay from 'src/components/Utils/BalanceDisplay';
 import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
 import { OrganizationToken } from 'src/pages/Organization/types';
+import { ExternalContractFunction } from 'src/types/ExternalContractFunction';
 
 interface IFormValues {
   amount: string;
@@ -93,13 +94,14 @@ const LendInJewelSwap = () => {
     try {
       mutateSmartContractCall(
         new Address(jewelSwapLendingContractAddress),
+        new BigUIntValue(new BigNumber(Number(0))),
+        ExternalContractFunction.LEND_IN_JEWELSWAP,
         new BigUIntValue(
           new BigNumber(Number(amount.replaceAll(',', '')))
             .shiftedBy(18)
             .decimalPlaces(0, BigNumber.ROUND_FLOOR),
-        ),
-        'lendEgld',
-      );
+        )
+      )
     } catch (e) {
       console.log({ e });
     }
