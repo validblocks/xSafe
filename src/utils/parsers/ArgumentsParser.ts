@@ -3,6 +3,7 @@ import { ExternalContractFunction } from 'src/types/ExternalContractFunction';
 import { IssueNonFungibleArgumentParser } from './IssueNonFungibleArgumentParser';
 import { ESDTNFTCreateArgumentsParser } from './ESDTNFTCreateArgumentsParser';
 import { SetSpecialRoleArgumentsParser } from './SetSpecialRoleArgumentsParser';
+import { LendInJewelSwapArgumentsParser } from './LendInJewelSwapArgumentsParser';
 
 export interface FunctionArgumentStrategy {
   parseArguments(args: TypedValue[]): any;
@@ -24,6 +25,10 @@ export class ArgumentsParser {
     this.strategyMap.set(
       ExternalContractFunction.SET_SPECIAL_ROLE,
       new SetSpecialRoleArgumentsParser(),
+    );
+    this.strategyMap.set(
+      ExternalContractFunction.LEND_IN_JEWELSWAP,
+      new LendInJewelSwapArgumentsParser(),
     );
   }
 
