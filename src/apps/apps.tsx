@@ -10,10 +10,10 @@ import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 import {
   sampleTransaction,
   sampleRemoveAction,
-  sampleAddAction,
 } from './example-app/samples';
 import MoreAppsDark from 'src/assets/img/MoreAppsDark.png';
 import MoreAppsLight from 'src/assets/img/MoreAppsLight.png';
+import { sampleLendAction } from './jewelswap/samples';
 
 export interface AppWithRouteConfig {
   component: React.ComponentType;
@@ -89,6 +89,8 @@ export const apps: AppWithRouteConfig[] =
           icon: <DiamondIcon />,
           path: '/jewelswap',
           title: 'Jewelswap',
+          action: sampleLendAction,
+          transaction: sampleTransaction,
         },
         {
           name: 'My Awesome App 2',
