@@ -52,7 +52,7 @@ const LendInJewel = () => {
 
   const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
-      amount: '1',
+      amount: '0',
     },
     onSubmit: () => Promise.resolve(null),
     validationSchema: Yup.object().shape({
@@ -69,8 +69,8 @@ const LendInJewel = () => {
               }) ?? false
             );
           }
-          if (newAmount < 1) {
-            formik.setFieldValue('amount', 1);
+          if (newAmount < 0) {
+            formik.setFieldValue('amount', 0);
           }
           if (newAmount === 0) {
             setIsLendButtonEnabled(false);
@@ -118,10 +118,6 @@ const LendInJewel = () => {
   const { tokenValue } = useSelector<StateType, OrganizationToken>(
     organizationTokenByIdentifierSelector('EGLD'),
   );
-
-  useEffectDebugger(() => {
-    console.log('test');
-  }, [formik, amount, amountError]);
 
   return (
     <Box pb={'70px'}>
