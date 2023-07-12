@@ -28,7 +28,6 @@ import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithT
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
 import { useTranslation } from 'react-i18next';
-import { useEffectDebugger } from 'src/utils/useEffectDebugger';
 import BalanceDisplay from 'src/components/Utils/BalanceDisplay';
 import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
 import { OrganizationToken } from 'src/pages/Organization/types';
@@ -37,7 +36,7 @@ interface IFormValues {
   amount: string;
 }
 
-const LendInJewel = () => {
+const LendInJewelSwap = () => {
   const { t } = useTranslation();
   const maxWidth600 = useMediaQuery('(max-width:600px)');
   const { isInReadOnlyMode } = useOrganizationInfoContext();
@@ -243,4 +242,4 @@ const LendInJewel = () => {
   );
 };
 
-export default LendInJewel;
+export default LendInJewelSwap;
