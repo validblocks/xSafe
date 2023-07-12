@@ -5,4 +5,5 @@ export enum ExternalContractFunction {
   ESDT_NFT_CREATE = 'ESDTNFTCreate',
   AUCTION_TOKEN = 'auctionToken',
   CLAIM_AUCTION_TOKENS = 'claimTokens',
+  LEND_IN_JEWELSWAP = 'lendEgld',
 }
