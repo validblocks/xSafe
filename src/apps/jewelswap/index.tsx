@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { Box, Grid, useMediaQuery } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
 import { useCallback, useState } from 'react';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
@@ -12,13 +12,13 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import { useSelector } from 'react-redux';
 import MultiversXWithStroke from 'src/assets/img/MultiversXWithStroke.svg';
 import BigJewelSwapMobile from 'src/assets/img/BigJewelSwapMobile.svg';
+import BigJewelSwapDesktop from 'src/assets/img/BigJewelSwapDesktop.svg';
 import {
   ImageText,
   NFTMarketplaceCard,
   NFTMarketplaceDescription,
   NFTMarketplaceImgContainer,
 } from 'src/apps/nft-auctions/styled';
-import { uniqueId } from 'lodash';
 import {
   multisigBalanceSelector,
   organizationTokenByIdentifierSelector,
@@ -30,7 +30,6 @@ import { TestContext } from 'yup';
 import { useTranslation } from 'react-i18next';
 import { useEffectDebugger } from 'src/utils/useEffectDebugger';
 import BalanceDisplay from 'src/components/Utils/BalanceDisplay';
-import identifier from '@mui/material/styles/identifier';
 import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
 import { OrganizationToken } from 'src/pages/Organization/types';
 
@@ -39,24 +38,12 @@ interface IFormValues {
 }
 
 const LendInJewel = () => {
-  const { isInReadOnlyMode } = useOrganizationInfoContext();
-  const maxWidth600 = useMediaQuery('(max-width:600px)');
-  const [isLendButtonEnabled, setIsLendButtonEnabled] = useState(true);
   const { t } = useTranslation();
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
+  const [isLendButtonEnabled, setIsLendButtonEnabled] = useState(true);
 
   const currentContract = useSelector(currentMultisigContractSelector);
-
-  const handleLendButtonClick = useCallback(() => {
-    mutateSmartContractCall(
-      new Address(jewelSwapLendingContractAddress),
-      new BigUIntValue(
-        new BigNumber(Number(lendInput))
-          .shiftedBy(18)
-          .decimalPlaces(0, BigNumber.ROUND_FLOOR),
-      ),
-      'lendEgld',
-    );
-  }, [currentContract?.address]);
 
   const multisigBalance = useSelector(multisigBalanceSelector);
   const denominatedBalance = RationalNumber.fromBigInteger(
@@ -75,7 +62,7 @@ const LendInJewel = () => {
         .test((value?: string, testContext?: TestContext) => {
           const newAmount = Number(value);
           if (Number.isNaN(newAmount)) {
-            // setIsLendButtonEnabled(false);
+            setIsLendButtonEnabled(false);
             return (
               testContext?.createError({
                 message: 'Invalid amount',
@@ -86,10 +73,10 @@ const LendInJewel = () => {
             formik.setFieldValue('amount', 1);
           }
           if (newAmount === 0) {
-            // setIsLendButtonEnabled(false);
+            setIsLendButtonEnabled(false);
           }
           if (newAmount > Number(denominatedBalance)) {
-            // setIsLendButtonEnabled(false);
+            setIsLendButtonEnabled(false);
             return (
               testContext?.createError({
                 message: t('Insufficient funds'),
@@ -97,7 +84,7 @@ const LendInJewel = () => {
             );
           }
 
-          // setIsLendButtonEnabled(true);
+          setIsLendButtonEnabled(true);
           return true;
         }),
     }),
@@ -110,42 +97,27 @@ const LendInJewel = () => {
 
   const amountError = touched.amount && errors.amount;
 
+  const handleLendButtonClick = useCallback(() => {
+    console.log({ amount });
+    mutateSmartContractCall(
+      new Address(jewelSwapLendingContractAddress),
+      new BigUIntValue(
+        new BigNumber(Number(amount.replaceAll(',', '')))
+          .shiftedBy(18)
+          .decimalPlaces(0, BigNumber.ROUND_FLOOR),
+      ),
+      'lendEgld',
+    );
+  }, [currentContract?.address, amount, mutateSmartContractCall]);
+
   const handleBlur = useCallback(
     (e: any) => formik.handleBlur(e),
     [formik.handleBlur],
   );
-  // const handleChange = useCallback(
-  //     (e: any) => {
-  //       formik.handleChange(e);
-  //       const newAmount = Number(e.target.value.replaceAll(',', ''));
-  //       if (Number.isNaN(newAmount)) {
-  //         // setIsLendButtonEnabled(false);
-  //         return formik?.setFieldError('amount', 'Invalid amount');
-  //       }
-  //       if (newAmount < 1) {
-  //         formik.setFieldValue('amount', 1);
-  //       }
-  //       if (newAmount === 0) {
-  //         // setIsLendButtonEnabled(false);
-  //       }
-  //       if (newAmount > Number(denominatedBalance)) {
-  //         // setIsLendButtonEnabled(false);
-  //         return formik?.setFieldError('amount', 'Insufficient funds');
-  //       }
-
-  //       // setIsLendButtonEnabled(true);
-  //       return true;
-  //   },
-  //   [formik],
-  // );
-
-  console.log('rerender parent');
 
   const { tokenValue } = useSelector<StateType, OrganizationToken>(
     organizationTokenByIdentifierSelector('EGLD'),
   );
-
-  console.log({ tokenValue: tokenValue.toLocaleString().replaceAll(',', '') });
 
   useEffectDebugger(() => {
     console.log('test');
@@ -153,25 +125,31 @@ const LendInJewel = () => {
 
   return (
     <Box pb={'70px'}>
-      <Box pb={2}>
-        <img src={BigJewelSwapMobile} width={'100%'} />
-      </Box>
-      <Grid container spacing={2} alignContent="stretch">
-        <Grid key={uniqueId()} item xs={12}>
-          <NFTMarketplaceCard sx={{ maxWidth: maxWidth600 ? '100%' : '320px' }}>
-            <NFTMarketplaceImgContainer>
-              <Box pt={1}>
-                <ImageText
-                  textAlign="center"
-                  fontSize={12}
-                  sx={{
-                    padding: '1rem',
-                  }}
-                >
+      {maxWidth600 && (
+        <Box pb={2}>
+          <img src={BigJewelSwapMobile} width={'100%'} />
+        </Box>
+      )}
+      <Box display="flex" gap={maxWidth600 ? 0 : '50px'} alignContent="stretch">
+        <Box display="flex" sx={{ width: maxWidth600 ? '100%' : 'auto ' }}>
+          <NFTMarketplaceCard
+            sx={{
+              maxWidth: maxWidth600 ? '100%' : '380px',
+              minWidth: maxWidth600 ? '100%' : '380px !important',
+            }}
+          >
+            <NFTMarketplaceImgContainer py={2} minHeight="auto !important">
+              <Box>
+                <ImageText textAlign="center" fontSize={12}>
                   TOTAL BALANCE
                 </ImageText>
               </Box>
-              <Box display="flex" alignItems="center" justifyContent="center">
+              <Box
+                pt={1}
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+              >
                 <Box>
                   <img src={MultiversXWithStroke} alt="MultiversX" />
                 </Box>
@@ -184,13 +162,15 @@ const LendInJewel = () => {
                   </Box>
                 </Box>
               </Box>
-              <Box mt={1} display="flex" alignItems="center" justifyContent="center">
-                <Box>
-                  $
-                </Box>
+              <Box display="flex" alignItems="center" justifyContent="center">
+                <Box>$</Box>
                 <Box display="flex" alignItems="center" justifyContent="center">
                   <Box pl={0.25}>
-                    <BalanceDisplay bigFontSize={16} smallFontSize={12} number={tokenValue.toLocaleString().replaceAll(',', '')} />
+                    <BalanceDisplay
+                      bigFontSize={16}
+                      smallFontSize={12}
+                      number={tokenValue.toLocaleString().replaceAll(',', '')}
+                    />
                   </Box>
                   <Box pl={0.5} fontSize={12}>
                     USD
@@ -227,7 +207,7 @@ const LendInJewel = () => {
                   <AmountInputWithTokenSelection
                     amount={amount}
                     amountError={amountError}
-                    // formik={formik}
+                    formik={formik}
                     handleInputBlur={handleBlur}
                     handleInputChange={formik.handleChange}
                     resetAmount={() => formik.setFieldValue('amount', 0)}
@@ -244,8 +224,8 @@ const LendInJewel = () => {
                   }}
                 >
                   <MainButton
-                    // onClick={() => console.log('text')}
-                    disabled={isInReadOnlyMode}
+                    onClick={handleLendButtonClick}
+                    disabled={!isLendButtonEnabled || isInReadOnlyMode}
                     fullWidth
                   >
                     Propose Lending
@@ -254,8 +234,15 @@ const LendInJewel = () => {
               </Box>
             </Box>
           </NFTMarketplaceCard>
-        </Grid>
-      </Grid>
+        </Box>
+        <Box display="flex" alignItems="center">
+          {!maxWidth600 && (
+            <Box marginTop="50px">
+              <img src={BigJewelSwapDesktop} height={400} />
+            </Box>
+          )}
+        </Box>
+      </Box>
     </Box>
   );
 };
