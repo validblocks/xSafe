@@ -20,6 +20,8 @@ import { MultisigRemoveUser } from 'src/types/MultisigRemoveUser';
 import { MultisigSendEgld } from 'src/types/MultisigSendEgld';
 import { MultisigUpgradeContractFromSource } from 'src/types/MultisigUpgradeContractFromSource';
 import { MultisigSmartContractCall } from '../types/MultisigSmartContractCall';
+import { ExternalContractFunction } from 'src/types/ExternalContractFunction';
+import { MultisigLendInJewelSwap } from 'src/types/MultisigLendInJewelSwap';
 
 export function getIntValueFromBytes(buffer: Buffer) {
   return (
@@ -158,12 +160,25 @@ function parseSmartContractCall(
     args.push(new BytesValue(argBytes));
   }
 
-  const action = new MultisigSmartContractCall(
-    targetAddress,
-    amount,
-    functionName,
-    args,
-  );
+  let action;
+  switch (functionName) {
+    case ExternalContractFunction.LEND_IN_JEWELSWAP:
+      action = new MultisigLendInJewelSwap(
+        targetAddress,
+        amount,
+        functionName,
+        args,
+      );
+      break;
+    default:
+      action = new MultisigSmartContractCall(
+        targetAddress,
+        amount,
+        functionName,
+        args,
+      );
+      break;
+  }
 
   return [action, remainingBytes];
 }
