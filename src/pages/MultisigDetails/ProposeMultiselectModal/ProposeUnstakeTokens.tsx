@@ -18,7 +18,7 @@ import { IdentityWithColumns } from 'src/types/staking';
 import ProviderColumn from 'src/components/Staking/ProviderColumn';
 import { Box } from '@mui/system';
 import DelegatedColumn from 'src/components/Staking/DelegatedColumn';
-import { delegationFunctionNames } from 'src/types/staking/delegationFunctionNames';
+import { DelegationFunctionNames } from 'src/types/staking/DelegationFunctionNames';
 import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 import { useEffectDebugger } from 'src/utils/useEffectDebugger';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
@@ -160,7 +160,7 @@ const ProposeUnstakeTokens = ({
         new BigUIntValue(
           TokenTransfer.egldFromAmount(0).valueOf(),
         ),
-        delegationFunctionNames.unDelegate,
+        DelegationFunctionNames.unDelegate,
         [unDelegateAmount],
 
       );

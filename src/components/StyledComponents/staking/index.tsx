@@ -8,7 +8,7 @@ export const ModalCardTitleContainer = styled(Box)`
 
 export const StyledStakingProvider = styled(Grid)`
   border: 1px solid ${(props) => props.theme.palette.borders.secondary};
-  padding: 1rem;
+  padding: .5rem;
   display: flex;
   justify-content: flex-start;
   align-items: center;

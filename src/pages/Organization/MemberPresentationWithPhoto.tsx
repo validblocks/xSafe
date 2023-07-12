@@ -34,7 +34,6 @@ const MemberPresentationWithPhoto = ({
         />
     }
       <Box sx={{ ml: '7px' }}>
-        {/* <Typography sx={{ fontWeight: 600, color: theme.palette.text.primary }}>@herotag</Typography> */}
         <Box sx={{ display: 'flex' }}>
           <Box sx={{ color: theme.palette.text.primary }}>
             {addressBook[memberAddress?.bech32()] ?? truncateInTheMiddle(
