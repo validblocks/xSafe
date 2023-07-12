@@ -57,8 +57,6 @@ const AmountInputWithTokenSelection = ({
     return formik?.setFieldValue('amount', tokenAmount);
   }, [formik, handleMaxButtonClick, tokenAmount]);
 
-  console.log("rerender input")
-
   return (
     <StyledRemote.AmountWithTokenSelectionBox
       className={amountError != null ? 'invalid' : ''}

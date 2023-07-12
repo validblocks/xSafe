@@ -1,4 +1,5 @@
 import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { number } from 'yup';
 
 type Props = {
   number: string;
@@ -6,17 +7,25 @@ type Props = {
   smallFontSize?: number;
 };
 
-const BalanceDisplay = ({ number, bigFontSize = 24, smallFontSize = 18 }: Props) => {
-  const integerPart = Math.floor(parseFloat(number));
-  const decimalPart = (parseFloat(number) - integerPart)
+const BalanceDisplay = ({
+  number,
+  bigFontSize = 24,
+  smallFontSize = 18,
+}: Props) => {
+  const integerPart = Math.floor(parseFloat(number.replaceAll(',', '')));
+  const decimalPart = (parseFloat(number.replaceAll(',', '')) - integerPart)
     .toFixed(3)
     .substring(1);
   const theme = useCustomTheme();
 
   return (
     <div style={{ color: theme.palette.text.primary }}>
-      <span style={{ fontSize: bigFontSize, fontWeight: 900 }}>{integerPart}</span>
-      <span style={{ fontSize: smallFontSize, fontWeight: 600 }}>{decimalPart}</span>
+      <span style={{ fontSize: bigFontSize, fontWeight: 900 }}>
+        {integerPart.toLocaleString()}
+      </span>
+      <span style={{ fontSize: smallFontSize, fontWeight: 600 }}>
+        {decimalPart}
+      </span>
     </div>
   );
 };

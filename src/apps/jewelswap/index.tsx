@@ -8,7 +8,6 @@ import { MainButton } from 'src/components/Theme/StyledComponents';
 import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { jewelSwapLendingContractAddress } from 'src/config';
-import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import MultiversXWithStroke from 'src/assets/img/MultiversXWithStroke.svg';
 import BigJewelSwapMobile from 'src/assets/img/BigJewelSwapMobile.svg';
@@ -42,13 +41,6 @@ const LendInJewelSwap = () => {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const [isLendButtonEnabled, setIsLendButtonEnabled] = useState(true);
 
-  const currentContract = useSelector(currentMultisigContractSelector);
-
-  const multisigBalance = useSelector(multisigBalanceSelector);
-  const denominatedBalance = RationalNumber.fromBigInteger(
-    multisigBalance.amountAsBigInteger,
-  ).toLocaleString();
-
   const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
       amount: '0',
@@ -74,7 +66,7 @@ const LendInJewelSwap = () => {
           if (newAmount === 0) {
             setIsLendButtonEnabled(false);
           }
-          if (newAmount > Number(denominatedBalance)) {
+          if (newAmount > Number(numberTokenAmount)) {
             setIsLendButtonEnabled(false);
             return (
               testContext?.createError({
@@ -98,25 +90,33 @@ const LendInJewelSwap = () => {
 
   const handleLendButtonClick = useCallback(() => {
     console.log({ amount });
-    mutateSmartContractCall(
-      new Address(jewelSwapLendingContractAddress),
-      new BigUIntValue(
-        new BigNumber(Number(amount.replaceAll(',', '')))
-          .shiftedBy(18)
-          .decimalPlaces(0, BigNumber.ROUND_FLOOR),
-      ),
-      'lendEgld',
-    );
-  }, [currentContract?.address, amount, mutateSmartContractCall]);
+    try {
+      mutateSmartContractCall(
+        new Address(jewelSwapLendingContractAddress),
+        new BigUIntValue(
+          new BigNumber(Number(amount.replaceAll(',', '')))
+            .shiftedBy(18)
+            .decimalPlaces(0, BigNumber.ROUND_FLOOR),
+        ),
+        'lendEgld',
+      );
+    } catch (e) {
+      console.log({ e });
+    }
+  }, [amount, mutateSmartContractCall]);
 
   const handleBlur = useCallback(
     (e: any) => formik.handleBlur(e),
     [formik.handleBlur],
   );
 
-  const { tokenValue } = useSelector<StateType, OrganizationToken>(
+  const { tokenValue, tokenAmount } = useSelector<StateType, OrganizationToken>(
     organizationTokenByIdentifierSelector('EGLD'),
   );
+
+  const numberTokenAmount = Number(tokenAmount.replaceAll(',', ''));
+
+  console.log({ numberTokenAmount });
 
   return (
     <Box pb={'70px'}>
@@ -150,7 +150,7 @@ const LendInJewelSwap = () => {
                 </Box>
                 <Box display="flex" alignItems="center" justifyContent="center">
                   <Box pl={1}>
-                    <BalanceDisplay number={denominatedBalance} />
+                    <BalanceDisplay number={tokenAmount} />
                   </Box>
                   <Box pl={1} fontSize={18}>
                     $EGLD
