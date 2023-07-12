@@ -8,8 +8,6 @@ import { Box, Grid } from '@mui/material';
 import StakingProviderBasedOnAddress from 'src/components/Staking/StakingProviderBasedOnAddress';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import SouthIcon from '@mui/icons-material/South';
-import NorthIcon from '@mui/icons-material/North';
 import { StyledStakingProvider } from 'src/components/StyledComponents/staking';
 import { ArgumentsParser } from 'src/utils/parsers/ArgumentsParser';
 import LendInJewelSwapPresentation from 'src/components/Proposals/LendInJewelSwapPresentation';

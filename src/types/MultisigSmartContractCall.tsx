@@ -161,7 +161,7 @@ export class MultisigSmartContractCall extends MultisigAction {
       }
       case ExternalContractFunction.LEND_IN_JEWELSWAP: {
         const parsedArgs = new ArgumentsParser()
-          .parseArguments(ExternalContractFunction.LEND_IN_JEWELSWAP, this.amount);
+          .parseArguments(ExternalContractFunction.LEND_IN_JEWELSWAP, this.args);
         return <LendInJewelSwapPresentation lendAmount={this.amount} parsedArgs={parsedArgs} />;
       }
       default:

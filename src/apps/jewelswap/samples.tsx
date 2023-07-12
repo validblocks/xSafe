@@ -3,7 +3,6 @@ import BigNumber from 'bignumber.js';
 import { jewelSwapLendingContractAddress } from 'src/config';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
 import { MultisigLendInJewelSwap } from 'src/types/MultisigLendInJewelSwap';
-import { MultisigSmartContractCall } from 'src/types/MultisigSmartContractCall';
 
 export const sampleTransaction = {
   gasLimit: 70000000,
