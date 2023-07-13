@@ -18,9 +18,7 @@ import {
   NFTMarketplaceDescription,
   NFTMarketplaceImgContainer,
 } from 'src/apps/nft-auctions/styled';
-import {
-  organizationTokenByIdentifierSelector,
-} from 'src/redux/selectors/accountSelector';
+import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accountSelector';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
@@ -87,23 +85,21 @@ const LendInJewelSwap = () => {
 
   const amountError = touched.amount && errors.amount;
 
-  const handleLendButtonClick = useCallback(() => {
-    console.log({ amount });
+  const handleLendButtonClick = () => {
     try {
       mutateSmartContractCall(
         new Address(jewelSwapLendingContractAddress),
-        new BigUIntValue(new BigNumber(Number(0))),
-        ExternalContractFunction.LEND_IN_JEWELSWAP,
         new BigUIntValue(
           new BigNumber(Number(amount.replaceAll(',', '')))
             .shiftedBy(18)
             .decimalPlaces(0, BigNumber.ROUND_FLOOR),
-        )
-      )
+        ),
+        ExternalContractFunction.LEND_IN_JEWELSWAP,
+      );
     } catch (e) {
       console.log({ e });
     }
-  }, [amount, mutateSmartContractCall]);
+  };
 
   const handleBlur = useCallback(
     (e: any) => formik.handleBlur(e),
@@ -115,8 +111,6 @@ const LendInJewelSwap = () => {
   );
 
   const numberTokenAmount = Number(tokenAmount.replaceAll(',', ''));
-
-  console.log({ numberTokenAmount });
 
   return (
     <Box pb={'70px'}>
