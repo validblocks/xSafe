@@ -91,3 +91,11 @@ export interface IDelegation {
   userUnBondable: string;
   userUndelegatedList: IUndelegatedFunds[];
 }
+
+export enum DelegationFunctionNames {
+  'delegate' = 'delegate',
+  'reDelegateRewards' = 'reDelegateRewards',
+  'claimRewards' = 'claimRewards',
+  'unDelegate' = 'unDelegate',
+  'withdraw' = 'withdraw',
+}

@@ -23,7 +23,7 @@ import { useEffectDebugger } from 'src/utils/useEffectDebugger';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
 import { StakedAssetsSelect, UnstakeModalContainerBox } from '../styled';
-import { DelegationFunctionNames } from 'src/types/staking/DelegationFunctionNames';
+import { DelegationFunctionNames } from 'src/types/DelegationFunctionNames';
 
 interface ProposeUnstakeTokensType {
   handleChange: (proposal: MultisigSmartContractCall) => void;

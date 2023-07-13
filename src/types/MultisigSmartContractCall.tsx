@@ -30,7 +30,7 @@ import ProposalAmount from './ProposalAmount';
 import SendTokenProposalPresentation from './SendTokenProposalPresentation';
 import { ExternalContractFunction } from './ExternalContractFunction';
 import LendInJewelSwapPresentation from 'src/components/Proposals/LendInJewelSwapPresentation';
-import { DelegationFunctionNames } from './staking/DelegationFunctionNames';
+import { DelegationFunctionNames } from './DelegationFunctionNames';
 
 export class MultisigSmartContractCall extends MultisigAction {
   address: Address;
