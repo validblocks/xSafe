@@ -1,5 +1,4 @@
 import { useCustomTheme } from 'src/utils/useCustomTheme';
-import { number } from 'yup';
 
 type Props = {
   number: string;

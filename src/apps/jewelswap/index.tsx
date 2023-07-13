@@ -19,10 +19,8 @@ import {
   NFTMarketplaceImgContainer,
 } from 'src/apps/nft-auctions/styled';
 import {
-  multisigBalanceSelector,
   organizationTokenByIdentifierSelector,
 } from 'src/redux/selectors/accountSelector';
-import RationalNumber from 'src/utils/RationalNumber';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
