@@ -22,7 +22,13 @@ import {
   U32Type,
   U32Value,
 } from '@multiversx/sdk-core/out/smartcontracts/typesystem';
-import { gasLimit, minGasLimit, issueTokenContractAddress, network, xSpotlightContractAddress } from 'src/config';
+import {
+  gasLimit,
+  minGasLimit,
+  issueTokenContractAddress,
+  network,
+  xSpotlightContractAddress,
+} from 'src/config';
 import { parseAction, parseActionDetailed } from 'src/helpers/converters';
 import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { MultisigAction } from 'src/types/MultisigAction';
@@ -41,7 +47,11 @@ import { buildTransaction } from './transactionUtils';
 const proposeDeployGasLimit = 256_000_000;
 const proxy = new ProxyNetworkProvider(network?.apiAddress ?? '');
 
-export async function queryOnContract(functionName: string, contractAddress: string, ...args: TypedValue[]) {
+export async function queryOnContract(
+  functionName: string,
+  contractAddress: string,
+  ...args: TypedValue[]
+) {
   const smartContract = new SmartContract({
     address: new Address(contractAddress),
   });
@@ -147,9 +157,11 @@ export async function sendTransaction(
     ...args,
   );
 
+  console.log({ transaction });
+
   await refreshAccount();
   const { sessionId } = await sendTransactions({
-    transactions: transaction,
+    transactions: [transaction],
     minGasLimit,
   });
   store.dispatch(setCurrentMultisigTransactionId(sessionId));
@@ -315,7 +327,10 @@ export function mutateEsdtSendToken(proposal: MultisigSendToken) {
 }
 
 export function mutateEsdtSendNft(proposal: MultisigSendNft) {
-  const identifierWithoutNonce = proposal.identifier.split('-').slice(0, 2).join('-');
+  const identifierWithoutNonce = proposal.identifier
+    .split('-')
+    .slice(0, 2)
+    .join('-');
   const currentMultisigAddress = currentMultisigAddressSelector(
     store.getState(),
   );
@@ -336,7 +351,10 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
 }
 
 export function mutateAuctionNftOnXSpotlight(proposal: MultisigSendNft) {
-  const identifierWithoutNonce = proposal.identifier.split('-').slice(0, 2).join('-');
+  const identifierWithoutNonce = proposal.identifier
+    .split('-')
+    .slice(0, 2)
+    .join('-');
   const currentMultisigAddress = currentMultisigAddressSelector(
     store.getState(),
   );
@@ -362,7 +380,10 @@ export function mutateAuctionNftOnXSpotlight(proposal: MultisigSendNft) {
 }
 
 export function mutateEsdtSendSft(proposal: MultisigSendSft) {
-  const identifierWithoutNonce = proposal.identifier.split('-').slice(0, 2).join('-');
+  const identifierWithoutNonce = proposal.identifier
+    .split('-')
+    .slice(0, 2)
+    .join('-');
   const currentMultisigAddress = currentMultisigAddressSelector(
     store.getState(),
   );
@@ -384,7 +405,9 @@ export function mutateEsdtSendSft(proposal: MultisigSendSft) {
 
 export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
   const esdtAddress = new Address(issueTokenContractAddress);
-  const esdtAmount = new BigUIntValue(TokenTransfer.egldFromAmount(0.05).valueOf());
+  const esdtAmount = new BigUIntValue(
+    TokenTransfer.egldFromAmount(0.05).valueOf(),
+  );
 
   const args = [];
   args.push(BytesValue.fromUTF8(proposal.name));
@@ -442,11 +465,14 @@ export function queryUserRole(userAddress: string): Promise<number> {
   );
 }
 
-export async function queryUserRoleOnContract(userAddress: string, contractAddress: string): Promise<number> {
-  const isValidMultisigContract = await MultiversxApiProvider.validateMultisigAddress(
-    contractAddress,
-  );
-  if (!userAddress || !contractAddress || !isValidMultisigContract) return Promise.resolve(-1);
+export async function queryUserRoleOnContract(
+  userAddress: string,
+  contractAddress: string,
+): Promise<number> {
+  const isValidMultisigContract =
+    await MultiversxApiProvider.validateMultisigAddress(contractAddress);
+  if (!userAddress || !contractAddress || !isValidMultisigContract)
+    return Promise.resolve(-1);
   return queryNumberOnContract(
     MultisigContractFunction.USER_ROLE,
     contractAddress,

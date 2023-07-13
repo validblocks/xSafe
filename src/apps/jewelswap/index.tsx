@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { Box, useMediaQuery } from '@mui/material';
 import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MainButton } from 'src/components/Theme/StyledComponents';
@@ -101,11 +101,6 @@ const LendInJewelSwap = () => {
     }
   };
 
-  const handleBlur = useCallback(
-    (e: any) => formik.handleBlur(e),
-    [formik.handleBlur],
-  );
-
   const { tokenValue, tokenAmount } = useSelector<StateType, OrganizationToken>(
     organizationTokenByIdentifierSelector('EGLD'),
   );
@@ -197,7 +192,7 @@ const LendInJewelSwap = () => {
                     amount={amount}
                     amountError={amountError}
                     formik={formik}
-                    handleInputBlur={handleBlur}
+                    handleInputBlur={formik.handleBlur}
                     handleInputChange={formik.handleChange}
                     resetAmount={() => formik.setFieldValue('amount', 0)}
                     config={{

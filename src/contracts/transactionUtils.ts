@@ -10,6 +10,7 @@ import {
   Address,
   TokenTransfer,
   Interaction,
+  Account,
 } from '@multiversx/sdk-core';
 import { gasLimit } from 'src/config';
 import { LoginMethodsEnum } from '@multiversx/sdk-dapp/types';
@@ -35,7 +36,8 @@ export async function buildTransaction(
   transactionGasLimit: number,
   ...args: TypedValue[]
 ) {
-  const walletAddress = await getAddress();
+  const walletAddressBech32 = await getAddress();
+  const walletAddress = new Address(walletAddressBech32);
   // const func = new ContractFunction(functionName);
   // const payload = TransactionPayload.contractCall()
   //   .setFunction(func)
@@ -47,9 +49,10 @@ export async function buildTransaction(
     new ContractFunction(functionName),
     args,
   )
+    .useThenIncrementNonceOf(new Account(walletAddress))
     .withChainID(getChainID())
     .withGasLimit(transactionGasLimit)
-    .withSender(new Address(walletAddress))
+    .withSender(walletAddress)
     .withExplicitReceiver(new Address(contract.getAddress().bech32()))
     .withValue(TokenTransfer.egldFromAmount(value ?? 0));
 
