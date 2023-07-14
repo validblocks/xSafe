@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
-import { Box, Button, useMediaQuery } from '@mui/material';
+import { Box, useMediaQuery } from '@mui/material';
 import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MainButton } from 'src/components/Theme/StyledComponents';
