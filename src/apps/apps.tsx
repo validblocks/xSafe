@@ -11,6 +11,8 @@ import { sampleTransaction, sampleRemoveAction } from './example-app/samples';
 import MoreAppsDark from 'src/assets/img/MoreAppsDark.png';
 import MoreAppsLight from 'src/assets/img/MoreAppsLight.png';
 import { sampleLendAction } from './jewelswap/samples';
+import LendInJewelSwap from './jewelswap';
+import ClaimNftAuction from './nft-auctions/index';
 
 export interface AppWithRouteConfig {
   component: React.ComponentType;
@@ -73,11 +75,12 @@ export const apps: AppWithRouteConfig[] =
     : [
         {
           name: 'xSpotlight',
-          component: lazy(() =>
-            import('./nft-auctions/index').then((module) => ({
-              default: module.default,
-            })),
-          ),
+          // component: lazy(() =>
+          //   import('./nft-auctions/index').then((module) => ({
+          //     default: module.default,
+          //   })),
+          // ),
+          component: ClaimNftAuction,
           link: 'xspotlight-claim',
           id: 'xspotlight-claim',
           description:
@@ -91,11 +94,12 @@ export const apps: AppWithRouteConfig[] =
         },
         {
           name: 'JewelSwap',
-          component: lazy(() =>
-            import('./jewelswap').then((module) => ({
-              default: module.default,
-            })),
-          ),
+          // component: lazy(() =>
+          //   import('./jewelswap').then((module) => ({
+          //     default: module.default,
+          //   })),
+          // ),
+          component: LendInJewelSwap,
           link: 'jewelswap',
           id: 'jewelswap',
           description:

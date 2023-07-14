@@ -1,5 +1,9 @@
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils/account';
+import {
+  getAddress,
+  getLatestNonce,
+  refreshAccount,
+} from '@multiversx/sdk-dapp/utils/account';
 import {
   ContractFunction,
   Address,
@@ -9,6 +13,7 @@ import {
   Query,
   TokenTransfer,
   ResultsParser,
+  Account,
 } from '@multiversx/sdk-core';
 import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
 import { NumericalBinaryCodec } from '@multiversx/sdk-core/out/smartcontracts/codec/numerical';
@@ -42,7 +47,7 @@ import { store } from 'src/redux/store';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { MultisigSendSft } from 'src/types/MultisigSendSft';
-import { buildTransaction } from './transactionUtils';
+import { getChainID } from '@multiversx/sdk-dapp/utils';
 
 const proposeDeployGasLimit = 256_000_000;
 const proxy = new ProxyNetworkProvider(network?.apiAddress ?? '');
@@ -141,31 +146,58 @@ export async function sendTransaction(
   transactionGasLimit = gasLimit,
   ...args: TypedValue[]
 ) {
-  const currentMultisigAddress = currentMultisigAddressSelector(
-    store.getState(),
-  );
+  try {
+    const currentMultisigAddress = currentMultisigAddressSelector(
+      store.getState(),
+    );
 
-  const smartContract = new SmartContract({
-    address: currentMultisigAddress,
-  });
+    // -------
 
-  const transaction = await buildTransaction(
-    0,
-    functionName,
-    smartContract,
-    transactionGasLimit,
-    ...args,
-  );
+    let contract = new SmartContract({ address: currentMultisigAddress });
 
-  console.log({ transaction });
+    const walletAddressBech32 = await getAddress();
+    const walletAddress = new Address(walletAddressBech32);
 
-  await refreshAccount();
-  const { sessionId } = await sendTransactions({
-    transactions: [transaction],
-    minGasLimit,
-  });
-  store.dispatch(setCurrentMultisigTransactionId(sessionId));
-  return sessionId;
+    console.log({ walletAddressBech32, currentMultisigAddress });
+
+    let transaction = contract.call({
+      caller: walletAddress,
+      receiver: currentMultisigAddress,
+      func: new ContractFunction(functionName),
+      gasLimit: transactionGasLimit,
+      args,
+      chainID: getChainID(),
+    });
+
+    transaction.setNonce(
+      getLatestNonce(new Account(new Address(await getAddress()))),
+    );
+
+    // const smartContract = new SmartContract({
+    //   address: currentMultisigAddress,
+    // });
+
+    // const transaction = await buildTransaction(
+    //   0,
+    //   functionName,
+    //   smartContract,
+    //   transactionGasLimit,
+    //   ...args,
+    // );
+
+    await refreshAccount();
+    const { sessionId } = await sendTransactions({
+      transactions: [transaction],
+      minGasLimit,
+      // skipGuardian: true,
+    });
+    store.dispatch(setCurrentMultisigTransactionId(sessionId));
+
+    console.log({ sessionId });
+    return sessionId;
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 export function mutateSign(actionId: number) {

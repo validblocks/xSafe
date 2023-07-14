@@ -26,9 +26,13 @@ export const useApps = (): IUseAppsReturnType => {
   );
 
   const allMarketplaceApps = useMemo(
-    () => availableApps
-      .map((app) => ({ ...app, isInstalled: installedAppIds.includes(app.id) }))
-      .filter((app) => app.id !== AppIdentifiers.NoAppsInstalled),
+    () =>
+      availableApps
+        .map((app) => ({
+          ...app,
+          isInstalled: installedAppIds.includes(app.id),
+        }))
+        .filter((app) => app.id !== AppIdentifiers.NoAppsInstalled),
     [installedAppIds],
   );
 
@@ -37,9 +41,12 @@ export const useApps = (): IUseAppsReturnType => {
       installedAppIds.includes(app.id),
     );
 
-    const preinstalledFilteredApps = alreadyInstalledApps.length === 0
-      ? preinstalledApps
-      : preinstalledApps.filter((app) => app.id !== AppIdentifiers.NoAppsInstalled);
+    const preinstalledFilteredApps =
+      alreadyInstalledApps.length === 0
+        ? preinstalledApps
+        : preinstalledApps.filter(
+            (app) => app.id !== AppIdentifiers.NoAppsInstalled,
+          );
 
     return [...preinstalledFilteredApps, ...alreadyInstalledApps];
   }, [installedAppIds]);

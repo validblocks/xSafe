@@ -53,10 +53,13 @@ export async function buildTransaction(
     .withChainID(getChainID())
     .withGasLimit(transactionGasLimit)
     .withSender(walletAddress)
+    .withNonce(new Account(walletAddress).getNonceThenIncrement())
+    .withQuerent(walletAddress)
     .withExplicitReceiver(new Address(contract.getAddress().bech32()))
     .withValue(TokenTransfer.egldFromAmount(value ?? 0));
 
   const t = interaction.buildTransaction();
+
   return t;
   // const transactionPayload: TransactionPayloadType = {
   //   data: payload,

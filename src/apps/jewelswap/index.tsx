@@ -1,12 +1,11 @@
 import * as Yup from 'yup';
-import { Box, useMediaQuery } from '@mui/material';
+import { Box, Button, useMediaQuery } from '@mui/material';
 import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MainButton } from 'src/components/Theme/StyledComponents';
 import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
-import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { jewelSwapLendingContractAddress } from 'src/config';
 import { useSelector } from 'react-redux';
 import MultiversXWithStroke from 'src/assets/img/MultiversXWithStroke.svg';
@@ -27,6 +26,7 @@ import BalanceDisplay from 'src/components/Utils/BalanceDisplay';
 import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
 import { OrganizationToken } from 'src/pages/Organization/types';
 import { ExternalContractFunction } from 'src/types/ExternalContractFunction';
+import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 
 interface IFormValues {
   amount: string;
@@ -76,7 +76,7 @@ const LendInJewelSwap = () => {
           return true;
         }),
     }),
-    validateOnChange: false,
+    validateOnChange: true,
     validateOnMount: true,
   });
 
@@ -85,9 +85,9 @@ const LendInJewelSwap = () => {
 
   const amountError = touched.amount && errors.amount;
 
-  const handleLendButtonClick = () => {
+  const handleLendButtonClick = async () => {
     try {
-      mutateSmartContractCall(
+      await mutateSmartContractCall(
         new Address(jewelSwapLendingContractAddress),
         new BigUIntValue(
           new BigNumber(Number(amount.replaceAll(',', '')))

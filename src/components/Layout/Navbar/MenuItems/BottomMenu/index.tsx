@@ -36,8 +36,8 @@ const BottomMenu = () => {
         }
 
         return (
-          <Box>
-            <MenuLink key={uniqueId()} menuItem={el} />
+          <Box key={uniqueId()}>
+            <MenuLink menuItem={el} />
           </Box>
         );
       })}
