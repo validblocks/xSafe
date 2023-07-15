@@ -34,7 +34,7 @@ const LendInJewelSwapPresentation = ({ parsedArgs: _, lendAmount }: Props) => {
 
   return (
     <Box>
-      <img src={LendingInJewelSwapTitle} />
+      <img height={28} src={LendingInJewelSwapTitle} />
       <Box py={1}>
         <Text>
           With JewelSwap, you can Trade, Earn, Lend and Borrow with NFTs &
