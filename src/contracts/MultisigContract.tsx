@@ -151,14 +151,10 @@ export async function sendTransaction(
       store.getState(),
     );
 
-    // -------
-
     let contract = new SmartContract({ address: currentMultisigAddress });
 
     const walletAddressBech32 = await getAddress();
     const walletAddress = new Address(walletAddressBech32);
-
-    console.log({ walletAddressBech32, currentMultisigAddress });
 
     let transaction = contract.call({
       caller: walletAddress,
