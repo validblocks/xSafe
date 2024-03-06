@@ -3,13 +3,17 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import { useEffect, useState } from 'react';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
-import useDebounce from 'src/utils/useDebounce';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
+import useDebounce from 'src/hooks/useDebounce';
 import ProvidersList from './ProvidersList';
 import { StakingSearchBar } from '../Theme/StyledComponents';
 
 interface Props {
-    enableNextStep?: (enabled: boolean) => ReturnType<React.Dispatch<React.SetStateAction<Record<number, boolean>>>>;
+  enableNextStep?: (
+    enabled: boolean,
+  ) => ReturnType<
+    React.Dispatch<React.SetStateAction<Record<number, boolean>>>
+  >;
 }
 
 const StakingFormStepOne = ({ enableNextStep = () => null }: Props) => {
@@ -24,7 +28,9 @@ const StakingFormStepOne = ({ enableNextStep = () => null }: Props) => {
   const [isScrollToBottom, setIsScrollToBottom] = useState(false);
 
   useEffect(() => {
-    const containerOfProvList = document.getElementsByClassName('containerOfProvList')[0];
+    const containerOfProvList = document.getElementsByClassName(
+      'containerOfProvList',
+    )[0];
     const provList = containerOfProvList.children[0];
 
     const handleScroll = () => {
@@ -49,7 +55,10 @@ const StakingFormStepOne = ({ enableNextStep = () => null }: Props) => {
         variant="filled"
         InputProps={{
           startAdornment: (
-            <InputAdornment position="start" sx={{ ml: '2rem', mt: '0 !important' }}>
+            <InputAdornment
+              position="start"
+              sx={{ ml: '2rem', mt: '0 !important' }}
+            >
               <SearchRoundedIcon sx={{ color: theme.palette.text.primary }} />
             </InputAdornment>
           ),

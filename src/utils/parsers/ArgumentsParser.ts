@@ -1,5 +1,5 @@
 import { TypedValue } from '@multiversx/sdk-core/out';
-import { ExternalContractFunction } from 'src/types/ExternalContractFunction';
+import { ExternalContractFunction } from 'src/types/multisig/ExternalContractFunction';
 import { IssueNonFungibleArgumentParser } from './IssueNonFungibleArgumentParser';
 import { ESDTNFTCreateArgumentsParser } from './ESDTNFTCreateArgumentsParser';
 import { SetSpecialRoleArgumentsParser } from './SetSpecialRoleArgumentsParser';

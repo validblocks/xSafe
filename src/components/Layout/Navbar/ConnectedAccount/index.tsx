@@ -7,12 +7,16 @@ import { Box, Grid, useMediaQuery } from '@mui/material';
 import { toSvg } from 'jdenticon';
 import { network } from 'src/config';
 import { useEffect, useState } from 'react';
-import CopyButton from 'src/components/CopyButton';
+import CopyButton from 'src/components/Utils/CopyButton';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { useDispatch } from 'react-redux';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountGeneralInfoSlice';
+import {
+  setMultisigBalance,
+  setOrganizationTokens,
+  setTokenTableRows,
+} from 'src/redux/slices/accountGeneralInfoSlice';
 import { TokenTransfer } from '@multiversx/sdk-core/out';
 import * as Styled from '../../../Utils/styled';
 import {
@@ -30,11 +34,14 @@ const ConnectedAccount = () => {
     console.log('Logged out. Deleting Redux info.');
     dispatch(setCurrentMultisigContract(''));
     dispatch(setProposeModalSelectedOption(null));
-    dispatch(setMultisigBalance(JSON.stringify(TokenTransfer.egldFromAmount('0'))));
+    dispatch(
+      setMultisigBalance(JSON.stringify(TokenTransfer.egldFromAmount('0'))),
+    );
     dispatch(setTokenTableRows([]));
     dispatch(setOrganizationTokens([]));
     dispatch(setCurrentMultisigContract(''));
-    logout(`${window.location.origin}/multisig`,
+    logout(
+      `${window.location.origin}/multisig`,
       // () => navigate(`${window.location.origin}/multisig`),
     );
   };
@@ -51,7 +58,9 @@ const ConnectedAccount = () => {
 
   useEffect(() => {
     // eslint-disable-next-line no-nested-ternary
-    setWalletAddress(truncateInTheMiddle(address, minWidth497 ? 12 : minWidth420 ? 9 : 13));
+    setWalletAddress(
+      truncateInTheMiddle(address, minWidth497 ? 12 : minWidth420 ? 9 : 13),
+    );
   }, [address, isLoggedIn, minWidth420, minWidth497]);
 
   return (
@@ -61,7 +70,9 @@ const ConnectedAccount = () => {
         width={'100%'}
         sx={{
           my: 2,
-          justifyContent: !minWidth420 ? 'center !important' : 'space-between !important',
+          justifyContent: !minWidth420
+            ? 'center !important'
+            : 'space-between !important',
         }}
         className="d-flex justify-content-between align-items-center"
         gap={1}
@@ -75,11 +86,17 @@ const ConnectedAccount = () => {
           />
         </Grid>
         <Grid xs={minWidth420 ? 8 : 12} sm={8} item>
-          <ConnectItems className="d-flex justify-content-between" sx={{ p: 1 }}>
+          <ConnectItems
+            className="d-flex justify-content-between"
+            sx={{ p: 1 }}
+          >
             {walletAddress}
             <Box className="d-flex">
               <Box flex={4} sx={{ mr: 1 }}>
-                <CopyButton text={address} link={Styled.CopyIconLinkConnectedAccount} />
+                <CopyButton
+                  text={address}
+                  link={Styled.CopyIconLinkConnectedAccount}
+                />
               </Box>
               <Box sx={{ mr: 1 }}>
                 <AnchorConnectedAccount

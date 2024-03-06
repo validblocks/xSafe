@@ -2,8 +2,8 @@ import DiamondIcon from '@mui/icons-material/Diamond';
 import ClaimEarningsLight from 'src/assets/img/claimearnings_light.svg';
 import ClaimEarningsDark from 'src/assets/img/claimearnings_dark.svg';
 import FileDownloadRoundedIcon from '@mui/icons-material/FileDownloadRounded';
-import { RawTransactionType } from 'src/helpers/types';
-import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import { RawTransactionType } from 'src/types/transactions';
+import { MultisigActionDetailed } from 'src/types/multisig/MultisigActionDetailed';
 import { withInstallGuard } from './withInstallGuard';
 import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 import { sampleTransaction, sampleRemoveAction } from './example-app/samples';
@@ -85,7 +85,6 @@ export const apps: AppWithRouteConfig[] =
           action: sampleRemoveAction,
         },
       ];
-
 
 export const appsWithRouteConfig = apps.map((app) => ({
   ...app,

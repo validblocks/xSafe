@@ -2,20 +2,33 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { getAccountBalance as getAccount } from '@multiversx/sdk-dapp/utils/account';
 import { TokenTransfer } from '@multiversx/sdk-core/out';
-import { Box, CircularProgress, Typography, useMediaQuery } from '@mui/material';
+import {
+  Box,
+  CircularProgress,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import BoltIcon from '@mui/icons-material/Bolt';
-import { AccountButton, NewTransactionButton } from 'src/components/Theme/StyledComponents';
-import { OrganizationToken, TokenTableRowItem } from 'src/pages/Organization/types';
 import {
-  selectedCurrencySelector,
-} from 'src/redux/selectors/currencySelector';
+  AccountButton,
+  NewTransactionButton,
+} from 'src/components/Theme/StyledComponents';
+import { OrganizationToken, TokenTableRowItem } from 'src/types/organization';
+import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
 import {
-  currentMultisigContractSelector, currentMultisigTransactionIdSelector,
+  currentMultisigContractSelector,
+  currentMultisigTransactionIdSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
 import { setValueInUsd } from 'src/redux/slices/currencySlice';
-import { setProposeModalSelectedOption, setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ModalTypes, ProposalsTypes } from 'src/types/Proposals';
+import {
+  setProposeModalSelectedOption,
+  setProposeMultiselectSelectedOption,
+} from 'src/redux/slices/modalsSlice';
+import {
+  ModalTypes,
+  ProposalsTypes,
+} from 'src/types/multisig/proposals/Proposals';
 import Divider from '@mui/material/Divider';
 import {
   setMultisigBalance,
@@ -24,35 +37,38 @@ import {
   setTotalUsdBalance,
   StateType,
 } from 'src/redux/slices/accountGeneralInfoSlice';
-import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
-import useCurrencyConversion from 'src/utils/useCurrencyConversion';
-import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import useCurrencyConversion from 'src/hooks/useCurrencyConversion';
+import { useOrganizationInfoContext } from 'src/components/Providers/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import {
-  useGetLoginInfo, useTrackTransactionStatus,
+  useGetLoginInfo,
+  useTrackTransactionStatus,
 } from '@multiversx/sdk-dapp/hooks';
-import axios from 'axios';
-import { TransactionOnNetwork } from '@multiversx/sdk-network-providers/out';
-import { xSafeApiUrl } from 'src/config';
 import RationalNumber from 'src/utils/RationalNumber';
 import { CenteredText } from '../navbar-style';
 import * as Styled from '../styled';
 import { useSendTokenButtonMinWidth } from './useSendTokenButtonMinWidth';
 import UnknownOwnerMobileWarning from './UnknownOwnerMobileWarning';
+import { useSocketSubscribe } from 'src/hooks/useSocketSubscribe';
+import { SocketEvent } from 'src/types/websockets';
 
-export const identifierWithoutUniqueHash = (identifier: string) => identifier?.split('-')[0] ?? '';
+const identifierWithoutUniqueHash = (identifier: string) =>
+  identifier?.split('-')[0] ?? '';
 export const DECIMAL_POINTS_UI = 3;
 
 function TotalBalance() {
   const dispatch = useDispatch();
   const [totalUsdValue, setTotalUsdValue] = useState(0);
 
-  const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
+  const currentContract = useSelector<StateType, MultisigContractInfoType>(
+    currentMultisigContractSelector,
+  );
   const minWidth600 = useMediaQuery('(min-width:600px)');
 
   const queryClient = useQueryClient();
@@ -73,71 +89,36 @@ function TotalBalance() {
     [currentContract],
   );
 
-  const {
-    refetch: refetchNFTs,
-  } = useQuery(
-    [
-      QueryKeys.ALL_ORGANIZATION_NFTS,
-    ],
+  const { refetch: refetchNFTs } = useQuery(
+    [QueryKeys.ALL_ORGANIZATION_NFTS],
     fetchNFTs,
     USE_QUERY_DEFAULT_CONFIG,
   );
 
-  const {
-    data: addressTokens,
-    refetch: refetchAddressTokens,
-  } = useQuery(
-    [
-      QueryKeys.ADDRESS_ESDT_TOKENS,
-    ],
+  const { data: addressTokens, refetch: refetchAddressTokens } = useQuery(
+    [QueryKeys.ADDRESS_ESDT_TOKENS],
     fetchAddressEsdts,
     USE_QUERY_DEFAULT_CONFIG,
   );
 
-  const {
-    data: egldBalanceDetails,
-    refetch: refetchEgldBalanceDetails,
-  } = useQuery(
-    [
-      QueryKeys.ADDRESS_EGLD_TOKENS,
-    ],
-    fetchAddressEgld,
-    {
+  const { data: egldBalanceDetails, refetch: refetchEgldBalanceDetails } =
+    useQuery([QueryKeys.ADDRESS_EGLD_TOKENS], fetchAddressEgld, {
       ...USE_QUERY_DEFAULT_CONFIG,
       enabled: !!addressTokens,
       select: (data) => data,
-    },
+    });
+
+  useSocketSubscribe(SocketEvent.INVOLVED_IN_TX, () => {
+    console.log('NEW TRANSACTIONS THROUGH WS!');
+    refetchAddressTokens();
+    refetchEgldBalanceDetails();
+    refetchNFTs();
+    queryClient.invalidateQueries(QueryKeys.NFT_COUNT);
+  });
+
+  const currentMultisigTransactionId = useSelector(
+    currentMultisigTransactionIdSelector,
   );
-
-  const {
-    data: newTransactions,
-  } = useQuery(
-    [
-      'TRANSACTION_PROCESSOR',
-    ],
-    () => (currentContract?.address
-      ? axios
-        .get<TransactionOnNetwork[]>(`${xSafeApiUrl}/transactions-processor/${currentContract?.address}`)
-        .then((r) => r?.data ?? [])
-      : []),
-    {
-      ...USE_QUERY_DEFAULT_CONFIG,
-      refetchInterval: 5000,
-      enabled: isLoggedIn,
-    },
-  );
-
-  useEffect(() => {
-    if (newTransactions && newTransactions.length > 0) {
-      console.log('Invalidation! We have new transactions!');
-      refetchAddressTokens();
-      refetchEgldBalanceDetails();
-      refetchNFTs();
-      queryClient.invalidateQueries(QueryKeys.NFT_COUNT);
-    }
-  }, [newTransactions, queryClient, refetchAddressTokens, refetchEgldBalanceDetails, refetchNFTs]);
-
-  const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
   useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
     onSuccess: () => {
@@ -152,7 +133,13 @@ function TotalBalance() {
     refetchAddressTokens();
     refetchEgldBalanceDetails();
     refetchNFTs();
-  }, [currentContract?.address, queryClient, refetchAddressTokens, refetchEgldBalanceDetails, refetchNFTs]);
+  }, [
+    currentContract?.address,
+    queryClient,
+    refetchAddressTokens,
+    refetchEgldBalanceDetails,
+    refetchNFTs,
+  ]);
 
   useEffect(() => {
     if (!addressTokens) return;
@@ -162,7 +149,9 @@ function TotalBalance() {
   const egldPrice = useSelector(priceSelector);
 
   const newTokensWithPrices = useMemo(() => {
-    if (!addressTokens || !egldBalanceDetails) { return null; }
+    if (!addressTokens || !egldBalanceDetails) {
+      return null;
+    }
     const egldRow = {
       id: 'EGLD',
       tokenIdentifier: 'EGLD',
@@ -186,35 +175,38 @@ function TotalBalance() {
     };
     // delete egldRow.owner;
 
-    const allTokens = [egldRow, ...addressTokens?.map((token: any) => ({
-      ...token,
-      id: token.identifier,
-      presentation: {
-        tokenIdentifier: token.identifier,
-        photoUrl: token.assets?.svgUrl,
-      },
-      balanceDetails: {
-        photoUrl: token.assets?.svgUrl,
-        identifier: identifierWithoutUniqueHash(token.identifier),
-        amount: token.balance as string,
-        decimals: token.decimals as number,
-      },
-      value: {
-        tokenPrice: parseFloat(token.price?.toString()),
-        decimals: token.decimals as number,
-        amount: token.balance as string,
-        valueUsd: token.valueUsd,
-      },
-    }))];
+    const allTokens = [
+      egldRow,
+      ...addressTokens?.map((token: any) => ({
+        ...token,
+        id: token.identifier,
+        presentation: {
+          tokenIdentifier: token.identifier,
+          photoUrl: token.assets?.svgUrl,
+        },
+        balanceDetails: {
+          photoUrl: token.assets?.svgUrl,
+          identifier: identifierWithoutUniqueHash(token.identifier),
+          amount: token.balance as string,
+          decimals: token.decimals as number,
+        },
+        value: {
+          tokenPrice: parseFloat(token.price?.toString()),
+          decimals: token.decimals as number,
+          amount: token.balance as string,
+          valueUsd: token.valueUsd,
+        },
+      })),
+    ];
 
     return allTokens;
   }, [addressTokens, egldBalanceDetails, egldPrice]);
 
   useEffect(() => {
     if (
-      !currentContract?.address
-      || !newTokensWithPrices
-      || !egldBalanceDetails
+      !currentContract?.address ||
+      !newTokensWithPrices ||
+      !egldBalanceDetails
     ) {
       return;
     }
@@ -222,39 +214,53 @@ function TotalBalance() {
     (function getTokens() {
       let isMounted = true;
 
-      if (!currentContract?.address || !newTokensWithPrices || !egldBalanceDetails || !isMounted) {
+      if (
+        !currentContract?.address ||
+        !newTokensWithPrices ||
+        !egldBalanceDetails ||
+        !isMounted
+      ) {
         return () => {
           isMounted = false;
         };
       }
 
       try {
-        const organizationTokens: OrganizationToken[] = newTokensWithPrices.map(({
-          identifier, balanceDetails, value }: TokenTableRowItem) => {
-          const amountAsRationalNumber = RationalNumber.fromDynamicTokenAmount(
-            identifier ?? '',
-              value?.amount as string,
-              value?.decimals,
-          );
+        const organizationTokens: OrganizationToken[] = newTokensWithPrices.map(
+          ({ identifier, balanceDetails, value }: TokenTableRowItem) => {
+            const amountAsRationalNumber =
+              RationalNumber.fromDynamicTokenAmount(
+                identifier ?? '',
+                value?.amount as string,
+                value?.decimals,
+              );
 
-          const denominatedAmountForCalcs = Number(amountAsRationalNumber);
-          const priceAsNumber = value?.tokenPrice as number;
-          const totalUsdValue = balanceDetails && 'usdValue' in balanceDetails
-            ? balanceDetails.usdValue as number
-            : Number(Number(denominatedAmountForCalcs * priceAsNumber).toFixed(2));
-          const tokenPrice = parseFloat(Number(priceAsNumber).toPrecision(4));
+            const denominatedAmountForCalcs = Number(amountAsRationalNumber);
+            const priceAsNumber = value?.tokenPrice as number;
+            const totalUsdValue =
+              balanceDetails && 'usdValue' in balanceDetails
+                ? (balanceDetails.usdValue as number)
+                : Number(
+                    Number(denominatedAmountForCalcs * priceAsNumber).toFixed(
+                      2,
+                    ),
+                  );
+            const tokenPrice = parseFloat(Number(priceAsNumber).toPrecision(4));
 
-          return ({
-            prettyIdentifier: identifier?.split('-')[0] ?? '',
-            identifier: identifier ?? '',
-            photoUrl: balanceDetails?.photoUrl ?? '',
-            tokenPrice,
-            tokenAmount: Number(denominatedAmountForCalcs).toLocaleString(),
-            tokenValue: totalUsdValue,
-          });
-        });
+            return {
+              prettyIdentifier: identifier?.split('-')[0] ?? '',
+              identifier: identifier ?? '',
+              photoUrl: balanceDetails?.photoUrl ?? '',
+              tokenPrice,
+              tokenAmount: Number(denominatedAmountForCalcs).toLocaleString(),
+              tokenValue: totalUsdValue,
+            };
+          },
+        );
 
-        const persistedBalance = JSON.stringify(TokenTransfer.egldFromBigInteger(egldBalanceDetails));
+        const persistedBalance = JSON.stringify(
+          TokenTransfer.egldFromBigInteger(egldBalanceDetails),
+        );
 
         dispatch(setMultisigBalance(persistedBalance));
         dispatch(setTokenTableRows(newTokensWithPrices));
@@ -264,22 +270,27 @@ function TotalBalance() {
       }
 
       return true;
-    }());
-  }, [currentContract?.address, dispatch, egldBalanceDetails, newTokensWithPrices]);
+    })();
+  }, [
+    currentContract?.address,
+    dispatch,
+    egldBalanceDetails,
+    newTokensWithPrices,
+  ]);
 
   const totalValue = useCallback(() => {
     if (!newTokensWithPrices) return;
 
-    const totalAssetsValue = newTokensWithPrices
-      ?.reduce((acc: number, token: TokenTableRowItem) =>
-        acc + (parseFloat(token?.valueUsd?.toString() ?? '0')), 0);
-
-    const totalEgldValue = Number(
-      RationalNumber.fromBigInteger(egldBalanceDetails ?? 0),
-    ) * egldPrice ?? '0';
-    setTotalUsdValue(
-      totalAssetsValue + totalEgldValue,
+    const totalAssetsValue = newTokensWithPrices?.reduce(
+      (acc: number, token: TokenTableRowItem) =>
+        acc + parseFloat(token?.valueUsd?.toString() ?? '0'),
+      0,
     );
+
+    const totalEgldValue =
+      Number(RationalNumber.fromBigInteger(egldBalanceDetails ?? 0)) *
+        egldPrice ?? '0';
+    setTotalUsdValue(totalAssetsValue + totalEgldValue);
     dispatch(setTotalUsdBalance(totalAssetsValue + totalEgldValue));
   }, [dispatch, egldBalanceDetails, egldPrice, newTokensWithPrices]);
 
@@ -306,7 +317,9 @@ function TotalBalance() {
   const [multisigAllCoinsValue, setMultisigAllCoinsValue] = useState('0');
 
   useEffect(() => {
-    const totalValue = (Number(parseFloat(totalUsdValueConverted.toFixed(2))).toLocaleString());
+    const totalValue = Number(
+      parseFloat(totalUsdValueConverted.toFixed(2)),
+    ).toLocaleString();
     setMultisigAllCoinsValue(totalValue);
   }, [totalUsdValueConverted]);
 
@@ -330,17 +343,26 @@ function TotalBalance() {
         justifyContent: { sm: 'center', xs: 'space-around' },
       }}
     >
-      <Styled.TotalBalanceBox sx={{ width: { sm: '100%', xs: '50%' }, paddingLeft: minWidth600 ? '0' : '16px' }}>
+      <Styled.TotalBalanceBox
+        sx={{
+          width: { sm: '100%', xs: '50%' },
+          paddingLeft: minWidth600 ? '0' : '16px',
+        }}
+      >
         <CenteredText fontSize="14px">Your Total Balance:</CenteredText>
         <CenteredText fontSize="16px" fontWeight="bolder">
-          {
-            Number.isNaN(multisigAllCoinsValue) ?
-              <CircularProgress /> :
-              `${isLoggedIn ? multisigAllCoinsValue : 0} ${getCurrency}`
-          }
+          {Number.isNaN(multisigAllCoinsValue) ? (
+            <CircularProgress />
+          ) : (
+            `${isLoggedIn ? multisigAllCoinsValue : 0} ${getCurrency}`
+          )}
         </CenteredText>
       </Styled.TotalBalanceBox>
-      <Divider orientation="vertical" flexItem sx={{ borderColor: '#9393931a !important' }} />
+      <Divider
+        orientation="vertical"
+        flexItem
+        sx={{ borderColor: '#9393931a !important' }}
+      />
       <Box
         className="d-flex align-items-center"
         sx={{
@@ -350,7 +372,9 @@ function TotalBalance() {
           justifyContent: minWidth600 ? 'center' : 'flex-end',
         }}
       >
-        {!isInReadOnlyMode || (isLoggedIn && (!currentContract?.address || currentContract?.address === '')) ? (
+        {!isInReadOnlyMode ||
+        (isLoggedIn &&
+          (!currentContract?.address || currentContract?.address === '')) ? (
           <Box display="flex" alignItems="center">
             <NewTransactionButton
               variant="outlined"
@@ -358,7 +382,9 @@ function TotalBalance() {
               onKeyDown={(e) => e.preventDefault()}
               onKeyUp={(e) => e.preventDefault()}
               sx={{ minWidth: `${dynamicMinWidth}px !important` }}
-              disabled={!currentContract?.address || currentContract?.address === ''}
+              disabled={
+                !currentContract?.address || currentContract?.address === ''
+              }
             >
               Send Token
             </NewTransactionButton>
@@ -366,34 +392,36 @@ function TotalBalance() {
           </Box>
         ) : (
           <Text height={'40px'} display="flex" alignItems={'center'}>
-            {isLoggedIn
-              ? currentContract?.address && currentContract?.address !== ''
-                ? 'Read-Only Mode'
-                : (
-                  <NewTransactionButton
-                    variant="outlined"
-                    onClick={onNewTransactionClick}
-                    onKeyDown={(e) => e.preventDefault()}
-                    onKeyUp={(e) => e.preventDefault()}
-                    disabled
-                  >
-                    Send Token
-                  </NewTransactionButton>
-                )
-              : (
-                <AccountButton
+            {isLoggedIn ? (
+              currentContract?.address && currentContract?.address !== '' ? (
+                'Read-Only Mode'
+              ) : (
+                <NewTransactionButton
                   variant="outlined"
-                  onClick={handleConnectClick}
-                  size="large"
+                  onClick={onNewTransactionClick}
+                  onKeyDown={(e) => e.preventDefault()}
+                  onKeyUp={(e) => e.preventDefault()}
+                  disabled
                 >
-                  <Box className="d-flex">
-                    <BoltIcon />
-                    <Typography sx={{ textTransform: isLoggedIn ? 'lowercase' : 'none' }}>
-                      Connect
-                    </Typography>
-                  </Box>
-                </AccountButton>
-              )}
+                  Send Token
+                </NewTransactionButton>
+              )
+            ) : (
+              <AccountButton
+                variant="outlined"
+                onClick={handleConnectClick}
+                size="large"
+              >
+                <Box className="d-flex">
+                  <BoltIcon />
+                  <Typography
+                    sx={{ textTransform: isLoggedIn ? 'lowercase' : 'none' }}
+                  >
+                    Connect
+                  </Typography>
+                </Box>
+              </AccountButton>
+            )}
           </Text>
         )}
       </Box>

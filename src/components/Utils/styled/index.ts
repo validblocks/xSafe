@@ -301,7 +301,7 @@ export const TransactionsTab = styled(MainTab)(({ theme: _ }) => ({
   '&&&': {
     '@media (max-width:600px)': {
       position: 'absolute',
-      marginTop: '-16.5px',
+      marginTop: '-16px',
       left: 0,
       zIndex: 2,
       backgroundColor: _.palette.background.default,

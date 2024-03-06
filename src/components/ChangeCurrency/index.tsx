@@ -4,16 +4,16 @@ import './ChangeCurrency.scss';
 import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
 import { SupportedCurrencies } from 'src/utils/supportedCurrencies';
 import { setSelectedCurrency } from 'src/redux/slices/currencySlice';
-import { StyledSelect } from 'src/pages/MultisigDetails/styled';
+import { StyledSelect } from 'src/components/MultisigDetails/styled';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import * as Styled from '../Utils/styled';
 import { Text } from '../StyledComponents/StyledComponents';
 
 interface ICurrencySelectItem {
-    code: string;
+  code: string;
   label: string;
-  description: string
-    suggested?: boolean;
+  description: string;
+  suggested?: boolean;
 }
 
 const currencyList: ICurrencySelectItem[] = [
@@ -40,26 +40,35 @@ function ChangeCurrency() {
         MenuProps={{
           sx: {
             '&&&': {
-              '& .MuiPaper-root > ul':
-                {
-                  padding: '8px 0',
-                  backgroundColor: isDarkThemeEnabled ? '#1E1D2A' : '#fff',
-                },
-              '& .MuiPaper-root':
-              {
+              '& .MuiPaper-root > ul': {
+                padding: '8px 0',
+                backgroundColor: isDarkThemeEnabled ? '#1E1D2A' : '#fff',
+              },
+              '& .MuiPaper-root': {
                 marginTop: '2px',
                 backgroundColor: 'transparent',
               },
             },
           },
         }}
-        onChange={(event: SelectChangeEvent) => changeCurrency(event.target.value as SupportedCurrencies)}
+        onChange={(event: SelectChangeEvent) =>
+          changeCurrency(event.target.value as SupportedCurrencies)
+        }
       >
         {currencyList.map((currency) => (
-          <Styled.ThemePrimaryMenuItem key={currency.code} value={currency.label}>
+          <Styled.ThemePrimaryMenuItem
+            key={currency.code}
+            value={currency.label}
+          >
             <Styled.ThemePrimaryBox
               display="flex"
-              sx={{ '& > img': { m: '5px 10px 0 0', flexShrink: 0, borderRadius: '2px' } }}
+              sx={{
+                '& > img': {
+                  m: '5px 10px 0 0',
+                  flexShrink: 0,
+                  borderRadius: '2px',
+                },
+              }}
             >
               <img
                 loading="lazy"
@@ -69,9 +78,7 @@ function ChangeCurrency() {
                 srcSet={`https://flagcdn.com/w40/${currency.code.toLowerCase()}.png 2x`}
                 alt="flag"
               />
-              <Text>
-                {currency.description}
-              </Text>
+              <Text>{currency.description}</Text>
             </Styled.ThemePrimaryBox>
           </Styled.ThemePrimaryMenuItem>
         ))}

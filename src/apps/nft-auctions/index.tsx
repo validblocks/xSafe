@@ -1,12 +1,12 @@
 import { Box, Grid, useMediaQuery } from '@mui/material';
-import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
+import BigNumber from 'bignumber.js';
 import { useCallback, useMemo } from 'react';
-import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { useOrganizationInfoContext } from 'src/components/Providers/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MainButton } from 'src/components/Theme/StyledComponents';
 import { MultiversXLogo } from 'src/components/Utils/MultiversXLogo';
 import { PropertyKeyBox } from 'src/components/Utils/PropertKeyBox';
-import { useNftAuctionClaimableAmount } from 'src/utils/useNftAuctionClaimableAmount';
+import { useNftAuctionClaimableAmount } from 'src/hooks/useNftAuctionClaimableAmount';
 import {
   Address,
   AddressValue,

@@ -1,4 +1,4 @@
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 
 type Props = {
   number: string;

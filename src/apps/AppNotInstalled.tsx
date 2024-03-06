@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import NoActionsOverlay from 'src/pages/Transactions/utils/NoActionsOverlay';
+import NoActionsOverlay from 'src/components/Utils/NoActionsOverlay';
 
 const AppNotInstalled = () => (
   <Box>

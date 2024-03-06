@@ -29,12 +29,13 @@ import { Suspense } from 'react';
 import { englishTranslations } from './i18n/en';
 import { germanTranslations } from './i18n/de';
 import Layout from './components/Layout';
-import PageNotFound from './components/PageNotFound';
+import PageNotFound from './components/PageUtils/PageNotFound';
 import { persistor, store } from './redux/store';
-import OrganizationInfoContextProvider from './pages/Organization/OrganizationInfoContextProvider';
+import OrganizationInfoContextProvider from './components/Providers/OrganizationInfoContextProvider';
 import CustomThemeProvider from './components/Theme/CustomThemeProvider';
 import { SpotlightCommands } from './components/Utils/SpotlightCommands';
 import { appsWithRouteConfig, AppWithRouteConfig } from './apps/apps';
+import { WebSocketsProvider } from './components/Providers/WebSocketsProvider';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -85,7 +86,7 @@ export const App = () => (
         <QueryClientProvider client={queryClient}>
           <AxiosInterceptorContext.Provider>
             <AxiosInterceptorContext.Interceptor
-              authenticatedDomanis={sampleAuthenticatedDomains}
+              authenticatedDomains={sampleAuthenticatedDomains}
             >
               <Router>
                 <Suspense fallback={<div>Loading...</div>}>
@@ -107,35 +108,37 @@ export const App = () => (
                   >
                     <>
                       <SpotlightCommands />
-                      <OrganizationInfoContextProvider>
-                        <Layout>
-                          <>
-                            <TransactionsToastList />
-                            <NotificationModal />
+                      <WebSocketsProvider>
+                        <OrganizationInfoContextProvider>
+                          <Layout>
+                            <>
+                              <TransactionsToastList />
+                              <NotificationModal />
 
-                            <SignTransactionsModals className="custom-class-for-modals" />
-                            <Routes>
-                              {routes.map((route: any) => (
-                                <Route
-                                  path={route.path}
-                                  key={route.path}
-                                  element={<route.component />}
-                                />
-                              ))}
-                              {appsWithRouteConfig.map(
-                                (route: AppWithRouteConfig) => (
+                              <SignTransactionsModals className="custom-class-for-modals" />
+                              <Routes>
+                                {routes.map((route: any) => (
                                   <Route
                                     path={route.path}
                                     key={route.path}
                                     element={<route.component />}
                                   />
-                                ),
-                              )}
-                              <Route element={PageNotFound()} />
-                            </Routes>
-                          </>
-                        </Layout>
-                      </OrganizationInfoContextProvider>
+                                ))}
+                                {appsWithRouteConfig.map(
+                                  (route: AppWithRouteConfig) => (
+                                    <Route
+                                      path={route.path}
+                                      key={route.path}
+                                      element={<route.component />}
+                                    />
+                                  ),
+                                )}
+                                <Route element={PageNotFound()} />
+                              </Routes>
+                            </>
+                          </Layout>
+                        </OrganizationInfoContextProvider>
+                      </WebSocketsProvider>
                     </>
                   </DappProvider>
                 </Suspense>

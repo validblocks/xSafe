@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ModalTypes } from 'src/types/Proposals';
+import { ModalTypes } from 'src/types/multisig/proposals/Proposals';
 import * as Styled from './styled';
 
 interface IMenuLinkProps {
@@ -28,7 +28,11 @@ const MenuLink = ({ menuItem, shouldRequireLogin }: IMenuLinkProps) => {
       onClick={(e: any) => {
         if (shouldRequireLogin) {
           e.preventDefault();
-          dispatch(setProposeModalSelectedOption({ option: ModalTypes.connect_wallet }));
+          dispatch(
+            setProposeModalSelectedOption({
+              option: ModalTypes.connect_wallet,
+            }),
+          );
         }
         if (menuItem.id === 'help-center-menu-item') {
           e.preventDefault();
@@ -42,12 +46,8 @@ const MenuLink = ({ menuItem, shouldRequireLogin }: IMenuLinkProps) => {
       }
     >
       <Styled.MenuListItem>
-        <Styled.MenuListItemIcon>
-          {menuItem.icon}
-        </Styled.MenuListItemIcon>
-        <Styled.MenuListItemText
-          primary={<Text>{menuItem.name}</Text>}
-        />
+        <Styled.MenuListItemIcon>{menuItem.icon}</Styled.MenuListItemIcon>
+        <Styled.MenuListItemText primary={<Text>{menuItem.name}</Text>} />
       </Styled.MenuListItem>
     </Link>
   );

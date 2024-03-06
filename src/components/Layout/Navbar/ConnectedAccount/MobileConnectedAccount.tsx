@@ -8,12 +8,16 @@ import { Box, useMediaQuery } from '@mui/material';
 import { toSvg } from 'jdenticon';
 import { network } from 'src/config';
 import { useEffect, useMemo, useState } from 'react';
-import CopyButton from 'src/components/CopyButton';
+import CopyButton from 'src/components/Utils/CopyButton';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { TokenTransfer } from '@multiversx/sdk-core/out';
-import { setMultisigBalance, setOrganizationTokens, setTokenTableRows } from 'src/redux/slices/accountGeneralInfoSlice';
+import {
+  setMultisigBalance,
+  setOrganizationTokens,
+  setTokenTableRows,
+} from 'src/redux/slices/accountGeneralInfoSlice';
 import { useDispatch } from 'react-redux';
 import * as Styled from '../../../Utils/styled';
 import {
@@ -23,7 +27,7 @@ import {
 } from '../navbar-style';
 
 interface Props {
-  closeSidebar: () => void
+  closeSidebar: () => void;
 }
 
 export const MobileConnectedAccount: React.FC<Props> = ({ closeSidebar }) => {
@@ -35,7 +39,9 @@ export const MobileConnectedAccount: React.FC<Props> = ({ closeSidebar }) => {
     sessionStorage.clear();
     dispatch(setCurrentMultisigContract(''));
     dispatch(setProposeModalSelectedOption(null));
-    dispatch(setMultisigBalance(JSON.stringify(TokenTransfer.egldFromAmount('0'))));
+    dispatch(
+      setMultisigBalance(JSON.stringify(TokenTransfer.egldFromAmount('0'))),
+    );
     dispatch(setTokenTableRows([]));
     dispatch(setOrganizationTokens([]));
     dispatch(setCurrentMultisigContract(''));
@@ -75,11 +81,17 @@ export const MobileConnectedAccount: React.FC<Props> = ({ closeSidebar }) => {
         }}
       />
       <Box className="d-flex justify-content-between" px={1} flexGrow={1}>
-        <ConnectItems className="d-flex justify-content-between w-100" sx={{ p: 1 }}>
+        <ConnectItems
+          className="d-flex justify-content-between w-100"
+          sx={{ p: 1 }}
+        >
           {walletAddress}
           <Box className="d-flex">
             <Box flex={4} sx={{ mr: 1 }}>
-              <CopyButton text={address} link={Styled.CopyIconLinkConnectedAccount} />
+              <CopyButton
+                text={address}
+                link={Styled.CopyIconLinkConnectedAccount}
+              />
             </Box>
             <Box sx={{ mr: 1 }}>
               <AnchorConnectedAccount

@@ -1,25 +1,24 @@
 import { Box } from '@mui/material';
 import { useMemo } from 'react';
-import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import useProviderIdentitiesAfterSelection from 'src/hooks/useProviderIdentitiesAfterSelection';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { Text } from '../StyledComponents/StyledComponents';
 import APRColumn from './APRColumn';
 import ProviderColumn from './ProviderColumn';
 
 interface Props {
-    providerAddress: string;
-
+  providerAddress: string;
 }
 
 const StakingProviderBasedOnAddress = ({ providerAddress }: Props) => {
   const theme = useCustomTheme();
 
-  const {
-    fetchedProviderIdentities,
-  } = useProviderIdentitiesAfterSelection();
+  const { fetchedProviderIdentities } = useProviderIdentitiesAfterSelection();
   const selectedProvider = useMemo(
-    () => fetchedProviderIdentities
-      ?.find((provider) => provider.provider === providerAddress),
+    () =>
+      fetchedProviderIdentities?.find(
+        (provider) => provider.provider === providerAddress,
+      ),
     [fetchedProviderIdentities],
   );
 

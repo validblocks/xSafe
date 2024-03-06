@@ -5,20 +5,24 @@ import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
-import * as Styled from 'src/pages/MultisigDetails/ProposeMultiselectModal/styled';
-import { TokenTableRowItem } from 'src/pages/Organization/types';
+import * as Styled from 'src/components/MultisigDetails/ProposeMultiselectModal/styled';
+import { TokenTableRowItem } from 'src/types/organization';
 import { setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
 
 interface IProps {
-    amountError: string | false | undefined;
-    resetAmount: any
+  amountError: string | false | undefined;
+  resetAmount: any;
 }
 
 const TokenSelection = ({ amountError, resetAmount }: IProps) => {
   const dispatch = useDispatch();
   const selectedToken = useSelector(selectedTokenToSendSelector);
-  const [identifier, setIdentifier] = useState(selectedToken?.identifier || 'EGLD');
-  const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(tokenTableRowsSelector);
+  const [identifier, setIdentifier] = useState(
+    selectedToken?.identifier || 'EGLD',
+  );
+  const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(
+    tokenTableRowsSelector,
+  );
 
   const onIdentifierChanged = (event: SelectChangeEvent) => {
     const newIdentifier = event.target.value;
@@ -38,7 +42,12 @@ const TokenSelection = ({ amountError, resetAmount }: IProps) => {
       label="Identifier"
       size="small"
       className={amountError != null ? 'invalid' : ''}
-      MenuProps={{ className: identifier === 'EGLD' ? 'SendTokenListOpened' : 'SendTokenListOpenedWithoutEGLD' }}
+      MenuProps={{
+        className:
+          identifier === 'EGLD'
+            ? 'SendTokenListOpened'
+            : 'SendTokenListOpenedWithoutEGLD',
+      }}
       onChange={onIdentifierChanged}
     >
       {tokenTableRows?.map((token: TokenTableRowItem) => (
@@ -47,9 +56,7 @@ const TokenSelection = ({ amountError, resetAmount }: IProps) => {
           value={token.identifier}
           sx={{ width: '230px', pl: '.1rem', pr: '.3rem' }}
         >
-          <TokenPresentationWithPrice
-            identifier={token.identifier as string}
-          />
+          <TokenPresentationWithPrice identifier={token.identifier as string} />
         </MenuItem>
       ))}
     </Styled.TokenSelection>

@@ -1,8 +1,8 @@
 import * as Yup from 'yup';
 import { Box, useMediaQuery } from '@mui/material';
-import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
+import BigNumber from 'bignumber.js';
 import { useState } from 'react';
-import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { useOrganizationInfoContext } from 'src/components/Providers/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MainButton } from 'src/components/Theme/StyledComponents';
 import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
@@ -21,22 +21,27 @@ import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accou
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
-import { useTranslation } from 'react-i18next';
 import BalanceDisplay from 'src/components/Utils/BalanceDisplay';
 import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
-import { OrganizationToken } from 'src/pages/Organization/types';
-import { ExternalContractFunction } from 'src/types/ExternalContractFunction';
+import { OrganizationToken } from 'src/types/organization';
+import { ExternalContractFunction } from 'src/types/multisig/ExternalContractFunction';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
+import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 
 interface IFormValues {
   amount: string;
 }
 
 const LendInJewelSwap = () => {
-  const { t } = useTranslation();
+  const t = useCustomTranslation();
   const maxWidth600 = useMediaQuery('(max-width:600px)');
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const [isLendButtonEnabled, setIsLendButtonEnabled] = useState(true);
+  const { tokenValue, tokenAmount } = useSelector<StateType, OrganizationToken>(
+    organizationTokenByIdentifierSelector('EGLD'),
+  );
+
+  const numberTokenAmount = Number(tokenAmount.replaceAll(',', ''));
 
   const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
@@ -100,12 +105,6 @@ const LendInJewelSwap = () => {
       console.log({ e });
     }
   };
-
-  const { tokenValue, tokenAmount } = useSelector<StateType, OrganizationToken>(
-    organizationTokenByIdentifierSelector('EGLD'),
-  );
-
-  const numberTokenAmount = Number(tokenAmount.replaceAll(',', ''));
 
   return (
     <Box pb={'70px'}>

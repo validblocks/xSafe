@@ -6,9 +6,12 @@ import {
   OutlinedInput,
   SelectChangeEvent,
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
+import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
-import { StyledPagination, PaginationSelect } from 'src/components/Theme/StyledComponents';
+import {
+  StyledPagination,
+  PaginationSelect,
+} from 'src/components/Theme/StyledComponents';
 
 type Props = {
   data: any;
@@ -21,81 +24,85 @@ type Props = {
   totalPages: number;
 };
 
-const PaginationWithItemsPerPage = memo(({
-  data,
-  setParentItemsPerPage,
-  setParentCurrentPage,
-  setParentDataForCurrentPage,
-  setParentTotalPages,
-  currentPage,
-  itemsPerPage,
-  totalPages,
-}: Props) => {
-  const { t } = useTranslation();
+const PaginationWithItemsPerPage = memo(
+  ({
+    data,
+    setParentItemsPerPage,
+    setParentCurrentPage,
+    setParentDataForCurrentPage,
+    setParentTotalPages,
+    currentPage,
+    itemsPerPage,
+    totalPages,
+  }: Props) => {
+    const t = useCustomTranslation();
 
-  useEffect(() => {
-    if (!data) return;
+    useEffect(() => {
+      if (!data) return;
 
-    const lastIndexOfCurrentPage = currentPage * itemsPerPage;
-    const firstIndexOfCurrentpage = lastIndexOfCurrentPage - itemsPerPage;
-    const currentData = data.slice(
-      firstIndexOfCurrentpage,
-      lastIndexOfCurrentPage,
+      const lastIndexOfCurrentPage = currentPage * itemsPerPage;
+      const firstIndexOfCurrentpage = lastIndexOfCurrentPage - itemsPerPage;
+      const currentData = data.slice(
+        firstIndexOfCurrentpage,
+        lastIndexOfCurrentPage,
+      );
+
+      setParentDataForCurrentPage(currentData);
+    }, [data, currentPage, itemsPerPage, setParentDataForCurrentPage]);
+
+    useEffect(() => {
+      if (!data) return;
+      setParentTotalPages(Math.ceil(data.length / itemsPerPage));
+    }, [data, itemsPerPage, setParentTotalPages]);
+
+    const handleChange = (
+      _event: React.ChangeEvent<unknown>,
+      value: number,
+    ) => {
+      setParentCurrentPage(value);
+    };
+
+    const handleChangeOnActionsPerPage = (event: SelectChangeEvent) => {
+      setParentCurrentPage(1);
+      setParentItemsPerPage(Number(event.target.value));
+    };
+
+    return (
+      <CenteredBox
+        sx={{
+          padding: '1rem 0',
+          justifyContent: 'end !important',
+          gap: '2rem',
+        }}
+      >
+        <CenteredBox>
+          <StyledPagination
+            onChange={handleChange}
+            count={totalPages}
+            shape="rounded"
+          />
+        </CenteredBox>
+        <CenteredBox sx={{ display: 'flex' }}>
+          <Box>{t('Actions per page') as string}</Box>
+          <FormControl sx={{ m: 1, minWidth: 50 }}>
+            <PaginationSelect
+              value={itemsPerPage.toString()}
+              size="small"
+              onChange={handleChangeOnActionsPerPage as any}
+              displayEmpty
+              inputProps={{ 'aria-label': 'Without label' }}
+              input={<OutlinedInput />}
+            >
+              <MenuItem value={10}>10</MenuItem>
+              <MenuItem value={15}>15</MenuItem>
+              <MenuItem value={20}>20</MenuItem>
+              <MenuItem value={25}>25</MenuItem>
+            </PaginationSelect>
+          </FormControl>
+        </CenteredBox>
+      </CenteredBox>
     );
-
-    setParentDataForCurrentPage(currentData);
-  }, [data, currentPage, itemsPerPage, setParentDataForCurrentPage],
-  );
-
-  useEffect(() => {
-    if (!data) return;
-    setParentTotalPages(Math.ceil(data.length / itemsPerPage));
-  }, [data, itemsPerPage, setParentTotalPages]);
-
-  const handleChange = (_event: React.ChangeEvent<unknown>, value: number) => {
-    setParentCurrentPage(value);
-  };
-
-  const handleChangeOnActionsPerPage = (event: SelectChangeEvent) => {
-    setParentCurrentPage(1);
-    setParentItemsPerPage(Number(event.target.value));
-  };
-
-  return (
-    <CenteredBox
-      sx={{
-        padding: '1rem 0',
-        justifyContent: 'end !important',
-        gap: '2rem',
-      }}
-    >
-      <CenteredBox>
-        <StyledPagination
-          onChange={handleChange}
-          count={totalPages}
-          shape="rounded"
-        />
-      </CenteredBox>
-      <CenteredBox sx={{ display: 'flex' }}>
-        <Box>{t('Actions per page') as string}</Box>
-        <FormControl sx={{ m: 1, minWidth: 50 }}>
-          <PaginationSelect
-            value={itemsPerPage.toString()}
-            size="small"
-            onChange={handleChangeOnActionsPerPage as any}
-            displayEmpty
-            inputProps={{ 'aria-label': 'Without label' }}
-            input={<OutlinedInput />}
-          >
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={15}>15</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
-            <MenuItem value={25}>25</MenuItem>
-          </PaginationSelect>
-        </FormControl>
-      </CenteredBox>
-    </CenteredBox>
-  );
-});
+  },
+);
 
 export default PaginationWithItemsPerPage;

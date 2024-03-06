@@ -1,15 +1,19 @@
 import { memo, useMemo } from 'react';
-import { useApps } from 'src/utils/useApps';
+import { useApps } from 'src/hooks/useApps';
 import AppNotInstalled from './AppNotInstalled';
 
-export const withInstallGuard = (appId: string, wrappedComponent: React.ComponentType) => () => {
-  const { isAppInstalled } = useApps();
-  const Memoized = memo(wrappedComponent);
-  const isAppReachable = useMemo(() => isAppInstalled(appId), [isAppInstalled]);
+export const withInstallGuard =
+  (appId: string, wrappedComponent: React.ComponentType) => () => {
+    const { isAppInstalled } = useApps();
+    const Memoized = memo(wrappedComponent);
+    const isAppReachable = useMemo(
+      () => isAppInstalled(appId),
+      [isAppInstalled],
+    );
 
-  if (!isAppReachable) {
-    return <AppNotInstalled />;
-  }
+    if (!isAppReachable) {
+      return <AppNotInstalled />;
+    }
 
-  return <Memoized />;
-};
+    return <Memoized />;
+  };

@@ -1,12 +1,10 @@
 import DiamondIcon from '@mui/icons-material/Diamond';
 import PaidOutlinedIcon from '@mui/icons-material/PaidOutlined';
-import {
-  Box, Button, Modal, Grid,
-} from '@mui/material';
+import { Box, Button, Modal, Grid } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ProposalsTypes } from 'src/types/Proposals';
+import { ProposalsTypes } from 'src/types/multisig/proposals/Proposals';
 
 const style = {
   position: 'absolute' as const,
@@ -21,8 +19,7 @@ const style = {
 };
 
 const SidebarSelectOptionModal = () => {
-  const [open, setOpen] =
-    useState(false);
+  const [open, setOpen] = useState(false);
   const handleClose = () => setOpen(false);
   const dispatch = useDispatch();
 

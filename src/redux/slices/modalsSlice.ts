@@ -1,7 +1,10 @@
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { MultisigActionType } from 'src/types/MultisigActionType';
-import { ModalOptionType, SelectedOptionType } from 'src/types/Proposals';
+import { MultisigActionType } from 'src/types/multisig/MultisigActionType';
+import {
+  ModalOptionType,
+  SelectedOptionType,
+} from 'src/types/multisig/proposals/Proposals';
 import { NFTType } from 'src/types/nfts';
 import { logoutAction } from '../commonActions';
 
