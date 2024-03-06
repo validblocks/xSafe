@@ -7,14 +7,12 @@ type Props = {
     properties: Record<string, boolean>;
     tokenTicker: string;
     tokenName: string;
-  }
+  };
 };
 
-const IssueNftCollectionProposalPresentation = ({ parsedArgs: {
-  properties,
-  tokenTicker,
-  tokenName,
-} }: Props) => (
+const IssueNftCollectionProposalPresentation = ({
+  parsedArgs: { properties, tokenTicker, tokenName },
+}: Props) => (
   <Box>
     <Box display="flex">
       <PropertyKeyBox propertyKey={'Token Name'} />
@@ -22,14 +20,13 @@ const IssueNftCollectionProposalPresentation = ({ parsedArgs: {
     </Box>
     <Box>
       <PropertyKeyBox propertyKey={'Properties'} />
-      <Box px={2}>{
-        Object.entries(properties).map(([key, value]: [string, boolean]) => (
-          <Box display="flex">
+      <Box px={2}>
+        {Object.entries(properties).map(([key, value]: [string, boolean]) => (
+          <Box key={key} display="flex">
             <PropertyKeyBox propertyKey={key} />
             <PropertyValueBox value={value.toString()} />
           </Box>
-        ))
-      }
+        ))}
       </Box>
     </Box>
     <Box display="flex">
