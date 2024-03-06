@@ -1,31 +1,32 @@
-import {
-  Box,
-  Divider,
-  OutlinedInput,
-  useMediaQuery,
-} from '@mui/material';
+import { Box, Divider, OutlinedInput, useMediaQuery } from '@mui/material';
 import { motion } from 'framer-motion';
 import { useDispatch } from 'react-redux';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { FormSearchInput } from 'src/components/Theme/StyledComponents';
 import SearchIcon from 'src/assets/img/searchFilled.svg';
 import { setNavbarSearchParam } from 'src/redux/slices/searchSlice';
-import useDebounce from 'src/utils/useDebounce';
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import useDebounce from 'src/hooks/useDebounce';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import ListGridViewSelection from './ListGridViewSelection';
-import CardDetailsViewSelection from './CardDetailsViewSelection';
+import { CardDetailsViewSelection } from './CardDetailsViewSelection';
 import NftControlledGrid from './NftControlledGrid';
 
 interface NftPageContextType {
   hasNftDetailsEnabled: boolean;
 }
 
-const NftPageContext = createContext<NftPageContextType>(
-  { hasNftDetailsEnabled: true } as NftPageContextType,
-);
+const NftPageContext = createContext<NftPageContextType>({
+  hasNftDetailsEnabled: true,
+} as NftPageContextType);
 
-export const useNftPageContext = () =>
-  useContext(NftPageContext);
+export const useNftPageContext = () => useContext(NftPageContext);
 
 function NftComponent() {
   const maxWidth600 = useMediaQuery('(max-width:600px)');
@@ -39,26 +40,28 @@ function NftComponent() {
 
   const handleSearchInputChange = useCallback(
     (e: any) => setSearchParam(e.target.value),
-    []);
+    [],
+  );
 
   useEffect(() => {
     dispatch(setNavbarSearchParam(debouncedSearchParam));
   }, [dispatch, debouncedSearchParam]);
 
   return (
-    <NftPageContext.Provider value={useMemo(() => ({
-      hasNftDetailsEnabled: areNftDetailsEnabled,
-    }),
-    [areNftDetailsEnabled])}
+    <NftPageContext.Provider
+      value={useMemo(
+        () => ({
+          hasNftDetailsEnabled: areNftDetailsEnabled,
+        }),
+        [areNftDetailsEnabled],
+      )}
     >
       <Box
         padding="0"
         paddingBottom={
-        // eslint-disable-next-line no-nested-ternary
-        maxWidth600
-          ? isGroupedByCollection ? '60px' : '70px'
-          : 0
-      }
+          // eslint-disable-next-line no-nested-ternary
+          maxWidth600 ? (isGroupedByCollection ? '60px' : '70px') : 0
+        }
       >
         <Box>
           <Box
@@ -80,13 +83,18 @@ function NftComponent() {
                 <Box component="form" noValidate autoComplete="off">
                   <FormSearchInput>
                     <img src={SearchIcon} />
-                    <OutlinedInput onChange={handleSearchInputChange} placeholder="Search..." />
+                    <OutlinedInput
+                      onChange={handleSearchInputChange}
+                      placeholder="Search..."
+                    />
                   </FormSearchInput>
                 </Box>
               </Box>
             </Box>
             <Box display="flex" alignItems="center" justifyContent="flex-end">
-              <ListGridViewSelection setIsGroupedByCollection={setIsGroupedByCollection} />
+              <ListGridViewSelection
+                setIsGroupedByCollection={setIsGroupedByCollection}
+              />
               <Divider
                 sx={{
                   marginLeft: '0.5rem',
@@ -95,7 +103,9 @@ function NftComponent() {
                 }}
                 orientation="vertical"
               />
-              <CardDetailsViewSelection setAreNftDetailsEnabled={setAreNftDetailsEnabled} />
+              <CardDetailsViewSelection
+                setAreNftDetailsEnabled={setAreNftDetailsEnabled}
+              />
             </Box>
           </Box>
         </Box>
@@ -103,7 +113,9 @@ function NftComponent() {
           component={motion.div}
           exit={{ opacity: 0 }}
           sx={{
-            border: isGroupedByCollection ? 'none' : '1px solid rgb(30, 29, 42)',
+            border: isGroupedByCollection
+              ? 'none'
+              : '1px solid rgb(30, 29, 42)',
             borderBottomRightRadius: '4px',
             borderBottomLeftRadius: '4px',
             paddingRight: isGroupedByCollection ? 0 : '16px',
@@ -111,9 +123,7 @@ function NftComponent() {
             paddingBottom: isGroupedByCollection ? 0 : '16px',
           }}
         >
-          <NftControlledGrid
-            isGroupedByCollection={isGroupedByCollection}
-          />
+          <NftControlledGrid isGroupedByCollection={isGroupedByCollection} />
         </Box>
       </Box>
     </NftPageContext.Provider>

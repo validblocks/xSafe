@@ -1,6 +1,6 @@
 import { Grid, useMediaQuery } from '@mui/material';
-import NoActionsOverlay from 'src/pages/Transactions/utils/NoActionsOverlay';
-import { useContractNFTs } from 'src/utils/useContractNFTs';
+import NoActionsOverlay from 'src/components/Utils/NoActionsOverlay';
+import { useContractNFTs } from 'src/hooks/useContractNFTs';
 import { useSelector } from 'react-redux';
 import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
@@ -11,17 +11,13 @@ const NftsUngrouped = () => {
   const navbarSearchParam = useSelector(navbarSearchSelector);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
-  const {
-    isFetchingNFTs,
-    isLoadingNFTs,
-    isErrorOnFetchNFTs,
-    contractNfts,
-  } = useContractNFTs({
-    withSearchFilter: true,
-    searchParam: navbarSearchParam,
-    leaveSftsLast: true,
-    groupByCollection: false,
-  });
+  const { isFetchingNFTs, isLoadingNFTs, isErrorOnFetchNFTs, contractNfts } =
+    useContractNFTs({
+      withSearchFilter: true,
+      searchParam: navbarSearchParam,
+      leaveSftsLast: true,
+      groupByCollection: false,
+    });
 
   if (isErrorOnFetchNFTs) {
     return <ErrorOnFetchIndicator dataName="NFT" />;
@@ -40,11 +36,7 @@ const NftsUngrouped = () => {
       </Grid>
     );
   }
-  return (
-    <NftGrid
-      nfts={contractNfts}
-    />
-  );
+  return <NftGrid nfts={contractNfts} />;
 };
 
 export default NftsUngrouped;

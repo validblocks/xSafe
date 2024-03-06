@@ -7,10 +7,12 @@ import ImageWithDetailsIcon from 'src/assets/img/ImageWithDetailsIcon.svg';
 import GridIcon from './GridIcon';
 
 interface Props {
-  setAreNftDetailsEnabled: React.Dispatch<React.SetStateAction<boolean>>
+  setAreNftDetailsEnabled: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const CardDetailsViewSelection = ({ setAreNftDetailsEnabled }: Props) => {
+export const CardDetailsViewSelection = ({
+  setAreNftDetailsEnabled,
+}: Props) => {
   const [isSimplePhoto, setIsSimplePhoto] = useState(false);
   const simplePhotoClick = useCallback(() => {
     if (!isSimplePhoto) setIsSimplePhoto(true);
@@ -30,10 +32,12 @@ export const CardDetailsViewSelection = ({ setAreNftDetailsEnabled }: Props) => 
         <GridIcon svgUrl={isSimplePhoto ? ImageIconActive : ImageIcon} />
       </Box>
       <Box onClick={photoWithDetailsClick}>
-        <GridIcon svgUrl={!isSimplePhoto ? ImageWithDetailsIconActive : ImageWithDetailsIcon} />
+        <GridIcon
+          svgUrl={
+            !isSimplePhoto ? ImageWithDetailsIconActive : ImageWithDetailsIcon
+          }
+        />
       </Box>
     </>
   );
 };
-
-export default CardDetailsViewSelection;

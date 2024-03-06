@@ -1,47 +1,6 @@
 import Card from '@mui/material/Card';
 import styled from 'styled-components';
 
-export const EmptyList = styled.p`
-  font-size: 15px !important;
-  font-weight: 600 !important;
-  opacity: 0.5;
-  color: ${(props) => props.theme.palette.text.secondary}
-`;
-
-export const CollectionName = styled.div`
-  width: 100%;
-  padding-bottom: 24px;
-  color: ${(props) => props.theme.palette.text.primary}
-`;
-
-export const TextDivider = styled.div`
-  margin-top: 0;
-  position: relative;
-  & .collectionLight{
-    font-weight: 500;
-    font-size: 11px;
-    color: #7A7883; 
-  }
-  & div {
-    display: flex;
-    align-items: center;
-    span:nth-child(1){
-      font-size: 16px;
-    }
-    span:nth-child(2){
-      margin: 0 0 1px .4rem;
-      line-height: 1;
-    }
-    :after {
-      content: '';
-      width: 100%;
-      height: 1px;
-      margin: 1px 0 0 .4rem;
-      background-color: #DFDFE8;
-    }
-  }
-`;
-
 export const CardBox = styled(Card)`
 &&& {
   height: ${(props) => props.height};

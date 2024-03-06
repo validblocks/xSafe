@@ -1,8 +1,14 @@
 /* eslint-disable no-nested-ternary */
 import React, { useMemo } from 'react';
-import { Typography, AccordionDetails, Box, Grid, useMediaQuery } from '@mui/material';
+import {
+  Typography,
+  AccordionDetails,
+  Box,
+  Grid,
+  useMediaQuery,
+} from '@mui/material';
 import { NFTType } from 'src/types/nfts';
-import MemberPresentationWithPhoto from 'src/pages/Organization/MemberPresentationWithPhoto';
+import MemberPresentationWithPhoto from 'src/components/Utils/MemberPresentationWithPhoto';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import Accordion from '@mui/material/Accordion';
@@ -35,21 +41,32 @@ function NftPresentation({ nft }: Props) {
           }}
         >
           {isSFT && (
-          <SftBalanceAnnouncer sx={{ left: 20, bottom: 7 }}>
-            <Text textAlign="center" width="100%" fontWeight={700} fontSize={12}>{nft.balance as string}</Text>
-          </SftBalanceAnnouncer>
+            <SftBalanceAnnouncer sx={{ left: 20, bottom: 7 }}>
+              <Text
+                textAlign="center"
+                width="100%"
+                fontWeight={700}
+                fontSize={12}
+              >
+                {nft.balance as string}
+              </Text>
+            </SftBalanceAnnouncer>
           )}
-          <img src={nft.media?.[0].thumbnailUrl} alt="Nft Preview" className="rounded mr-2 w-100" />
+          <img
+            src={nft.media?.[0].thumbnailUrl}
+            alt="Nft Preview"
+            className="rounded mr-2 w-100"
+          />
         </Grid>
-
       </Grid>
-      <Accordion sx={{
-        background: '#D6CFFF1A',
-        border: '1px solid #D6CFFF1A',
-        color: '#fff',
-        borderRadius: '4px',
-        mb: 2,
-      }}
+      <Accordion
+        sx={{
+          background: '#D6CFFF1A',
+          border: '1px solid #D6CFFF1A',
+          color: '#fff',
+          borderRadius: '4px',
+          mb: 2,
+        }}
       >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon sx={{ color: '#ddd' }} />}
@@ -59,25 +76,28 @@ function NftPresentation({ nft }: Props) {
           <Typography>More Details</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Grid
-            item
-            xs={12}
-          >
+          <Grid item xs={12}>
             <Box>
               <Box pb={2} display="flex" justifyContent="space-between">
                 <Text fontWeight={600}>Token ID:</Text>
                 <Text>{nft.name}</Text>
               </Box>
               <Box pb={2} display="flex" justifyContent="space-between">
-                <Text fontWeight={600} mr={1}>Royalties:</Text>
+                <Text fontWeight={600} mr={1}>
+                  Royalties:
+                </Text>
                 <Text>{nft.royalties}%</Text>
               </Box>
               <Box pb={2} display="flex" justifyContent="space-between">
-                <Text fontWeight={600} mr={1}>Rank:</Text>
+                <Text fontWeight={600} mr={1}>
+                  Rank:
+                </Text>
                 <Text>#{nft.rank}</Text>
               </Box>
               <Box display="flex" justifyContent="space-between">
-                <Text fontWeight={600} mr={1}>Token Type:</Text>
+                <Text fontWeight={600} mr={1}>
+                  Token Type:
+                </Text>
                 <Text>{nft.type}</Text>
               </Box>
             </Box>
@@ -86,50 +106,55 @@ function NftPresentation({ nft }: Props) {
       </Accordion>
 
       {nft.metadata?.attributes?.length > 0 && (
-      <Accordion sx={{
-        background: '#D6CFFF1A',
-        border: '1px solid #D6CFFF1A',
-        color: '#fff',
-        borderRadius: '4px',
-        mb: 2,
-      }}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon sx={{ color: '#ddd' }} />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
+        <Accordion
+          sx={{
+            background: '#D6CFFF1A',
+            border: '1px solid #D6CFFF1A',
+            color: '#fff',
+            borderRadius: '4px',
+            mb: 2,
+          }}
         >
-          <Typography>Attributes ({ nft.metadata?.attributes?.length})</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Grid
-            item
-            xs={12}
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon sx={{ color: '#ddd' }} />}
+            aria-controls="panel1a-content"
+            id="panel1a-header"
           >
-            <Box>
-              {
-                  nft.metadata?.attributes?.map((attribute: {value: string, trait_type: string}) => (
-                    <Box pb={2} display="flex" justifyContent="space-between">
+            <Typography>
+              Attributes ({nft.metadata?.attributes?.length})
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <Grid item xs={12}>
+              <Box>
+                {nft.metadata?.attributes?.map(
+                  (attribute: { value: string; trait_type: string }) => (
+                    <Box
+                      key={`${attribute.trait_type}-${attribute.value}`}
+                      pb={2}
+                      display="flex"
+                      justifyContent="space-between"
+                    >
                       <Text fontWeight={600}>{attribute.trait_type}:</Text>
                       <Text overflow="hidden">{attribute.value}</Text>
                     </Box>
-                  ))
-                }
-            </Box>
-          </Grid>
-        </AccordionDetails>
-      </Accordion>
+                  ),
+                )}
+              </Box>
+            </Grid>
+          </AccordionDetails>
+        </Accordion>
       )}
 
-      <Box sx={{
-        p: '8px 16px',
-        height: '100%',
-        background: '#D6CFFF1A',
-        border: '1px solid #D6CFFF1A',
-        borderRadius: '4px',
-      }}
+      <Box
+        sx={{
+          p: '8px 16px',
+          height: '100%',
+          background: '#D6CFFF1A',
+          border: '1px solid #D6CFFF1A',
+          borderRadius: '4px',
+        }}
       >
-
         <Typography sx={{ mb: '0.5rem', fontWeight: 500 }}>
           <Text>Sending from:</Text>
         </Typography>
@@ -138,7 +163,6 @@ function NftPresentation({ nft }: Props) {
           charactersLeftAfterTruncation={15}
         />
       </Box>
-
     </Box>
   );
 }
