@@ -1,15 +1,20 @@
 import { TextField, useMediaQuery } from '@mui/material';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
-import { FormikRoundedCheckBox, InputWrapper } from 'src/components/Theme/StyledComponents';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
+import {
+  FormikRoundedCheckBox,
+  InputWrapper,
+} from 'src/components/Theme/StyledComponents';
 import React, { useCallback } from 'react';
 
 export interface FormikInputFieldPropsType {
   label: string;
   name: string;
-  value: any;
-  error?: string | boolean | string[];
-  handleChange?: (e: any) => void;
-  handleBlur?: (e: any) => void;
+  value: string;
+  error?: string | false | string[];
+  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBlur?: (
+    e: React.FocusEvent<HTMLInputElement, HTMLInputElement>,
+  ) => void;
   footer?: React.ReactElement;
   disabled?: boolean;
   className?: string;
@@ -20,7 +25,7 @@ interface FormikCheckboxPropsType {
   label: string;
   name: string;
   checked: boolean;
-  handleChange?: (e: any) => void;
+  handleChange?: FormikInputFieldPropsType['handleChange'];
 }
 
 export const FormikInputField = ({
@@ -36,13 +41,20 @@ export const FormikInputField = ({
   type = 'text',
 }: FormikInputFieldPropsType) => {
   const theme = useCustomTheme();
-
   const minWidth600 = useMediaQuery('(min-width:600px)');
-  const focusInput = useCallback((input: any) => { if (minWidth600) input?.focus(); }, [minWidth600]);
+
+  const focusInput = useCallback(
+    (input: HTMLInputElement) => {
+      if (minWidth600) input?.focus();
+    },
+    [minWidth600],
+  );
 
   return (
     <div>
-      <InputWrapper className={error != null ? 'input-wrapper invalid' : 'input-wrapper'}>
+      <InputWrapper
+        className={error != null ? 'input-wrapper invalid' : 'input-wrapper'}
+      >
         <TextField
           variant="outlined"
           label={label}
