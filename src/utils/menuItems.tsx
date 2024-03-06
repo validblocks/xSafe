@@ -10,7 +10,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import SettingsIcon from '@mui/icons-material/Settings';
 import StorefrontOutlinedIcon from '@mui/icons-material/StorefrontOutlined';
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined';
-import { AppIdentifiers } from 'src/pages/Marketplace/appIds';
+import { AppIdentifiers } from 'src/components/Marketplace/appIds';
 import StakeAppThumbnail from 'src/assets/img/StakeAppThumbnail.png';
 import OtherAppThumbnailLight from 'src/assets/img/OtherAppThumbnailLight.png';
 import OtherAppThumbnailDark from 'src/assets/img/OtherAppThumbnailDark.png';
@@ -27,7 +27,6 @@ export type MenuItem = {
   description?: string;
   id: string;
   submenu?: MenuItem[];
-
 };
 
 export type MarketplaceApp = MenuItem & {
@@ -63,6 +62,18 @@ export const availableApps: MarketplaceApp[] = [
     imageUrlDark: StakeAppThumbnailDark,
     isInstallable: true,
   },
+  {
+    name: 'Transaction Builder',
+    title: 'Transaction Builder',
+    link: 'transaction-builder',
+    id: AppIdentifiers.TransactionBuilder,
+    description:
+      'Compose custom smart contract interactions and create proposals.',
+    icon: <img src={StakingIcon} />,
+    imageUrlLight: StakeAppThumbnail,
+    imageUrlDark: StakeAppThumbnailDark,
+    isInstallable: true,
+  },
 
   ...appsWithRouteConfig.map((app) => ({
     name: app.name,
@@ -80,7 +91,8 @@ export const availableApps: MarketplaceApp[] = [
     title: 'Address Book',
     link: 'app-coming-soon',
     id: 'app-coming-soon-2-menu-sub-item',
-    description: 'Save a list of frequently used addresses. They will be available for further use.',
+    description:
+      'Save a list of frequently used addresses. They will be available for further use.',
     icon: <DiamondIcon />,
     imageUrlLight: OtherAppThumbnailLight,
     imageUrlDark: OtherAppThumbnailDark,
@@ -137,9 +149,7 @@ const topItems: MenuItem[] = [
     link: 'apps',
     id: 'apps-menu-item',
     icon: <AppsIcon />,
-    submenu: [
-      ...preinstalledApps,
-    ],
+    submenu: [...preinstalledApps],
   },
   {
     name: 'Organization',
@@ -219,9 +229,7 @@ const mobileBottomItems = [
     link: 'apps',
     id: 'apps-mobile-menu-item',
     icon: <AppsIcon />,
-    submenu: [
-      ...preinstalledApps,
-    ],
+    submenu: [...preinstalledApps],
   },
 ];
 
@@ -261,4 +269,10 @@ const mobileDropDownItems = [
   },
 ];
 
-export default { topItems, bottomItems, mobileBottomItems, availableApps, mobileDropDownItems };
+export default {
+  topItems,
+  bottomItems,
+  mobileBottomItems,
+  availableApps,
+  mobileDropDownItems,
+};

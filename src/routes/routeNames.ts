@@ -31,4 +31,6 @@ export default {
   settings: '/settings',
 
   addressBook: '/address-book',
+
+  transactionBuilder: '/transaction-builder',
 };
