@@ -5,9 +5,9 @@ import { makeStyles } from '@mui/styles';
 import { useQueryClient } from 'react-query';
 import { TransactionAccordion } from 'src/components/StyledComponents/transactions';
 import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItemsPerPage';
-import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
+import { useOrganizationInfoContext } from 'src/components/Providers/OrganizationInfoContextProvider';
 import { QueryKeys } from 'src/react-query/queryKeys';
-import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
+import { MultisigActionDetailed } from 'src/types/multisig/MultisigActionDetailed';
 import {
   currentMultisigContractSelector,
   currentMultisigTransactionIdSelector,
@@ -15,14 +15,14 @@ import {
 import { useSelector } from 'react-redux';
 import { ArrowDropDown } from '@mui/icons-material';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
-import { useTranslation } from 'react-i18next';
-import { usePendingActions } from 'src/utils/usePendingActions';
+import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
+import { usePendingActions } from 'src/hooks/usePendingActions';
 import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
 import { Box, useMediaQuery } from '@mui/material';
-import PendingActionSummary from './PendingActionSummary';
-import TransactionActionsCard from './TransactionActionsCard';
-import TransactionDescription from './TransactionDescription';
-import NoActionsOverlay from './utils/NoActionsOverlay';
+import PendingActionSummary from '../../components/Transactions/PendingActionSummary';
+import TransactionActionsCard from '../../components/Transactions/TransactionActionsCard';
+import TransactionDescription from '../../components/Transactions/TransactionDescription';
+import NoActionsOverlay from '../../components/Utils/NoActionsOverlay';
 import { motion } from 'framer-motion';
 
 const useStyles = makeStyles(() => ({
@@ -47,7 +47,7 @@ const TransactionQueue = () => {
     MultisigActionDetailed[]
   >([]);
   const [expanded, setExpanded] = React.useState<string | false>(false);
-  const { t } = useTranslation();
+  const t = useCustomTranslation();
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 

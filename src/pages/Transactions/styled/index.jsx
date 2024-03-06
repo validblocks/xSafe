@@ -1,6 +1,6 @@
 import { TimelineSeparator } from '@mui/lab';
 import { Box } from '@mui/material';
-import { CardBox } from 'src/components/NftComponent/nft-style';
+import { CardBox } from 'src/components/Nfts/nft-style';
 import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
 import styled from 'styled-components';
 
