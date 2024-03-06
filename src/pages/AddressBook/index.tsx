@@ -15,14 +15,14 @@ import { Modal } from 'react-bootstrap';
 
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import { AddressBook as AddressBookType } from 'src/pages/Organization/types';
+import { AddressBook as AddressBookType } from 'src/types/organization';
 import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
 import { addEntry, removeEntry } from 'src/redux/slices/addressBookSlice';
 import { RootState } from 'src/redux/store';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import ExportModal from './ExportModal';
-import ImportModal from './ImportModal';
-import NewEntryModal from './NewEntryModal';
+import ExportModal from '../../components/Modals/AddressBook/ExportModal';
+import ImportModal from '../../components/Modals/AddressBook/ImportModal';
+import NewEntryModal from '../../components/Modals/AddressBook/NewEntryModal';
 
 const AddressBook = () => {
   const dispatch = useDispatch();
@@ -54,12 +54,16 @@ const AddressBook = () => {
       // eslint-disable-next-line react/no-unstable-nested-components
       getActions: (params: any) => [
         <GridActionsCellItem
+          placeholder=""
+          showInMenu
           key={params.id}
           icon={<DeleteIcon />}
           label="Delete"
           onClick={() => onRemoveEntry(params.id)}
         />,
         <GridActionsCellItem
+          placeholder=""
+          showInMenu
           key={params.id}
           icon={<EditIcon />}
           label="Edit Entry"
@@ -124,7 +128,9 @@ const AddressBook = () => {
       name: '',
     },
     onSubmit: ({ address, name }) => {
-      dispatch(addEntry({ address, name, contractAddress: currentContract?.address }));
+      dispatch(
+        addEntry({ address, name, contractAddress: currentContract?.address }),
+      );
       setModalState(false);
     },
     validationSchema,
