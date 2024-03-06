@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import * as StyledRemote from 'src/pages/MultisigDetails/ProposeMultiselectModal/styled';
-import { useTranslation } from 'react-i18next';
+import * as StyledRemote from 'src/components/MultisigDetails/ProposeMultiselectModal/styled';
+import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { MaxSendEGLDButton } from 'src/components/Theme/StyledComponents';
 import { NumericFormat } from 'react-number-format';
 import { useCallback } from 'react';
@@ -8,7 +8,7 @@ import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accou
 import { useSelector } from 'react-redux';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { FormikProps } from 'formik';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { Text } from '../StyledComponents/StyledComponents';
 import TokenSelection from './TokenSelection';
 import TokenPresentationWithPrice from './TokenPresentationWithPrice';
@@ -42,7 +42,7 @@ const AmountInputWithTokenSelection = ({
     isEsdtOrEgldRelated: true,
   },
 }: IProps) => {
-  const { t } = useTranslation();
+  const t = useCustomTranslation();
   const theme = useCustomTheme();
   const { identifier = 'EGLD' } = useSelector(selectedTokenToSendSelector);
 

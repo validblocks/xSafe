@@ -1,5 +1,5 @@
 import { Box } from '@mui/system';
-import { useTranslation } from 'react-i18next';
+import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
 
 type Props = {
@@ -7,12 +7,14 @@ type Props = {
 };
 
 const ErrorOnFetchIndicator = ({ dataName }: Props) => {
-  const { t } = useTranslation();
+  const t = useCustomTranslation();
   return (
     <CenteredBox
       sx={{ justifyContent: 'start !important', marginTop: '1.5rem' }}
     >
-      <Box sx={{ marginLeft: '10px' }}>{t(`Error fetching ${dataName}s`) as string}.</Box>
+      <Box sx={{ marginLeft: '10px' }}>
+        {t(`Error fetching ${dataName}s`) as string}.
+      </Box>
     </CenteredBox>
   );
 };
