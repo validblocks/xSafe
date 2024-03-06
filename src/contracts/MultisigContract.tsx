@@ -15,7 +15,7 @@ import {
   ResultsParser,
   Account,
 } from '@multiversx/sdk-core';
-import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
+import BigNumber from 'bignumber.js';
 import { NumericalBinaryCodec } from '@multiversx/sdk-core/out/smartcontracts/codec/numerical';
 import {
   AddressValue,
@@ -32,25 +32,25 @@ import {
   minGasLimit,
   issueTokenContractAddress,
   network,
-  xSpotlightContractAddress,
 } from 'src/config';
-import { parseAction, parseActionDetailed } from 'src/helpers/converters';
+import { parseActionDetailed } from 'src/helpers/converters';
 import { currentMultisigAddressSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { MultisigAction } from 'src/types/MultisigAction';
-import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { MultisigContractFunction } from 'src/types/multisigFunctionNames';
-import { MultisigIssueToken } from 'src/types/MultisigIssueToken';
-import { MultisigSendNft } from 'src/types/MultisigSendNft';
-import { MultisigSendToken } from 'src/types/MultisigSendToken';
+import { MultisigAction } from 'src/types/multisig/MultisigAction';
+import { MultisigActionDetailed } from 'src/types/multisig/MultisigActionDetailed';
+import { MultisigContractFunction } from 'src/types/multisig/multisigFunctionNames';
+import { MultisigIssueToken } from 'src/types/multisig/proposals/MultisigIssueToken';
+import { MultisigSendNft } from 'src/types/multisig/proposals/MultisigSendNft';
+import { MultisigSendToken } from 'src/types/multisig/proposals/MultisigSendToken';
 import { setCurrentMultisigTransactionId } from 'src/redux/slices/multisigContractsSlice';
 import { store } from 'src/redux/store';
-import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
+import { ApiNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
-import { MultisigSendSft } from 'src/types/MultisigSendSft';
+import { MultisigSendSft } from 'src/types/multisig/proposals/MultisigSendSft';
 import { getChainID } from '@multiversx/sdk-dapp/utils';
+import { MultisigActionParserInstance } from 'src/utils/parsers/actions/MultisigActionsParser';
 
 const proposeDeployGasLimit = 256_000_000;
-const proxy = new ProxyNetworkProvider(network?.apiAddress ?? '');
+const proxy = new ApiNetworkProvider(network?.apiAddress ?? '');
 
 export async function queryOnContract(
   functionName: string,
@@ -73,10 +73,24 @@ export async function query(functionName: string, ...args: TypedValue[]) {
     store.getState(),
   );
 
+  console.log({ currentMultisigAddress });
+
   const smartContract = new SmartContract({
     address: currentMultisigAddress,
   });
-  const newQuery = new Query({
+  // const newQuery = new Query({
+  //   address: smartContract.getAddress(),
+  //   func: new ContractFunction(functionName),
+  //   args,
+  // });
+
+  const newQuery = smartContract.createQuery({
+    func: new ContractFunction(functionName),
+    caller: new Address(await getAddress()),
+    args,
+  });
+
+  console.log({
     address: smartContract.getAddress(),
     func: new ContractFunction(functionName),
     args,
@@ -151,12 +165,12 @@ export async function sendTransaction(
       store.getState(),
     );
 
-    let contract = new SmartContract({ address: currentMultisigAddress });
+    const contract = new SmartContract({ address: currentMultisigAddress });
 
     const walletAddressBech32 = await getAddress();
     const walletAddress = new Address(walletAddressBech32);
 
-    let transaction = contract.call({
+    const transaction = contract.call({
       caller: walletAddress,
       receiver: currentMultisigAddress,
       func: new ContractFunction(functionName),
@@ -378,35 +392,6 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
   );
 }
 
-export function mutateAuctionNftOnXSpotlight(proposal: MultisigSendNft) {
-  const identifierWithoutNonce = proposal.identifier
-    .split('-')
-    .slice(0, 2)
-    .join('-');
-  const currentMultisigAddress = currentMultisigAddressSelector(
-    store.getState(),
-  );
-
-  const smartContract = new SmartContract({
-    address: currentMultisigAddress,
-  });
-
-  mutateSmartContractCall(
-    new Address(smartContract.getAddress().bech32()),
-    new BigUIntValue(new BigNumber(0)),
-    MultisigContractFunction.ESDT_NFT_TRANSFER,
-    BytesValue.fromUTF8(identifierWithoutNonce),
-    new U32Value(new BigNumber(proposal.nonce)),
-    new U32Value(1),
-    new AddressValue(new Address(xSpotlightContractAddress)),
-    BytesValue.fromUTF8('auctionToken'),
-    BytesValue.fromHex('5af3107a4000'),
-    BytesValue.fromHex(''),
-    BytesValue.fromHex('64c4f7fe'),
-    BytesValue.fromHex('45474c44'),
-  );
-}
-
 export function mutateEsdtSendSft(proposal: MultisigSendSft) {
   const identifierWithoutNonce = proposal.identifier
     .split('-')
@@ -512,65 +497,8 @@ export function queryBoardMemberAddresses(): Promise<Address[]> {
   return queryAddressArray(MultisigContractFunction.GET_ALL_BOARD_MEMBERS);
 }
 
-export function queryProposerAddresses(): Promise<Address[]> {
-  return queryAddressArray(MultisigContractFunction.GET_ALL_PROPOSERS);
-}
-
-export function queryActionSignerAddresses(
-  actionId: number,
-): Promise<Address[]> {
-  return queryAddressArray(
-    MultisigContractFunction.GET_ACTION_SIGNERS,
-    new U32Value(actionId),
-  );
-}
-
-export function queryProposersCount(): Promise<number> {
-  return queryNumber(MultisigContractFunction.GET_NUM_PROPOSERS);
-}
-
 export function queryQuorumCount(): Promise<number> {
   return queryNumber(MultisigContractFunction.GET_QUORUM);
-}
-
-export function queryActionLastId(): Promise<number> {
-  return queryNumber(MultisigContractFunction.GET_ACTION_LAST_INDEX);
-}
-
-export function queryActionSignerCount(actionId: number): Promise<number> {
-  return queryNumber(
-    MultisigContractFunction.GET_ACTION_SIGNER_COUNT,
-    new U32Value(actionId),
-  );
-}
-
-export function queryActionValidSignerCount(actionId: number): Promise<number> {
-  return queryNumber(
-    MultisigContractFunction.GET_ACTION_VALID_SIGNER_COUNT,
-    new U32Value(actionId),
-  );
-}
-
-export function queryActionIsQuorumReached(actionId: number): Promise<boolean> {
-  return queryBoolean(
-    MultisigContractFunction.QUORUM_REACHED,
-    new U32Value(actionId),
-  );
-}
-
-export function queryActionIsSignedByAddress(
-  userAddress: Address,
-  actionId: number,
-): Promise<boolean> {
-  return queryBoolean(
-    MultisigContractFunction.SIGNED,
-    new AddressValue(userAddress),
-    new U32Value(actionId),
-  );
-}
-
-export function queryBoardMembersCount(): Promise<number> {
-  return queryNumber(MultisigContractFunction.GET_NUM_BOARD_MEMBERS);
 }
 
 export async function queryActionContainer(
@@ -585,36 +513,34 @@ export async function queryActionContainer(
 
   const resultsParser = new ResultsParser();
   const parsedResult = resultsParser.parseUntypedQueryResponse(result);
-  const [action] = parseAction(parsedResult.values[0]);
+  const [action] = MultisigActionParserInstance.parseAction(
+    parsedResult.values[0],
+  );
 
   return action;
-}
-
-export function queryActionData(
-  actionId: number,
-): Promise<MultisigAction | null> {
-  return queryActionContainer(
-    MultisigContractFunction.GET_ACTION_DATA,
-    new U32Value(actionId),
-  );
 }
 
 export async function queryActionContainerArray(
   functionName: string,
   ...args: TypedValue[]
 ): Promise<MultisigActionDetailed[]> {
-  const result = await query(functionName, ...args);
+  try {
+    const result = await query(functionName, ...args);
 
-  const resultsParser = new ResultsParser();
-  const parsedResult = resultsParser.parseUntypedQueryResponse(result);
-  const actions = [];
-  for (const buffer of parsedResult.values) {
-    const action = parseActionDetailed(buffer);
-    if (action !== null) {
-      actions.push(action);
+    const resultsParser = new ResultsParser();
+    const parsedResult = resultsParser.parseUntypedQueryResponse(result);
+    const actions = [];
+    for (const buffer of parsedResult.values) {
+      const action = parseActionDetailed(buffer);
+      if (action !== null) {
+        actions.push(action);
+      }
     }
+    return actions;
+  } catch (e) {
+    console.error(e);
+    return [];
   }
-  return actions;
 }
 
 export function queryAllActions(): Promise<MultisigActionDetailed[]> {
