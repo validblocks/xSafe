@@ -322,7 +322,7 @@ export const InputsContainer = styled(Box)`
     & input.form-control {
       width: 100%;
       height: auto;
-      padding: 16.5px 14px;
+      padding: 16px 14px;
       background-color: transparent;
       border: solid 1px ${(props) => props.theme.palette.borders.secondary};
       border-radius: 0.3rem;
@@ -418,16 +418,6 @@ export const InputsContainer = styled(Box)`
   }
 `;
 
-export const StakedEgldAmountContainer = styled(InputsContainer)`
-  display: flex;
-  border: 1px solid ${(props) => props.theme.palette.borders.secondary};
-  border-radius: 4px;
-  box-sizing: border-box;
-  div.MuiOutlinedInput-root {
-    border: none !important;
-  }
-`;
-
 export const DepositDoneAction = styled(Button)`
   &&& {
     background-color: ${(props) => props.theme.palette.primary.main};
@@ -488,6 +478,47 @@ export const ProposeAddressInput = styled(TextField)`
     &.isAddressError {
       & fieldset {
         border-color: ${(props) => props.theme.palette.danger.main} !important;
+      }
+    }
+  }
+`;
+
+export const TextInput = styled(({ sx, className, ...other }) => (
+  <ProposeAddressInput className={className} sx={sx} {...other} />
+))`
+  &&& {
+    & label,
+    & input,
+    & textarea {
+      color: ${(props) => props.theme.palette.text.primary};
+    }
+
+    & fieldset {
+      border-color: ${(props) =>
+        props.theme.palette.borders.secondary} !important;
+    }
+
+    &:hover fieldset {
+      border-color: ${(props) => props.theme.palette.borders.active} !important;
+    }
+
+    & p.MuiFormHelperText-root {
+      margin-left: 0.35rem !important;
+      font-size: 11.2px;
+    }
+
+    &:focus-within {
+      & fieldset {
+        border-color: #4c2ffc !important;
+      }
+      & label {
+        color: ${(props) => props.theme.palette.primary.main};
+      }
+    }
+
+    &.isAddressError:focus-within {
+      & label {
+        color: #e51a3e !important;
       }
     }
   }
