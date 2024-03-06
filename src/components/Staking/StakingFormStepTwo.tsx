@@ -7,16 +7,16 @@ import {
   useRef,
   useState,
 } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
-import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
+import useProviderIdentitiesAfterSelection from 'src/hooks/useProviderIdentitiesAfterSelection';
 import { Address, BigUIntValue, TokenTransfer } from '@multiversx/sdk-core/out';
 import { FormikProps, useFormik } from 'formik';
 import { TestContext } from 'yup';
 import * as Yup from 'yup';
 import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
-import { OrganizationToken } from 'src/pages/Organization/types';
+import { OrganizationToken } from 'src/types/organization';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
@@ -35,7 +35,7 @@ interface IFormValues {
 }
 
 const StakingFormStepTwo = () => {
-  const { t } = useTranslation();
+  const t = useCustomTranslation();
   const selectedProviderIdentifier = useSelector(
     selectedStakingProviderSelector,
   );
@@ -47,7 +47,7 @@ const StakingFormStepTwo = () => {
   const selectedProvider = useMemo(
     () =>
       fetchedProviderIdentities?.find(
-        (provider) => provider.identity === selectedProviderIdentifier,
+        (provider) => provider.id === selectedProviderIdentifier,
       ),
     [fetchedProviderIdentities, selectedProviderIdentifier],
   );
@@ -121,7 +121,7 @@ const StakingFormStepTwo = () => {
 
   const amountError = touched.amount && errors.amount;
 
-  const buttonRef = useRef<any>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
   const [buttonWidth, setButtonWidth] = useState(0);
   const [isProcessingTransaction, setIsProcessingTransaction] = useState(false);
 
@@ -152,14 +152,14 @@ const StakingFormStepTwo = () => {
   ]);
 
   useLayoutEffect(() => {
-    setButtonWidth(buttonRef?.current?.offsetWidth);
+    if (buttonRef.current) setButtonWidth(buttonRef.current.offsetWidth);
   }, []);
 
   const dispatch = useDispatch();
 
-  const closeModal = () => {
+  const closeModal = useCallback(() => {
     dispatch(setProposeMultiselectSelectedOption(null));
-  };
+  }, [dispatch]);
 
   const proposeStake = useCallback(() => {
     setIsProcessingTransaction(true);
@@ -178,7 +178,7 @@ const StakingFormStepTwo = () => {
 
     mutateSmartContractCall(addressParam, amountParam, 'delegate');
     closeModal();
-  }, [formik.values.amount, selectedProvider?.provider]);
+  }, [closeModal, formik.values.amount, selectedProvider?.provider]);
 
   const transactionId = useSelector(currentMultisigTransactionIdSelector);
   useTrackTransactionStatus({

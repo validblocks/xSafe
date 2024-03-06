@@ -7,7 +7,7 @@ import FilledColumn from './FilledColumn';
 import ProviderColumn from './ProviderColumn';
 
 interface Props {
-    provider?: IdentityWithColumns
+  provider?: IdentityWithColumns;
 }
 
 const ProviderPresentation = ({ provider }: Props) => {
@@ -33,31 +33,34 @@ const ProviderPresentation = ({ provider }: Props) => {
   }, [minWidth480]);
 
   if (!provider) {
-    return <div>No provider to show</div>;
+    return <Box my={2}>No provider to show</Box>;
   }
+
   return (
-    <Box
-      height={68}
-      sx={tabletTopBox}
-    >
+    <Box height={68} sx={tabletTopBox}>
       <ProviderColumn columnData={provider.providerColumn} />
-      <Box sx={{
-        display: 'flex',
-        gap: '12px',
-        width: minWidth480 ? 'auto' : '100%',
-        alignItems: 'center',
-        justifyContent: minWidth480 ? '' : 'flex-start',
-      }}
-      >
-        <Box sx={{
+      <Box
+        sx={{
           display: 'flex',
+          gap: '12px',
+          width: minWidth480 ? 'auto' : '100%',
           alignItems: 'center',
+          justifyContent: minWidth480 ? '' : 'flex-start',
         }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
         >
           {!minWidth480 && <Text mr={0.5}>APR:</Text>}
           <APRColumn columnData={provider.aprColumn} />
         </Box>
-        <Divider orientation="vertical" sx={{ borderColor: '#312870', height: '60%' }} />
+        <Divider
+          orientation="vertical"
+          sx={{ borderColor: '#312870', height: '60%' }}
+        />
         <Box
           sx={{
             display: 'flex',

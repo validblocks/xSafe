@@ -2,12 +2,12 @@
 import { Box, Button, Grid, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ProposalsTypes } from 'src/types/Proposals';
+import { ProposalsTypes } from 'src/types/multisig/proposals/Proposals';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { KeyboardEvent, useEffect, useState } from 'react';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import {
   currentMultisigContractSelector,
   currentMultisigTransactionIdSelector,
@@ -17,7 +17,7 @@ import {
   IdentityWithColumns,
   IUndelegatedFunds,
 } from 'src/types/staking';
-import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
+import useProviderIdentitiesAfterSelection from 'src/hooks/useProviderIdentitiesAfterSelection';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import { setActiveDelegationRows } from 'src/redux/slices/accountGeneralInfoSlice';
@@ -49,13 +49,14 @@ const MyStake = () => {
   const [totalActiveStake, setTotalActiveStake] = useState(0);
   const [totalClaimableRewards, setTotalClaimableRewards] =
     useState<string>('0');
-  const [totalUndelegatedFunds, setTotalUndelegatedFunds] =
-    useState(0);
+  const [totalUndelegatedFunds, setTotalUndelegatedFunds] = useState(0);
 
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
   const fetchDelegations = () =>
-    axios.get(`${xSafeApiUrl}/delegations/${currentContract?.address}`).then((r) => r.data);
+    axios
+      .get(`${xSafeApiUrl}/delegations/${currentContract?.address}`)
+      .then((r) => r.data);
 
   const {
     data: fetchedDelegations,
@@ -77,14 +78,14 @@ const MyStake = () => {
     const totalActiveStake = fetchedDelegations.reduce(
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
-          RationalNumber.fromBigInteger(delegation?.userActiveStake ?? 0),
+        RationalNumber.fromBigInteger(delegation?.userActiveStake ?? 0),
       0,
     );
 
     const allClaimableRewards = fetchedDelegations.reduce(
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
-          RationalNumber.fromBigInteger(delegation?.claimableRewards ?? 0),
+        RationalNumber.fromBigInteger(delegation?.claimableRewards ?? 0),
       0,
     );
 
@@ -104,9 +105,8 @@ const MyStake = () => {
 
     const totalUndelegations = contractUndelegations.reduce(
       (totalSum: number, undelegation: IUndelegatedFunds) => {
-        const amount =
-          RationalNumber.fromBigInteger(undelegation?.amount ?? 0);
-        
+        const amount = RationalNumber.fromBigInteger(undelegation?.amount ?? 0);
+
         return totalSum + amount;
       },
       0,
@@ -135,8 +135,8 @@ const MyStake = () => {
 
           const delegatedAmount = delegation
             ? getDenominatedBalance<string>(delegation.userActiveStake, {
-              precisionAfterComma: 4,
-            })
+                precisionAfterComma: 4,
+              })
             : '0';
 
           const claimableRewards =
@@ -166,9 +166,13 @@ const MyStake = () => {
   }, [dispatch, fetchedDelegations, fetchedProviderIdentities]);
 
   const maxWidth804 = useMediaQuery('(max-width:804px)');
-  const widthBetween805and1038 = useMediaQuery('(min-width: 805px) and (max-width: 1038px)');
+  const widthBetween805and1038 = useMediaQuery(
+    '(min-width: 805px) and (max-width: 1038px)',
+  );
 
-  const currentMultisigTransactionId = useSelector(currentMultisigTransactionIdSelector);
+  const currentMultisigTransactionId = useSelector(
+    currentMultisigTransactionIdSelector,
+  );
   useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
     onSuccess: () => {
@@ -176,7 +180,9 @@ const MyStake = () => {
     },
   });
 
-  const allClaimableRewards = Number(Number(totalClaimableRewards).toLocaleString());
+  const allClaimableRewards = Number(
+    Number(totalClaimableRewards).toLocaleString(),
+  );
 
   if (isErrorOnFetchDelegations) {
     return <ErrorOnFetchIndicator dataName="delegation" />;
@@ -193,12 +199,17 @@ const MyStake = () => {
         }}
       >
         <Grid container gap={'12px'} marginBottom={'12px'}>
-          <Grid item width={maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'}>
+          <Grid
+            item
+            width={
+              maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'
+            }
+          >
             <AmountWithTitleCard
               amountValue={totalActiveStake}
               amountUnityMeasure={'EGLD'}
               title={'My Total Stake'}
-              actionButton={(
+              actionButton={
                 <MainButton
                   key="0"
                   variant="outlined"
@@ -218,16 +229,20 @@ const MyStake = () => {
                 >
                   Stake
                 </MainButton>
-              )}
+              }
               isLoading={isLoadingDelegations || isFetchingDelegations}
-
             />
           </Grid>
-          <Grid item width={maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'}>
+          <Grid
+            item
+            width={
+              maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'
+            }
+          >
             <AmountWithTitleCard
               amountValue={allClaimableRewards}
               amountUnityMeasure={'EGLD'}
-              actionButton={(
+              actionButton={
                 <Button
                   variant="outlined"
                   size="medium"
@@ -246,18 +261,22 @@ const MyStake = () => {
                 >
                   {`from ${activeDelegationsRows?.length ?? '0'} Providers`}
                 </Button>
-              )}
+              }
               title={'My Claimable Rewards'}
               isLoading={isLoadingDelegations || isFetchingDelegations}
-
             />
           </Grid>
-          <Grid item width={maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'}>
+          <Grid
+            item
+            width={
+              maxWidth804 ? '100%' : widthBetween805and1038 ? '48.8%' : 'auto'
+            }
+          >
             <AmountWithTitleCard
               amountValue={totalUndelegatedFunds}
               amountUnityMeasure={'EGLD'}
               isLoading={isLoadingDelegations || isFetchingDelegations}
-              actionButton={(
+              actionButton={
                 <MainButton
                   key="0"
                   variant="outlined"
@@ -277,7 +296,7 @@ const MyStake = () => {
                 >
                   Details
                 </MainButton>
-              )}
+              }
               title={'My Undelegated Funds'}
             />
           </Grid>
