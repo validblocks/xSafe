@@ -1,0 +1,54 @@
+.proposal-modal {
+  .selectable-option {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    cursor: pointer;
+  }
+
+  .attach-contract-content {
+    padding-bottom: 40px;
+  }
+
+  .action {
+    display: flex;
+    font-size: 14px;
+    line-height: 16px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 6px;
+    gap: 15px;
+  }
+
+  .remove {
+    color: #dc3545;
+    background: #f9f2f2;
+    border: 1px solid #ffe2e2;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.04);
+    &:hover,
+    &:active {
+      background-image: linear-gradient(rgba(220, 53, 69, 0.1) 0 0);
+    }
+    &.disabled {
+      color: lightgray;
+    }
+  }
+}
+
+.btn {
+  &--approve {
+    border: 1px solid #4c2ffc !important;
+    background: rgba(76, 47, 252, 0.1) !important;
+    color: #4c2ffc !important;
+    box-shadow: 1px 1px 8px rgba(76, 47, 252, 0.18) !important;
+  }
+  &--discard {
+    border: 1px solid #e51a3e !important;
+    color: #e51a3e !important;
+    background: rgba(229, 26, 62, 0.1) !important;
+    margin-top: 0px !important;
+    top: 15px !important;
+  }
+}
