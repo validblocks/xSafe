@@ -1,30 +1,33 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Box, Button, Grid, useMediaQuery } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
-import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
 import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
-import { Text, TextxSafeDescription } from 'src/components/StyledComponents/StyledComponents';
+import {
+  Text,
+  TextxSafeDescription,
+} from 'src/components/StyledComponents/StyledComponents';
 import { dAppName, network } from 'src/config';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ModalTypes } from 'src/types/Proposals';
+import { ModalTypes } from 'src/types/multisig/proposals/Proposals';
 import { XSafeLogo } from 'src/components/Utils/XSafeLogo';
-import AddMultisigModal from './AddMultisigModal';
-import DeployStepsModal from './DeployMultisigModal';
-import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
-import * as Styled from './styled';
+import AddMultisigModal from '../../components/Modals/MultisigActions/AddMultisigModal';
+import DeployStepsModal from '../../components/DeployMultisig/DeployMultisigModal';
+import { useOrganizationInfoContext } from '../../components/Providers/OrganizationInfoContextProvider';
+import * as Styled from '../../components/Modals/MultisigActions/styled';
+import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 
 function Dashboard() {
   const theme = useCustomTheme();
   const dispatch = useDispatch();
-  const { t }: { t: any } = useTranslation();
+  const t = useCustomTranslation();
   const [showAddMultisigModal, setShowAddMultisigModal] = useState(false);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const [invalidMultisigContract, setInvalidMultisigContract] = useState(false);
@@ -39,23 +42,26 @@ function Dashboard() {
     }
   }, [isLoggedIn, address, dispatch]);
 
-  async function checkSingleContractValidity() {
+  const checkSingleContractValidity = useCallback(async () => {
     if (uniqueContractAddress || !network.storageApi) {
-      const isValidMultisigContract = await MultiversxApiProvider.validateMultisigAddress(
-        uniqueContractAddress,
-      );
+      const isValidMultisigContract =
+        await MultiversxApiProvider.validateMultisigAddress(
+          uniqueContractAddress,
+        );
       if (!isValidMultisigContract) {
         setInvalidMultisigContract(true);
       }
     }
-  }
+  }, []);
 
   const handleCreateNewSafeButtonClick = useCallback(() => {
     if (isLoggedIn) {
       setShowDeployMultisigModal(true);
       return;
     }
-    dispatch(setProposeModalSelectedOption({ option: ModalTypes.connect_wallet }));
+    dispatch(
+      setProposeModalSelectedOption({ option: ModalTypes.connect_wallet }),
+    );
   }, [dispatch, isLoggedIn]);
 
   const handleAddExistingSafeButtonClick = useCallback(() => {
@@ -63,19 +69,18 @@ function Dashboard() {
       setShowAddMultisigModal(true);
       return;
     }
-    dispatch(setProposeModalSelectedOption({ option: ModalTypes.connect_wallet }));
+    dispatch(
+      setProposeModalSelectedOption({ option: ModalTypes.connect_wallet }),
+    );
   }, [dispatch, isLoggedIn]);
 
   const deployButton = (
-    <Styled.CreateNewSafeButton
-      onClick={handleCreateNewSafeButtonClick}
-    >
+    <Styled.CreateNewSafeButton onClick={handleCreateNewSafeButtonClick}>
       {t('Create a new Safe')}
     </Styled.CreateNewSafeButton>
   );
 
-  const deployButtonContainer =
-    deployButton;
+  const deployButtonContainer = deployButton;
 
   useEffect(() => {
     checkSingleContractValidity();
@@ -92,8 +97,12 @@ function Dashboard() {
     return (
       <>
         <Box>
-          { (
-            <Grid container gap={maxWidth600 ? 0 : 3} paddingBottom={maxWidth600 ? '8px' : 0}>
+          {
+            <Grid
+              container
+              gap={maxWidth600 ? 0 : 3}
+              paddingBottom={maxWidth600 ? '8px' : 0}
+            >
               <Grid
                 item
                 height={'100%'}
@@ -116,16 +125,23 @@ function Dashboard() {
                     </Text>
                     <XSafeLogo width={98} height={33} />
                   </Box>
-                  <TextxSafeDescription margin={'12px 0 24px 0'} fontWeight={500}>
+                  <TextxSafeDescription
+                    margin={'12px 0 24px 0'}
+                    fontWeight={500}
+                  >
                     {dAppName}
-                    {t(' is the first platform for digital assets management built on the MultiversX.')}
+                    {t(
+                      ' is the first platform for digital assets management built on the MultiversX.',
+                    )}
                   </TextxSafeDescription>
                 </Box>
                 <Grid
-                  sx={{ width: '100%',
+                  sx={{
+                    width: '100%',
                     borderRadius: '10px',
-                    boxShadow: maxWidth600 ? '' :
-                      '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
+                    boxShadow: maxWidth600
+                      ? ''
+                      : '0 5px 10px rgba(76, 47, 252, 0.03), 0px 5px 15px rgba(76, 47, 252, 0.03)',
                     border: 'none',
                     overflow: 'hidden',
                     height: '100%',
@@ -148,31 +164,43 @@ function Dashboard() {
                     borderRadius={maxWidth600 ? '10px' : 0}
                     sx={{ backgroundColor: theme.palette.background.secondary }}
                   >
-                    <Box sx={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
-                      <Box marginY={'12px'}><Styled.AddSafeIcon />
+                    <Box
+                      sx={{
+                        padding: '24px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                      }}
+                    >
+                      <Box marginY={'12px'}>
+                        <Styled.AddSafeIcon />
                       </Box>
                       <Text
                         fontSize={22}
                         lineHeight={'30px'}
                         fontWeight={600}
                         marginY="8px"
-                      >{t('Create a new Safe')}
+                      >
+                        {t('Create a new Safe')}
                       </Text>
                       <Styled.TextSafeActionDescription
                         fontSize={16}
                         marginY={'12px'}
                         fontWeight={400}
-                      >{t('Create a new Safe that is controlled by one or multiple owners.')}
+                      >
+                        {t(
+                          'Create a new Safe that is controlled by one or multiple owners.',
+                        )}
                       </Styled.TextSafeActionDescription>
                       <Styled.TextSafeActionDescription
                         fontSize={16}
                         fontWeight={700}
-                      >{t('You will be required to pay a network fee for creating your new Safe.')}
+                      >
+                        {t(
+                          'You will be required to pay a network fee for creating your new Safe.',
+                        )}
                       </Styled.TextSafeActionDescription>
                     </Box>
-                    <Box>
-                      {deployButtonContainer}
-                    </Box>
+                    <Box>{deployButtonContainer}</Box>
                   </Grid>
                   <Grid
                     flex={1}
@@ -189,26 +217,38 @@ function Dashboard() {
                     }}
                     borderRadius={maxWidth600 ? '10px 10px 0 0' : 0}
                   >
-                    <Box sx={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
-                      <Box marginY={'12px'}><Styled.FileDownIcon />
+                    <Box
+                      sx={{
+                        padding: '24px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                      }}
+                    >
+                      <Box marginY={'12px'}>
+                        <Styled.FileDownIcon />
                       </Box>
                       <Text
                         fontSize={22}
                         lineHeight={'30px'}
                         fontWeight={600}
                         marginY={'8px'}
-                      >{t('Load an existing Safe')}
+                      >
+                        {t('Load an existing Safe')}
                       </Text>
                       <Styled.TextSafeActionDescription
                         fontSize={16}
                         marginY={'12px'}
                         fontWeight={400}
-                      >{t('Already have a Safe or want to access it from a different device?')}
+                      >
+                        {t(
+                          'Already have a Safe or want to access it from a different device?',
+                        )}
                       </Styled.TextSafeActionDescription>
                       <Styled.TextSafeActionDescription
                         fontSize={16}
                         fontWeight={700}
-                      >{t('Easily load your Safe using your Safe address.')}
+                      >
+                        {t('Easily load your Safe using your Safe address.')}
                       </Styled.TextSafeActionDescription>
                     </Box>
                     <Styled.LoadSafeButton
@@ -221,7 +261,7 @@ function Dashboard() {
               </Grid>
               <Grid item xs={0} lg={3} />
             </Grid>
-          ) }
+          }
         </Box>
 
         <AddMultisigModal
@@ -229,12 +269,16 @@ function Dashboard() {
           handleClose={() => {
             setShowAddMultisigModal(false);
           }}
-          setNewContracts={(newContracts) => updateMultisigContract(newContracts)}
+          setNewContracts={(newContracts) =>
+            updateMultisigContract(newContracts)
+          }
         />
         <DeployStepsModal
           show={showDeployMultisigModal}
           handleClose={() => setShowDeployMultisigModal(false)}
-          setNewContracts={(newContracts) => updateMultisigContract(newContracts)}
+          setNewContracts={(newContracts) =>
+            updateMultisigContract(newContracts)
+          }
         />
       </>
     );
@@ -260,12 +304,16 @@ function Dashboard() {
           handleClose={() => {
             setShowAddMultisigModal(false);
           }}
-          setNewContracts={(newContracts) => updateMultisigContract(newContracts)}
+          setNewContracts={(newContracts) =>
+            updateMultisigContract(newContracts)
+          }
         />
         <DeployStepsModal
           show={showDeployMultisigModal}
           handleClose={() => setShowDeployMultisigModal(false)}
-          setNewContracts={(newContracts) => updateMultisigContract(newContracts)}
+          setNewContracts={(newContracts) =>
+            updateMultisigContract(newContracts)
+          }
         />
       </>
     );
