@@ -6,10 +6,14 @@ import {
   setSelectedPerformedAction,
 } from 'src/redux/slices/modalsSlice';
 import { gasLimit as defaultGasLimit, maxGasLimit } from 'src/config';
-import { MultisigActionType } from 'src/types/MultisigActionType';
+import { MultisigActionType } from 'src/types/multisig/MultisigActionType';
 import { useState } from 'react';
-import { InputsContainer, MainButton, PerformModal } from '../Theme/StyledComponents';
-import ModalCardTitle from '../Layout/Modal/ModalCardTitle';
+import {
+  InputsContainer,
+  MainButton,
+  PerformModal,
+} from '../../Theme/StyledComponents';
+import ModalCardTitle from '../../Layout/Modal/ModalCardTitle';
 
 export const gasLimits = {
   [MultisigActionType.Nothing]: 10_000_000,
