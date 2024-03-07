@@ -52,7 +52,7 @@ export const sampleAuthenticatedDomains = [network.storageApi];
 
 export const relatedBranch = 'develop';
 
-export const xSafeApiUrl = 'https://devnet-api.xsafe.io';
+export const xSafeApiUrl = 'https://devnet-api2.xsafe.io';
 
 export const xSpotlightContractAddress =
   'erd1qqqqqqqqqqqqqpgqs8gtvhtt6k7h6khkmudzd6y4z0r08rx4u00svnnxt2';
