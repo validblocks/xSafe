@@ -405,7 +405,11 @@ export const TransactionBuilder = () => {
           alignItems="center"
           pt={minWidth1120 ? 12 : 2}
           sx={{
-            minWidth: minWidth1120 ? '320px' : `min(100%, 500px)`,
+            minWidth: minWidth1120
+              ? '320px'
+              : minWidth600
+              ? `min(100%, 500px)`
+              : '100%',
             height: minWidth1120 ? '200px' : '120px',
             px: minWidth1120 ? 2 : 0,
           }}
