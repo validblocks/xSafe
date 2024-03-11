@@ -9,8 +9,6 @@ import { getAddress, getIsLoggedIn } from '@multiversx/sdk-dapp/utils';
 
 export const contractsInfoStorageEndpoint = `${network.storageApi}/settings/multisig`;
 
-const multisigAxiosInstance = axios.create();
-
 export async function getUserMultisigContractsList() {
   try {
     const isLoggedIn = getIsLoggedIn();
@@ -29,11 +27,11 @@ export async function getUserMultisigContractsList() {
   } catch (err) {
     console.error('Error getting multisig contracts', {
       err,
-      multisigAxiosInstance,
     });
     return [];
   }
 }
+
 export async function validateMultisigAddress(
   address: string,
 ): Promise<boolean> {
@@ -87,7 +85,7 @@ export async function addContractToMultisigContractsList(
   await axios.post(`/settings/${walletAddress}`, newContracts, {
     baseURL: network.storageApi,
   });
-  // await multisigAxiosInstance.post(contractsInfoStorageEndpoint, newContracts);
+
   return newContracts;
 }
 

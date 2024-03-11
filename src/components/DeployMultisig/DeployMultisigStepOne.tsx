@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import { Box, IconButton, useMediaQuery } from '@mui/material';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import {
   useGetAccountInfo,
@@ -10,7 +9,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { addContractToMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import { useGetPendingTransactions } from '@multiversx/sdk-dapp/hooks/transactions';
 import {
   CenteredBox,
   Text,
@@ -43,14 +41,16 @@ const DeployMultisigStepOne = ({
   setNewContracts,
   enableNextStep = () => null,
 }: DeployStepsModalType) => {
-  const theme = useCustomTheme();
   const t = useCustomTranslation();
-  const [name, setName] = useState('');
+  const theme = useCustomTheme();
   const { address } = useGetAccountInfo();
-  const { isLoggedIn } = useGetLoginInfo();
-  const [isLoading, setIsLoading] = useState(false);
-  const { proceedToNextStep } = useMultistepFormContext();
   const maxWidth600 = useMediaQuery('(max-width:600px)');
+  const { isLoggedIn } = useGetLoginInfo();
+  const { proceedToNextStep } = useMultistepFormContext();
+
+  const [name, setName] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const {
     pendingDeploymentData: {
@@ -59,8 +59,8 @@ const DeployMultisigStepOne = ({
     },
   } = useMultisigCreationFormContext();
 
-  async function onAddMultisigFinished() {
-    const { multisigAddress } = pendingDeploymentContractData!;
+  const onDeployMultisigFinished = useCallback(async () => {
+    const { multisigAddress } = pendingDeploymentContractData;
     const newContracts = await addContractToMultisigContractsList({
       address: multisigAddress,
       name,
@@ -69,27 +69,31 @@ const DeployMultisigStepOne = ({
     proceedToNextStep();
     enableNextStep(true);
     setName('');
-  }
+    setIsLoading(false);
+  }, [
+    enableNextStep,
+    name,
+    pendingDeploymentContractData,
+    proceedToNextStep,
+    setNewContracts,
+  ]);
+
+  const stopLoading = () => {
+    setIsLoading(false);
+  };
 
   useTrackTransactionStatus({
     transactionId: pendingDeploymentContractData?.transactionId || null,
-    onSuccess: onAddMultisigFinished,
-    onFail: () => {
-      setIsLoading(false);
-    },
-    onCancelled: () => {
-      setIsLoading(false);
-    },
-    onTimedOut: () => {
-      setIsLoading(false);
-    },
+    onSuccess: onDeployMultisigFinished,
+    onFail: stopLoading,
+    onCancelled: stopLoading,
+    onTimedOut: stopLoading,
   });
 
-  const onDeploy = useCallback(async () => {
+  const handleDeployNewMultisigSC = useCallback(async () => {
     try {
+      setIsLoading(true);
       const { multisigAddress, sessionId } = await deployMultisigContract();
-
-      refreshAccount();
 
       setPendingDeploymentContractData({
         multisigAddress,
@@ -105,21 +109,16 @@ const DeployMultisigStepOne = ({
     setIsLoading(false);
   }, []);
 
-  const pendingTransactions = useGetPendingTransactions();
-
-  useEffect(() => {
-    setIsLoading(pendingTransactions.hasPendingTransactions);
-  }, [pendingTransactions.hasPendingTransactions]);
-
-  const [error, setError] = useState<string | null>(null);
-
-  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const name = event.target.value;
-    if (name.length < 3) {
-      setError('Name is too short. It should be at least 3 characters long.');
-    } else setError(null);
-    setName(name);
-  };
+  const handleNameChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const name = event.target.value;
+      if (name.length < 3) {
+        setError('Name is too short. It should be at least 3 characters long.');
+      } else setError(null);
+      setName(name);
+    },
+    [],
+  );
 
   return (
     <Box>
@@ -220,7 +219,7 @@ const DeployMultisigStepOne = ({
             <Box flex={1}>
               <FinalStepActionButton
                 disabled={!isLoggedIn || name.length < 3 || isLoading}
-                onClick={() => onDeploy()}
+                onClick={handleDeployNewMultisigSC}
               >
                 {isLoading && (
                   <Box

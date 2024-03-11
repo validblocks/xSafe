@@ -5,9 +5,7 @@ import { Box, Button, Grid, useMediaQuery } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import {
@@ -34,13 +32,6 @@ function Dashboard() {
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const { isLoggedIn } = useGetLoginInfo();
-  const { address } = useGetAccountInfo();
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      refreshAccount();
-    }
-  }, [isLoggedIn, address, dispatch]);
 
   const checkSingleContractValidity = useCallback(async () => {
     if (uniqueContractAddress || !network.storageApi) {
