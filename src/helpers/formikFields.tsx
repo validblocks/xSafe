@@ -1,6 +1,9 @@
 import { TextField, useMediaQuery } from '@mui/material';
 import { useCustomTheme } from 'src/utils/useCustomTheme';
-import { FormikRoundedCheckBox, InputWrapper } from 'src/components/Theme/StyledComponents';
+import {
+  FormikRoundedCheckBox,
+  InputWrapper,
+} from 'src/components/Theme/StyledComponents';
 import React, { useCallback } from 'react';
 
 export interface FormikInputFieldPropsType {
@@ -38,11 +41,18 @@ export const FormikInputField = ({
   const theme = useCustomTheme();
 
   const minWidth600 = useMediaQuery('(min-width:600px)');
-  const focusInput = useCallback((input: any) => { if (minWidth600) input?.focus(); }, [minWidth600]);
+  const focusInput = useCallback(
+    (input: any) => {
+      if (minWidth600) input?.focus();
+    },
+    [minWidth600],
+  );
 
   return (
     <div>
-      <InputWrapper className={error != null ? 'input-wrapper invalid' : 'input-wrapper'}>
+      <InputWrapper
+        className={error != null ? 'input-wrapper invalid' : 'input-wrapper'}
+      >
         <TextField
           variant="outlined"
           label={label}

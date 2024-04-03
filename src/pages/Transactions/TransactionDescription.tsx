@@ -42,9 +42,9 @@ function TransactionDescription({
 }: Props) {
   const theme = useCustomTheme();
 
-  const StyledDot = withStyles({ root: { backgroundColor: theme.palette.background.timeline } })(
-    TimelineDot,
-  );
+  const StyledDot = withStyles({
+    root: { backgroundColor: theme.palette.background.timeline },
+  })(TimelineDot);
 
   const useStyles: CallableFunction = useMemo(
     () =>
@@ -89,7 +89,8 @@ function TransactionDescription({
       color: theme.palette.text.button,
       marginTop: '10px',
       fontWeight: '600',
-      fontFamily: 'IBM Plex Sans, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
+      fontFamily:
+        'IBM Plex Sans, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace',
       letterSpacing: '-0.5px',
       '& span': {
         color: '#9C9BA5',
@@ -100,7 +101,11 @@ function TransactionDescription({
   })(Typography);
 
   const classes = useStyles();
-  const dotIconStyles = { width: '20px', height: '20px', color: theme.palette.background.secondary };
+  const dotIconStyles = {
+    width: '20px',
+    height: '20px',
+    color: theme.palette.background.secondary,
+  };
 
   const [areAllSignersVisible, setShowAllSigners] = useState(false);
 
@@ -108,9 +113,9 @@ function TransactionDescription({
     quorumCountState: [quorumCount],
   } = useOrganizationInfoContext();
 
-  const toggleSignerVisibilityButtonText = useMemo(() =>
-    (areAllSignersVisible ? 'Hide all' : 'Show all'),
-  [areAllSignersVisible],
+  const toggleSignerVisibilityButtonText = useMemo(
+    () => (areAllSignersVisible ? 'Hide all' : 'Show all'),
+    [areAllSignersVisible],
   );
 
   const toggleShowAllSigners = useCallback(() => {
@@ -121,15 +126,24 @@ function TransactionDescription({
     <Box className={classes.container}>
       <Box className={classes.child1}>
         <Box sx={{ marginBottom: '2rem' }}>
-          <Text>{(child1 || action?.description()) ?? 'Action description missing'}</Text>
+          <Text>
+            {(child1 || action?.description()) ?? 'Action description missing'}
+          </Text>
         </Box>
         <Box>
-          {bottomLeftChild || <TransactionTechnicalDetails transaction={transaction} />}
+          {bottomLeftChild || (
+            <TransactionTechnicalDetails transaction={transaction} />
+          )}
         </Box>
       </Box>
       <Box className={classes.child2}>
         {child2 || (
-          <Timeline position="right">
+          <Timeline
+            placeholder=""
+            onPointerEnterCapture={() => {}}
+            onPointerLeaveCapture={() => {}}
+            position="right"
+          >
             <TimelineItem>
               <TimelineOppositeContent sx={{ display: 'none' }} />
               <Styled.XSafeTimelineSeparator>
@@ -160,10 +174,18 @@ function TransactionDescription({
             </TimelineItem>
             {areAllSignersVisible &&
               signers.map((signer: Address) => (
-                <TimelineItem key={signer.bech32().toString()} sx={{ marginBottom: '-16px' }}>
+                <TimelineItem
+                  key={signer.bech32().toString()}
+                  sx={{ marginBottom: '-16px' }}
+                >
                   <TimelineOppositeContent sx={{ display: 'none' }} />
                   <Styled.XSafeTimelineSeparator>
-                    <TimelineDot sx={{ marginLeft: '10px', backgroundColor: theme.palette.background.timeline }} />
+                    <TimelineDot
+                      sx={{
+                        marginLeft: '10px',
+                        backgroundColor: theme.palette.background.timeline,
+                      }}
+                    />
                     <TimelineConnector sx={{ marginLeft: '10px' }} />
                   </Styled.XSafeTimelineSeparator>
                   <TimelineContent sx={{ marginTop: '-10px' }}>
@@ -179,11 +201,15 @@ function TransactionDescription({
                     backgroundColor: theme.palette.background.timeline,
                     color: theme.palette.svg.timeline,
                   }}
-                ><ArrowDropDownIcon sx={{
-                  transform: areAllSignersVisible ? 'rotate(180deg)' : 'rotate(0deg)',
-                  marginTop: areAllSignersVisible ? '1px' : 0,
-                }}
-                />
+                >
+                  <ArrowDropDownIcon
+                    sx={{
+                      transform: areAllSignersVisible
+                        ? 'rotate(180deg)'
+                        : 'rotate(0deg)',
+                      marginTop: areAllSignersVisible ? '1px' : 0,
+                    }}
+                  />
                 </TimelineDot>
                 <TimelineConnector />
               </Styled.XSafeTimelineSeparator>
@@ -191,7 +217,11 @@ function TransactionDescription({
                 <Text
                   onClick={toggleShowAllSigners}
                   fontWeight={400}
-                  sx={{ cursor: 'pointer', marginTop: '10px', textDecoration: 'underline' }}
+                  sx={{
+                    cursor: 'pointer',
+                    marginTop: '10px',
+                    textDecoration: 'underline',
+                  }}
                 >
                   {toggleSignerVisibilityButtonText}
                 </Text>
@@ -204,10 +234,13 @@ function TransactionDescription({
                 <TimelineDot
                   sx={{
                     backgroundColor:
-                      transaction?.status === 'success' ?
-                        theme.palette.background.timeline : theme.palette.background.timelineStatusPending,
-                    borderColor: transaction?.status === 'success' ?
-                      theme.palette.background.timeline : theme.palette.background.timelineStatusPending,
+                      transaction?.status === 'success'
+                        ? theme.palette.background.timeline
+                        : theme.palette.background.timelineStatusPending,
+                    borderColor:
+                      transaction?.status === 'success'
+                        ? theme.palette.background.timeline
+                        : theme.palette.background.timelineStatusPending,
                   }}
                   variant={
                     transaction?.status === 'success' ? 'filled' : 'outlined'
@@ -221,7 +254,8 @@ function TransactionDescription({
                       sx={{
                         ...dotIconStyles,
                         color: theme.palette.svg.timeline,
-                        backgroundColor: theme.palette.background.timelineStatusPending,
+                        backgroundColor:
+                          theme.palette.background.timelineStatusPending,
                         transform: 'rotate(180deg)',
                       }}
                     />

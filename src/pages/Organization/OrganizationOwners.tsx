@@ -18,7 +18,12 @@ import CopyButton from 'src/components/CopyButton';
 import { AnchorPurple } from 'src/components/Layout/Navbar/navbar-style';
 import SearchIcon from '@mui/icons-material/Search';
 import { network } from 'src/config';
-import { AccountInfo, AddressBook, Bech32Address, MultisigMember } from './types';
+import {
+  AccountInfo,
+  AddressBook,
+  Bech32Address,
+  MultisigMember,
+} from './types';
 import { useOrganizationInfoContext } from './OrganizationInfoContextProvider';
 import * as Styled from './styled';
 import { useOwnerManipulationFunctions } from './utils';
@@ -28,45 +33,55 @@ import * as StyledUtils from '../../components/Utils/styled/index';
 
 const OrganizationsOwnersTable = () => {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
-  const [multisigMembers, setMultisigMembers] = useState<Array<MultisigMember>>([]);
+  const [multisigMembers, setMultisigMembers] = useState<Array<MultisigMember>>(
+    [],
+  );
   const getAddresses = useCallback(() => queryBoardMemberAddresses(), []);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
 
-  const addAddressBookEntry = useCallback((accountInformation: AccountInfo): MultisigMember => ({
-    address: accountInformation.address,
-    ...(!!accountInformation.username && {
-      herotag: accountInformation.username,
+  const addAddressBookEntry = useCallback(
+    (accountInformation: AccountInfo): MultisigMember => ({
+      address: accountInformation.address,
+      ...(!!accountInformation.username && {
+        herotag: accountInformation.username,
+      }),
+      ...(!!addressBook[accountInformation.address] && {
+        name: addressBook[accountInformation.address],
+      }),
     }),
-    ...(!!addressBook[accountInformation.address] && {
-      name: addressBook[accountInformation.address],
-    }),
-  }), [addressBook]);
+    [addressBook],
+  );
 
   useEffect(() => {
     // get herotag
     // get addressbook names
-    getAddresses()
-      .then((ownerAddresses) => {
-        Promise.all(
-          ownerAddresses.map((address) => MultiversxApiProvider.getAccountData(new Address(address).bech32())),
-        ).then((accountsInformation) => {
-          setMultisigMembers(accountsInformation.map(addAddressBookEntry));
-        });
+    getAddresses().then((ownerAddresses) => {
+      Promise.all(
+        ownerAddresses.map((address) =>
+          MultiversxApiProvider.getAccountData(new Address(address).bech32()),
+        ),
+      ).then((accountsInformation) => {
+        setMultisigMembers(accountsInformation.map(addAddressBookEntry));
       });
+    });
   }, [addAddressBookEntry, getAddresses]);
 
-  const {
-    onRemoveMember,
-    onEditMember,
-    onAddBoardMember,
-  } = useOwnerManipulationFunctions();
+  const { onRemoveMember, onEditMember, onAddBoardMember } =
+    useOwnerManipulationFunctions();
 
-  const onEditMemberClick = useCallback((multisigMemberAddress: Bech32Address) => {
-    const multisigMember = multisigMembers.find((address) => address.address === multisigMemberAddress);
-    if (multisigMember) { onEditMember(multisigMember); }
-  }, [multisigMembers, onEditMember]);
+  const onEditMemberClick = useCallback(
+    (multisigMemberAddress: Bech32Address) => {
+      const multisigMember = multisigMembers.find(
+        (address) => address.address === multisigMemberAddress,
+      );
+      if (multisigMember) {
+        onEditMember(multisigMember);
+      }
+    },
+    [multisigMembers, onEditMember],
+  );
 
   const columns = useMemo(
     () => [
@@ -91,7 +106,11 @@ const OrganizationsOwnersTable = () => {
         width: 280,
         type: 'object',
         renderCell: (params: GridRenderCellParams<MultisigMember>) => (
-          <Box display="flex" alignItems="center" justifyContent="space-between">
+          <Box
+            display="flex"
+            alignItems="center"
+            justifyContent="space-between"
+          >
             <Box display="flex" alignItems="center">
               <Box
                 sx={{ borderRadius: '4px', overflow: 'hidden' }}
@@ -103,14 +122,15 @@ const OrganizationsOwnersTable = () => {
                 {truncateInTheMiddle(params.value?.address ?? '', 10)}
               </strong>
             </Box>
-            <Box display="flex" alignItems="center" >
+            <Box display="flex" alignItems="center">
               <Box sx={{ paddingLeft: 1 }}>
-                <CopyButton link={StyledUtils.CopyIconLinkPurple} text={params.value?.address ?? ''} />
+                <CopyButton
+                  link={StyledUtils.CopyIconLinkPurple}
+                  text={params.value?.address ?? ''}
+                />
               </Box>
               <AnchorPurple
-                href={`${
-                  network.explorerAddress
-                }/accounts/${params.value?.address}`}
+                href={`${network.explorerAddress}/accounts/${params.value?.address}`}
                 target="_blank"
                 rel="noreferrer"
                 className="ml-2"
@@ -132,9 +152,16 @@ const OrganizationsOwnersTable = () => {
             disabled={isInReadOnlyMode}
             label="Delete"
             onClick={() => onRemoveMember(new Address(params.row?.id ?? ''))}
+            placeholder=""
+            onPointerEnterCapture={() => {}}
+            onPointerLeaveCapture={() => {}}
+            showInMenu={true}
           />,
           <GridActionsCellItem
             key={params.id}
+            placeholder=""
+            onPointerEnterCapture={() => {}}
+            onPointerLeaveCapture={() => {}}
             icon={<EditIcon sx={{ opacity: '0.54' }} />}
             disabled={isInReadOnlyMode}
             label="Edit Owner"
@@ -164,21 +191,17 @@ const OrganizationsOwnersTable = () => {
         Add member
       </MainButtonNoShadow>
 
-      {maxWidth600
-        ? (
-          <MultisigMemberMobileCards
-            multisigMembers={multisigMembers}
-          />
-        )
-        : (
-          <Styled.MainTable
-            autoHeight
-            rowHeight={65}
-            rows={rows}
-            columns={columns}
-            components={{ NoRowsOverlay: noRowsOverlay }}
-          />
-        )}
+      {maxWidth600 ? (
+        <MultisigMemberMobileCards multisigMembers={multisigMembers} />
+      ) : (
+        <Styled.MainTable
+          autoHeight
+          rowHeight={65}
+          rows={rows}
+          columns={columns}
+          components={{ NoRowsOverlay: noRowsOverlay }}
+        />
+      )}
     </Box>
   );
 };

@@ -55,11 +55,17 @@ const AddressBook = () => {
       getActions: (params: any) => [
         <GridActionsCellItem
           key={params.id}
+          placeholder=""
+          onPointerEnterCapture={() => {}}
+          onPointerLeaveCapture={() => {}}
           icon={<DeleteIcon />}
           label="Delete"
           onClick={() => onRemoveEntry(params.id)}
         />,
         <GridActionsCellItem
+          placeholder=""
+          onPointerEnterCapture={() => {}}
+          onPointerLeaveCapture={() => {}}
           key={params.id}
           icon={<EditIcon />}
           label="Edit Entry"
@@ -124,7 +130,9 @@ const AddressBook = () => {
       name: '',
     },
     onSubmit: ({ address, name }) => {
-      dispatch(addEntry({ address, name, contractAddress: currentContract?.address }));
+      dispatch(
+        addEntry({ address, name, contractAddress: currentContract?.address }),
+      );
       setModalState(false);
     },
     validationSchema,

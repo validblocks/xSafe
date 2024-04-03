@@ -75,28 +75,24 @@ const AttachContractContent = ({ handleClose }: AttachContractContentProps) => {
 
   return (
     <>
-      <ModalCardTitle title={t('Attach smart contract') as string} handleClose={handleClose} />
+      <ModalCardTitle
+        title={t('Attach smart contract') as string}
+        handleClose={handleClose}
+      />
       <Styled.AttachSmartContractModalContainer>
-        <Box
-          mb={'10px'}
-          className={contractAddressError ? 'invalid' : ''}
-        >
+        <Box mb={'10px'} className={contractAddressError ? 'invalid' : ''}>
           <FormikInputField
             label={t('Contract address')}
             name="contractAddress"
             value={formik.values.contractAddress}
-            error={contractAddressError}
+            // error={contractAddressError}
             handleChange={formik.handleChange}
             handleBlur={formik.handleBlur}
             className={contractAddressError ? 'isError' : ''}
           />
-
         </Box>
         <div className="d-flex">
-          <ActionResponseButton
-            onClick={onGoBackClicked}
-            sx={{ mr: '4px' }}
-          >
+          <ActionResponseButton onClick={onGoBackClicked} sx={{ mr: '4px' }}>
             {t('Back')}
           </ActionResponseButton>
           <ActionResponseButton
