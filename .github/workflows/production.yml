@@ -81,7 +81,7 @@ jobs:
         if: success()
         env:
           HOST: connect.xsafe.io
-          USER: graffino
+          USER: ubuntu
 
           KEY: ${{secrets.MAINNET_SSH_KEY}}
           SSH_ARGS: ' -q -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
