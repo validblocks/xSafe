@@ -15,7 +15,7 @@ import {
   ResultsParser,
   Account,
 } from '@multiversx/sdk-core';
-import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
+import BigNumber from 'bignumber.js';
 import { NumericalBinaryCodec } from '@multiversx/sdk-core/out/smartcontracts/codec/numerical';
 import {
   AddressValue,

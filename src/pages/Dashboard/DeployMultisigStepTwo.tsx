@@ -12,7 +12,10 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CopyButton from 'src/components/CopyButton';
 import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
-import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';
+import {
+  CenteredBox,
+  Text,
+} from 'src/components/StyledComponents/StyledComponents';
 import { useMultistepFormContext } from 'src/components/Utils/MultistepForm';
 import SearchIcon from '@mui/icons-material/Search';
 import { gasLimit, network } from 'src/config';
@@ -20,9 +23,7 @@ import { buildBlockchainTransaction } from 'src/contracts/transactionUtils';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { useCustomTheme } from 'src/utils/useCustomTheme';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  multisigContractsSelector,
-} from 'src/redux/selectors/multisigContractsSelectors';
+import { multisigContractsSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import routeNames from 'src/routes/routeNames';
 import { useNavigate } from 'react-router-dom';
 import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
@@ -31,12 +32,10 @@ import { useMultisigCreationFormContext } from './DeployMultisigModal';
 import * as Styled from '../../components/Utils/styled/index';
 
 interface DeployStepsModalType {
-    handleClose: () => void;
+  handleClose: () => void;
 }
 
-const DeployMultisigStepTwo = ({
-  handleClose,
-}: DeployStepsModalType) => {
+const DeployMultisigStepTwo = ({ handleClose }: DeployStepsModalType) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -45,13 +44,12 @@ const DeployMultisigStepTwo = ({
   const [sessionId, setSessionId] = useState<string | null>(null);
 
   const { providerType } = useGetAccountProvider();
-  const { pendingDeploymentData: { pendingDeploymentContractData } } =
-    useMultisigCreationFormContext();
-
   const {
-    setIsFinalStepButtonActive,
-    setBuiltFinalActionHandler,
-  } = useMultistepFormContext();
+    pendingDeploymentData: { pendingDeploymentContractData },
+  } = useMultisigCreationFormContext();
+
+  const { setIsFinalStepButtonActive, setBuiltFinalActionHandler } =
+    useMultistepFormContext();
 
   const multisigContracts = useSelector(multisigContractsSelector);
 
@@ -69,7 +67,9 @@ const DeployMultisigStepTwo = ({
         gasLimit,
       );
 
-      const { sessionId } = await sendTransactions({ transactions: [transaction] });
+      const { sessionId } = await sendTransactions({
+        transactions: [transaction],
+      });
       setSessionId(sessionId);
 
       return sessionId;
@@ -83,7 +83,11 @@ const DeployMultisigStepTwo = ({
   useEffect(() => {
     setIsFinalStepButtonActive(true);
     setBuiltFinalActionHandler(() => () => onSignChangeContractOwner());
-  }, [onSignChangeContractOwner, setBuiltFinalActionHandler, setIsFinalStepButtonActive]);
+  }, [
+    onSignChangeContractOwner,
+    setBuiltFinalActionHandler,
+    setIsFinalStepButtonActive,
+  ]);
 
   const theme = useCustomTheme();
 
@@ -113,6 +117,8 @@ const DeployMultisigStepTwo = ({
     setChecked(event.target.checked);
   };
 
+  console.log({ isLoggedIn, isLoading, checked });
+
   return (
     <div className="card">
       <Box>
@@ -122,31 +128,33 @@ const DeployMultisigStepTwo = ({
           textAlign="left"
           borderBottom={`1px solid ${theme.palette.borders.secondary}`}
         >
-          <Text
-            width="80%"
-            textAlign={'left'}
-            py={2}
-            fontSize={21}
-          >
+          <Text width="80%" textAlign={'left'} py={2} fontSize={21}>
             {t('Safe deployed! One more step...') as string}
           </Text>
-          <Text
-            width="20%"
-            textAlign="right"
-            py={2}
-            fontSize={12}
-          >
+          <Text width="20%" textAlign="right" py={2} fontSize={12}>
             {t('Step 2 of 2') as string}
           </Text>
         </CenteredBox>
         <Box pt={3} px={5}>
           <Text> Your safe smart contract addresss:</Text>
-          <Box display={'flex'} my={1} border={'1px solid #eee'} p={1} borderRadius={'10px'}>
+          <Box
+            display={'flex'}
+            my={1}
+            border={'1px solid #eee'}
+            p={1}
+            borderRadius={'10px'}
+          >
             <Text>
-              {truncateInTheMiddle(pendingDeploymentContractData?.multisigAddress, 20)}
+              {truncateInTheMiddle(
+                pendingDeploymentContractData?.multisigAddress,
+                20,
+              )}
             </Text>
             <Box sx={{ mr: 1.35, ml: 1.35 }}>
-              <CopyButton text={pendingDeploymentContractData?.multisigAddress} link={Styled.CopyIconLink} />
+              <CopyButton
+                text={pendingDeploymentContractData?.multisigAddress}
+                link={Styled.CopyIconLink}
+              />
             </Box>
             <Box>
               <Anchor
@@ -162,12 +170,15 @@ const DeployMultisigStepTwo = ({
           <ul className="deploy-safe-ul">
             <li>
               <Text mt={2} mb={1} sx={{ opacity: 0.5 }}>
-                As the deployer of the safe smart contract, you are the initial owner.
+                As the deployer of the safe smart contract, you are the initial
+                owner.
               </Text>
             </li>
             <li>
               <Text sx={{ opacity: 0.5 }}>
-                It is very important to transfer the ownership of the safe smart contract to itself, so that any future upgrades can only be triggered through a smart contract proposal.
+                It is very important to transfer the ownership of the safe smart
+                contract to itself, so that any future upgrades can only be
+                triggered through a smart contract proposal.
               </Text>
             </li>
           </ul>
@@ -183,7 +194,9 @@ const DeployMultisigStepTwo = ({
                 'aria-label': 'controlled',
               }}
             />
-            <Text>I understand the necessity of transferring the ownership</Text>
+            <Text>
+              I understand the necessity of transferring the ownership
+            </Text>
           </Box>
         </Box>
         <Box py={3} px={5}>
@@ -192,23 +205,24 @@ const DeployMultisigStepTwo = ({
             onClick={() => onSignChangeContractOwner()}
           >
             {isLoading && (
-            <Box sx={{
-              fontWeight: 'bold',
-              display: 'inline-block',
-              fontSize: '15px',
-              clipPath: 'inset(0 1ch 0 0)',
-              animation: 'l 1s steps(4) infinite',
-              '@keyframes l': {
-                to: {
-                  clipPath: 'inset(0 -1ch 0 0)',
-                },
-              },
-            }
- }
-            >Changing Owner...
-            </Box>
+              <Box
+                sx={{
+                  fontWeight: 'bold',
+                  display: 'inline-block',
+                  fontSize: '15px',
+                  clipPath: 'inset(0 1ch 0 0)',
+                  animation: 'l 1s steps(4) infinite',
+                  '@keyframes l': {
+                    to: {
+                      clipPath: 'inset(0 -1ch 0 0)',
+                    },
+                  },
+                }}
+              >
+                Changing Owner...
+              </Box>
             )}
-            { !isLoading ? (isLoggedIn ? 'Change Owner' : 'Login first') : ''}
+            {!isLoading ? (isLoggedIn ? 'Change Owner' : 'Login first') : ''}
           </FinalStepActionButton>
         </Box>
       </Box>

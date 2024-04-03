@@ -77,6 +77,8 @@ i18next.use(initReactI18next).init({
 
 const queryClient = new QueryClient();
 
+console.log({ nodeEnv: import.meta.env.VITE_MVX_ENVIRONMENT });
+
 export const App = () => (
   <ReduxProvider store={store}>
     <PersistGate loading={null} persistor={persistor}>
@@ -85,7 +87,7 @@ export const App = () => (
         <QueryClientProvider client={queryClient}>
           <AxiosInterceptorContext.Provider>
             <AxiosInterceptorContext.Interceptor
-              authenticatedDomanis={sampleAuthenticatedDomains}
+              authenticatedDomains={sampleAuthenticatedDomains}
             >
               <Router>
                 <Suspense fallback={<div>Loading...</div>}>

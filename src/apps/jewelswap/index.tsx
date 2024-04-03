@@ -1,6 +1,6 @@
 import * as Yup from 'yup';
 import { Box, useMediaQuery } from '@mui/material';
-import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
+import BigNumber from 'bignumber.js';
 import { useState } from 'react';
 import { useOrganizationInfoContext } from 'src/pages/Organization/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';

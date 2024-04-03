@@ -1,6 +1,9 @@
 import { Box, Checkbox, CircularProgress } from '@mui/material';
 import { ChangeEvent, useCallback, useMemo, useState } from 'react';
-import { CenteredBox, Text } from 'src/components/StyledComponents/StyledComponents';
+import {
+  CenteredBox,
+  Text,
+} from 'src/components/StyledComponents/StyledComponents';
 import { Address } from '@multiversx/sdk-core/out';
 import { buildBlockchainTransaction } from 'src/contracts/transactionUtils';
 import { gasLimit, network } from 'src/config';
@@ -12,7 +15,10 @@ import {
   useGetPendingTransactions,
   useTrackTransactionStatus,
 } from '@multiversx/sdk-dapp/hooks';
-import { setCurrentMultisigTransactionId, setHasUnknownOwner } from 'src/redux/slices/multisigContractsSlice';
+import {
+  setCurrentMultisigTransactionId,
+  setHasUnknownOwner,
+} from 'src/redux/slices/multisigContractsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   currentMultisigContractSelector,
@@ -52,7 +58,9 @@ const ChangeOwnerModalContent = () => {
         gasLimit,
       );
 
-      const { sessionId } = await sendTransactions({ transactions: [transaction] });
+      const { sessionId } = await sendTransactions({
+        transactions: [transaction],
+      });
       dispatch(setCurrentMultisigTransactionId(sessionId));
       setSessionId(sessionId);
 
@@ -65,8 +73,11 @@ const ChangeOwnerModalContent = () => {
   }, [address, dispatch, providerType]);
 
   const updateOwnership = useCallback(async () => {
-    const contractDetails = await MultiversxApiProvider.getAccountDetails(currentContract?.address);
-    const isItsOwnOwner = contractDetails?.ownerAddress === contractDetails?.address;
+    const contractDetails = await MultiversxApiProvider.getAccountDetails(
+      currentContract?.address,
+    );
+    const isItsOwnOwner =
+      contractDetails?.ownerAddress === contractDetails?.address;
     dispatch(setHasUnknownOwner(!isItsOwnOwner));
   }, [currentContract?.address, dispatch]);
 
@@ -92,10 +103,9 @@ const ChangeOwnerModalContent = () => {
 
   const { charsLeft } = useFullRowAddressCut();
 
-  const {
-    isLoading,
-    contractData,
-  } = useContractData();
+  const { isLoading, contractData } = useContractData();
+
+  console.log({ contractData });
 
   const pendingTransactions = useGetPendingTransactions();
   const hasUnknownOwner = useSelector(hasUnknownOwnerSelector);
@@ -125,25 +135,39 @@ const ChangeOwnerModalContent = () => {
           width: '100%',
         }}
       >
-        <CircularProgress sx={{
-          '&.MuiCircularProgress-root': {
-            color: '#4C2FFCF0 !important',
-          },
-        }}
+        <CircularProgress
+          sx={{
+            '&.MuiCircularProgress-root': {
+              color: '#4C2FFCF0 !important',
+            },
+          }}
         />
       </CenteredBox>
     );
   }
+
+  console.log({
+    disabledBecauseNotOwner: !!(
+      contractData?.ownerAddress && contractData?.ownerAddress !== walletAddress
+    ),
+    disabledBecauseNotChecked: !checked,
+    disabledBecauseIsLoading: isLoading,
+    disabledBecauseHasPendingTxs: pendingTransactions.hasPendingTransactions,
+  });
 
   return (
     <Box>
       <Box>
         <Box marginTop="21px">
           <Text> Safe owner address:</Text>
-          <Box display={'flex'} my={1} border={'1px solid #eee'} p={1} borderRadius={'10px'}>
-            <Text>
-              {safeOwnerAddress}
-            </Text>
+          <Box
+            display={'flex'}
+            my={1}
+            border={'1px solid #eee'}
+            p={1}
+            borderRadius={'10px'}
+          >
+            <Text>{safeOwnerAddress}</Text>
             <Box sx={{ mr: 1.35, ml: 1.35 }}>
               <CopyButton text={walletAddress} link={CopyIconLink} />
             </Box>
@@ -160,10 +184,14 @@ const ChangeOwnerModalContent = () => {
         </Box>
         <Box pt={2}>
           <Text> Your safe smart contract addresss:</Text>
-          <Box display={'flex'} my={1} border={'1px solid #eee'} p={1} borderRadius={'10px'}>
-            <Text>
-              {truncateInTheMiddle(contractData?.address ?? '', 20)}
-            </Text>
+          <Box
+            display={'flex'}
+            my={1}
+            border={'1px solid #eee'}
+            p={1}
+            borderRadius={'10px'}
+          >
+            <Text>{truncateInTheMiddle(contractData?.address ?? '', 20)}</Text>
             <Box sx={{ mr: 1.35, ml: 1.35 }}>
               <CopyButton text={walletAddress} link={Styled.CopyIconLink} />
             </Box>
@@ -178,15 +206,22 @@ const ChangeOwnerModalContent = () => {
               </Anchor>
             </Box>
           </Box>
-          <ul className={isDarkThemeEnabled ? 'deploy-safe-ul__dark' : 'deploy-safe-ul'}>
+          <ul
+            className={
+              isDarkThemeEnabled ? 'deploy-safe-ul__dark' : 'deploy-safe-ul'
+            }
+          >
             <li>
               <Text mt={2} mb={1} sx={{ opacity: 0.5 }}>
-                As the deployer of the safe smart contract, you are the initial owner.
+                As the deployer of the safe smart contract, you are the initial
+                owner.
               </Text>
             </li>
             <li>
               <Text sx={{ opacity: 0.5 }}>
-                It is very important to transfer the ownership of the safe smart contract to itself, so that any future upgrades can only be triggered through a smart contract proposal.
+                It is very important to transfer the ownership of the safe smart
+                contract to itself, so that any future upgrades can only be
+                triggered through a smart contract proposal.
               </Text>
             </li>
           </ul>
@@ -206,39 +241,42 @@ const ChangeOwnerModalContent = () => {
                 'aria-label': 'controlled',
               }}
             />
-            <Text>I understand the necessity of transferring the ownership</Text>
+            <Text>
+              I understand the necessity of transferring the ownership
+            </Text>
           </Box>
         </Box>
         <FinalStepActionButton
           disabled={
-            contractData?.ownerAddress !== walletAddress
-            || !checked
-            || isLoading
-            || pendingTransactions.hasPendingTransactions
+            !!(
+              contractData?.ownerAddress &&
+              contractData?.ownerAddress !== walletAddress
+            ) ||
+            !checked ||
+            isLoading ||
+            pendingTransactions.hasPendingTransactions
           }
           onClick={() => onSignChangeContractOwner()}
         >
           {pendingTransactions.hasPendingTransactions ? (
-            <Box sx={{
-              fontWeight: 'bold',
-              display: 'inline-block',
-              fontSize: '15px',
-              clipPath: 'inset(0 1ch 0 0)',
-              animation: 'l 1s steps(4) infinite',
-              '@keyframes l': {
-                to: {
-                  clipPath: 'inset(0 -1ch 0 0)',
+            <Box
+              sx={{
+                fontWeight: 'bold',
+                display: 'inline-block',
+                fontSize: '15px',
+                clipPath: 'inset(0 1ch 0 0)',
+                animation: 'l 1s steps(4) infinite',
+                '@keyframes l': {
+                  to: {
+                    clipPath: 'inset(0 -1ch 0 0)',
+                  },
                 },
-              },
-            }
-                      }
-            >Changing Owner...
+              }}
+            >
+              Changing Owner...
             </Box>
           ) : (
-            <Text>
-
-              Change owner
-            </Text>
+            <Text>Change owner</Text>
           )}
         </FinalStepActionButton>
       </Box>

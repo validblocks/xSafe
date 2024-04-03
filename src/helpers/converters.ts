@@ -6,7 +6,7 @@ import {
   U32Value,
   U64Value,
 } from '@multiversx/sdk-core/out/smartcontracts/typesystem';
-import BigNumber from '@multiversx/sdk-core/node_modules/bignumber.js';
+import BigNumber from 'bignumber.js';
 import createKeccakHash from 'keccak';
 import { MultisigAction } from 'src/types/MultisigAction';
 import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
