@@ -19,6 +19,7 @@ import MoreAppsLight from 'src/assets/img/MoreAppsLight.png';
 import MoreAppsDark from 'src/assets/img/MoreAppsDark.png';
 import { appsWithRouteConfig } from 'src/apps/apps';
 import StakingIcon from 'src/assets/img/staking.svg';
+import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 
 export type MenuItem = {
   name: string;
@@ -72,7 +73,8 @@ export const availableApps: MarketplaceApp[] = [
     icon: <img src={StakingIcon} />,
     imageUrlLight: StakeAppThumbnail,
     imageUrlDark: StakeAppThumbnailDark,
-    isInstallable: true,
+    isInstallable:
+      import.meta.env.VITE_MVX_ENVIRONMENT !== EnvironmentsEnum.mainnet,
   },
 
   ...appsWithRouteConfig.map((app) => ({
