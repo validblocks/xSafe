@@ -63,7 +63,7 @@ export const HISTORY_INTERVALS = (function () {
   return [
     ...historyIntervals,
     {
-      label: 'All time',
+      label: 'All',
       intervalStartTimestamp: 1483228800,
     },
   ];

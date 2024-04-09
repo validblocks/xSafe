@@ -102,7 +102,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, any> = {
   },
   transactionBuilder: {
     path: '/transaction-builder',
-    title: 'Transaction Builder',
+    title: 'Smart Contract Interactions',
     component: TransactionBuilder,
   },
   home: {

@@ -63,8 +63,8 @@ export const availableApps: MarketplaceApp[] = [
     isInstallable: true,
   },
   {
-    name: 'Transaction Builder',
-    title: 'Transaction Builder',
+    name: 'Smart Contract Interactions',
+    title: 'Smart Contract Interactions',
     link: 'transaction-builder',
     id: AppIdentifiers.TransactionBuilder,
     description:

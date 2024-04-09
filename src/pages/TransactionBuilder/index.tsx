@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as Yup from 'yup';
-import { Box, MenuItem, useMediaQuery } from '@mui/material';
+import {
+  Box,
+  MenuItem,
+  Stack,
+  Switch,
+  Typography,
+  styled,
+  useMediaQuery,
+} from '@mui/material';
 import { SettingsWrapper } from '../../components/Settings/settings-style';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
@@ -29,10 +37,57 @@ import { useSelector } from 'react-redux';
 import { OrganizationToken } from 'src/types/organization';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
+import { AnimatePresence, motion } from 'framer-motion';
+import { LOCAL_STORAGE_KEYS } from 'src/components/Marketplace/localStorageKeys';
+import { useLocalStorage } from 'src/hooks/useLocalStorage';
 
 interface IFormValues {
   amount: string;
 }
+
+const AntSwitch = styled(Switch)(({ theme }) => ({
+  width: 28,
+  height: 16,
+  padding: 0,
+  display: 'flex',
+  '&:active': {
+    '& .MuiSwitch-thumb': {
+      width: 15,
+    },
+    '& .MuiSwitch-switchBase.Mui-checked': {
+      transform: 'translateX(9px)',
+    },
+  },
+  '& .MuiSwitch-switchBase': {
+    padding: 2,
+    '&.Mui-checked': {
+      transform: 'translateX(12px)',
+      color: '#fff',
+      '& + .MuiSwitch-track': {
+        opacity: 1,
+        backgroundColor: theme.palette.mode === 'dark' ? '#4c2ffc' : '#4c2ffc',
+      },
+    },
+  },
+  '& .MuiSwitch-thumb': {
+    boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    transition: theme.transitions.create(['width'], {
+      duration: 200,
+    }),
+  },
+  '& .MuiSwitch-track': {
+    borderRadius: 16 / 2,
+    opacity: 1,
+    backgroundColor:
+      theme.palette.mode === 'dark'
+        ? 'rgba(255,255,255,.35)'
+        : 'rgba(0,0,0,.25)',
+    boxSizing: 'border-box',
+  },
+}));
 
 export const TransactionBuilder = () => {
   const theme = useCustomTheme();
@@ -61,7 +116,11 @@ export const TransactionBuilder = () => {
   const minWidth1120 = useMediaQuery('(min-width:1120px)');
 
   const [error, _setError] = useState(false);
-  const [abiAsText, setAbiAsText] = useState('');
+  const [useAbi, setUseAbi] = useState(true);
+  const [localStorageAbi, setLocalStorageAbi] = useLocalStorage(
+    LOCAL_STORAGE_KEYS.UPLOADED_ABI_TEXT,
+    '',
+  );
   const [selectedEndpoint, setSelectedEndpoint] = useState<string | null>(null);
   const [abiParsingError, setAbiParsingError] = useState<string | null>(null);
   const [selectedAddressParam, setSelectedAddressParam] = useState(
@@ -154,9 +213,13 @@ export const TransactionBuilder = () => {
     );
   }, [amountError, selectedAddressParam, selectedEndpoint, smartContract]);
 
+  console.log({ isCreateProposalButtonActive });
+
   useEffect(() => {
     try {
-      const abiRegistry = AbiRegistry.create(JSON.parse(abiAsText ?? null));
+      const abiRegistry = AbiRegistry.create(
+        JSON.parse(localStorageAbi ?? null),
+      );
       const existingContract = new SmartContract({
         abi: abiRegistry,
       });
@@ -172,7 +235,7 @@ export const TransactionBuilder = () => {
       setAbiParsingError('Invalid ABI');
       setSmartContract(null);
     }
-  }, [abiAsText]);
+  }, [localStorageAbi]);
 
   const selectedEndpointParams = useMemo(() => {
     try {
@@ -194,19 +257,25 @@ export const TransactionBuilder = () => {
     },
     [minWidth600],
   );
-  const handleAddressParamChange = useCallback((value: Address) => {
-    setSelectedAddressParam(value);
-  }, []);
+  const handleAddressParamChange = useCallback(
+    (value: Address) => {
+      setSelectedAddressParam(value);
+    },
+    [setSelectedAddressParam],
+  );
 
-  const updateAbiTextContent = useCallback((content: string) => {
-    setAbiAsText(content);
-  }, []);
+  const updateAbiTextContent = useCallback(
+    (content: string) => {
+      setLocalStorageAbi(content);
+    },
+    [setLocalStorageAbi],
+  );
 
   const handleAbiAsTextChanged = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      updateAbiTextContent(event?.target.value);
+      setLocalStorageAbi(event?.target.value);
     },
-    [updateAbiTextContent],
+    [setLocalStorageAbi],
   );
 
   const handleSelectEndpoint = useCallback(
@@ -227,15 +296,23 @@ export const TransactionBuilder = () => {
     [],
   );
 
-  const onCreateProposalClick = useCallback(() => {
+  console.log({ amount });
+
+  const onCreateProposalClick = useCallback(async () => {
     if (!selectedEndpoint || !selectedAddressParam) return;
 
     const collectedParams = Object.values(inputParamsForm);
 
-    mutateSmartContractCall(
+    const futureCallAmount = new BigUIntValue(
+      new BigNumber(Number(amount.replaceAll(',', '')))
+        .shiftedBy(18)
+        .decimalPlaces(0, BigNumber.ROUND_FLOOR),
+    );
+
+    await mutateSmartContractCall(
       selectedAddressParam,
-      new BigUIntValue(new BigNumber(Number(amount))),
-      selectedEndpoint ?? '',
+      futureCallAmount,
+      selectedEndpoint,
       ...collectedParams.map((p) => BytesValue.fromHex(p)),
     );
   }, [selectedAddressParam, amount, inputParamsForm, selectedEndpoint]);
@@ -249,7 +326,7 @@ export const TransactionBuilder = () => {
             fontSize: '1.5rem',
           }}
         >
-          Transaction Builder
+          Smart Contract Interactions
         </Text>
       </Box>
       <Box paddingBottom="24px" display="flex" flexWrap="wrap">
@@ -257,20 +334,36 @@ export const TransactionBuilder = () => {
           <SettingsWrapper p={0}>
             <Box
               sx={{
-                p: '2rem',
+                p: '1.75rem 2rem',
                 borderBottom: `2px solid ${theme.palette.background.default}`,
+                display: 'flex',
+                justifyContent: 'space-between',
               }}
             >
-              <Text
-                sx={{
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                }}
-              >
-                {t('New Transaction')}
-              </Text>
+              <Box sx={{ display: 'flex', alignItems: 'center !important' }}>
+                <Text
+                  sx={{
+                    fontSize: '16px',
+                    fontWeight: 'bold',
+                  }}
+                >
+                  {t('New Transaction')}
+                </Text>
+              </Box>
+              <Box>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  <Typography>Custom Data</Typography>
+                  <AntSwitch
+                    defaultChecked
+                    onChange={() => setUseAbi(!useAbi)}
+                    value={useAbi}
+                    inputProps={{ 'aria-label': 'ant design' }}
+                  />
+                  <Typography>Use ABI</Typography>
+                </Stack>
+              </Box>
             </Box>
-            <Box sx={{ p: '2rem' }}>
+            <Box p="2rem" pb={useAbi ? '2rem' : 1}>
               <Box pb={2}>
                 <AddressInput
                   placeholder="Enter Smart Contract Address"
@@ -292,21 +385,54 @@ export const TransactionBuilder = () => {
                   }}
                 />
               </Box>
-              <Box>
-                <TextInput
-                  multiline
-                  maxRows="6"
-                  error={undefined}
-                  label={`Smart Contract ABI`}
-                  placeholder={`Paste Smart Contract ABI`}
-                  value={abiAsText}
-                  inputRef={focusInput}
-                  autoComplete="off"
-                  onChange={handleAbiAsTextChanged}
-                  helperText={error ? abiParsingError : null}
-                  className={error ? 'isAddressError' : ''}
-                />
-              </Box>
+              <AnimatePresence initial={false}>
+                {useAbi && (
+                  <motion.div
+                    initial={{
+                      opacity: 0,
+                      height: 0,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      height: 'auto',
+                      transition: {
+                        height: {
+                          duration: 0.4,
+                        },
+                        opacity: {
+                          duration: 0.25,
+                        },
+                      },
+                    }}
+                    exit={{
+                      opacity: 0,
+                      height: useAbi ? 0 : 'auto',
+                      transition: {
+                        height: {
+                          duration: 0.4,
+                        },
+                        opacity: {
+                          duration: 0.25,
+                        },
+                      },
+                    }}
+                  >
+                    <TextInput
+                      multiline
+                      maxRows="6"
+                      error={undefined}
+                      label={`Smart Contract ABI`}
+                      placeholder={`Paste Smart Contract ABI`}
+                      value={localStorageAbi}
+                      inputRef={focusInput}
+                      autoComplete="off"
+                      onChange={handleAbiAsTextChanged}
+                      helperText={error ? abiParsingError : null}
+                      className={error ? 'isAddressError' : ''}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </Box>
             {smartContract && (
               <Box>
