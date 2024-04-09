@@ -50,9 +50,9 @@ const DelegationMobileCards = ({
           <Text>Delegated</Text>
           <Text display="flex" alignItems="center">
             <MultiversXLogo width={15} height={15} marginRight={1} />
-            {Number(
-              item?.delegatedColumn?.delegatedAmount,
-            ).toLocaleString()}{' '}
+            {Number(item?.delegatedColumn?.delegatedAmount).toLocaleString(
+              'EN',
+            )}{' '}
             $EGLD
           </Text>
         </Styled.DelegationInfoBox>
@@ -62,7 +62,7 @@ const DelegationMobileCards = ({
             <MultiversXLogo width={15} height={15} marginRight={1} />
             {Number(
               item?.claimableRewardsColumn?.claimableRewards,
-            ).toLocaleString()}{' '}
+            ).toLocaleString('EN')}{' '}
             $EGLD
           </Text>
         </Styled.DelegationInfoBox>

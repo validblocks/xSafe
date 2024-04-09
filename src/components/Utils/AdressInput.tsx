@@ -96,6 +96,10 @@ function AddressInput({
           '&.isAddressError:focus-within': {
             '& label': { color: '#e51a3e !important' },
           },
+          '& .MuiInputLabel-root,& .MuiInputLabel-formControl': {
+            color: theme.palette.text.primary,
+            zIndex: 0,
+          },
         }}
       />
     </div>

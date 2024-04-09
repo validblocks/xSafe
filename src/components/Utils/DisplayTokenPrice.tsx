@@ -40,7 +40,7 @@ const DisplayTokenPrice = ({ tokenIdentifier, balanceDetails }: Props) => {
 
   return (
     <AssetValue>
-      {Number(convertedValue ?? 0).toLocaleString() ?? '0'} {activeCurrency}
+      {Number(convertedValue ?? 0).toLocaleString('EN') ?? '0'} {activeCurrency}
     </AssetValue>
   );
 };

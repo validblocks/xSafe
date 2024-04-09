@@ -252,7 +252,9 @@ function TotalBalance() {
               identifier: identifier ?? '',
               photoUrl: balanceDetails?.photoUrl ?? '',
               tokenPrice,
-              tokenAmount: Number(denominatedAmountForCalcs).toLocaleString(),
+              tokenAmount: Number(denominatedAmountForCalcs).toLocaleString(
+                'EN',
+              ),
               tokenValue: totalUsdValue,
             };
           },
@@ -319,7 +321,7 @@ function TotalBalance() {
   useEffect(() => {
     const totalValue = Number(
       parseFloat(totalUsdValueConverted.toFixed(2)),
-    ).toLocaleString();
+    ).toLocaleString('EN');
     setMultisigAllCoinsValue(totalValue);
   }, [totalUsdValueConverted]);
 

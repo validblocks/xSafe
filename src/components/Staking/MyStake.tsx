@@ -181,7 +181,7 @@ const MyStake = () => {
   });
 
   const allClaimableRewards = Number(
-    Number(totalClaimableRewards).toLocaleString(),
+    Number(totalClaimableRewards).toLocaleString('EN'),
   );
 
   if (isErrorOnFetchDelegations) {

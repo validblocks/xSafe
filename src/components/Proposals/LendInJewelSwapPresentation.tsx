@@ -26,7 +26,7 @@ const LendInJewelSwapPresentation = ({ parsedArgs: _, lendAmount }: Props) => {
     () =>
       RationalNumber.fromBigInteger(
         lendAmount.valueOf().toString(),
-      ).toLocaleString(),
+      ).toLocaleString('EN'),
     [lendAmount],
   );
 

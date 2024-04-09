@@ -20,7 +20,7 @@ const BalanceDisplay = ({
   return (
     <div style={{ color: theme.palette.text.primary }}>
       <span style={{ fontSize: bigFontSize, fontWeight: 900 }}>
-        {integerPart.toLocaleString()}
+        {integerPart.toLocaleString('EN')}
       </span>
       <span style={{ fontSize: smallFontSize, fontWeight: 600 }}>
         {decimalPart}

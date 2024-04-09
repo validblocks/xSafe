@@ -117,7 +117,7 @@ const AssetsTable = () => {
                   ? 18
                   : params.value?.decimals,
               ),
-            ).toLocaleString()}{' '}
+            ).toLocaleString('EN')}{' '}
             {' $'}
             {params.value?.identifier}
           </h6>

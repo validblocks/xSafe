@@ -44,7 +44,7 @@ const SendTokenProposalPresentation = ({
           amount,
           selectedTokenDetails?.value?.decimals,
         ),
-      ).toLocaleString() ?? '0',
+      ).toLocaleString('EN') ?? '0',
     [amount, identifier, selectedTokenDetails?.value?.decimals],
   );
 

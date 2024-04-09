@@ -58,7 +58,7 @@ const MobileTokenCard = ({
       <Styled.CategoryName>
         <Typography component="span">Balance</Typography>
         <Typography component="h6" className="mb-0 font-weight-normal">
-          {Number(getTokenValue(tokenRow)).toLocaleString()} $
+          {Number(getTokenValue(tokenRow)).toLocaleString('EN')} $
           {tokenRow.balanceDetails?.identifier}
         </Typography>
       </Styled.CategoryName>

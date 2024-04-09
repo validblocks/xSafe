@@ -32,7 +32,7 @@ const AmountWithTitleCard = ({
 
   const cardAmount =
     amountValue || amountValue === 0
-      ? Number(amountValue).toLocaleString()
+      ? Number(amountValue).toLocaleString('EN')
       : '';
 
   return (

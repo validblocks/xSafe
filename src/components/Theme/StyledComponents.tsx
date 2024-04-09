@@ -516,6 +516,10 @@ export const TextInput = styled(({ sx, className, ...other }) => (
       }
     }
 
+    .MuiFormLabel-root {
+      z-index: 0 !important;
+    }
+
     &.isAddressError:focus-within {
       & label {
         color: #e51a3e !important;

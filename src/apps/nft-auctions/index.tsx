@@ -31,7 +31,7 @@ const ClaimNftAuction = () => {
     if (!claimableAmountResult) return 0;
 
     const { denominatedClaimableAmount } = claimableAmountResult;
-    return Number(denominatedClaimableAmount).toLocaleString();
+    return Number(denominatedClaimableAmount).toLocaleString('EN');
   }, [claimableAmountResult]);
 
   const currentContract = useSelector(currentMultisigContractSelector);
