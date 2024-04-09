@@ -3,13 +3,17 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import { useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import { useEffect, useState } from 'react';
-import useDebounce from 'src/utils/useDebounce';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import useDebounce from 'src/hooks/useDebounce';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import ProvidersWithUndelegationDetails from './ProvidersWithUndelegationDetails';
 import { StakingSearchBar } from '../Theme/StyledComponents';
 
 interface Props {
-    enableNextStep?: (enabled: boolean) => ReturnType<React.Dispatch<React.SetStateAction<Record<number, boolean>>>>;
+  enableNextStep?: (
+    enabled: boolean,
+  ) => ReturnType<
+    React.Dispatch<React.SetStateAction<Record<number, boolean>>>
+  >;
 }
 
 const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
@@ -33,7 +37,10 @@ const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
         variant="filled"
         InputProps={{
           startAdornment: (
-            <InputAdornment position="start" sx={{ ml: '2.2rem', mt: '0 !important' }}>
+            <InputAdornment
+              position="start"
+              sx={{ ml: '2.2rem', mt: '0 !important' }}
+            >
               <SearchRoundedIcon />
             </InputAdornment>
           ),
@@ -60,11 +67,10 @@ const WithdrawFormStepOne = ({ enableNextStep = () => null }: Props) => {
           },
         }}
       >
-        <Box
-          overflow="auto"
-          width="100%"
-        >
-          <ProvidersWithUndelegationDetails searchParam={debouncedSearchParam} />
+        <Box overflow="auto" width="100%">
+          <ProvidersWithUndelegationDetails
+            searchParam={debouncedSearchParam}
+          />
         </Box>
       </Box>
     </Box>

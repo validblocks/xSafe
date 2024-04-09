@@ -1,16 +1,21 @@
 import { Link } from '@mui/material';
 import { Box } from '@mui/system';
 import { IProviderColumn } from 'src/types/staking';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { Text } from '../StyledComponents/StyledComponents';
 
 interface Props {
-    columnData?: IProviderColumn;
-    withAPR?: boolean;
+  columnData?: IProviderColumn;
+  withAPR?: boolean;
 }
 
 const ProviderColumn = ({
-  columnData: { avatar, name, website, apr } = { avatar: '', name: '', website: '', apr: 0 },
+  columnData: { avatar, name, website, apr } = {
+    avatar: '',
+    name: '',
+    website: '',
+    apr: 0,
+  },
   withAPR = false,
 }: Props) => {
   const theme = useCustomTheme();
@@ -19,35 +24,51 @@ const ProviderColumn = ({
   }
 
   return (
-    <Box sx={{ display: 'flex', gap: '12px', height: '68px', alignItems: 'center' }}>
+    <Box
+      sx={{
+        display: 'flex',
+        gap: '12px',
+        height: '68px',
+        alignItems: 'center',
+      }}
+    >
       {avatar !== '#' && (
-      <Box
-        width={48}
-        height={48}
-        sx={{ backgroundImage: `url(${avatar})`, backgroundSize: 'cover' }}
-        borderRadius="10px"
-      />
+        <Box
+          width={48}
+          height={48}
+          sx={{ backgroundImage: `url(${avatar})`, backgroundSize: 'cover' }}
+          borderRadius="10px"
+        />
       )}
       <Box>
         <Text
-          sx={{ letterSpacing: '-0.01em', color: `${theme.palette.text.primary} !important` }}
+          sx={{
+            letterSpacing: '-0.01em',
+            color: `${theme.palette.text.primary} !important`,
+          }}
           fontWeight={500}
           fontSize={17}
           noWrap
         >
           {name}
         </Text>
-        {withAPR ? <span>{apr}%</span> : (
+        {withAPR ? (
+          <span>{apr}%</span>
+        ) : (
           <Link
             underline="none"
             color="grey"
             fontWeight={400}
             fontSize={12}
             href={website}
-            sx={{ color: `${theme.palette.text.primary} !important`, opacity: 0.5 }}
+            sx={{
+              color: `${theme.palette.text.primary} !important`,
+              opacity: 0.5,
+            }}
             target="_blank"
             rel="noreferrer"
-          >{website}
+          >
+            {website}
           </Link>
         )}
       </Box>

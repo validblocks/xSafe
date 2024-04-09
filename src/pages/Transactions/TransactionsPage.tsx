@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
-import { Box, MenuItem, SelectChangeEvent, Tab, useMediaQuery } from '@mui/material';
+import {
+  Box,
+  MenuItem,
+  SelectChangeEvent,
+  Tab,
+  useMediaQuery,
+} from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useDispatch } from 'react-redux';
 import { MainSelect } from 'src/components/Theme/StyledComponents';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import {
   setIntervalEndTimestamp,
   setIntervalStartTimestamp,
@@ -14,7 +20,7 @@ import TransactionHistory from './TransactionHistory';
 import {
   HistoryInterval,
   HISTORY_INTERVALS,
-} from './TransactionHistoryIntervals';
+} from '../../components/Transactions/TransactionHistoryIntervals';
 import TransactionQueue from './TransactionQueue';
 import * as Styled from '../../components/Utils/styled/index';
 
@@ -107,7 +113,9 @@ export default function TransactionsPage() {
           justifyContent={'space-between'}
           alignItems={'center'}
           flexDirection={maxWidth600 ? 'column' : 'row'}
-          borderBottom={maxWidth600 ? 'none' : `2px solid ${theme.palette.divider.tabs}`}
+          borderBottom={
+            maxWidth600 ? 'none' : `2px solid ${theme.palette.divider.tabs}`
+          }
         >
           <Styled.TransactionsTab
             value={value}

@@ -1,0 +1,23 @@
+import { Address } from '@multiversx/sdk-core/out';
+import { Box } from '@mui/material';
+import MemberPresentationWithPhoto from 'src/components/Utils/MemberPresentationWithPhoto';
+import { Text } from '../StyledComponents/StyledComponents';
+
+type Props = {
+  title: string;
+  address: Address;
+};
+
+const ActionOnAddress = ({ title, address }: Props) => (
+  <Box>
+    <Text fontSize={21} fontWeight={700} sx={{ marginBottom: '0.75rem' }}>
+      <strong>{title}</strong>
+    </Text>
+    <MemberPresentationWithPhoto
+      memberAddress={address}
+      charactersLeftAfterTruncation={35}
+    />
+  </Box>
+);
+
+export default ActionOnAddress;

@@ -4,18 +4,19 @@ import Unlock from 'src/pages/Unlock';
 import AssetsTable from 'src/pages/AssetsPage/AssetsPage';
 import NftPage from 'src/pages/NftPage';
 import TransactionsPage from 'src/pages/Transactions/TransactionsPage';
-import CvorumContainer from 'src/pages/Organization/CvorumContainer';
-import OrganizationOwners from 'src/pages/Organization/OrganizationOwners';
+import CvorumContainer from 'src/components/Organization/CvorumContainer';
+import OrganizationMembers from 'src/pages/Organization/OrganizationMembers';
 import Settings from 'src/pages/Settings';
 import AddressBook from 'src/pages/AddressBook';
 import { dAppName } from 'src/config';
-import withPageTitle from 'src/components/PageTitle';
+import withPageTitle from 'src/components/PageUtils/PageTitle';
 import StakingDashboard from 'src/pages/Stake/StakingDashboard';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import AppsPage from 'src/pages/Apps';
+import AppsPage from 'src/components/Apps';
 import HelpCenter from 'src/pages/HelpCenter';
 import routeNames from './routeNames';
-import { ForegroundRoutesType } from './types';
+import { ForegroundRoutesType } from '../types/routes';
+import { TransactionBuilder } from 'src/pages/TransactionBuilder';
 
 type RouteType = any & { title: string };
 
@@ -72,7 +73,7 @@ export const foregroundRoutes: Record<ForegroundRoutesType, any> = {
   members: {
     path: '/members',
     title: 'Members',
-    component: OrganizationOwners,
+    component: OrganizationMembers,
   },
   settings: {
     path: '/settings',
@@ -98,6 +99,11 @@ export const foregroundRoutes: Record<ForegroundRoutesType, any> = {
     path: '/apps',
     title: 'Apps',
     component: AppsPage,
+  },
+  transactionBuilder: {
+    path: '/transaction-builder',
+    title: 'Smart Contract Interactions',
+    component: TransactionBuilder,
   },
   home: {
     title: 'Home',

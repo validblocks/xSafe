@@ -1,16 +1,16 @@
 import { Box, Tab, useMediaQuery } from '@mui/material';
 import { TabPanel } from 'src/pages/Transactions/TransactionsPage';
 import { useState } from 'react';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import * as Styled from './styled';
 
 interface IPanel {
-    title: string;
-    content: React.ReactNode;
+  title: string;
+  content: React.ReactNode;
 }
 
 interface ContainerWithPanelProps {
-    panels: IPanel[];
+  panels: IPanel[];
 }
 
 const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
@@ -32,13 +32,15 @@ const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
   return (
     <Styled.ContainerWithPanelsTopBox>
       <Styled.TabContainerBox>
-        <Styled.MainTab
-          value={selectedTab}
-          onChange={handleChange}
-        >
+        <Styled.MainTab value={selectedTab} onChange={handleChange}>
           {panels.map((panel, index) => (
             <Tab
-              sx={{ textTransform: 'none', fontSize: '15px', fontWeight: '500', color: theme.palette.text.primary }}
+              sx={{
+                textTransform: 'none',
+                fontSize: '15px',
+                fontWeight: '500',
+                color: theme.palette.text.primary,
+              }}
               key={panel.title}
               label={panel.title}
               {...a11yProps(index)}

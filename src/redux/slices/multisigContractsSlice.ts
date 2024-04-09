@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
 import { logoutAction } from '../commonActions';
 
 interface StateType {
@@ -31,10 +31,7 @@ export const multisigContractsSlice = createSlice({
       state.multisigContracts = action.payload;
       state.fetched = true;
     },
-    setHasUnknownOwner: (
-      state: StateType,
-      action: PayloadAction<boolean>,
-    ) => {
+    setHasUnknownOwner: (state: StateType, action: PayloadAction<boolean>) => {
       state.hasUnknownOwner = action.payload;
     },
     setIsMultisigContractInvalid: (

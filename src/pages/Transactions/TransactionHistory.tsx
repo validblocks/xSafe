@@ -1,32 +1,38 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
-import { useTranslation } from 'react-i18next';
+import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { useQuery, useQueryClient } from 'react-query';
 import { useSelector } from 'react-redux';
 import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';
 import uniqBy from 'lodash/uniqBy';
 import PaginationWithItemsPerPage from 'src/components/Utils/PaginationWithItemsPerPage';
 import { parseActionDetailed } from 'src/helpers/converters';
-import { RawTransactionType } from 'src/helpers/types';
-import { currentMultisigContractSelector, currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import { RawTransactionType } from 'src/types/transactions';
+import {
+  currentMultisigContractSelector,
+  currentMultisigTransactionIdSelector,
+} from 'src/redux/selectors/multisigContractsSelectors';
 import {
   intervalStartTimestampSelector,
   intervalEndTimestampSelector,
   intervalStartTimestampForFilteringSelector,
 } from 'src/redux/selectors/transactionsSelector';
-import { MultisigActionDetailed } from 'src/types/MultisigActionDetailed';
-import { getDate } from 'src/utils/transactionUtils';
+import { MultisigActionDetailed } from 'src/types/multisig/MultisigActionDetailed';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
-import { MultisigContractInfoType } from 'src/types/multisigContracts';
+import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
 import { parseInt } from 'lodash';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
-import { ITransactionEventTopic, ITransactionOnNetwork } from '@multiversx/sdk-core/out';
+import {
+  ITransactionEventTopic,
+  ITransactionOnNetwork,
+} from '@multiversx/sdk-core/out';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { Box, useMediaQuery } from '@mui/material';
-import TransactionHistoryPresentation from './TransactionHistoryPresentation';
-import NoActionsOverlay from './utils/NoActionsOverlay';
+import TransactionHistoryPresentation from '../../components/Transactions/TransactionHistoryPresentation';
+import NoActionsOverlay from '../../components/Utils/NoActionsOverlay';
+import { getDate } from 'src/utils/transactionUtils';
 
 const dateFormat = 'MMM D, YYYY';
 
@@ -42,7 +48,9 @@ const TransactionHistory = () => {
     PairOfTransactionAndDecodedAction[]
   >([]);
 
-  const currentContract = useSelector<StateType, MultisigContractInfoType>(currentMultisigContractSelector);
+  const currentContract = useSelector<StateType, MultisigContractInfoType>(
+    currentMultisigContractSelector,
+  );
 
   const [actionsPerPage, setActionsPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
@@ -50,16 +58,21 @@ const TransactionHistory = () => {
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
-  const globalIntervalEndTimestamp = useSelector<StateType, number>(intervalEndTimestampSelector);
+  const globalIntervalEndTimestamp = useSelector<StateType, number>(
+    intervalEndTimestampSelector,
+  );
   const globalIntervalStartTimestamp = useSelector<StateType, number>(
     intervalStartTimestampSelector,
   );
-  const globalIntervalStartTimestampForFiltering = useSelector<StateType, number>(
-    intervalStartTimestampForFilteringSelector,
-  );
+  const globalIntervalStartTimestampForFiltering = useSelector<
+    StateType,
+    number
+  >(intervalStartTimestampForFilteringSelector);
 
-  const { t } = useTranslation();
-  const fetchTransactions2 = useCallback(async (): Promise<ITransactionOnNetwork[]> => {
+  const t = useCustomTranslation();
+  const fetchTransactions2 = useCallback(async (): Promise<
+    ITransactionOnNetwork[]
+  > => {
     let transactions: ITransactionOnNetwork[] = [];
     let cursorPointer = 0;
 
@@ -74,7 +87,10 @@ const TransactionHistory = () => {
         from: cursorPointer.toString(),
       });
       // eslint-disable-next-line no-await-in-loop
-      const data = await MultiversxApiProvider.getAddressTransactions(currentContract?.address, urlParams);
+      const data = await MultiversxApiProvider.getAddressTransactions(
+        currentContract?.address,
+        urlParams,
+      );
 
       if (!data) break;
 
@@ -88,9 +104,15 @@ const TransactionHistory = () => {
     }
 
     return transactions;
-  }, [currentContract?.address, globalIntervalEndTimestamp, globalIntervalStartTimestamp]);
+  }, [
+    currentContract?.address,
+    globalIntervalEndTimestamp,
+    globalIntervalStartTimestamp,
+  ]);
 
-  const [cachedTransactions, setCachedTransactions] = useState<ITransactionOnNetwork[] | null>(null);
+  const [cachedTransactions, setCachedTransactions] = useState<
+    ITransactionOnNetwork[] | null
+  >(null);
 
   const {
     isFetching: isFetchingTransactions,
@@ -99,14 +121,20 @@ const TransactionHistory = () => {
     data: transactions,
     refetch: refetchTransactions,
   } = useQuery(
-    [QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED, globalIntervalStartTimestamp, globalIntervalEndTimestamp],
+    [
+      QueryKeys.ALL_TRANSACTIONS_WITH_LOGS_ENABLED,
+      globalIntervalStartTimestamp,
+      globalIntervalEndTimestamp,
+    ],
     fetchTransactions2,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
     },
   );
 
-  const currentTransactionId = useSelector(currentMultisigTransactionIdSelector);
+  const currentTransactionId = useSelector(
+    currentMultisigTransactionIdSelector,
+  );
   useTrackTransactionStatus({
     transactionId: currentTransactionId,
     onSuccess: () => {
@@ -131,14 +159,16 @@ const TransactionHistory = () => {
 
       if (logEvents) {
         for (const event of logEvents) {
-          const decodedEventTopics = event.topics.map((topic: ITransactionEventTopic) =>
-            atob(topic.toString()),
+          const decodedEventTopics = event.topics.map(
+            (topic: ITransactionEventTopic) => atob(topic.toString()),
           );
 
           if (decodedEventTopics.includes('startPerformAction')) {
             try {
               const buffer = Buffer.from(event.data || '', 'base64');
-              const actionDetailed = parseActionDetailed(buffer) as MultisigActionDetailed;
+              const actionDetailed = parseActionDetailed(
+                buffer,
+              ) as MultisigActionDetailed;
               if (actionDetailed) {
                 result.push({
                   action: actionDetailed,
@@ -154,7 +184,11 @@ const TransactionHistory = () => {
     }
 
     setActionAccumulator(result);
-  }, [cachedTransactions, globalIntervalStartTimestampForFiltering, queryClient]);
+  }, [
+    cachedTransactions,
+    globalIntervalStartTimestampForFiltering,
+    queryClient,
+  ]);
 
   const [actionsForCurrentPage, setActionsForCurrentPage] = useState<
     PairOfTransactionAndDecodedAction[]
@@ -171,7 +205,8 @@ const TransactionHistory = () => {
             getDate(transactionWithActionData.transaction.timestamp),
           ).format(dateFormat);
 
-          if (!mapActionsToDate[dateOfTransaction]) mapActionsToDate[dateOfTransaction] = [];
+          if (!mapActionsToDate[dateOfTransaction])
+            mapActionsToDate[dateOfTransaction] = [];
           mapActionsToDate[dateOfTransaction].push(transactionWithActionData);
 
           return mapActionsToDate;
@@ -186,15 +221,18 @@ const TransactionHistory = () => {
   }
 
   if (isErrorOnFetchTransactions) {
-    return <div>{t('An error occured while fetching actions') as string}...</div>;
+    return (
+      <div>{t('An error occured while fetching actions') as string}...</div>
+    );
   }
 
   return (
     <Box paddingBottom={maxWidth600 ? '52px' : 0}>
       {actionAccumulator.length === 0 ? (
-        <Box
-          pt="12px"
-        ><NoActionsOverlay message={t('No transactions found for this period')} />
+        <Box pt="12px">
+          <NoActionsOverlay
+            message={t('No transactions found for this period')}
+          />
         </Box>
       ) : (
         <TransactionHistoryPresentation
@@ -212,7 +250,9 @@ const TransactionHistory = () => {
           itemsPerPage={actionsPerPage}
           totalPages={totalPages}
         />
-      ) : ''}
+      ) : (
+        ''
+      )}
     </Box>
   );
 };

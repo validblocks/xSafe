@@ -3,18 +3,22 @@ import {
   useGetAccountInfo,
   useGetLoginInfo,
 } from '@multiversx/sdk-dapp/hooks/account';
-import { AuthenticatedRoutesWrapper, AxiosInterceptorContext } from '@multiversx/sdk-dapp/wrappers';
+import {
+  AuthenticatedRoutesWrapper,
+  AxiosInterceptorContext,
+} from '@multiversx/sdk-dapp/wrappers';
 import { Box, IconButton } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  setAccountData,
-} from 'src/redux/slices/accountGeneralInfoSlice';
+import { setAccountData } from 'src/redux/slices/accountGeneralInfoSlice';
 import { setEconomics } from 'src/redux/slices/economicsSlice';
-import { setCurrentMultisigContract, setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
+import {
+  setCurrentMultisigContract,
+  setMultisigContracts,
+} from 'src/redux/slices/multisigContractsSlice';
 import routes from 'src/routes';
 import { Main } from 'src/components/Theme/StyledComponents';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import routeNames from 'src/routes/routeNames';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
@@ -34,7 +38,11 @@ import PageBreadcrumbs from './Breadcrumb';
 import ModalLayer from './Modal';
 import SidebarSelectOptionModal from './Modal/sidebarSelectOptionModal';
 import Account from './Navbar/Account';
-import { AppBarWrapper, SidebarAndMainWrapper, TopHeader } from './Navbar/navbar-style';
+import {
+  AppBarWrapper,
+  SidebarAndMainWrapper,
+  TopHeader,
+} from './Navbar/navbar-style';
 import MobileLayout from './Navbar/mobileLayout';
 import Navbar from './Navbar/index';
 import NavbarLogo from './Navbar/Logo';
@@ -57,20 +65,16 @@ function Layout({ children }: { children: React.ReactNode }) {
     }
   }, [address, dispatch]);
 
-  const fetchAttachedContracts = useCallback(
-    async () => {
-      const { data } = await axios.get(
-        `/settings/${address}`,
-        {
-          baseURL: network.storageApi,
-          headers: {
-            Authorization: `Bearer ${tokenLogin?.nativeAuthToken}`,
-          },
-        },
-      );
+  const fetchAttachedContracts = useCallback(async () => {
+    const { data } = await axios.get(`/settings/${address}`, {
+      baseURL: network.storageApi,
+      headers: {
+        Authorization: `Bearer ${tokenLogin?.nativeAuthToken}`,
+      },
+    });
 
-      return data && data !== '' ? data : [];
-    }, [address, tokenLogin?.nativeAuthToken]);
+    return data && data !== '' ? data : [];
+  }, [address, tokenLogin?.nativeAuthToken]);
 
   const {
     isFetching: isFetchingContracts,
@@ -81,16 +85,25 @@ function Layout({ children }: { children: React.ReactNode }) {
     fetchAttachedContracts,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
-      enabled: isLoggedIn && (!currentContract?.address || currentContract?.address === ''),
+      enabled:
+        isLoggedIn &&
+        (!currentContract?.address || currentContract?.address === ''),
     },
   );
 
   useEffect(() => {
-    if (isLoggedIn) { dispatch(setProposeModalSelectedOption(null)); }
+    if (isLoggedIn) {
+      dispatch(setProposeModalSelectedOption(null));
+    }
   }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
-    if (isLoggedIn && attachedContracts && !isFetchingContracts && !isLoadingContracts) {
+    if (
+      isLoggedIn &&
+      attachedContracts &&
+      !isFetchingContracts &&
+      !isLoadingContracts
+    ) {
       dispatch(setProposeModalSelectedOption(null));
       (async function getContracts() {
         const contracts = attachedContracts;
@@ -101,9 +114,19 @@ function Layout({ children }: { children: React.ReactNode }) {
           dispatch(setCurrentMultisigContract(firstContract.address));
           navigate(`${routeNames.multisig}/${firstContract.address}`);
         }
-      }());
+      })();
     }
-  }, [isLoggedIn, address, dispatch, currentContract?.address, navigate, fetchAccountData, attachedContracts, isFetchingContracts, isLoadingContracts]);
+  }, [
+    isLoggedIn,
+    address,
+    dispatch,
+    currentContract?.address,
+    navigate,
+    fetchAccountData,
+    attachedContracts,
+    isFetchingContracts,
+    isLoadingContracts,
+  ]);
 
   const fetchEconomics = useCallback(async () => {
     const economics = await MultiversxApiProvider.getEconomicsData();
@@ -133,9 +156,7 @@ function Layout({ children }: { children: React.ReactNode }) {
     <Box sx={{ height: '100vh' }}>
       <AppBarWrapper>
         {minWidth600 ? (
-          <TopHeader
-            className="d-flex justify-content-between px-4 py-3 align-items-center"
-          >
+          <TopHeader className="d-flex justify-content-between px-4 py-3 align-items-center">
             <Box className="p-0 d-flex align-items-center justify-content-between">
               <Box className="p-0 d-flex align-items-center justify-content-center">
                 <NavbarLogo />
@@ -148,11 +169,16 @@ function Layout({ children }: { children: React.ReactNode }) {
               </Box>
             </Box>
             <Box display="flex">
-              <IconButton onClick={onChangeTheme} color="inherit" sx={{ mr: '16px' }}>
-                {isDarkThemeEnabled
-                  ? <Brightness7Icon htmlColor="#fff" />
-                  : <DarkModeIcon htmlColor="#4c2ffc" />
-                }
+              <IconButton
+                onClick={onChangeTheme}
+                color="inherit"
+                sx={{ mr: '16px' }}
+              >
+                {isDarkThemeEnabled ? (
+                  <Brightness7Icon htmlColor="#fff" />
+                ) : (
+                  <DarkModeIcon htmlColor="#4c2ffc" />
+                )}
               </IconButton>
               <NetworkAnnouncer network={network.name} />
               <Account />

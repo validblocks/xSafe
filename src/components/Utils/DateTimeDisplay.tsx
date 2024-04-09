@@ -1,9 +1,9 @@
 import { Typography, useMediaQuery } from '@mui/material';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 
 interface Props {
-    value: number;
-    type: string;
+  value: number;
+  type: string;
 }
 
 const DateTimeDisplay = ({ value, type }: Props) => {
@@ -15,7 +15,9 @@ const DateTimeDisplay = ({ value, type }: Props) => {
       fontSize={maxWidth600 ? 14 : 11}
       sx={{ color: theme.palette.text.primary }}
       component="span"
-    >{value}{type}
+    >
+      {value}
+      {type}
     </Typography>
   );
 };

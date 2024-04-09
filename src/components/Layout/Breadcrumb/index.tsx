@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import breadcrumbItems from './BreadcrumbItems';
 import * as Styled from './styled/index';
 

@@ -5,12 +5,12 @@ import BoltIcon from '@mui/icons-material/Bolt';
 import { Box, useMediaQuery } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { AccountButton } from 'src/components/Theme/StyledComponents';
-import addressShorthand from 'src/helpers/addressShorthand';
 import { useDispatch, useSelector } from 'react-redux';
-import { usePrevious } from 'src/utils/usePrevious';
-import { ModalTypes } from 'src/types/Proposals';
+import { usePrevious } from 'src/hooks/usePrevious';
+import { ModalTypes } from 'src/types/multisig/proposals/Proposals';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { proposeModalSelectedOptionSelector } from 'src/redux/selectors/modalsSelector';
+import { getAddressShorthand } from 'src/utils/addressUtils';
 
 function Account() {
   const { address } = useGetAccountInfo();
@@ -19,7 +19,7 @@ function Account() {
   const [walletAddress, setWalletAddress] = useState('');
 
   useEffect(() => {
-    setWalletAddress(addressShorthand(address));
+    setWalletAddress(getAddressShorthand(address));
   }, [isLoggedIn, address]);
 
   const [isMainButtonActive, setIsMainButtonActive] = useState(false);
@@ -51,7 +51,8 @@ function Account() {
     () => ({
       backgroundColor: isMainButtonActive ? '#4C2FFC !important' : '',
       color: isMainButtonActive ? '#FFFF !important' : '',
-    }), [isMainButtonActive],
+    }),
+    [isMainButtonActive],
   );
 
   const selectedOption = useSelector(proposeModalSelectedOptionSelector);
@@ -75,7 +76,9 @@ function Account() {
         <Box className="d-flex">
           <BoltIcon />
           {minWidth600 && (
-            <Typography sx={{ textTransform: isLoggedIn ? 'lowercase' : 'none' }}>
+            <Typography
+              sx={{ textTransform: isLoggedIn ? 'lowercase' : 'none' }}
+            >
               {isLoggedIn ? walletAddress : 'Connect'}
             </Typography>
           )}

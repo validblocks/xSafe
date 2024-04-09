@@ -1,15 +1,18 @@
 import { CircularProgress, useMediaQuery } from '@mui/material';
 import { Box } from '@mui/system';
-import { useTranslation } from 'react-i18next';
-import { Text, CenteredBox } from 'src/components/StyledComponents/StyledComponents';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
+import {
+  Text,
+  CenteredBox,
+} from 'src/components/StyledComponents/StyledComponents';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 
 type Props = {
   dataName: string;
 };
 
 const LoadingDataIndicator = ({ dataName }: Props) => {
-  const { t } = useTranslation();
+  const t = useCustomTranslation();
   const data = dataName.length > 0 ? `${dataName}s` : dataName;
   const loadingMessage = `Loading ${data}...`;
   const theme = useCustomTheme();
@@ -22,8 +25,12 @@ const LoadingDataIndicator = ({ dataName }: Props) => {
         height: maxWidth600 ? '200px' : 'auto',
       }}
     >
-      <CircularProgress sx={{ color: theme.palette.background.transactionsExpand }} />
-      <Box sx={{ marginLeft: '10px' }}><Text fontWeight={500}>{t(loadingMessage) as string}</Text></Box>
+      <CircularProgress
+        sx={{ color: theme.palette.background.transactionsExpand }}
+      />
+      <Box sx={{ marginLeft: '10px' }}>
+        <Text fontWeight={500}>{t(loadingMessage) as string}</Text>
+      </Box>
     </CenteredBox>
   );
 };

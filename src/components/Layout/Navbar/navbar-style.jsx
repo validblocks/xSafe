@@ -1,5 +1,4 @@
 import {
-  Menu,
   Box,
   Button,
   ListItemButton,
@@ -8,28 +7,16 @@ import {
   List,
   Grid,
 } from '@mui/material';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Navbar as NavItem } from 'react-bootstrap';
 import styled from 'styled-components';
-import CopyButton from 'src/components/CopyButton';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import MuiDrawer from '@mui/material/Drawer';
 import pxToRem from 'src/components/Utils/pxToRem';
-
-export const ConnectDropdown = styled(Menu)`
-  top: 20px !important;
-`;
 
 export const ConnectItems = styled(Box)`
   background: ${(props) => props.theme.palette.background.main};
   color: ${(props) => props.theme.palette.primary.main};
   border-radius: ${(props) => props.theme.shape.radius};
-`;
-export const CopyBtn = styled(CopyButton)`
-&&& {
-  color: ${(props) => props.theme.palette.anchor.main};
-}
 `;
 
 export const DisconnectButton = styled(Button)`
@@ -105,10 +92,6 @@ export const LinkInfoNumber = styled(Box)`
 }
 `;
 
-export const SmallWarningBox = styled(MembersBox)`
-  background-color: #ffececb1;
-`;
-
 export const CenteredText = styled(Text)`
   @media (max-width: 600px) {
     text-align: left;
@@ -139,20 +122,6 @@ export const NavLogo = styled(NavItem)(({ theme: _ }) => ({
     backgroundColor: _.palette.background.secondary,
   },
 }));
-
-
-export const DappName = styled.span`
-  font-size: 19px;
-  &:before {
-    content: '';
-    display: block;
-    width: 1px;
-    height: 30px;
-    background-color: #9ba5b4;
-    margin-right: 10px;
-    margin-left: 10px;
-  }
-`;
 
 export const TopMenu = styled(Box)(({ theme: _ }) => ({
   height: '100%',
@@ -251,10 +220,6 @@ export const ListItem = styled(ListItemButton)`
     opacity: 1;
   };
 }
-`;
-
-export const BreadcrumbsWrapper = styled(Box)`
-  margin-left: 260px;
 `;
 
 export const MenuAccordion = styled(AccordionSummary)`
@@ -356,7 +321,7 @@ export const MobileMenu = styled(Box)(({ theme: _ }) => ({
     width: '100%',
     height: '70px',
     padding: '0 8px',
-    zIndex: '1301 !important',
+    zIndex: '1302 !important',
     display: 'flex',
     flexDirection: 'row',
     borderTopRightRadius: _.shape.radius,
@@ -423,13 +388,6 @@ export const BottomMenuButton = styled(Button)(({ theme: _ }) => ({
   },
 }));
 
-export const ArrowDropUp = styled(ArrowDropUpIcon)(({ theme: _ }) => ({
-  fill: _.palette.background.safeOptions.svg,
-}));
-export const ArrowDropDown = styled(ArrowDropDownIcon)(({ theme: _ }) => ({
-  fill: _.palette.background.safeOptions.svg,
-}));
-
 export const MobileSecondaryMenu = styled(Box)`
   background-color: ${(props) => props.theme.palette.background.default};
 `;
@@ -447,11 +405,4 @@ export const TotalBalanceWrapper = styled(Box)`
     border-bottom-right-radius: 10px;
     overflow: hidden;
   }
-`;
-
-export const LogoMenuWrapper = styled(Box)`
-  position: fixed;
-  background-color: ${(props) => props.theme.palette.background.white};
-  z-index: 3;
-  width: 100% !important;
 `;

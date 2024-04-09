@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useCountdown } from 'src/utils/useCountdown';
+import { useCountdown } from 'src/hooks/useCountdown';
 import DateTimeDisplay from './DateTimeDisplay';
 
 const ExpiredNotice = () => (
@@ -9,10 +9,10 @@ const ExpiredNotice = () => (
 );
 
 interface ShowCounterProps {
-    days: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
 }
 
 const ShowCounter = ({ days, hours, minutes, seconds }: ShowCounterProps) => (
@@ -27,7 +27,7 @@ const ShowCounter = ({ days, hours, minutes, seconds }: ShowCounterProps) => (
 );
 
 interface CountdownTimerProps {
-    targetDate: number;
+  targetDate: number;
 }
 const CountdownTimer = ({ targetDate }: CountdownTimerProps) => {
   const [days, hours, minutes, seconds] = useCountdown(targetDate);

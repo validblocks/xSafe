@@ -10,7 +10,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import useProviderIdentitiesAfterSelection from 'src/utils/useProviderIdentitiesAfterSelection';
+import useProviderIdentitiesAfterSelection from 'src/hooks/useProviderIdentitiesAfterSelection';
 import {
   IDelegation,
   IdentityWithColumns,
@@ -21,7 +21,7 @@ import useReactQueryState from 'src/react-query/useReactQueryState';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
-import { useTranslation } from 'react-i18next';
+import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import HourglassTopRoundedIcon from '@mui/icons-material/HourglassTop';
 import { useDispatch, useSelector } from 'react-redux';
@@ -64,7 +64,7 @@ const useStyles = makeStyles(() => ({
 
 const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
   const config = useMemo(() => ({ searchParam }), [searchParam]);
-  const { t } = useTranslation();
+  const t = useCustomTranslation();
   const maxWidth460 = useMediaQuery('(max-width: 460px)');
   const maxWidth600 = useMediaQuery('(max-width: 600px)');
 

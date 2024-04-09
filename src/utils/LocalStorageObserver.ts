@@ -1,4 +1,4 @@
-import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
+import { LOCAL_STORAGE_KEYS } from 'src/components/Marketplace/localStorageKeys';
 import createObserver from './createObserver';
 
 export const LocalStorageObserver = createObserver<

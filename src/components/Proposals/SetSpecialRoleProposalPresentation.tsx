@@ -8,14 +8,12 @@ type Props = {
     address: string;
     roles: string[];
     tokenIdentifier: string;
-  }
+  };
 };
 
-const SetSpecialRoleProposalPresentation = ({ parsedArgs: {
-  address,
-  roles,
-  tokenIdentifier,
-} }: Props) => (
+const SetSpecialRoleProposalPresentation = ({
+  parsedArgs: { address, roles, tokenIdentifier },
+}: Props) => (
   <Box>
     <Box display="flex">
       <PropertyKeyBox propertyKey={'Address'} />
@@ -24,11 +22,9 @@ const SetSpecialRoleProposalPresentation = ({ parsedArgs: {
     <Box display="flex" alignItems="center" py={1}>
       <PropertyKeyBox propertyKey={'Roles'} />
       <Box>
-        {
-          roles.map((role) => (
-            <BasicChip label={role} />
-          ))
-        }
+        {roles.map((role) => (
+          <BasicChip key={role} label={role} />
+        ))}
       </Box>
     </Box>
     <Box display="flex">

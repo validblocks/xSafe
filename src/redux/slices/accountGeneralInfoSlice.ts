@@ -1,9 +1,6 @@
 import { TokenTransfer } from '@multiversx/sdk-core';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  OrganizationToken,
-  TokenTableRowItem,
-} from 'src/pages/Organization/types';
+import { OrganizationToken, TokenTableRowItem } from 'src/types/organization';
 import { IdentityWithColumns } from 'src/types/staking';
 import { logoutAction } from '../commonActions';
 

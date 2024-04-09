@@ -1,15 +1,12 @@
 /* eslint-disable react/no-unstable-nested-components */
 import { useCallback, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Box, Button, Grid, useMediaQuery } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
-import { MultisigContractInfoType } from 'src/types/multisigContracts';
-import { refreshAccount } from '@multiversx/sdk-dapp/utils';
+import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import {
   Text,
@@ -17,32 +14,26 @@ import {
 } from 'src/components/StyledComponents/StyledComponents';
 import { dAppName, network } from 'src/config';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ModalTypes } from 'src/types/Proposals';
+import { ModalTypes } from 'src/types/multisig/proposals/Proposals';
 import { XSafeLogo } from 'src/components/Utils/XSafeLogo';
-import AddMultisigModal from './AddMultisigModal';
-import DeployStepsModal from './DeployMultisigModal';
-import { useOrganizationInfoContext } from '../Organization/OrganizationInfoContextProvider';
-import * as Styled from './styled';
+import AddMultisigModal from '../../components/Modals/MultisigActions/AddMultisigModal';
+import DeployStepsModal from '../../components/DeployMultisig/DeployMultisigModal';
+import { useOrganizationInfoContext } from '../../components/Providers/OrganizationInfoContextProvider';
+import * as Styled from '../../components/Modals/MultisigActions/styled';
+import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 
 function Dashboard() {
   const theme = useCustomTheme();
   const dispatch = useDispatch();
-  const { t }: { t: any } = useTranslation();
+  const t = useCustomTranslation();
   const [showAddMultisigModal, setShowAddMultisigModal] = useState(false);
   const [showDeployMultisigModal, setShowDeployMultisigModal] = useState(false);
   const [invalidMultisigContract, setInvalidMultisigContract] = useState(false);
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const { isLoggedIn } = useGetLoginInfo();
-  const { address } = useGetAccountInfo();
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      refreshAccount();
-    }
-  }, [isLoggedIn, address, dispatch]);
-
-  async function checkSingleContractValidity() {
+  const checkSingleContractValidity = useCallback(async () => {
     if (uniqueContractAddress || !network.storageApi) {
       const isValidMultisigContract =
         await MultiversxApiProvider.validateMultisigAddress(
@@ -52,7 +43,7 @@ function Dashboard() {
         setInvalidMultisigContract(true);
       }
     }
-  }
+  }, []);
 
   const handleCreateNewSafeButtonClick = useCallback(() => {
     if (isLoggedIn) {
@@ -248,9 +239,7 @@ function Dashboard() {
                         fontSize={16}
                         fontWeight={700}
                       >
-                        {t(
-                          'Easily load your Safe using your Safe smart contract address.',
-                        )}
+                        {t('Easily load your Safe using your Safe address.')}
                       </Styled.TextSafeActionDescription>
                     </Box>
                     <Styled.LoadSafeButton

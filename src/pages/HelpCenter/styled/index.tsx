@@ -1,5 +1,5 @@
 import { CenteredBox } from 'src/components/StyledComponents/StyledComponents';
-import { SettingsWrapper } from 'src/pages/Settings/settings-style';
+import { SettingsWrapper } from 'src/components/Settings/settings-style';
 import styled from 'styled-components';
 
 export const HelpCenterWrapper = styled(CenteredBox)(({ theme: _ }) => ({
@@ -8,11 +8,13 @@ export const HelpCenterWrapper = styled(CenteredBox)(({ theme: _ }) => ({
   paddingTop: '10px',
 }));
 
-export const ComingSoonCardWrapper = styled(SettingsWrapper)(({ theme: _ }) => ({
-  height: 180,
-  width: 300,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  padding: 3,
-}));
+export const ComingSoonCardWrapper = styled(SettingsWrapper)(
+  ({ theme: _ }) => ({
+    height: 180,
+    width: 300,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 3,
+  }),
+);

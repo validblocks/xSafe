@@ -8,18 +8,12 @@ import {
   IconButton,
   Typography,
 } from '@mui/material';
-import SettingsIcon from '@mui/icons-material/Settings';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import PushPinRoundedIcon from '@mui/icons-material/PushPinRounded';
 import IconLedger from 'src/assets/img/ledger.svg';
 import IconElrond from 'src/assets/img/elrond-web-wallet.svg';
 import styled from 'styled-components';
-
-export const MainButton = styled(Button)`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-`;
 
 export const CenteredBox = styled(Box)`
   display: flex;
@@ -140,16 +134,6 @@ export const StyledIconElrond = styled(() => <img src={IconElrond} />)(({ theme:
   },
 }));
 
-export const TotalBalanceText = styled(Text)(({ theme: _ }) => ({
-  color: _.palette.text.tableHeaders,
-}));
-
-export const MobileSettingsIcon = styled(SettingsIcon)(({ theme: _ }) => ({
-  width: '26px',
-  height: '26px',
-  fill: `${_.palette.text.primary} !important`,
-}));
-
 export const MobileMenuIcon = styled(MenuRoundedIcon)(({ theme: _ }) => ({
   width: '26px',
   height: '26px',
@@ -174,16 +158,6 @@ export const MobileMenuButton = styled(IconButton)`
   }
 `;
 
-export const MobileDropDownContainer = styled(Box)(({ theme: _ }) => ({
-  position: 'absolute',
-  width: '100vw',
-  top: '104px',
-  right: 'calc(100% - 35px)',
-  zIndex: 3,
-  backgroundColor: _.palette.background.secondary,
-  borderRadius: '10px',
-  boxShadow: _.palette.shadows.dropDownMenu,
-}));
 
 export const MobileMenuAccordion = styled(Accordion)(({ theme: _ }) => ({
   '&&&': {

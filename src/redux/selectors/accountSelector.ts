@@ -1,4 +1,4 @@
-import { OrganizationToken } from 'src/pages/Organization/types';
+import { OrganizationToken } from 'src/types/organization';
 import { createDeepEqualSelector } from './helpers';
 import { RootState } from '../store';
 import { StateType } from '../slices/accountGeneralInfoSlice';

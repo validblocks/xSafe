@@ -8,15 +8,15 @@ import { AccordionDetails, AccordionSummary, Box } from '@mui/material';
 import menuItems, { MenuItem } from 'src/utils/menuItems';
 import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded';
 import { Link, useNavigate } from 'react-router-dom';
-import { LOCAL_STORAGE_KEYS } from 'src/pages/Marketplace/localStorageKeys';
-import { useLocalStorage } from 'src/utils/useLocalStorage';
+import { LOCAL_STORAGE_KEYS } from 'src/components/Marketplace/localStorageKeys';
+import { useLocalStorage } from 'src/hooks/useLocalStorage';
 import { useSelector } from 'react-redux';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
-import SafeSettings from 'src/pages/Settings/SafeSettings';
-import { useCustomTheme } from 'src/utils/useCustomTheme';
-import { MobileSettingsWrapper } from 'src/pages/Settings/settings-style';
-import { useApps } from 'src/utils/useApps';
+import SafeSettings from 'src/components/Settings/SafeSettings';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
+import { MobileSettingsWrapper } from 'src/components/Settings/settings-style';
+import { useApps } from 'src/hooks/useApps';
 import routeNames from 'src/routes/routeNames';
 import * as Styled from './styled';
 import {
@@ -31,19 +31,22 @@ import {
 } from '../StyledComponents/StyledComponents';
 import { MobileConnectedAccount } from '../Layout/Navbar/ConnectedAccount/MobileConnectedAccount';
 
-const Transition = React.forwardRef((
-  props: TransitionProps & {
-    children: React.ReactElement;
-  },
-  ref: React.Ref<unknown>,
-) => <Slide direction="left" ref={ref} {...props} />);
+const Transition = React.forwardRef(
+  (
+    props: TransitionProps & {
+      children: React.ReactElement;
+    },
+    ref: React.Ref<unknown>,
+  ) => <Slide direction="left" ref={ref} {...props} />,
+);
 
 export function StyledExpandMoreIcon() {
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
   return (
-    <ExpandMoreIcon sx={{
-      color: isDarkThemeEnabled ? '#F0F6FF8a' : '#000',
-    }}
+    <ExpandMoreIcon
+      sx={{
+        color: isDarkThemeEnabled ? '#F0F6FF8a' : '#000',
+      }}
     />
   );
 }
@@ -59,9 +62,9 @@ export default function MobileRightSidebar() {
 
   const { installedApps } = useApps();
 
-  const installedAndPinnedApps = React.useMemo(() => (
-    installedApps.filter((app: MenuItem) => pinnedApps.includes(app.id))),
-  [installedApps, pinnedApps],
+  const installedAndPinnedApps = React.useMemo(
+    () => installedApps.filter((app: MenuItem) => pinnedApps.includes(app.id)),
+    [installedApps, pinnedApps],
   );
 
   const handleClickOpen = () => {
@@ -108,14 +111,15 @@ export default function MobileRightSidebar() {
             sx={{ minHeight: '55px' }}
           >
             <ManageAccountsRoundedIcon />
-            <Typography ml={1}>My Account { !isLoggedIn && '(Not logged in)'}</Typography>
+            <Typography ml={1}>
+              My Account {!isLoggedIn && '(Not logged in)'}
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <MobileConnectedAccount closeSidebar={() => handleClose()} />
           </AccordionDetails>
         </MobileMenuAccordion>
-        {
-        menuItems.mobileDropDownItems.map((item) => (
+        {menuItems.mobileDropDownItems.map((item) => (
           <Box key={item.id} sx={{ borderBottom: '1px solid #9393931a' }}>
             <MobileMenuAccordion
               expanded={expanded === `${item.id}`}
@@ -129,35 +133,43 @@ export default function MobileRightSidebar() {
                 expandIcon={<StyledExpandMoreIcon />}
                 sx={{ minHeight: '55px' }}
               >
-                {item.name === 'Apps' ?
-                  (
-                    <MobileMenuAccordionSummaryContent display="flex" justifyContent={'space-between'}>
-                      <Box display="flex" alignItems="center">
-                        {item.icon}
-                        <Typography>{item.name}</Typography>
-                      </Box>
-                      <AssetActionButton
-                        onClick={() => {
-                          handleClose();
-                          navigate(routeNames.apps);
-                        }}
-                        sx={{ opacity: 1, p: '1px 10px 0 10px !important', mr: 1 }}
-                      >View Apps
-                      </AssetActionButton>
-                    </MobileMenuAccordionSummaryContent>
-                  ) : (
-                    <MobileMenuAccordionSummaryContent>
+                {item.name === 'Apps' ? (
+                  <MobileMenuAccordionSummaryContent
+                    display="flex"
+                    justifyContent={'space-between'}
+                  >
+                    <Box display="flex" alignItems="center">
                       {item.icon}
                       <Typography>{item.name}</Typography>
-                    </MobileMenuAccordionSummaryContent>
-                  )}
-
+                    </Box>
+                    <AssetActionButton
+                      onClick={() => {
+                        handleClose();
+                        navigate(routeNames.apps);
+                      }}
+                      sx={{
+                        opacity: 1,
+                        p: '1px 10px 0 10px !important',
+                        mr: 1,
+                      }}
+                    >
+                      View Apps
+                    </AssetActionButton>
+                  </MobileMenuAccordionSummaryContent>
+                ) : (
+                  <MobileMenuAccordionSummaryContent>
+                    {item.icon}
+                    <Typography>{item.name}</Typography>
+                  </MobileMenuAccordionSummaryContent>
+                )}
               </MobileMenuAccordionSummary>
               {item.submenu?.map((subItem: MenuItem) => (
                 <Link key={subItem.id} onClick={handleClose} to={subItem.link}>
                   <MobileSubmenuAccordionSummary key={subItem.id}>
                     <Box pl="24px" display="flex" alignItems="end">
-                      <Box component="span" mr={1}>{subItem.icon}</Box>
+                      <Box component="span" mr={1}>
+                        {subItem.icon}
+                      </Box>
                       {subItem.name}
                     </Box>
                   </MobileSubmenuAccordionSummary>
@@ -172,10 +184,14 @@ export default function MobileRightSidebar() {
                       handleClose();
                     }}
                   >
-                    <MobileSubmenuAccordionSummary sx={{ pl: 5 }} key={subItem.id}>
-                      <Box sx={{
-                        width: '33px',
-                      }}
+                    <MobileSubmenuAccordionSummary
+                      sx={{ pl: 5 }}
+                      key={subItem.id}
+                    >
+                      <Box
+                        sx={{
+                          width: '33px',
+                        }}
                       >
                         {subItem.icon}
                       </Box>
@@ -194,9 +210,7 @@ export default function MobileRightSidebar() {
           </Box>
         ))}
         <div>
-          <MobileMenuAccordion
-            disabled={installedAndPinnedApps.length < 1}
-          >
+          <MobileMenuAccordion disabled={installedAndPinnedApps.length < 1}>
             <MobileMenuAccordionSummary
               id="pinned-apps"
               aria-controls="panel1a-content"

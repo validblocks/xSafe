@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
-import SafeSettings from './SafeSettings';
-import { SettingsWrapper } from './settings-style';
+import SafeSettings from '../../components/Settings/SafeSettings';
+import { SettingsWrapper } from '../../components/Settings/settings-style';
 
 function Settings() {
   return (
