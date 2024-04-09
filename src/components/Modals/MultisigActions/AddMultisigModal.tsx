@@ -95,6 +95,14 @@ function AddMultisigModal({
   const isDisabled = !touched.address || !touched.name || hasErrors;
 
   const dispatch = useDispatch();
+
+  const handleCloseAddExistingMultisig = useCallback(() => {
+    safeAddress && formik.setFieldValue('address', '');
+    name && formik.setFieldValue('name', '');
+    formik.handleReset();
+    handleClose();
+  }, [formik, handleClose, name, safeAddress]);
+
   const onAddClicked = useCallback(async () => {
     const contractAddress = safeAddress;
     const isAddressValid = await MultiversxApiProvider.validateMultisigAddress(
@@ -108,14 +116,15 @@ function AddMultisigModal({
       await dispatch(setMultisigContracts(newContracts));
       dispatch(setCurrentMultisigContract(contractAddress));
       setNewContracts(newContracts);
-      handleClose();
+      handleCloseAddExistingMultisig();
     }
-  }, [safeAddress, name, dispatch, setNewContracts, handleClose]);
-
-  const handleCloseAddExistingMultisig = useCallback(() => {
-    formik.handleReset();
-    handleClose();
-  }, [formik, handleClose]);
+  }, [
+    safeAddress,
+    name,
+    dispatch,
+    setNewContracts,
+    handleCloseAddExistingMultisig,
+  ]);
 
   return (
     <ModalContainer
