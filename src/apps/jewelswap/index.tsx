@@ -102,7 +102,7 @@ const LendInJewelSwap = () => {
         ExternalContractFunction.LEND_IN_JEWELSWAP,
       );
     } catch (e) {
-      console.log({ e });
+      console.error({ e });
     }
   };
 

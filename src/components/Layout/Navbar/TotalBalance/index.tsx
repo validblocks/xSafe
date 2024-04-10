@@ -261,7 +261,9 @@ function TotalBalance() {
         );
 
         const persistedBalance = JSON.stringify(
-          TokenTransfer.egldFromBigInteger(egldBalanceDetails),
+          TokenTransfer.egldFromBigInteger(
+            egldBalanceDetails,
+          ).amount.toString(),
         );
 
         dispatch(setMultisigBalance(persistedBalance));

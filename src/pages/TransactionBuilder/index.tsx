@@ -40,6 +40,7 @@ import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LOCAL_STORAGE_KEYS } from 'src/components/Marketplace/localStorageKeys';
 import { useLocalStorage } from 'src/hooks/useLocalStorage';
+import { isAddressValid } from 'src/helpers/validation';
 
 interface IFormValues {
   amount: string;
@@ -123,9 +124,8 @@ export const TransactionBuilder = () => {
   );
   const [selectedEndpoint, setSelectedEndpoint] = useState<string | null>(null);
   const [abiParsingError, setAbiParsingError] = useState<string | null>(null);
-  const [selectedAddressParam, setSelectedAddressParam] = useState(
-    new Address(),
-  );
+  const [selectedAddressParam, setSelectedAddressParam] =
+    useState<Address | null>(null);
   const [availableContractEndpoints, setAvailableContractEndpoints] = useState<
     string[] | null
   >(null);
@@ -153,14 +153,7 @@ export const TransactionBuilder = () => {
         .min(2, 'Too Short!')
         .max(62, 'Too Long!')
         .required('Required')
-        .test((value?: string) => {
-          try {
-            new Address(value);
-            return true;
-          } catch (err) {
-            return false;
-          }
-        }),
+        .test(isAddressValid),
       amount: Yup.string()
         .required('Required')
         .transform((value) => value.replace(',', ''))
@@ -199,21 +192,14 @@ export const TransactionBuilder = () => {
   const amountError = errors.amount;
 
   const isCreateProposalButtonActive = useMemo(() => {
-    console.log({
-      amountError,
-      selectedEndpoint,
-      smartContract,
-      selectedAddressParam,
-    });
     return (
       !amountError &&
       selectedEndpoint &&
       smartContract &&
+      selectedAddressParam &&
       selectedAddressParam.bech32().length > 0
     );
   }, [amountError, selectedAddressParam, selectedEndpoint, smartContract]);
-
-  console.log({ isCreateProposalButtonActive });
 
   useEffect(() => {
     try {
@@ -229,7 +215,6 @@ export const TransactionBuilder = () => {
       setAvailableContractEndpoints(Object.keys(endpoints));
       setSmartContract(existingContract);
       setSelectedEndpoint(Object.keys(endpoints)?.[0]);
-      console.log({ endpoints });
     } catch (e) {
       console.error(e);
       setAbiParsingError('Invalid ABI');
@@ -239,7 +224,6 @@ export const TransactionBuilder = () => {
 
   const selectedEndpointParams = useMemo(() => {
     try {
-      console.log({ selectedEndpoint, smartContract });
       if (!selectedEndpoint || !smartContract) return [];
 
       const inputParams = smartContract.getEndpoint(selectedEndpoint).input;
@@ -295,8 +279,6 @@ export const TransactionBuilder = () => {
     },
     [],
   );
-
-  console.log({ amount });
 
   const onCreateProposalClick = useCallback(async () => {
     if (!selectedEndpoint || !selectedAddressParam) return;

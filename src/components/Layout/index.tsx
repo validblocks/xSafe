@@ -66,6 +66,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   }, [address, dispatch]);
 
   const fetchAttachedContracts = useCallback(async () => {
+    if (!address || address === '') return [];
     const { data } = await axios.get(`/settings/${address}`, {
       baseURL: network.storageApi,
       headers: {

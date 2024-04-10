@@ -70,7 +70,9 @@ export const SpotlightCommands = () => {
     dispatch(setCurrentMultisigContract(''));
     dispatch(setProposeModalSelectedOption(null));
     dispatch(
-      setMultisigBalance(JSON.stringify(TokenTransfer.egldFromAmount('0'))),
+      setMultisigBalance(
+        JSON.stringify(TokenTransfer.egldFromAmount('0').amount.toString()),
+      ),
     );
     dispatch(setTokenTableRows([]));
     dispatch(setOrganizationTokens([]));
@@ -136,6 +138,7 @@ export const SpotlightCommands = () => {
             break;
           }
           case 'st':
+          case 'sendToken':
           case 'send token': {
             dispatch(
               setProposeMultiselectSelectedOption({
@@ -144,6 +147,8 @@ export const SpotlightCommands = () => {
             );
             break;
           }
+          case 'add board member':
+          case 'addBoardMember':
           case 'abm': {
             dispatch(
               setProposeModalSelectedOption({

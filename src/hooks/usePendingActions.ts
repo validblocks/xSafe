@@ -11,18 +11,27 @@ export const usePendingActions = () => {
   const currentContract = useSelector(currentMultisigContractSelector);
   const { address } = useGetAccountInfo();
   const { isLoggedIn } = useGetLoginInfo();
-  const { data: allPendingActions, refetch: refetchPendingActions } =
-      useQuery(
-        QueryKeys.ALL_PENDING_ACTIONS,
-        () => queryAllActions().then((resp) => resp),
-        {
-          ...USE_QUERY_DEFAULT_CONFIG,
-          enabled: isLoggedIn,
-        },
-      );
+  const { data: allPendingActions, refetch: refetchPendingActions } = useQuery(
+    QueryKeys.ALL_PENDING_ACTIONS,
+    () => queryAllActions().then((resp) => resp),
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+      enabled: !!(
+        isLoggedIn &&
+        currentContract?.address &&
+        currentContract?.address.length > 0
+      ),
+    },
+  );
 
   useEffect(() => {
-    if (isLoggedIn) { refetchPendingActions(); }
+    if (
+      isLoggedIn &&
+      currentContract?.address &&
+      currentContract?.address.length > 0
+    ) {
+      refetchPendingActions();
+    }
   }, [currentContract?.address, isLoggedIn, refetchPendingActions]);
 
   const actionableByCurrentWallet = useMemo(

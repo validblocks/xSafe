@@ -29,6 +29,7 @@ import {
 } from '../Theme/StyledComponents';
 import { Text } from '../StyledComponents/StyledComponents';
 import AmountInputWithTokenSelection from '../Utils/AmountInputWithTokenSelection';
+import { isAddressValid } from 'src/helpers/validation';
 
 interface IFormValues {
   amount: string;
@@ -71,14 +72,7 @@ const StakingFormStepTwo = () => {
         .min(2, 'Too Short!')
         .max(500, 'Too Long!')
         .required('Required')
-        .test((value?: string) => {
-          try {
-            new Address(value);
-            return true;
-          } catch (err) {
-            return false;
-          }
-        }),
+        .test(isAddressValid),
       amount: Yup.string()
         .required('Required')
         .transform((value) => value.replace(',', ''))
@@ -127,6 +121,8 @@ const StakingFormStepTwo = () => {
 
   useEffect(() => {
     try {
+      if (!selectedProvider?.provider) return;
+
       const addressParam = new Address(selectedProvider?.provider);
 
       const inputAmount = formik.values.amount.toString().replaceAll(',', '');
@@ -163,6 +159,9 @@ const StakingFormStepTwo = () => {
 
   const proposeStake = useCallback(() => {
     setIsProcessingTransaction(true);
+
+    if (!selectedProvider?.provider) return false;
+
     const addressParam = new Address(selectedProvider?.provider);
 
     const formikAmount = formik.values.amount.toString();

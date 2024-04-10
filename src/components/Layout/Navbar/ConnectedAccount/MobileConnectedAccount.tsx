@@ -40,7 +40,9 @@ export const MobileConnectedAccount: React.FC<Props> = ({ closeSidebar }) => {
     dispatch(setCurrentMultisigContract(''));
     dispatch(setProposeModalSelectedOption(null));
     dispatch(
-      setMultisigBalance(JSON.stringify(TokenTransfer.egldFromAmount('0'))),
+      setMultisigBalance(
+        JSON.stringify(TokenTransfer.egldFromAmount('0').amount.toString()),
+      ),
     );
     dispatch(setTokenTableRows([]));
     dispatch(setOrganizationTokens([]));

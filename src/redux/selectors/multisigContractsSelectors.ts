@@ -28,7 +28,7 @@ export const currentMultisigAddressSelector = createDeepEqualSelector(
   currentMultisigContractSelector,
   (currentMultisigContract) => {
     const address = currentMultisigContract?.address;
-    if (address != null) {
+    if (address != null && address !== '') {
       return new Address(address);
     }
     return address;

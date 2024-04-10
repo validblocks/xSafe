@@ -83,7 +83,6 @@ function OrganizationInfoContextProvider({ children }: Props) {
         ([boardMembersAddresses, quorumCountResponse]: [Address[], number]) => {
           if (!isMounted) return;
 
-          console.log({ boardMembersAddresses });
           setBoardMembers(boardMembersAddresses);
           setQuorumCount(quorumCountResponse);
         },

@@ -5,45 +5,25 @@ import {
   TransactionPayload,
   SmartContract,
   TypedValue,
-  TransactionOptions,
-  TransactionVersion,
   Address,
   TokenTransfer,
   Interaction,
   Account,
 } from '@multiversx/sdk-core';
 import { gasLimit } from 'src/config';
-import { LoginMethodsEnum } from '@multiversx/sdk-dapp/types';
 import { getAddress } from '@multiversx/sdk-dapp/utils';
 import { MultisigContractFunction } from '../types/multisig/multisigFunctionNames';
 import dayjs from 'dayjs';
 
-interface TransactionPayloadType {
-  chainID: any;
-  receiver: Address;
-  sender?: Address;
-  value: TokenTransfer;
-  gasLimit: any;
-  data: TransactionPayload;
-  options?: TransactionOptions;
-  version?: TransactionVersion;
-}
-
 export async function buildTransaction(
   value: number,
   functionName: MultisigContractFunction,
-  // providerType: string,
   contract: SmartContract,
   transactionGasLimit: number,
   ...args: TypedValue[]
 ) {
   const walletAddressBech32 = await getAddress();
   const walletAddress = new Address(walletAddressBech32);
-  // const func = new ContractFunction(functionName);
-  // const payload = TransactionPayload.contractCall()
-  //   .setFunction(func)
-  //   .setArgs(args)
-  //   .build();
 
   const interaction = new Interaction(
     contract,
@@ -62,41 +42,31 @@ export async function buildTransaction(
   const t = interaction.buildTransaction();
 
   return t;
-  // const transactionPayload: TransactionPayloadType = {
-  //   data: payload,
-  // };
-
-  // if (providerType === LoginMethodsEnum.ledger) {
-  //   transactionPayload.options = new TransactionOptions(value);
-  //   transactionPayload.version = new TransactionVersion(value);
-  // }
-  // return new Transaction(transactionPayload as any);
 }
 
 export async function buildBlockchainTransaction(
   value: number,
-  providerType: string,
+  _providerType: string,
   receiver: Address,
   data: string,
-  // eslint-disable-next-line comma-dangle
   transactionGasLimit: number = gasLimit,
 ) {
-  const address = await getAddress();
+  const addressBech32 = await getAddress();
 
-  const transactionPayload: TransactionPayloadType = {
+  if (!addressBech32 || addressBech32 === '') return;
+
+  const sender = new Address(addressBech32);
+
+  const transactionPayload = {
     chainID: getChainID(),
     receiver,
-    sender: new Address(address),
+    sender,
     value: TokenTransfer.egldFromAmount(value),
     gasLimit: transactionGasLimit,
     data: new TransactionPayload(data),
   };
 
-  if (providerType === LoginMethodsEnum.ledger) {
-    transactionPayload.options = new TransactionOptions(value);
-    transactionPayload.version = new TransactionVersion(value);
-  }
-  return new Transaction(transactionPayload as any);
+  return new Transaction(transactionPayload);
 }
 
 export const getDate = (unix_timestamp: number) => {

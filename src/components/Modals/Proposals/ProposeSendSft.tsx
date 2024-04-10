@@ -13,6 +13,7 @@ import { Box, useMediaQuery } from '@mui/material';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
 import NftPresentation from 'src/components/Nfts/NftPresentation';
 import * as Styled from '../../Utils/styled';
+import { isAddressValid } from 'src/helpers/validation';
 
 interface ProposeSendSftType {
   handleChange: (proposal: MultisigSendSft) => void;
@@ -24,16 +25,6 @@ interface IFormValues {
   identifier: string;
   nonce: string;
   amount: string;
-}
-
-function validateRecipient(value?: string) {
-  try {
-    // eslint-disable-next-line no-new
-    new Address(value);
-    return true;
-  } catch (err) {
-    return false;
-  }
 }
 
 const ProposeSendSft = ({
@@ -57,7 +48,7 @@ const ProposeSendSft = ({
         .min(2, 'Too Short!')
         .max(500, 'Too Long!')
         .required('Required')
-        .test(validateRecipient),
+        .test(isAddressValid),
       amount: Yup.string()
         .required('Required')
         .test((value?: string, testContext?: Yup.TestContext) => {

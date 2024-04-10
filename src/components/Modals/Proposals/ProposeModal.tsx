@@ -47,11 +47,9 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
 
   const [submitDisabled, setSubmitDisabled] = useState(false);
   const [selectedNumericParam, setSelectedNumericParam] = useState(1);
-  const [selectedAddressParam, setSelectedAddressParam] = useState(
-    new Address(),
-  );
+  const [selectedAddressParam, setSelectedAddressParam] = useState<Address>();
   const [selectedNameParam, setSelectedNameParam] = useState('');
-  const [selectedReplacementAddressParam] = useState(new Address());
+  const [selectedReplacementAddressParam] = useState<Address>();
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
@@ -66,33 +64,38 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
           mutateProposeChangeQuorum(selectedNumericParam);
           break;
         case ProposalsTypes.add_proposer:
-          mutateProposeAddProposer(selectedAddressParam);
+          selectedAddressParam &&
+            mutateProposeAddProposer(selectedAddressParam);
           break;
         case ProposalsTypes.add_board_member:
-          mutateProposeAddBoardMember(selectedAddressParam);
+          selectedAddressParam &&
+            mutateProposeAddBoardMember(selectedAddressParam);
           break;
         case ProposalsTypes.remove_user:
-          mutateProposeRemoveUser(selectedAddressParam);
+          selectedAddressParam && mutateProposeRemoveUser(selectedAddressParam);
           break;
         case ProposalsTypes.edit_owner:
-          dispatch(
-            addEntry({
-              contractAddress: currentContract?.address,
-              address: selectedAddressParam.bech32(),
-              name: selectedNameParam,
-            }),
-          );
+          selectedAddressParam &&
+            dispatch(
+              addEntry({
+                contractAddress: currentContract?.address,
+                address: selectedAddressParam.bech32(),
+                name: selectedNameParam,
+              }),
+            );
           break;
         case ProposalsTypes.replace_owner:
-          mutateProposeRemoveUser(selectedAddressParam);
-          mutateProposeAddBoardMember(selectedReplacementAddressParam);
-          dispatch(
-            addEntry({
-              contractAddress: currentContract?.address,
-              address: selectedReplacementAddressParam.bech32(),
-              name: selectedNameParam,
-            }),
-          );
+          selectedAddressParam && mutateProposeRemoveUser(selectedAddressParam);
+          selectedReplacementAddressParam &&
+            mutateProposeAddBoardMember(selectedReplacementAddressParam);
+          selectedReplacementAddressParam &&
+            dispatch(
+              addEntry({
+                contractAddress: currentContract?.address,
+                address: selectedReplacementAddressParam.bech32(),
+                name: selectedNameParam,
+              }),
+            );
           break;
         default:
           console.error(`Unrecognized option ${selectedOption}`);

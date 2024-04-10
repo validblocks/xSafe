@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { Address } from '@multiversx/sdk-core';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import * as Yup from 'yup';
 import { addContractToMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
@@ -23,6 +22,7 @@ import {
   setMultisigContracts,
 } from 'src/redux/slices/multisigContractsSlice';
 import { verifiedContractsHashes } from 'src/helpers/constants';
+import { tryParseAddressElseThrow } from 'src/utils/addressUtils';
 
 interface AddMultisigModalType {
   show: boolean;
@@ -62,11 +62,15 @@ function AddMultisigModal({
           'Not a valid multisig address',
           async (value?: string) => {
             try {
-              const _address = new Address(value).bech32();
+              const validAddress = tryParseAddressElseThrow(value);
+
+              if (!validAddress) return false;
+
               const returnedAccountDetails =
                 await MultiversxApiProvider.getAccountDetails(
-                  _address.valueOf(),
+                  validAddress.bech32(),
                 );
+
               return (
                 returnedAccountDetails &&
                 verifiedContractsHashes.includes(

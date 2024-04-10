@@ -35,19 +35,11 @@ import {
   UnstakeModalContainerBox,
 } from '../../MultisigDetails/styled';
 import { DelegationFunctionNames } from 'src/types/staking';
+import { isAddressValid } from 'src/helpers/validation';
 
 interface ProposeUnstakeTokensType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
   setSubmitDisabled: (value: boolean) => void;
-}
-
-function validateRecipient(value?: string) {
-  try {
-    new Address(value);
-    return true;
-  } catch (err) {
-    return false;
-  }
 }
 
 interface IFormValues {
@@ -143,7 +135,7 @@ const ProposeUnstakeTokens = ({
 
   useEffect(() => {
     if (identifier) {
-      if (!validateRecipient(identifier)) {
+      if (!isAddressValid(identifier)) {
         formik.setFieldError('identifier', t('Invalid address'));
       }
     }

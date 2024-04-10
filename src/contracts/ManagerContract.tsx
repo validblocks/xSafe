@@ -7,9 +7,9 @@ import {
   SmartContract,
   TypedValue,
   U8Value,
-  CodeMetadata,
-  DeployArguments,
-  TokenTransfer,
+  TransactionsFactoryConfig,
+  SmartContractTransactionsFactory,
+  Account,
 } from '@multiversx/sdk-core';
 import { Code } from '@multiversx/sdk-core/out/smartcontracts/code';
 import { requireContractCode } from 'src/utils/requireContractCode';
@@ -20,24 +20,39 @@ async function getDeployContractTransaction(
   quorum: number,
   boardMembers: AddressValue[],
 ) {
+  const addressBech32 = await getAddress();
+  const deployerAddress = new Address(addressBech32);
+
   const smartContractCode = await requireContractCode();
-  const address = await getAddress();
-  const contract = new SmartContract();
   const code = Code.fromHex(smartContractCode);
-  const codeMetadata = new CodeMetadata(true, true, true, true);
+
   const quorumTyped = new U8Value(quorum);
   const initArguments: TypedValue[] = [quorumTyped, ...boardMembers];
-  const value = TokenTransfer.egldFromAmount(0);
-  const deployArguments: DeployArguments = {
-    code,
-    codeMetadata,
-    initArguments,
-    value,
+
+  const factoryConfig = new TransactionsFactoryConfig({
     chainID: getChainID(),
-    gasLimit: deployContractGasLimit,
-    deployer: new Address(address),
-  };
-  return contract.deploy(deployArguments);
+  });
+
+  const factory = new SmartContractTransactionsFactory({
+    config: factoryConfig,
+  });
+
+  const deployTransaction = factory.createTransactionForDeploy({
+    sender: deployerAddress,
+    bytecode: code.valueOf(),
+    gasLimit: BigInt(deployContractGasLimit),
+    arguments: initArguments,
+    isUpgradeable: true,
+    isPayable: true,
+    isPayableBySmartContract: true,
+    isReadable: true,
+  });
+
+  deployTransaction.nonce = BigInt(
+    +new Account(deployerAddress).getNonceThenIncrement(),
+  );
+
+  return deployTransaction;
 }
 
 export async function deployMultisigContract() {

@@ -84,7 +84,6 @@ export default function useMultisigDetailsCards() {
   ]);
 
   useEffect(() => {
-    console.log({ totalUsdValueConverted });
     const value = Number(
       parseFloat(totalUsdValueConverted.toFixed(2)),
     ).toLocaleString('EN');
@@ -106,8 +105,6 @@ export default function useMultisigDetailsCards() {
       ),
     [dispatch],
   );
-
-  console.log({ totalOrganizationValueToDisplay });
 
   const topSectionCards = useMemo(
     () => [

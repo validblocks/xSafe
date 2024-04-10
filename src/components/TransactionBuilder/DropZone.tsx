@@ -13,15 +13,14 @@ export const Dropzone = ({ handleTextFileContent }: IDropZoneProps) => {
   const theme = useCustomTheme();
 
   const onDrop = useCallback(
-    (acceptedFiles: any) => {
-      acceptedFiles.forEach((file: any) => {
+    (acceptedFiles: File[]) => {
+      acceptedFiles.forEach((file: File) => {
         const reader = new FileReader();
 
         reader.onabort = () => console.log('file reading was aborted');
         reader.onerror = () => console.log('file reading has failed');
         reader.onload = () => {
           const textFileContent = reader.result?.toString();
-          console.log(textFileContent);
 
           if (textFileContent) handleTextFileContent(textFileContent);
         };

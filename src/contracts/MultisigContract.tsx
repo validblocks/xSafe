@@ -73,26 +73,27 @@ export async function query(functionName: string, ...args: TypedValue[]) {
     store.getState(),
   );
 
-  console.log({ currentMultisigAddress });
+  if (!currentMultisigAddress || currentMultisigAddress === '') {
+    throw new Error('No multisig address found.');
+  }
+
+  console.log('currentMultisigAddress', currentMultisigAddress);
 
   const smartContract = new SmartContract({
     address: currentMultisigAddress,
   });
-  // const newQuery = new Query({
-  //   address: smartContract.getAddress(),
-  //   func: new ContractFunction(functionName),
-  //   args,
-  // });
+
+  const calllerBech32 = await getAddress();
+
+  if (!calllerBech32) {
+    throw new Error('No address found. Please login.');
+  }
+
+  const callerAddress = new Address(calllerBech32);
 
   const newQuery = smartContract.createQuery({
     func: new ContractFunction(functionName),
-    caller: new Address(await getAddress()),
-    args,
-  });
-
-  console.log({
-    address: smartContract.getAddress(),
-    func: new ContractFunction(functionName),
+    caller: callerAddress,
     args,
   });
 
@@ -203,7 +204,6 @@ export async function sendTransaction(
     });
     store.dispatch(setCurrentMultisigTransactionId(sessionId));
 
-    console.log({ sessionId });
     return sessionId;
   } catch (e) {
     console.error(e);

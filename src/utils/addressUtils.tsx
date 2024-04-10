@@ -26,3 +26,8 @@ export const getAddressShorthand = (uniqueContractAddress: string) => {
   )}`;
   return walletAddressFirstElements;
 };
+
+export const tryParseAddressElseThrow = (address?: string): Address | null => {
+  if (!address) throw new Error('Parsing undefined address!');
+  return new Address(address);
+};

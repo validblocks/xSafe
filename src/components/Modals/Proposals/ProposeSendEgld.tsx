@@ -12,6 +12,7 @@ import { MultisigSendEgld } from 'src/types/multisig/proposals/MultisigSendEgld'
 import { OrganizationToken } from 'src/types/organization';
 import { Box, TextField } from '@mui/material';
 import InputTokenPresentation from 'src/components/Utils/InputTokenPresentation';
+import { isAddressValid } from 'src/helpers/validation';
 
 interface ProposeSendEgldType {
   handleChange: (proposal: MultisigSendEgld) => void;
@@ -47,16 +48,7 @@ const ProposeSendEgld = ({
 
   useEffect(() => {
     setSubmitDisabled(true);
-  }, []);
-
-  function validateRecipient(value?: string) {
-    try {
-      new Address(value);
-      return true;
-    } catch (err) {
-      return false;
-    }
-  }
+  }, [setSubmitDisabled]);
 
   function validateAmount(value?: string, testContext?: TestContext) {
     if (value == null) {
@@ -96,7 +88,7 @@ const ProposeSendEgld = ({
       .min(2, 'Too Short!')
       .max(500, 'Too Long!')
       .required('Required')
-      .test(validateRecipient),
+      .test(isAddressValid),
     amount: Yup.string()
       .required('Required')
       .transform((value) => value.replace(',', '.'))

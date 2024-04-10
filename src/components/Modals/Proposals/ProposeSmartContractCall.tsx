@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo } from 'react';
-import { Address, BytesValue } from '@multiversx/sdk-core/out';
+import { BytesValue } from '@multiversx/sdk-core/out';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FormikProps, useFormik } from 'formik';
@@ -21,19 +21,11 @@ import {
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import RationalNumber from 'src/utils/RationalNumber';
 import * as Styled from '../../MultisigDetails/ProposeMultiselectModal/styled';
+import { isAddressValid } from 'src/helpers/validation';
 
 interface ProposeSmartContractCallType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
   setSubmitDisabled: (value: boolean) => void;
-}
-
-function validateRecipient(value?: string) {
-  try {
-    new Address(value);
-    return true;
-  } catch (err) {
-    return false;
-  }
 }
 
 function validateArgument(value?: string[], testContext?: TestContext) {
@@ -102,7 +94,7 @@ const ProposeSmartContractCall = ({
       .min(2, 'Too Short!')
       .max(500, 'Too Long!')
       .required('Required')
-      .test(validateRecipient),
+      .test(isAddressValid),
     amount: Yup.string()
       .required('Required')
       .transform((value) => value.replace(',', '.'))

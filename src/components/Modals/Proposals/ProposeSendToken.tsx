@@ -18,6 +18,7 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
 import RationalNumber from 'src/utils/RationalNumber';
 import * as Styled from '../../MultisigDetails/ProposeMultiselectModal/styled';
+import { isAddressValid } from 'src/helpers/validation';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken | MultisigSendEgld) => void;
@@ -91,14 +92,7 @@ const ProposeSendToken = ({
         .min(2, 'Too Short!')
         .max(500, 'Too Long!')
         .required('Required')
-        .test('is valid address', 'Not a valid address', (value?: string) => {
-          try {
-            new Address(value).bech32();
-            return true;
-          } catch (err) {
-            return false;
-          }
-        })
+        .test('is valid address', 'Not a valid address', isAddressValid)
         .test(
           'is not self address',
           'Contract can not send to itself',

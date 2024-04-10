@@ -4,7 +4,7 @@ import React from 'react';
 const MultisigDetailsContext = React.createContext({
   quorumSize: 0,
   totalBoardMembers: 0,
-  multisigBalance: TokenTransfer.egldFromAmount(0),
+  multisigBalance: TokenTransfer.egldFromAmount(0).amount.toString(),
   isProposer: false,
 });
 

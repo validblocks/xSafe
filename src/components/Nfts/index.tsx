@@ -119,7 +119,7 @@ function NftComponent() {
             borderBottomRightRadius: '4px',
             borderBottomLeftRadius: '4px',
             paddingRight: isGroupedByCollection ? 0 : '16px',
-            paddingTop: isGroupedByCollection ? '10px' : 0,
+            paddingTop: isGroupedByCollection ? '1rem' : 0,
             paddingBottom: isGroupedByCollection ? 0 : '16px',
           }}
         >

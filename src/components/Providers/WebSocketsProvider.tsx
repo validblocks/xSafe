@@ -17,7 +17,6 @@ export const WebSocketsProvider: React.FC<WebSocketsProviderProps> = ({
   const currentContract = useSelector(currentMultisigContractSelector);
 
   const envUrl = import.meta.env.VITE_WEBSOCKETS_URL;
-  console.log('envUrl', envUrl);
   const socket = useRef(
     socketIOClient(envUrl ?? '', {
       transports: ['polling'],

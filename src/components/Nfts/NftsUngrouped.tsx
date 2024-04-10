@@ -1,4 +1,4 @@
-import { Grid, useMediaQuery } from '@mui/material';
+import { Grid } from '@mui/material';
 import NoActionsOverlay from 'src/components/Utils/NoActionsOverlay';
 import { useContractNFTs } from 'src/hooks/useContractNFTs';
 import { useSelector } from 'react-redux';
@@ -9,7 +9,6 @@ import NftGrid from './NftGrid';
 
 const NftsUngrouped = () => {
   const navbarSearchParam = useSelector(navbarSearchSelector);
-  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const { isFetchingNFTs, isLoadingNFTs, isErrorOnFetchNFTs, contractNfts } =
     useContractNFTs({
@@ -29,7 +28,7 @@ const NftsUngrouped = () => {
 
   if (!contractNfts || contractNfts?.length === 0) {
     return (
-      <Grid container margin={maxWidth600 ? '0px' : '-9px 0 0 -9px'}>
+      <Grid container margin={0} mt="1rem" ml="1rem">
         <Grid xs={12} item>
           <NoActionsOverlay message={'No NFTs to show'} />
         </Grid>

@@ -28,18 +28,20 @@ import {
 const ConnectedAccount = () => {
   const dispatch = useDispatch();
   const logOut = async () => {
-    // document.cookie = '';
+    document.cookie = '';
     localStorage.clear();
     sessionStorage.clear();
-    console.log('Logged out. Deleting Redux info.');
     dispatch(setCurrentMultisigContract(''));
     dispatch(setProposeModalSelectedOption(null));
     dispatch(
-      setMultisigBalance(JSON.stringify(TokenTransfer.egldFromAmount('0'))),
+      setMultisigBalance(
+        JSON.stringify(TokenTransfer.egldFromAmount('0').amount.toString()),
+      ),
     );
     dispatch(setTokenTableRows([]));
     dispatch(setOrganizationTokens([]));
     dispatch(setCurrentMultisigContract(''));
+    console.log('Logged out. Deleted Redux info.');
     logout(
       `${window.location.origin}/multisig`,
       // () => navigate(`${window.location.origin}/multisig`),

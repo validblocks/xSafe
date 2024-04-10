@@ -12,6 +12,7 @@ import useNft from 'src/hooks/useNft';
 import { Box, useMediaQuery } from '@mui/material';
 import NftPresentation from 'src/components/Nfts/NftPresentation';
 import { ModalDivider } from 'src/components/Utils/styled';
+import { isAddressValid } from 'src/helpers/validation';
 
 interface ProposeSendNftType {
   handleChange: (proposal: MultisigSendNft) => void;
@@ -22,16 +23,6 @@ interface IFormValues {
   address: string;
   identifier: string;
   nonce: string;
-}
-
-function validateRecipient(value?: string) {
-  try {
-    // eslint-disable-next-line no-new
-    new Address(value);
-    return true;
-  } catch (err) {
-    return false;
-  }
 }
 
 const ProposeSendNft = ({
@@ -51,7 +42,7 @@ const ProposeSendNft = ({
           .min(2, 'Too Short!')
           .max(500, 'Too Long!')
           .required('Required')
-          .test(validateRecipient),
+          .test(isAddressValid),
         identifier: Yup.string().required('Required'),
         nonce: Yup.string().required('Required'),
       }),

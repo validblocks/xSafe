@@ -4,7 +4,6 @@ import {
   AccordionSummary,
   Grid,
   AccordionDetails,
-  useMediaQuery,
 } from '@mui/material';
 import { Box } from '@mui/system';
 import { useContractNFTs } from 'src/hooks/useContractNFTs';
@@ -23,7 +22,6 @@ import { Text } from '../StyledComponents/StyledComponents';
 const NftsByCollection = () => {
   const theme = useCustomTheme();
   const navbarSearchParam = useSelector(navbarSearchSelector);
-  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const {
     isFetchingNFTs,
@@ -47,7 +45,7 @@ const NftsByCollection = () => {
 
   if (Object.keys(nftsGroupedByCollection)?.length === 0) {
     return (
-      <Grid container margin={maxWidth600 ? '0px' : '-9px 0 0 -9px'}>
+      <Grid container margin={0}>
         <Grid xs={12} item>
           <NoActionsOverlay message={'No NFTs to show'} />
         </Grid>
