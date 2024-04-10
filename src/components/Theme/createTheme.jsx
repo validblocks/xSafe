@@ -297,7 +297,7 @@ export const darkTheme = createTheme({
     },
     shadows: {
       primary: '0px 2px 4px 0px rgb(76 47 252 / 13%)',
-      bottomNavbar: '0px -14px 24px rgba(11, 8, 34, 0.22)',
+      bottomNavbar: '0px -4px 14px rgba(11,8,34,0.22)',
       dropDownMenu: '0px 8px 24px rgba(11, 8, 34, 0.22)',
     },
   },
