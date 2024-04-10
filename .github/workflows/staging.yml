@@ -48,7 +48,7 @@ jobs:
 
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.17.1
+          node-version: 18.18.0
       - name: YARN Install
         id: YARN-Install
         if: success()
