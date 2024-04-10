@@ -70,19 +70,27 @@ const MyStake = () => {
     refetchOnMount: true,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
+    enabled: !!(currentContract?.address && currentContract?.address !== ''),
   });
 
   useEffect(() => {
-    if (!fetchedDelegations || !fetchedProviderIdentities) return;
+    if (
+      !fetchedDelegations ||
+      !fetchedProviderIdentities ||
+      !Array.isArray(fetchDelegations)
+    )
+      return;
 
-    const totalActiveStake = fetchedDelegations.reduce(
+    console.log({ fetchedDelegations });
+
+    const totalActiveStake = fetchedDelegations?.reduce(
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
         RationalNumber.fromBigInteger(delegation?.userActiveStake ?? 0),
       0,
     );
 
-    const allClaimableRewards = fetchedDelegations.reduce(
+    const allClaimableRewards = fetchedDelegations?.reduce(
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
         RationalNumber.fromBigInteger(delegation?.claimableRewards ?? 0),
@@ -95,7 +103,7 @@ const MyStake = () => {
     );
     setTotalClaimableRewards(allClaimableRewardsString);
 
-    const contractUndelegations = fetchedDelegations.reduce(
+    const contractUndelegations = fetchedDelegations?.reduce(
       (acc: IUndelegatedFunds[], delegation: IDelegation) => [
         ...acc,
         ...delegation.userUndelegatedList,
