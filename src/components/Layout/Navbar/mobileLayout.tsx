@@ -49,6 +49,10 @@ import {
 } from './navbar-style';
 import TotalBalance from './TotalBalance';
 import * as Styled from '../../Utils/styled';
+import {
+  proposeModalSelectedOptionSelector,
+  proposeMultiselectModalSelectedOptionSelector,
+} from 'src/redux/selectors/modalsSelector';
 
 const MobileLayout = () => {
   const locationString = window.location.pathname.substring(1);
@@ -141,6 +145,18 @@ const MobileLayout = () => {
   };
 
   const { allPendingActions, actionableByCurrentWallet } = usePendingActions();
+
+  const selectedOption = useSelector(proposeModalSelectedOptionSelector);
+  const selectedMultiselectOption = useSelector(
+    proposeMultiselectModalSelectedOptionSelector,
+  );
+
+  const isAnyModalOpen = selectedOption || selectedMultiselectOption;
+
+  console.log({
+    selectedOption,
+    selectedMultiselectOption,
+  });
 
   return (
     <Box>
@@ -279,105 +295,116 @@ const MobileLayout = () => {
           </TotalBalanceWrapper>
         </Box>
       </Box>
-      <MobileMenu>
-        {menuItems.mobileBottomItems.map((el) => (
-          <Link
-            to={
-              el.link === 'apps' && installedAndPinnedApps.length > 0
-                ? installedAndPinnedApps[0]?.link
-                : el.link
-            }
-            onClick={(e) => {
-              e.preventDefault();
-              if (isLoggedIn) {
-                navigate(
-                  el.link === 'apps' && installedAndPinnedApps.length > 0
-                    ? installedAndPinnedApps[0]?.link
-                    : el.link,
-                );
-              } else {
-                dispatch(
-                  setProposeModalSelectedOption({
-                    option: ModalTypes.connect_wallet,
-                  }),
-                );
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: 0,
+          padding: '.75rem',
+          paddingTop: '0',
+          width: '100%',
+          zIndex: isAnyModalOpen ? 1030 : 1302,
+        }}
+      >
+        <MobileMenu>
+          {menuItems.mobileBottomItems.map((el) => (
+            <Link
+              to={
+                el.link === 'apps' && installedAndPinnedApps.length > 0
+                  ? installedAndPinnedApps[0]?.link
+                  : el.link
               }
-            }}
-            className={
-              locationString ===
-              (el.link === 'apps' && installedAndPinnedApps.length > 0
-                ? installedAndPinnedApps[0]?.link
-                : el.link)
-                ? 'active link-decoration'
-                : 'link-decoration'
-            }
-            key={
-              el.link === 'apps' && installedAndPinnedApps.length > 0
-                ? installedAndPinnedApps[0]?.link
-                : el.link
-            }
-            style={{ width: '100%' }}
-          >
-            <BottomMenuButton sx={{ textTransform: 'none !important' }}>
-              <Box display="flex" alignItems="center">
-                {el.name === 'Transactions' && (
-                  <LinkInfoNumber
-                    sx={{
-                      backgroundColor: '#ff894691 !important',
-                      padding: '1px 3px !important',
-                    }}
-                    mr={0.5}
-                  >
-                    <Text
-                      fontSize="11px"
-                      width="100% !important"
-                      textAlign="center"
+              onClick={(e) => {
+                e.preventDefault();
+                if (isLoggedIn) {
+                  navigate(
+                    el.link === 'apps' && installedAndPinnedApps.length > 0
+                      ? installedAndPinnedApps[0]?.link
+                      : el.link,
+                  );
+                } else {
+                  dispatch(
+                    setProposeModalSelectedOption({
+                      option: ModalTypes.connect_wallet,
+                    }),
+                  );
+                }
+              }}
+              className={
+                locationString ===
+                (el.link === 'apps' && installedAndPinnedApps.length > 0
+                  ? installedAndPinnedApps[0]?.link
+                  : el.link)
+                  ? 'active link-decoration'
+                  : 'link-decoration'
+              }
+              key={
+                el.link === 'apps' && installedAndPinnedApps.length > 0
+                  ? installedAndPinnedApps[0]?.link
+                  : el.link
+              }
+              style={{ width: '100%' }}
+            >
+              <BottomMenuButton sx={{ textTransform: 'none !important' }}>
+                <Box display="flex" alignItems="center">
+                  {el.name === 'Transactions' && (
+                    <LinkInfoNumber
+                      sx={{
+                        backgroundColor: '#ff894691 !important',
+                        padding: '1px 3px !important',
+                      }}
+                      mr={0.5}
                     >
-                      {actionableByCurrentWallet ?? 0}
-                    </Text>
-                  </LinkInfoNumber>
-                )}
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    display: 'block',
-                    textAlign: 'center',
-                    color: 'currentcolor',
-                    '& svg': {
-                      fill: 'currentcolor',
-                    },
-                  }}
-                >
+                      <Text
+                        fontSize="11px"
+                        width="100% !important"
+                        textAlign="center"
+                      >
+                        {actionableByCurrentWallet ?? 0}
+                      </Text>
+                    </LinkInfoNumber>
+                  )}
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      display: 'block',
+                      textAlign: 'center',
+                      color: 'currentcolor',
+                      '& svg': {
+                        fill: 'currentcolor',
+                      },
+                    }}
+                  >
+                    {el.name === 'Apps' && installedAndPinnedApps.length > 0
+                      ? installedAndPinnedApps[0].icon
+                      : el.icon}
+                  </ListItemIcon>
+                  {el.name === 'Transactions' && (
+                    <LinkInfoNumber
+                      ml={0.5}
+                      sx={{
+                        padding: '1px 3px !important',
+                      }}
+                    >
+                      <Text
+                        fontSize="11px"
+                        width="100% !important"
+                        textAlign="center"
+                      >
+                        {allPendingActions?.length ?? 0}
+                      </Text>
+                    </LinkInfoNumber>
+                  )}
+                </Box>
+                <Typography component="span">
                   {el.name === 'Apps' && installedAndPinnedApps.length > 0
-                    ? installedAndPinnedApps[0].icon
-                    : el.icon}
-                </ListItemIcon>
-                {el.name === 'Transactions' && (
-                  <LinkInfoNumber
-                    ml={0.5}
-                    sx={{
-                      padding: '1px 3px !important',
-                    }}
-                  >
-                    <Text
-                      fontSize="11px"
-                      width="100% !important"
-                      textAlign="center"
-                    >
-                      {allPendingActions?.length ?? 0}
-                    </Text>
-                  </LinkInfoNumber>
-                )}
-              </Box>
-              <Typography component="span">
-                {el.name === 'Apps' && installedAndPinnedApps.length > 0
-                  ? installedAndPinnedApps[0]?.name
-                  : el.name}
-              </Typography>
-            </BottomMenuButton>
-          </Link>
-        ))}
-      </MobileMenu>
+                    ? installedAndPinnedApps[0]?.name
+                    : el.name}
+                </Typography>
+              </BottomMenuButton>
+            </Link>
+          ))}
+        </MobileMenu>
+      </Box>
       <MobileSecondaryMenu>
         {(locationString === 'assets' ||
           locationString === 'tokens' ||

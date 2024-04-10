@@ -6,7 +6,8 @@ export const MobileRightSidebar = styled(Dialog)(({ theme: _ }) => ({
     backgroundColor: 'transparent',
   },
   '.MuiDialog-container': {
-    height: 'calc(100% - 110.79px - 70px) !important',
+    // height: 'calc(100% - 110.79px - 70px) !important',
+    paddingBottom: '70px',
     width: '100%',
     top: '110.79px',
     position: 'fixed',

@@ -20,6 +20,7 @@ import MoreAppsDark from 'src/assets/img/MoreAppsDark.png';
 import { appsWithRouteConfig } from 'src/apps/apps';
 import StakingIcon from 'src/assets/img/staking.svg';
 import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
+import { CallMade } from '@mui/icons-material';
 
 export type MenuItem = {
   name: string;
@@ -64,13 +65,13 @@ export const availableApps: MarketplaceApp[] = [
     isInstallable: true,
   },
   {
-    name: 'Smart Contract Interactions',
+    name: 'SC Calls',
     title: 'Smart Contract Interactions',
     link: 'transaction-builder',
     id: AppIdentifiers.TransactionBuilder,
     description:
       'Compose custom smart contract interactions and create proposals.',
-    icon: <img src={StakingIcon} />,
+    icon: <CallMade />,
     imageUrlLight: StakeAppThumbnail,
     imageUrlDark: StakeAppThumbnailDark,
     isInstallable:

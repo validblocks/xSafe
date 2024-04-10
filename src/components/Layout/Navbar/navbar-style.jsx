@@ -318,9 +318,8 @@ export const PinnedIconBox = styled(Box)(({ theme: _ }) => ({
 
 export const MobileMenu = styled(Box)(({ theme: _ }) => ({
   '&&&': {
-    width: '100%',
     height: '70px',
-    padding: '0 8px',
+    // padding: '0 8px',
     zIndex: '1302 !important',
     display: 'flex',
     flexDirection: 'row',
@@ -328,8 +327,10 @@ export const MobileMenu = styled(Box)(({ theme: _ }) => ({
     borderTopLeftRadius: _.shape.radius,
     boxShadow: _.palette.shadows.bottomNavbar,
     backgroundColor: _.palette.background.secondary,
-    position: 'fixed',
-    bottom: '-0.5px',
+    // position: 'fixed',
+    width: '100%',
+    bottom: '.5rem',
+    borderRadius: '20px',
     '& a.active span': {
       color: `${_.palette.primary.main} !important`,
     },

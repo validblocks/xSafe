@@ -1,7 +1,5 @@
-
-
 .link-decoration {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .active svg {
@@ -35,6 +33,19 @@
     border-top: 2px solid #4c2ffc;
     display: block;
     color: currentColor;
+  }
+  .active:last-child {
+    border-top: 2px solid #4c2ffc;
+    display: block;
+    color: currentColor;
+    border-top-right-radius: 20px !important;
+  }
+
+  .active:first-child {
+    border-top: 2px solid #4c2ffc;
+    display: block;
+    color: currentColor;
+    border-top-left-radius: 20px !important;
   }
 }
 
