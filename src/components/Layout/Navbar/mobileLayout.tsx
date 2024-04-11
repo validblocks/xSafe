@@ -1,25 +1,17 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Box, IconButton, Tab, Typography, useMediaQuery } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import ListItemIcon from '@mui/material/ListItemIcon';
 import { Link, useNavigate } from 'react-router-dom';
 import Safe from 'src/assets/img/safe.png';
 import SafeOptions from 'src/components/SafeOptions';
 import WifiProtectedSetupOutlinedIcon from '@mui/icons-material/WifiProtectedSetupOutlined';
-import menuItems, {
-  availableApps,
-  MenuItem,
-  preinstalledApps,
-} from 'src/utils/menuItems';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { useOrganizationInfoContext } from 'src/components/Providers/OrganizationInfoContextProvider';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import SafeDark from 'src/assets/img/Safe-dark.png';
-import { useLocalStorage } from 'src/hooks/useLocalStorage';
-import { LOCAL_STORAGE_KEYS } from 'src/components/Marketplace/localStorageKeys';
 import MobileRightSidebar from 'src/components/MobileRightSidebar';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import CopyButton from 'src/components/Utils/CopyButton';
@@ -30,16 +22,10 @@ import {
   truncateInTheMiddle,
 } from 'src/utils/addressUtils';
 import { XSafeLogo } from 'src/components/Utils/XSafeLogo';
-import { usePendingActions } from 'src/hooks/usePendingActions';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import NetworkAnnouncer from 'src/components/Utils/NetworkAnnouncer';
-import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
-import { ModalTypes } from 'src/types/multisig/proposals/Proposals';
 import {
   AnchorConnectedAccount,
-  BottomMenuButton,
-  LinkInfoNumber,
-  MobileMenu,
   MobileSecondaryMenu,
   TopMobileMenu,
   TopMobileMenuActionBox,
@@ -53,6 +39,7 @@ import {
   proposeModalSelectedOptionSelector,
   proposeMultiselectModalSelectedOptionSelector,
 } from 'src/redux/selectors/modalsSelector';
+import { MobilePrimaryMenu } from './MobilePrimaryMenu';
 
 const MobileLayout = () => {
   const locationString = window.location.pathname.substring(1);
@@ -62,15 +49,6 @@ const MobileLayout = () => {
   const currentContract = useSelector(currentMultisigContractSelector);
   const { isLoggedIn } = useGetLoginInfo();
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
-
-  const [pinnedApps, _setPinnedApps] = useLocalStorage(
-    LOCAL_STORAGE_KEYS.PINNED_APPS,
-    [],
-  );
-  const [installedApps, _setInstalledApps] = useLocalStorage(
-    LOCAL_STORAGE_KEYS.INSTALLED_APPS,
-    [],
-  );
 
   const [safeAddress, setSafeAddress] = useState('');
   const minWidth380 = useMediaQuery('(min-width:380px)');
@@ -85,7 +63,6 @@ const MobileLayout = () => {
   }, [locationString]);
 
   const theme = useCustomTheme();
-  const dispatch = useDispatch();
 
   const addressChars = useMemo(() => {
     if (minWidth535) return 12;
@@ -104,17 +81,6 @@ const MobileLayout = () => {
     minWidth480,
     setSafeAddress,
   ]);
-
-  const installedAndPinnedApps = useMemo(
-    () =>
-      [
-        ...preinstalledApps,
-        ...availableApps.filter((app: MenuItem) =>
-          installedApps.includes(app.id),
-        ),
-      ].filter((app: MenuItem) => pinnedApps.includes(app.id)),
-    [installedApps, pinnedApps],
-  );
 
   useEffect(() => {
     setWalletAddress(getAddressShorthand(uniqueContractAddress));
@@ -144,19 +110,12 @@ const MobileLayout = () => {
     navigate(route);
   };
 
-  const { allPendingActions, actionableByCurrentWallet } = usePendingActions();
-
   const selectedOption = useSelector(proposeModalSelectedOptionSelector);
   const selectedMultiselectOption = useSelector(
     proposeMultiselectModalSelectedOptionSelector,
   );
 
   const isAnyModalOpen = selectedOption || selectedMultiselectOption;
-
-  console.log({
-    selectedOption,
-    selectedMultiselectOption,
-  });
 
   return (
     <Box>
@@ -305,112 +264,14 @@ const MobileLayout = () => {
           zIndex: isAnyModalOpen ? 1030 : 1302,
         }}
       >
-        <MobileMenu>
-          {menuItems.mobileBottomItems.map((el) => (
-            <Link
-              to={
-                el.link === 'apps' && installedAndPinnedApps.length > 0
-                  ? installedAndPinnedApps[0]?.link
-                  : el.link
-              }
-              onClick={(e) => {
-                e.preventDefault();
-                if (isLoggedIn) {
-                  navigate(
-                    el.link === 'apps' && installedAndPinnedApps.length > 0
-                      ? installedAndPinnedApps[0]?.link
-                      : el.link,
-                  );
-                } else {
-                  dispatch(
-                    setProposeModalSelectedOption({
-                      option: ModalTypes.connect_wallet,
-                    }),
-                  );
-                }
-              }}
-              className={
-                locationString ===
-                (el.link === 'apps' && installedAndPinnedApps.length > 0
-                  ? installedAndPinnedApps[0]?.link
-                  : el.link)
-                  ? 'active link-decoration'
-                  : 'link-decoration'
-              }
-              key={
-                el.link === 'apps' && installedAndPinnedApps.length > 0
-                  ? installedAndPinnedApps[0]?.link
-                  : el.link
-              }
-              style={{ width: '100%' }}
-            >
-              <BottomMenuButton sx={{ textTransform: 'none !important' }}>
-                <Box display="flex" alignItems="center">
-                  {el.name === 'Transactions' && (
-                    <LinkInfoNumber
-                      sx={{
-                        backgroundColor: '#ff894691 !important',
-                        padding: '1px 3px !important',
-                      }}
-                      mr={0.5}
-                    >
-                      <Text
-                        fontSize="11px"
-                        width="100% !important"
-                        textAlign="center"
-                      >
-                        {actionableByCurrentWallet ?? 0}
-                      </Text>
-                    </LinkInfoNumber>
-                  )}
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      display: 'block',
-                      textAlign: 'center',
-                      color: 'currentcolor',
-                      '& svg': {
-                        fill: 'currentcolor',
-                      },
-                    }}
-                  >
-                    {el.name === 'Apps' && installedAndPinnedApps.length > 0
-                      ? installedAndPinnedApps[0].icon
-                      : el.icon}
-                  </ListItemIcon>
-                  {el.name === 'Transactions' && (
-                    <LinkInfoNumber
-                      ml={0.5}
-                      sx={{
-                        padding: '1px 3px !important',
-                      }}
-                    >
-                      <Text
-                        fontSize="11px"
-                        width="100% !important"
-                        textAlign="center"
-                      >
-                        {allPendingActions?.length ?? 0}
-                      </Text>
-                    </LinkInfoNumber>
-                  )}
-                </Box>
-                <Typography component="span">
-                  {el.name === 'Apps' && installedAndPinnedApps.length > 0
-                    ? installedAndPinnedApps[0]?.name
-                    : el.name}
-                </Typography>
-              </BottomMenuButton>
-            </Link>
-          ))}
-        </MobileMenu>
+        <MobilePrimaryMenu />
       </Box>
       <MobileSecondaryMenu>
         {(locationString === 'assets' ||
           locationString === 'tokens' ||
           locationString === 'nft') && (
           <Styled.MainTab value={selectedTab} onChange={handleChange}>
-            <Tab component={Link} label="Tokens" to="/tokens" />
+            <Tab component={Link} label="TOKENS" to="/tokens" />
             <Tab component={Link} label="NFTs" to="/nft" />
           </Styled.MainTab>
         )}

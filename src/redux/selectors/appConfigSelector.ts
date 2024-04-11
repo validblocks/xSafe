@@ -17,3 +17,8 @@ export const selectedThemeSelector = createDeepEqualSelector(
   appConfigSelector,
   (state) => state.selectedTheme,
 );
+
+export const isMobileSidebarOpenSelector = createDeepEqualSelector(
+  appConfigSelector,
+  (state) => state.isMobileSidebarOpen,
+);

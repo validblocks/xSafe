@@ -10,8 +10,11 @@ import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded
 import { Link, useNavigate } from 'react-router-dom';
 import { LOCAL_STORAGE_KEYS } from 'src/components/Marketplace/localStorageKeys';
 import { useLocalStorage } from 'src/hooks/useLocalStorage';
-import { useSelector } from 'react-redux';
-import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  isDarkThemeEnabledSelector,
+  isMobileSidebarOpenSelector,
+} from 'src/redux/selectors/appConfigSelector';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import SafeSettings from 'src/components/Settings/SafeSettings';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
@@ -30,6 +33,7 @@ import {
   MobileSubmenuAccordionSummary,
 } from '../StyledComponents/StyledComponents';
 import { MobileConnectedAccount } from '../Layout/Navbar/ConnectedAccount/MobileConnectedAccount';
+import { setIsMobileSidebarOpen } from 'src/redux/slices/appConfigSlice';
 
 const Transition = React.forwardRef(
   (
@@ -52,7 +56,9 @@ export function StyledExpandMoreIcon() {
 }
 
 export default function MobileRightSidebar() {
-  const [open, setOpen] = React.useState(false);
+  const dispatch = useDispatch();
+  const isMobileSidebarOpen = useSelector(isMobileSidebarOpenSelector);
+
   const [pinnedApps] = useLocalStorage(LOCAL_STORAGE_KEYS.PINNED_APPS, []);
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const handleChange =
@@ -67,12 +73,12 @@ export default function MobileRightSidebar() {
     [installedApps, pinnedApps],
   );
 
-  const handleClickOpen = () => {
-    setOpen((open) => !open);
+  const toggleSidebarIsOpen = () => {
+    dispatch(setIsMobileSidebarOpen(!isMobileSidebarOpen));
   };
 
   const handleClose = () => {
-    setOpen(false);
+    dispatch(setIsMobileSidebarOpen(false));
   };
 
   const { isLoggedIn } = useGetLoginInfo();
@@ -90,13 +96,13 @@ export default function MobileRightSidebar() {
             height: '20px',
           },
         }}
-        onClick={handleClickOpen}
+        onClick={toggleSidebarIsOpen}
       >
-        {!open ? <MobileMenuIcon /> : <MobileMenuCloseIcon />}
+        {!isMobileSidebarOpen ? <MobileMenuIcon /> : <MobileMenuCloseIcon />}
       </MobileMenuButton>
       <Styled.MobileRightSidebar
         fullScreen
-        open={open}
+        open={isMobileSidebarOpen}
         onClose={handleClose}
         TransitionComponent={Transition}
       >

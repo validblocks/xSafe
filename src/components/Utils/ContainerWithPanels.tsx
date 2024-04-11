@@ -42,7 +42,7 @@ const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
                 color: theme.palette.text.primary,
               }}
               key={panel.title}
-              label={panel.title}
+              label={panel.title.toUpperCase()}
               {...a11yProps(index)}
             />
           ))}
