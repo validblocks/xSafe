@@ -317,3 +317,15 @@ footer {
     }
   }
 }
+
+.dapp-core-component__transactionsToastList-styles__toasts
+  .dapp-core-component__transactionsToastList-styles__toastWrapper {
+  margin: 0 !important;
+  position: fixed !important;
+  background: #1e1d2a !important;
+  color: #fff;
+  border: 1px solid #4c2ffc22;
+  svg {
+    color: #fff;
+  }
+}
