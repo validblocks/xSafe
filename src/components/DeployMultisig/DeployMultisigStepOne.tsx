@@ -1,6 +1,9 @@
 /* eslint-disable no-nested-ternary */
 import { Box, IconButton, useMediaQuery } from '@mui/material';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
+import {
+  useGetAccountProvider,
+  useGetLoginInfo,
+} from '@multiversx/sdk-dapp/hooks/account';
 import {
   useGetAccountInfo,
   useTrackTransactionStatus,
@@ -25,6 +28,9 @@ import { useMultistepFormContext } from 'src/components/Utils/MultistepForm';
 import * as Styled from 'src/components/Utils/styled';
 import { useMultisigCreationFormContext } from './DeployMultisigModal';
 import MemberPresentationWithPhoto from '../Utils/MemberPresentationWithPhoto';
+import { LogoutButton } from '../Utils/LogoutButton';
+import { LoginMethodsEnum } from '@multiversx/sdk-dapp/types';
+import * as StyledLocal from './Styled/index';
 
 interface DeployStepsModalType {
   handleClose: () => void;
@@ -43,9 +49,10 @@ const DeployMultisigStepOne = ({
 }: DeployStepsModalType) => {
   const t = useCustomTranslation();
   const theme = useCustomTheme();
-  const { address } = useGetAccountInfo();
   const maxWidth600 = useMediaQuery('(max-width:600px)');
+  const { address } = useGetAccountInfo();
   const { isLoggedIn } = useGetLoginInfo();
+  const { providerType } = useGetAccountProvider();
   const { proceedToNextStep } = useMultistepFormContext();
 
   const [name, setName] = useState('');
@@ -60,16 +67,16 @@ const DeployMultisigStepOne = ({
   } = useMultisigCreationFormContext();
 
   const onDeployMultisigFinished = useCallback(async () => {
+    proceedToNextStep();
     const { multisigAddress } = pendingDeploymentContractData;
     const newContracts = await addContractToMultisigContractsList({
       address: multisigAddress,
       name,
     });
     setNewContracts(newContracts);
-    proceedToNextStep();
-    enableNextStep(true);
     setName('');
     setIsLoading(false);
+    enableNextStep(true);
   }, [
     enableNextStep,
     name,
@@ -188,7 +195,7 @@ const DeployMultisigStepOne = ({
                 focused={false}
                 value={name}
                 autoComplete="off"
-                placeholder="Safe Name"
+                placeholder="Safe Name (3+ characters)"
                 onChange={handleNameChange}
               />
               <label htmlFor="newQuorumSize">{t('Safe Name') as string}</label>
@@ -215,10 +222,27 @@ const DeployMultisigStepOne = ({
               )}
             </Box>
           </Box>
+          {providerType === LoginMethodsEnum.wallet && (
+            <StyledLocal.WarningBox>
+              <Box>
+                <Text fontSize={12} color="error" textAlign={'left'}>
+                  {t('Oops! Please use another login method to create a Safe!')}
+                </Text>
+              </Box>
+              <Box>
+                <LogoutButton enableMobileStyle />
+              </Box>
+            </StyledLocal.WarningBox>
+          )}
           <Box display="flex" gap={2} alignItems={'center'}>
             <Box flex={1}>
               <FinalStepActionButton
-                disabled={!isLoggedIn || name.length < 3 || isLoading}
+                disabled={
+                  !isLoggedIn ||
+                  name.length < 3 ||
+                  isLoading ||
+                  providerType === LoginMethodsEnum.wallet
+                }
                 onClick={handleDeployNewMultisigSC}
               >
                 {isLoading && (
