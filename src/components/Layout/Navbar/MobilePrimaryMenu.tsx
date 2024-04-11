@@ -2,11 +2,6 @@ import { Box, ListItemIcon, Typography } from '@mui/material';
 import { useCallback, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { MobileMenu, BottomMenuButton, LinkInfoNumber } from './navbar-style';
-import menuItems, {
-  availableApps,
-  MenuItem,
-  preinstalledApps,
-} from 'src/utils/menuItems';
 import { LOCAL_STORAGE_KEYS } from 'src/components/Marketplace/localStorageKeys';
 import { useLocalStorage } from 'src/hooks/useLocalStorage';
 import { usePendingActions } from 'src/hooks/usePendingActions';
@@ -16,6 +11,12 @@ import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ModalTypes } from 'src/types/multisig/proposals/Proposals';
 import { useDispatch } from 'react-redux';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
+import {
+  preinstalledApps,
+  availableApps,
+  mobileBottomItems,
+  MenuItem,
+} from 'src/apps/apps';
 
 type MobileMenuItem = any;
 
@@ -87,7 +88,7 @@ export const MobilePrimaryMenu = () => {
 
   return (
     <MobileMenu>
-      {menuItems.mobileBottomItems.map((menuItem) => (
+      {mobileBottomItems.map((menuItem) => (
         <Link
           to={getMobileLinkDestination(menuItem)}
           onClick={handleMobileLinkClick(menuItem)}

@@ -1,13 +1,13 @@
 import { useCallback, useMemo } from 'react';
 import { AppIdentifiers } from 'src/components/Marketplace/appIds';
 import { LOCAL_STORAGE_KEYS } from 'src/components/Marketplace/localStorageKeys';
+import { useLocalStorage } from './useLocalStorage';
 import {
-  availableApps,
   MarketplaceApp,
   MenuItem,
+  availableApps,
   preinstalledApps,
-} from '../utils/menuItems';
-import { useLocalStorage } from './useLocalStorage';
+} from 'src/apps/apps';
 
 export interface IUseAppsReturnType {
   installApp: (app: MarketplaceApp) => void;

@@ -57,6 +57,8 @@ import { useSendTokenButtonMinWidth } from './useSendTokenButtonMinWidth';
 import UnknownOwnerMobileWarning from './UnknownOwnerMobileWarning';
 import { useSocketSubscribe } from 'src/hooks/useSocketSubscribe';
 import { SocketEvent } from 'src/types/websockets';
+import { AccountBalanceWallet } from '@mui/icons-material';
+import { useCustomTheme } from 'src/hooks/useCustomTheme';
 
 const identifierWithoutUniqueHash = (identifier: string) =>
   identifier?.split('-')[0] ?? '';
@@ -70,6 +72,7 @@ function TotalBalance() {
     currentMultisigContractSelector,
   );
   const minWidth600 = useMediaQuery('(min-width:600px)');
+  const theme = useCustomTheme();
 
   const queryClient = useQueryClient();
   const { isLoggedIn } = useGetLoginInfo();
@@ -319,6 +322,7 @@ function TotalBalance() {
 
   const { isInReadOnlyMode } = useOrganizationInfoContext();
   const [multisigAllCoinsValue, setMultisigAllCoinsValue] = useState('0');
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   useEffect(() => {
     const totalValue = Number(
@@ -354,13 +358,26 @@ function TotalBalance() {
         }}
       >
         <CenteredText fontSize="14px">Your Total Balance:</CenteredText>
-        <CenteredText fontSize="16px" fontWeight="bolder">
-          {Number.isNaN(multisigAllCoinsValue) ? (
-            <CircularProgress />
-          ) : (
-            `${isLoggedIn ? multisigAllCoinsValue : 0} ${getCurrency}`
-          )}
-        </CenteredText>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent={maxWidth600 ? 'start' : 'center'}
+        >
+          <AccountBalanceWallet
+            sx={{
+              color: theme.palette.text.primary,
+              width: '1.25rem',
+              marginRight: '0.25rem',
+            }}
+          />
+          <CenteredText fontSize="16px" fontWeight="bolder">
+            {Number.isNaN(multisigAllCoinsValue) ? (
+              <CircularProgress />
+            ) : (
+              `${isLoggedIn ? multisigAllCoinsValue : 0} ${getCurrency}`
+            )}
+          </CenteredText>
+        </Box>
       </Styled.TotalBalanceBox>
       <Divider
         orientation="vertical"

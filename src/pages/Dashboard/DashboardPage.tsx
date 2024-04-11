@@ -75,7 +75,7 @@ function Dashboard() {
 
   useEffect(() => {
     checkSingleContractValidity();
-  }, []);
+  }, [checkSingleContractValidity]);
 
   async function updateMultisigContract(
     newContracts: MultisigContractInfoType[],

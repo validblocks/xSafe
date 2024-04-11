@@ -94,7 +94,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
         if (!delegation) return false;
 
-        return delegation.userUndelegatedList.length > 0;
+        return delegation.userUndelegatedList?.length > 0;
       })
       .map((providerIdentity: IdentityWithColumns) => {
         const delegation = fetchedDelegations.find(

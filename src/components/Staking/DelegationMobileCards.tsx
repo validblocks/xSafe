@@ -98,7 +98,7 @@ const DelegationMobileCards = ({
             }}
           >
             <Box component="span" sx={{ transform: 'rotate(180deg)' }}>
-              <img src={ArrowBackSharp} width="30px" height="30px" /> Claim
+              <img src={ArrowBackSharp} width="30px" height="30px" />
             </Box>{' '}
             Claim
           </AssetActionButton>

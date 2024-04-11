@@ -3,13 +3,13 @@ import { useMemo } from 'react';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { useSelector } from 'react-redux';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
-import { MarketplaceApp } from 'src/utils/menuItems';
 import { useApps } from 'src/hooks/useApps';
 import { useLocalStorage } from 'src/hooks/useLocalStorage';
 import NoActionsOverlay from '../Utils/NoActionsOverlay';
 import AppCard from './AppCard';
 import { AppIdentifiers } from './appIds';
 import { LOCAL_STORAGE_KEYS } from './localStorageKeys';
+import { MarketplaceApp } from 'src/apps/apps';
 
 const MyApps = () => {
   const t = useCustomTranslation();
@@ -46,8 +46,8 @@ const MyApps = () => {
         widthBetween460And600 ? 'row' : minWidth600 ? 'row' : 'column'
       }
       justifyContent={widthBetween460And600 ? 'space-between' : 'flex-start'}
-      marginTop={maxWidth600 ? '50px' : 0}
-      paddingBottom={maxWidth600 ? '42px' : 0}
+      marginTop={0}
+      paddingBottom={maxWidth600 ? '46px' : 0}
     >
       {myApps.length === 0 ? (
         <NoActionsOverlay message={t('No apps installed')} />

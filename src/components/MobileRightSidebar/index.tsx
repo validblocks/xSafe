@@ -5,7 +5,6 @@ import Typography from '@mui/material/Typography';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
 import { AccordionDetails, AccordionSummary, Box } from '@mui/material';
-import menuItems, { MenuItem } from 'src/utils/menuItems';
 import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded';
 import { Link, useNavigate } from 'react-router-dom';
 import { LOCAL_STORAGE_KEYS } from 'src/components/Marketplace/localStorageKeys';
@@ -34,6 +33,7 @@ import {
 } from '../StyledComponents/StyledComponents';
 import { MobileConnectedAccount } from '../Layout/Navbar/ConnectedAccount/MobileConnectedAccount';
 import { setIsMobileSidebarOpen } from 'src/redux/slices/appConfigSlice';
+import { MenuItem, mobileDropDownItems } from 'src/apps/apps';
 
 const Transition = React.forwardRef(
   (
@@ -125,7 +125,7 @@ export default function MobileRightSidebar() {
             <MobileConnectedAccount closeSidebar={() => handleClose()} />
           </AccordionDetails>
         </MobileMenuAccordion>
-        {menuItems.mobileDropDownItems.map((item) => (
+        {mobileDropDownItems.map((item) => (
           <Box key={item.id} sx={{ borderBottom: '1px solid #9393931a' }}>
             <MobileMenuAccordion
               expanded={expanded === `${item.id}`}

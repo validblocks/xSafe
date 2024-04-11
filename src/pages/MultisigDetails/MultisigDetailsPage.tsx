@@ -1,25 +1,22 @@
 import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { Divider, Grid, useMediaQuery } from '@mui/material';
-import useMultisigDetailsCards from 'src/hooks/useMultisigDetailsCards';
 import routeNames from 'src/routes/routeNames';
 import { parseMultisigAddress } from 'src/utils/addressUtils';
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
-import { MultisigCardGrid } from 'src/components/StyledComponents/StyledComponents';
-import * as Styled from '../../components/MultisigDetails/styled';
+import ContainerWithPanels from 'src/components/Utils/ContainerWithPanels';
+import { SafeDetails } from 'src/components/MultisigDetails/SafeDetails';
+import Dashboard from '../Dashboard/DashboardPage';
 
 function MultisigDetailsPage() {
   const navigate = useNavigate();
   const { isLoggedIn } = useGetLoginInfo();
   const currentContract = useSelector(currentMultisigContractSelector);
-  const widthBetween520And600 = useMediaQuery(
-    '(min-width:520px) and (max-width:600px)',
-  );
-  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
-  const { topSectionCards, bottomSectionCards } = useMultisigDetailsCards();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const tabFromQuery = queryParams.get('tab');
 
   useEffect(() => {
     if (
@@ -31,38 +28,46 @@ function MultisigDetailsPage() {
     }
   }, [currentContract?.address, isLoggedIn, navigate]);
 
+  const panels = useMemo(
+    () => [
+      {
+        title: 'Safe overview',
+        content: <SafeDetails />,
+        tab: 'safe-overview',
+      },
+      { title: 'New Safe', content: <Dashboard />, tab: 'new-safe' },
+    ],
+    [],
+  );
+
+  const [tabIndex, setTabIndex] = useState(
+    tabFromQuery &&
+      panels.findIndex((panel) => panel.tab === tabFromQuery) !== -1
+      ? panels.findIndex((panel) => panel.tab === tabFromQuery)
+      : 0,
+  );
+
+  useEffect(() => {
+    navigate(`?tab=${panels[tabIndex].tab}`);
+  }, [navigate, panels, tabIndex]);
+
+  useEffect(() => {
+    console.log('tabFromQuery', tabFromQuery);
+    const index = panels.findIndex((panel) => panel.tab === tabFromQuery);
+
+    if (index !== -1) {
+      console.log('updateing tab index in parent', index);
+      setTabIndex(index);
+    }
+  }, [navigate, panels, tabFromQuery]);
+
   return (
     <>
-      <Styled.DetailsCardContainerBox>
-        <Grid
-          container
-          justifyContent={widthBetween520And600 ? 'space-between' : ''}
-          gap={'12px'}
-        >
-          {topSectionCards.map((topCard) => (
-            <MultisigCardGrid key={topCard.props.title}>
-              {' '}
-              {topCard}
-            </MultisigCardGrid>
-          ))}
-        </Grid>
-      </Styled.DetailsCardContainerBox>
-      <Styled.DetailsCardContainerBox>
-        <Grid
-          container
-          justifyContent={widthBetween520And600 ? 'space-between' : ''}
-          gap={'12px'}
-          paddingBottom={maxWidth600 ? '60px' : 0}
-        >
-          {bottomSectionCards.map((bottomCard) => (
-            <MultisigCardGrid key={bottomCard.props.title} item>
-              {' '}
-              {bottomCard}{' '}
-            </MultisigCardGrid>
-          ))}
-        </Grid>
-      </Styled.DetailsCardContainerBox>
-      <Divider />
+      <ContainerWithPanels
+        panels={panels}
+        initialTabIndex={tabIndex}
+        onTabChange={(tab: number) => setTabIndex(tab)}
+      />
     </>
   );
 }

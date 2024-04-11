@@ -1,6 +1,6 @@
 import { Box, Tab, useMediaQuery } from '@mui/material';
 import { TabPanel } from 'src/pages/Transactions/TransactionsPage';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import * as Styled from './styled';
 
@@ -11,16 +11,29 @@ interface IPanel {
 
 interface ContainerWithPanelProps {
   panels: IPanel[];
+  initialTabIndex?: number;
+  onTabChange?: (tab: number) => void;
 }
 
-const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
-  const [selectedTab, setSelectedTab] = useState(0);
+const ContainerWithPanels = ({
+  panels,
+  initialTabIndex = 0,
+  onTabChange,
+}: ContainerWithPanelProps) => {
+  const [selectedTab, setSelectedTab] = useState(initialTabIndex || 0);
   const theme = useCustomTheme();
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
+    console.log('newValue', newValue);
+    onTabChange && onTabChange(newValue);
     setSelectedTab(newValue);
   };
+
+  useEffect(() => {
+    console.log('initialTabIndex', initialTabIndex);
+    setSelectedTab(initialTabIndex);
+  }, [initialTabIndex]);
 
   function a11yProps(index: number) {
     return {
@@ -48,7 +61,7 @@ const ContainerWithPanels = ({ panels }: ContainerWithPanelProps) => {
           ))}
         </Styled.MainTab>
       </Styled.TabContainerBox>
-      <Box padding={maxWidth600 ? '12px 0 24px' : '12px 0 0'}>
+      <Box padding={maxWidth600 ? '60px 0 24px' : '12px 0 0'}>
         {panels.map((panel, index) => (
           <TabPanel key={panel.title} value={selectedTab} index={index}>
             {panel.content}

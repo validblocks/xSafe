@@ -106,7 +106,7 @@ const MobileLayout = () => {
 
   const navigate = useNavigate();
   const handleRedirectToHome = () => {
-    const route = '/multisig';
+    const route = '/dashboard?tab=new-safe';
     navigate(route);
   };
 

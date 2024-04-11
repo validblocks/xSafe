@@ -1,14 +1,13 @@
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { Box } from '@mui/system';
 import { HtmlTooltip } from 'src/components/Utils/HtmlTooltip';
-import menuItems from 'src/utils/menuItems';
 import { BottomMenuList } from '../../navbar-style';
 import MenuLink from '../MenuLink';
 import { uniqueId } from 'lodash';
+import { bottomItems } from 'src/apps/apps';
 
 const BottomMenu = () => {
   const { isLoggedIn } = useGetLoginInfo();
-  const { bottomItems } = menuItems;
   return (
     <BottomMenuList>
       {bottomItems.map((el) => {
@@ -18,9 +17,7 @@ const BottomMenu = () => {
               <HtmlTooltip
                 key={uniqueId()}
                 arrow
-                title={(
-                  <span className="ml-1">{'Please login first!'}</span>
-                )}
+                title={<span className="ml-1">{'Please login first!'}</span>}
                 placement="right"
               >
                 <Box key={uniqueId()}>
@@ -30,9 +27,7 @@ const BottomMenu = () => {
             );
           }
 
-          return (
-            <MenuLink key={uniqueId()} menuItem={el} />
-          );
+          return <MenuLink key={uniqueId()} menuItem={el} />;
         }
 
         return (

@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { MarketplaceApp } from 'src/utils/menuItems';
 import { useApps } from 'src/hooks/useApps';
 import { useLocalStorage } from 'src/hooks/useLocalStorage';
 import { useNavigate } from 'react-router-dom';
 import { NoteSpan } from '../../components/Settings/settings-style';
 import AppCard from '../../components/Marketplace/AppCard';
 import { LOCAL_STORAGE_KEYS } from '../../components/Marketplace/localStorageKeys';
+import { MarketplaceApp } from 'src/apps/apps';
 
 const Marketplace = () => {
   const { installApp, allMarketplaceApps } = useApps();
@@ -55,8 +55,8 @@ const Marketplace = () => {
         widthBetween460And600 ? 'row' : minWidth600 ? 'row' : 'column'
       }
       justifyContent={widthBetween460And600 ? 'space-between' : 'flex-start'}
-      marginTop={maxWidth600 ? '50px' : 0}
-      paddingBottom={maxWidth600 ? '42px' : 0}
+      marginTop={0}
+      paddingBottom={maxWidth600 ? '46px' : 0}
     >
       {!(currentContract?.address.length > 0) && (
         <NoteSpan mb="5px">

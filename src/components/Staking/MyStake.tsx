@@ -77,11 +77,11 @@ const MyStake = () => {
     if (
       !fetchedDelegations ||
       !fetchedProviderIdentities ||
-      !Array.isArray(fetchDelegations)
+      !(fetchedDelegations instanceof Array)
     )
       return;
 
-    console.log({ fetchedDelegations });
+    console.log('fetchedDelegations', Array.isArray(fetchDelegations));
 
     const totalActiveStake = fetchedDelegations?.reduce(
       (totalSum: number, delegation: IDelegation) =>
@@ -104,10 +104,10 @@ const MyStake = () => {
     setTotalClaimableRewards(allClaimableRewardsString);
 
     const contractUndelegations = fetchedDelegations?.reduce(
-      (acc: IUndelegatedFunds[], delegation: IDelegation) => [
-        ...acc,
-        ...delegation.userUndelegatedList,
-      ],
+      (acc: IUndelegatedFunds[], delegation: IDelegation) =>
+        'userUndelegatedList' in delegation
+          ? [...acc, ...delegation.userUndelegatedList]
+          : [...acc],
       [],
     );
 
@@ -171,7 +171,12 @@ const MyStake = () => {
         needsDenomination: false,
       }),
     );
-  }, [dispatch, fetchedDelegations, fetchedProviderIdentities]);
+  }, [
+    dispatch,
+    fetchDelegations,
+    fetchedDelegations,
+    fetchedProviderIdentities,
+  ]);
 
   const maxWidth804 = useMediaQuery('(max-width:804px)');
   const widthBetween805and1038 = useMediaQuery(

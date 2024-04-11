@@ -5,7 +5,7 @@ import { NavLogo } from '../navbar-style';
 const NavbarLogo = () => {
   const navigate = useNavigate();
   const handleRedirectToHome = () => {
-    const route = '/multisig';
+    const route = '/dashboard?tab=safe-overview';
     navigate(route);
   };
 

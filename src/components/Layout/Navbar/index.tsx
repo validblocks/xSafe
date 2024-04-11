@@ -6,7 +6,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import menuItems, { MenuItem } from 'src/utils/menuItems';
 import {
   CenteredBox,
   Text,
@@ -38,6 +37,7 @@ import {
 import * as Styled from '../../Utils/styled';
 import BottomMenu from './MenuItems/BottomMenu';
 import { getAddressShorthand } from 'src/utils/addressUtils';
+import { MenuItem, topItems } from 'src/apps/apps';
 
 const MiniDrawer = () => {
   const theme = useCustomTheme();
@@ -117,7 +117,7 @@ const MiniDrawer = () => {
             exit={{ opacity: 0, scale: 0 }}
           >
             <TopMenu>
-              {menuItems.topItems.map((el) => (
+              {topItems.map((el) => (
                 <div key={el.id}>
                   {el.submenu && (
                     <Accordion
