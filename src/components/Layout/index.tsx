@@ -78,6 +78,7 @@ function Layout({ children }: { children: React.ReactNode }) {
   }, [address, tokenLogin?.nativeAuthToken]);
 
   const {
+    refetch: refetchAttachedContracts,
     isFetching: isFetchingContracts,
     isLoading: isLoadingContracts,
     data: attachedContracts,
@@ -97,6 +98,13 @@ function Layout({ children }: { children: React.ReactNode }) {
       dispatch(setProposeModalSelectedOption(null));
     }
   }, [dispatch, isLoggedIn]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      console.log('Refetching attached contracts');
+      refetchAttachedContracts();
+    }
+  }, [fetchAccountData, isLoggedIn, refetchAttachedContracts]);
 
   useEffect(() => {
     if (
