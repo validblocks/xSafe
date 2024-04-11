@@ -28,6 +28,8 @@ export const getAddressShorthand = (uniqueContractAddress: string) => {
 };
 
 export const tryParseAddressElseThrow = (address?: string): Address | null => {
-  if (!address) throw new Error('Parsing undefined address!');
+  if (!address) throw new Error('Parsing null or undefined address!');
+  if (address === '') throw new Error('Parsing empty address!');
+
   return new Address(address);
 };

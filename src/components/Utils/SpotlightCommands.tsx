@@ -15,15 +15,8 @@ import {
   ModalTypes,
   ProposalsTypes,
 } from 'src/types/multisig/proposals/Proposals';
-import { logout } from '@multiversx/sdk-dapp/utils';
-import { TokenTransfer } from '@multiversx/sdk-core/out';
-import {
-  setMultisigBalance,
-  setTokenTableRows,
-  setOrganizationTokens,
-} from 'src/redux/slices/accountGeneralInfoSlice';
-import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { CenteredBox } from '../StyledComponents/StyledComponents';
+import { useLogoutLogic } from 'src/hooks/useLogoutLogic';
 
 export const SpotlightCommands = () => {
   const [isCommandOpen, setIsCommandOpen] = useState<boolean>(false);
@@ -63,22 +56,7 @@ export const SpotlightCommands = () => {
   }, []);
 
   const navigate = useNavigate();
-  const logOut = useCallback(async () => {
-    // document.cookie = '';
-    localStorage.clear();
-    sessionStorage.clear();
-    dispatch(setCurrentMultisigContract(''));
-    dispatch(setProposeModalSelectedOption(null));
-    dispatch(
-      setMultisigBalance(
-        JSON.stringify(TokenTransfer.egldFromAmount('0').amount.toString()),
-      ),
-    );
-    dispatch(setTokenTableRows([]));
-    dispatch(setOrganizationTokens([]));
-    dispatch(setCurrentMultisigContract(''));
-    logout(`${window.location.origin}/multisig`);
-  }, [dispatch]);
+  const { logoutWithCleanup } = useLogoutLogic();
 
   const onKeyDown = useCallback(
     (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -103,7 +81,7 @@ export const SpotlightCommands = () => {
             );
             break;
           case 'logout':
-            logOut();
+            logoutWithCleanup?.();
             break;
           case 'csa':
             handleCopy(currentContract?.address);
@@ -163,7 +141,14 @@ export const SpotlightCommands = () => {
         setIsCommandOpen(false);
       }
     },
-    [address, currentContract?.address, dispatch, handleCopy, logOut, navigate],
+    [
+      address,
+      currentContract?.address,
+      dispatch,
+      handleCopy,
+      logoutWithCleanup,
+      navigate,
+    ],
   );
 
   const theme = useCustomTheme();

@@ -69,35 +69,37 @@ export async function queryOnContract(
 }
 
 export async function query(functionName: string, ...args: TypedValue[]) {
-  const currentMultisigAddress = currentMultisigAddressSelector(
-    store.getState(),
-  );
+  try {
+    const currentMultisigAddress = currentMultisigAddressSelector(
+      store.getState(),
+    );
 
-  if (!currentMultisigAddress || currentMultisigAddress === '') {
-    throw new Error('No multisig address found.');
+    if (!currentMultisigAddress || currentMultisigAddress === '') {
+      throw new Error('No multisig address found.');
+    }
+
+    const smartContract = new SmartContract({
+      address: currentMultisigAddress,
+    });
+
+    const calllerBech32 = await getAddress();
+
+    if (!calllerBech32) {
+      throw new Error('No address found. Please login.');
+    }
+
+    const callerAddress = new Address(calllerBech32);
+
+    const newQuery = smartContract.createQuery({
+      func: new ContractFunction(functionName),
+      caller: callerAddress,
+      args,
+    });
+
+    return proxy.queryContract(newQuery);
+  } catch (e) {
+    console.warn(e);
   }
-
-  console.log('currentMultisigAddress', currentMultisigAddress);
-
-  const smartContract = new SmartContract({
-    address: currentMultisigAddress,
-  });
-
-  const calllerBech32 = await getAddress();
-
-  if (!calllerBech32) {
-    throw new Error('No address found. Please login.');
-  }
-
-  const callerAddress = new Address(calllerBech32);
-
-  const newQuery = smartContract.createQuery({
-    func: new ContractFunction(functionName),
-    caller: callerAddress,
-    args,
-  });
-
-  return proxy.queryContract(newQuery);
 }
 
 export async function queryNumber(
@@ -105,6 +107,8 @@ export async function queryNumber(
   ...args: TypedValue[]
 ): Promise<number> {
   const result = await query(functionName, ...args);
+
+  if (!result) throw new Error('Could not query number!');
 
   const codec = new NumericalBinaryCodec();
   const resultsParser = new ResultsParser();
@@ -138,6 +142,8 @@ export async function queryBoolean(
 ): Promise<boolean> {
   const result = await query(functionName, ...args);
 
+  if (!result) throw new Error('Could not query boolean!');
+
   const resultsParser = new ResultsParser();
   const parsedResult = resultsParser.parseUntypedQueryResponse(result);
   const codec = new BinaryCodec();
@@ -151,6 +157,9 @@ export async function queryAddressArray(
   ...args: TypedValue[]
 ): Promise<Address[]> {
   const result = await query(functionName, ...args);
+
+  if (!result) throw new Error('Could not query address array!');
+
   const resultsParser = new ResultsParser();
   const parsedResult = resultsParser.parseUntypedQueryResponse(result);
   return parsedResult.values.map((x: Buffer) => new Address(x));
@@ -471,11 +480,17 @@ export function mutateEsdtIssueToken(proposal: MultisigIssueToken) {
   );
 }
 
-export function queryUserRole(userAddress: string): Promise<number> {
-  return queryNumber(
-    MultisigContractFunction.USER_ROLE,
-    new AddressValue(new Address(userAddress)),
-  );
+export function queryUserRole(
+  userAddress: string,
+): Promise<number> | undefined {
+  try {
+    return queryNumber(
+      MultisigContractFunction.USER_ROLE,
+      new AddressValue(new Address(userAddress)),
+    );
+  } catch (e) {
+    console.error(e);
+  }
 }
 
 export async function queryUserRoleOnContract(
@@ -507,6 +522,8 @@ export async function queryActionContainer(
 ): Promise<MultisigAction | null> {
   const result = await query(functionName, ...args);
 
+  if (!result) throw new Error('Could not query action container!');
+
   if (result.returnData.length === 0) {
     return null;
   }
@@ -526,6 +543,8 @@ export async function queryActionContainerArray(
 ): Promise<MultisigActionDetailed[]> {
   try {
     const result = await query(functionName, ...args);
+
+    if (!result) throw new Error('Could not query action container array!');
 
     const resultsParser = new ResultsParser();
     const parsedResult = resultsParser.parseUntypedQueryResponse(result);

@@ -135,7 +135,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
       return;
     }
 
-    queryUserRole(new Address(address).hex()).then((userRoleResponse) => {
+    queryUserRole(new Address(address).hex())?.then((userRoleResponse) => {
       setUserRole(userRoleResponse);
       setIsInReadOnlyMode(userRole !== 2);
     });

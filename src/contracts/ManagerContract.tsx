@@ -13,6 +13,7 @@ import {
 } from '@multiversx/sdk-core';
 import { Code } from '@multiversx/sdk-core/out/smartcontracts/code';
 import { requireContractCode } from 'src/utils/requireContractCode';
+import { SendTransactionReturnType } from '@multiversx/sdk-dapp/types';
 
 export const deployContractGasLimit = 100_000_000;
 
@@ -55,21 +56,39 @@ async function getDeployContractTransaction(
   return deployTransaction;
 }
 
+export async function getAddressNonceOrThrow(address: string) {
+  try {
+    const account = await getAccount(address);
+    const accountHasNonce =
+      account &&
+      'nonce' in account &&
+      account.nonce !== null &&
+      account.nonce !== undefined;
+
+    if (!accountHasNonce) {
+      throw Error(
+        'Error getting account nonce. Nonce is not present, undefined or null!',
+      );
+    }
+
+    return account.nonce;
+  } catch (err) {
+    console.error(err);
+    throw Error('Error getting a account in getAddressNonceOrThrow!');
+  }
+}
+
 export async function deployMultisigContract() {
   try {
     const address = await getAddress();
 
     if (!address) throw Error('Error getting address');
 
-    const account = await getAccount(address);
-
-    if (!account || !account.nonce) {
-      throw Error('Error getting account');
-    }
+    const accountNonce = await getAddressNonceOrThrow(address);
 
     const multisigAddress = SmartContract.computeAddress(
       new Address(address),
-      account.nonce,
+      accountNonce,
     );
     const boardMembers = [new AddressValue(new Address(address))];
     const quorum = 1;
@@ -79,12 +98,15 @@ export async function deployMultisigContract() {
     );
 
     const transactions = [deployTransaction];
-    const { sessionId, error } = await sendTransactions({
+    const returnType: SendTransactionReturnType = await sendTransactions({
       transactions,
     });
+    
+    const { sessionId, error } = returnType;
 
     return { sessionId, multisigAddress: multisigAddress.bech32(), error };
   } catch (err) {
+    console.error(err);
     throw Error('Error deploying safe!');
   }
 }

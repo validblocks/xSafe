@@ -23,9 +23,7 @@ export const DisconnectButton = styled(Button)`
 &&& {
   color: ${(props) => props.theme.palette.danger.main};
   border: 1px solid ${(props) => props.theme.palette.danger.main};
-  padding: 10px 16px 8px;
   margin-top: 0px;
-  top: 16px;
   border-radius: ${(props) => props.theme.shape.radius};
   background: ${(props) => props.theme.palette.background.danger};
   & > div {
