@@ -24,6 +24,9 @@ async function getDeployContractTransaction(
   const addressBech32 = await getAddress();
   const deployerAddress = new Address(addressBech32);
 
+  console.log({ addressBech32 });
+  console.log({ deployerAddress });
+
   const smartContractCode = await requireContractCode();
   const code = Code.fromHex(smartContractCode);
 
@@ -49,10 +52,12 @@ async function getDeployContractTransaction(
     isReadable: true,
   });
 
-  deployTransaction.nonce = BigInt(
-    +new Account(deployerAddress).getNonceThenIncrement(),
-  );
+  const deployerAccount = new Account(deployerAddress);
+  console.log({ deployerAccount });
 
+  deployTransaction.nonce = BigInt(+deployerAccount.getNonceThenIncrement());
+
+  console.log({ deployTransaction });
   return deployTransaction;
 }
 
@@ -65,12 +70,15 @@ export async function getAddressNonceOrThrow(address: string) {
       account.nonce !== null &&
       account.nonce !== undefined;
 
+    console.log({ accountHasNonce: accountHasNonce });
+
     if (!accountHasNonce) {
       throw Error(
         'Error getting account nonce. Nonce is not present, undefined or null!',
       );
     }
 
+    console.log({ accountOnGetAddressNonce: account });
     return account.nonce;
   } catch (err) {
     console.error(err);
@@ -81,10 +89,12 @@ export async function getAddressNonceOrThrow(address: string) {
 export async function deployMultisigContract() {
   try {
     const address = await getAddress();
+    console.log({ addressOnDeploy: address });
 
     if (!address) throw Error('Error getting address');
 
     const accountNonce = await getAddressNonceOrThrow(address);
+    console.log({ accountNonceOnDeploy: accountNonce });
 
     const multisigAddress = SmartContract.computeAddress(
       new Address(address),
@@ -101,7 +111,7 @@ export async function deployMultisigContract() {
     const returnType: SendTransactionReturnType = await sendTransactions({
       transactions,
     });
-    
+
     const { sessionId, error } = returnType;
 
     return { sessionId, multisigAddress: multisigAddress.bech32(), error };
