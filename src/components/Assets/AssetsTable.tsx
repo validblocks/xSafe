@@ -14,12 +14,10 @@ import AssetActionIcon from 'src/assets/img/arrow-back-sharp.svg';
 import { ProposalsTypes } from 'src/types/multisig/proposals/Proposals';
 import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import DisplayTokenPrice from 'src/components/Utils/DisplayTokenPrice';
-import { Box, Typography, useMediaQuery } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
-import NoActionsOverlay from 'src/components/Utils/NoActionsOverlay';
 import RationalNumber from 'src/utils/RationalNumber';
 import * as Styled from '../../pages/Organization/styled';
-import MobileCardsForTableReplacement from './MobileCardsForTableReplacement';
 import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
 
 export const SQUARE_IMAGE_WIDTH = 30;
@@ -27,7 +25,6 @@ export const SQUARE_SMALL_IMAGE_WIDTH = 20;
 
 const AssetsTable = () => {
   const dispatch = useDispatch();
-  const width = useMediaQuery('(min-width:600px)');
   const [showQr, setShowQr] = useState(false);
 
   const handleQrModal = useCallback(() => {
@@ -151,26 +148,12 @@ const AssetsTable = () => {
 
   return (
     <>
-      {width ? (
-        <Styled.MainTable
-          autoHeight
-          rowHeight={65}
-          rows={tokenTableRows ?? []}
-          columns={columns}
-        />
-      ) : (
-        <Box paddingBottom={'62px'}>
-          {currentContract?.address ? (
-            <MobileCardsForTableReplacement
-              handleQrModal={handleQrModal}
-              handleOptionSelected={handleOptionSelected}
-              tokenTableRows={tokenTableRows}
-            />
-          ) : (
-            <NoActionsOverlay message={'No safe available'} />
-          )}
-        </Box>
-      )}
+      <Styled.MainTable
+        autoHeight
+        rowHeight={65}
+        rows={tokenTableRows ?? []}
+        columns={columns}
+      />
       <ReceiveModal
         showQrFromSidebar={showQr}
         address={currentContract?.address}

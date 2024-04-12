@@ -97,7 +97,7 @@ function NftCard({ nft }: Props) {
           }}
           component={nft.media?.[0].fileType === 'video/mp4' ? 'video' : 'img'}
           controlsList="nodownload"
-          autoplay
+          autoPlay
           loop
           controls
           image={

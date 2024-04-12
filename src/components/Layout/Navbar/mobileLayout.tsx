@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { Box, IconButton, Tab, Typography, useMediaQuery } from '@mui/material';
+import { Box, IconButton, Typography, useMediaQuery } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Safe from 'src/assets/img/safe.png';
 import SafeOptions from 'src/components/SafeOptions';
 import WifiProtectedSetupOutlinedIcon from '@mui/icons-material/WifiProtectedSetupOutlined';
@@ -26,7 +26,6 @@ import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import NetworkAnnouncer from 'src/components/Utils/NetworkAnnouncer';
 import {
   AnchorConnectedAccount,
-  MobileSecondaryMenu,
   TopMobileMenu,
   TopMobileMenuActionBox,
   TopMobileMenuLogoBox,
@@ -34,7 +33,6 @@ import {
   TotalBalanceWrapper,
 } from './navbar-style';
 import TotalBalance from './TotalBalance';
-import * as Styled from '../../Utils/styled';
 import {
   proposeModalSelectedOptionSelector,
   proposeMultiselectModalSelectedOptionSelector,
@@ -42,7 +40,6 @@ import {
 import { MobilePrimaryMenu } from './MobilePrimaryMenu';
 
 const MobileLayout = () => {
-  const locationString = window.location.pathname.substring(1);
   const [_walletAddress, setWalletAddress] = useState('');
   const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
   const menuRef = useRef<HTMLElement>();
@@ -55,12 +52,6 @@ const MobileLayout = () => {
   const minWidth480 = useMediaQuery('(min-width:480px)');
   const minWidth425 = useMediaQuery('(min-width:425px)');
   const minWidth535 = useMediaQuery('(min-width:535px)');
-
-  const [selectedTab, setSelectedTab] = useState(0);
-
-  useEffect(() => {
-    setSelectedTab(locationString === 'nft' ? 1 : 0);
-  }, [locationString]);
 
   const theme = useCustomTheme();
 
@@ -97,10 +88,6 @@ const MobileLayout = () => {
       document.removeEventListener('mousedown', handler);
     };
   }, []);
-
-  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    setSelectedTab(newValue);
-  };
 
   const { isMultiWalletMode } = useOrganizationInfoContext();
 
@@ -266,16 +253,6 @@ const MobileLayout = () => {
       >
         <MobilePrimaryMenu />
       </Box>
-      <MobileSecondaryMenu>
-        {(locationString === 'assets' ||
-          locationString === 'tokens' ||
-          locationString === 'nft') && (
-          <Styled.MainTab value={selectedTab} onChange={handleChange}>
-            <Tab component={Link} label="TOKENS" to="/tokens" />
-            <Tab component={Link} label="NFTs" to="/nft" />
-          </Styled.MainTab>
-        )}
-      </MobileSecondaryMenu>
     </Box>
   );
 };
