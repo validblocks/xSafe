@@ -3,6 +3,7 @@ import { TabPanel } from 'src/pages/Transactions/TransactionsPage';
 import { useEffect, useState } from 'react';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import * as Styled from './styled';
+import { GESTURE, GestureObserver } from 'src/utils/GestureObserver';
 
 interface IPanel {
   title: string;
@@ -31,7 +32,6 @@ const ContainerWithPanels = ({
   };
 
   useEffect(() => {
-    console.log('initialTabIndex', initialTabIndex);
     setSelectedTab(initialTabIndex);
   }, [initialTabIndex]);
 
@@ -41,6 +41,26 @@ const ContainerWithPanels = ({
       'aria-controls': `simple-tabpanel-${index}`,
     };
   }
+
+  useEffect(() => {
+    GestureObserver.subscribe(GESTURE.SWIPE_LEFT, () => {
+      setSelectedTab((currentTab) => {
+        if (currentTab < panels.length - 1) {
+          onTabChange && onTabChange(currentTab + 1);
+          return currentTab + 1;
+        }
+        return currentTab;
+      });
+    });
+
+    GestureObserver.subscribe(GESTURE.SWIPE_RIGHT, () => {
+      setSelectedTab((currentTab) => {
+        if (currentTab === 0) return currentTab;
+        onTabChange && onTabChange(currentTab - 1);
+        return currentTab - 1;
+      });
+    });
+  }, [onTabChange, panels.length, selectedTab]);
 
   return (
     <Styled.ContainerWithPanelsTopBox>
