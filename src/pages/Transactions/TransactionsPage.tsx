@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   MenuItem,
@@ -23,6 +23,7 @@ import {
 } from '../../components/Transactions/TransactionHistoryIntervals';
 import TransactionQueue from './TransactionQueue';
 import * as Styled from '../../components/Utils/styled/index';
+import { GESTURE, GestureObserver } from 'src/utils/GestureObserver';
 
 export interface TabPanelProps {
   children?: React.ReactNode;
@@ -103,6 +104,22 @@ export default function TransactionsPage() {
     dispatch(setIntervalEndTimestamp(new Date().getTime() / 1000));
     dispatch(setIntervalStartTimestampForFiltering(newIntervalStartTimestamp));
   };
+
+  useEffect(() => {
+    GestureObserver.subscribe(GESTURE.SWIPE_LEFT, () => {
+      setValue((currentTab) => {
+        if (currentTab < 1) return currentTab + 1;
+        return currentTab;
+      });
+    });
+
+    GestureObserver.subscribe(GESTURE.SWIPE_RIGHT, () => {
+      setValue((currentTab) => {
+        if (currentTab > 0) return currentTab - 1;
+        return currentTab;
+      });
+    });
+  }, []);
 
   return (
     <Box width={'100%'}>

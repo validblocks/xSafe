@@ -52,23 +52,21 @@ function MultisigDetailsPage() {
   }, [navigate, panels, tabIndex]);
 
   useEffect(() => {
-    console.log('tabFromQuery', tabFromQuery);
     const index = panels.findIndex((panel) => panel.tab === tabFromQuery);
 
     if (index !== -1) {
-      console.log('updateing tab index in parent', index);
       setTabIndex(index);
     }
   }, [navigate, panels, tabFromQuery]);
 
   return (
-    <>
+    <div>
       <ContainerWithPanels
         panels={panels}
         initialTabIndex={tabIndex}
         onTabChange={(tab: number) => setTabIndex(tab)}
       />
-    </>
+    </div>
   );
 }
 

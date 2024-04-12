@@ -48,6 +48,8 @@ import Navbar from './Navbar/index';
 import NavbarLogo from './Navbar/Logo';
 import { CenteredBox } from '../StyledComponents/StyledComponents';
 import NetworkAnnouncer from '../Utils/NetworkAnnouncer';
+import { GESTURE, GestureObserver } from 'src/utils/GestureObserver';
+import { useSwipe } from 'src/hooks/useSwipe';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const theme = useCustomTheme();
@@ -156,13 +158,23 @@ function Layout({ children }: { children: React.ReactNode }) {
   }, [isDarkThemeEnabled, theme.palette.background.default]);
 
   const minWidth600 = useMediaQuery('(min-width:600px)');
+
   const onChangeTheme = useCallback(() => {
     const newTheme = isDarkThemeEnabled ? 'Light' : 'Dark';
     dispatch(setSelectedTheme(newTheme));
   }, [dispatch, isDarkThemeEnabled]);
 
+  const swipeHandlers = useSwipe({
+    onSwipedLeft: () => {
+      GestureObserver.publish(GESTURE.SWIPE_LEFT, {});
+    },
+    onSwipedRight: () => {
+      GestureObserver.publish(GESTURE.SWIPE_RIGHT, {});
+    },
+  });
+
   return (
-    <Box sx={{ height: '100vh' }}>
+    <Box sx={{ height: '100vh' }} className="SwipeMe" {...swipeHandlers}>
       <AppBarWrapper>
         {minWidth600 ? (
           <TopHeader className="d-flex justify-content-between px-4 py-3 align-items-center">
