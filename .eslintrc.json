@@ -27,6 +27,7 @@
   ],
   "rules": {
     "no-bitwise": "off",
+    "@typescript-eslint/no-explicit-any": ["warn"],
     "react/jsx-one-expression-per-line": "off",
     "no-plusplus": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".jsx", ".tsx"] }],
