@@ -16,7 +16,7 @@ function ThemeColor() {
   const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
 
   const onChangeTheme = useCallback(
-    (e: any, newTheme: string | null) => {
+    (e: React.ChangeEvent<HTMLSelectElement>, newTheme: string | null) => {
       if (!newTheme) return;
       dispatch(setSelectedTheme(e.target.value as 'Light' | 'Dark'));
     },

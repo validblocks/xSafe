@@ -49,8 +49,8 @@ function AssetsPage() {
   );
 
   useEffect(() => {
-    navigate(`?tab=${panels[tabIndex].tab}`);
-  }, [navigate, tabIndex]);
+    if (isOnMobile) navigate(`?tab=${panels[tabIndex].tab}`);
+  }, [navigate, tabIndex, tabFromQuery, isOnMobile]);
 
   useEffect(() => {
     const index = panels.findIndex((panel) => panel.tab === tabFromQuery);
