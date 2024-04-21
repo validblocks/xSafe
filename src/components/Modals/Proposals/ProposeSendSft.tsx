@@ -14,6 +14,7 @@ import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithT
 import NftPresentation from 'src/components/Nfts/NftPresentation';
 import * as Styled from '../../Utils/styled';
 import { isAddressValid } from 'src/helpers/validation';
+import useAmountInputController from 'src/hooks/useAmountInputController';
 
 interface ProposeSendSftType {
   handleChange: (proposal: MultisigSendSft) => void;
@@ -32,13 +33,13 @@ const ProposeSendSft = ({
   setSubmitDisabled,
 }: ProposeSendSftType) => {
   const t = useCustomTranslation();
+  const { amount, handleAmountInputChange } = useAmountInputController('0');
 
   const selectedNft = useSelector(selectedNftToSendSelector);
 
   const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
       address: '',
-      amount: '1',
       identifier: selectedNft?.identifier ?? '',
       nonce: selectedNft?.nonce ?? '',
     },
@@ -49,47 +50,6 @@ const ProposeSendSft = ({
         .max(500, 'Too Long!')
         .required('Required')
         .test(isAddressValid),
-      amount: Yup.string()
-        .required('Required')
-        .test((value?: string, testContext?: Yup.TestContext) => {
-          if (value == null) {
-            return true;
-          }
-
-          const newAmount = Number(value?.replaceAll(',', ''));
-          if (Number.isNaN(newAmount)) {
-            setSubmitDisabled(true);
-            return (
-              testContext?.createError({
-                message: 'Invalid amount',
-              }) ?? false
-            );
-          }
-          if (newAmount < 0) {
-            formik.setFieldValue('amount', 0);
-          }
-          if (newAmount > Number(selectedNft.balance)) {
-            setSubmitDisabled(true);
-            return (
-              testContext?.createError({
-                message: `Insufficient balance. There are only ${selectedNft.balance} ${selectedNft.name} SFTs available.`,
-              }) ?? false
-            );
-          }
-
-          if (newAmount === 0) {
-            setSubmitDisabled(true);
-            return (
-              testContext?.createError({
-                message: 'The amount should be greater than 0',
-              }) ?? false
-            );
-          }
-
-          const isDisabled = !formik.isValid || !formik.dirty;
-          setSubmitDisabled(isDisabled);
-          return true;
-        }),
       identifier: Yup.string().required('Required'),
       nonce: Yup.string().required('Required'),
     }),
@@ -102,7 +62,7 @@ const ProposeSendSft = ({
   const { searchedNft } = useNft(queryClient, selectedNft.identifier);
 
   const { touched, errors, values } = formik;
-  const { address, identifier, nonce, amount } = values;
+  const { address, identifier, nonce } = values;
 
   const getProposal = (): MultisigSendSft | null => {
     try {
@@ -127,13 +87,18 @@ const ProposeSendSft = ({
   setSubmitDisabled(!formik.isValid || !formik.dirty);
   useEffect(() => {
     setSubmitDisabled(!(formik.isValid && formik.dirty));
-  }, [address, identifier, nonce]);
+  }, [
+    address,
+    formik.dirty,
+    formik.isValid,
+    identifier,
+    nonce,
+    setSubmitDisabled,
+  ]);
 
   React.useEffect(() => {
     refreshProposal();
   }, [address, identifier, nonce]);
-
-  const amountError = touched.amount && errors.amount;
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
@@ -159,18 +124,17 @@ const ProposeSendSft = ({
       </Box>
       <Box sx={{ p: maxWidth600 ? '0 16px 0' : '0 48px 0', m: ' 0 0 1rem' }}>
         <AmountInputWithTokenSelection
-          amount={amount}
-          formik={formik}
-          amountError={amountError}
-          handleInputBlur={formik.handleBlur}
-          handleInputChange={formik.handleChange}
-          handleMaxButtonClick={() =>
-            formik.setFieldValue('amount', selectedNft.balance)
-          }
-          resetAmount={() => formik.setFieldValue('amount', 0)}
+          onInputChange={handleAmountInputChange}
+          onAmountIsNaN={() => setSubmitDisabled(true)}
+          onAmountIsZero={() => setSubmitDisabled(true)}
+          onAmountIsLessThanAllowed={() => setSubmitDisabled(true)}
+          onAmountIsBiggerThanBalance={() => setSubmitDisabled(true)}
+          minAmountAllowed={'1'}
+          maxValue={selectedNft.balance}
           config={{
             withTokenSelection: false,
             isEsdtOrEgldRelated: false,
+            withAvailableAmount: false,
           }}
         />
       </Box>
