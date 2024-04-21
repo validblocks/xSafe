@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { nominate } from '@multiversx/sdk-dapp/utils/operations';
 import {
   Address,
@@ -34,8 +34,9 @@ import {
   StakedAssetsSelect,
   UnstakeModalContainerBox,
 } from '../../MultisigDetails/styled';
-import { DelegationFunctionNames } from 'src/types/staking';
+import { DelegationFunction } from 'src/types/staking';
 import { isAddressValid } from 'src/helpers/validation';
+import useAmountInputController from 'src/hooks/useAmountInputController';
 
 interface ProposeUnstakeTokensType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -130,8 +131,7 @@ const ProposeUnstakeTokens = ({
     validateOnBlur: true,
   } as any);
 
-  const { touched, errors, values } = formik;
-  const { amount } = values;
+  const { handleAmountInputChange, amount } = useAmountInputController('1');
 
   useEffect(() => {
     if (identifier) {
@@ -161,7 +161,7 @@ const ProposeUnstakeTokens = ({
       return new MultisigSmartContractCall(
         parsedAddress,
         new BigUIntValue(TokenTransfer.egldFromAmount(0).valueOf()),
-        DelegationFunctionNames.unDelegate,
+        DelegationFunction.UNDELEGATE,
         [unDelegateAmount],
       );
     } catch (err) {
@@ -183,8 +183,6 @@ const ProposeUnstakeTokens = ({
     refreshProposal();
   }, [formik.values, formik.errors]);
 
-  const amountError = touched.amount && errors.amount;
-
   const onChange = (event: SelectChangeEvent) => {
     const newIdentifier = event.target.value;
     setIdentifier(newIdentifier);
@@ -205,11 +203,11 @@ const ProposeUnstakeTokens = ({
     setSubmitDisabled(!formik.isValid);
   }, [formik.isValid, formik.dirty, setSubmitDisabled]);
 
-  const autocompleteMaxAmount = useCallback(() => {
+  const delegatedAmount = useMemo(() => {
     const delegatedAmount =
       selectedStakingProvider?.delegatedColumn?.delegatedAmount;
-    formik.setFieldValue('amount', +delegatedAmount);
-  }, [formik, selectedStakingProvider?.delegatedColumn?.delegatedAmount]);
+    return delegatedAmount;
+  }, [selectedStakingProvider?.delegatedColumn?.delegatedAmount]);
 
   const maxWidth600 = useMediaQuery('(max-width: 600px)');
 
@@ -274,13 +272,12 @@ const ProposeUnstakeTokens = ({
         </span>
       </div>
       <AmountInputWithTokenSelection
-        handleMaxButtonClick={autocompleteMaxAmount}
-        handleInputChange={formik.handleChange}
-        handleInputBlur={formik.handleBlur}
-        amount={amount}
-        amountError={amountError}
-        resetAmount={() => formik.setFieldValue('amount', 0)}
-        config={{ withAvailableAmount: false, withTokenSelection: false }}
+        maxValue={delegatedAmount}
+        onInputChange={handleAmountInputChange}
+        config={{
+          withTokenSelection: false,
+          withAvailableAmount: false,
+        }}
       />
     </UnstakeModalContainerBox>
   );
