@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, useMediaQuery } from '@mui/material';
 import {
   useCallback,
@@ -12,11 +13,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/hooks/useProviderIdentitiesAfterSelection';
 import { Address, BigUIntValue, TokenTransfer } from '@multiversx/sdk-core/out';
-import { FormikProps, useFormik } from 'formik';
-import { TestContext } from 'yup';
-import * as Yup from 'yup';
-import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
-import { OrganizationToken } from 'src/types/organization';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
@@ -29,20 +25,27 @@ import {
 } from '../Theme/StyledComponents';
 import { Text } from '../StyledComponents/StyledComponents';
 import AmountInputWithTokenSelection from '../Utils/AmountInputWithTokenSelection';
-import { isAddressValid } from 'src/helpers/validation';
-
-interface IFormValues {
-  amount: string;
-}
+import useAmountInputController from 'src/hooks/useAmountInputController';
 
 const StakingFormStepTwo = () => {
+  const [buttonWidth, setButtonWidth] = useState(0);
+  const [isProcessingTransaction, setIsProcessingTransaction] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
+
   const t = useCustomTranslation();
+  const {
+    handleAmountInputChange,
+    amount,
+    amountErrorAfterTouch,
+    updateAmountErrorAfterTouchIfExists,
+  } = useAmountInputController('1');
+  const { setIsFinalStepButtonActive, setBuiltFinalActionHandler } =
+    useMultistepFormContext();
   const selectedProviderIdentifier = useSelector(
     selectedStakingProviderSelector,
   );
-  const { setIsFinalStepButtonActive, setBuiltFinalActionHandler } =
-    useMultistepFormContext();
 
+  const { proceedToPreviousStep } = useMultistepFormContext();
   const { fetchedProviderIdentities } = useProviderIdentitiesAfterSelection();
 
   const selectedProvider = useMemo(
@@ -53,79 +56,13 @@ const StakingFormStepTwo = () => {
     [fetchedProviderIdentities, selectedProviderIdentifier],
   );
 
-  const { proceedToPreviousStep } = useMultistepFormContext();
-
-  const organizationTokens = useSelector(organizationTokensSelector);
-  const egldBalanceString =
-    organizationTokens
-      ?.find((token: OrganizationToken) => token.identifier === 'EGLD')
-      .tokenAmount.replaceAll(',', '') ?? 0;
-
-  const egldBalanceNumber = Number(egldBalanceString);
-
-  const formik: FormikProps<IFormValues> = useFormik({
-    initialValues: {
-      amount: 1,
-    },
-    validationSchema: Yup.object().shape({
-      receiver: Yup.string()
-        .min(2, 'Too Short!')
-        .max(500, 'Too Long!')
-        .required('Required')
-        .test(isAddressValid),
-      amount: Yup.string()
-        .required('Required')
-        .transform((value) => value.replace(',', ''))
-        .test((value?: string, testContext?: TestContext) => {
-          const newAmount = Number(value);
-          if (Number.isNaN(newAmount)) {
-            setIsFinalStepButtonActive(false);
-            return (
-              testContext?.createError({
-                message: 'Invalid amount',
-              }) ?? false
-            );
-          }
-          if (newAmount < 1) {
-            formik.setFieldValue('amount', 1);
-          }
-          if (newAmount === 0) {
-            setIsFinalStepButtonActive(false);
-          }
-          if (newAmount > Number(egldBalanceNumber)) {
-            setIsFinalStepButtonActive(false);
-            return (
-              testContext?.createError({
-                message: t('Insufficient funds'),
-              }) ?? false
-            );
-          }
-
-          setIsFinalStepButtonActive(true);
-          return true;
-        }),
-      data: Yup.string(),
-    }),
-    validateOnChange: true,
-    validateOnMount: true,
-  } as any);
-
-  const { touched, errors, values } = formik;
-  const { amount } = values;
-
-  const amountError = touched.amount && errors.amount;
-
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
-  const [buttonWidth, setButtonWidth] = useState(0);
-  const [isProcessingTransaction, setIsProcessingTransaction] = useState(false);
-
   useEffect(() => {
     try {
       if (!selectedProvider?.provider) return;
 
       const addressParam = new Address(selectedProvider?.provider);
 
-      const inputAmount = formik.values.amount.toString().replaceAll(',', '');
+      const inputAmount = amount.toString().replaceAll(',', '');
       const amountNumeric = Number(inputAmount);
       if (Number.isNaN(amountNumeric)) {
         return;
@@ -141,11 +78,7 @@ const StakingFormStepTwo = () => {
     } catch (err) {
       console.error(err);
     }
-  }, [
-    formik.values.amount,
-    selectedProvider?.provider,
-    setBuiltFinalActionHandler,
-  ]);
+  }, [amount, selectedProvider?.provider, setBuiltFinalActionHandler]);
 
   useLayoutEffect(() => {
     if (buttonRef.current) setButtonWidth(buttonRef.current.offsetWidth);
@@ -164,8 +97,7 @@ const StakingFormStepTwo = () => {
 
     const addressParam = new Address(selectedProvider?.provider);
 
-    const formikAmount = formik.values.amount.toString();
-    const inputAmount = formikAmount.replaceAll(',', '');
+    const inputAmount = amount.replaceAll(',', '');
     const amountNumeric = Number(inputAmount);
     if (Number.isNaN(amountNumeric)) {
       return;
@@ -177,7 +109,7 @@ const StakingFormStepTwo = () => {
 
     mutateSmartContractCall(addressParam, amountParam, 'delegate');
     closeModal();
-  }, [closeModal, formik.values.amount, selectedProvider?.provider]);
+  }, [amount, closeModal, selectedProvider?.provider]);
 
   const transactionId = useSelector(currentMultisigTransactionIdSelector);
   useTrackTransactionStatus({
@@ -213,6 +145,16 @@ const StakingFormStepTwo = () => {
     [buttonWidth, maxWidth480],
   );
 
+  const disableFinalStep = useCallback(
+    () => setIsFinalStepButtonActive(false),
+    [setIsFinalStepButtonActive],
+  );
+
+  const enableFinalStep = useCallback(
+    () => setIsFinalStepButtonActive(true),
+    [setIsFinalStepButtonActive],
+  );
+
   return (
     <Box
       sx={{
@@ -238,12 +180,14 @@ const StakingFormStepTwo = () => {
         </Box>
       </Box>
       <AmountInputWithTokenSelection
-        amount={amount}
-        amountError={amountError}
-        formik={formik}
-        handleInputBlur={formik.handleBlur}
-        handleInputChange={formik.handleChange}
-        resetAmount={() => formik.setFieldValue('amount', 0)}
+        minAmountAllowed={'1'}
+        onInputChange={handleAmountInputChange}
+        onAmountIsBiggerThanBalance={disableFinalStep}
+        onAmountIsLessThanAllowed={disableFinalStep}
+        onAmountIsZero={disableFinalStep}
+        onAmountIsNaN={disableFinalStep}
+        onAmountErrorAfterTouch={updateAmountErrorAfterTouchIfExists}
+        onSuccessfulAmountValidation={enableFinalStep}
         config={{ withTokenSelection: false, withAvailableAmount: true }}
       />
       <Box display={'flex'} gap={2} paddingBottom={maxWidth600 ? '4px' : 4}>
@@ -255,7 +199,9 @@ const StakingFormStepTwo = () => {
         </ChangeStepButton>
         <FinalStepActionButton
           disabled={
-            !!amountError || !selectedProvider || isProcessingTransaction
+            !!amountErrorAfterTouch ||
+            !selectedProvider ||
+            isProcessingTransaction
           }
           onClick={proposeStake}
         >
