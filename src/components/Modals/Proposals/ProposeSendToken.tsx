@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { memo, useCallback, useEffect, useMemo } from 'react';
 import { Address, BigUIntValue, TokenTransfer } from '@multiversx/sdk-core/out';
 import { Box, useMediaQuery } from '@mui/material';
 import { FormikProps, FormikProvider, useFormik } from 'formik';
@@ -11,14 +11,13 @@ import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { MultisigSendToken } from 'src/types/multisig/proposals/MultisigSendToken';
 import { TokenTableRowItem } from 'src/types/organization';
-import { TestContext } from 'yup';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigSendEgld } from 'src/types/multisig/proposals/MultisigSendEgld';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
-import RationalNumber from 'src/utils/RationalNumber';
 import * as Styled from '../../MultisigDetails/ProposeMultiselectModal/styled';
 import { isAddressValid } from 'src/helpers/validation';
+import useAmountInputController from 'src/hooks/useAmountInputController';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken | MultisigSendEgld) => void;
@@ -36,241 +35,190 @@ interface IFormValues {
   data?: string;
 }
 
-const ProposeSendToken = ({
-  handleChange,
-  setSubmitDisabled,
-}: ProposeSendTokenType) => {
-  const t = useCustomTranslation();
+const ProposeSendToken = memo(
+  ({ handleChange, setSubmitDisabled }: ProposeSendTokenType) => {
+    const { amount, handleAmountInputChange } = useAmountInputController('0');
 
-  const selectedToken = useSelector(selectedTokenToSendSelector);
-  const { identifier } = selectedToken;
-  const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(
-    tokenTableRowsSelector,
-  );
-  const maxWidth600 = useMediaQuery('(max-width:600px)');
+    const t = useCustomTranslation();
+    const selectedToken = useSelector(selectedTokenToSendSelector);
+    const { identifier } = selectedToken;
+    const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(
+      tokenTableRowsSelector,
+    );
+    const maxWidth600 = useMediaQuery('(max-width:600px)');
 
-  const availableTokensWithBalances = useMemo(
-    () =>
-      tokenTableRows?.map((token: TokenTableRowItem) => ({
-        identifier: token.identifier,
-        balance: RationalNumber.fromDynamicTokenAmount(
-          token?.identifier ?? '',
-          token?.balanceDetails?.amount ?? '',
-          token?.balanceDetails?.decimals ?? 18,
+    const selectedTokenDetails = useMemo(
+      () =>
+        tokenTableRows?.find(
+          (token: TokenTableRowItem) => token?.identifier === identifier,
         ),
-      })),
-    [tokenTableRows],
-  );
+      [identifier, tokenTableRows],
+    );
 
-  const selectedTokenBalance = useMemo(
-    () =>
-      availableTokensWithBalances?.find(
-        (token: any) => token?.identifier && token.identifier === identifier,
-      )?.balance ?? '0',
-    [availableTokensWithBalances, identifier],
-  );
+    const currentContract = useSelector(currentMultisigContractSelector);
 
-  const selectedTokenDetails = useMemo(
-    () =>
-      tokenTableRows?.find(
-        (token: TokenTableRowItem) => token?.identifier === identifier,
-      ),
-    [identifier, tokenTableRows],
-  );
+    const formik: FormikProps<IFormValues> = useFormik({
+      initialValues: {
+        address: '',
+        data: '',
+      },
+      validationSchema: Yup.object().shape({
+        data: Yup.string(),
+        address: Yup.string()
+          .min(2, 'Too Short!')
+          .max(500, 'Too Long!')
+          .required('Required')
+          .test('is valid address', 'Not a valid address', isAddressValid)
+          .test(
+            'is not self address',
+            'Contract can not send to itself',
+            (value?: string) => {
+              try {
+                const isCurrentContractAddress =
+                  value === currentContract?.address;
+                return !isCurrentContractAddress;
+              } catch (err) {
+                return false;
+              }
+            },
+          ),
+      }),
+      validateOnChange: true,
+      validateOnMount: true,
+    } as any);
 
-  const currentContract = useSelector(currentMultisigContractSelector);
+    const { touched, errors, values } = formik;
+    const { address, data } = values;
 
-  const formik: FormikProps<IFormValues> = useFormik({
-    initialValues: {
-      address: '',
-      data: '',
-      amount: '0',
-    },
-    validationSchema: Yup.object().shape({
-      data: Yup.string(),
-      address: Yup.string()
-        .min(2, 'Too Short!')
-        .max(500, 'Too Long!')
-        .required('Required')
-        .test('is valid address', 'Not a valid address', isAddressValid)
-        .test(
-          'is not self address',
-          'Contract can not send to itself',
-          (value?: string) => {
-            try {
-              const isCurrentContractAddress =
-                value === currentContract?.address;
-              return !isCurrentContractAddress;
-            } catch (err) {
-              return false;
-            }
-          },
-        ),
-      amount: Yup.string()
-        .required('Required')
-        .test((value?: string, testContext?: TestContext) => {
-          if (value == null) {
-            return true;
-          }
-
-          const newAmount = Number(value?.replaceAll(',', ''));
-          if (Number.isNaN(newAmount)) {
-            setSubmitDisabled(true);
-            return (
-              testContext?.createError({
-                message: 'Invalid amount',
-              }) ?? false
-            );
-          }
-          if (newAmount < 0) {
-            formik.setFieldValue('amount', 0);
-          }
-          if (newAmount > Number(selectedTokenBalance)) {
-            setSubmitDisabled(true);
-            return (
-              testContext?.createError({
-                message:
-                  'There is not enough money in the organization for this transaction',
-              }) ?? false
-            );
-          }
-
-          if (newAmount === 0) {
-            setSubmitDisabled(true);
-            return (
-              testContext?.createError({
-                message: 'The amount should be greater than 0',
-              }) ?? false
-            );
-          }
-
-          const isDisabled = !formik.isValid || !formik.dirty;
-          setSubmitDisabled(isDisabled);
-          return true;
-        }),
-    }),
-    validateOnChange: true,
-    validateOnMount: true,
-  } as any);
-
-  const { touched, errors, values } = formik;
-  const { amount, address, data } = values;
-
-  const getEgldProposal = useCallback((): MultisigSendEgld | null => {
-    try {
-      const addressParam = new Address(address);
-
-      const amountNumeric = Number(formik.values.amount?.replaceAll(',', ''));
-      if (Number.isNaN(amountNumeric)) {
-        return null;
-      }
-
-      const amountParam = new BigUIntValue(
-        TokenTransfer.egldFromAmount(amountNumeric).valueOf(),
-      );
-
-      return new MultisigSendEgld(addressParam, amountParam, data ?? '');
-    } catch (err) {
-      console.error('Error[SendToken]: ', err);
-      return null;
-    }
-  }, [address, data, formik.values.amount]);
-
-  const getSendTokenProposal = useCallback(
-    (amountParam: string): MultisigSendToken | null => {
+    const getSendEgldProposal = useCallback((): MultisigSendEgld | null => {
       try {
-        amountParam = amountParam.replaceAll(',', '');
-        const amountNumeric = Number(amountParam ?? 0);
+        const addressParam = new Address(address);
+
+        const amountNumeric = Number(amount?.replaceAll(',', ''));
         if (Number.isNaN(amountNumeric)) {
           return null;
         }
-        const parsedAddress = new Address(address);
-        const amountToSend = Number(
-          TokenTransfer.fungibleFromAmount(
-            identifier,
-            amountParam,
-            selectedTokenDetails?.value?.decimals ?? 18,
-          ).toString(),
+
+        const amountParam = new BigUIntValue(
+          TokenTransfer.egldFromAmount(amountNumeric).valueOf(),
         );
 
-        return new MultisigSendToken(parsedAddress, identifier, amountToSend);
+        return new MultisigSendEgld(addressParam, amountParam, data ?? '');
       } catch (err) {
+        console.error('Error[SendToken]: ', err);
         return null;
       }
-    },
-    [address, identifier, selectedTokenDetails],
-  );
+    }, [address, data, amount]);
 
-  const refreshProposal = useCallback(() => {
-    setTimeout(() => {
-      const proposal =
-        identifier === 'EGLD'
-          ? getEgldProposal()
-          : getSendTokenProposal(amount);
+    const getSendTokenProposal = useCallback(
+      (amountParam: string): MultisigSendToken | null => {
+        try {
+          amountParam = amountParam.replaceAll(',', '');
+          const amountNumeric = Number(amountParam ?? 0);
+          if (Number.isNaN(amountNumeric)) {
+            return null;
+          }
+          const parsedAddress = new Address(address);
+          const amountToSend = Number(
+            TokenTransfer.fungibleFromAmount(
+              identifier,
+              amountParam,
+              selectedTokenDetails?.value?.decimals ?? 18,
+            ).toString(),
+          );
 
-      if (proposal !== null) {
-        handleChange(proposal);
-      }
-    }, 100);
-  }, [getEgldProposal, getSendTokenProposal, handleChange, amount, identifier]);
+          return new MultisigSendToken(parsedAddress, identifier, amountToSend);
+        } catch (err) {
+          return null;
+        }
+      },
+      [address, identifier, selectedTokenDetails],
+    );
 
-  const amountError = touched.amount && errors.amount;
-  const addressError = touched.address && errors.address;
+    const refreshProposal = useCallback(() => {
+      setTimeout(() => {
+        const proposal =
+          identifier === 'EGLD'
+            ? getSendEgldProposal()
+            : getSendTokenProposal(amount);
 
-  useEffect(() => {
-    const shouldBeDisabled = !(formik.isValid && formik.dirty);
-    setSubmitDisabled(shouldBeDisabled);
-  }, [amount, address, setSubmitDisabled, formik.isValid, formik.dirty]);
+        if (proposal !== null) {
+          handleChange(proposal);
+        }
+      }, 100);
+    }, [
+      amount,
+      getSendEgldProposal,
+      getSendTokenProposal,
+      handleChange,
+      identifier,
+    ]);
 
-  useEffect(() => {
-    refreshProposal();
-  }, [address, identifier, amount]);
+    const addressError = touched.address && errors.address;
 
-  return (
-    <FormikProvider value={formik}>
-      <Box padding={maxWidth600 ? '16px 16px 4.8px' : '30.88px 40px 4.8px'}>
-        <FormikInputField
-          label={t('Send to')}
-          name="address"
-          value={address}
-          error={addressError}
-          handleChange={formik.handleChange}
-          handleBlur={formik.handleBlur}
-          className={addressError != null ? 'isError' : ''}
-        />
+    useEffect(() => {
+      const shouldBeDisabled = !(formik.isValid && formik.dirty);
+      setSubmitDisabled(shouldBeDisabled);
+    }, [amount, address, setSubmitDisabled, formik.isValid, formik.dirty]);
 
-        <AmountInputWithTokenSelection
-          amount={amount}
-          formik={formik}
-          amountError={amountError}
-          handleInputBlur={formik.handleBlur}
-          handleInputChange={formik.handleChange}
-          resetAmount={() => formik.setFieldValue('amount', 0)}
-        />
-        {identifier === 'EGLD' && (
-          <motion.div
-            key="Data"
-            initial={{
-              opacity: 0,
-              scale: 0,
+    useEffect(() => {
+      refreshProposal();
+    }, [refreshProposal]);
+
+    return (
+      <FormikProvider value={formik}>
+        <Box padding={maxWidth600 ? '16px 16px 4.8px' : '30.88px 40px 4.8px'}>
+          <FormikInputField
+            label={t('Send to')}
+            name="address"
+            value={address}
+            error={addressError}
+            handleChange={formik.handleChange}
+            handleBlur={formik.handleBlur}
+            className={addressError != null ? 'isError' : ''}
+          />
+
+          <AmountInputWithTokenSelection
+            onInputChange={handleAmountInputChange}
+            onAmountIsLessThanAllowed={() => setSubmitDisabled(true)}
+            onAmountIsNaN={() => setSubmitDisabled(true)}
+            onAmountIsBiggerThanBalance={() => setSubmitDisabled(true)}
+            onAmountIsZero={() => setSubmitDisabled(true)}
+            onSuccessfulAmountValidation={() => {
+              const isDisabled = !formik.isValid || !formik.dirty;
+              setSubmitDisabled(isDisabled);
             }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
-          >
-            <Styled.DataTextField
-              variant="outlined"
-              label={t('Data (optional)') as string}
-              placeholder="Your message here"
-              id={data}
-              name="data"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-          </motion.div>
-        )}
-      </Box>
-    </FormikProvider>
-  );
-};
+            config={{
+              withTokenSelection: true,
+              withAvailableAmount: true,
+              isEsdtOrEgldRelated: true,
+            }}
+          />
+          {identifier === 'EGLD' && (
+            <motion.div
+              key="Data"
+              initial={{
+                opacity: 0,
+                scale: 0,
+              }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+            >
+              <Styled.DataTextField
+                variant="outlined"
+                label={t('Data (optional)') as string}
+                placeholder="Your message here"
+                id={data}
+                name="data"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+            </motion.div>
+          )}
+        </Box>
+      </FormikProvider>
+    );
+  },
+);
 
 export default ProposeSendToken;
