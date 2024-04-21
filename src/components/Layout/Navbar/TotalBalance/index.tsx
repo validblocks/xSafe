@@ -59,6 +59,7 @@ import { useSocketSubscribe } from 'src/hooks/useSocketSubscribe';
 import { SocketEvent } from 'src/types/websockets';
 import { AccountBalanceWallet } from '@mui/icons-material';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
+import { TokenType } from '@multiversx/sdk-dapp/types/tokens.types';
 
 const identifierWithoutUniqueHash = (identifier: string) =>
   identifier?.split('-')[0] ?? '';
@@ -159,7 +160,7 @@ function TotalBalance() {
       id: 'EGLD',
       tokenIdentifier: 'EGLD',
       identifier: 'EGLD',
-      balance: egldBalanceDetails,
+      balance: +egldBalanceDetails,
       presentation: {
         tokenIdentifier: 'EGLD',
         photoUrl: '',
@@ -180,7 +181,7 @@ function TotalBalance() {
 
     const allTokens = [
       egldRow,
-      ...addressTokens?.map((token: any) => ({
+      ...addressTokens?.map((token: TokenType) => ({
         ...token,
         id: token.identifier,
         presentation: {
@@ -194,7 +195,9 @@ function TotalBalance() {
           decimals: token.decimals as number,
         },
         value: {
-          tokenPrice: parseFloat(token.price?.toString()),
+          tokenPrice: token?.price
+            ? parseFloat(token.price.toString())
+            : 'unknown',
           decimals: token.decimals as number,
           amount: token.balance as string,
           valueUsd: token.valueUsd,
@@ -230,7 +233,12 @@ function TotalBalance() {
 
       try {
         const organizationTokens: OrganizationToken[] = newTokensWithPrices.map(
-          ({ identifier, balanceDetails, value }: TokenTableRowItem) => {
+          ({
+            identifier,
+            balanceDetails,
+            value,
+            decimals,
+          }: TokenTableRowItem) => {
             const amountAsRationalNumber =
               RationalNumber.fromDynamicTokenAmount(
                 identifier ?? '',
@@ -255,10 +263,12 @@ function TotalBalance() {
               identifier: identifier ?? '',
               photoUrl: balanceDetails?.photoUrl ?? '',
               tokenPrice,
-              tokenAmount: Number(denominatedAmountForCalcs).toLocaleString(
-                'EN',
-              ),
+              balanceLocaleString: Number(
+                denominatedAmountForCalcs,
+              ).toLocaleString('EN'),
+              balance: denominatedAmountForCalcs,
               tokenValue: totalUsdValue,
+              decimals: decimals ?? 18,
             };
           },
         );

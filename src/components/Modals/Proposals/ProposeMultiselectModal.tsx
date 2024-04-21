@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { useDispatch } from 'react-redux';
 import {
@@ -146,9 +146,9 @@ const ProposeMultiselectModal = ({
     }
   };
 
-  const handleProposalChange = (proposal: MultisigAction) => {
+  const handleProposalChange = useCallback((proposal: MultisigAction) => {
     setSelectedProposal(proposal);
-  };
+  }, []);
 
   const getContent = () => {
     switch (selectedOption?.option) {

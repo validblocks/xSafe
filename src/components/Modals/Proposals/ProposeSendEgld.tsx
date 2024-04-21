@@ -39,7 +39,7 @@ const ProposeSendEgld = ({
   const egldBalanceString =
     organizationTokens
       ?.find((token: OrganizationToken) => token.identifier === 'EGLD')
-      .tokenAmount.replaceAll(',', '') ?? 0;
+      .balanceLocaleString.replaceAll(',', '') ?? 0;
 
   const egldBalance = useMemo(
     () => parseFloat(egldBalanceString.replaceAll(',', '')),
