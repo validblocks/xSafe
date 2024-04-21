@@ -1,7 +1,6 @@
-import * as Yup from 'yup';
 import { Box, useMediaQuery } from '@mui/material';
 import BigNumber from 'bignumber.js';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useOrganizationInfoContext } from 'src/components/Providers/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { MainButton } from 'src/components/Theme/StyledComponents';
@@ -19,78 +18,28 @@ import {
 } from 'src/apps/nft-auctions/styled';
 import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accountSelector';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
-import { FormikProps, useFormik } from 'formik';
-import { TestContext } from 'yup';
 import BalanceDisplay from 'src/components/Utils/BalanceDisplay';
 import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
 import { OrganizationToken } from 'src/types/organization';
 import { ExternalContractFunction } from 'src/types/multisig/ExternalContractFunction';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
-import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
+import useAmountInputController from 'src/hooks/useAmountInputController';
 
-interface IFormValues {
-  amount: string;
-}
+const initialFormAmount = '0';
 
 const LendInJewelSwap = () => {
-  const t = useCustomTranslation();
+  const { handleAmountInputChange, amount } =
+    useAmountInputController(initialFormAmount);
+  const [isLendButtonEnabled, setIsLendButtonEnabled] = useState(true);
+
   const maxWidth600 = useMediaQuery('(max-width:600px)');
   const { isInReadOnlyMode } = useOrganizationInfoContext();
-  const [isLendButtonEnabled, setIsLendButtonEnabled] = useState(true);
-  const { tokenValue, tokenAmount } = useSelector<StateType, OrganizationToken>(
-    organizationTokenByIdentifierSelector('EGLD'),
-  );
+  const { tokenValue, balanceLocaleString } = useSelector<
+    StateType,
+    OrganizationToken
+  >(organizationTokenByIdentifierSelector('EGLD'));
 
-  const numberTokenAmount = Number(tokenAmount.replaceAll(',', ''));
-
-  const formik: FormikProps<IFormValues> = useFormik({
-    initialValues: {
-      amount: '0',
-    },
-    onSubmit: () => Promise.resolve(null),
-    validationSchema: Yup.object().shape({
-      amount: Yup.string()
-        .required('Required')
-        .transform((value) => value.replace(',', ''))
-        .test((value?: string, testContext?: TestContext) => {
-          const newAmount = Number(value);
-          if (Number.isNaN(newAmount)) {
-            setIsLendButtonEnabled(false);
-            return (
-              testContext?.createError({
-                message: 'Invalid amount',
-              }) ?? false
-            );
-          }
-          if (newAmount < 0) {
-            formik.setFieldValue('amount', 0);
-          }
-          if (newAmount === 0) {
-            setIsLendButtonEnabled(false);
-          }
-          if (newAmount > Number(numberTokenAmount)) {
-            setIsLendButtonEnabled(false);
-            return (
-              testContext?.createError({
-                message: t('Insufficient funds'),
-              }) ?? false
-            );
-          }
-
-          setIsLendButtonEnabled(true);
-          return true;
-        }),
-    }),
-    validateOnChange: true,
-    validateOnMount: true,
-  });
-
-  const { touched, errors, values } = formik;
-  const { amount } = values;
-
-  const amountError = touched.amount && errors.amount;
-
-  const handleLendButtonClick = async () => {
+  const handleLendButtonClick = useCallback(async () => {
     try {
       await mutateSmartContractCall(
         new Address(jewelSwapLendingContractAddress),
@@ -104,7 +53,15 @@ const LendInJewelSwap = () => {
     } catch (e) {
       console.error({ e });
     }
-  };
+  }, [amount]);
+
+  const disableLendButton = useCallback(() => {
+    setIsLendButtonEnabled(false);
+  }, []);
+
+  const enableLendButton = useCallback(() => {
+    setIsLendButtonEnabled(true);
+  }, []);
 
   return (
     <Box pb={'70px'}>
@@ -138,7 +95,7 @@ const LendInJewelSwap = () => {
                 </Box>
                 <Box display="flex" alignItems="center" justifyContent="center">
                   <Box pl={1}>
-                    <BalanceDisplay number={tokenAmount} />
+                    <BalanceDisplay number={balanceLocaleString} />
                   </Box>
                   <Box pl={1} fontSize={18}>
                     $EGLD
@@ -190,12 +147,12 @@ const LendInJewelSwap = () => {
               <Box mt={1}>
                 <Box>
                   <AmountInputWithTokenSelection
-                    amount={amount}
-                    amountError={amountError}
-                    formik={formik}
-                    handleInputBlur={formik.handleBlur}
-                    handleInputChange={formik.handleChange}
-                    resetAmount={() => formik.setFieldValue('amount', 0)}
+                    onAmountIsNaN={disableLendButton}
+                    onAmountIsZero={disableLendButton}
+                    onAmountIsBiggerThanBalance={disableLendButton}
+                    onAmountIsLessThanAllowed={disableLendButton}
+                    onSuccessfulAmountValidation={enableLendButton}
+                    onInputChange={handleAmountInputChange}
                     config={{
                       withTokenSelection: false,
                       withAvailableAmount: true,
