@@ -63,7 +63,7 @@ const NftsByCollection = () => {
                 color: '#fff',
                 background: theme.palette.background?.secondary,
                 '&&&': {
-                  borderRadius: '4px',
+                  borderRadius: '10px',
                   border: 'none',
                   boxShadow: 'none',
                 },

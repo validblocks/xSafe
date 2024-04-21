@@ -30,10 +30,10 @@ const TokenPresentationWithPrice = ({
   logoHeight = 35,
   withPrice = true,
 }: TokenPresentationWithPriceProps) => {
-  const { prettyIdentifier, tokenPrice, tokenValue, tokenAmount } = useSelector<
-    StateType,
-    OrganizationToken
-  >(organizationTokenByIdentifierSelector(identifier));
+  const { prettyIdentifier, tokenPrice, tokenValue, balanceLocaleString } =
+    useSelector<StateType, OrganizationToken>(
+      organizationTokenByIdentifierSelector(identifier),
+    );
 
   return (
     <Box
@@ -83,7 +83,7 @@ const TokenPresentationWithPrice = ({
       >
         {withTokenAmount && (
           <Box>
-            <Text>{tokenAmount}</Text>
+            <Text>{balanceLocaleString}</Text>
           </Box>
         )}
         {withTokenValue && (

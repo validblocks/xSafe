@@ -32,8 +32,6 @@ import StakingIcon from 'src/assets/img/staking.svg';
 import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 import { CallMade } from '@mui/icons-material';
 
-console.log('apps.tsx loading...');
-
 export interface AppWithRouteConfig {
   component: React.ComponentType;
   name: string;
@@ -110,10 +108,6 @@ export const appsWithRouteConfig = apps.map((app) => ({
   ...app,
   component: withInstallGuard(app.id, app.component),
 }));
-
-console.log('apps.tsx loaded');
-
-console.log('menuItems loading...');
 
 export type MenuItem = {
   name: string;
@@ -363,5 +357,3 @@ export const mobileDropDownItems = [
     ],
   },
 ];
-
-console.log('menuItems loadded');

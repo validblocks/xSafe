@@ -9,7 +9,7 @@ const DEFAULT_ORGANIZATION_TOKEN = {
   prettyIdentifier: 'EGLD',
   tokenPrice: '0',
   tokenValue: '0',
-  tokenAmount: '0',
+  balanceLocaleString: '0',
 };
 
 export const usernameSelector = createDeepEqualSelector(

@@ -25,12 +25,12 @@ import SetSpecialRoleProposalPresentation from 'src/components/Proposals/SetSpec
 import { MultisigAction } from '../MultisigAction';
 import { MultisigActionType } from '../MultisigActionType';
 import { MultisigContractFunction } from '../multisigFunctionNames';
-import { DelegationFunctionTitles } from '../..';
+import { DelegationFunctionTitle } from '../..';
 import ProposalAmount from './ProposalAmount';
 import SendTokenProposalPresentation from './SendTokenProposalPresentation';
 import { ExternalContractFunction } from '../ExternalContractFunction';
 import LendInJewelSwapPresentation from 'src/components/Proposals/LendInJewelSwapPresentation';
-import { DelegationFunctionNames } from '../../staking';
+import { DelegationFunction } from '../../staking';
 
 export class MultisigSmartContractCall extends MultisigAction {
   address: Address;
@@ -87,16 +87,16 @@ export class MultisigSmartContractCall extends MultisigAction {
         return i18next.t('Send token');
       case MultisigContractFunction.ESDT_NFT_TRANSFER:
         return i18next.t('Send NFT');
-      case DelegationFunctionNames.delegate:
+      case DelegationFunction.DELEGATE:
         return i18next.t('Stake tokens');
-      case DelegationFunctionNames.reDelegateRewards:
-        return i18next.t(DelegationFunctionTitles.RestakeRewards);
-      case DelegationFunctionNames.unDelegate:
-        return i18next.t(DelegationFunctionTitles.UnstakeTokens);
-      case DelegationFunctionNames.claimRewards:
-        return i18next.t(DelegationFunctionTitles.ClaimRewards);
-      case DelegationFunctionNames.withdraw:
-        return i18next.t(DelegationFunctionTitles.WithdrawRewards);
+      case DelegationFunction.REDELEGATE_REWARDS:
+        return i18next.t(DelegationFunctionTitle.RESTAKE_REWARDS);
+      case DelegationFunction.UNDELEGATE:
+        return i18next.t(DelegationFunctionTitle.UNSTAKE_TOKENS);
+      case DelegationFunction.CLAIM_REWARDS:
+        return i18next.t(DelegationFunctionTitle.CLAIM_REWARDS);
+      case DelegationFunction.WITHDRAW:
+        return i18next.t(DelegationFunctionTitle.WITHDRAW_REWARDS);
       case ExternalContractFunction.ISSUE_NON_FUNGIBLE:
         return i18next.t('Mint NFT Collection');
       case ExternalContractFunction.ISSUE_SEMI_FUNGIBLE:
@@ -124,29 +124,29 @@ export class MultisigSmartContractCall extends MultisigAction {
         return this.getSendTokenDescription();
       case MultisigContractFunction.ESDT_NFT_TRANSFER:
         return this.getSendNFTDescription();
-      case DelegationFunctionNames.delegate:
+      case DelegationFunction.DELEGATE:
         return this.getStakeTokensDescription(
-          DelegationFunctionTitles.StakeTokens,
+          DelegationFunctionTitle.STAKE_TOKENS,
           <SouthIcon />,
         );
-      case DelegationFunctionNames.unDelegate:
+      case DelegationFunction.UNDELEGATE:
         return this.getStakeTokensDescription(
-          DelegationFunctionTitles.UnstakeTokens,
+          DelegationFunctionTitle.UNSTAKE_TOKENS,
           <NorthIcon />,
         );
-      case DelegationFunctionNames.withdraw:
+      case DelegationFunction.WITHDRAW:
         return this.getStakeTokensDescription(
-          DelegationFunctionTitles.WithdrawRewards,
+          DelegationFunctionTitle.WITHDRAW_REWARDS,
           <NorthIcon />,
         );
-      case DelegationFunctionNames.claimRewards:
+      case DelegationFunction.CLAIM_REWARDS:
         return this.getStakeTokensDescription(
-          DelegationFunctionTitles.ClaimRewards,
+          DelegationFunctionTitle.CLAIM_REWARDS,
           <NorthIcon />,
         );
-      case DelegationFunctionNames.reDelegateRewards:
+      case DelegationFunction.REDELEGATE_REWARDS:
         return this.getStakeTokensDescription(
-          DelegationFunctionTitles.RestakeRewards,
+          DelegationFunctionTitle.RESTAKE_REWARDS,
           <SouthIcon />,
         );
       case ExternalContractFunction.SET_SPECIAL_ROLE: {
@@ -238,7 +238,7 @@ export class MultisigSmartContractCall extends MultisigAction {
   }
 
   getStakeTokensDescription(
-    actionMessage: DelegationFunctionTitles,
+    actionMessage: DelegationFunctionTitle,
     actionIcon: any,
   ) {
     return (

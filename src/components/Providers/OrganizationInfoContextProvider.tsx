@@ -216,9 +216,10 @@ function OrganizationInfoContextProvider({ children }: Props) {
       dispatch(
         setIntervalEndTimestamp(Math.floor(new Date().getTime() / 1000)),
       );
-      // setTimeout(() => {
-      //   removeSignedTransaction(currentMultisigTransactionId);
-      // }, toastDisappearDelay);
+
+      setTimeout(() => {
+        removeSignedTransaction(currentMultisigTransactionId);
+      }, toastDisappearDelay);
     },
   });
 

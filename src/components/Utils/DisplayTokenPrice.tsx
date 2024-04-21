@@ -18,13 +18,13 @@ export const calculatePrice = (
   if ('valueUsd' in balanceDetails) return balanceDetails.valueUsd;
 
   const { amount, tokenPrice, decimals } = balanceDetails;
-  const tokenAmount = Number(
+  const balanceLocaleString = Number(
     RationalNumber.fromDynamicTokenAmount(identifier, amount, decimals),
   );
 
   const tokenPriceValue = parseFloat(tokenPrice?.toString());
 
-  const price = Number(tokenAmount * tokenPriceValue).toFixed(2);
+  const price = Number(balanceLocaleString * tokenPriceValue).toFixed(2);
   return price;
 };
 

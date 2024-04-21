@@ -2,10 +2,10 @@ import { useCallback, useMemo } from 'react';
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import RationalNumber from 'src/utils/RationalNumber';
 import { MultisigSmartContractCall } from './MultisigSmartContractCall';
-import { DelegationFunctionTitles } from '../..';
+import { DelegationFunctionTitle } from '../..';
 
 interface Props {
-  delegationProposalType: DelegationFunctionTitles;
+  delegationProposalType: DelegationFunctionTitle;
   multisigSmartContractCall: MultisigSmartContractCall;
 }
 
@@ -23,9 +23,9 @@ function getAmountFromTransactionData(data: string): string {
 }
 
 const transactionsWithNoDataParams = [
-  DelegationFunctionTitles.ClaimRewards,
-  DelegationFunctionTitles.RestakeRewards,
-  DelegationFunctionTitles.WithdrawRewards,
+  DelegationFunctionTitle.CLAIM_REWARDS,
+  DelegationFunctionTitle.RESTAKE_REWARDS,
+  DelegationFunctionTitle.WITHDRAW_REWARDS,
 ];
 
 const ProposalAmount = ({
@@ -45,11 +45,11 @@ const ProposalAmount = ({
     let proposalAmount = '0';
 
     switch (delegationProposalType) {
-      case DelegationFunctionTitles.UnstakeTokens: {
+      case DelegationFunctionTitle.UNSTAKE_TOKENS: {
         proposalAmount = getAmountFromTransactionData(data);
         break;
       }
-      case DelegationFunctionTitles.StakeTokens: {
+      case DelegationFunctionTitle.STAKE_TOKENS: {
         const { amount } = multisigSmartContractCall;
         const amountToString = amount.valueOf().toString();
         const balance = RationalNumber.fromBigInteger(amountToString);

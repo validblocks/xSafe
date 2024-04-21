@@ -45,9 +45,6 @@ function CustomSelect<TValue extends string>({
 
       handleSelectionChanged?.(e, option);
 
-      console.log('newValue', newValue);
-      console.log('e', e);
-
       setOption(option);
     },
     [handleSelectionChanged, options],

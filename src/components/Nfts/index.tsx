@@ -70,10 +70,10 @@ function NftComponent() {
               justifyContent: 'space-between',
               alignItems: 'center',
               width: '100%',
-              borderTopRightRadius: '4px',
-              borderTopLeftRadius: '4px',
-              borderBottomRightRadius: isGroupedByCollection ? '4px' : 0,
-              borderBottomLeftRadius: isGroupedByCollection ? '4px' : 0,
+              borderTopRightRadius: '10px',
+              borderTopLeftRadius: '10px',
+              borderBottomRightRadius: isGroupedByCollection ? '10px' : 0,
+              borderBottomLeftRadius: isGroupedByCollection ? '10px' : 0,
               backgroundColor: theme.palette.background?.secondary,
               padding: '0.5rem 1rem',
             }}
@@ -116,8 +116,8 @@ function NftComponent() {
             border: isGroupedByCollection
               ? 'none'
               : '1px solid rgb(30, 29, 42)',
-            borderBottomRightRadius: '4px',
-            borderBottomLeftRadius: '4px',
+            borderBottomRightRadius: '10px',
+            borderBottomLeftRadius: '10px',
             paddingRight: isGroupedByCollection ? 0 : '16px',
             paddingTop: isGroupedByCollection ? '1rem' : 0,
             paddingBottom: isGroupedByCollection ? 0 : '16px',

@@ -31,7 +31,7 @@ const initialState: StateType = {
   shard: 0,
   tokenTableRows: [],
   organizationTokens: [],
-  multisigBalance: TokenTransfer.egldFromAmount(0),
+  multisigBalance: TokenTransfer.egldFromAmount(0).amount.toString(),
   activeDelegationsRows: [],
   isMultiWalletMode: false,
   isInReadOnlyMode: true,

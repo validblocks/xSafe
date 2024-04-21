@@ -14,7 +14,7 @@ import LendInJewelSwapPresentation from 'src/components/Proposals/LendInJewelSwa
 import { MultisigSmartContractCall } from './MultisigSmartContractCall';
 import { ExternalContractFunction } from '../ExternalContractFunction';
 import ProposalAmount from './ProposalAmount';
-import { DelegationFunctionTitles } from '../..';
+import { DelegationFunctionTitle } from '../..';
 
 export class MultisigLendInJewelSwap extends MultisigSmartContractCall {
   constructor(
@@ -54,7 +54,7 @@ export class MultisigLendInJewelSwap extends MultisigSmartContractCall {
   }
 
   getStakeTokensDescription(
-    actionMessage: DelegationFunctionTitles,
+    actionMessage: DelegationFunctionTitle,
     actionIcon: any,
   ) {
     return (

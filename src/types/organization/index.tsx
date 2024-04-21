@@ -86,7 +86,9 @@ export type OrganizationToken = {
   prettyIdentifier: string;
   identifier: string;
   tokenPrice: number;
-  tokenAmount: string;
+  balanceLocaleString: string;
+  balance: number;
   tokenValue: number;
   photoUrl: string;
+  decimals: number;
 };
