@@ -14,7 +14,10 @@ interface ICustomSelectOption<TValue> {
 
 interface ICustomSelectProps<TValue> {
   label?: string;
+  width?: number;
   options: ICustomSelectOption<TValue>[];
+  padding?: string;
+  maxHeightUntilScroll?: number;
   handleSelectionChanged?: (
     e: React.ChangeEvent<HTMLSelectElement>,
     value: ICustomSelectOption<TValue> | null,
@@ -25,6 +28,9 @@ function CustomSelect<TValue extends string>({
   label,
   options,
   handleSelectionChanged,
+  maxHeightUntilScroll = 200,
+  padding = '1rem 0.75rem',
+  width = 250,
 }: ICustomSelectProps<TValue>) {
   const [option, setOption] =
     React.useState<ICustomSelectOption<TValue> | null>(options?.[0]);
@@ -52,6 +58,11 @@ function CustomSelect<TValue extends string>({
 
   const selectMenuProps = useMemo(
     () => ({
+      PaperProps: {
+        style: {
+          maxHeight: maxHeightUntilScroll,
+        },
+      },
       sx: {
         '&&&': {
           '& .MuiPaper-root > ul': {
@@ -65,7 +76,7 @@ function CustomSelect<TValue extends string>({
         },
       },
     }),
-    [isDarkThemeEnabled],
+    [isDarkThemeEnabled, maxHeightUntilScroll],
   );
 
   const themePrimaryBoxStyles = useMemo(
@@ -83,7 +94,18 @@ function CustomSelect<TValue extends string>({
     <Box>
       <StyledSelect
         value={option?.displayValue}
-        sx={{ width: 250 }}
+        sx={{
+          width,
+          '.MuiSelect-select.MuiInputBase-input.MuiOutlinedInput-input': {
+            padding,
+          },
+          '& fieldset': {
+            border: 'none !important',
+            '& legend span': {
+              fontSize: '10px !important',
+            },
+          },
+        }}
         label={label}
         MenuProps={selectMenuProps}
         onChange={onSelectionChanged}

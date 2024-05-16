@@ -504,7 +504,7 @@ export const TextInput = styled(({ sx, className, ...other }) => (
 
     & p.MuiFormHelperText-root {
       margin-left: 0.35rem !important;
-      font-size: 11.2px;
+      font-size: 11px;
     }
 
     &:focus-within {
@@ -743,8 +743,8 @@ export const PerformModal = styled(Box)`
 
 export const RemoveItemsButton = styled(MainButton)`
   &&& {
-    min-width: 56px;
-    height: 56px;
+    min-width: 53px;
+    height: 53px;
     padding: 0;
     box-shadow: none;
   }
