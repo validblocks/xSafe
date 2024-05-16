@@ -327,3 +327,34 @@ export const TextField = styled(MuiTextField)(({ theme }) => ({
     border: 'none ',
   },
 }));
+
+export const CustomTextInput = styled(MuiTextField)(({ theme }) => ({
+  width: '100%',
+  m: '4px 0 20px',
+  label: {
+    marginBottom: 0,
+    fontSize: '15px',
+    left: '-1px',
+    color: theme.palette.text.secondary,
+  },
+  '& .MuiOutlinedInput-input': {
+    color: theme.palette.text.primary,
+  },
+  '& .MuiOutlinedInput-root fieldset': {
+    transition: 'all .3s linear',
+    borderColor: theme.palette.borders.secondary,
+  },
+  '&:hover': {
+    '& .MuiOutlinedInput-root fieldset': {
+      borderColor: theme.palette.borders.active,
+    },
+  },
+  '& .MuiOutlinedInput-root.Mui-focused fieldset': {
+    transition: 'all .3s linear',
+    borderColor: theme.palette.borders.active,
+    borderWidth: '1px',
+  },
+  '& label.MuiInputLabel-root.Mui-focused': {
+    color: theme.palette.borders.active,
+  },
+}));
