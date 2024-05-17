@@ -7,8 +7,8 @@ import { Box, MenuItem } from '@mui/material';
 import { SmartContract } from '@multiversx/sdk-core/out';
 import { useFormData } from 'src/hooks/useFormData';
 
-interface Props {
-  error: boolean;
+interface Props<TValidationResult> {
+  error: TValidationResult;
   smartContract: SmartContract;
   availableContractEndpoints: string[];
   handleSelectedEndpointChange: (
@@ -18,21 +18,21 @@ interface Props {
   handleNewArgs?: (newArgs: Record<string, string>) => void;
 }
 
-export const TransactionBuilderWithAbi = ({
+export const TransactionBuilderWithAbi = <TValidationResult,>({
   error,
   smartContract,
   handleNewArgs,
   availableContractEndpoints,
   handleSelectedEndpointChange,
   handleFormKeyChange,
-}: Props) => {
+}: Props<TValidationResult>) => {
   const theme = useCustomTheme();
 
   const [selectedEndpoint, setSelectedEndpoint] = useState<string | null>(null);
-  const { formData, onFormChange } = useFormData(
+  const { formData, onFormChange } = useFormData({
     handleFormKeyChange,
     handleNewArgs,
-  );
+  });
 
   const useStyles = makeStyles(() => ({
     dropdown: {
