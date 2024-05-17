@@ -22,13 +22,13 @@ export const ArgumentInput = memo(
   }: ArgumentInputProps) => {
     return (
       <TextInput
-        data-testid={testId}
         placeholder={placeholder}
         label={label}
         value={value}
         autoComplete="off"
         onChange={onChange}
         className={className}
+        inputProps={{ 'data-testid': testId }}
       />
     );
   },

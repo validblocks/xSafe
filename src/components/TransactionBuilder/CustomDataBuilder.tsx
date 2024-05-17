@@ -100,11 +100,11 @@ export const CustomDataBuilder = React.memo(
               variant="outlined"
               label={t('Function name') as string}
               id={functionName}
-              data-testid="cdb-function-name-input"
               name="functionName"
               onChange={onFunctionNameChange}
               onBlur={onFunctionNameBlur}
               value={functionName}
+              inputProps={{ 'data-testid': 'cdb-function-name-input' }}
             />
           </Box>
 
@@ -145,12 +145,13 @@ export const CustomDataBuilder = React.memo(
                             }
                           />
                           <Box height={'14px'}>
-                            {!validationResults?.[idx]?.isValid && (
+                            {validationResults?.[idx]?.isValid === false && (
                               <Text
                                 sx={{
                                   color: theme.palette.danger.main,
                                   fontSize: 11,
                                 }}
+                                data-testid={`cdb-argument-${idx + 1}-error`}
                               >
                                 {validationResults?.[idx]?.error?.reason}
                               </Text>

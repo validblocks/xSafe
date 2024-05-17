@@ -3,6 +3,7 @@ import { CustomDataBuilder } from 'src/components/TransactionBuilder/CustomDataB
 import { vi } from 'vitest';
 import { renderWithProviders } from './utils/renderWithProviders';
 import userEvent from '@testing-library/user-event';
+import { TransactionBuilderMain } from 'src/components/TransactionBuilder/TransactionBuilderMain';
 
 describe('CustomDataBuilder component', () => {
   const mockHandleFunctionNameChange = vi.fn();
@@ -23,6 +24,11 @@ describe('CustomDataBuilder component', () => {
         handleFormKeyChange={mockHandleFormKeyChange}
       />,
     );
+    expect(container).toBeInTheDocument();
+  });
+
+  it('Should render without optional props', () => {
+    const { container } = renderWithProviders(<CustomDataBuilder />);
     expect(container).toBeInTheDocument();
   });
 
@@ -228,6 +234,80 @@ describe('CustomDataBuilder component', () => {
     expect(
       screen.queryByTestId('cdb-argument-3-text-input'),
     ).not.toBeInTheDocument();
+  });
+
+  it('Should not display error message on initial render', async () => {
+    renderWithProviders(
+      <CustomDataBuilder
+        handleFunctionNameChange={mockHandleFunctionNameChange}
+        handleFunctionNameBlur={mockHandleFunctionNameBlur}
+        handleNewArgs={mockHandleNewArgs}
+        handleFormKeyChange={mockHandleFormKeyChange}
+      />,
+    );
+
+    const functionNameInput = screen.getByRole('textbox');
+    await fireEvent.change(functionNameInput, {
+      target: { value: 'some text' },
+    });
+
+    const addArgumentButton = screen.getByTestId('cdb-add-argument-button');
+    await userEvent.click(addArgumentButton);
+
+    expect(screen.getByTestId('cdb-argument-1-text-input')).toBeInTheDocument();
+    expect(
+      screen.queryByTestId('cdb-argument-1-error'),
+    ).not.toBeInTheDocument();
+  });
+
+  it('Should display error message for invalid hex string length', async () => {
+    renderWithProviders(
+      <TransactionBuilderMain
+        abi={''}
+        handleAbiAsTextChanged={vi.fn()}
+        handleIsUseAbiEnabledChange={vi.fn()}
+      />,
+    );
+
+    const functionNameInput = screen.getByTestId('cdb-function-name-input');
+    await userEvent.type(functionNameInput, 'myFunction');
+
+    const addArgumentButton = screen.getByTestId('cdb-add-argument-button');
+    await userEvent.click(addArgumentButton);
+
+    expect(screen.getByTestId('cdb-argument-1-text-input')).toBeInTheDocument();
+
+    const argumentInput = screen.getByPlaceholderText('Argument 1');
+    await userEvent.type(argumentInput, 'aa1');
+
+    expect(argumentInput).toHaveValue('aa1');
+    expect(screen.getByTestId('cdb-argument-1-error')).toBeInTheDocument();
+    expect(screen.getByText('Invalid hex string length')).toBeInTheDocument();
+  });
+
+  it('Should display error message for invalid hex string character', async () => {
+    renderWithProviders(
+      <TransactionBuilderMain
+        abi={''}
+        handleAbiAsTextChanged={vi.fn()}
+        handleIsUseAbiEnabledChange={vi.fn()}
+      />,
+    );
+
+    const functionNameInput = screen.getByTestId('cdb-function-name-input');
+    await userEvent.type(functionNameInput, 'myFunction');
+
+    const addArgumentButton = screen.getByTestId('cdb-add-argument-button');
+    await userEvent.click(addArgumentButton);
+
+    expect(screen.getByTestId('cdb-argument-1-text-input')).toBeInTheDocument();
+
+    const argumentInput = screen.getByPlaceholderText('Argument 1');
+    await userEvent.type(argumentInput, 'ss');
+
+    expect(argumentInput).toHaveValue('ss');
+    expect(screen.getByTestId('cdb-argument-1-error')).toBeInTheDocument();
+    expect(screen.getByText('Invalid hex characters')).toBeInTheDocument();
   });
 
   // it('Should display error class if error prop is true', () => {
