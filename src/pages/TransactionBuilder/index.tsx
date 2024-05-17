@@ -6,7 +6,7 @@ import { TransactionBuilderMain } from 'src/components/TransactionBuilder/Transa
 import { Dropzone } from 'src/components/TransactionBuilder/DropZone';
 import { LOCAL_STORAGE_KEYS } from 'src/components/Marketplace/localStorageKeys';
 import { useLocalStorage } from 'src/hooks/useLocalStorage';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 export const TransactionBuilder = () => {
   const minWidth600 = useMediaQuery('(min-width:600px)');
@@ -31,6 +31,8 @@ export const TransactionBuilder = () => {
     [setLocalStorageAbi],
   );
 
+  const [isUseAbiEnabled, setIsUseAbiEnabled] = useState(false);
+
   return (
     <Box>
       <TransactionBuilderPageHeader />
@@ -39,25 +41,28 @@ export const TransactionBuilder = () => {
           <TransactionBuilderMain
             abi={localStorageAbi}
             handleAbiAsTextChanged={handleAbiAsTextChanged}
+            handleIsUseAbiEnabledChange={setIsUseAbiEnabled}
           />
         </Box>
-        <Box
-          display="flex"
-          flexDirection="column"
-          alignItems="center"
-          pt={minWidth1120 ? 12 : 2}
-          sx={{
-            minWidth: minWidth1120
-              ? '320px'
-              : minWidth600
-              ? `min(100%, 500px)`
-              : '100%',
-            height: minWidth1120 ? '200px' : '120px',
-            px: minWidth1120 ? 2 : 0,
-          }}
-        >
-          <Dropzone handleTextFileContent={updateAbiTextContent} />
-        </Box>
+        {isUseAbiEnabled && (
+          <Box
+            display="flex"
+            flexDirection="column"
+            alignItems="center"
+            pt={minWidth1120 ? 12 : 2}
+            sx={{
+              minWidth: minWidth1120
+                ? '320px'
+                : minWidth600
+                ? `min(100%, 500px)`
+                : '100%',
+              height: minWidth1120 ? '200px' : '120px',
+              px: minWidth1120 ? 2 : 0,
+            }}
+          >
+            <Dropzone handleTextFileContent={updateAbiTextContent} />
+          </Box>
+        )}
       </Box>
     </Box>
   );

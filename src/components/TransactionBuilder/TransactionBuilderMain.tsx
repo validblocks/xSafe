@@ -30,7 +30,8 @@ import { TransactionBuilderWithAbi } from './TransactionBuilderWithAbi';
 
 interface Props {
   abi: string;
-  handleAbiAsTextChanged: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleAbiAsTextChanged?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleIsUseAbiEnabledChange?: (isUseAbiEnabled: boolean) => void;
 }
 
 interface IFormValues {
@@ -42,6 +43,7 @@ interface IFormValues {
 export const TransactionBuilderMain = ({
   abi,
   handleAbiAsTextChanged,
+  handleIsUseAbiEnabledChange,
 }: Props) => {
   const t = useCustomTranslation();
   const minWidth600 = useMediaQuery('(min-width:600px)');
@@ -98,6 +100,10 @@ export const TransactionBuilderMain = ({
       setSmartContract(null);
     }
   }, [abi]);
+
+  useEffect(() => {
+    handleIsUseAbiEnabledChange?.(useAbi);
+  }, [handleIsUseAbiEnabledChange, useAbi]);
 
   const focusInput = useCallback(
     (input: HTMLInputElement) => {
