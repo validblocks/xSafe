@@ -44,6 +44,19 @@ describe('CustomDataBuilder component', () => {
     expect(screen.getByText('Custom Data')).toBeInTheDocument();
   });
 
+  it('Should display "Function name" input', () => {
+    renderWithProviders(
+      <CustomDataBuilder
+        handleFunctionNameChange={mockHandleFunctionNameChange}
+        handleFunctionNameBlur={mockHandleFunctionNameBlur}
+        handleNewArgs={mockHandleNewArgs}
+        handleFormKeyChange={mockHandleFormKeyChange}
+      />,
+    );
+
+    expect(screen.getByTestId('cdb-function-name-input')).toBeInTheDocument();
+  });
+
   it('Should display function name input field', () => {
     renderWithProviders(
       <CustomDataBuilder
@@ -310,36 +323,85 @@ describe('CustomDataBuilder component', () => {
     expect(screen.getByText('Invalid hex characters')).toBeInTheDocument();
   });
 
-  // it('Should display error class if error prop is true', () => {
-  //   renderWithProviders(
-  //     <CustomDataBuilder
-  //       error
-  //       handleFunctionNameChange={mockHandleFunctionNameChange}
-  //       handleFunctionNameBlur={mockHandleFunctionNameBlur}
-  //       handleNewArgs={mockHandleNewArgs}
-  //       handleFormKeyChange={mockHandleFormKeyChange}
-  //     />,
-  //   );
-  //   const addArgumentButton = screen.getByText('Add argument');
-  //   userEvent.click(addArgumentButton);
-  //   expect(screen.getByPlaceholderText('Argument 1')).toHaveClass(
-  //     'isAddressError',
-  //   );
-  // });
+  it('Should handle state correctly for each argument added', async () => {
+    renderWithProviders(
+      <TransactionBuilderMain
+        abi={''}
+        handleAbiAsTextChanged={vi.fn()}
+        handleIsUseAbiEnabledChange={vi.fn()}
+      />,
+    );
 
-  // it('Should call handleNewArgs on argument change', () => {
-  //   renderWithProviders(
-  //     <CustomDataBuilder
-  //       handleFunctionNameChange={mockHandleFunctionNameChange}
-  //       handleFunctionNameBlur={mockHandleFunctionNameBlur}
-  //       handleNewArgs={mockHandleNewArgs}
-  //       handleFormKeyChange={mockHandleFormKeyChange}
-  //     />,
-  //   );
-  //   const addArgumentButton = screen.getByText('Add argument');
-  //   userEvent.click(addArgumentButton);
-  //   const argumentInput = screen.getByPlaceholderText('Argument 1');
-  //   userEvent.type(argumentInput, 'newArgument');
-  //   expect(mockHandleNewArgs).toHaveBeenCalled();
-  // });
+    const functionNameInput = screen.getByTestId('cdb-function-name-input');
+    await userEvent.type(functionNameInput, 'myFunction');
+
+    const addArgumentButton = screen.getByTestId('cdb-add-argument-button');
+    await userEvent.click(addArgumentButton);
+    await userEvent.click(addArgumentButton);
+    await userEvent.click(addArgumentButton);
+
+    expect(screen.getByTestId('cdb-argument-1-text-input')).toBeInTheDocument();
+    expect(screen.getByTestId('cdb-argument-2-text-input')).toBeInTheDocument();
+    expect(screen.getByTestId('cdb-argument-3-text-input')).toBeInTheDocument();
+
+    const argument1Input = screen.getByPlaceholderText('Argument 1');
+    const argument2Input = screen.getByPlaceholderText('Argument 2');
+    const argument3Input = screen.getByPlaceholderText('Argument 3');
+
+    await userEvent.type(argument1Input, 'aa');
+    await userEvent.type(argument2Input, 'a');
+    await userEvent.type(argument3Input, 'ss');
+
+    expect(argument1Input).toHaveValue('aa');
+    expect(argument2Input).toHaveValue('a');
+    expect(argument3Input).toHaveValue('ss');
+  });
+
+  it('Should handle errors correctly for each argument added', async () => {
+    renderWithProviders(
+      <TransactionBuilderMain
+        abi={''}
+        handleAbiAsTextChanged={vi.fn()}
+        handleIsUseAbiEnabledChange={vi.fn()}
+      />,
+    );
+
+    const functionNameInput = screen.getByTestId('cdb-function-name-input');
+    await userEvent.type(functionNameInput, 'myFunction');
+
+    const addArgumentButton = screen.getByTestId('cdb-add-argument-button');
+    await userEvent.click(addArgumentButton);
+    await userEvent.click(addArgumentButton);
+    await userEvent.click(addArgumentButton);
+
+    expect(screen.getByTestId('cdb-argument-1-text-input')).toBeInTheDocument();
+    expect(screen.getByTestId('cdb-argument-2-text-input')).toBeInTheDocument();
+    expect(screen.getByTestId('cdb-argument-3-text-input')).toBeInTheDocument();
+
+    const argument1Input = screen.getByPlaceholderText('Argument 1');
+    const argument2Input = screen.getByPlaceholderText('Argument 2');
+    const argument3Input = screen.getByPlaceholderText('Argument 3');
+
+    await userEvent.type(argument1Input, 'aa');
+    await userEvent.type(argument2Input, 'a');
+    await userEvent.type(argument3Input, 'ss');
+
+    expect(argument1Input).toHaveValue('aa');
+    expect(argument2Input).toHaveValue('a');
+    expect(argument3Input).toHaveValue('ss');
+
+    expect(
+      screen.queryByTestId('cdb-argument-1-error'),
+    ).not.toBeInTheDocument();
+
+    expect(screen.queryByTestId('cdb-argument-2-error')).toBeInTheDocument();
+    expect(screen.queryByTestId('cdb-argument-2-error')).toHaveTextContent(
+      'Invalid hex string length',
+    );
+
+    expect(screen.queryByTestId('cdb-argument-3-error')).toBeInTheDocument();
+    expect(screen.queryByTestId('cdb-argument-3-error')).toHaveTextContent(
+      'Invalid hex characters',
+    );
+  });
 });
