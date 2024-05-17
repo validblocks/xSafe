@@ -84,6 +84,8 @@ export const TransactionBuilderMain = ({
 
   useEffect(() => {
     try {
+      if (!useAbi) return;
+
       const abiRegistry = AbiRegistry.create(JSON.parse(abi ?? null));
       const existingContract = new SmartContract({
         abi: abiRegistry,
@@ -172,24 +174,31 @@ export const TransactionBuilderMain = ({
         );
 
         setArgumentsValidationResults(argumentsValidationResultsResult);
-
-        console.log({ argumentsValidationResultsResult });
       } catch (e) {
-        console.log({ e });
+        console.error({ e });
       }
     },
     [setCallArgumentsMap],
   );
 
   const isCreateProposalButtonActive = useMemo(() => {
+    const hasEndpointToCall = useAbi ? selectedEndpoint : functionName;
+    const activeDueToSmartContract = useAbi ? smartContract : true;
     return (
       !amountError &&
-      selectedEndpoint &&
-      smartContract &&
+      hasEndpointToCall &&
+      activeDueToSmartContract &&
       callReceiverAddress &&
       callReceiverAddress.bech32().length > 0
     );
-  }, [amountError, callReceiverAddress, selectedEndpoint, smartContract]);
+  }, [
+    amountError,
+    callReceiverAddress,
+    functionName,
+    selectedEndpoint,
+    smartContract,
+    useAbi,
+  ]);
 
   return (
     <>
