@@ -16,12 +16,14 @@ import { FormikProps, useFormik } from 'formik';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { AnimatePresence, motion } from 'framer-motion';
-import { isAddressValid } from 'src/helpers/validation';
 import useAmountInputController from 'src/hooks/useAmountInputController';
 
 import AmountInputWithTokenSelection from '../Utils/AmountInputWithTokenSelection';
 import AddressInput from '../Utils/AdressInput';
-import { validateArguments } from './helpers/validations';
+import {
+  ArgumentValidationResult,
+  validateArguments,
+} from './helpers/validateArguments';
 import { TransactionBuilderCardHeader } from './TransactionBuilderCardHeader';
 import { CustomDataBuilder } from './CustomDataBuilder';
 import { TransactionBuilderWithAbi } from './TransactionBuilderWithAbi';
@@ -46,27 +48,19 @@ export const TransactionBuilderMain = ({
 
   const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
-      args: [],
       functionName: '',
     },
     validationSchema: Yup.object().shape({
-      receiver: Yup.string()
-        .min(2, 'Too Short!')
-        .max(62, 'Too Long!')
-        .required('Required')
-        .test(isAddressValid),
-      args: Yup.array().test(validateArguments),
       functionName: Yup.string(),
-      data: Yup.string(),
     }),
     validateOnChange: true,
     validateOnMount: true,
   } as any);
 
-  const { errors: _2, values, touched: _1 } = formik;
+  const { values, touched: _1 } = formik;
   const { functionName } = values;
 
-  const [error, _setError] = useState(false);
+  const [error] = useState(false);
   const [useAbi, setUseAbi] = useState(false);
   const [abiParsingError, setAbiParsingError] = useState<string | null>(null);
   const [availableContractEndpoints, setAvailableContractEndpoints] = useState<
@@ -127,16 +121,6 @@ export const TransactionBuilderMain = ({
     [],
   );
 
-  const isCreateProposalButtonActive = useMemo(() => {
-    return (
-      !amountError &&
-      selectedEndpoint &&
-      smartContract &&
-      callReceiverAddress &&
-      callReceiverAddress.bech32().length > 0
-    );
-  }, [amountError, callReceiverAddress, selectedEndpoint, smartContract]);
-
   const onCreateProposalClick = useCallback(async () => {
     const callEndpoint = useAbi ? selectedEndpoint : functionName;
 
@@ -169,12 +153,37 @@ export const TransactionBuilderMain = ({
     setUseAbi((useAbi) => !useAbi);
   }, []);
 
+  const [argumentsValidationResults, setArgumentsValidationResults] = useState<
+    ArgumentValidationResult[]
+  >([]);
+
   const onNewArgsReceived = useCallback(
     (newArgs: Record<string, string>) => {
-      setCallArgumentsMap(newArgs);
+      try {
+        setCallArgumentsMap(newArgs);
+        const argumentsValidationResultsResult = validateArguments(
+          Object.values(newArgs),
+        );
+
+        setArgumentsValidationResults(argumentsValidationResultsResult);
+
+        console.log({ argumentsValidationResultsResult });
+      } catch (e) {
+        console.log({ e });
+      }
     },
     [setCallArgumentsMap],
   );
+
+  const isCreateProposalButtonActive = useMemo(() => {
+    return (
+      !amountError &&
+      selectedEndpoint &&
+      smartContract &&
+      callReceiverAddress &&
+      callReceiverAddress.bech32().length > 0
+    );
+  }, [amountError, callReceiverAddress, selectedEndpoint, smartContract]);
 
   return (
     <>
@@ -183,8 +192,8 @@ export const TransactionBuilderMain = ({
         <Box p="2rem" pb={useAbi ? '2rem' : 1}>
           <Box pb={2}>
             <AddressInput
-              placeholder="Enter Smart Contract Address"
               label="Smart Contract Address"
+              placeholder="Enter Smart Contract Address"
               handleParamsChange={handleAddressParamChange}
             />
           </Box>
@@ -230,17 +239,17 @@ export const TransactionBuilderMain = ({
                 }}
               >
                 <TextInput
+                  value={abi}
                   multiline
                   maxRows="6"
                   error={undefined}
-                  label={`Smart Contract ABI`}
-                  placeholder={`Paste Smart Contract ABI`}
-                  value={abi}
-                  inputRef={focusInput}
                   autoComplete="off"
+                  inputRef={focusInput}
+                  label={`Smart Contract ABI`}
                   onChange={handleAbiAsTextChanged}
-                  helperText={error ? abiParsingError : null}
+                  placeholder={`Paste Smart Contract ABI`}
                   className={error ? 'isAddressError' : ''}
+                  helperText={error ? abiParsingError : null}
                 />
               </motion.div>
             )}
@@ -248,28 +257,26 @@ export const TransactionBuilderMain = ({
         </Box>
         {smartContract && useAbi && (
           <TransactionBuilderWithAbi
-            availableContractEndpoints={availableContractEndpoints ?? []}
-            handleSelectedEndpointChange={handleSelectedEndpointChanged}
+            error={argumentsValidationResults}
             smartContract={smartContract}
             handleNewArgs={onNewArgsReceived}
-            error={error}
+            handleSelectedEndpointChange={handleSelectedEndpointChanged}
+            availableContractEndpoints={availableContractEndpoints ?? []}
           />
         )}
         {!useAbi && (
           <CustomDataBuilder
-            functionName={functionName}
-            handleFunctionNameChange={formik.handleChange}
-            handleFunctionNameBlur={formik.handleBlur}
+            validationResults={argumentsValidationResults}
             handleNewArgs={onNewArgsReceived}
-            error={error}
+            handleChangeEvent={formik.handleChange}
+            handleFunctionNameBlur={formik.handleBlur}
+            handleFunctionNameChange={formik.handleChange}
           />
         )}
         <Box p="2rem" pt={0}>
           <MainButton
-            disabled={!isCreateProposalButtonActive}
             onClick={onCreateProposalClick}
-            onKeyDown={(e) => e.preventDefault()}
-            onKeyUp={(e) => e.preventDefault()}
+            disabled={!isCreateProposalButtonActive}
             sx={{ boxShadow: 'none !important', width: '100%' }}
           >
             {t('Create proposal')}
