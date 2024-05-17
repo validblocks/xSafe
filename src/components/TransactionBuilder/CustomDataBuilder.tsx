@@ -101,6 +101,7 @@ export const CustomDataBuilder = React.memo(
               label={t('Function name') as string}
               id={functionName}
               name="functionName"
+              placeholder="Enter function name"
               onChange={onFunctionNameChange}
               onBlur={onFunctionNameBlur}
               value={functionName}

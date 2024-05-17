@@ -57,6 +57,21 @@ describe('CustomDataBuilder component', () => {
     expect(screen.getByTestId('cdb-function-name-input')).toBeInTheDocument();
   });
 
+  it('Should display "Enter function name" placeholder', () => {
+    renderWithProviders(
+      <CustomDataBuilder
+        handleFunctionNameChange={mockHandleFunctionNameChange}
+        handleFunctionNameBlur={mockHandleFunctionNameBlur}
+        handleNewArgs={mockHandleNewArgs}
+        handleFormKeyChange={mockHandleFormKeyChange}
+      />,
+    );
+
+    expect(
+      screen.getByPlaceholderText('Enter function name'),
+    ).toBeInTheDocument();
+  });
+
   it('Should display function name input field', () => {
     renderWithProviders(
       <CustomDataBuilder

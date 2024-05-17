@@ -101,7 +101,7 @@ export const TransactionBuilderMain = ({
       setAbiParsingError('Invalid ABI');
       setSmartContract(null);
     }
-  }, [abi]);
+  }, [abi, useAbi]);
 
   useEffect(() => {
     handleIsUseAbiEnabledChange?.(useAbi);
