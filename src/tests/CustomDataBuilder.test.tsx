@@ -17,7 +17,6 @@ describe('CustomDataBuilder component', () => {
   it('Should render without crashing', () => {
     const { container } = renderWithProviders(
       <CustomDataBuilder
-        error={false}
         handleFunctionNameChange={mockHandleFunctionNameChange}
         handleFunctionNameBlur={mockHandleFunctionNameBlur}
         handleNewArgs={mockHandleNewArgs}
@@ -30,7 +29,6 @@ describe('CustomDataBuilder component', () => {
   it('Should display "Custom Data" title', () => {
     renderWithProviders(
       <CustomDataBuilder
-        error={false}
         handleFunctionNameChange={mockHandleFunctionNameChange}
         handleFunctionNameBlur={mockHandleFunctionNameBlur}
         handleNewArgs={mockHandleNewArgs}
@@ -43,7 +41,6 @@ describe('CustomDataBuilder component', () => {
   it('Should display function name input field', () => {
     renderWithProviders(
       <CustomDataBuilder
-        error={false}
         handleFunctionNameChange={mockHandleFunctionNameChange}
         handleFunctionNameBlur={mockHandleFunctionNameBlur}
         handleNewArgs={mockHandleNewArgs}
@@ -57,7 +54,6 @@ describe('CustomDataBuilder component', () => {
   it('Should call handleFunctionNameChange on function name input change', () => {
     renderWithProviders(
       <CustomDataBuilder
-        error={false}
         handleFunctionNameChange={mockHandleFunctionNameChange}
         handleFunctionNameBlur={mockHandleFunctionNameBlur}
         handleNewArgs={mockHandleNewArgs}
@@ -73,7 +69,6 @@ describe('CustomDataBuilder component', () => {
   it('Should call handleFunctionNameBlur on function name input blur', () => {
     renderWithProviders(
       <CustomDataBuilder
-        error={false}
         handleFunctionNameChange={mockHandleFunctionNameChange}
         handleFunctionNameBlur={mockHandleFunctionNameBlur}
         handleNewArgs={mockHandleNewArgs}
@@ -89,7 +84,6 @@ describe('CustomDataBuilder component', () => {
   it('Should not display "Add argument" button when function name is empty', async () => {
     renderWithProviders(
       <CustomDataBuilder
-        error={false}
         handleFunctionNameChange={mockHandleFunctionNameChange}
         handleFunctionNameBlur={mockHandleFunctionNameBlur}
         handleNewArgs={mockHandleNewArgs}
@@ -104,7 +98,6 @@ describe('CustomDataBuilder component', () => {
   it('Should display "Add argument" button after function name is not empty', async () => {
     renderWithProviders(
       <CustomDataBuilder
-        error={false}
         handleFunctionNameChange={mockHandleFunctionNameChange}
         handleFunctionNameBlur={mockHandleFunctionNameBlur}
         handleNewArgs={mockHandleNewArgs}
@@ -128,7 +121,6 @@ describe('CustomDataBuilder component', () => {
   it('Should not have any argument fields until the "Add argument" button is clicked', async () => {
     renderWithProviders(
       <CustomDataBuilder
-        error={false}
         handleFunctionNameChange={mockHandleFunctionNameChange}
         handleFunctionNameBlur={mockHandleFunctionNameBlur}
         handleNewArgs={mockHandleNewArgs}
@@ -148,7 +140,6 @@ describe('CustomDataBuilder component', () => {
   it('Should add a new argument field when "Add argument" button is clicked', async () => {
     renderWithProviders(
       <CustomDataBuilder
-        error={false}
         handleFunctionNameChange={mockHandleFunctionNameChange}
         handleFunctionNameBlur={mockHandleFunctionNameBlur}
         handleNewArgs={mockHandleNewArgs}
@@ -172,7 +163,6 @@ describe('CustomDataBuilder component', () => {
   it('Should remove an argument field when remove button is clicked', async () => {
     renderWithProviders(
       <CustomDataBuilder
-        error={false}
         handleFunctionNameChange={mockHandleFunctionNameChange}
         handleFunctionNameBlur={mockHandleFunctionNameBlur}
         handleNewArgs={mockHandleNewArgs}
@@ -203,7 +193,6 @@ describe('CustomDataBuilder component', () => {
   it('Should remove an argument field and rearrange remaining arguments', async () => {
     renderWithProviders(
       <CustomDataBuilder
-        error={false}
         handleFunctionNameChange={mockHandleFunctionNameChange}
         handleFunctionNameBlur={mockHandleFunctionNameBlur}
         handleNewArgs={mockHandleNewArgs}
@@ -261,7 +250,6 @@ describe('CustomDataBuilder component', () => {
   // it('Should call handleNewArgs on argument change', () => {
   //   renderWithProviders(
   //     <CustomDataBuilder
-  //       error={false}
   //       handleFunctionNameChange={mockHandleFunctionNameChange}
   //       handleFunctionNameBlur={mockHandleFunctionNameBlur}
   //       handleNewArgs={mockHandleNewArgs}
