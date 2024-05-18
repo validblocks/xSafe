@@ -520,8 +520,12 @@ export const TextInput = styled(({ sx, className, ...other }) => (
       z-index: 0 !important;
     }
 
-    &.isAddressError:focus-within {
+    &.isAddressError,
+    .isAddressError:focus-within {
       & label {
+        color: #e51a3e !important;
+      }
+      & p {
         color: #e51a3e !important;
       }
     }
