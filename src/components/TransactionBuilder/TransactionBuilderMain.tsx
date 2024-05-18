@@ -36,7 +36,6 @@ interface Props {
 
 interface IFormValues {
   args: string[];
-  amount: string;
   functionName: string;
 }
 
@@ -65,6 +64,7 @@ export const TransactionBuilderMain = ({
   const [error] = useState(false);
   const [useAbi, setUseAbi] = useState(false);
   const [abiParsingError, setAbiParsingError] = useState<string | null>(null);
+  const [scAddressError, setScAddressError] = useState<string | null>(null);
   const [availableContractEndpoints, setAvailableContractEndpoints] = useState<
     string[] | null
   >(null);
@@ -79,8 +79,12 @@ export const TransactionBuilderMain = ({
     Record<string, string>
   >({});
 
-  const { amount, amountError, updateAmountErrorIfExists } =
-    useAmountInputController('0');
+  const {
+    amount,
+    amountError,
+    updateAmountErrorIfExists,
+    handleAmountInputChange,
+  } = useAmountInputController('0');
 
   useEffect(() => {
     try {
@@ -93,6 +97,7 @@ export const TransactionBuilderMain = ({
 
       const endpoints = existingContract.methods;
 
+      setAbiParsingError(null);
       setAvailableContractEndpoints(Object.keys(endpoints));
       setSmartContract(existingContract);
       setSelectedEndpoint(Object.keys(endpoints)?.[0]);
@@ -184,17 +189,25 @@ export const TransactionBuilderMain = ({
   const isCreateProposalButtonActive = useMemo(() => {
     const hasEndpointToCall = useAbi ? selectedEndpoint : functionName;
     const activeDueToSmartContract = useAbi ? smartContract : true;
+    const activeDueToArguments =
+      argumentsValidationResults.every((arg) => arg.isValid) ||
+      argumentsValidationResults.length === 0;
+
     return (
       !amountError &&
       hasEndpointToCall &&
+      activeDueToArguments &&
       activeDueToSmartContract &&
+      scAddressError === null &&
       callReceiverAddress &&
       callReceiverAddress.bech32().length > 0
     );
   }, [
     amountError,
+    argumentsValidationResults,
     callReceiverAddress,
     functionName,
+    scAddressError,
     selectedEndpoint,
     smartContract,
     useAbi,
@@ -210,10 +223,14 @@ export const TransactionBuilderMain = ({
               label="Smart Contract Address"
               placeholder="Enter Smart Contract Address"
               handleParamsChange={handleAddressParamChange}
+              handleAddressIsInvalid={(error) => {
+                setScAddressError(error);
+              }}
             />
           </Box>
           <Box>
             <AmountInputWithTokenSelection
+              onInputChange={handleAmountInputChange}
               onAmountError={updateAmountErrorIfExists}
               config={{
                 withTokenSelection: false,
@@ -257,14 +274,13 @@ export const TransactionBuilderMain = ({
                   value={abi}
                   multiline
                   maxRows="6"
-                  error={undefined}
                   autoComplete="off"
                   inputRef={focusInput}
-                  label={`Smart Contract ABI`}
+                  label="Smart Contract ABI"
                   onChange={handleAbiAsTextChanged}
-                  placeholder={`Paste Smart Contract ABI`}
-                  className={error ? 'isAddressError' : ''}
-                  helperText={error ? abiParsingError : null}
+                  placeholder="Paste Smart Contract ABI"
+                  className={error || abiParsingError ? 'isAddressError' : ''}
+                  helperText={abiParsingError ?? ''}
                 />
               </motion.div>
             )}
