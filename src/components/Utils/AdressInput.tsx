@@ -7,6 +7,10 @@ import { useCustomTheme } from 'src/hooks/useCustomTheme';
 
 interface AddressInputProps {
   handleParamsChange: (params: Address) => void;
+  handleAddressIsInvalid?: (
+    errorMessage: string | null,
+    newAddress: string,
+  ) => void;
   invalidAddress?: boolean;
   disabled?: boolean;
   placeholder?: string;
@@ -16,8 +20,9 @@ interface AddressInputProps {
 function AddressInput({
   handleParamsChange,
   disabled,
-  placeholder = 'Enter SC Address',
+  placeholder = 'Enter Address',
   label = 'Address',
+  handleAddressIsInvalid,
 }: AddressInputProps) {
   const theme = useCustomTheme();
   const [address, setAddress] = useState('');
@@ -34,20 +39,22 @@ function AddressInput({
         setError(false);
         setAddress(newAddress);
         handleParamsChange(parsedValue);
+        handleAddressIsInvalid?.(null, newAddress);
       } catch (err) {
         setAddress(newAddress);
         setError(true);
+        let errorMessage = 'Address is invalid!';
         if (newAddress.length < addressLength) {
-          setErrorMessage('Too short!');
-        } else {
-          setErrorMessage('Address is invalid!');
+          errorMessage = 'Too short!';
+        } else if (newAddress.length > addressLength) {
+          errorMessage = 'Address too long!';
         }
-        if (newAddress.length > addressLength) {
-          setErrorMessage('Address too long!');
-        }
+
+        setErrorMessage(errorMessage);
+        handleAddressIsInvalid?.(errorMessage, newAddress);
       }
     },
-    [handleParamsChange],
+    [handleAddressIsInvalid, handleParamsChange],
   );
 
   const minWidth600 = useMediaQuery('(min-width:600px)');
@@ -101,6 +108,7 @@ function AddressInput({
             zIndex: 0,
           },
         }}
+        inputProps={{ 'data-testid': 'address-input' }}
       />
     </div>
   );
