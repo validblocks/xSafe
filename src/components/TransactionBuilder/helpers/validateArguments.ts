@@ -1,4 +1,7 @@
 import { BytesValue } from '@multiversx/sdk-core/out';
+import { isIntegerNumber } from './isIntegerNumber';
+import { hasValidHexLength } from './hasValidHexLength';
+import { hasValidHexCharacters } from './hasValidHexCharacters';
 
 export type ArgumentValidationError = {
   index: number;
@@ -9,26 +12,25 @@ export type ArgumentValidationResult = {
   isValid: boolean;
   error?: ArgumentValidationError;
 };
-export function hasValidHexCharacters(hex: string): boolean {
-  return /^[0-9a-fA-F]*$/.test(hex);
-}
-
-export function hasValidHexLength(hex: string): boolean {
-  return hex.length % 2 === 0;
-}
 
 export function validateArguments(
-  newArgsToValidate?: string[],
+  newArgsToValidate: string[],
 ): ArgumentValidationResult[] {
   try {
-    console.log({ newArgsToValidate });
-
     const validationResult: ArgumentValidationResult[] = new Array(
       newArgsToValidate?.length,
     ).fill({ isValid: true });
 
     newArgsToValidate?.forEach((arg, index) => {
-      if (!hasValidHexLength(arg)) {
+      if (arg === undefined || arg === null) {
+        validationResult[index] = {
+          isValid: false,
+          error: { index, reason: 'Argument is empty/falsy' },
+        };
+        return;
+      }
+
+      if (!isIntegerNumber(arg) && !hasValidHexLength(arg)) {
         validationResult[index] = {
           isValid: false,
           error: { index, reason: 'Invalid hex string length' },
