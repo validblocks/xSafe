@@ -30,7 +30,7 @@ function CustomSelect<TValue extends string>({
   handleSelectionChanged,
   maxHeightUntilScroll = 200,
   padding = '1rem 0.75rem',
-  width = 250,
+  width = '250',
 }: ICustomSelectProps<TValue>) {
   const [option, setOption] =
     React.useState<ICustomSelectOption<TValue> | null>(options?.[0]);
