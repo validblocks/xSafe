@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import makeStyles from '@mui/styles/makeStyles/makeStyles';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
-import { MainSelect, TextInput } from '../Theme/StyledComponents';
-import { Box, MenuItem } from '@mui/material';
+import { TextInput } from '../Theme/StyledComponents';
+import { Box } from '@mui/material';
 import { SmartContract } from '@multiversx/sdk-core/out';
 import { useFormData } from 'src/hooks/useFormData';
+import CustomSelect from '../Utils/CustomSelect';
 
 interface Props<TValidationResult> {
   error: TValidationResult;
@@ -34,25 +34,6 @@ export const TransactionBuilderWithAbi = <TValidationResult,>({
     handleNewArgs,
   });
 
-  const useStyles = makeStyles(() => ({
-    dropdown: {
-      '& .MuiPaper-root': {
-        marginTop: '6px',
-        width: '155px',
-        backgroundColor: theme.palette.background.secondary,
-        '& .MuiButtonBase-root': {
-          color: theme.palette.text.primary,
-        },
-      },
-      '@media (max-width:600px)': {
-        '& .MuiPaper-root': {
-          width: '100%',
-        },
-      },
-    },
-  }));
-  const styleProp = useStyles();
-
   const onSelectedInputChanged = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       const value = e.target.value;
@@ -75,8 +56,18 @@ export const TransactionBuilderWithAbi = <TValidationResult,>({
     }
   }, [selectedEndpoint, smartContract]);
 
+  const endpointOptions = useMemo(
+    () =>
+      availableContractEndpoints.map((item) => ({
+        key: item,
+        value: item,
+        displayValue: item,
+      })),
+    [availableContractEndpoints],
+  );
+
   return (
-    <Box>
+    <Box data-testid="tbwa-container">
       <Box
         sx={{
           p: '2rem',
@@ -96,27 +87,11 @@ export const TransactionBuilderWithAbi = <TValidationResult,>({
         {availableContractEndpoints &&
         availableContractEndpoints?.length > 0 ? (
           <Box>
-            <MainSelect
-              id="endpoint-select"
-              value={selectedEndpoint ?? availableContractEndpoints?.[0]}
-              sx={{
-                width: '100%',
-                padding: '16px 14px !important',
-                '& .MuiSelect-select.MuiInputBase-input.MuiInput-input': {
-                  padding: '0 !important',
-                },
-              }}
-              size="medium"
-              variant="standard"
-              MenuProps={{ className: styleProp.dropdown }}
-              onChange={onSelectedInputChanged}
-            >
-              {availableContractEndpoints?.map((item) => (
-                <MenuItem key={item} value={item}>
-                  {item}
-                </MenuItem>
-              ))}
-            </MainSelect>
+            <CustomSelect
+              width="100%"
+              handleSelectionChanged={onSelectedInputChanged}
+              options={endpointOptions}
+            />
           </Box>
         ) : (
           <Box>
