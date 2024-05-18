@@ -79,7 +79,7 @@ export const CustomDataBuilder = React.memo(
 
     return (
       <>
-        <Box>
+        <Box data-testid="cdb-container">
           <Box
             sx={{
               borderTop: `2px solid ${theme.palette.background.default}`,
@@ -91,6 +91,7 @@ export const CustomDataBuilder = React.memo(
                 fontSize: '16px',
                 fontWeight: 'bold',
               }}
+              data-testid="cdb-title"
             >
               Custom Data
             </Text>

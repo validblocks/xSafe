@@ -48,13 +48,16 @@ export const TransactionBuilderCardHeader = ({
       </Box>
       <Box>
         <Stack direction="row" spacing={1} alignItems="center">
-          <Typography>{t('Custom Data')}</Typography>
+          <Typography data-testid="custom-data-option">
+            {t('Custom Data')}
+          </Typography>
           <AntSwitch
             onChange={handleChangeIsEnabled}
             value={isEnabled}
-            inputProps={{ 'aria-label': 'ant design' }}
+            data-testid="custom-data-switch"
+            inputProps={{ 'aria-label': 'ant design switch' }}
           />
-          <Typography>{t('Use ABI')}</Typography>
+          <Typography data-testid="use-abi-option">{t('Use ABI')}</Typography>
         </Stack>
       </Box>
     </Box>

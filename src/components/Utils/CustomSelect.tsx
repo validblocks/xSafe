@@ -14,7 +14,7 @@ interface ICustomSelectOption<TValue> {
 
 interface ICustomSelectProps<TValue> {
   label?: string;
-  width?: number;
+  width?: string;
   options: ICustomSelectOption<TValue>[];
   padding?: string;
   maxHeightUntilScroll?: number;
