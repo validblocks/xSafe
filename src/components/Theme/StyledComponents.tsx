@@ -528,6 +528,9 @@ export const TextInput = styled(({ sx, className, ...other }) => (
       & p {
         color: #e51a3e !important;
       }
+      & fieldset {
+        border-color: ${(props) => props.theme.palette.danger.main} !important;
+      }
     }
   }
 `;
