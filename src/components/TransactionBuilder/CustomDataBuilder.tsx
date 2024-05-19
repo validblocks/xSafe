@@ -141,7 +141,7 @@ export const CustomDataBuilder = React.memo(
                             value={formData[idx]}
                             onChange={onFormChange(idx.toString())}
                             className={
-                              !validationResults?.[idx]?.isValid
+                              validationResults?.[idx]?.isValid === false
                                 ? 'isAddressError'
                                 : ''
                             }
