@@ -36,7 +36,11 @@ export const TransactionBuilder = () => {
   return (
     <Box>
       <TransactionBuilderPageHeader />
-      <Box paddingBottom="24px" display="flex" flexWrap="wrap">
+      <Box
+        paddingBottom={minWidth600 ? '24px' : '80px'}
+        display="flex"
+        flexWrap="wrap"
+      >
         <Box minWidth={minWidth600 ? '500px' : '100%'} maxWidth="550px">
           <TransactionBuilderMain
             abi={localStorageAbi}
