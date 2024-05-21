@@ -7,78 +7,62 @@ describe('validateArguments', () => {
   });
 
   it('Should return an array of valid results for empty input', () => {
-    expect(validateArguments([])).toEqual([]);
+    expect(validateArguments({})).toEqual({});
   });
 
   it('Should validate arguments with valid hex characters and length', () => {
-    const args = ['a1b2c3'];
-    expect(validateArguments(args)).toEqual([{ isValid: true }]);
+    const args = { testKey: 'a1b2c3' };
+    expect(validateArguments(args)).toEqual({ testKey: { isValid: true } });
   });
 
   it('Should return invalid result for argument with invalid hex string length', () => {
-    const args = ['a1b2c'];
-    expect(validateArguments(args)).toEqual([
-      {
+    const args = { testKey: 'a1b2c' };
+    expect(validateArguments(args)).toEqual({
+      testKey: {
         isValid: false,
-        error: { index: 0, reason: 'Invalid hex string length' },
+        error: { key: 'testKey', reason: 'Invalid hex string length' },
       },
-    ]);
+    });
   });
 
   it('Should return invalid result for argument with invalid hex characters', () => {
-    const args = ['a1g2c3'];
-    expect(validateArguments(args)).toEqual([
-      {
+    const args = { testKey: 'a1g2c3' };
+    expect(validateArguments(args)).toEqual({
+      testKey: {
         isValid: false,
-        error: { index: 0, reason: 'Invalid hex characters' },
+        error: { key: 'testKey', reason: 'Invalid hex characters' },
       },
-    ]);
-  });
-
-  it('Should return invalid result for null argument', () => {
-    const args = [null] as any;
-    expect(validateArguments(args)).toEqual([
-      {
-        isValid: false,
-        error: { index: 0, reason: 'Argument is empty/falsy' },
-      },
-    ]);
-  });
-
-  it('Should return invalid result for undefined argument', () => {
-    const args = [undefined] as any;
-    expect(validateArguments(args)).toEqual([
-      {
-        isValid: false,
-        error: { index: 0, reason: 'Argument is empty/falsy' },
-      },
-    ]);
+    });
   });
 
   it('Should return valid result for empty string argument', () => {
-    const args = [''];
-    expect(validateArguments(args)).toEqual([
-      {
-        isValid: true,
-      },
-    ]);
+    const args = { testKey: '' };
+    expect(validateArguments(args)).toEqual({ testKey: { isValid: true } });
   });
 
   it('Should validate arguments that are integer numbers', () => {
-    const args = ['123456'];
-    expect(validateArguments(args)).toEqual([{ isValid: true }]);
+    const args = { testKey: '123456' };
+    expect(validateArguments(args)).toEqual({ testKey: { isValid: true } });
   });
 
   it('Should handle multiple arguments with mixed valid and invalid results', () => {
-    const args = ['123456', 'a1b', 'wxyz'];
-    const expectedResult = [
-      { isValid: true },
-      {
+    const args = {
+      testKey1: '123456',
+      testKey2: 'a1b',
+      testKey3: 'wxyz',
+    };
+
+    const expectedResult = {
+      testKey1: { isValid: true },
+      testKey2: {
         isValid: false,
-        error: { index: 1, reason: 'Invalid hex string length' },
+        error: { key: 'testKey2', reason: 'Invalid hex string length' },
       },
-      { isValid: false, error: { index: 2, reason: 'Invalid hex characters' } },
-    ];
+      testKey3: {
+        isValid: false,
+        error: { key: 'testKey3', reason: 'Invalid hex characters' },
+      },
+    };
     expect(validateArguments(args)).toEqual(expectedResult);
   });
 });
