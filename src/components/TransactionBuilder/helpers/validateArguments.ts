@@ -4,7 +4,7 @@ import { hasValidHexLength } from './hasValidHexLength';
 import { hasValidHexCharacters } from './hasValidHexCharacters';
 
 export type ArgumentValidationError = {
-  index: number;
+  key: string;
   reason: string;
 };
 
@@ -13,35 +13,40 @@ export type ArgumentValidationResult = {
   error?: ArgumentValidationError;
 };
 
-export function validateArguments(
-  newArgsToValidate: string[],
-): ArgumentValidationResult[] {
-  try {
-    const validationResult: ArgumentValidationResult[] = new Array(
-      newArgsToValidate?.length,
-    ).fill({ isValid: true });
+export type ValidationResults = Record<string, ArgumentValidationResult>;
 
-    newArgsToValidate?.forEach((arg, index) => {
+export function validateArguments(
+  newArgsToValidate: Record<string, string>,
+): ValidationResults {
+  try {
+    const validationResult: ValidationResults = Object.keys(
+      newArgsToValidate,
+    ).reduce((acc: ValidationResults, key: string) => {
+      acc[key] = { isValid: true };
+      return acc;
+    }, {});
+
+    Object.entries(newArgsToValidate)?.forEach(([key, arg]) => {
       if (arg === undefined || arg === null) {
-        validationResult[index] = {
+        validationResult[key] = {
           isValid: false,
-          error: { index, reason: 'Argument is empty/falsy' },
+          error: { key, reason: 'Argument is empty/falsy' },
         };
         return;
       }
 
       if (!isIntegerNumber(arg) && !hasValidHexLength(arg)) {
-        validationResult[index] = {
+        validationResult[key] = {
           isValid: false,
-          error: { index, reason: 'Invalid hex string length' },
+          error: { key, reason: 'Invalid hex string length' },
         };
         return;
       }
 
       if (!hasValidHexCharacters(arg)) {
-        validationResult[index] = {
+        validationResult[key] = {
           isValid: false,
-          error: { index, reason: 'Invalid hex characters' },
+          error: { key, reason: 'Invalid hex characters' },
         };
         return;
       }

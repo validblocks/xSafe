@@ -167,16 +167,15 @@ export const TransactionBuilderMain = ({
   }, []);
 
   const [argumentsValidationResults, setArgumentsValidationResults] = useState<
-    ArgumentValidationResult[]
-  >([]);
+    Record<string, ArgumentValidationResult>
+  >({});
 
   const onNewArgsReceived = useCallback(
     (newArgs: Record<string, string>) => {
       try {
+        console.log({ newArgs });
         setCallArgumentsMap(newArgs);
-        const argumentsValidationResultsResult = validateArguments(
-          Object.values(newArgs),
-        );
+        const argumentsValidationResultsResult = validateArguments(newArgs);
 
         setArgumentsValidationResults(argumentsValidationResultsResult);
       } catch (e) {
@@ -190,8 +189,8 @@ export const TransactionBuilderMain = ({
     const hasEndpointToCall = useAbi ? selectedEndpoint : functionName;
     const activeDueToSmartContract = useAbi ? smartContract : true;
     const activeDueToArguments =
-      argumentsValidationResults.every((arg) => arg.isValid) ||
-      argumentsValidationResults.length === 0;
+      Object.values(argumentsValidationResults).every((arg) => arg.isValid) ||
+      Object.values(argumentsValidationResults).length === 0;
 
     return (
       !amountError &&
