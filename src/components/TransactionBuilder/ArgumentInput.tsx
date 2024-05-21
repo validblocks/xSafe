@@ -37,7 +37,10 @@ export const ArgumentInput = memo(
           'data-testid': testId,
           endAdornment: (
             <InputAdornment position="end">
-              <Box onPointerDown={handleStartDragAndDrop}>
+              <Box
+                onPointerDown={handleStartDragAndDrop}
+                style={{ touchAction: 'none' }}
+              >
                 <DragIndicatorIcon sx={{ color: '#6B6B6B' }} />
               </Box>
             </InputAdornment>
