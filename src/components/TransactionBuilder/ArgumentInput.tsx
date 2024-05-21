@@ -1,5 +1,7 @@
 import React, { memo } from 'react';
 import { TextInput } from '../Theme/StyledComponents';
+import { Box, InputAdornment } from '@mui/material';
+import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
 
 interface ArgumentInputProps {
   value: string;
@@ -8,7 +10,9 @@ interface ArgumentInputProps {
   placeholder?: string;
   testId?: string;
   className?: string;
+  handleStartDragAndDrop?: (e: React.PointerEvent<HTMLDivElement>) => void;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  otherProps?: any;
 }
 
 export const ArgumentInput = memo(
@@ -19,6 +23,7 @@ export const ArgumentInput = memo(
     className,
     placeholder,
     label,
+    handleStartDragAndDrop,
   }: ArgumentInputProps) => {
     return (
       <TextInput
@@ -28,7 +33,16 @@ export const ArgumentInput = memo(
         autoComplete="off"
         onChange={onChange}
         className={className}
-        inputProps={{ 'data-testid': testId }}
+        InputProps={{
+          'data-testid': testId,
+          endAdornment: (
+            <InputAdornment position="end">
+              <Box onPointerDown={handleStartDragAndDrop}>
+                <DragIndicatorIcon sx={{ color: '#6B6B6B' }} />
+              </Box>
+            </InputAdornment>
+          ),
+        }}
       />
     );
   },
