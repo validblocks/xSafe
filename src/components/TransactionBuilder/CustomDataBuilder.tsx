@@ -48,7 +48,11 @@ export const CustomDataBuilder = React.memo(
       setCustomArgs((oldArgs) => {
         const newArgs = [
           ...oldArgs,
-          { value: '', type: 'custom', key: `${oldArgs.length}-arg` },
+          {
+            value: '',
+            type: 'custom',
+            key: `${Math.floor(Math.random() * 10000)}`,
+          },
         ];
         return newArgs;
       });
