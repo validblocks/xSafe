@@ -4,7 +4,7 @@ import { renderWithProviders } from './utils/renderWithProviders';
 import userEvent from '@testing-library/user-event';
 import { TransactionBuilderMain } from 'src/components/TransactionBuilder/TransactionBuilderMain';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
-import { Address, BigUIntValue, BytesValue } from '@multiversx/sdk-core/out';
+import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
 import BigNumber from 'bignumber.js';
 
 const ABI = `{
@@ -483,56 +483,6 @@ describe('TransactionBuilderMain component', () => {
   });
 
   const customDataArgumentsTestCases = [
-    {
-      description:
-        'Should call mutateSmartContractCall correctly with 2 hex and 1 number (even hex length) arguments',
-      functionName: 'myFunction',
-      address: 'erd1qqqqqqqqqqqqqpgqtgysergzw6lxv9kepk2hm466huvkgjr9r78s7swzhl',
-      arguments: ['aa', 'bb', '1000'],
-      callAmount: { numeric: 1234, expectedFormatted: '1,234' },
-      expectedArguments: [
-        new Address(
-          'erd1qqqqqqqqqqqqqpgqtgysergzw6lxv9kepk2hm466huvkgjr9r78s7swzhl',
-        ),
-        new BigUIntValue(
-          new BigNumber(Number('1234'))
-            .shiftedBy(18)
-            .decimalPlaces(0, BigNumber.ROUND_FLOOR),
-        ),
-        'myFunction',
-        BytesValue.fromHex('aa'),
-        BytesValue.fromHex('bb'),
-        BytesValue.fromHex('1000'),
-      ],
-    },
-    {
-      description:
-        'Should call mutateSmartContractCall correctly with 2 hex and 1 number (odd hex length) arguments',
-      functionName: 'myFunction',
-      address: 'erd1qqqqqqqqqqqqqpgqtgysergzw6lxv9kepk2hm466huvkgjr9r78s7swzhl',
-      callAmount: { numeric: 123.456, expectedFormatted: '123.456' },
-      arguments: [
-        '6572643171717171717171717171717171706771746779736572677a77366c7876396b65706b32686d3436366875766b676a7239723738733773777a686c',
-        'bb',
-        '100',
-      ],
-      expectedArguments: [
-        new Address(
-          'erd1qqqqqqqqqqqqqpgqtgysergzw6lxv9kepk2hm466huvkgjr9r78s7swzhl',
-        ),
-        new BigUIntValue(
-          new BigNumber(Number('123.456'))
-            .shiftedBy(18)
-            .decimalPlaces(0, BigNumber.ROUND_FLOOR),
-        ),
-        'myFunction',
-        BytesValue.fromHex(
-          '6572643171717171717171717171717171706771746779736572677a77366c7876396b65706b32686d3436366875766b676a7239723738733773777a686c',
-        ),
-        BytesValue.fromHex('bb'),
-        BytesValue.fromHex('100'),
-      ],
-    },
     {
       description:
         'Should call mutateSmartContractCall correctly with no arguments',

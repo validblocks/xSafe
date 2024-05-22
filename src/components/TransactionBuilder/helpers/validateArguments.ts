@@ -1,5 +1,4 @@
 import { BytesValue } from '@multiversx/sdk-core/out';
-import { isIntegerNumber } from './isIntegerNumber';
 import { hasValidHexLength } from './hasValidHexLength';
 import { hasValidHexCharacters } from './hasValidHexCharacters';
 
@@ -35,7 +34,7 @@ export function validateArguments(
         return;
       }
 
-      if (!isIntegerNumber(arg) && !hasValidHexLength(arg)) {
+      if (!hasValidHexLength(arg)) {
         validationResult[key] = {
           isValid: false,
           error: { key, reason: 'Invalid hex string length' },
