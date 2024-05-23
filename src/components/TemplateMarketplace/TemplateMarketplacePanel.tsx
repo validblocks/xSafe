@@ -1,27 +1,15 @@
-import { useQuery } from 'react-query';
-import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
-import { QueryKeys } from 'src/react-query/queryKeys';
 import TemplateCard from './TemplateCard';
 import { Grid, useMediaQuery } from '@mui/material';
-import axios from 'axios';
-import { Template } from 'src/types/templates';
+import { useTemplates } from 'src/hooks/useTemplates';
 
 export const TemplateMarketplacePanel = () => {
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
-  const api = 'http://localhost:3000';
-  const fetchTemplates = (): Promise<Template[]> =>
-    axios.get(`${api}/templates`).then((r) => r.data);
-
-  const { data } = useQuery(
-    [QueryKeys.CALL_TEMPLATES],
-    fetchTemplates,
-    USE_QUERY_DEFAULT_CONFIG,
-  );
+  const { templates } = useTemplates();
 
   return (
     <Grid container spacing={2}>
-      {data?.map((template, idx) => (
+      {templates?.map((template, idx) => (
         <Grid
           item
           xs={12}
