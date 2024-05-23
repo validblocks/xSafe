@@ -7,6 +7,7 @@ import {
 } from 'src/types/multisig/proposals/Proposals';
 import { NFTType } from 'src/types/nfts';
 import { logoutAction } from '../commonActions';
+import { Template } from 'src/types/templates';
 
 interface TxSubmittedModal {
   sessionId: string;
@@ -33,6 +34,7 @@ interface PerformActionModal {
   selectedToken: any | null;
   selectedNft: any | null;
   selectedStakingProvider: any | null;
+  selectedTemplate: Template | null;
 }
 
 interface ProposeModal {
@@ -63,6 +65,7 @@ const initialState: ModalsSliceState = {
     selectedToken: null,
     selectedNft: null,
     selectedStakingProvider: null,
+    selectedTemplate: null,
   },
 };
 
@@ -112,6 +115,12 @@ export const modalsSlice = createSlice({
     ) => {
       state.performActionModal.selectedToken = action.payload;
     },
+    setSelectedTemplateToSave: (
+      state: ModalsSliceState,
+      action: PayloadAction<Template>,
+    ) => {
+      state.performActionModal.selectedTemplate = action.payload;
+    },
     setSelectedNftToSend: (
       state: ModalsSliceState,
       action: PayloadAction<NFTType>,
@@ -142,6 +151,7 @@ export const {
   setSelectedTokenToSend,
   setSelectedNftToSend,
   setSelectedStakingProvider,
+  setSelectedTemplateToSave,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

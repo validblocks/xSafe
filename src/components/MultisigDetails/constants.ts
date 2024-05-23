@@ -29,4 +29,5 @@ export const titles = {
   [ProposalsTypes.withdraw_funds]: 'Withdraw funds',
   [ModalTypes.connect_wallet]: 'Connect Wallet',
   [ModalTypes.change_owner]: 'Change Owner',
+  [ModalTypes.save_template]: 'Save Template',
 };

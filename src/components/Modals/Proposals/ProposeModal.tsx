@@ -34,6 +34,7 @@ import ProposeChangeQuorum from './ProposeChangeQuorum';
 import ProposeInputAddress from '../../Utils/ProposeInputAddress';
 import ProposeRemoveUser from './ProposeRemoveUser';
 import ReplaceOwner from '../MemberActions/ReplaceOwner';
+import { SaveTemplateModalContent } from '../Templates/SaveTemplateModalContent';
 
 interface ProposeModalPropsType {
   selectedOption: SelectedOptionType | ModalOptionType;
@@ -180,6 +181,8 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
         );
       case ModalTypes.change_owner:
         return <ChangeOwnerModalContent />;
+      case ModalTypes.save_template:
+        return <SaveTemplateModalContent />;
       default:
     }
   }, [handleAddressParamChange, handleNumericParamChange, selectedOption]);
@@ -217,6 +220,9 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
       case ModalTypes.change_owner: {
         return 'Change Owner';
       }
+      case ModalTypes.save_template: {
+        return 'Save template';
+      }
       default:
         return 'Add member';
     }
@@ -228,7 +234,11 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
 
   const actionsWithoutGenericProposalHandler: Array<
     ModalTypes | ProposalsTypes
-  > = [ModalTypes.connect_wallet, ModalTypes.change_owner];
+  > = [
+    ModalTypes.connect_wallet,
+    ModalTypes.change_owner,
+    ModalTypes.save_template,
+  ];
 
   const getModalActions = () => {
     if (actionsWithoutGenericProposalHandler.includes(selectedOption.option))

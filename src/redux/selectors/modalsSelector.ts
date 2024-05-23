@@ -51,6 +51,11 @@ export const selectedTokenToSendSelector = createDeepEqualSelector(
   (state) => state.selectedToken ?? { identifier: 'EGLD' },
 );
 
+export const selectedTemplateToSendSelector = createDeepEqualSelector(
+  performActionModalSelector,
+  (state) => state.selectedTemplate,
+);
+
 export const selectedNftToSendSelector = createDeepEqualSelector(
   performActionModalSelector,
   (state) => state.selectedNft,
