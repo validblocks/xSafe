@@ -37,7 +37,7 @@ const StakingFormStepTwo = () => {
     handleAmountInputChange,
     amount,
     amountErrorAfterTouch,
-    updateAmountErrorAfterTouchIfExists,
+    updateAmountErrorAfterTouch,
   } = useAmountInputController('1');
   const { setIsFinalStepButtonActive, setBuiltFinalActionHandler } =
     useMultistepFormContext();
@@ -186,7 +186,7 @@ const StakingFormStepTwo = () => {
         onAmountIsLessThanAllowed={disableFinalStep}
         onAmountIsZero={disableFinalStep}
         onAmountIsNaN={disableFinalStep}
-        onAmountErrorAfterTouch={updateAmountErrorAfterTouchIfExists}
+        onAmountErrorAfterTouch={updateAmountErrorAfterTouch}
         onSuccessfulAmountValidation={enableFinalStep}
         config={{ withTokenSelection: false, withAvailableAmount: true }}
       />

@@ -64,12 +64,12 @@ export const SaveTemplateModalContent = () => {
     selectedTemplateToSend?.owner ?? walletAddress,
   );
 
-  const _onSelectedTemplateTypeChanged = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      setSelectedTemplateType(e.target.value as TemplateType);
-    },
-    [],
-  );
+  // const _onSelectedTemplateTypeChanged = useCallback(
+  //   (e: React.ChangeEvent<HTMLSelectElement>) => {
+  //     setSelectedTemplateType(e.target.value as TemplateType);
+  //   },
+  //   [],
+  // );
 
   useEffect(() => {
     if (ownerContainerRef.current) {
