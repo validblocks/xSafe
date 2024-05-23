@@ -1,73 +1,75 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
-import { Box, useMediaQuery } from '@mui/material';
-import { TransactionBuilderPageHeader } from 'src/components/TransactionBuilder/TransactionBuilderPageHeader';
-import { TransactionBuilderMain } from 'src/components/TransactionBuilder/TransactionBuilderMain';
-import { Dropzone } from 'src/components/TransactionBuilder/DropZone';
-import { LOCAL_STORAGE_KEYS } from 'src/components/Marketplace/localStorageKeys';
-import { useLocalStorage } from 'src/hooks/useLocalStorage';
-import { useCallback, useState } from 'react';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
+import { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { TemplateMarketplacePanel } from 'src/components/TemplateMarketplace/TemplateMarketplacePanel';
+import { TransactionBuilderPanel } from 'src/components/TransactionBuilder/TransactionBuilderPanel';
+import ContainerWithPanels from 'src/components/Utils/ContainerWithPanels';
+import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
+import routeNames from 'src/routes/routeNames';
+import { parseMultisigAddress } from 'src/utils/addressUtils';
 
 export const TransactionBuilder = () => {
-  const minWidth600 = useMediaQuery('(min-width:600px)');
-  const minWidth1120 = useMediaQuery('(min-width:1120px)');
+  const navigate = useNavigate();
+  const { isLoggedIn } = useGetLoginInfo();
+  const currentContract = useSelector(currentMultisigContractSelector);
 
-  const [localStorageAbi, setLocalStorageAbi] = useLocalStorage(
-    LOCAL_STORAGE_KEYS.UPLOADED_ABI_TEXT,
-    '',
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const tabFromQuery = queryParams.get('tab');
+
+  useEffect(() => {
+    if (
+      !isLoggedIn ||
+      !currentContract?.address ||
+      !parseMultisigAddress(currentContract?.address)
+    ) {
+      navigate(routeNames.multisig);
+    }
+  }, [currentContract?.address, isLoggedIn, navigate]);
+
+  const panels = useMemo(
+    () => [
+      {
+        title: 'Smart Contract Interactions',
+        content: <TransactionBuilderPanel />,
+        tab: 'sc-interactions',
+      },
+      {
+        title: 'Template Marketplace',
+        content: <TemplateMarketplacePanel />,
+        tab: 'template-marketplace',
+      },
+    ],
+    [],
   );
 
-  const handleAbiAsTextChanged = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      setLocalStorageAbi(event?.target.value);
-    },
-    [setLocalStorageAbi],
+  const [tabIndex, setTabIndex] = useState(
+    tabFromQuery &&
+      panels.findIndex((panel) => panel.tab === tabFromQuery) !== -1
+      ? panels.findIndex((panel) => panel.tab === tabFromQuery)
+      : 0,
   );
 
-  const updateAbiTextContent = useCallback(
-    (content: string) => {
-      setLocalStorageAbi(content);
-    },
-    [setLocalStorageAbi],
-  );
+  useEffect(() => {
+    navigate(`?tab=${panels[tabIndex].tab}`);
+  }, [navigate, panels, tabIndex]);
 
-  const [isUseAbiEnabled, setIsUseAbiEnabled] = useState(false);
+  useEffect(() => {
+    const index = panels.findIndex((panel) => panel.tab === tabFromQuery);
+
+    if (index !== -1) {
+      setTabIndex(index);
+    }
+  }, [navigate, panels, tabFromQuery]);
 
   return (
-    <Box>
-      <TransactionBuilderPageHeader />
-      <Box
-        paddingBottom={minWidth600 ? '24px' : '80px'}
-        display="flex"
-        flexWrap="wrap"
-      >
-        <Box minWidth={minWidth600 ? '500px' : '100%'} maxWidth="550px">
-          <TransactionBuilderMain
-            abi={localStorageAbi}
-            handleAbiAsTextChanged={handleAbiAsTextChanged}
-            handleIsUseAbiEnabledChange={setIsUseAbiEnabled}
-          />
-        </Box>
-        {isUseAbiEnabled && (
-          <Box
-            display="flex"
-            flexDirection="column"
-            alignItems="center"
-            pt={minWidth1120 ? 12 : 2}
-            sx={{
-              minWidth: minWidth1120
-                ? '320px'
-                : minWidth600
-                ? `min(100%, 500px)`
-                : '100%',
-              height: minWidth1120 ? '200px' : '120px',
-              px: minWidth1120 ? 2 : 0,
-            }}
-          >
-            <Dropzone handleTextFileContent={updateAbiTextContent} />
-          </Box>
-        )}
-      </Box>
-    </Box>
+    <div>
+      <ContainerWithPanels
+        panels={panels}
+        initialTabIndex={tabIndex}
+        onTabChange={(tab: number) => setTabIndex(tab)}
+      />
+    </div>
   );
 };
