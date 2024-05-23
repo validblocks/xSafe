@@ -27,6 +27,8 @@ import {
 import { TransactionBuilderCardHeader } from './TransactionBuilderCardHeader';
 import { CustomDataBuilder } from './CustomDataBuilder';
 import { TransactionBuilderWithAbi } from './TransactionBuilderWithAbi';
+import { useSelector } from 'react-redux';
+import { selectedTemplateToSendSelector } from 'src/redux/selectors/modalsSelector';
 
 interface Props {
   abi: string;
@@ -46,10 +48,11 @@ export const TransactionBuilderMain = ({
 }: Props) => {
   const t = useCustomTranslation();
   const minWidth600 = useMediaQuery('(min-width:600px)');
+  const selectedTemplate = useSelector(selectedTemplateToSendSelector);
 
   const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
-      functionName: '',
+      functionName: selectedTemplate?.endpoint ?? '',
     },
     validationSchema: Yup.object().shape({
       functionName: Yup.string(),
@@ -69,7 +72,6 @@ export const TransactionBuilderMain = ({
     string[] | null
   >(null);
   const [selectedEndpoint, setSelectedEndpoint] = useState<string | null>(null);
-
   const [callReceiverAddress, setSelectedAddressParam] =
     useState<Address | null>(null);
   const [smartContract, setSmartContract] = useState<SmartContract | null>(
@@ -79,12 +81,8 @@ export const TransactionBuilderMain = ({
     Record<string, string>
   >({});
 
-  const {
-    amount,
-    amountError,
-    updateAmountErrorIfExists,
-    handleAmountInputChange,
-  } = useAmountInputController('0');
+  const { amount, amountError, updateAmountError, handleAmountInputChange } =
+    useAmountInputController(selectedTemplate?.value ?? '0');
 
   useEffect(() => {
     try {
@@ -173,7 +171,6 @@ export const TransactionBuilderMain = ({
   const onNewArgsReceived = useCallback(
     (newArgs: Record<string, string>) => {
       try {
-        console.log({ newArgs });
         setCallArgumentsMap(newArgs);
         const argumentsValidationResultsResult = validateArguments(newArgs);
 
@@ -220,6 +217,7 @@ export const TransactionBuilderMain = ({
           <Box pb={2}>
             <AddressInput
               label="Smart Contract Address"
+              initialAddress={selectedTemplate?.receiver ?? ''}
               placeholder="Enter Smart Contract Address"
               handleParamsChange={handleAddressParamChange}
               handleAddressIsInvalid={(error) => {
@@ -229,8 +227,9 @@ export const TransactionBuilderMain = ({
           </Box>
           <Box>
             <AmountInputWithTokenSelection
+              initialAmount={selectedTemplate?.value ?? '0'}
               onInputChange={handleAmountInputChange}
-              onAmountError={updateAmountErrorIfExists}
+              onAmountError={updateAmountError}
               config={{
                 withTokenSelection: false,
                 withAvailableAmount: true,

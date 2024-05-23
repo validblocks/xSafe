@@ -55,6 +55,7 @@ const AmountInputWithTokenSelection = memo(
     onAmountError,
     onAmountErrorAfterTouch,
     minAmountAllowed = '0',
+    initialAmount = '0',
     maxValue,
     config: {
       withAvailableAmount = true,
@@ -73,7 +74,7 @@ const AmountInputWithTokenSelection = memo(
 
     const formik: FormikProps<IFormValues> = useFormik({
       initialValues: {
-        amount: minAmountAllowed ?? '0',
+        amount: initialAmount ?? minAmountAllowed ?? '0',
       },
       onSubmit: () => Promise.resolve(null),
       validationSchema: Yup.object().shape({
@@ -89,6 +90,7 @@ const AmountInputWithTokenSelection = memo(
           })
           .test((value?: string, testContext?: TestContext) => {
             const newAmount = Number(value);
+            console.log('newAmountTested', newAmount);
             const isNotANumber = Number.isNaN(newAmount);
             if (isNotANumber) {
               onAmountIsNaN?.();
@@ -111,6 +113,8 @@ const AmountInputWithTokenSelection = memo(
             }
 
             const maxValueAllowed = maxValue ? maxValue : balance;
+            console.log('maxValueAllowed', maxValueAllowed);
+            console.log('newAmount', newAmount);
             const isAmountBiggerThanBalance =
               newAmount > Number(maxValueAllowed);
 
@@ -123,6 +127,8 @@ const AmountInputWithTokenSelection = memo(
               );
             }
 
+            console.log('onSuccessfulAmountValidation?.();', value);
+            formik.setFieldError('amount', undefined);
             onSuccessfulAmountValidation?.();
             return true;
           }),
@@ -142,9 +148,7 @@ const AmountInputWithTokenSelection = memo(
       if (hasAmountErrorsAfterTouch && onAmountErrorAfterTouch) {
         return onAmountErrorAfterTouch?.(errors.amount);
       }
-      if (hasAmountErrors) {
-        onAmountError?.(errors.amount);
-      }
+      onAmountError?.(errors.amount);
     }, [
       hasAmountErrors,
       hasAmountErrorsAfterTouch,

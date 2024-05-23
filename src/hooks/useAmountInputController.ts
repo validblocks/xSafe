@@ -14,12 +14,12 @@ export const useAmountInputController = (initialValue: string) => {
     [],
   );
 
-  const updateAmountErrorIfExists = useCallback(
-    (amountErr?: string) => amountErr && setAmountError(amountErr),
+  const updateAmountError = useCallback(
+    (amountErr?: string) => setAmountError(amountErr ?? null),
     [],
   );
 
-  const updateAmountErrorAfterTouchIfExists = useCallback(
+  const updateAmountErrorAfterTouch = useCallback(
     (amountErr?: string) => amountErr && setAmountError(amountErr),
     [],
   );
@@ -33,16 +33,16 @@ export const useAmountInputController = (initialValue: string) => {
       amountErrorAfterTouch,
       setAmountErrorAfterTouch,
       handleAmountInputChange,
-      updateAmountErrorIfExists,
-      updateAmountErrorAfterTouchIfExists,
+      updateAmountError,
+      updateAmountErrorAfterTouch,
     }),
     [
       amount,
       amountError,
       amountErrorAfterTouch,
       handleAmountInputChange,
-      updateAmountErrorAfterTouchIfExists,
-      updateAmountErrorIfExists,
+      updateAmountErrorAfterTouch,
+      updateAmountError,
     ],
   );
 };

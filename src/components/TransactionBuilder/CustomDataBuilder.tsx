@@ -9,6 +9,8 @@ import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { DraggableCustomArgument } from './DraggableCustomArgument';
 import { ValidationResults } from './helpers/validateArguments';
+import { useSelector } from 'react-redux';
+import { selectedTemplateToSendSelector } from 'src/redux/selectors/modalsSelector';
 
 export type CustomArg = {
   value: string;
@@ -35,10 +37,27 @@ export const CustomDataBuilder = React.memo(
   }: Props<TValidationResults>) => {
     const t = useCustomTranslation();
     const theme = useCustomTheme();
+    const selectedTemplate = useSelector(selectedTemplateToSendSelector);
 
-    const [customArgs, setCustomArgs] = useState<CustomArg[]>([]);
-    const [functionName, setFunctionName] = useState<string>('');
-    const [formData, setFormData] = useState<Record<string, string>>({});
+    const [customArgs, setCustomArgs] = useState<CustomArg[]>(
+      selectedTemplate?.params.map((p: string) => ({
+        value: p,
+        type: 'custom',
+        key: Math.floor(Math.random() * 100000),
+      })) ?? [],
+    );
+    const [functionName, setFunctionName] = useState<string>(
+      selectedTemplate?.endpoint ?? '',
+    );
+    const [formData, setFormData] = useState<Record<string, string>>(
+      customArgs?.reduce(
+        (acc: Record<string, string>, arg: CustomArg) => ({
+          ...acc,
+          [arg.key]: arg.value,
+        }),
+        {},
+      ) ?? {},
+    );
 
     useEffect(() => {
       handleNewArgs?.(formData);

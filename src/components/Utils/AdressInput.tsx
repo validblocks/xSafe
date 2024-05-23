@@ -15,6 +15,7 @@ interface AddressInputProps {
   disabled?: boolean;
   placeholder?: string;
   label?: string;
+  initialAddress?: string;
 }
 
 function AddressInput({
@@ -23,9 +24,10 @@ function AddressInput({
   placeholder = 'Enter Address',
   label = 'Address',
   handleAddressIsInvalid,
+  initialAddress = '',
 }: AddressInputProps) {
   const theme = useCustomTheme();
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(initialAddress ?? '');
   const [error, setError] = useState(false);
   const t = useCustomTranslation();
   const [errorMessage, setErrorMessage] = useState('');
