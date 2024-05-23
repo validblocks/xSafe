@@ -50,3 +50,11 @@ export const AppCard = styled(Card)(({ theme }) => ({
     },
   },
 }));
+
+export const TemplateCard = styled(AppCard)(({ theme: _ }) => ({
+  '&&&': {
+    padding: '0',
+    width: 'auto',
+    boxShadow: 'none',
+  },
+}));
