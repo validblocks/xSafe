@@ -19,7 +19,6 @@ export const TemplateMarketplacePanel = () => {
     USE_QUERY_DEFAULT_CONFIG,
   );
 
-  console.log({ data });
   return (
     <Grid container spacing={2}>
       {data?.map((template, idx) => (

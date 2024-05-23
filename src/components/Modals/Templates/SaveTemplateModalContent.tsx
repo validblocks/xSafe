@@ -71,8 +71,6 @@ export const SaveTemplateModalContent = () => {
     [],
   );
 
-  console.log({ selectedTemplateToSend });
-
   useEffect(() => {
     if (ownerContainerRef.current) {
       setAdjustedOwnerAddress(
