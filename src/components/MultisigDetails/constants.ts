@@ -30,4 +30,5 @@ export const titles = {
   [ModalTypes.connect_wallet]: 'Connect Wallet',
   [ModalTypes.change_owner]: 'Change Owner',
   [ModalTypes.save_template]: 'Save Template',
+  [ModalTypes.create_template]: 'Create Template',
 };

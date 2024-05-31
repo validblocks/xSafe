@@ -1,20 +1,39 @@
-import axios from 'axios';
+import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
-import { xSafeApiUrl } from 'src/config';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
+import { SafeApi } from 'src/services/xSafeApiProvider';
 import { Template } from 'src/types/templates';
 
-export const useTemplates = () => {
-  const fetchTemplates = (): Promise<Template[]> =>
-    axios.get(`${xSafeApiUrl}/templates`).then((r) => r.data);
+interface UseTemplatesParams {
+  type?: 'personal' | 'organization' | 'public';
+  receiver?: string;
+  ownerAddress?: string;
+}
 
-  const { data } = useQuery(
-    [QueryKeys.CALL_TEMPLATES],
+export const useTemplates = ({
+  type,
+  receiver,
+  ownerAddress,
+}: UseTemplatesParams) => {
+  const loginInfo = useGetLoginInfo();
+
+  const fetchTemplates = (): Promise<Template[]> =>
+    SafeApi.getAllTemplates(loginInfo.tokenLogin?.nativeAuthToken ?? '', {
+      type,
+      receiver,
+      ownerAddress,
+    });
+
+  const queryTemplatesResult = useQuery(
+    [QueryKeys.TEMPLATES, type, receiver, ownerAddress],
     fetchTemplates,
-    USE_QUERY_DEFAULT_CONFIG,
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+      enabled: !!loginInfo.tokenLogin?.nativeAuthToken,
+    },
   );
 
-  return useMemo(() => ({ templates: data }), [data]);
+  return useMemo(() => queryTemplatesResult, [queryTemplatesResult]);
 };

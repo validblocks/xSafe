@@ -4,10 +4,12 @@ import { useEffect, useState } from 'react';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import * as Styled from './styled';
 import { GESTURE, GestureObserver } from 'src/utils/GestureObserver';
+import { uniqueId } from 'lodash';
 
 interface IPanel {
   title: string;
   content: React.ReactNode;
+  filters?: React.ReactNode;
 }
 
 interface ContainerWithPanelProps {
@@ -26,7 +28,6 @@ const ContainerWithPanels = ({
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
-    console.log('newValue', newValue);
     onTabChange && onTabChange(newValue);
     setSelectedTab(newValue);
   };
@@ -64,7 +65,18 @@ const ContainerWithPanels = ({
 
   return (
     <Styled.ContainerWithPanelsTopBox>
-      <Styled.TabContainerBox>
+      <Styled.TabContainerBox
+        sx={{
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'space-between',
+          '& .MuiTabs-flexContainer': {
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: '100%',
+          },
+        }}
+      >
         <Styled.MainTab value={selectedTab} onChange={handleChange}>
           {panels.map((panel, index) => (
             <Tab
@@ -80,6 +92,25 @@ const ContainerWithPanels = ({
             />
           ))}
         </Styled.MainTab>
+        <Box>
+          {panels.map(
+            (panel, index) =>
+              selectedTab === index &&
+              panel.filters && (
+                <Box
+                  key={uniqueId()}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-end',
+                    gap: '10px',
+                  }}
+                >
+                  {panel.filters}
+                </Box>
+              ),
+          )}
+        </Box>
       </Styled.TabContainerBox>
       <Box padding={maxWidth600 ? '60px 0 24px' : '12px 0 0'}>
         {panels.map((panel, index) => (

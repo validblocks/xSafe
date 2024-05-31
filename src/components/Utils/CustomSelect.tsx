@@ -6,7 +6,7 @@ import * as Styled from 'src/components/Utils/styled';
 import { StyledSelect } from 'src/components/MultisigDetails/styled';
 import { Text } from '../StyledComponents/StyledComponents';
 
-interface ICustomSelectOption<TValue> {
+export interface ICustomSelectOption<TValue> {
   displayValue: string;
   value: TValue;
   key?: string;

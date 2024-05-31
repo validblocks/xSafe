@@ -168,7 +168,8 @@ describe('AmountInputWithTokenSelection component', () => {
                     },
                     selectedNft: null,
                     selectedStakingProvider: null,
-                    selectedTemplate: null,
+                    selectedTemplateForSaving: null,
+                    selectedTemplateForCreation: null,
                   },
                 },
                 accountGeneralInfo: {
@@ -521,7 +522,8 @@ describe('AmountInputWithTokenSelection component', () => {
                   },
                   selectedNft: null,
                   selectedStakingProvider: null,
-                  selectedTemplate: null,
+                  selectedTemplateForCreation: null,
+                  selectedTemplateForSaving: null,
                 },
               },
               accountGeneralInfo: {
@@ -607,7 +609,8 @@ describe('AmountInputWithTokenSelection component', () => {
                   },
                   selectedNft: null,
                   selectedStakingProvider: null,
-                  selectedTemplate: null,
+                  selectedTemplateForSaving: null,
+                  selectedTemplateForCreation: null,
                 },
               },
               accountGeneralInfo: {

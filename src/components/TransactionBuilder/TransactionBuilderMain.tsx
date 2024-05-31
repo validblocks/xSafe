@@ -25,10 +25,11 @@ import {
   validateArguments,
 } from './helpers/validateArguments';
 import { TransactionBuilderCardHeader } from './TransactionBuilderCardHeader';
-import { CustomDataBuilder } from './CustomDataBuilder';
+import { CustomArg, CustomDataBuilder } from './CustomDataBuilder';
 import { TransactionBuilderWithAbi } from './TransactionBuilderWithAbi';
-import { useSelector } from 'react-redux';
-import { selectedTemplateToSendSelector } from 'src/redux/selectors/modalsSelector';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectedTemplateForSavingSelector } from 'src/redux/selectors/modalsSelector';
+import { setSelectedTemplateForCreation } from 'src/redux/slices/modalsSlice';
 
 interface Props {
   abi: string;
@@ -46,9 +47,10 @@ export const TransactionBuilderMain = ({
   handleAbiAsTextChanged,
   handleIsUseAbiEnabledChange,
 }: Props) => {
+  const dispatch = useDispatch();
   const t = useCustomTranslation();
   const minWidth600 = useMediaQuery('(min-width:600px)');
-  const selectedTemplate = useSelector(selectedTemplateToSendSelector);
+  const selectedTemplate = useSelector(selectedTemplateForSavingSelector);
 
   const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
@@ -77,9 +79,7 @@ export const TransactionBuilderMain = ({
   const [smartContract, setSmartContract] = useState<SmartContract | null>(
     null,
   );
-  const [callArgumentsMap, setCallArgumentsMap] = useState<
-    Record<string, string>
-  >({});
+  const [callArgs, setCallArgs] = useState<CustomArg[]>([]);
 
   const { amount, amountError, updateAmountError, handleAmountInputChange } =
     useAmountInputController(selectedTemplate?.value ?? '0');
@@ -105,6 +105,25 @@ export const TransactionBuilderMain = ({
       setSmartContract(null);
     }
   }, [abi, useAbi]);
+
+  useEffect(() => {
+    dispatch(
+      setSelectedTemplateForCreation({
+        endpoint: useAbi ? selectedEndpoint ?? '' : functionName,
+        params: callArgs.map((a) => a.value),
+        receiver: callReceiverAddress?.bech32(),
+        value: Number(amount.replaceAll(',', '')),
+      }),
+    );
+  }, [
+    callArgs,
+    amount,
+    callReceiverAddress,
+    dispatch,
+    functionName,
+    selectedEndpoint,
+    useAbi,
+  ]);
 
   useEffect(() => {
     handleIsUseAbiEnabledChange?.(useAbi);
@@ -137,7 +156,7 @@ export const TransactionBuilderMain = ({
 
     if (!callEndpoint || !callReceiverAddress) return;
 
-    const callArguments = Object.values(callArgumentsMap);
+    const callArguments = callArgs;
 
     const callAmount = new BigUIntValue(
       new BigNumber(Number(amount.replaceAll(',', '')))
@@ -149,14 +168,14 @@ export const TransactionBuilderMain = ({
       callReceiverAddress,
       callAmount,
       callEndpoint,
-      ...callArguments.map((p) => BytesValue.fromHex(p)),
+      ...callArguments.map((arg) => BytesValue.fromHex(arg.value)),
     );
   }, [
     useAbi,
     selectedEndpoint,
     functionName,
     callReceiverAddress,
-    callArgumentsMap,
+    callArgs,
     amount,
   ]);
 
@@ -168,19 +187,28 @@ export const TransactionBuilderMain = ({
     Record<string, ArgumentValidationResult>
   >({});
 
-  const onNewArgsReceived = useCallback(
-    (newArgs: Record<string, string>) => {
-      try {
-        setCallArgumentsMap(newArgs);
-        const argumentsValidationResultsResult = validateArguments(newArgs);
+  const onNewArgsReceived = useCallback((newArgs: CustomArg[]) => {
+    try {
+      console.log('New args received', newArgs);
+      const mapFromArgsArray = newArgs.reduce(
+        (acc: Record<string, string>, item) => {
+          acc[item.key] = item.value;
+          return acc;
+        },
+        {},
+      );
+      setCallArgs(newArgs);
 
-        setArgumentsValidationResults(argumentsValidationResultsResult);
-      } catch (e) {
-        console.error({ e });
-      }
-    },
-    [setCallArgumentsMap],
-  );
+      console.log({ mapFromArgsArray });
+      const argumentsValidationResultsResult =
+        validateArguments(mapFromArgsArray);
+
+      console.log({ argumentsValidationResultsResult });
+      setArgumentsValidationResults(argumentsValidationResultsResult);
+    } catch (e) {
+      console.error({ e });
+    }
+  }, []);
 
   const isCreateProposalButtonActive = useMemo(() => {
     const hasEndpointToCall = useAbi ? selectedEndpoint : functionName;

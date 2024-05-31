@@ -35,6 +35,7 @@ import ProposeInputAddress from '../../Utils/ProposeInputAddress';
 import ProposeRemoveUser from './ProposeRemoveUser';
 import ReplaceOwner from '../MemberActions/ReplaceOwner';
 import { SaveTemplateModalContent } from '../Templates/SaveTemplateModalContent';
+import { CreateTemplateModalContent } from '../Templates/CreateTemplateModalContent';
 
 interface ProposeModalPropsType {
   selectedOption: SelectedOptionType | ModalOptionType;
@@ -183,6 +184,8 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
         return <ChangeOwnerModalContent />;
       case ModalTypes.save_template:
         return <SaveTemplateModalContent />;
+      case ModalTypes.create_template:
+        return <CreateTemplateModalContent />;
       default:
     }
   }, [handleAddressParamChange, handleNumericParamChange, selectedOption]);
@@ -223,6 +226,9 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
       case ModalTypes.save_template: {
         return 'Save template';
       }
+      case ModalTypes.create_template: {
+        return 'Create template';
+      }
       default:
         return 'Add member';
     }
@@ -238,6 +244,7 @@ function ProposeModal({ selectedOption }: ProposeModalPropsType) {
     ModalTypes.connect_wallet,
     ModalTypes.change_owner,
     ModalTypes.save_template,
+    ModalTypes.create_template,
   ];
 
   const getModalActions = () => {

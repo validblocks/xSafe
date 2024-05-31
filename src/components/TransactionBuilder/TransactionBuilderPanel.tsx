@@ -4,6 +4,7 @@ import { Dropzone } from 'src/components/TransactionBuilder/DropZone';
 import { LOCAL_STORAGE_KEYS } from 'src/components/Marketplace/localStorageKeys';
 import { useLocalStorage } from 'src/hooks/useLocalStorage';
 import { useCallback, useState } from 'react';
+import { TransactionBuilderPageHeader } from './TransactionBuilderPageHeader';
 
 export const TransactionBuilderPanel = () => {
   const minWidth600 = useMediaQuery('(min-width:600px)');
@@ -32,6 +33,9 @@ export const TransactionBuilderPanel = () => {
 
   return (
     <Box>
+      <Box pb={1}>
+        <TransactionBuilderPageHeader />
+      </Box>
       <Box
         paddingBottom={minWidth600 ? '24px' : '80px'}
         display="flex"

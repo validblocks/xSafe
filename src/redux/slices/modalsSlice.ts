@@ -8,6 +8,7 @@ import {
 import { NFTType } from 'src/types/nfts';
 import { logoutAction } from '../commonActions';
 import { Template } from 'src/types/templates';
+import { CreateTemplateDto } from 'src/services/xSafeApiProvider';
 
 interface TxSubmittedModal {
   sessionId: string;
@@ -34,7 +35,8 @@ interface PerformActionModal {
   selectedToken: any | null;
   selectedNft: any | null;
   selectedStakingProvider: any | null;
-  selectedTemplate: Template | null;
+  selectedTemplateForSaving: Template | null;
+  selectedTemplateForCreation: Partial<CreateTemplateDto> | null;
 }
 
 interface ProposeModal {
@@ -65,7 +67,8 @@ const initialState: ModalsSliceState = {
     selectedToken: null,
     selectedNft: null,
     selectedStakingProvider: null,
-    selectedTemplate: null,
+    selectedTemplateForSaving: null,
+    selectedTemplateForCreation: null,
   },
 };
 
@@ -115,11 +118,17 @@ export const modalsSlice = createSlice({
     ) => {
       state.performActionModal.selectedToken = action.payload;
     },
-    setSelectedTemplateToSave: (
+    setSelectedTemplateForSaving: (
       state: ModalsSliceState,
       action: PayloadAction<Template>,
     ) => {
-      state.performActionModal.selectedTemplate = action.payload;
+      state.performActionModal.selectedTemplateForSaving = action.payload;
+    },
+    setSelectedTemplateForCreation: (
+      state: ModalsSliceState,
+      action: PayloadAction<Partial<CreateTemplateDto>>,
+    ) => {
+      state.performActionModal.selectedTemplateForCreation = action.payload;
     },
     setSelectedNftToSend: (
       state: ModalsSliceState,
@@ -151,7 +160,8 @@ export const {
   setSelectedTokenToSend,
   setSelectedNftToSend,
   setSelectedStakingProvider,
-  setSelectedTemplateToSave,
+  setSelectedTemplateForSaving,
+  setSelectedTemplateForCreation,
 } = modalsSlice.actions;
 
 export default modalsSlice.reducer;

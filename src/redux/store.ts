@@ -4,6 +4,7 @@ import persistStore from 'redux-persist/es/persistStore';
 import localStorage from 'redux-persist/es/storage';
 import makeRootReducer from './makeRootReducer';
 
+
 const persistConfig = {
   key: 'multisig-root',
   storage: localStorage,

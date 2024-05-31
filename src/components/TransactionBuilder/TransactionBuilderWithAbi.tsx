@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { TextInput } from '../Theme/StyledComponents';
@@ -6,6 +6,7 @@ import { Box } from '@mui/material';
 import { SmartContract } from '@multiversx/sdk-core/out';
 import { useFormData } from 'src/hooks/useFormData';
 import CustomSelect from '../Utils/CustomSelect';
+import { CustomArg } from './CustomDataBuilder';
 
 interface Props<TValidationResult> {
   error: TValidationResult;
@@ -15,7 +16,7 @@ interface Props<TValidationResult> {
     e: React.ChangeEvent<HTMLSelectElement>,
   ) => void;
   handleFormKeyChange?: (index: string) => any;
-  handleNewArgs?: (newArgs: Record<string, string>) => void;
+  handleNewArgs?: (newArgs: CustomArg[]) => void;
 }
 
 export const TransactionBuilderWithAbi = <TValidationResult,>({
@@ -31,7 +32,6 @@ export const TransactionBuilderWithAbi = <TValidationResult,>({
   const [selectedEndpoint, setSelectedEndpoint] = useState<string | null>(null);
   const { formData, onFormChange } = useFormData({
     handleFormKeyChange,
-    handleNewArgs,
   });
 
   const onSelectedInputChanged = useCallback(
@@ -47,14 +47,29 @@ export const TransactionBuilderWithAbi = <TValidationResult,>({
     try {
       if (!selectedEndpoint || !smartContract) return [];
 
-      const inputParams = smartContract.getEndpoint(selectedEndpoint).input;
+      const args = smartContract.getEndpoint(selectedEndpoint).input;
 
-      return inputParams;
+      return args;
     } catch (e) {
       console.error(e);
       return [];
     }
   }, [selectedEndpoint, smartContract]);
+
+  useEffect(() => {
+    const argsArray = endpointArguments?.reduce(
+      (acc: CustomArg[], item) => [
+        ...acc,
+        {
+          key: item.name,
+          value: formData[item.name],
+          type: 'custom',
+        },
+      ],
+      [],
+    );
+    handleNewArgs?.(argsArray);
+  }, [endpointArguments, formData, handleNewArgs]);
 
   const endpointOptions = useMemo(
     () =>
@@ -106,16 +121,14 @@ export const TransactionBuilderWithAbi = <TValidationResult,>({
         )}
       </Box>
       <Box p="2rem" pt={0}>
-        {endpointArguments.map((inputParam, idx) => (
-          <Box key={`${inputParam.name} ${idx}`} pt={2}>
+        {endpointArguments.map((arg, idx) => (
+          <Box key={`${arg.name} ${idx}`} pt={2}>
             <TextInput
-              label={`${inputParam.name} (${inputParam.type.getName()} in hex)`}
-              placeholder={`${
-                inputParam.name
-              } (${inputParam.type.getName()} in hex)`}
-              value={formData[inputParam.name]}
+              label={`${arg.name} (${arg.type.getName()} in hex)`}
+              placeholder={`${arg.name} (${arg.type.getName()} in hex)`}
+              value={formData[arg.name]}
               autoComplete="off"
-              onChange={onFormChange(inputParam.name)}
+              onChange={onFormChange(arg.name)}
               className={error ? 'isAddressError' : ''}
             />
           </Box>

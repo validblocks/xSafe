@@ -13,8 +13,8 @@ export const TxBuilderTitle = styled(({ sx, className, ...other }) => (
 
 export const TxBuilderHeaderButton = styled(MainButton)(({ theme: _ }) => ({
   flex: 1,
-  border: '1px solid #4c2ffc',
   maxWidth: '150px',
-  mb: '10px !important',
   mt: '5px',
+  background: 'transparent !important',
+  boxShadow: 'none !important',
 }));

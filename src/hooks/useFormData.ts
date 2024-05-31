@@ -8,7 +8,6 @@ interface UseFormDataConfig {
 
 export const useFormData = ({
   handleFormKeyChange,
-  handleNewArgs,
   handleChangeEvent,
 }: UseFormDataConfig) => {
   const [formData, setFormData] = useState<Record<string, string>>({});
@@ -23,12 +22,11 @@ export const useFormData = ({
             ...oldForm,
             [formKey]: e.target.value,
           };
-          handleNewArgs?.(newArgs);
           return newArgs;
         });
       };
     },
-    [handleChangeEvent, handleFormKeyChange, handleNewArgs],
+    [handleChangeEvent, handleFormKeyChange],
   );
 
   return { formData, onFormChange };

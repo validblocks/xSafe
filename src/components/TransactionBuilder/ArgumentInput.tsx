@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React, { memo, useCallback } from 'react';
 import { TextInput } from '../Theme/StyledComponents';
 import { Box, InputAdornment } from '@mui/material';
 import DragIndicatorIcon from '@mui/icons-material/DragIndicator';
@@ -25,13 +25,21 @@ export const ArgumentInput = memo(
     label,
     handleStartDragAndDrop,
   }: ArgumentInputProps) => {
+    const handleChange = useCallback(
+      (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log({ innerE: e });
+        onChange?.(e);
+      },
+      [onChange],
+    );
+
     return (
       <TextInput
         placeholder={placeholder}
         label={label}
         value={value}
         autoComplete="off"
-        onChange={onChange}
+        onChange={handleChange}
         className={className}
         InputProps={{
           'data-testid': testId,

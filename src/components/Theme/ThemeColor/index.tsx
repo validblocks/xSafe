@@ -20,7 +20,7 @@ function ThemeColor() {
       if (!newTheme) return;
       dispatch(setSelectedTheme(e.target.value as 'Light' | 'Dark'));
     },
-    [dispatch],
+    [dispatch], 
   );
 
   return (

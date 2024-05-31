@@ -55,6 +55,10 @@ export const TemplateCard = styled(AppCard)(({ theme: _ }) => ({
   '&&&': {
     padding: '0',
     width: 'auto',
+    height: '100%',
     boxShadow: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
   },
 }));

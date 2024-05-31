@@ -10,7 +10,7 @@ import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { DraggableCustomArgument } from './DraggableCustomArgument';
 import { ValidationResults } from './helpers/validateArguments';
 import { useSelector } from 'react-redux';
-import { selectedTemplateToSendSelector } from 'src/redux/selectors/modalsSelector';
+import { selectedTemplateForSavingSelector } from 'src/redux/selectors/modalsSelector';
 
 export type CustomArg = {
   value: string;
@@ -20,7 +20,7 @@ export type CustomArg = {
 
 interface Props<TValidationResults> {
   validationResults?: TValidationResults;
-  handleNewArgs?: (newArgs: Record<string, string>) => void;
+  handleNewArgs?: (newArgs: CustomArg[]) => void;
   handleChangeEvent?: (e?: React.ChangeEvent) => void;
   handleFormKeyChange?: (index: string) => any;
   handleFunctionNameBlur?: (e?: React.FocusEvent) => void;
@@ -37,7 +37,7 @@ export const CustomDataBuilder = React.memo(
   }: Props<TValidationResults>) => {
     const t = useCustomTranslation();
     const theme = useCustomTheme();
-    const selectedTemplate = useSelector(selectedTemplateToSendSelector);
+    const selectedTemplate = useSelector(selectedTemplateForSavingSelector);
 
     const [customArgs, setCustomArgs] = useState<CustomArg[]>(
       selectedTemplate?.params.map((p: string) => ({
@@ -49,19 +49,11 @@ export const CustomDataBuilder = React.memo(
     const [functionName, setFunctionName] = useState<string>(
       selectedTemplate?.endpoint ?? '',
     );
-    const [formData, setFormData] = useState<Record<string, string>>(
-      customArgs?.reduce(
-        (acc: Record<string, string>, arg: CustomArg) => ({
-          ...acc,
-          [arg.key]: arg.value,
-        }),
-        {},
-      ) ?? {},
-    );
 
     useEffect(() => {
-      handleNewArgs?.(formData);
-    }, [formData, handleNewArgs]);
+      console.log('Announcing new CustomArgs');
+      handleNewArgs?.(customArgs);
+    }, [customArgs, handleNewArgs]);
 
     const addNewArgsField = useCallback(() => {
       setCustomArgs((oldArgs) => {
@@ -70,7 +62,7 @@ export const CustomDataBuilder = React.memo(
           {
             value: '',
             type: 'custom',
-            key: `${Math.floor(Math.random() * 10000)}`,
+            key: `${oldArgs.length}`,
           },
         ];
         return newArgs;
@@ -79,11 +71,6 @@ export const CustomDataBuilder = React.memo(
 
     const removeArg = useCallback((argkey: string) => {
       setCustomArgs((oldArgs) => oldArgs.filter((arg) => arg.key !== argkey));
-      setFormData((oldFormData) => {
-        const newFormData = { ...oldFormData };
-        delete newFormData[argkey];
-        return newFormData;
-      });
     }, []);
 
     const onFunctionNameChange = useCallback(
@@ -103,29 +90,22 @@ export const CustomDataBuilder = React.memo(
 
     const onValueChange = useCallback(
       (key: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData((oldForm) => ({
-          ...oldForm,
-          [key]: e.target.value,
-        }));
+        setCustomArgs((oldArgs) => {
+          const newArgs = oldArgs.map((arg) =>
+            arg.key === key ? { ...arg, value: e.target.value } : arg,
+          );
+          return newArgs;
+        });
         handleChangeEvent?.(e);
       },
       [handleChangeEvent],
     );
 
-    const handleReorder = useCallback(
-      (newArgs: CustomArg[]) => {
-        setCustomArgs(newArgs);
-        const newFormData = newArgs.reduce(
-          (acc: Record<string, string>, arg: CustomArg) => {
-            acc[arg.key] = formData[arg.key] || '';
-            return acc;
-          },
-          {},
-        );
-        setFormData(newFormData);
-      },
-      [formData],
-    );
+    const handleReorder = useCallback((newArgs: CustomArg[]) => {
+      setCustomArgs(newArgs);
+    }, []);
+
+    console.log({ validationResults });
 
     return (
       <Box data-testid="cdb-container">
@@ -163,7 +143,7 @@ export const CustomDataBuilder = React.memo(
                 <DraggableCustomArgument
                   key={arg.key}
                   arg={arg}
-                  onValueChange={onValueChange}
+                  onValueChange={onValueChange(arg.key)}
                   removeArg={removeArg}
                   className={
                     validationResults?.[arg.key]?.isValid === false
@@ -171,7 +151,7 @@ export const CustomDataBuilder = React.memo(
                       : ''
                   }
                   testId={`cdb-argument-${idx + 1}-text-input`}
-                  value={formData[arg.key]}
+                  value={arg.value}
                   placeholder={`Argument ${idx + 1}`}
                   isInvalid={validationResults?.[arg.key]?.isValid === false}
                   errorMessage={validationResults?.[arg.key]?.error?.reason}

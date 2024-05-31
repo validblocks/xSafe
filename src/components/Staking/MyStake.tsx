@@ -6,7 +6,7 @@ import { ProposalsTypes } from 'src/types/multisig/proposals/Proposals';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
-import { KeyboardEvent, useEffect, useState } from 'react';
+import { KeyboardEvent, useCallback, useEffect, useState } from 'react';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import {
   currentMultisigContractSelector,
@@ -21,14 +21,13 @@ import useProviderIdentitiesAfterSelection from 'src/hooks/useProviderIdentities
 import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import { setActiveDelegationRows } from 'src/redux/slices/accountGeneralInfoSlice';
-import axios from 'axios';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
-import { xSafeApiUrl } from 'src/config';
 import RationalNumber from 'src/utils/RationalNumber';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
 import { MainButton } from '../Theme/StyledComponents';
 import ActiveDelegationsTable from './ActiveDelegationsTable';
+import { SafeApi } from 'src/services/xSafeApiProvider';
 
 const MyStake = () => {
   const theme = useCustomTheme();
@@ -53,10 +52,10 @@ const MyStake = () => {
 
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
-  const fetchDelegations = () =>
-    axios
-      .get(`${xSafeApiUrl}/delegations/${currentContract?.address}`)
-      .then((r) => r.data);
+  const fetchDelegations = useCallback(
+    () => SafeApi.getAddressDelegations(currentContract?.address),
+    [currentContract?.address],
+  );
 
   const {
     data: fetchedDelegations,

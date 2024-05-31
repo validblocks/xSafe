@@ -1,7 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import socketIOClient from 'socket.io-client';
-// import { xSafeApiUrl } from 'src/config';
 import { WebSocketsContext } from 'src/contexts/WebSocketsContext';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { SocketEvent } from 'src/types/websockets';

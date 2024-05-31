@@ -8,10 +8,11 @@ import { Box } from '@mui/material';
 import { CustomArg } from './CustomDataBuilder';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
+import React from 'react';
 
 interface IProps {
   arg: CustomArg;
-  onValueChange: (formKey: string) => any;
+  onValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   removeArg: (argKey: string) => void;
   className?: string;
   testId?: string;
@@ -65,7 +66,7 @@ export const DraggableCustomArgument = ({
               placeholder={placeholder}
               label={label}
               value={value}
-              onChange={onValueChange(arg.key)}
+              onChange={onValueChange}
               handleStartDragAndDrop={(e) => {
                 controls.start(e);
               }}

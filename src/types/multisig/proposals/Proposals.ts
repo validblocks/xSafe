@@ -28,6 +28,7 @@ export enum ModalTypes {
   'change_owner' = 'change_owner',
   'connect_wallet' = 'connect_wallet',
   'save_template' = 'save_template',
+  'create_template' = 'create_template',
 }
 
 export interface ModalOptionType {

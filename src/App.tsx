@@ -86,7 +86,7 @@ export const App = () => (
         <QueryClientProvider client={queryClient}>
           <AxiosInterceptorContext.Provider>
             <AxiosInterceptorContext.Interceptor
-              authenticatedDomains={sampleAuthenticatedDomains}
+              authenticatedDomains={[...sampleAuthenticatedDomains]}
             >
               <Router>
                 <Suspense fallback={<div>Loading...</div>}>

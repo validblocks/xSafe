@@ -6,7 +6,6 @@ import {
   Tab,
   useMediaQuery,
 } from '@mui/material';
-import Typography from '@mui/material/Typography';
 import { useDispatch } from 'react-redux';
 import { MainSelect } from 'src/components/Theme/StyledComponents';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
@@ -42,11 +41,7 @@ export function TabPanel(props: TabPanelProps) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: '0.35rem 0' }}>
-          <Typography component="span">{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: '0.35rem 0' }}>{children}</Box>}
     </div>
   );
 }
