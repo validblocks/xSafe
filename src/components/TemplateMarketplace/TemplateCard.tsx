@@ -70,10 +70,10 @@ const TemplateCard = (props: Template) => {
           p={2}
         >
           <Box display="flex" flexDirection="column" justifyContent="center">
-            <Text variant="h5" fontWeight="700 !important">
+            <Text variant="h5" fontWeight="600 !important" fontSize={15}>
               {templateName}
             </Text>
-            <Text sx={{ opacity: 0.5 }}>@{endpoint}</Text>
+            <Text sx={{ opacity: 0.5, fontSize: '14px' }}>@{endpoint}</Text>
           </Box>
           <Box>
             <Box
@@ -98,7 +98,7 @@ const TemplateCard = (props: Template) => {
           <Text
             sx={{ opacity: 0.5, mb: 0.5 }}
             fontWeight="400 !important"
-            fontSize="15px"
+            fontSize="14px"
           >
             Receiver
           </Text>
@@ -116,7 +116,7 @@ const TemplateCard = (props: Template) => {
             <Text
               variant="inherit"
               className="mb-0"
-              fontWeight="700 !important"
+              fontWeight="500 !important"
             >
               {prettyReceiver}
             </Text>
@@ -148,13 +148,13 @@ const TemplateCard = (props: Template) => {
         >
           <Box flex="1" p={2}>
             <Text
-              fontSize="15px"
+              fontSize="14px"
               sx={{ opacity: 0.5 }}
               fontWeight="400 !important"
             >
               Value
             </Text>
-            <Text variant="subtitle1" fontWeight="700 !important">
+            <Text variant="subtitle1" fontWeight="500 !important">
               {Number(value).toLocaleString('EN')} EGLD
             </Text>
           </Box>
@@ -166,13 +166,13 @@ const TemplateCard = (props: Template) => {
             }}
           >
             <Text
-              fontSize="15px"
+              fontSize="14px"
               sx={{ opacity: 0.5 }}
               fontWeight="400 !important"
             >
               Type
             </Text>
-            <Text variant="subtitle1" fontWeight="700 !important">
+            <Text variant="subtitle1" fontWeight="500 !important">
               {type}
             </Text>
           </Box>
@@ -186,7 +186,7 @@ const TemplateCard = (props: Template) => {
           <Text
             sx={{ opacity: 0.5, mb: 0.5 }}
             fontWeight="400 !important"
-            fontSize="15px"
+            fontSize="14px"
           >
             Creator
           </Text>
@@ -209,7 +209,7 @@ const TemplateCard = (props: Template) => {
               <Text
                 variant="inherit"
                 className="mb-0"
-                fontWeight="700 !important"
+                fontWeight="500 !important"
               >
                 {adjustedCreatorAddress}
               </Text>
@@ -236,7 +236,7 @@ const TemplateCard = (props: Template) => {
         </Box>
         <Box p={2}>
           <Text
-            fontSize="15px"
+            fontSize="14px"
             sx={{ opacity: 0.5 }}
             fontWeight="400 !important"
             mb={1}
