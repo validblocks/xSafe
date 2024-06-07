@@ -4,10 +4,7 @@ import * as Styled from './styled';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedTemplateForCreationSelector } from 'src/redux/selectors/modalsSelector';
-import {
-  setProposeModalSelectedOption,
-  setSelectedTemplateForSaving,
-} from 'src/redux/slices/modalsSlice';
+import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ModalTypes } from 'src/types/multisig/proposals/Proposals';
 import { Address } from '@multiversx/sdk-core/out';
 import { useNavigate } from 'react-router-dom';
