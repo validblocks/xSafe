@@ -4,12 +4,17 @@ import * as Styled from './styled';
 import { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedTemplateForCreationSelector } from 'src/redux/selectors/modalsSelector';
-import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
+import {
+  setProposeModalSelectedOption,
+  setSelectedTemplateForSaving,
+} from 'src/redux/slices/modalsSlice';
 import { ModalTypes } from 'src/types/multisig/proposals/Proposals';
 import { Address } from '@multiversx/sdk-core/out';
+import { useNavigate } from 'react-router-dom';
 
 export const TransactionBuilderPageHeader = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const selectedTemplateForCreation = useSelector(
     selectedTemplateForCreationSelector,
@@ -20,6 +25,10 @@ export const TransactionBuilderPageHeader = () => {
       setProposeModalSelectedOption({ option: ModalTypes.create_template }),
     );
   }, [dispatch]);
+
+  const handleChooseTemplateClick = useCallback(() => {
+    navigate(`?tab=template-marketplace`);
+  }, [navigate]);
 
   const isSaveAsTemplateButtonDisabled = useMemo(() => {
     console.log({ VALIDATION: selectedTemplateForCreation });
@@ -34,7 +43,7 @@ export const TransactionBuilderPageHeader = () => {
   return (
     <>
       <Box pb={1} display="flex" gap={2}>
-        <Styled.TxBuilderHeaderButton>
+        <Styled.TxBuilderHeaderButton onClick={handleChooseTemplateClick}>
           Choose template
         </Styled.TxBuilderHeaderButton>
         <Styled.TxBuilderHeaderButton

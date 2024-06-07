@@ -63,7 +63,7 @@ export const TransactionBuilderMain = ({
     validateOnMount: true,
   } as any);
 
-  const { values, touched: _1 } = formik;
+  const { values } = formik;
   const { functionName } = values;
 
   const [error] = useState(false);
@@ -189,7 +189,6 @@ export const TransactionBuilderMain = ({
 
   const onNewArgsReceived = useCallback((newArgs: CustomArg[]) => {
     try {
-      console.log('New args received', newArgs);
       const mapFromArgsArray = newArgs.reduce(
         (acc: Record<string, string>, item) => {
           acc[item.key] = item.value;
@@ -199,11 +198,9 @@ export const TransactionBuilderMain = ({
       );
       setCallArgs(newArgs);
 
-      console.log({ mapFromArgsArray });
       const argumentsValidationResultsResult =
         validateArguments(mapFromArgsArray);
 
-      console.log({ argumentsValidationResultsResult });
       setArgumentsValidationResults(argumentsValidationResultsResult);
     } catch (e) {
       console.error({ e });
