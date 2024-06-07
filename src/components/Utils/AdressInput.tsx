@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Address } from '@multiversx/sdk-core';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { ProposeAddressInput } from 'src/components/Theme/StyledComponents';
@@ -31,6 +31,14 @@ function AddressInput({
   const [error, setError] = useState(false);
   const t = useCustomTranslation();
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    try {
+      handleParamsChange(new Address(address));
+    } catch (e) {
+      console.error(e);
+    }
+  }, [address, handleParamsChange]);
 
   const handleAddressChanged = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {

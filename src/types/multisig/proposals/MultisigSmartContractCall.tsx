@@ -112,7 +112,7 @@ export class MultisigSmartContractCall extends MultisigAction {
       case ExternalContractFunction.LEND_IN_JEWELSWAP:
         return i18next.t('Lend in JewelSwap');
       default:
-        return 'Unknown function';
+        return this.functionName;
     }
   }
 
