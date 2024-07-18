@@ -36,6 +36,11 @@ const AmountWithTitleCard = ({
   const amountInteger = cardAmount.toString().split('.')?.[0] || 0;
   const amountDecimals = cardAmount.toString().split('.')?.[1] || 0;
 
+  const hasAmountDecimals = !!amountDecimals && amountDecimals !== '0';
+  const hasAmountInteger =
+    (!!amountInteger && amountInteger !== '0') || hasAmountDecimals;
+  const hasNumbers = hasAmountInteger || hasAmountDecimals;
+
   return (
     <MultisigCard>
       <CardTitle
@@ -63,19 +68,21 @@ const AmountWithTitleCard = ({
             alignItems: 'flex-end',
           }}
         >
-          <Text
-            sx={{
-              fontSize: maxWidth600 ? '20px' : '24px',
-              lineHeight: maxWidth600 ? '20px' : '34px',
-              display: 'flex',
-              alignItems: 'flex-end',
-              marginLeft: '2px',
-              fontWeight: 'bolder',
-            }}
-          >
-            {amountInteger}
-          </Text>
-          {!!amountDecimals && amountDecimals !== '0' && (
+          {hasAmountInteger && (
+            <Text
+              sx={{
+                fontSize: maxWidth600 ? '20px' : '24px',
+                lineHeight: maxWidth600 ? '20px' : '34px',
+                display: 'flex',
+                alignItems: 'flex-end',
+                marginLeft: '2px',
+                fontWeight: 'bolder',
+              }}
+            >
+              {amountInteger}
+            </Text>
+          )}
+          {hasAmountDecimals && (
             <>
               <Text
                 color="#9C9BA580"
@@ -103,12 +110,12 @@ const AmountWithTitleCard = ({
             </>
           )}
           <Text
-            color="#9C9BA580"
             sx={{
-              ml: 1,
+              ml: hasNumbers ? 1 : 0,
               fontWeight: 'bolder',
               fontSize: maxWidth600 ? '20px' : '16px',
               lineHeight: maxWidth600 ? '20px' : '28px',
+              ...(hasNumbers && { color: '#9C9BA580' }),
             }}
           >{`${needsDollarSign ? '$' : ''}${amountUnityMeasure}`}</Text>
         </Box>
