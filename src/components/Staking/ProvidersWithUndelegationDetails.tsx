@@ -391,9 +391,10 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                             />
                             <Typography
                               component="span"
-                              className="ml-1"
+                              sx={{ ml: 0.25 }}
                               fontSize={11}
                             >
+                              {' '}
                               {t('left until unbonding ends') as string}
                             </Typography>
                           </Box>

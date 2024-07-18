@@ -1,4 +1,4 @@
-import { CircularProgress, useMediaQuery } from '@mui/material';
+import { Box, CircularProgress, useMediaQuery } from '@mui/material';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { CardSkeleton } from '../Skeletons/CardSkeleton';
 import {
@@ -31,9 +31,10 @@ const AmountWithTitleCard = ({
   if (Number.isNaN(amountValue)) return <CardSkeleton />;
 
   const cardAmount =
-    amountValue || amountValue === 0
-      ? Number(amountValue).toLocaleString('EN')
-      : '';
+    amountValue || amountValue === 0 ? Number(amountValue) : '';
+
+  const amountInteger = cardAmount.toString().split('.')?.[0] || 0;
+  const amountDecimals = cardAmount.toString().split('.')?.[1] || 0;
 
   return (
     <MultisigCard>
@@ -56,13 +57,61 @@ const AmountWithTitleCard = ({
           }}
         />
       ) : (
-        <Text
-          fontSize={maxWidth600 ? '20px' : '24px'}
-          fontWeight="bolder"
-          sx={{ display: 'flex', gap: 1 }}
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'flex-end',
+          }}
         >
-          {`${cardAmount} ${needsDollarSign ? '$' : ''}${amountUnityMeasure}`}
-        </Text>
+          <Text
+            sx={{
+              fontSize: maxWidth600 ? '20px' : '24px',
+              lineHeight: maxWidth600 ? '20px' : '34px',
+              display: 'flex',
+              alignItems: 'flex-end',
+              marginLeft: '2px',
+              fontWeight: 'bolder',
+            }}
+          >
+            {amountInteger}
+          </Text>
+          {!!amountDecimals && amountDecimals !== '0' && (
+            <>
+              <Text
+                color="#9C9BA580"
+                sx={{
+                  fontWeight: 'bolder',
+                  fontSize: maxWidth600 ? '20px' : '24px',
+                  lineHeight: maxWidth600 ? '20px' : '34px',
+                }}
+              >
+                .
+              </Text>
+              <Text
+                variant="caption"
+                color="#9C9BA580"
+                fontWeight="600"
+                sx={{
+                  fontSize: '16px',
+                  display: 'flex',
+                  alignItems: 'flex-end',
+                  marginLeft: '2px',
+                }}
+              >
+                {amountDecimals}
+              </Text>
+            </>
+          )}
+          <Text
+            color="#9C9BA580"
+            sx={{
+              ml: 1,
+              fontWeight: 'bolder',
+              fontSize: maxWidth600 ? '20px' : '16px',
+              lineHeight: maxWidth600 ? '20px' : '28px',
+            }}
+          >{`${needsDollarSign ? '$' : ''}${amountUnityMeasure}`}</Text>
+        </Box>
       )}
       {actionButton}
     </MultisigCard>

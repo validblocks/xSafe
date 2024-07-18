@@ -62,7 +62,7 @@ export const DiscardActionButton = styled(Button)(({ theme: _, disabled }) => ({
 }));
 
 export const MultisigCard = styled(Box)`
-  width: 240px;
+  min-width: 240px;
   min-width: 240px;
   padding: 15px;
   background: ${(props) => props.theme.palette.background.secondary};

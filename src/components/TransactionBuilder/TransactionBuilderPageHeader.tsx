@@ -37,6 +37,7 @@ export const TransactionBuilderPageHeader = () => {
       selectedTemplateForCreation?.value === ''
     );
   }, [selectedTemplateForCreation]);
+
   return (
     <>
       <Box pb={1} display="flex" gap={2}>

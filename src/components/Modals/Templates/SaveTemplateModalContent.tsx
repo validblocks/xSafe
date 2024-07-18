@@ -99,7 +99,6 @@ export const SaveTemplateModalContent = () => {
 
   const loginInfo = useGetLoginInfo();
   const dispatch = useDispatch();
-  console.log({ loginInfo });
 
   const handleSaveButtonClicked = useCallback(async () => {
     await SafeApi.saveTemplate(

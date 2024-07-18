@@ -25,16 +25,21 @@ export interface IAmountInputProps {
     isEsdtOrEgldRelated: boolean;
   }>;
   onAmountError?: (amountErrors?: string) => void;
+  onAmountChange?: (amount: string) => void;
   onResetAmount?: (params?: Params) => void;
   onAmountIsNaN?: (params?: Params) => void;
   onAmountIsZero?: (params?: Params) => void;
-  onMaxButonClick?: (params?: Params) => void;
+  onMaxButtonClick?: (params?: Params) => void;
   onAmountIsLessThanAllowed?: (params?: Params) => void;
   onAmountIsBiggerThanBalance?: (params?: Params) => void;
   onSuccessfulAmountValidation?: (params?: Params) => void;
   onAmountErrorAfterTouch?: (amountErrorsAfterTouch?: string) => void;
   onInputBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
   onInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  customAmountValidation?: (unparsedAmountString?: string) => {
+    isValid: boolean;
+    errorMessage: string | null;
+  };
 }
 
 interface IFormValues {
@@ -42,7 +47,7 @@ interface IFormValues {
 }
 
 const AmountInputWithTokenSelection = ({
-  onMaxButonClick,
+  onMaxButtonClick,
   onInputChange,
   onInputBlur,
   onAmountIsNaN,
@@ -52,7 +57,9 @@ const AmountInputWithTokenSelection = ({
   onSuccessfulAmountValidation,
   onResetAmount,
   onAmountError,
+  onAmountChange,
   onAmountErrorAfterTouch,
+  customAmountValidation,
   minAmountAllowed = '0',
   initialAmount = '0',
   maxValue,
@@ -88,7 +95,6 @@ const AmountInputWithTokenSelection = ({
           return true;
         })
         .test((value?: string, testContext?: TestContext) => {
-          console.log('Validating amount!', value);
           const newAmount = Number(value);
           const isNotANumber = Number.isNaN(newAmount);
           if (isNotANumber) {
@@ -122,6 +128,17 @@ const AmountInputWithTokenSelection = ({
             );
           }
 
+          const customValidationResult = customAmountValidation?.(value);
+          const errorMessage = customValidationResult?.errorMessage;
+
+          if (errorMessage) {
+            return (
+              testContext?.createError({
+                message: errorMessage,
+              }) ?? false
+            );
+          }
+
           formik.setFieldError('amount', undefined);
           onSuccessfulAmountValidation?.();
           return true;
@@ -141,6 +158,7 @@ const AmountInputWithTokenSelection = ({
   useEffect(() => {
     if (hasAmountErrorsAfterTouch) {
       onAmountErrorAfterTouch?.(errors.amount);
+      onAmountError?.(errors.amount);
     } else if (errors.amount) {
       onAmountError?.(errors.amount);
     }
@@ -152,14 +170,15 @@ const AmountInputWithTokenSelection = ({
     onAmountErrorAfterTouch,
   ]);
 
-  const handleMaxButtonClick = useCallback(() => {
-    onMaxButonClick?.();
+  useEffect(() => {
+    onAmountChange?.(amount);
+  }, [amount]);
 
-    if (!maxValue) formik?.setFieldValue('amount', balance);
-    else {
-      formik?.setFieldValue('amount', maxValue);
-    }
-  }, [formik, maxValue, onMaxButonClick, balance]);
+  const handleMaxButtonClick = useCallback(() => {
+    onMaxButtonClick?.();
+
+    formik?.setFieldValue('amount', maxValue ?? balance);
+  }, [formik, maxValue, onMaxButtonClick, balance]);
 
   const handleResetAmount = useCallback(() => {
     formik.setFieldValue('amount', minAmountAllowed);
@@ -181,8 +200,6 @@ const AmountInputWithTokenSelection = ({
     },
     [formik, onInputBlur],
   );
-
-  console.log('Amount error: ', errors.amount);
 
   return (
     <StyledRemote.AmountWithTokenSelectionBox

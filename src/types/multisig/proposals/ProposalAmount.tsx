@@ -16,7 +16,7 @@ function getAmountFromTransactionData(data: string): string {
     RationalNumber.fromBigInteger(amountParamDecimal);
   const prettyBalance = getDenominatedBalance<string>(
     denominatedAmountParam.toString(),
-    { precisionAfterComma: 3, needsDenomination: false },
+    { precisionAfterComma: 18, needsDenomination: false },
   );
 
   return prettyBalance;
@@ -55,7 +55,7 @@ const ProposalAmount = ({
         const balance = RationalNumber.fromBigInteger(amountToString);
         const denominatedBalance = getDenominatedBalance<string>(
           balance.toString(),
-          { precisionAfterComma: 3, needsDenomination: false },
+          { precisionAfterComma: 18, needsDenomination: false },
         );
         proposalAmount = denominatedBalance;
         break;

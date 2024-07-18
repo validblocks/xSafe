@@ -80,8 +80,6 @@ const MyStake = () => {
     )
       return;
 
-    console.log('fetchedDelegations', Array.isArray(fetchDelegations));
-
     const totalActiveStake = fetchedDelegations?.reduce(
       (totalSum: number, delegation: IDelegation) =>
         totalSum +
@@ -98,7 +96,7 @@ const MyStake = () => {
 
     const allClaimableRewardsString = getDenominatedBalance<string>(
       allClaimableRewards.toString(),
-      { precisionAfterComma: 4, needsDenomination: false },
+      { precisionAfterComma: 18, needsDenomination: false },
     );
     setTotalClaimableRewards(allClaimableRewardsString);
 
@@ -121,7 +119,7 @@ const MyStake = () => {
 
     setTotalUndelegatedFunds(
       getDenominatedBalance<number>(totalUndelegations.toString(), {
-        precisionAfterComma: 5,
+        precisionAfterComma: 18,
         needsDenomination: false,
       }),
     );
@@ -142,13 +140,13 @@ const MyStake = () => {
 
           const delegatedAmount = delegation
             ? getDenominatedBalance<string>(delegation.userActiveStake, {
-                precisionAfterComma: 4,
+                precisionAfterComma: 18,
               })
             : '0';
 
           const claimableRewards =
             getDenominatedBalance<number>(delegation.claimableRewards, {
-              precisionAfterComma: 4,
+              precisionAfterComma: 18,
             }) ?? '0';
 
           return {
@@ -164,12 +162,7 @@ const MyStake = () => {
 
     dispatch(setActiveDelegationRows(activeDelegationsRows));
 
-    setTotalActiveStake(
-      getDenominatedBalance<number>(totalActiveStake, {
-        precisionAfterComma: 4,
-        needsDenomination: false,
-      }),
-    );
+    setTotalActiveStake(totalActiveStake);
   }, [
     dispatch,
     fetchDelegations,

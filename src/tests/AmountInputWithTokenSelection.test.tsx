@@ -14,7 +14,7 @@ const baseProps: IAmountInputProps = {
   onAmountIsLessThanAllowed: vi.fn(),
   onAmountIsNaN: vi.fn(),
   onAmountIsZero: vi.fn(),
-  onMaxButonClick: vi.fn(),
+  onMaxButtonClick: vi.fn(),
   config: {
     withAvailableAmount: true,
     withTokenSelection: true,
@@ -285,7 +285,7 @@ describe('AmountInputWithTokenSelection component', () => {
     const { getByTestId } = renderWithProviders(
       <AmountInputWithTokenSelection
         {...baseProps}
-        onMaxButonClick={handleMaxButtonClick}
+        onMaxButtonClick={handleMaxButtonClick}
       />,
     );
 
@@ -340,7 +340,7 @@ describe('AmountInputWithTokenSelection component', () => {
     const { getByTestId } = renderWithProviders(
       <AmountInputWithTokenSelection
         {...baseProps}
-        onMaxButonClick={handleMaxButtonClick}
+        onMaxButtonClick={handleMaxButtonClick}
         onInputChange={handleInputChange}
         onInputBlur={handleInputBlur}
         onResetAmount={resetAmount}
@@ -402,7 +402,7 @@ describe('AmountInputWithTokenSelection component', () => {
     const { getByTestId } = renderWithProviders(
       <AmountInputWithTokenSelection
         {...baseProps}
-        onMaxButonClick={handleMaxButtonClick}
+        onMaxButtonClick={handleMaxButtonClick}
         onInputChange={handleInputChange}
         onInputBlur={handleInputBlur}
         onResetAmount={resetAmount}

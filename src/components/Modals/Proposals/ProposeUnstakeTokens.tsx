@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { nominate } from '@multiversx/sdk-dapp/utils/operations';
 import {
   Address,
@@ -12,14 +12,11 @@ import {
   SelectChangeEvent,
   useMediaQuery,
 } from '@mui/material';
-import { FormikProps, useFormik } from 'formik';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { useDispatch, useSelector } from 'react-redux';
 import { denomination } from 'src/config';
-import * as Yup from 'yup';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
-import { TestContext } from 'yup';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { setSelectedStakingProvider } from 'src/redux/slices/modalsSlice';
 import { IdentityWithColumns } from 'src/types/staking';
@@ -35,7 +32,6 @@ import {
   UnstakeModalContainerBox,
 } from '../../MultisigDetails/styled';
 import { DelegationFunction } from 'src/types/staking';
-import { isAddressValid } from 'src/helpers/validation';
 import useAmountInputController from 'src/hooks/useAmountInputController';
 
 interface ProposeUnstakeTokensType {
@@ -43,18 +39,14 @@ interface ProposeUnstakeTokensType {
   setSubmitDisabled: (value: boolean) => void;
 }
 
-interface IFormValues {
-  identifier: string;
-  amount: string;
-}
-
 const ProposeUnstakeTokens = ({
   handleChange,
   setSubmitDisabled,
 }: ProposeUnstakeTokensType) => {
   const t = useCustomTranslation();
-
   const dispatch = useDispatch();
+  const maxWidth600 = useMediaQuery('(max-width: 600px)');
+  const [initialAmount, setInitialAmount] = useState('1');
 
   const activeDelegationsRows = useSelector<StateType, IdentityWithColumns[]>(
     activeDelegationsRowsSelector,
@@ -64,82 +56,13 @@ const ProposeUnstakeTokens = ({
     selectedStakingProvider?.provider,
   );
 
-  const formik: FormikProps<IFormValues> = useFormik({
-    initialValues: {
-      amount: 1,
-    },
-    validationSchema: Yup.object().shape({
-      amount: Yup.string()
-        .required('Required')
-        .transform((value) => value.replace(',', '.'))
-        .test((value?: string, testContext?: TestContext) => {
-          if (value == null) {
-            return true;
-          }
-          const newAmount = Number(value);
-          if (Number.isNaN(newAmount)) {
-            setSubmitDisabled(true);
-            return (
-              testContext?.createError({
-                message: 'Invalid amount',
-              }) ?? false
-            );
-          }
-          if (newAmount < 1) {
-            formik.setFieldValue('amount', 1);
-          }
-
-          const delegatedAmount = Number(
-            selectedStakingProvider?.delegatedColumn?.delegatedAmount ?? 0,
-          );
-          if (newAmount > delegatedAmount) {
-            setSubmitDisabled(true);
-            return (
-              testContext?.createError({
-                message: t(
-                  'There are not enough tokens staked for this proposal',
-                ),
-              }) ?? false
-            );
-          }
-
-          const leftOverStakedAmount = delegatedAmount - newAmount;
-          if (leftOverStakedAmount < 1 && leftOverStakedAmount !== 0) {
-            setSubmitDisabled(true);
-            return (
-              testContext?.createError({
-                message: t('Can not leave behind less than 1 EGLD'),
-              }) ?? false
-            );
-          }
-
-          if (newAmount === 0) {
-            setSubmitDisabled(true);
-            return (
-              testContext?.createError({
-                message: 'The amount should be greater than 0',
-              }) ?? false
-            );
-          }
-
-          setSubmitDisabled(!formik.isValid);
-          return true;
-        }),
-    }),
-    validateOnChange: true,
-    validateOnMount: true,
-    validateOnBlur: true,
-  } as any);
-
-  const { handleAmountInputChange, amount } = useAmountInputController('1');
-
-  useEffect(() => {
-    if (identifier) {
-      if (!isAddressValid(identifier)) {
-        formik.setFieldError('identifier', t('Invalid address'));
-      }
-    }
-  }, [formik, identifier, t]);
+  const {
+    handleAmountInputChange,
+    amount,
+    setAmount,
+    amountError,
+    updateAmountError,
+  } = useAmountInputController('1');
 
   const getProposal = (): MultisigSmartContractCall | null => {
     try {
@@ -181,7 +104,7 @@ const ProposeUnstakeTokens = ({
 
   useEffectDebugger(() => {
     refreshProposal();
-  }, [formik.values, formik.errors]);
+  }, [amount, identifier, amountError]);
 
   const onChange = (event: SelectChangeEvent) => {
     const newIdentifier = event.target.value;
@@ -190,7 +113,7 @@ const ProposeUnstakeTokens = ({
       (provider) => provider.provider === newIdentifier,
     );
     dispatch(setSelectedStakingProvider(newProvider));
-    formik.setFieldValue('amount', 1);
+    setInitialAmount('1');
 
     const proposal = getProposal();
 
@@ -199,17 +122,42 @@ const ProposeUnstakeTokens = ({
     }
   };
 
-  useEffect(() => {
-    setSubmitDisabled(!formik.isValid);
-  }, [formik.isValid, formik.dirty, setSubmitDisabled]);
-
   const delegatedAmount = useMemo(() => {
     const delegatedAmount =
       selectedStakingProvider?.delegatedColumn?.delegatedAmount;
     return delegatedAmount;
   }, [selectedStakingProvider?.delegatedColumn?.delegatedAmount]);
 
-  const maxWidth600 = useMediaQuery('(max-width: 600px)');
+  const customAmountValidation = useCallback((value?: string) => {
+    if (value == null) {
+      return { isValid: false, errorMessage: t('Invalid amount') };
+    }
+    value = value.replace(',', '.');
+    const newAmount = Number(value);
+    const delegatedAmount = Number(
+      selectedStakingProvider?.delegatedColumn?.delegatedAmount ?? 0,
+    );
+
+    const leftOverStakedAmount = delegatedAmount - newAmount;
+    if (leftOverStakedAmount < 1 && leftOverStakedAmount !== 0) {
+      setSubmitDisabled(true);
+      return {
+        isValid: false,
+        errorMessage: t('Can not leave behind less than 1 EGLD'),
+      };
+    }
+
+    setSubmitDisabled(true);
+    return {
+      isValid: true,
+      errorMessage: null,
+    };
+  }, []);
+
+  const onAmountError = useCallback((amountErr?: string) => {
+    updateAmountError(amountErr);
+    setSubmitDisabled(true);
+  }, []);
 
   return (
     <UnstakeModalContainerBox
@@ -229,38 +177,36 @@ const ProposeUnstakeTokens = ({
           MenuProps={{ className: 'UnstakeTokenListOpened' }}
           onChange={(e: any) => {
             onChange(e);
-            formik.handleChange(e);
           }}
           className="mb-0"
         >
           {activeDelegationsRows?.map(
-            (activeDelegation: IdentityWithColumns) =>
-              (
-                <MenuItem
-                  key={activeDelegation?.provider}
-                  value={activeDelegation?.provider}
-                  sx={{ paddingY: '0' }}
+            (activeDelegation: IdentityWithColumns) => (
+              <MenuItem
+                key={activeDelegation?.provider}
+                value={activeDelegation?.provider}
+                sx={{ paddingY: '0' }}
+              >
+                <Box
+                  padding={0}
+                  width={'100%'}
+                  display={'flex'}
+                  alignItems="center"
+                  justifyContent={'space-between'}
                 >
-                  <Box
-                    padding={0}
-                    width={'100%'}
-                    display={'flex'}
-                    alignItems="center"
-                    justifyContent={'space-between'}
-                  >
-                    <ProviderColumn
-                      columnData={activeDelegation?.providerColumn}
-                    />
-                    <DelegatedColumn
-                      columnData={
-                        activeDelegation?.delegatedColumn ?? {
-                          delegatedAmount: 'Unknown',
-                        }
+                  <ProviderColumn
+                    columnData={activeDelegation?.providerColumn}
+                  />
+                  <DelegatedColumn
+                    columnData={
+                      activeDelegation?.delegatedColumn ?? {
+                        delegatedAmount: 'Unknown',
                       }
-                    />
-                  </Box>
-                </MenuItem>
-              ) as any,
+                    }
+                  />
+                </Box>
+              </MenuItem>
+            ),
           )}
         </StakedAssetsSelect>
 
@@ -273,7 +219,13 @@ const ProposeUnstakeTokens = ({
       </div>
       <AmountInputWithTokenSelection
         maxValue={delegatedAmount}
+        minAmountAllowed="1"
         onInputChange={handleAmountInputChange}
+        onSuccessfulAmountValidation={() => setSubmitDisabled(false)}
+        onAmountError={onAmountError}
+        onAmountChange={setAmount}
+        customAmountValidation={customAmountValidation}
+        initialAmount={initialAmount}
         config={{
           withTokenSelection: false,
           withAvailableAmount: false,
