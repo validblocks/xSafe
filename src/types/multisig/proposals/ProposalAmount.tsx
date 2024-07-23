@@ -3,23 +3,11 @@ import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import RationalNumber from 'src/utils/RationalNumber';
 import { MultisigSmartContractCall } from './MultisigSmartContractCall';
 import { DelegationFunctionTitle } from '../..';
+import { Converters } from 'src/utils/Converters';
 
 interface Props {
   delegationProposalType: DelegationFunctionTitle;
   multisigSmartContractCall: MultisigSmartContractCall;
-}
-
-function getAmountFromTransactionData(data: string): string {
-  const amountParamHex = data.split('@')[1];
-  const amountParamDecimal = parseInt(amountParamHex ?? '0', 16).toString();
-  const denominatedAmountParam =
-    RationalNumber.fromBigInteger(amountParamDecimal);
-  const prettyBalance = getDenominatedBalance<string>(
-    denominatedAmountParam.toString(),
-    { precisionAfterComma: 18, needsDenomination: false },
-  );
-
-  return prettyBalance;
 }
 
 const transactionsWithNoDataParams = [
@@ -27,6 +15,11 @@ const transactionsWithNoDataParams = [
   DelegationFunctionTitle.RESTAKE_REWARDS,
   DelegationFunctionTitle.WITHDRAW_REWARDS,
 ];
+
+function getAmountFromTransactionData(data: string): string {
+  const amountParamHex = data.split('@')[1];
+  return Converters.denominateBigIntHexWithNDecimals(amountParamHex);
+}
 
 const ProposalAmount = ({
   delegationProposalType,

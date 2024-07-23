@@ -33,6 +33,7 @@ import {
 } from '../../MultisigDetails/styled';
 import { DelegationFunction } from 'src/types/staking';
 import useAmountInputController from 'src/hooks/useAmountInputController';
+import { Converters } from 'src/utils/Converters';
 
 interface ProposeUnstakeTokensType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -67,15 +68,11 @@ const ProposeUnstakeTokens = ({
   const getProposal = (): MultisigSmartContractCall | null => {
     try {
       const nominatedAmount = nominate(amount.toString(), denomination);
-      const amountNumeric = parseInt(nominatedAmount, 10);
-
-      if (Number.isNaN(amountNumeric)) {
-        return null;
-      }
 
       const parsedAddress = new Address(identifier);
 
-      let hexEncodedAmount = amountNumeric.toString(16);
+      let hexEncodedAmount = Converters.nominatedStringToHex(nominatedAmount);
+
       if (hexEncodedAmount.length % 2 !== 0) {
         hexEncodedAmount = `0${hexEncodedAmount}`;
       }
@@ -132,7 +129,7 @@ const ProposeUnstakeTokens = ({
     if (value == null) {
       return { isValid: false, errorMessage: t('Invalid amount') };
     }
-    value = value.replace(',', '.');
+    value = value.replace(',', '');
     const newAmount = Number(value);
     const delegatedAmount = Number(
       selectedStakingProvider?.delegatedColumn?.delegatedAmount ?? 0,

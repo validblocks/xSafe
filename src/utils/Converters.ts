@@ -1,5 +1,6 @@
 import { Address } from '@multiversx/sdk-core/out';
 import { Utils } from '@pulsar.money/core';
+import BigNumber from 'bignumber.js';
 
 export class Converters {
   static bech32ToHex(bech32String: string): string {
@@ -20,5 +21,26 @@ export class Converters {
 
   static hexToString(hex: string): string {
     return Utils.Converters.hexToString(hex);
+  }
+
+  static denominateWithNDecimals(
+    value: string | number | BigNumber,
+    decimals = 18,
+  ): string {
+    return Utils.Number.denominateWithNDecimals(value, decimals);
+  }
+
+  static denominateBigIntHexWithNDecimals(
+    value: string,
+    decimals = 18,
+  ): string {
+    return Utils.Number.denominateWithNDecimals(
+      BigNumber(value ?? '0', 16).toString(10),
+      decimals,
+    );
+  }
+
+  static nominatedStringToHex(nominatedString: string): string {
+    return new BigNumber(nominatedString).toString(16);
   }
 }

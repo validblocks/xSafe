@@ -11,7 +11,7 @@ import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { TokenTableRowItem } from 'src/types/organization';
 import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
-import RationalNumber from 'src/utils/RationalNumber';
+import { Converters } from 'src/utils/Converters';
 
 interface ISendTokenProposalPresentationProps {
   address: Address;
@@ -38,14 +38,11 @@ const SendTokenProposalPresentation = ({
   );
   const proposalAmount = useMemo(
     () =>
-      Number(
-        RationalNumber.fromDynamicTokenAmount(
-          identifier,
-          amount,
-          selectedTokenDetails?.value?.decimals,
-        ),
-      ).toLocaleString('EN') ?? '0',
-    [amount, identifier, selectedTokenDetails?.value?.decimals],
+      Converters.denominateWithNDecimals(
+        amount,
+        selectedTokenDetails?.value?.decimals ?? 18,
+      ) ?? '0',
+    [amount, selectedTokenDetails?.value?.decimals],
   );
 
   const maxWidth600 = useMediaQuery('@media(max-width:600px)');
