@@ -19,9 +19,9 @@ import {
   RemoveItemsButton,
 } from 'src/components/Theme/StyledComponents';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import RationalNumber from 'src/utils/RationalNumber';
 import * as Styled from '../../MultisigDetails/ProposeMultiselectModal/styled';
 import { isAddressValid } from 'src/helpers/validation';
+import { Converters } from 'src/utils/Converters';
 
 interface ProposeSmartContractCallType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -120,7 +120,7 @@ const ProposeSmartContractCall = ({
   }, [setSubmitDisabled]);
 
   const denominatedValue = useMemo(
-    () => RationalNumber.fromBigInteger(multisigBalance.toString()),
+    () => Converters.denominateWithNDecimals(multisigBalance.toString()),
     [multisigBalance],
   );
 
