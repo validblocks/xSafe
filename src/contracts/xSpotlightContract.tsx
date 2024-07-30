@@ -11,7 +11,7 @@ import {
 } from '@multiversx/sdk-core';
 import { ProxyNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { network, xSpotlightContractAddress } from 'src/config';
-import RationalNumber from 'src/utils/RationalNumber';
+import { Converters } from 'src/utils/Converters';
 
 export type ClaimableRoyaltiesReturnType = {
   rawClaimableAmount: TypedValue;
@@ -53,37 +53,42 @@ const xSpotlightContract = new SmartContract({
   address: new Address(xSpotlightContractAddress),
 });
 
-export const queryClaimableRoyalties =
-  async (contractAddress: string): Promise<ClaimableRoyaltiesReturnType | null> => {
-    try {
-      const query = xSpotlightContract.createQuery({
-        func: new ContractFunction('getClaimableAmount'),
-        args: [
-          new AddressValue(new Address(contractAddress)),
-          BytesValue.fromUTF8('EGLD'),
-          new U64Value(0),
-        ],
-      });
+export const queryClaimableRoyalties = async (
+  contractAddress: string,
+): Promise<ClaimableRoyaltiesReturnType | null> => {
+  try {
+    const query = xSpotlightContract.createQuery({
+      func: new ContractFunction('getClaimableAmount'),
+      args: [
+        new AddressValue(new Address(contractAddress)),
+        BytesValue.fromUTF8('EGLD'),
+        new U64Value(0),
+      ],
+    });
 
-      const getClaimableAmountEndpoint = xSpotlightPartialAbi.getEndpoint('getClaimableAmount');
-      const queryResponse = await networkProvider.queryContract(query);
-      const {
-        values: [
-          rawClaimableAmount,
-        ],
-      } = new ResultsParser().parseQueryResponse(queryResponse, getClaimableAmountEndpoint);
+    const getClaimableAmountEndpoint =
+      xSpotlightPartialAbi.getEndpoint('getClaimableAmount');
+    const queryResponse = await networkProvider.queryContract(query);
+    const {
+      values: [rawClaimableAmount],
+    } = new ResultsParser().parseQueryResponse(
+      queryResponse,
+      getClaimableAmountEndpoint,
+    );
 
-      const parsedClaimableAmount = rawClaimableAmount.valueOf().toString();
-      const denominatedClaimableAmount = RationalNumber.fromBigInteger(parsedClaimableAmount);
+    const parsedClaimableAmount = rawClaimableAmount.valueOf().toString();
+    const denominatedClaimableAmount = Converters.denominateWithNDecimals(
+      parsedClaimableAmount,
+    );
 
-      return {
-        rawClaimableAmount,
-        parsedClaimableAmount,
-        denominatedClaimableAmount: denominatedClaimableAmount.toString(),
-      };
-    } catch (e) {
-      console.error(e);
-    }
+    return {
+      rawClaimableAmount,
+      parsedClaimableAmount,
+      denominatedClaimableAmount: denominatedClaimableAmount.toString(),
+    };
+  } catch (e) {
+    console.error(e);
+  }
 
-    return null;
-  };
+  return null;
+};
