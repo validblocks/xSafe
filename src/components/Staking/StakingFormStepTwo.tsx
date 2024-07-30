@@ -26,6 +26,7 @@ import {
 import { Text } from '../StyledComponents/StyledComponents';
 import AmountInputWithTokenSelection from '../Utils/AmountInputWithTokenSelection';
 import useAmountInputController from 'src/hooks/useAmountInputController';
+import BigNumber from 'bignumber.js';
 
 const StakingFormStepTwo = () => {
   const [buttonWidth, setButtonWidth] = useState(0);
@@ -98,10 +99,7 @@ const StakingFormStepTwo = () => {
     const addressParam = new Address(selectedProvider?.provider);
 
     const inputAmount = amount.replaceAll(',', '');
-    const amountNumeric = Number(inputAmount);
-    if (Number.isNaN(amountNumeric)) {
-      return;
-    }
+    const amountNumeric = new BigNumber(inputAmount);
 
     const amountParam = new BigUIntValue(
       TokenTransfer.egldFromAmount(amountNumeric).valueOf(),

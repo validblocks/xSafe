@@ -1,6 +1,4 @@
 import { useCallback, useMemo } from 'react';
-import { getDenominatedBalance } from 'src/utils/balanceUtils';
-import RationalNumber from 'src/utils/RationalNumber';
 import { MultisigSmartContractCall } from './MultisigSmartContractCall';
 import { DelegationFunctionTitle } from '../..';
 import { Converters } from 'src/utils/Converters';
@@ -45,11 +43,8 @@ const ProposalAmount = ({
       case DelegationFunctionTitle.STAKE_TOKENS: {
         const { amount } = multisigSmartContractCall;
         const amountToString = amount.valueOf().toString();
-        const balance = RationalNumber.fromBigInteger(amountToString);
-        const denominatedBalance = getDenominatedBalance<string>(
-          balance.toString(),
-          { precisionAfterComma: 18, needsDenomination: false },
-        );
+        const denominatedBalance =
+          Converters.denominateWithNDecimals(amountToString);
         proposalAmount = denominatedBalance;
         break;
       }
