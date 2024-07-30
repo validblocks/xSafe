@@ -18,16 +18,16 @@ import {
   IUndelegatedFunds,
 } from 'src/types/staking';
 import useProviderIdentitiesAfterSelection from 'src/hooks/useProviderIdentitiesAfterSelection';
-import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import { setActiveDelegationRows } from 'src/redux/slices/accountGeneralInfoSlice';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
-import RationalNumber from 'src/utils/RationalNumber';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import AmountWithTitleCard from '../Utils/AmountWithTitleCard';
 import { MainButton } from '../Theme/StyledComponents';
 import ActiveDelegationsTable from './ActiveDelegationsTable';
 import { SafeApi } from 'src/services/xSafeApiProvider';
+import { Converters } from 'src/utils/Converters';
+import BigNumber from 'bignumber.js';
 
 const MyStake = () => {
   const theme = useCustomTheme();
@@ -45,10 +45,15 @@ const MyStake = () => {
     isErrorOnFetchingProviderIdentities,
   } = useProviderIdentitiesAfterSelection();
 
-  const [totalActiveStake, setTotalActiveStake] = useState(0);
-  const [totalClaimableRewards, setTotalClaimableRewards] =
-    useState<string>('0');
-  const [totalUndelegatedFunds, setTotalUndelegatedFunds] = useState(0);
+  const [totalActiveStake, setTotalActiveStake] = useState<BigNumber>(
+    new BigNumber(0),
+  );
+  const [totalClaimableRewards, setTotalClaimableRewards] = useState<BigNumber>(
+    new BigNumber(0),
+  );
+  const [totalUndelegatedFunds, setTotalUndelegatedFunds] = useState<BigNumber>(
+    new BigNumber(0),
+  );
 
   const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
 
@@ -80,25 +85,29 @@ const MyStake = () => {
     )
       return;
 
-    const totalActiveStake = fetchedDelegations?.reduce(
-      (totalSum: number, delegation: IDelegation) =>
-        totalSum +
-        RationalNumber.fromBigInteger(delegation?.userActiveStake ?? 0),
-      0,
+    const totalActiveStake: BigNumber = fetchedDelegations?.reduce(
+      (totalSum: BigNumber, delegation: IDelegation) =>
+        totalSum.plus(
+          BigNumber(
+            Converters.denominateWithNDecimals(
+              delegation?.userActiveStake ?? 0,
+            ),
+          ),
+        ),
+      new BigNumber(0),
     );
 
-    const allClaimableRewards = fetchedDelegations?.reduce(
-      (totalSum: number, delegation: IDelegation) =>
-        totalSum +
-        RationalNumber.fromBigInteger(delegation?.claimableRewards ?? 0),
-      0,
+    const allClaimableRewards: BigNumber = fetchedDelegations?.reduce(
+      (totalSum: BigNumber, delegation: IDelegation) =>
+        totalSum.plus(
+          BigNumber(
+            Converters.denominateWithNDecimals(
+              delegation?.claimableRewards ?? 0,
+            ),
+          ),
+        ),
+      new BigNumber(0),
     );
-
-    const allClaimableRewardsString = getDenominatedBalance<string>(
-      allClaimableRewards.toString(),
-      { precisionAfterComma: 18, needsDenomination: false },
-    );
-    setTotalClaimableRewards(allClaimableRewardsString);
 
     const contractUndelegations = fetchedDelegations?.reduce(
       (acc: IUndelegatedFunds[], delegation: IDelegation) =>
@@ -108,20 +117,14 @@ const MyStake = () => {
       [],
     );
 
-    const totalUndelegations = contractUndelegations.reduce(
-      (totalSum: number, undelegation: IUndelegatedFunds) => {
-        const amount = RationalNumber.fromBigInteger(undelegation?.amount ?? 0);
-
-        return totalSum + amount;
+    const totalUndelegations: BigNumber = contractUndelegations.reduce(
+      (totalSum: BigNumber, undelegation: IUndelegatedFunds) => {
+        const amount = Converters.denominateWithNDecimals(
+          undelegation?.amount ?? 0,
+        );
+        return totalSum.plus(new BigNumber(amount));
       },
-      0,
-    );
-
-    setTotalUndelegatedFunds(
-      getDenominatedBalance<number>(totalUndelegations.toString(), {
-        precisionAfterComma: 18,
-        needsDenomination: false,
-      }),
+      new BigNumber(0),
     );
 
     const activeDelegationsRows =
@@ -139,15 +142,12 @@ const MyStake = () => {
           );
 
           const delegatedAmount = delegation
-            ? getDenominatedBalance<string>(delegation.userActiveStake, {
-                precisionAfterComma: 18,
-              })
+            ? Converters.denominateWithNDecimals(delegation.userActiveStake)
             : '0';
 
-          const claimableRewards =
-            getDenominatedBalance<number>(delegation.claimableRewards, {
-              precisionAfterComma: 18,
-            }) ?? '0';
+          const claimableRewards = Converters.denominateWithNDecimals(
+            delegation.claimableRewards ?? '0',
+          );
 
           return {
             ...providerIdentity,
@@ -163,6 +163,8 @@ const MyStake = () => {
     dispatch(setActiveDelegationRows(activeDelegationsRows));
 
     setTotalActiveStake(totalActiveStake);
+    setTotalUndelegatedFunds(totalUndelegations);
+    setTotalClaimableRewards(allClaimableRewards);
   }, [
     dispatch,
     fetchDelegations,
@@ -184,10 +186,6 @@ const MyStake = () => {
       refetchDelegations();
     },
   });
-
-  const allClaimableRewards = Number(
-    Number(totalClaimableRewards).toLocaleString('EN'),
-  );
 
   if (isErrorOnFetchDelegations) {
     return <ErrorOnFetchIndicator dataName="delegation" />;
@@ -245,7 +243,7 @@ const MyStake = () => {
             }
           >
             <AmountWithTitleCard
-              amountValue={allClaimableRewards}
+              amountValue={totalClaimableRewards}
               amountUnityMeasure={'EGLD'}
               actionButton={
                 <Button
