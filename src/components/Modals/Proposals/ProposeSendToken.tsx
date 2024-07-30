@@ -18,6 +18,7 @@ import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithT
 import * as Styled from '../../MultisigDetails/ProposeMultiselectModal/styled';
 import { isAddressValid } from 'src/helpers/validation';
 import useAmountInputController from 'src/hooks/useAmountInputController';
+import BigNumber from 'bignumber.js';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken | MultisigSendEgld) => void;
@@ -94,10 +95,7 @@ const ProposeSendToken = memo(
       try {
         const addressParam = new Address(address);
 
-        const amountNumeric = Number(amount?.replaceAll(',', ''));
-        if (Number.isNaN(amountNumeric)) {
-          return null;
-        }
+        const amountNumeric = new BigNumber(amount?.replaceAll(',', ''));
 
         const amountParam = new BigUIntValue(
           TokenTransfer.egldFromAmount(amountNumeric).valueOf(),
