@@ -11,7 +11,7 @@ import {
 } from 'src/types/staking';
 import { getDenominatedBalance } from '../utils/balanceUtils';
 import pipe from '../utils/compose';
-import RationalNumber from '../utils/RationalNumber';
+import { Converters } from 'src/utils/Converters';
 
 interface InputParams {
   searchParam?: string;
@@ -43,12 +43,12 @@ export default function useProviderIdentitiesAfterSelection({
         );
 
         const stakedAmount = Number(
-          RationalNumber.fromBigInteger(
+          Converters.denominateWithNDecimals(
             providerBeforeIdentityFetch?.locked ?? '0',
           ),
         );
         const providerDelegationCap = Number(
-          RationalNumber.fromBigInteger(
+          Converters.denominateWithNDecimals(
             providerBeforeIdentityFetch?.delegationCap ?? '0',
           ),
         );
@@ -124,14 +124,14 @@ export default function useProviderIdentitiesAfterSelection({
           ?.filter((p) => !p.identity)
           .map((provider) => {
             const stakedAmount = Number(
-              RationalNumber.fromBigInteger(provider.locked),
+              Converters.denominateWithNDecimals(provider.locked),
             );
 
             const providerBeforeIdentityFetch = fetchedProviders?.find(
               (p) => p.identity === provider.identity,
             );
             const providerDelegationCap = Number(
-              RationalNumber.fromBigInteger(
+              Converters.denominateWithNDecimals(
                 providerBeforeIdentityFetch?.delegationCap ?? '0',
               ),
             );
