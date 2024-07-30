@@ -28,8 +28,7 @@ import useAmountInputController from 'src/hooks/useAmountInputController';
 const initialFormAmount = '0';
 
 const LendInJewelSwap = () => {
-  const { handleAmountInputChange, amount } =
-    useAmountInputController(initialFormAmount);
+  const { amount, setAmount } = useAmountInputController(initialFormAmount);
   const [isLendButtonEnabled, setIsLendButtonEnabled] = useState(true);
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
@@ -41,13 +40,13 @@ const LendInJewelSwap = () => {
 
   const handleLendButtonClick = useCallback(async () => {
     try {
+      const amountBigNumber = new BigNumber(
+        amount.toString().replaceAll(',', ''),
+      ).shiftedBy(18);
+
       await mutateSmartContractCall(
         new Address(jewelSwapLendingContractAddress),
-        new BigUIntValue(
-          new BigNumber(Number(amount.replaceAll(',', '')))
-            .shiftedBy(18)
-            .decimalPlaces(0, BigNumber.ROUND_FLOOR),
-        ),
+        new BigUIntValue(amountBigNumber),
         ExternalContractFunction.LEND_IN_JEWELSWAP,
       );
     } catch (e) {
@@ -151,8 +150,8 @@ const LendInJewelSwap = () => {
                     onAmountIsZero={disableLendButton}
                     onAmountIsBiggerThanBalance={disableLendButton}
                     onAmountIsLessThanAllowed={disableLendButton}
+                    onAmountChange={setAmount}
                     onSuccessfulAmountValidation={enableLendButton}
-                    onInputChange={handleAmountInputChange}
                     config={{
                       withTokenSelection: false,
                       withAvailableAmount: true,

@@ -8,13 +8,13 @@ import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
 import { Text } from '../StyledComponents/StyledComponents';
 import SouthIcon from '@mui/icons-material/South';
 import { jewelSwapLendingContractAddress, network } from 'src/config';
-import RationalNumber from 'src/utils/RationalNumber';
 import { useMemo } from 'react';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import CopyButton from '../Utils/CopyButton';
 import { AnchorPurple } from '../Layout/Navbar/navbar-style';
 import * as Styled from '../../components/Utils/styled/index';
+import { Converters } from 'src/utils/Converters';
 
 type Props = {
   parsedArgs: any;
@@ -23,10 +23,7 @@ type Props = {
 
 const LendInJewelSwapPresentation = ({ parsedArgs: _, lendAmount }: Props) => {
   const amount = useMemo(
-    () =>
-      RationalNumber.fromBigInteger(
-        lendAmount.valueOf().toString(),
-      ).toLocaleString('EN'),
+    () => Converters.denominateWithNDecimals(lendAmount.valueOf().valueOf()),
     [lendAmount],
   );
 
