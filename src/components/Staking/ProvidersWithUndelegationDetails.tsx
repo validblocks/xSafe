@@ -20,7 +20,6 @@ import { useQueryClient } from 'react-query';
 import useReactQueryState from 'src/react-query/useReactQueryState';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
-import { getDenominatedBalance } from 'src/utils/balanceUtils';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import HourglassTopRoundedIcon from '@mui/icons-material/HourglassTop';
@@ -28,7 +27,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
-import RationalNumber from 'src/utils/RationalNumber';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ProviderColumn from './ProviderColumn';
@@ -38,6 +36,7 @@ import { HtmlTooltip } from '../Utils/HtmlTooltip';
 import CountdownTimer from '../Utils/CountdownTimer';
 import * as Styled from './styled';
 import { Text } from '../StyledComponents/StyledComponents';
+import { Converters } from 'src/utils/Converters';
 
 interface Props {
   searchParam?: string;
@@ -104,11 +103,13 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
         const totalRequestedUndelegations =
           delegation?.userUndelegatedList.reduce(
-            (totalSum: number, undelegation: IUndelegatedFunds) => {
-              const amount = RationalNumber.fromBigInteger(undelegation.amount);
-              return totalSum + amount;
+            (totalSum: BigNumber, undelegation: IUndelegatedFunds) => {
+              const amount = Converters.denominateWithNDecimals(
+                undelegation.amount,
+              );
+              return totalSum.plus(amount);
             },
-            0,
+            new BigNumber(0),
           );
 
         const withdrawableUndelegations =
@@ -118,11 +119,13 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
         const withdrawableUndelegationsAmount =
           withdrawableUndelegations?.reduce(
-            (totalSum: number, undelegation: IUndelegatedFunds) => {
-              const amount = RationalNumber.fromBigInteger(undelegation.amount);
-              return totalSum + amount;
+            (totalSum: BigNumber, undelegation: IUndelegatedFunds) => {
+              const amount = Converters.denominateWithNDecimals(
+                undelegation.amount,
+              );
+              return totalSum.plus(amount);
             },
-            0,
+            new BigNumber(0),
           );
 
         const pendingWithdrawals = delegation?.userUndelegatedList.filter(
@@ -131,20 +134,9 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
 
         return {
           ...providerIdentity,
-          totalRequestedUndelegations: getDenominatedBalance(
-            totalRequestedUndelegations?.toString() ?? '0',
-            {
-              precisionAfterComma: 2,
-              needsDenomination: false,
-            },
-          ),
-          withdrawableUndelegationsAmount: getDenominatedBalance(
-            withdrawableUndelegationsAmount?.toString() ?? '0',
-            {
-              precisionAfterComma: 2,
-              needsDenomination: false,
-            },
-          ),
+          totalRequestedUndelegations: totalRequestedUndelegations?.valueOf(),
+          withdrawableUndelegationsAmount:
+            withdrawableUndelegationsAmount?.valueOf(),
           pendingWithdrawals,
         };
       });
@@ -301,7 +293,8 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                       mr: '0 !important',
                     }}
                     disabled={
-                      row.withdrawableUndelegationsAmount === 0 || isWithdrawing
+                      row.withdrawableUndelegationsAmount?.valueOf() === '0' ||
+                      isWithdrawing
                     }
                     className="shadow-sm rounded mr-2"
                     onClick={() => {
@@ -362,11 +355,9 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
                       <Text>Amount: </Text>
                     </Box>
                     <Box>
-                      <Text>
-                        {`${getDenominatedBalance(withdrawal.amount, {
-                          precisionAfterComma: 2,
-                        })} $EGLD`}
-                      </Text>
+                      <Text>{`${Converters.denominateWithNDecimals(
+                        withdrawal.amount,
+                      )} $EGLD`}</Text>
                     </Box>
                   </Box>
                   <Box
