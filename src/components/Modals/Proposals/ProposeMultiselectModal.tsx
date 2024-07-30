@@ -147,7 +147,6 @@ const ProposeMultiselectModal = ({
   };
 
   const handleProposalChange = useCallback((proposal: MultisigAction) => {
-    console.log({ proposal });
     setSelectedProposal(proposal);
   }, []);
 

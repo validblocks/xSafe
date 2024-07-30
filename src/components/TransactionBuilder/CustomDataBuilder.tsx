@@ -105,8 +105,6 @@ export const CustomDataBuilder = React.memo(
       setCustomArgs(newArgs);
     }, []);
 
-    console.log({ validationResults });
-
     return (
       <Box data-testid="cdb-container">
         <Box

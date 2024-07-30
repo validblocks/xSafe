@@ -36,11 +36,14 @@ const SendTokenProposalPresentation = ({
       ),
     [identifier, tokenTableRows],
   );
+
   const proposalAmount = useMemo(
     () =>
       Converters.denominateWithNDecimals(
         amount,
-        selectedTokenDetails?.value?.decimals ?? 18,
+        identifier === 'EGLD'
+          ? 18
+          : selectedTokenDetails?.value?.decimals ?? 18,
       ) ?? '0',
     [amount, selectedTokenDetails?.value?.decimals],
   );

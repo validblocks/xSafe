@@ -15,6 +15,7 @@ export const SafeDetails = () => {
       <Styled.DetailsCardContainerBox>
         <Grid
           container
+          alignItems="stretch"
           justifyContent={widthBetween520And600 ? 'space-between' : ''}
           gap={'12px'}
         >

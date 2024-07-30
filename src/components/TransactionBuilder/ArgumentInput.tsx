@@ -27,7 +27,6 @@ export const ArgumentInput = memo(
   }: ArgumentInputProps) => {
     const handleChange = useCallback(
       (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log({ innerE: e });
         onChange?.(e);
       },
       [onChange],

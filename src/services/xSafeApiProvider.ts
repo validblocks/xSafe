@@ -35,7 +35,6 @@ export class xSafeApiProvider extends ApiNetworkProvider {
   ) {
     const params = { ...filters };
 
-    console.log({ params });
     return axios
       .get(`${xSafeApiUrl}/templates`, {
         headers: {

@@ -1,10 +1,10 @@
 import { BigUIntValue, Address } from '@multiversx/sdk-core';
 import { BytesValue } from '@multiversx/sdk-core/out/smartcontracts/typesystem';
 import i18next from 'i18next';
-import RationalNumber from 'src/utils/RationalNumber';
 import { MultisigAction } from '../MultisigAction';
 
 import { MultisigActionType } from '../MultisigActionType';
+import { Converters } from 'src/utils/Converters';
 
 export class MultisigUpgradeContractFromSource extends MultisigAction {
   address: Address;
@@ -51,7 +51,7 @@ export class MultisigUpgradeContractFromSource extends MultisigAction {
   }
 
   description() {
-    const denominatedAmount = RationalNumber.fromBigInteger(
+    const denominatedAmount = Converters.denominateWithNDecimals(
       this.amount.valueOf().toString(),
     );
     return `${i18next.t('Amount')}: ${denominatedAmount}`;
