@@ -60,6 +60,7 @@ import { SocketEvent } from 'src/types/websockets';
 import { AccountBalanceWallet } from '@mui/icons-material';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { TokenType } from '@multiversx/sdk-dapp/types/tokens.types';
+import { Converters } from 'src/utils/Converters';
 
 const identifierWithoutUniqueHash = (identifier: string) =>
   identifier?.split('-')[0] ?? '';
@@ -305,7 +306,7 @@ function TotalBalance() {
     );
 
     const totalEgldValue =
-      Number(RationalNumber.fromBigInteger(egldBalanceDetails ?? 0)) *
+      Number(Converters.denominateWithNDecimals(egldBalanceDetails ?? 0)) *
         egldPrice ?? '0';
     setTotalUsdValue(totalAssetsValue + totalEgldValue);
     dispatch(setTotalUsdBalance(totalAssetsValue + totalEgldValue));
