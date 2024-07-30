@@ -16,6 +16,7 @@ import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlic
 import { ProposalsTypes } from 'src/types/multisig/proposals/Proposals';
 import useCurrencyConversion from './useCurrencyConversion';
 import { useCustomTranslation } from './useCustomTranslation';
+import BigNumber from 'bignumber.js';
 
 export default function useMultisigDetailsCards() {
   const navigate = useNavigate();
@@ -106,9 +107,16 @@ export default function useMultisigDetailsCards() {
     [dispatch],
   );
 
+  console.log({
+    totalOrganizationValueToDisplay: new BigNumber(
+      totalOrganizationValueToDisplay.replaceAll(',', ''),
+    ).valueOf(),
+  });
+
   const topSectionCards = useMemo(
     () => [
       <AmountWithTitleCard
+        amountValue={null}
         key={0}
         needsDollarSign={false}
         amountUnityMeasure={t(userRoleAsString)}
@@ -125,9 +133,9 @@ export default function useMultisigDetailsCards() {
       <AmountWithTitleCard
         key={1}
         needsDollarSign={false}
-        amountValue={Number(
-          totalOrganizationValueToDisplay.replaceAll(',', ''),
-        )}
+        amountValue={
+          new BigNumber(totalOrganizationValueToDisplay.replaceAll(',', ''))
+        }
         amountUnityMeasure={getCurrency}
         actionButton={
           <ReceiveModal showQrFromCard address={currentContract?.address} />
@@ -152,7 +160,7 @@ export default function useMultisigDetailsCards() {
       <AmountWithTitleCard
         key={0}
         needsDollarSign={false}
-        amountValue={organizatonAssets?.tokens}
+        amountValue={new BigNumber(organizatonAssets?.tokens)}
         amountUnityMeasure={'Tokens'}
         title={'Organization Tokens'}
         actionButton={
@@ -164,7 +172,7 @@ export default function useMultisigDetailsCards() {
       <AmountWithTitleCard
         key={0}
         needsDollarSign={false}
-        amountValue={nftCount}
+        amountValue={new BigNumber(nftCount)}
         amountUnityMeasure={'NFTs'}
         actionButton={
           <Styled.CardButton onClick={() => navigate(routeNames.nft)}>
@@ -176,7 +184,7 @@ export default function useMultisigDetailsCards() {
       <AmountWithTitleCard
         key={2}
         needsDollarSign={false}
-        amountValue={contractInfo.totalBoardMembers ?? 0}
+        amountValue={new BigNumber(contractInfo.totalBoardMembers ?? 0)}
         amountUnityMeasure={
           contractInfo.totalBoardMembers?.toString() === '1'
             ? 'Member'
@@ -195,6 +203,7 @@ export default function useMultisigDetailsCards() {
         title={'Organization Members'}
       />,
       <AmountWithTitleCard
+        amountValue={null}
         key={3}
         needsDollarSign={false}
         amountUnityMeasure={`${contractInfo.quorumSize?.toString() ?? '0'}/${

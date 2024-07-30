@@ -1,15 +1,15 @@
 import { Box, CircularProgress, useMediaQuery } from '@mui/material';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
-import { CardSkeleton } from '../Skeletons/CardSkeleton';
 import {
   CardTitle,
   MultisigCard,
   Text,
 } from '../StyledComponents/StyledComponents';
+import BigNumber from 'bignumber.js';
 
 interface Props {
   title: string;
-  amountValue?: number;
+  amountValue: BigNumber | null;
   amountUnityMeasure: string;
   actionButton?: React.ReactElement | null;
   needsDollarSign?: boolean;
@@ -28,17 +28,13 @@ const AmountWithTitleCard = ({
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
-  if (Number.isNaN(amountValue)) return <CardSkeleton />;
+  const cardAmount = amountValue === null ? '' : amountValue.valueOf();
 
-  const cardAmount =
-    amountValue || amountValue === 0 ? Number(amountValue) : '';
-
-  const amountInteger = cardAmount.toString().split('.')?.[0] || 0;
-  const amountDecimals = cardAmount.toString().split('.')?.[1] || 0;
+  const amountInteger = cardAmount?.split('.')?.[0] || 0;
+  const amountDecimals = cardAmount?.split('.')?.[1] || 0;
 
   const hasAmountDecimals = !!amountDecimals && amountDecimals !== '0';
-  const hasAmountInteger =
-    (!!amountInteger && amountInteger !== '0') || hasAmountDecimals;
+  const hasAmountInteger = !!Number(amountInteger) || amountInteger === '0';
   const hasNumbers = hasAmountInteger || hasAmountDecimals;
 
   return (
