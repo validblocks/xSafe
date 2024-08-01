@@ -108,9 +108,7 @@ const LendInJewelSwap = () => {
                     <BalanceDisplay
                       bigFontSize={16}
                       smallFontSize={12}
-                      number={tokenValue
-                        .toLocaleString('EN')
-                        .replaceAll(',', '')}
+                      number={tokenValue.valueOf().replaceAll(',', '')}
                     />
                   </Box>
                   <Box pl={0.5} fontSize={12}>
