@@ -16,9 +16,9 @@ import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import DisplayTokenPrice from 'src/components/Utils/DisplayTokenPrice';
 import { Box, Typography } from '@mui/material';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
-import RationalNumber from 'src/utils/RationalNumber';
 import * as Styled from '../../pages/Organization/styled';
 import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
+import { Converters } from 'src/utils/Converters';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 export const SQUARE_SMALL_IMAGE_WIDTH = 20;
@@ -107,8 +107,7 @@ const AssetsTable = () => {
         renderCell: (params: GridRenderCellParams) => (
           <h6 className="text-center mb-0 font-weight-normal">
             {Number(
-              RationalNumber.fromDynamicTokenAmount(
-                params.value?.identifier,
+              Converters.denominateWithNDecimals(
                 params.value?.amount,
                 params.value?.identifier === 'EGLD'
                   ? 18
