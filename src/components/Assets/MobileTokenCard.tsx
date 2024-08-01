@@ -10,6 +10,7 @@ import { Text } from '../StyledComponents/StyledComponents';
 import { AssetActionButton } from '../Theme/StyledComponents';
 import { SQUARE_SMALL_IMAGE_WIDTH } from './MobileCardsForTableReplacement';
 import { Converters } from 'src/utils/Converters';
+import BigNumber from 'bignumber.js';
 
 interface IProps {
   tokenRow: TokenTableRowItem;
@@ -69,9 +70,9 @@ const MobileTokenCard = ({
           <DisplayTokenPrice
             balanceDetails={
               tokenRow.value ?? {
-                amount: '0',
+                amount: new BigNumber('0'),
                 decimals: 0,
-                tokenPrice: 0,
+                tokenPrice: new BigNumber('0'),
                 photoUrl: '',
                 identifier: '',
               }

@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import { getAccountBalance as getAccount } from '@multiversx/sdk-dapp/utils/account';
-import { TokenTransfer } from '@multiversx/sdk-core/out';
 import {
   Box,
   CircularProgress,
@@ -31,7 +30,6 @@ import {
 } from 'src/types/multisig/proposals/Proposals';
 import Divider from '@mui/material/Divider';
 import {
-  setMultisigBalance,
   setOrganizationTokens,
   setTokenTableRows,
   setTotalUsdBalance,
@@ -50,7 +48,6 @@ import {
   useGetLoginInfo,
   useTrackTransactionStatus,
 } from '@multiversx/sdk-dapp/hooks';
-import RationalNumber from 'src/utils/RationalNumber';
 import { CenteredText } from '../navbar-style';
 import * as Styled from '../styled';
 import { useSendTokenButtonMinWidth } from './useSendTokenButtonMinWidth';
@@ -61,10 +58,90 @@ import { AccountBalanceWallet } from '@mui/icons-material';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { TokenType } from '@multiversx/sdk-dapp/types/tokens.types';
 import { Converters } from 'src/utils/Converters';
+import BigNumber from 'bignumber.js';
 
 const identifierWithoutUniqueHash = (identifier: string) =>
   identifier?.split('-')[0] ?? '';
 export const DECIMAL_POINTS_UI = 3;
+
+const createEgldRow = (egldBalanceDetails: string, egldPrice: number) => {
+  const egldBalanceBigNumber = new BigNumber(egldBalanceDetails);
+  return {
+    id: 'EGLD',
+    tokenIdentifier: 'EGLD',
+    identifier: 'EGLD',
+    balance: egldBalanceBigNumber,
+    presentation: {
+      tokenIdentifier: 'EGLD',
+      photoUrl: '',
+    },
+    balanceDetails: {
+      identifier: 'EGLD',
+      photoUrl: '',
+      amount: egldBalanceBigNumber,
+      decimals: 18,
+    },
+    value: {
+      tokenPrice: new BigNumber(egldPrice),
+      decimals: 18,
+      amount: egldBalanceBigNumber,
+    },
+  };
+};
+
+const transformToken = (token: TokenType): TokenTableRowItem => {
+  const { assets: _, ...rest } = token;
+  return {
+    ...rest,
+    id: token.identifier,
+    valueUsd: new BigNumber(token.valueUsd ?? 0),
+    presentation: {
+      tokenIdentifier: token.identifier,
+      photoUrl: token.assets?.svgUrl ?? '',
+    },
+    balanceDetails: {
+      photoUrl: token.assets?.svgUrl ?? '',
+      identifier: identifierWithoutUniqueHash(token.identifier),
+      amount: new BigNumber(token.balance ?? 0),
+      decimals: token.identifier === 'EGLD' ? 18 : token.decimals ?? 18,
+      tokenPrice: new BigNumber(token.price ?? 0),
+    },
+    value: {
+      tokenPrice: new BigNumber(token.price ?? 0),
+      decimals: token.identifier === 'EGLD' ? 18 : token.decimals ?? 18,
+      amount: new BigNumber(token.balance ?? 0),
+      photoUrl: token.assets?.svgUrl ?? '',
+      identifier: token.identifier,
+    },
+  };
+};
+
+const createOrganizationToken = (
+  token: TokenTableRowItem,
+): OrganizationToken => {
+  const denominatedAmountString = Converters.denominateWithNDecimals(
+    BigNumber.isBigNumber(token.value.amount) ? token.value?.amount : 0,
+    token.identifier === 'EGLD' ? 18 : token.value?.decimals ?? 18,
+  );
+  const denominatedAmountForCalcs = new BigNumber(denominatedAmountString);
+
+  const priceAsBigNumber = token.value.tokenPrice;
+  const totalUsdValue =
+    token.balanceDetails && 'usdValue' in token.balanceDetails
+      ? new BigNumber(token.balanceDetails.usdValue as string)
+      : denominatedAmountForCalcs.times(priceAsBigNumber);
+
+  return {
+    prettyIdentifier: token.identifier?.split('-')[0] ?? '',
+    identifier: token.identifier ?? '',
+    photoUrl: token.balanceDetails?.photoUrl ?? '',
+    tokenPrice: priceAsBigNumber,
+    balanceLocaleString: Number(denominatedAmountForCalcs).toLocaleString('EN'),
+    balance: denominatedAmountForCalcs,
+    tokenValue: totalUsdValue,
+    decimals: token.decimals ?? 18,
+  };
+};
 
 function TotalBalance() {
   const dispatch = useDispatch();
@@ -157,144 +234,23 @@ function TotalBalance() {
     if (!addressTokens || !egldBalanceDetails) {
       return null;
     }
-    const egldRow = {
-      id: 'EGLD',
-      tokenIdentifier: 'EGLD',
-      identifier: 'EGLD',
-      balance: +egldBalanceDetails,
-      presentation: {
-        tokenIdentifier: 'EGLD',
-        photoUrl: '',
-      },
-      balanceDetails: {
-        identifier: 'EGLD',
-        photoUrl: '',
-        amount: egldBalanceDetails,
-        decimals: 3,
-      },
-      value: {
-        tokenPrice: egldPrice,
-        decimals: 3,
-        amount: egldBalanceDetails,
-      },
-    };
-    // delete egldRow.owner;
 
-    const allTokens = [
-      egldRow,
-      ...addressTokens?.map((token: TokenType) => ({
-        ...token,
-        id: token.identifier,
-        presentation: {
-          tokenIdentifier: token.identifier,
-          photoUrl: token.assets?.svgUrl,
-        },
-        balanceDetails: {
-          photoUrl: token.assets?.svgUrl,
-          identifier: identifierWithoutUniqueHash(token.identifier),
-          amount: token.balance as string,
-          decimals: token.decimals as number,
-        },
-        value: {
-          tokenPrice: token?.price
-            ? parseFloat(token.price.toString())
-            : 'unknown',
-          decimals: token.decimals as number,
-          amount: token.balance as string,
-          valueUsd: token.valueUsd,
-        },
-      })),
-    ];
+    const egldRow = createEgldRow(egldBalanceDetails, egldPrice);
+    const allTokens = [egldRow, ...addressTokens.map(transformToken)];
 
     return allTokens;
   }, [addressTokens, egldBalanceDetails, egldPrice]);
 
   useEffect(() => {
-    if (
-      !currentContract?.address ||
-      !newTokensWithPrices ||
-      !egldBalanceDetails
-    ) {
+    if (!currentContract?.address || !newTokensWithPrices) {
       return;
     }
 
-    (function getTokens() {
-      let isMounted = true;
+    const organizationTokens = newTokensWithPrices.map(createOrganizationToken);
 
-      if (
-        !currentContract?.address ||
-        !newTokensWithPrices ||
-        !egldBalanceDetails ||
-        !isMounted
-      ) {
-        return () => {
-          isMounted = false;
-        };
-      }
-
-      try {
-        const organizationTokens: OrganizationToken[] = newTokensWithPrices.map(
-          ({
-            identifier,
-            balanceDetails,
-            value,
-            decimals,
-          }: TokenTableRowItem) => {
-            const amountAsRationalNumber =
-              RationalNumber.fromDynamicTokenAmount(
-                identifier ?? '',
-                value?.amount as string,
-                value?.decimals,
-              );
-
-            const denominatedAmountForCalcs = Number(amountAsRationalNumber);
-            const priceAsNumber = value?.tokenPrice as number;
-            const totalUsdValue =
-              balanceDetails && 'usdValue' in balanceDetails
-                ? (balanceDetails.usdValue as number)
-                : Number(
-                    Number(denominatedAmountForCalcs * priceAsNumber).toFixed(
-                      2,
-                    ),
-                  );
-            const tokenPrice = parseFloat(Number(priceAsNumber).toPrecision(4));
-
-            return {
-              prettyIdentifier: identifier?.split('-')[0] ?? '',
-              identifier: identifier ?? '',
-              photoUrl: balanceDetails?.photoUrl ?? '',
-              tokenPrice,
-              balanceLocaleString: Number(
-                denominatedAmountForCalcs,
-              ).toLocaleString('EN'),
-              balance: denominatedAmountForCalcs,
-              tokenValue: totalUsdValue,
-              decimals: decimals ?? 18,
-            };
-          },
-        );
-
-        const persistedBalance = JSON.stringify(
-          TokenTransfer.egldFromBigInteger(
-            egldBalanceDetails,
-          ).amount.toString(),
-        );
-
-        dispatch(setMultisigBalance(persistedBalance));
-        dispatch(setTokenTableRows(newTokensWithPrices));
-        dispatch(setOrganizationTokens(organizationTokens));
-      } catch (error) {
-        console.error(error);
-      }
-
-      return true;
-    })();
-  }, [
-    currentContract?.address,
-    dispatch,
-    egldBalanceDetails,
-    newTokensWithPrices,
-  ]);
+    dispatch(setTokenTableRows(newTokensWithPrices));
+    dispatch(setOrganizationTokens(organizationTokens));
+  }, [currentContract?.address, dispatch, newTokensWithPrices]);
 
   const totalValue = useCallback(() => {
     if (!newTokensWithPrices) return;

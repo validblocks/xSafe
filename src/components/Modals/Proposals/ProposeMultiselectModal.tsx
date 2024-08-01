@@ -40,8 +40,6 @@ import ProposeDeployContractFromSource from './ProposeDeployContractFromSource';
 import ProposeIssueToken from './ProposeIssueToken';
 import ProposeSendEgld from './ProposeSendEgld';
 import ProposeSendToken from './ProposeSendToken';
-
-import ProposeSmartContractCall from './ProposeSmartContractCall';
 import ProposeUpgradeContractFromSource from './ProposeUpgradeContractFromSource';
 
 import '../../MultisigDetails/ProposeMultiselectModal/proposeMultiselectModal.scss';
@@ -155,13 +153,6 @@ const ProposeMultiselectModal = ({
       case ProposalsTypes.send_egld:
         return (
           <ProposeSendEgld
-            setSubmitDisabled={setSubmitDisabled}
-            handleChange={handleProposalChange}
-          />
-        );
-      case ProposalsTypes.smart_contract_call:
-        return (
-          <ProposeSmartContractCall
             setSubmitDisabled={setSubmitDisabled}
             handleChange={handleProposalChange}
           />

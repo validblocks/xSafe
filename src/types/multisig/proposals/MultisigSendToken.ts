@@ -2,15 +2,16 @@ import { Address } from '@multiversx/sdk-core/out';
 import i18next from 'i18next';
 import { MultisigAction } from '../MultisigAction';
 import { MultisigActionType } from '../MultisigActionType';
+import BigNumber from 'bignumber.js';
 
 export class MultisigSendToken extends MultisigAction {
   address: Address;
 
   identifier: string;
 
-  amount: number;
+  amount: BigNumber;
 
-  constructor(address: Address, identifier: string, amount: number) {
+  constructor(address: Address, identifier: string, amount: BigNumber) {
     super(MultisigActionType.SendTransferExecute);
     this.address = address;
     this.identifier = identifier;

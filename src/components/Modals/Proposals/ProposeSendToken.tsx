@@ -19,6 +19,7 @@ import * as Styled from '../../MultisigDetails/ProposeMultiselectModal/styled';
 import { isAddressValid } from 'src/helpers/validation';
 import useAmountInputController from 'src/hooks/useAmountInputController';
 import BigNumber from 'bignumber.js';
+import { Converters } from 'src/utils/Converters';
 
 interface ProposeSendTokenType {
   handleChange: (proposal: MultisigSendToken | MultisigSendEgld) => void;
@@ -38,7 +39,8 @@ interface IFormValues {
 
 const ProposeSendToken = memo(
   ({ handleChange, setSubmitDisabled }: ProposeSendTokenType) => {
-    const { amount, setAmount } = useAmountInputController('0');
+    const { amount, setAmount, amountError, setAmountError } =
+      useAmountInputController('0');
 
     const t = useCustomTranslation();
     const selectedToken = useSelector(selectedTokenToSendSelector);
@@ -111,21 +113,17 @@ const ProposeSendToken = memo(
     const getSendTokenProposal = useCallback(
       (amountParam: string): MultisigSendToken | null => {
         try {
-          amountParam = amountParam.replaceAll(',', '');
-          const amountNumeric = Number(amountParam ?? 0);
-          if (Number.isNaN(amountNumeric)) {
-            return null;
-          }
           const parsedAddress = new Address(address);
-          const amountToSend = Number(
-            TokenTransfer.fungibleFromAmount(
-              identifier,
-              amountParam,
-              selectedTokenDetails?.value?.decimals ?? 18,
-            ).toString(),
-          );
+          const amountToSend = Converters.nominateWithNDecimals(
+            amountParam.replaceAll(',', ''),
+            selectedTokenDetails?.value?.decimals ?? 18,
+          ).toString();
 
-          return new MultisigSendToken(parsedAddress, identifier, amountToSend);
+          return new MultisigSendToken(
+            parsedAddress,
+            identifier,
+            new BigNumber(amountToSend),
+          );
         } catch (err) {
           return null;
         }
@@ -155,13 +153,16 @@ const ProposeSendToken = memo(
     const addressError = touched.address && errors.address;
 
     useEffect(() => {
-      const shouldBeDisabled = !(formik.isValid && formik.dirty);
+      const shouldBeDisabled =
+        !(formik.isValid && formik.dirty) || !!amountError;
       setSubmitDisabled(shouldBeDisabled);
     }, [amount, address, setSubmitDisabled, formik.isValid, formik.dirty]);
 
     useEffect(() => {
       refreshProposal();
     }, [refreshProposal]);
+
+    console.log({ amount });
 
     return (
       <FormikProvider value={formik}>
@@ -178,13 +179,15 @@ const ProposeSendToken = memo(
 
           <AmountInputWithTokenSelection
             onAmountChange={setAmount}
-            onAmountIsLessThanAllowed={() => setSubmitDisabled(true)}
-            onAmountIsNaN={() => setSubmitDisabled(true)}
-            onAmountIsBiggerThanBalance={() => setSubmitDisabled(true)}
-            onAmountIsZero={() => setSubmitDisabled(true)}
+            onAmountError={(amountError) => {
+              setAmountError(amountError ?? null);
+              console.log('Amount error');
+              setSubmitDisabled(true);
+            }}
             onSuccessfulAmountValidation={() => {
               const isDisabled = !formik.isValid || !formik.dirty;
               setSubmitDisabled(isDisabled);
+              setAmountError(null);
             }}
             config={{
               withTokenSelection: true,

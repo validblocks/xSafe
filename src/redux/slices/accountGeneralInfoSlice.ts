@@ -1,13 +1,13 @@
-import { TokenTransfer } from '@multiversx/sdk-core';
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, Draft } from '@reduxjs/toolkit';
 import { OrganizationToken, TokenTableRowItem } from 'src/types/organization';
 import { IdentityWithColumns } from 'src/types/staking';
 import { logoutAction } from '../commonActions';
+import BigNumber from 'bignumber.js';
 
 export interface StateType {
   address: string;
   nonce: number;
-  balance: string;
+  balance: BigNumber;
   rootHash: string;
   txCount: number;
   username: string;
@@ -17,75 +17,55 @@ export interface StateType {
   activeDelegationsRows: IdentityWithColumns[];
   isMultiWalletMode: boolean;
   isInReadOnlyMode: boolean;
-  multisigBalance: any;
-  totalUsdValue: number;
+  totalUsdValue: BigNumber;
 }
 
 const initialState: StateType = {
-  address: '',
-  nonce: 0,
-  balance: '',
-  rootHash: '',
-  txCount: 0,
-  username: '',
   shard: 0,
+  nonce: 0,
+  txCount: 0,
+  address: '',
+  rootHash: '',
+  username: '',
+  isInReadOnlyMode: true,
+  isMultiWalletMode: false,
   tokenTableRows: [],
   organizationTokens: [],
-  multisigBalance: TokenTransfer.egldFromAmount(0).amount.toString(),
   activeDelegationsRows: [],
-  isMultiWalletMode: false,
-  isInReadOnlyMode: true,
-  totalUsdValue: 0,
+  balance: new BigNumber(0),
+  totalUsdValue: new BigNumber(0),
 };
 
 export const accountGeneralInfoSlice = createSlice({
   name: 'accountGeneralInfoSlice',
   initialState,
   reducers: {
-    setAccountData(state: StateType, action: PayloadAction<StateType>) {
+    setAccountData(state: Draft<StateType>, action: PayloadAction<StateType>) {
       return {
         ...state,
         ...action.payload,
       };
     },
-    setTotalUsdBalance(state: StateType, action: PayloadAction<number>) {
-      return {
-        ...state,
-        totalUsdValue: action.payload,
-      };
+    setTotalUsdBalance(state: Draft<StateType>, action: PayloadAction<number>) {
+      state.totalUsdValue = new BigNumber(action.payload);
     },
     setTokenTableRows(
-      state: StateType,
+      state: Draft<StateType>,
       action: PayloadAction<TokenTableRowItem[]>,
     ) {
-      return {
-        ...state,
-        tokenTableRows: action.payload,
-      };
+      state.tokenTableRows = action.payload;
     },
     setOrganizationTokens(
-      state: StateType,
+      state: Draft<StateType>,
       action: PayloadAction<OrganizationToken[]>,
     ) {
-      return {
-        ...state,
-        organizationTokens: action.payload,
-      };
-    },
-    setMultisigBalance(state: StateType, action: PayloadAction<string>) {
-      return {
-        ...state,
-        multisigBalance: action.payload,
-      };
+      state.organizationTokens = action.payload;
     },
     setActiveDelegationRows(
-      state: StateType,
+      state: Draft<StateType>,
       action: PayloadAction<IdentityWithColumns[]>,
     ) {
-      return {
-        ...state,
-        activeDelegationsRows: action.payload,
-      };
+      state.activeDelegationsRows = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -97,7 +77,6 @@ export const {
   setAccountData,
   setTotalUsdBalance,
   setTokenTableRows,
-  setMultisigBalance,
   setOrganizationTokens,
   setActiveDelegationRows,
 } = accountGeneralInfoSlice.actions;

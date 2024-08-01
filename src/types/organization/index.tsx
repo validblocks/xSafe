@@ -1,4 +1,6 @@
 import { Address } from '@multiversx/sdk-core/out';
+import { TokenType } from '@multiversx/sdk-dapp/types/tokens.types';
+import BigNumber from 'bignumber.js';
 
 export type MemberAddressTableRow = {
   id: number;
@@ -38,25 +40,23 @@ export type Token = {
 };
 
 export type BalanceDetails = {
-  amount: string;
   decimals: number;
-  tokenPrice: string | number;
+  amount: BigNumber;
+  tokenPrice: BigNumber;
   photoUrl: string;
   identifier: string;
 };
 
-export type TokenTableRowItem = Partial<
-  Token & {
-    id: number;
-    balanceDetails: BalanceDetails;
-    value: BalanceDetails;
-    valueUsd?: number;
-    presentation: {
-      tokenIdentifier: string;
-      photoUrl: string;
-    };
-  }
->;
+export type TokenTableRowItem = Omit<TokenType, 'valueUsd'> & {
+  id: string;
+  balanceDetails: BalanceDetails;
+  value: BalanceDetails;
+  valueUsd?: BigNumber;
+  presentation: {
+    tokenIdentifier: string;
+    photoUrl: string;
+  };
+};
 
 export type OrganizationInfoContextType = {
   membersCountState: CustomStateType<number>;
@@ -85,10 +85,10 @@ export type MultisigMember = {
 export type OrganizationToken = {
   prettyIdentifier: string;
   identifier: string;
-  tokenPrice: number;
   balanceLocaleString: string;
-  balance: number;
-  tokenValue: number;
+  tokenPrice: BigNumber;
+  balance: BigNumber;
+  tokenValue: BigNumber;
   photoUrl: string;
   decimals: number;
 };

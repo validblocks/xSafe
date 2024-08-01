@@ -76,11 +76,17 @@ describe('AmountInputWithTokenSelection component', () => {
   });
 
   const displayAmountTestCases = [
-    { amount: 123456789, expectedFormattedAmount: '123,456,789' },
-    { amount: 123.456, expectedFormattedAmount: '123.456' },
-    { amount: 123456.789, expectedFormattedAmount: '123,456.789' },
     {
-      amount: 0.12345678912345678,
+      amount: new BigNumber(123456789),
+      expectedFormattedAmount: '123,456,789',
+    },
+    { amount: new BigNumber(123.456), expectedFormattedAmount: '123.456' },
+    {
+      amount: new BigNumber(123456.789),
+      expectedFormattedAmount: '123,456.789',
+    },
+    {
+      amount: new BigNumber(0.12345678912345678),
       expectedFormattedAmount: '0.12345678912345678',
     },
   ];
@@ -99,7 +105,7 @@ describe('AmountInputWithTokenSelection component', () => {
               ...{
                 address: '',
                 nonce: 0,
-                balance: '',
+                balance: new BigNumber(0),
                 rootHash: '',
                 txCount: 0,
                 username: '',
@@ -109,19 +115,19 @@ describe('AmountInputWithTokenSelection component', () => {
                   {
                     prettyIdentifier: 'EGLD',
                     identifier: 'EGLD',
-                    tokenPrice: 55,
+                    tokenPrice: new BigNumber(55),
                     balanceLocaleString: Number(amount).toLocaleString(),
                     balance: amount,
-                    tokenValue: 5500,
+                    tokenValue: new BigNumber(5500),
                     photoUrl: 'url',
                     decimals: 18,
                   },
                 ],
-                multisigBalance: '',
+                multisigBalance: new BigNumber('0'),
                 activeDelegationsRows: [],
                 isMultiWalletMode: false,
                 isInReadOnlyMode: true,
-                totalUsdValue: 0,
+                totalUsdValue: new BigNumber(0),
               },
             },
           },
@@ -179,7 +185,7 @@ describe('AmountInputWithTokenSelection component', () => {
                   ...{
                     address: '',
                     nonce: 0,
-                    balance: '',
+                    balance: new BigNumber(0),
                     rootHash: '',
                     txCount: 0,
                     username: '',
@@ -189,19 +195,19 @@ describe('AmountInputWithTokenSelection component', () => {
                       {
                         prettyIdentifier: 'EGLD',
                         identifier: 'EGLD',
-                        tokenPrice: 55,
+                        tokenPrice: new BigNumber(55),
                         balanceLocaleString: '0',
-                        balance: 1,
-                        tokenValue: 5500,
+                        balance: new BigNumber(1),
+                        tokenValue: new BigNumber(5500),
                         photoUrl: 'url',
                         decimals: 18,
                       },
                     ],
-                    multisigBalance: '',
+                    multisigBalance: new BigNumber('0'),
                     activeDelegationsRows: [],
                     isMultiWalletMode: false,
                     isInReadOnlyMode: true,
-                    totalUsdValue: 0,
+                    totalUsdValue: new BigNumber(0),
                   },
                 },
               },
@@ -336,7 +342,7 @@ describe('AmountInputWithTokenSelection component', () => {
     const handleInputChange = vi.fn();
     const handleInputBlur = vi.fn();
     const resetAmount = vi.fn();
-    const mockTokenAmount = 100;
+    const mockTokenAmount = new BigNumber(100);
     const mockPrettyIdentifier = 'EGLD';
     const expectedAmountAfterMaxClick = '100';
 
@@ -354,7 +360,7 @@ describe('AmountInputWithTokenSelection component', () => {
             ...{
               address: '',
               nonce: 0,
-              balance: '',
+              balance: new BigNumber(0),
               rootHash: '',
               txCount: 0,
               username: '',
@@ -364,19 +370,19 @@ describe('AmountInputWithTokenSelection component', () => {
                 {
                   prettyIdentifier: mockPrettyIdentifier,
                   identifier: mockPrettyIdentifier,
-                  tokenPrice: 55,
+                  tokenPrice: new BigNumber(55),
                   balanceLocaleString: Number(mockTokenAmount).toLocaleString(),
                   balance: mockTokenAmount,
-                  tokenValue: 5500,
+                  tokenValue: new BigNumber(5500),
                   photoUrl: 'url',
                   decimals: 18,
                 },
               ],
-              multisigBalance: '',
+              multisigBalance: new BigNumber('0'),
               activeDelegationsRows: [],
               isMultiWalletMode: false,
               isInReadOnlyMode: true,
-              totalUsdValue: 0,
+              totalUsdValue: new BigNumber(0),
             },
           },
         },
@@ -398,7 +404,7 @@ describe('AmountInputWithTokenSelection component', () => {
     const handleInputChange = vi.fn();
     const handleInputBlur = vi.fn();
     const resetAmount = vi.fn();
-    const mockTokenAmount = 100;
+    const mockTokenAmount = new BigNumber(100);
     const mockPrettyIdentifier = 'EGLD';
     const expectedAmountAfterMaxClick = '200';
 
@@ -418,7 +424,7 @@ describe('AmountInputWithTokenSelection component', () => {
             ...{
               address: '',
               nonce: 0,
-              balance: '',
+              balance: new BigNumber(0),
               rootHash: '',
               txCount: 0,
               username: '',
@@ -428,19 +434,19 @@ describe('AmountInputWithTokenSelection component', () => {
                 {
                   prettyIdentifier: mockPrettyIdentifier,
                   identifier: mockPrettyIdentifier,
-                  tokenPrice: 55,
+                  tokenPrice: new BigNumber(55),
                   balance: mockTokenAmount,
                   balanceLocaleString: Number(mockTokenAmount).toLocaleString(),
-                  tokenValue: 5500,
+                  tokenValue: new BigNumber(5500),
                   photoUrl: 'url',
                   decimals: 18,
                 },
               ],
-              multisigBalance: '',
+              multisigBalance: new BigNumber('0'),
               activeDelegationsRows: [],
               isMultiWalletMode: false,
               isInReadOnlyMode: true,
-              totalUsdValue: 0,
+              totalUsdValue: new BigNumber(0),
             },
           },
         },
@@ -459,42 +465,42 @@ describe('AmountInputWithTokenSelection component', () => {
 
   const displayBalanceTestCases = [
     {
-      amount: 123456789,
+      amount: new BigNumber(123456789),
       expectedFormattedAmount: '123456789',
       tokenIdentifier: 'EGLD',
     },
     {
-      amount: 123.456,
+      amount: new BigNumber(123.456),
       expectedFormattedAmount: '123.456',
       tokenIdentifier: 'EGLD',
     },
     {
-      amount: 123456.789,
+      amount: new BigNumber(123456.789),
       expectedFormattedAmount: '123456.789',
       tokenIdentifier: 'EGLD',
     },
     {
-      amount: 0.12345678912345678,
+      amount: new BigNumber(0.12345678912345678),
       expectedFormattedAmount: '0.12345678912345678',
       tokenIdentifier: 'EGLD',
     },
     {
-      amount: 123456789,
+      amount: new BigNumber(123456789),
       expectedFormattedAmount: '123456789',
       tokenIdentifier: 'USDC',
     },
     {
-      amount: 123.456,
+      amount: new BigNumber(123.456),
       expectedFormattedAmount: '123.456',
       tokenIdentifier: 'USDC',
     },
     {
-      amount: 123456.789,
+      amount: new BigNumber(123456.789),
       expectedFormattedAmount: '123456.789',
       tokenIdentifier: 'USDC',
     },
     {
-      amount: 0.123456,
+      amount: new BigNumber(0.123456),
       expectedFormattedAmount: '0.123456',
       tokenIdentifier: 'USDC',
     },
@@ -533,7 +539,7 @@ describe('AmountInputWithTokenSelection component', () => {
                 ...{
                   address: '',
                   nonce: 0,
-                  balance: '',
+                  balance: new BigNumber(0),
                   rootHash: '',
                   txCount: 0,
                   username: '',
@@ -543,19 +549,19 @@ describe('AmountInputWithTokenSelection component', () => {
                     {
                       prettyIdentifier: tokenIdentifier,
                       identifier: tokenIdentifier,
-                      tokenPrice: 55,
+                      tokenPrice: new BigNumber(55),
                       balance: amount,
                       balanceLocaleString: amount.toLocaleString(),
-                      tokenValue: 5500,
+                      tokenValue: new BigNumber(5500),
                       photoUrl: 'url',
                       decimals: 18,
                     },
                   ],
-                  multisigBalance: '',
+                  multisigBalance: new BigNumber('0'),
                   activeDelegationsRows: [],
                   isMultiWalletMode: false,
                   isInReadOnlyMode: true,
-                  totalUsdValue: 0,
+                  totalUsdValue: new BigNumber(0),
                 },
               },
             },
@@ -620,7 +626,7 @@ describe('AmountInputWithTokenSelection component', () => {
                 ...{
                   address: '',
                   nonce: 0,
-                  balance: '',
+                  balance: new BigNumber(0),
                   rootHash: '',
                   txCount: 0,
                   username: '',
@@ -630,19 +636,19 @@ describe('AmountInputWithTokenSelection component', () => {
                     {
                       prettyIdentifier: tokenIdentifier,
                       identifier: tokenIdentifier,
-                      tokenPrice: 55,
+                      tokenPrice: new BigNumber(55),
                       balanceLocaleString: Number(100).toLocaleString(),
-                      balance: 100,
-                      tokenValue: 5500,
+                      balance: new BigNumber(100),
+                      tokenValue: new BigNumber(5500),
                       photoUrl: 'url',
                       decimals: maxDecimals,
                     },
                   ],
-                  multisigBalance: '',
+                  multisigBalance: new BigNumber('0'),
                   activeDelegationsRows: [],
                   isMultiWalletMode: false,
                   isInReadOnlyMode: true,
-                  totalUsdValue: 0,
+                  totalUsdValue: new BigNumber(0),
                 },
               },
             },

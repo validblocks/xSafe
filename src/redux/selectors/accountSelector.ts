@@ -64,11 +64,6 @@ export const organizationTokenByIdentifierSelector = (identifier: string) =>
     getTokenPhotoById(state, identifier),
   );
 
-export const multisigBalanceSelector = createDeepEqualSelector(
-  accountSelector,
-  (state) => JSON.parse(state.multisigBalance),
-);
-
 export const activeDelegationsRowsSelector = createDeepEqualSelector(
   accountSelector,
   (state) => state.activeDelegationsRows,

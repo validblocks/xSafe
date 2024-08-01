@@ -522,7 +522,7 @@ describe('TransactionBuilderMain component', () => {
               ...{
                 address: '',
                 nonce: 0,
-                balance: '',
+                balance: new BigNumber(0),
                 rootHash: '',
                 txCount: 0,
                 username: '',
@@ -532,21 +532,23 @@ describe('TransactionBuilderMain component', () => {
                   {
                     prettyIdentifier: 'EGLD',
                     identifier: 'EGLD',
-                    tokenPrice: 55,
-                    balanceLocaleString: Number(
+                    tokenPrice: new BigNumber(55),
+                    balanceLocaleString: new BigNumber(
                       '10000000000000000000000000000000000000000000000000000000000',
                     ).toLocaleString(),
-                    balance: 10000000000000000000000000000000000000000000000000000000000,
-                    tokenValue: 5500,
+                    balance: new BigNumber(
+                      10000000000000000000000000000000000000000000000000000000000,
+                    ),
+                    tokenValue: new BigNumber(5500),
                     photoUrl: 'url',
                     decimals: 18,
                   },
                 ],
-                multisigBalance: '',
+                multisigBalance: new BigNumber(0),
                 activeDelegationsRows: [],
                 isMultiWalletMode: false,
                 isInReadOnlyMode: true,
-                totalUsdValue: 0,
+                totalUsdValue: new BigNumber(0),
               },
             },
           },

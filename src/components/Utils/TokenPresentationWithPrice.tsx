@@ -6,6 +6,7 @@ import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accou
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { Text } from '../StyledComponents/StyledComponents';
 import { TokenPhoto } from './TokenPhoto';
+import BigNumber from 'bignumber.js';
 
 type TokenPresentationConfig = {
   withPhoto: boolean;
@@ -34,6 +35,8 @@ const TokenPresentationWithPrice = ({
     useSelector<StateType, OrganizationToken>(
       organizationTokenByIdentifierSelector(identifier),
     );
+
+  console.log({ tokenPrice });
 
   return (
     <Box
@@ -70,7 +73,11 @@ const TokenPresentationWithPrice = ({
         <Box>
           <Text>{prettyIdentifier}</Text>
         </Box>
-        {withPrice && <Text fontSize={12}>${tokenPrice}</Text>}
+        {withPrice && BigNumber.isBigNumber(tokenPrice) && (
+          <Text fontSize={12}>
+            ${tokenPrice?.toNumber().toLocaleString('EN')}
+          </Text>
+        )}
       </Box>
       <Box
         sx={{
@@ -88,7 +95,9 @@ const TokenPresentationWithPrice = ({
         )}
         {withTokenValue && (
           <Box>
-            <Text fontSize={12}>${tokenValue}</Text>
+            <Text fontSize={12}>
+              ${tokenValue.toNumber().toLocaleString('EN')}
+            </Text>
           </Box>
         )}
       </Box>

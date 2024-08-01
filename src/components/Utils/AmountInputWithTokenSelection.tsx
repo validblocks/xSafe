@@ -86,7 +86,9 @@ const AmountInputWithTokenSelection = ({
 
   const minAmountValue = minAmountAllowed?.valueOf() ?? '0';
   const maxAmountValue =
-    maxAmountAllowed?.valueOf() ?? balance ?? Number.MAX_SAFE_INTEGER;
+    maxAmountAllowed?.valueOf() ??
+    balance?.valueOf() ??
+    Number.MAX_SAFE_INTEGER;
   const initialAmountValue = initialAmount?.valueOf() ?? minAmountValue;
   const allowedDecimals = useNftBalance ? 0 : decimals;
 
@@ -166,6 +168,7 @@ const AmountInputWithTokenSelection = ({
 
   const { touched, errors, values } = formik;
   const { amount } = values;
+  console.log({ amount });
 
   const hasAmountErrors = !!errors.amount;
   const hasAmountErrorsAfterTouch = touched?.amount && errors.amount;

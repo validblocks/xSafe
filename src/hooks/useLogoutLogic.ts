@@ -1,9 +1,7 @@
-import { TokenTransfer } from '@multiversx/sdk-core/out';
 import { logout } from '@multiversx/sdk-dapp/utils';
 import { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  setMultisigBalance,
   setTokenTableRows,
   setOrganizationTokens,
 } from 'src/redux/slices/accountGeneralInfoSlice';
@@ -49,11 +47,6 @@ export const useLogoutLogic = ({
     if (withReduxCleanup) {
       dispatch(setCurrentMultisigContract(''));
       dispatch(setProposeModalSelectedOption(null));
-      dispatch(
-        setMultisigBalance(
-          JSON.stringify(TokenTransfer.egldFromAmount('0').amount.toString()),
-        ),
-      );
       dispatch(setTokenTableRows([]));
       dispatch(setOrganizationTokens([]));
       dispatch(setCurrentMultisigContract(''));

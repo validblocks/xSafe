@@ -50,4 +50,11 @@ export class Converters {
   ): number {
     return Utils.Number.approximateToNDecimals(numberToApproximate, decimals);
   }
+
+  static nominateWithNDecimals(
+    valueToNominate: string,
+    decimals: number,
+  ): string {
+    return Utils.Number.nominateWithNDecimals(valueToNominate, decimals);
+  }
 }
