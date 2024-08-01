@@ -9,7 +9,6 @@ import {
   IProvider,
   IProviderIdentity,
 } from 'src/types/staking';
-import { getDenominatedBalance } from '../utils/balanceUtils';
 import pipe from '../utils/compose';
 import { Converters } from 'src/utils/Converters';
 
@@ -59,12 +58,9 @@ export default function useProviderIdentitiesAfterSelection({
           filledPercentage = Math.min(100, filledPercentage);
         }
 
-        const shortenedPercentage = getDenominatedBalance<number>(
-          (filledPercentage * 100).toString(),
-          {
-            precisionAfterComma: 1,
-            needsDenomination: false,
-          },
+        const shortenedPercentage = Converters.approximateToNDecimals(
+          filledPercentage * 100,
+          1,
         );
 
         return {
@@ -142,12 +138,9 @@ export default function useProviderIdentitiesAfterSelection({
               filledPercentage = Math.min(100, filledPercentage);
             }
 
-            const shortenedPercentage = getDenominatedBalance<number>(
-              (filledPercentage * 100).toString(),
-              {
-                precisionAfterComma: 1,
-                needsDenomination: false,
-              },
+            const shortenedPercentage = Converters.approximateToNDecimals(
+              filledPercentage * 100,
+              1,
             );
 
             return {
