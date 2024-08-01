@@ -43,4 +43,11 @@ export class Converters {
   static nominatedStringToHex(nominatedString: string): string {
     return new BigNumber(nominatedString).toString(16);
   }
+
+  static approximateToNDecimals(
+    numberToApproximate: number,
+    decimals: number,
+  ): number {
+    return Utils.Number.approximateToNDecimals(numberToApproximate, decimals);
+  }
 }
