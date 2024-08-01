@@ -81,7 +81,7 @@ export const TransactionBuilderMain = ({
   );
   const [callArgs, setCallArgs] = useState<CustomArg[]>([]);
 
-  const { amount, amountError, updateAmountError, handleAmountInputChange } =
+  const { amount, amountError, updateAmountError, setAmount } =
     useAmountInputController(selectedTemplate?.value ?? '0');
 
   useEffect(() => {
@@ -253,7 +253,7 @@ export const TransactionBuilderMain = ({
           <Box>
             <AmountInputWithTokenSelection
               initialAmount={selectedTemplate?.value ?? '0'}
-              onInputChange={handleAmountInputChange}
+              onAmountChange={setAmount}
               onAmountError={updateAmountError}
               config={{
                 withTokenSelection: false,

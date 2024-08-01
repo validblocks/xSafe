@@ -34,6 +34,7 @@ import {
 import { DelegationFunction } from 'src/types/staking';
 import useAmountInputController from 'src/hooks/useAmountInputController';
 import { Converters } from 'src/utils/Converters';
+import BigNumber from 'bignumber.js';
 
 interface ProposeUnstakeTokensType {
   handleChange: (proposal: MultisigSmartContractCall) => void;
@@ -215,14 +216,14 @@ const ProposeUnstakeTokens = ({
         </span>
       </div>
       <AmountInputWithTokenSelection
-        maxValue={delegatedAmount}
-        minAmountAllowed="1"
+        maxAmountAllowed={delegatedAmount}
+        minAmountAllowed={new BigNumber('1')}
         onInputChange={handleAmountInputChange}
         onSuccessfulAmountValidation={() => setSubmitDisabled(false)}
         onAmountError={onAmountError}
         onAmountChange={setAmount}
         customAmountValidation={customAmountValidation}
-        initialAmount={initialAmount}
+        initialAmount={new BigNumber(initialAmount)}
         config={{
           withTokenSelection: false,
           withAvailableAmount: false,

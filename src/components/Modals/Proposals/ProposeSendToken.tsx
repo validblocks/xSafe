@@ -38,7 +38,7 @@ interface IFormValues {
 
 const ProposeSendToken = memo(
   ({ handleChange, setSubmitDisabled }: ProposeSendTokenType) => {
-    const { amount, handleAmountInputChange } = useAmountInputController('0');
+    const { amount, setAmount } = useAmountInputController('0');
 
     const t = useCustomTranslation();
     const selectedToken = useSelector(selectedTokenToSendSelector);
@@ -177,7 +177,7 @@ const ProposeSendToken = memo(
           />
 
           <AmountInputWithTokenSelection
-            onInputChange={handleAmountInputChange}
+            onAmountChange={setAmount}
             onAmountIsLessThanAllowed={() => setSubmitDisabled(true)}
             onAmountIsNaN={() => setSubmitDisabled(true)}
             onAmountIsBiggerThanBalance={() => setSubmitDisabled(true)}

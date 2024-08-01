@@ -5,6 +5,7 @@ import AmountInputWithTokenSelection, {
 } from 'src/components/Utils/AmountInputWithTokenSelection';
 import { fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import BigNumber from 'bignumber.js';
 
 const baseProps: IAmountInputProps = {
   onInputChange: vi.fn(),
@@ -15,6 +16,7 @@ const baseProps: IAmountInputProps = {
   onAmountIsNaN: vi.fn(),
   onAmountIsZero: vi.fn(),
   onMaxButtonClick: vi.fn(),
+  onAmountChange: vi.fn(),
   config: {
     withAvailableAmount: true,
     withTokenSelection: true,
@@ -46,6 +48,7 @@ describe('AmountInputWithTokenSelection component', () => {
       handleInputChange: vi.fn(),
       handleInputBlur: vi.fn(),
       resetAmount: vi.fn(),
+      onAmountChange: vi.fn(),
       config: {
         withAvailableAmount: true,
         withTokenSelection: true,
@@ -406,7 +409,7 @@ describe('AmountInputWithTokenSelection component', () => {
         onInputChange={handleInputChange}
         onInputBlur={handleInputBlur}
         onResetAmount={resetAmount}
-        maxValue={'200'}
+        maxAmountAllowed={new BigNumber('200')}
         config={{ ...baseProps.config }}
       />,
       {
