@@ -1,18 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Box, useMediaQuery } from '@mui/material';
-import {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/hooks/useProviderIdentitiesAfterSelection';
-import { Address, BigUIntValue, TokenTransfer } from '@multiversx/sdk-core/out';
+import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
@@ -28,26 +20,37 @@ import AmountInputWithTokenSelection from '../Utils/AmountInputWithTokenSelectio
 import useAmountInputController from 'src/hooks/useAmountInputController';
 import BigNumber from 'bignumber.js';
 
+const useProposeStakingTransactionStatus = (
+  transactionId: string,
+  setIsProcessingTransaction: (status: boolean) => void,
+) => {
+  useTrackTransactionStatus({
+    transactionId,
+    onSuccess: () => setIsProcessingTransaction(false),
+    onCancelled: () => setIsProcessingTransaction(false),
+    onTimedOut: () => setIsProcessingTransaction(false),
+    onFail: () => setIsProcessingTransaction(false),
+  });
+};
+
 const StakingFormStepTwo = () => {
+  const dispatch = useDispatch();
+  const t = useCustomTranslation();
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
+  const maxWidth480 = useMediaQuery('(max-width:480px)');
+  const { proceedToPreviousStep } = useMultistepFormContext();
+  const { setIsFinalStepButtonActive } = useMultistepFormContext();
+  const { fetchedProviderIdentities } = useProviderIdentitiesAfterSelection();
+  const { setAmount, amount, amountError, updateAmountError } =
+    useAmountInputController('1');
+
   const [buttonWidth, setButtonWidth] = useState(0);
   const [isProcessingTransaction, setIsProcessingTransaction] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
-  const t = useCustomTranslation();
-  const {
-    handleAmountInputChange,
-    amount,
-    amountErrorAfterTouch,
-    updateAmountErrorAfterTouch,
-  } = useAmountInputController('1');
-  const { setIsFinalStepButtonActive, setBuiltFinalActionHandler } =
-    useMultistepFormContext();
   const selectedProviderIdentifier = useSelector(
     selectedStakingProviderSelector,
   );
-
-  const { proceedToPreviousStep } = useMultistepFormContext();
-  const { fetchedProviderIdentities } = useProviderIdentitiesAfterSelection();
 
   const selectedProvider = useMemo(
     () =>
@@ -57,35 +60,9 @@ const StakingFormStepTwo = () => {
     [fetchedProviderIdentities, selectedProviderIdentifier],
   );
 
-  useEffect(() => {
-    try {
-      if (!selectedProvider?.provider) return;
-
-      const addressParam = new Address(selectedProvider?.provider);
-
-      const inputAmount = amount.toString().replaceAll(',', '');
-      const amountNumeric = Number(inputAmount);
-      if (Number.isNaN(amountNumeric)) {
-        return;
-      }
-
-      const amountParam = new BigUIntValue(
-        TokenTransfer.egldFromAmount(amountNumeric).valueOf(),
-      );
-
-      setBuiltFinalActionHandler(() => () => {
-        mutateSmartContractCall(addressParam, amountParam, 'delegate');
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  }, [amount, selectedProvider?.provider, setBuiltFinalActionHandler]);
-
   useLayoutEffect(() => {
     if (buttonRef.current) setButtonWidth(buttonRef.current.offsetWidth);
   }, []);
-
-  const dispatch = useDispatch();
 
   const closeModal = useCallback(() => {
     dispatch(setProposeMultiselectSelectedOption(null));
@@ -97,37 +74,15 @@ const StakingFormStepTwo = () => {
     if (!selectedProvider?.provider) return false;
 
     const addressParam = new Address(selectedProvider?.provider);
+    const amountBigNumber = new BigNumber(amount).shiftedBy(18);
 
-    const inputAmount = amount.replaceAll(',', '');
-    const amountNumeric = new BigNumber(inputAmount);
-
-    const amountParam = new BigUIntValue(
-      TokenTransfer.egldFromAmount(amountNumeric).valueOf(),
-    );
-
+    const amountParam = new BigUIntValue(amountBigNumber);
     mutateSmartContractCall(addressParam, amountParam, 'delegate');
     closeModal();
   }, [amount, closeModal, selectedProvider?.provider]);
 
   const transactionId = useSelector(currentMultisigTransactionIdSelector);
-  useTrackTransactionStatus({
-    transactionId,
-    onSuccess: () => {
-      setIsProcessingTransaction(false);
-    },
-    onCancelled: () => {
-      setIsProcessingTransaction(false);
-    },
-    onTimedOut: () => {
-      setIsProcessingTransaction(false);
-    },
-    onFail: () => {
-      setIsProcessingTransaction(false);
-    },
-  });
-
-  const maxWidth600 = useMediaQuery('(max-width:600px)');
-  const maxWidth480 = useMediaQuery('(max-width:480px)');
+  useProposeStakingTransactionStatus(transactionId, setIsProcessingTransaction);
 
   const buttonStyle = useMemo(
     () => ({
@@ -143,13 +98,8 @@ const StakingFormStepTwo = () => {
     [buttonWidth, maxWidth480],
   );
 
-  const disableFinalStep = useCallback(
-    () => setIsFinalStepButtonActive(false),
-    [setIsFinalStepButtonActive],
-  );
-
-  const enableFinalStep = useCallback(
-    () => setIsFinalStepButtonActive(true),
+  const clearAmountError = useCallback(
+    () => updateAmountError(),
     [setIsFinalStepButtonActive],
   );
 
@@ -178,14 +128,10 @@ const StakingFormStepTwo = () => {
         </Box>
       </Box>
       <AmountInputWithTokenSelection
-        minAmountAllowed={'1'}
-        onInputChange={handleAmountInputChange}
-        onAmountIsBiggerThanBalance={disableFinalStep}
-        onAmountIsLessThanAllowed={disableFinalStep}
-        onAmountIsZero={disableFinalStep}
-        onAmountIsNaN={disableFinalStep}
-        onAmountErrorAfterTouch={updateAmountErrorAfterTouch}
-        onSuccessfulAmountValidation={enableFinalStep}
+        onAmountChange={setAmount}
+        minAmountAllowed={new BigNumber('1')}
+        onAmountError={updateAmountError}
+        onSuccessfulAmountValidation={clearAmountError}
         config={{ withTokenSelection: false, withAvailableAmount: true }}
       />
       <Box display={'flex'} gap={2} paddingBottom={maxWidth600 ? '4px' : 4}>
@@ -197,9 +143,7 @@ const StakingFormStepTwo = () => {
         </ChangeStepButton>
         <FinalStepActionButton
           disabled={
-            !!amountErrorAfterTouch ||
-            !selectedProvider ||
-            isProcessingTransaction
+            !!amountError || !selectedProvider || isProcessingTransaction
           }
           onClick={proposeStake}
         >
