@@ -12,20 +12,22 @@ import TokenSelection from './TokenSelection';
 import TokenPresentationWithPrice from './TokenPresentationWithPrice';
 import { useTokenToSendDetails } from 'src/hooks/useTokenToSendDetails';
 import DisplayAvailableBalance from './DisplayAvailableBalance';
+import BigNumber from 'bignumber.js';
 
 type Params = any;
 
 export interface IAmountInputProps {
-  initialAmount?: string;
-  minAmountAllowed?: string;
-  maxValue?: string;
+  initialAmount?: BigNumber;
+  minAmountAllowed?: BigNumber;
+  maxAmountAllowed?: BigNumber;
   config: Partial<{
     withAvailableAmount: boolean;
     withTokenSelection: boolean;
     isEsdtOrEgldRelated: boolean;
+    useNftBalance: boolean;
   }>;
   onAmountError?: (amountErrors?: string) => void;
-  onAmountChange?: (amount: string) => void;
+  onAmountChange: (amount: string) => void;
   onResetAmount?: (params?: Params) => void;
   onAmountIsNaN?: (params?: Params) => void;
   onAmountIsZero?: (params?: Params) => void;
@@ -60,44 +62,56 @@ const AmountInputWithTokenSelection = ({
   onAmountChange,
   onAmountErrorAfterTouch,
   customAmountValidation,
-  minAmountAllowed = '0',
-  initialAmount = '0',
-  maxValue,
+  minAmountAllowed = new BigNumber('0'),
+  initialAmount = new BigNumber('0'),
+  maxAmountAllowed,
   config: {
     withAvailableAmount = true,
     withTokenSelection = true,
     isEsdtOrEgldRelated = true,
+    useNftBalance = false,
   } = {
     withAvailableAmount: true,
     withTokenSelection: true,
     isEsdtOrEgldRelated: true,
+    useNftBalance: false,
   },
 }: IAmountInputProps) => {
   const t = useCustomTranslation();
   const theme = useCustomTheme();
 
-  const { prettyIdentifier, balance, decimals } = useTokenToSendDetails();
+  const { prettyIdentifier, balance, decimals } = useTokenToSendDetails({
+    useNfts: useNftBalance,
+  });
+
+  const minAmountValue = minAmountAllowed?.valueOf() ?? '0';
+  const maxAmountValue =
+    maxAmountAllowed?.valueOf() ?? balance ?? Number.MAX_SAFE_INTEGER;
+  const initialAmountValue = initialAmount?.valueOf() ?? minAmountValue;
+  const allowedDecimals = useNftBalance ? 0 : decimals;
 
   const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
-      amount: initialAmount ?? minAmountAllowed ?? '0',
+      amount: initialAmountValue,
     },
     onSubmit: () => Promise.resolve(null),
     validationSchema: Yup.object().shape({
       amount: Yup.string()
         .required('Required')
         .transform((value) => value.replace(',', ''))
-        .test('decimals', `Maximum ${decimals} decimals allowed`, (value) => {
-          const parts = value?.split('.');
-          if (parts?.length === 2) {
-            return parts[1].length <= decimals;
-          }
-          return true;
-        })
+        .test(
+          'decimals',
+          `Maximum ${allowedDecimals} decimals allowed`,
+          (value) => {
+            const parts = value?.split('.');
+            if (parts?.length === 2) {
+              return parts[1].length <= allowedDecimals;
+            }
+            return true;
+          },
+        )
         .test((value?: string, testContext?: TestContext) => {
-          const newAmount = Number(value);
-          const isNotANumber = Number.isNaN(newAmount);
-          if (isNotANumber) {
+          if (value === undefined || value === null) {
             onAmountIsNaN?.();
             return (
               testContext?.createError({
@@ -106,20 +120,21 @@ const AmountInputWithTokenSelection = ({
             );
           }
 
-          const isAmountLessThanAllowed = newAmount < Number(minAmountAllowed);
-          if (isAmountLessThanAllowed) {
+          const newAmount = new BigNumber(value);
+
+          const isLessThanAllowed = newAmount.isLessThan(minAmountAllowed);
+          if (isLessThanAllowed) {
             onAmountIsLessThanAllowed?.();
-            formik.setFieldValue('amount', minAmountAllowed);
+            formik.setFieldValue('amount', minAmountValue);
           }
 
-          if (newAmount === 0) {
+          if (newAmount.isZero()) {
             onAmountIsZero?.();
           }
 
-          const maxValueAllowed = maxValue ? maxValue : balance;
-          const isAmountBiggerThanBalance = newAmount > Number(maxValueAllowed);
+          const isBiggerThanBalance = newAmount.isGreaterThan(maxAmountValue);
 
-          if (isAmountBiggerThanBalance) {
+          if (isBiggerThanBalance) {
             onAmountIsBiggerThanBalance?.();
             return (
               testContext?.createError({
@@ -177,11 +192,11 @@ const AmountInputWithTokenSelection = ({
   const handleMaxButtonClick = useCallback(() => {
     onMaxButtonClick?.();
 
-    formik?.setFieldValue('amount', maxValue ?? balance);
-  }, [formik, maxValue, onMaxButtonClick, balance]);
+    formik?.setFieldValue('amount', maxAmountValue);
+  }, [formik, maxAmountValue, onMaxButtonClick, balance]);
 
   const handleResetAmount = useCallback(() => {
-    formik.setFieldValue('amount', minAmountAllowed);
+    formik.setFieldValue('amount', minAmountValue);
     onResetAmount?.();
   }, [formik, minAmountAllowed, onResetAmount]);
 
