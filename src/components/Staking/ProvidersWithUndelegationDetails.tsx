@@ -96,7 +96,7 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
       return [];
     }
 
-    console.log({ fetchedProviderIdentities });
+    console.log({ fetchedProviderIdentities, fetchedDelegations });
 
     return fetchedProviderIdentities
       .filter((identity) => {
