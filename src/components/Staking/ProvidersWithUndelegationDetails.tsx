@@ -75,6 +75,14 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
     refetchProviders,
   } = useProviderIdentitiesAfterSelection(config);
 
+  console.log({
+    fetchedProviderIdentities,
+    isFetchingProviderIdentities,
+    isLoadingProviderIdentities,
+    isErrorOnFetchingProviderIdentities,
+    refetchProviders,
+  });
+
   const classes = useStyles();
   const queryClient = useQueryClient();
   const { getStateByKey } = useReactQueryState(queryClient);
@@ -83,7 +91,13 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
   ) as IDelegation[];
 
   const rows = useMemo(() => {
-    if (!fetchedProviderIdentities) return [];
+    if (!fetchedProviderIdentities) {
+      console.log('No fetchedProviderIdentities');
+      return [];
+    }
+
+    console.log({ fetchedProviderIdentities });
+
     return fetchedProviderIdentities
       .filter((identity) => {
         const delegation = fetchedDelegations.find(
@@ -100,6 +114,8 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
           (delegation: IDelegation) =>
             delegation.contract === providerIdentity.provider,
         );
+
+        console.log({ delegation });
 
         const totalRequestedUndelegations =
           delegation?.userUndelegatedList.reduce(
@@ -131,6 +147,8 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
         const pendingWithdrawals = delegation?.userUndelegatedList.filter(
           (delegation: IUndelegatedFunds) => delegation.seconds > 0,
         );
+
+        console.log({ pendingWithdrawals });
 
         return {
           ...providerIdentity,
