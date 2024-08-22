@@ -26,7 +26,7 @@ const networkSchema = object({
   egldLabel: string().defined().required(),
   name: string().defined().required(),
   walletAddress: string(),
-  apiAddress: string(),
+  apiAddress: string().required(),
   gatewayAddress: string(),
   explorerAddress: string().required(),
   storageApi: string().required(),
