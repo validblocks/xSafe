@@ -49,11 +49,14 @@ networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
   console.error(`Config invalid format for ${network.id}`, errors);
 });
 
-export const sampleAuthenticatedDomains = [network.storageApi];
+export const xSafeApiUrl = 'https://api.xsafe.io';
+
+export const sampleAuthenticatedDomains = [
+  network.storageApi,
+  network.apiAddress,
+];
 
 export const relatedBranch = 'master';
-
-export const xSafeApiUrl = 'https://api.xsafe.io';
 
 export const xSpotlightContractAddress =
   'erd1qqqqqqqqqqqqqpgqra34kjj9zu6jvdldag72dyknnrh2ts9aj0wqp4acqh';
