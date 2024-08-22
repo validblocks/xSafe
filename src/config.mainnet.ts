@@ -54,6 +54,7 @@ export const xSafeApiUrl = 'https://api.xsafe.io';
 export const sampleAuthenticatedDomains = [
   network.storageApi,
   network.apiAddress,
+  xSafeApiUrl,
 ];
 
 export const relatedBranch = 'master';
