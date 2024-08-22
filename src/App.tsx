@@ -11,7 +11,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import {
   apiTimeout,
   walletConnectV2ProjectId,
-  sampleAuthenticatedDomains,
+  authenticatedDomains,
 } from 'src/config';
 import routes from 'src/routes';
 import {
@@ -86,7 +86,7 @@ export const App = () => (
         <QueryClientProvider client={queryClient}>
           <AxiosInterceptorContext.Provider>
             <AxiosInterceptorContext.Interceptor
-              authenticatedDomains={[...sampleAuthenticatedDomains]}
+              authenticatedDomains={authenticatedDomains ?? []}
             >
               <Router>
                 <Suspense fallback={<div>Loading...</div>}>

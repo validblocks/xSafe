@@ -49,4 +49,4 @@ networkSchema.validate(network, { strict: true }).catch(({ errors }) => {
   console.error(`Config invalid format for ${network.id}`, errors);
 });
 
-export const sampleAuthenticatedDomains = [network.storageApi];
+export const authenticatedDomains = [network.storageApi];
