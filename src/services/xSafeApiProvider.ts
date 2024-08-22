@@ -1,6 +1,6 @@
 import { ApiNetworkProvider } from '@multiversx/sdk-network-providers/out';
 import { Address } from '@multiversx/sdk-core/out';
-import { xSafeApiUrl } from 'src/config';
+import { network, xSafeApiUrl } from 'src/config';
 import axios from 'axios';
 
 export class CreateTemplateDto {
@@ -25,7 +25,9 @@ export class xSafeApiProvider extends ApiNetworkProvider {
     if (!address || !Address.isValid(address)) return null;
 
     return axios
-      .get(`${xSafeApiUrl}/delegations/${address}`)
+      .get(
+        `${network.apiAddress}/accounts/${address}/delegation?forceRefresh=true`,
+      )
       .then((r) => r.data);
   }
 

@@ -161,8 +161,7 @@ export const availableApps: MarketplaceApp[] = [
     icon: <CallMade />,
     imageUrlLight: StakeAppThumbnail,
     imageUrlDark: StakeAppThumbnailDark,
-    isInstallable:
-      import.meta.env.VITE_MVX_ENVIRONMENT !== EnvironmentsEnum.mainnet,
+    isInstallable: true,
   },
   ...appsWithRouteConfig.map((app) => ({
     name: app.name,
