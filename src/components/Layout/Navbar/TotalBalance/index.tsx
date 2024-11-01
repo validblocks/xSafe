@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import { useState, useCallback, useMemo, useEffect } from 'react';
+import { useCallback, useMemo, useEffect } from 'react';
 import { getAccountBalance as getAccount } from '@multiversx/sdk-dapp/utils/account';
 import {
   Box,
@@ -14,7 +14,10 @@ import {
   NewTransactionButton,
 } from 'src/components/Theme/StyledComponents';
 import { OrganizationToken, TokenTableRowItem } from 'src/types/organization';
-import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
+import {
+  multisigValueInUsdSelector,
+  selectedCurrencySelector,
+} from 'src/redux/selectors/currencySelector';
 import {
   currentMultisigContractSelector,
   currentMultisigTransactionIdSelector,
@@ -59,18 +62,19 @@ import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { TokenType } from '@multiversx/sdk-dapp/types/tokens.types';
 import { Converters } from 'src/utils/Converters';
 import BigNumber from 'bignumber.js';
+import { useMultisigBalance } from 'src/hooks/useMultisigBalance';
 
 const identifierWithoutUniqueHash = (identifier: string) =>
   identifier?.split('-')[0] ?? '';
 export const DECIMAL_POINTS_UI = 3;
 
-const createEgldRow = (egldBalanceDetails: string, egldPrice: number) => {
-  const egldBalanceBigNumber = new BigNumber(egldBalanceDetails);
+const createEgldRow = (multisigEgldBalance: string, egldPrice: number) => {
+  const multisigEgldBalanceBigNumber = new BigNumber(multisigEgldBalance);
   return {
     id: 'EGLD',
     tokenIdentifier: 'EGLD',
     identifier: 'EGLD',
-    balance: egldBalanceBigNumber,
+    balance: multisigEgldBalanceBigNumber,
     presentation: {
       tokenIdentifier: 'EGLD',
       photoUrl: '',
@@ -78,13 +82,13 @@ const createEgldRow = (egldBalanceDetails: string, egldPrice: number) => {
     balanceDetails: {
       identifier: 'EGLD',
       photoUrl: '',
-      amount: egldBalanceBigNumber,
+      amount: multisigEgldBalanceBigNumber,
       decimals: 18,
     },
     value: {
       tokenPrice: new BigNumber(egldPrice),
       decimals: 18,
-      amount: egldBalanceBigNumber,
+      amount: multisigEgldBalanceBigNumber,
     },
   };
 };
@@ -144,24 +148,32 @@ const createOrganizationToken = (
 };
 
 function TotalBalance() {
+  const theme = useCustomTheme();
   const dispatch = useDispatch();
-  const [totalUsdValue, setTotalUsdValue] = useState(0);
+  const queryClient = useQueryClient();
+  const { isLoggedIn } = useGetLoginInfo();
+  const minWidth600 = useMediaQuery('(min-width:600px)');
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
+  const { dynamicMinWidth } = useSendTokenButtonMinWidth();
+  const { isInReadOnlyMode } = useOrganizationInfoContext();
+  const selectedCurrency = useSelector(selectedCurrencySelector);
+
+  const egldPrice = useSelector(priceSelector);
+  const multisigValueInUsd = useSelector(multisigValueInUsdSelector);
+  console.log({ multisigValueInUsd });
+  const multisigValueInSelectedCurrency =
+    useCurrencyConversion(multisigValueInUsd);
 
   const currentContract = useSelector<StateType, MultisigContractInfoType>(
     currentMultisigContractSelector,
   );
-  const minWidth600 = useMediaQuery('(min-width:600px)');
-  const theme = useCustomTheme();
 
-  const queryClient = useQueryClient();
-  const { isLoggedIn } = useGetLoginInfo();
-
-  const fetchAddressEsdts = useCallback(
+  const getMultisigEsdts = useCallback(
     () => MultiversxApiProvider.getAddressTokens(currentContract?.address),
     [currentContract],
   );
 
-  const fetchAddressEgld = useCallback(
+  const getMultisigEgldBalance = useCallback(
     () => getAccount(currentContract?.address),
     [currentContract],
   );
@@ -171,30 +183,31 @@ function TotalBalance() {
     [currentContract],
   );
 
-  const { refetch: refetchNFTs } = useQuery(
+  const { refetch: refetchMultisigNfts } = useQuery(
     [QueryKeys.ALL_ORGANIZATION_NFTS],
     fetchNFTs,
     USE_QUERY_DEFAULT_CONFIG,
   );
 
-  const { data: addressTokens, refetch: refetchAddressTokens } = useQuery(
+  const { data: multisigEsdts, refetch: refetchMultisigEsdts } = useQuery(
     [QueryKeys.ADDRESS_ESDT_TOKENS],
-    fetchAddressEsdts,
+    getMultisigEsdts,
     USE_QUERY_DEFAULT_CONFIG,
   );
 
-  const { data: egldBalanceDetails, refetch: refetchEgldBalanceDetails } =
-    useQuery([QueryKeys.ADDRESS_EGLD_TOKENS], fetchAddressEgld, {
+  const { data: multisigEgldBalance, refetch: refetchMultisigEgldBalance } =
+    useQuery([QueryKeys.ADDRESS_EGLD_TOKENS], getMultisigEgldBalance, {
       ...USE_QUERY_DEFAULT_CONFIG,
-      enabled: !!addressTokens,
-      select: (data) => data,
+      enabled: !!multisigEsdts,
     });
+
+  const { multisigTotalUsdValue } = useMultisigBalance();
 
   useSocketSubscribe(SocketEvent.INVOLVED_IN_TX, () => {
     console.log('NEW TRANSACTIONS THROUGH WS!');
-    refetchAddressTokens();
-    refetchEgldBalanceDetails();
-    refetchNFTs();
+    refetchMultisigEsdts();
+    refetchMultisigEgldBalance();
+    refetchMultisigNfts();
     queryClient.invalidateQueries(QueryKeys.NFT_COUNT);
   });
 
@@ -204,42 +217,36 @@ function TotalBalance() {
   useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
     onSuccess: () => {
-      refetchAddressTokens();
-      refetchEgldBalanceDetails();
+      refetchMultisigEsdts();
+      refetchMultisigEgldBalance();
+      refetchMultisigNfts();
     },
   });
 
   useEffect(() => {
     if (!currentContract?.address) return;
 
-    refetchAddressTokens();
-    refetchEgldBalanceDetails();
-    refetchNFTs();
+    refetchMultisigEsdts();
+    refetchMultisigEgldBalance();
+    refetchMultisigNfts();
   }, [
     currentContract?.address,
     queryClient,
-    refetchAddressTokens,
-    refetchEgldBalanceDetails,
-    refetchNFTs,
+    refetchMultisigEsdts,
+    refetchMultisigEgldBalance,
+    refetchMultisigNfts,
   ]);
 
-  useEffect(() => {
-    if (!addressTokens) return;
-    refetchEgldBalanceDetails();
-  }, [addressTokens, refetchEgldBalanceDetails]);
-
-  const egldPrice = useSelector(priceSelector);
-
   const newTokensWithPrices = useMemo(() => {
-    if (!addressTokens || !egldBalanceDetails) {
+    if (!multisigEsdts || !multisigEgldBalance) {
       return null;
     }
 
-    const egldRow = createEgldRow(egldBalanceDetails, egldPrice);
-    const allTokens = [egldRow, ...addressTokens.map(transformToken)];
+    const egldRow = createEgldRow(multisigEgldBalance, egldPrice);
+    const allTokens = [egldRow, ...multisigEsdts.map(transformToken)];
 
     return allTokens;
-  }, [addressTokens, egldBalanceDetails, egldPrice]);
+  }, [multisigEsdts, multisigEgldBalance, egldPrice]);
 
   useEffect(() => {
     if (!currentContract?.address || !newTokensWithPrices) {
@@ -252,61 +259,34 @@ function TotalBalance() {
     dispatch(setOrganizationTokens(organizationTokens));
   }, [currentContract?.address, dispatch, newTokensWithPrices]);
 
-  const totalValue = useCallback(() => {
-    if (!newTokensWithPrices) return;
-
-    const totalAssetsValue = newTokensWithPrices?.reduce(
-      (acc: number, token: TokenTableRowItem) =>
-        acc + parseFloat(token?.valueUsd?.toString() ?? '0'),
-      0,
-    );
-
-    const totalEgldValue =
-      Number(Converters.denominateWithNDecimals(egldBalanceDetails ?? 0)) *
-        egldPrice ?? '0';
-    setTotalUsdValue(totalAssetsValue + totalEgldValue);
-    dispatch(setTotalUsdBalance(totalAssetsValue + totalEgldValue));
-  }, [dispatch, egldBalanceDetails, egldPrice, newTokensWithPrices]);
-
   useEffect(() => {
-    if (!totalValue) return;
-    totalValue();
-  }, [totalValue]);
+    dispatch(setValueInUsd(multisigTotalUsdValue?.toNumber()));
+    dispatch(setTotalUsdBalance(multisigTotalUsdValue.toNumber()));
+  }, [dispatch, multisigTotalUsdValue, multisigValueInUsd]);
 
-  useEffect(() => {
-    dispatch(setValueInUsd(totalUsdValue));
-  }, [dispatch, totalUsdValue]);
-
-  const onNewTransactionClick = () =>
-    dispatch(
-      setProposeMultiselectSelectedOption({
-        option: ProposalsTypes.send_token,
-      }),
-    );
-
-  const getCurrency = useSelector(selectedCurrencySelector);
-  const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
-
-  const { isInReadOnlyMode } = useOrganizationInfoContext();
-  const [multisigAllCoinsValue, setMultisigAllCoinsValue] = useState('0');
-  const maxWidth600 = useMediaQuery('(max-width:600px)');
-
-  useEffect(() => {
-    const totalValue = Number(
-      parseFloat(totalUsdValueConverted.toFixed(2)),
+  const displayableTotalMultisigValue = useMemo(() => {
+    return Number(
+      parseFloat(multisigValueInSelectedCurrency.toFixed(2)),
     ).toLocaleString('EN');
-    setMultisigAllCoinsValue(totalValue);
-  }, [totalUsdValueConverted]);
+  }, [multisigValueInSelectedCurrency]);
 
-  const handleConnectClick = () => {
+  const onNewTransactionClick = useCallback(
+    () =>
+      dispatch(
+        setProposeMultiselectSelectedOption({
+          option: ProposalsTypes.send_token,
+        }),
+      ),
+    [dispatch],
+  );
+
+  const handleConnectClick = useCallback(() => {
     dispatch(
       setProposeModalSelectedOption({
         option: ModalTypes.connect_wallet,
       }),
     );
-  };
-
-  const { dynamicMinWidth } = useSendTokenButtonMinWidth();
+  }, [dispatch]);
 
   return (
     <Box
@@ -338,10 +318,12 @@ function TotalBalance() {
             }}
           />
           <CenteredText fontSize="16px" fontWeight="bolder">
-            {Number.isNaN(multisigAllCoinsValue) ? (
+            {Number.isNaN(displayableTotalMultisigValue) ? (
               <CircularProgress />
             ) : (
-              `${isLoggedIn ? multisigAllCoinsValue : 0} ${getCurrency}`
+              `${
+                isLoggedIn ? displayableTotalMultisigValue : 0
+              } ${selectedCurrency}`
             )}
           </CenteredText>
         </Box>

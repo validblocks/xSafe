@@ -75,7 +75,10 @@ const TokenPresentationWithPrice = ({
         </Box>
         {withPrice && BigNumber.isBigNumber(tokenPrice) && (
           <Text fontSize={12}>
-            ${tokenPrice?.toNumber().toLocaleString('EN')}
+            $
+            {tokenPrice?.toNumber().toLocaleString('EN', {
+              maximumSignificantDigits: 21,
+            })}
           </Text>
         )}
       </Box>

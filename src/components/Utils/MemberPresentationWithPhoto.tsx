@@ -7,10 +7,9 @@ import { AnchorPurple } from 'src/components/Layout/Navbar/navbar-style';
 import { network } from 'src/config';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
-import { useSelector } from 'react-redux';
-import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
 import * as Styled from './styled/index';
 import * as Cutomed from '../../pages/Organization/styled';
+import { useMemo } from 'react';
 
 type Props = {
   memberAddress: Address;
@@ -22,7 +21,14 @@ const MemberPresentationWithPhoto = ({
   charactersLeftAfterTruncation = 5,
 }: Props) => {
   const theme = useCustomTheme();
-  const addressBook = useSelector(addressBookSelector);
+  const member = useMemo(
+    () =>
+      truncateInTheMiddle(
+        memberAddress?.bech32() ?? '',
+        charactersLeftAfterTruncation,
+      ),
+    [memberAddress, charactersLeftAfterTruncation],
+  );
   return (
     <div
       key={memberAddress?.bech32()?.toString()}
@@ -37,13 +43,7 @@ const MemberPresentationWithPhoto = ({
       }
       <Box sx={{ ml: '7px' }}>
         <Box sx={{ display: 'flex' }}>
-          <Box sx={{ color: theme.palette.text.primary }}>
-            {addressBook[memberAddress?.bech32()] ??
-              truncateInTheMiddle(
-                memberAddress?.bech32() ?? '',
-                charactersLeftAfterTruncation,
-              )}{' '}
-          </Box>
+          <Box sx={{ color: theme.palette.text.primary }}>{member} </Box>
           <Box ml={1}>
             <CopyButton
               link={Styled.CopyIconLinkPurple}

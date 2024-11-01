@@ -4,14 +4,14 @@ export interface StateType {
   currencyConverted: number;
   selectedCurrency: string;
   previousCurrency: string;
-  valueInUsd: number;
+  multisigValueInUsd: number;
 }
 
 const initialState: StateType = {
   currencyConverted: 0,
   selectedCurrency: 'USD',
   previousCurrency: 'USD',
-  valueInUsd: 0,
+  multisigValueInUsd: 0,
 };
 
 export const currencySlice = createSlice({
@@ -35,7 +35,7 @@ export const currencySlice = createSlice({
       };
     },
     setValueInUsd(state: StateType, action: PayloadAction<number>) {
-      return { ...state, valueInUsd: action.payload };
+      return { ...state, multisigValueInUsd: action.payload };
     },
   },
 });

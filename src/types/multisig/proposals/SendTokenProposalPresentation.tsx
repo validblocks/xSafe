@@ -45,7 +45,7 @@ const SendTokenProposalPresentation = ({
           ? 18
           : selectedTokenDetails?.value?.decimals ?? 18,
       ) ?? '0',
-    [amount, selectedTokenDetails?.value?.decimals],
+    [amount, identifier, selectedTokenDetails?.value?.decimals],
   );
 
   const maxWidth600 = useMediaQuery('@media(max-width:600px)');

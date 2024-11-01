@@ -18,9 +18,9 @@ export const previousCurrencySelector = createDeepEqualSelector(
   (state) => state?.previousCurrency,
 );
 
-export const valueInUsdSelector = createDeepEqualSelector(
+export const multisigValueInUsdSelector = createDeepEqualSelector(
   currencySliceSelector,
-  (state) => state?.valueInUsd,
+  (state) => state?.multisigValueInUsd,
 );
 
 export const conversionRatesSelector = createDeepEqualSelector(
