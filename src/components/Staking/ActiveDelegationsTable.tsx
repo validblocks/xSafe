@@ -25,7 +25,7 @@ import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import DelegatedColumn from './DelegatedColumn';
 import ClaimableRewardsColumn from './ClaimableRewardsColumn';
-import * as Styled from '../../pages/Organization/styled';
+import * as Styled from '../../pages/Safe/styled';
 import noRowsOverlay from '../Utils/noRowsOverlay';
 import DelegationMobileCards from './DelegationMobileCards';
 

@@ -1,4 +1,4 @@
-import * as Styled from '../../pages/Organization/styled';
+import * as Styled from '../../pages/Safe/styled';
 
 const noRowsOverlay = () => (
   <Styled.NoRowsOverlay>

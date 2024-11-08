@@ -50,7 +50,9 @@ import { getChainID } from '@multiversx/sdk-dapp/utils';
 import { MultisigActionParserInstance } from 'src/utils/parsers/actions/MultisigActionsParser';
 
 const proposeDeployGasLimit = 256_000_000;
-const proxy = new ApiNetworkProvider(network?.apiAddress ?? '');
+const proxy = new ApiNetworkProvider(network?.apiAddress ?? '', {
+  clientName: 'multiversx-xsafe',
+});
 
 export async function queryOnContract(
   functionName: string,

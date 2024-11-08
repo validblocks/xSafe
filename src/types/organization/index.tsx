@@ -66,7 +66,6 @@ export type OrganizationInfoContextType = {
   boardMembersCount: number;
   allMemberAddresses: MemberAddressTableRow[];
   isBoardMemberState: CustomStateType<boolean>;
-  isMultiWalletMode: boolean;
   isInReadOnlyMode: boolean;
   nftCount: number;
 };

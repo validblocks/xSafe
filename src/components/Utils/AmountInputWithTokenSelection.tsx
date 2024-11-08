@@ -168,7 +168,6 @@ const AmountInputWithTokenSelection = ({
 
   const { touched, errors, values } = formik;
   const { amount } = values;
-  console.log({ amount });
 
   const hasAmountErrors = !!errors.amount;
   const hasAmountErrorsAfterTouch = touched?.amount && errors.amount;

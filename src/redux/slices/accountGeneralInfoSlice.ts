@@ -15,7 +15,6 @@ export interface StateType {
   tokenTableRows: TokenTableRowItem[];
   organizationTokens: OrganizationToken[];
   activeDelegationsRows: IdentityWithColumns[];
-  isMultiWalletMode: boolean;
   isInReadOnlyMode: boolean;
   totalUsdValue: BigNumber;
 }
@@ -28,7 +27,6 @@ const initialState: StateType = {
   rootHash: '',
   username: '',
   isInReadOnlyMode: true,
-  isMultiWalletMode: false,
   tokenTableRows: [],
   organizationTokens: [],
   activeDelegationsRows: [],

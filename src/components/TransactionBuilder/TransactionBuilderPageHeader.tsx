@@ -28,7 +28,6 @@ export const TransactionBuilderPageHeader = () => {
   }, [navigate]);
 
   const isSaveAsTemplateButtonDisabled = useMemo(() => {
-    console.log({ VALIDATION: selectedTemplateForCreation });
     return (
       !Address.isValid(selectedTemplateForCreation?.receiver ?? '') ||
       !selectedTemplateForCreation?.endpoint ||

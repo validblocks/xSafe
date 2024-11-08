@@ -7,7 +7,7 @@ import { mutateProposeChangeQuorum } from 'src/contracts/MultisigContract';
 import RemoveRoundedIcon from '@mui/icons-material/RemoveRounded';
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
-import * as Styled from '../../pages/Organization/styled/index';
+import * as Styled from '../../pages/Safe/styled/index';
 import { useOrganizationInfoContext } from '../Providers/OrganizationInfoContextProvider';
 
 const CvorumContainer = () => {

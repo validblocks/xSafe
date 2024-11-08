@@ -2,7 +2,7 @@ import { AccordionSummary, Grid, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { TransactionAccordion } from 'src/components/StyledComponents/transactions';
 import styled from 'styled-components';
-import { MobileCardOfTokens } from 'src/pages/Organization/styled';
+import { MobileCardOfTokens } from 'src/pages/Safe/styled';
 
 export const DelegationCardContainer = styled(MobileCardOfTokens)(
   ({ theme: _ }) => ({

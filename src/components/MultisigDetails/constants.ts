@@ -23,7 +23,7 @@ export const titles = {
     'Upgrade smart contract from source',
   [ProposalsTypes.attach_contract]: 'Attach contract',
   [ProposalsTypes.replace_owner]: 'Replace owner',
-  [ProposalsTypes.edit_owner]: 'Edit owner',
+  [ProposalsTypes.edit_owner]: 'Edit member',
   [ProposalsTypes.stake_tokens]: 'Choose a Staking Provider',
   [ProposalsTypes.unstake_tokens]: 'Unstake tokens',
   [ProposalsTypes.withdraw_funds]: 'Withdraw funds',

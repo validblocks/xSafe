@@ -11,7 +11,7 @@ import { setSelectedStakingProvider } from 'src/redux/slices/modalsSlice';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
 import useProviderIdentitiesAfterSelection from 'src/hooks/useProviderIdentitiesAfterSelection';
 import { IAPRColumn, IFilledColumn, IProviderColumn } from 'src/types/staking';
-import * as Styled from '../../pages/Organization/styled';
+import * as Styled from '../../pages/Safe/styled';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import APRColumn from './APRColumn';

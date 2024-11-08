@@ -6,7 +6,6 @@ import Safe from 'src/assets/img/safe.png';
 import SafeOptions from 'src/components/SafeOptions';
 import WifiProtectedSetupOutlinedIcon from '@mui/icons-material/WifiProtectedSetupOutlined';
 import { uniqueContractAddress } from 'src/multisigConfig';
-import { useOrganizationInfoContext } from 'src/components/Providers/OrganizationInfoContextProvider';
 import { useSelector } from 'react-redux';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
@@ -88,8 +87,6 @@ const MobileLayout = () => {
       document.removeEventListener('mousedown', handler);
     };
   }, []);
-
-  const { isMultiWalletMode } = useOrganizationInfoContext();
 
   const navigate = useNavigate();
   const handleRedirectToHome = () => {
@@ -201,7 +198,7 @@ const MobileLayout = () => {
                       />
                     </Box>
                   )}
-                  {openedSafeSelect === false && isMultiWalletMode && (
+                  {openedSafeSelect === false && (
                     <Box>
                       {isLoggedIn && currentContract?.address.length > 0 ? (
                         <IconButton

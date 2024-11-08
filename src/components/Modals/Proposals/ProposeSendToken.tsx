@@ -162,8 +162,6 @@ const ProposeSendToken = memo(
       refreshProposal();
     }, [refreshProposal]);
 
-    console.log({ amount });
-
     return (
       <FormikProvider value={formik}>
         <Box padding={maxWidth600 ? '16px 16px 4.8px' : '30.88px 40px 4.8px'}>

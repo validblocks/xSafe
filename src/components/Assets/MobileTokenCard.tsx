@@ -5,7 +5,7 @@ import MultiversXLogoSymbol from 'src/assets/img/multiversx-symbol.svg';
 import DisplayTokenPrice from 'src/components/Utils/DisplayTokenPrice';
 import { TokenTableRowItem } from 'src/types/organization';
 import { ProposalsTypes } from 'src/types/multisig/proposals/Proposals';
-import * as Styled from '../../pages/Organization/styled';
+import * as Styled from '../../pages/Safe/styled';
 import { Text } from '../StyledComponents/StyledComponents';
 import { AssetActionButton } from '../Theme/StyledComponents';
 import { SQUARE_SMALL_IMAGE_WIDTH } from './MobileCardsForTableReplacement';

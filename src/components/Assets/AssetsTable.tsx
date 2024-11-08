@@ -16,7 +16,7 @@ import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import DisplayTokenPrice from 'src/components/Utils/DisplayTokenPrice';
 import { Box, Typography } from '@mui/material';
 import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
-import * as Styled from '../../pages/Organization/styled';
+import * as Styled from '../../pages/Safe/styled';
 import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
 import { Converters } from 'src/utils/Converters';
 

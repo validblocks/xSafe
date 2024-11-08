@@ -546,7 +546,6 @@ describe('TransactionBuilderMain component', () => {
                 ],
                 multisigBalance: new BigNumber(0),
                 activeDelegationsRows: [],
-                isMultiWalletMode: false,
                 isInReadOnlyMode: true,
                 totalUsdValue: new BigNumber(0),
               },

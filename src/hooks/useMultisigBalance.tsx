@@ -41,10 +41,6 @@ export const useMultisigBalance = (): MultisigBalance => {
     USE_QUERY_DEFAULT_CONFIG,
   );
 
-  console.log({
-    multisigEsdts,
-  });
-
   const { data: multisigEgldBalance } = useQuery(
     [QueryKeys.ADDRESS_EGLD_TOKENS],
     getMultisigEgldBalance,
@@ -74,7 +70,6 @@ export const useMultisigBalance = (): MultisigBalance => {
           const valueUsd = BigNumber.isBigNumber(token.valueUsd)
             ? token.valueUsd
             : new BigNumber(token.valueUsd);
-          console.log({ valueUsd });
           return acc.plus(valueUsd);
         }
 

@@ -36,8 +36,6 @@ const TokenPresentationWithPrice = ({
       organizationTokenByIdentifierSelector(identifier),
     );
 
-  console.log({ tokenPrice });
-
   return (
     <Box
       sx={{

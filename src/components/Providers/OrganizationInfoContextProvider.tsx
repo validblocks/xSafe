@@ -17,15 +17,12 @@ import {
   currentMultisigContractSelector,
   currentMultisigTransactionIdSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
-import { uniqueContractAddress } from 'src/multisigConfig';
 import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
-import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSlice';
 import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
-import { parseMultisigAddress } from 'src/utils/addressUtils';
 import { setIntervalEndTimestamp } from 'src/redux/slices/transactionsSlice';
 import { toastDisappearDelay } from 'src/helpers/constants';
 import { removeSignedTransaction } from '@multiversx/sdk-dapp/services';
@@ -56,9 +53,6 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const [isBoardMember, setIsBoardMember] = useState(false);
   const [boardMembers, setBoardMembers] = useState<Address[]>([]);
   const [isInReadOnlyMode, setIsInReadOnlyMode] = useState<boolean>(true);
-  const [isMultiWalletMode, setIsMultiWalletMode] = useState(
-    uniqueContractAddress.length > 0,
-  );
   const currentContract = useSelector<StateType, MultisigContractInfoType>(
     currentMultisigContractSelector,
   );
@@ -79,14 +73,14 @@ function OrganizationInfoContextProvider({ children }: Props) {
 
       if (!isValidMultisigContract) return;
 
-      Promise.all([queryBoardMemberAddresses(), queryQuorumCount()]).then(
-        ([boardMembersAddresses, quorumCountResponse]: [Address[], number]) => {
-          if (!isMounted) return;
+      const [boardMembersAddresses, quorumCountResponse] = await Promise.all([
+        queryBoardMemberAddresses(),
+        queryQuorumCount(),
+      ]);
+      if (!isMounted) return;
 
-          setBoardMembers(boardMembersAddresses);
-          setQuorumCount(quorumCountResponse);
-        },
-      );
+      setBoardMembers(boardMembersAddresses);
+      setQuorumCount(quorumCountResponse);
     },
     [currentContract?.address, isLoggedIn],
   );
@@ -103,24 +97,13 @@ function OrganizationInfoContextProvider({ children }: Props) {
     USE_QUERY_DEFAULT_CONFIG,
   );
 
-  useEffect(() => {
-    const isSingleWalletMode = (uniqueContractAddress as string).length > 0;
-    setIsMultiWalletMode(!isSingleWalletMode);
-    if (isSingleWalletMode) {
-      const newMultisigAddressParam = parseMultisigAddress(
-        uniqueContractAddress ?? '',
-      );
-      if (newMultisigAddressParam) {
-        dispatch(setCurrentMultisigContract(newMultisigAddressParam?.bech32()));
-      }
-    }
-  }, [dispatch]);
-
   const allMemberAddresses = useMemo(
     () =>
-      boardMembers
-        .map((item) => ({ role: 'Member', member: item }))
-        .map((item, idx) => ({ ...item, id: idx })),
+      boardMembers.map((item, idx) => ({
+        role: 'Member',
+        member: item,
+        id: idx,
+      })),
     [boardMembers],
   );
 
@@ -254,7 +237,6 @@ function OrganizationInfoContextProvider({ children }: Props) {
           allMemberAddresses,
           isBoardMemberState: [isBoardMember, setIsBoardMember],
           nftCount: nftCount ?? 0,
-          isMultiWalletMode,
           isInReadOnlyMode,
         }),
         [
@@ -265,7 +247,6 @@ function OrganizationInfoContextProvider({ children }: Props) {
           allMemberAddresses,
           isBoardMember,
           nftCount,
-          isMultiWalletMode,
           isInReadOnlyMode,
         ],
       )}

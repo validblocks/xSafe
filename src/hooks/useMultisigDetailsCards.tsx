@@ -107,12 +107,6 @@ export default function useMultisigDetailsCards() {
     [dispatch],
   );
 
-  console.log({
-    totalOrganizationValueToDisplay: new BigNumber(
-      totalOrganizationValueToDisplay.replaceAll(',', ''),
-    ).valueOf(),
-  });
-
   const topSectionCards = useMemo(
     () => [
       <AmountWithTitleCard

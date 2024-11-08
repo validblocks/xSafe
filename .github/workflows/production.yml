@@ -1,4 +1,4 @@
-name: xsafe-deploy-staging
+name: xsafe-deploy-production
 
 on:
   workflow_dispatch:
@@ -7,7 +7,7 @@ on:
       - 'master'
 
 jobs:
-  deploy-staging:
+  deploy-production:
     runs-on: [ubuntu-latest]
     env:
       SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

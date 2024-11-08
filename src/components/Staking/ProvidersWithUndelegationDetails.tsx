@@ -75,14 +75,6 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
     refetchProviders,
   } = useProviderIdentitiesAfterSelection(config);
 
-  console.log({
-    fetchedProviderIdentities,
-    isFetchingProviderIdentities,
-    isLoadingProviderIdentities,
-    isErrorOnFetchingProviderIdentities,
-    refetchProviders,
-  });
-
   const classes = useStyles();
   const queryClient = useQueryClient();
   const { getStateByKey } = useReactQueryState(queryClient);
@@ -96,8 +88,6 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
       return [];
     }
 
-    console.log({ fetchedProviderIdentities, fetchedDelegations });
-
     const providerIdentitiesWithUndelegations =
       fetchedProviderIdentities.filter((identity) => {
         const delegation = fetchedDelegations.find(
@@ -110,16 +100,12 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
         return delegation.userUndelegatedList?.length > 0;
       });
 
-    console.log({ providerIdentitiesWithUndelegations });
-
     return providerIdentitiesWithUndelegations?.map(
       (providerIdentity: IdentityWithColumns) => {
         const delegation = fetchedDelegations.find(
           (delegation: IDelegation) =>
             delegation.contract === providerIdentity.provider,
         );
-
-        console.log({ foundDelegation: delegation });
 
         const totalRequestedUndelegations =
           delegation?.userUndelegatedList.reduce(
@@ -152,8 +138,6 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
           (delegation: IUndelegatedFunds) => delegation.seconds > 0,
         );
 
-        console.log({ pendingWithdrawals });
-
         return {
           ...providerIdentity,
           totalRequestedUndelegations: totalRequestedUndelegations?.valueOf(),
@@ -164,8 +148,6 @@ const ProvidersWithUndelegationDetails = ({ searchParam }: Props) => {
       },
     );
   }, [fetchedDelegations, fetchedProviderIdentities]);
-
-  console.log({ rows });
 
   const [expanded, setExpanded] = useState<string | false>(false);
   const [isWithdrawing, setIsWithdrawing] = useState<boolean>(false);

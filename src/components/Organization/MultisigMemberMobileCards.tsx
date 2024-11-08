@@ -20,7 +20,7 @@ import NoActionsOverlay from 'src/components/Utils/NoActionsOverlay';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import { useOrganizationInfoContext } from '../Providers/OrganizationInfoContextProvider';
-import * as Styled from '../../pages/Organization/styled/index';
+import * as Styled from '../../pages/Safe/styled/index';
 import { useMemberManipulationFunctions } from '../../hooks/useMemberManipulationFunctions';
 import { MultisigMember } from '../../types/organization';
 import * as StyledUtils from '../Utils/styled/index';

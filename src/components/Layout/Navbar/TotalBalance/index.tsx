@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import { useCallback, useMemo, useEffect } from 'react';
 import { getAccountBalance as getAccount } from '@multiversx/sdk-dapp/utils/account';
 import {
@@ -55,8 +54,6 @@ import { CenteredText } from '../navbar-style';
 import * as Styled from '../styled';
 import { useSendTokenButtonMinWidth } from './useSendTokenButtonMinWidth';
 import UnknownOwnerMobileWarning from './UnknownOwnerMobileWarning';
-import { useSocketSubscribe } from 'src/hooks/useSocketSubscribe';
-import { SocketEvent } from 'src/types/websockets';
 import { AccountBalanceWallet } from '@mui/icons-material';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { TokenType } from '@multiversx/sdk-dapp/types/tokens.types';
@@ -160,7 +157,6 @@ function TotalBalance() {
 
   const egldPrice = useSelector(priceSelector);
   const multisigValueInUsd = useSelector(multisigValueInUsdSelector);
-  console.log({ multisigValueInUsd });
   const multisigValueInSelectedCurrency =
     useCurrencyConversion(multisigValueInUsd);
 
@@ -203,13 +199,14 @@ function TotalBalance() {
 
   const { multisigTotalUsdValue } = useMultisigBalance();
 
-  useSocketSubscribe(SocketEvent.INVOLVED_IN_TX, () => {
-    console.log('NEW TRANSACTIONS THROUGH WS!');
-    refetchMultisigEsdts();
-    refetchMultisigEgldBalance();
-    refetchMultisigNfts();
-    queryClient.invalidateQueries(QueryKeys.NFT_COUNT);
-  });
+  // Remove live updates for now
+  // useSocketSubscribe(SocketEvent.INVOLVED_IN_TX, () => {
+  //   console.log('NEW TRANSACTIONS THROUGH WS!');
+  //   refetchMultisigEsdts();
+  //   refetchMultisigEgldBalance();
+  //   refetchMultisigNfts();
+  //   queryClient.invalidateQueries(QueryKeys.NFT_COUNT);
+  // });
 
   const currentMultisigTransactionId = useSelector(
     currentMultisigTransactionIdSelector,

@@ -8,7 +8,7 @@ import { network } from 'src/config';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import * as Styled from './styled/index';
-import * as Cutomed from '../../pages/Organization/styled';
+import * as Cutomed from '../../pages/Safe/styled';
 import { useMemo } from 'react';
 
 type Props = {

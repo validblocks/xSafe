@@ -105,8 +105,8 @@ const NavbarAccountDetails = React.memo(
 
     const {
       membersCountState: [membersCount],
-      isMultiWalletMode,
     } = useOrganizationInfoContext();
+
     const handleQrModal = () => {
       setShowQr(!showQr);
     };
@@ -236,7 +236,7 @@ const NavbarAccountDetails = React.memo(
                       },
                     }}
                   >
-                    {isMultiWalletMode && isLoggedIn && (
+                    {isLoggedIn && (
                       <ArrowDropDownIcon onClick={openSafeSelection} />
                     )}
                   </Box>
