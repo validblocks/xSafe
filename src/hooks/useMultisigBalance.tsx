@@ -32,7 +32,7 @@ export const useMultisigBalance = (): MultisigBalance => {
   );
 
   const { data: multisigEsdts } = useQuery(
-    [QueryKeys.ADDRESS_ESDT_TOKENS],
+    [QueryKeys.ADDRESS_ESDT_TOKENS, currentContract?.address],
     getMultisigEsdts,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
@@ -42,7 +42,7 @@ export const useMultisigBalance = (): MultisigBalance => {
   );
 
   const { data: multisigEgldBalance } = useQuery(
-    [QueryKeys.MULTISIG_EGLD_BALANCE],
+    [QueryKeys.MULTISIG_EGLD_BALANCE, currentContract?.address],
     getMultisigEgldBalance,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
