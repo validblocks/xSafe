@@ -1,13 +1,18 @@
+import { TemplateType } from 'src/components/Modals/Templates/SaveTemplateModalContent';
+
 export interface Template {
   templateName: string;
   owner: string;
-  type: string;
+  type:
+    | typeof TemplateType.Personal
+    | typeof TemplateType.Organization
+    | typeof TemplateType.Public;
   receiver: string;
   endpoint: string;
   params: string[];
   description: string;
   value: string;
-  id: string;
+  id: number;
 }
 
 export interface CreateTemplateDto {

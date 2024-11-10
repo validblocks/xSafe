@@ -19,8 +19,6 @@ import {
 import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accountSelector';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
 import BalanceDisplay from 'src/components/Utils/BalanceDisplay';
-import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
-import { OrganizationToken } from 'src/types/organization';
 import { ExternalContractFunction } from 'src/types/multisig/ExternalContractFunction';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import useAmountInputController from 'src/hooks/useAmountInputController';
@@ -33,10 +31,9 @@ const LendInJewelSwap = () => {
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
   const { isInReadOnlyMode } = useOrganizationInfoContext();
-  const { tokenValue, balanceLocaleString } = useSelector<
-    StateType,
-    OrganizationToken
-  >(organizationTokenByIdentifierSelector('EGLD'));
+  const { tokenValue, balanceLocaleString } = useSelector(
+    organizationTokenByIdentifierSelector('EGLD'),
+  );
 
   const handleLendButtonClick = useCallback(async () => {
     try {

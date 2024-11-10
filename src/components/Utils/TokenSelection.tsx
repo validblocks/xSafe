@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
-import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import * as Styled from 'src/components/MultisigDetails/ProposeMultiselectModal/styled';
 import { TokenTableRowItem } from 'src/types/organization';
 import { setSelectedTokenToSend } from 'src/redux/slices/modalsSlice';
@@ -20,9 +19,7 @@ const TokenSelection = ({ amountError, resetAmount }: IProps) => {
   const [identifier, setIdentifier] = useState(
     selectedToken?.identifier || 'EGLD',
   );
-  const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(
-    tokenTableRowsSelector,
-  );
+  const tokenTableRows = useSelector(tokenTableRowsSelector);
 
   const onIdentifierChanged = (event: SelectChangeEvent) => {
     const newIdentifier = event.target.value;

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import { TestContext } from 'yup';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
-import { organizationTokensSelector } from 'src/redux/selectors/accountSelector';
+import { safeTokensSelector } from 'src/redux/selectors/accountSelector';
 import { FormikInputField } from 'src/helpers/formikFields';
 import { MultisigSendEgld } from 'src/types/multisig/proposals/MultisigSendEgld';
 import { OrganizationToken } from 'src/types/organization';
@@ -35,14 +35,14 @@ const ProposeSendEgld = ({
   const t = useCustomTranslation();
 
   const theme = useCustomTheme();
-  const organizationTokens = useSelector(organizationTokensSelector);
+  const safeTokens = useSelector(safeTokensSelector);
   const egldBalanceString =
-    organizationTokens
+    safeTokens
       ?.find((token: OrganizationToken) => token.identifier === 'EGLD')
-      .balanceLocaleString.replaceAll(',', '') ?? 0;
+      ?.balanceLocaleString.replaceAll(',', '') ?? '0';
 
   const egldBalance = useMemo(
-    () => parseFloat(egldBalanceString.replaceAll(',', '')),
+    () => parseFloat(egldBalanceString?.replaceAll(',', '')),
     [egldBalanceString],
   );
 

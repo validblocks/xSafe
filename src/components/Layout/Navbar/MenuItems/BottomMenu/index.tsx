@@ -1,10 +1,10 @@
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { Box } from '@mui/system';
 import { HtmlTooltip } from 'src/components/Utils/HtmlTooltip';
 import { BottomMenuList } from '../../navbar-style';
 import MenuLink from '../MenuLink';
 import { uniqueId } from 'lodash';
 import { bottomItems } from 'src/apps/apps';
+import { useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 
 const BottomMenu = () => {
   const { isLoggedIn } = useGetLoginInfo();

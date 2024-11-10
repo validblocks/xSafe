@@ -1,6 +1,3 @@
-/* eslint-disable no-nested-ternary */
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, useMediaQuery } from '@mui/material';
 import { toSvg } from 'jdenticon';
@@ -11,6 +8,7 @@ import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import * as Styled from '../../../Utils/styled';
 import { ConnectItems, AnchorConnectedAccount } from '../navbar-style';
 import { LogoutButton } from 'src/components/Utils/LogoutButton';
+import { useGetAccountInfo, useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 
 interface Props {
   closeSidebar: () => void;

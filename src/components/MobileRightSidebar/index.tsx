@@ -14,7 +14,6 @@ import {
   isDarkThemeEnabledSelector,
   isMobileSidebarOpenSelector,
 } from 'src/redux/selectors/appConfigSelector';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import SafeSettings from 'src/components/Settings/SafeSettings';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { MobileSettingsWrapper } from 'src/components/Settings/settings-style';
@@ -34,6 +33,7 @@ import {
 import { MobileConnectedAccount } from '../Layout/Navbar/ConnectedAccount/MobileConnectedAccount';
 import { setIsMobileSidebarOpen } from 'src/redux/slices/appConfigSlice';
 import { MenuItem, mobileDropDownItems } from 'src/apps/apps';
+import { useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 
 const Transition = React.forwardRef(
   (

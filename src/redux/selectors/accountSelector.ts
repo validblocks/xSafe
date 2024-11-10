@@ -1,7 +1,6 @@
 import { OrganizationToken } from 'src/types/organization';
 import { createDeepEqualSelector } from './helpers';
 import { RootState } from '../store';
-import { StateType } from '../slices/accountGeneralInfoSlice';
 
 export const accountSelector = (state: RootState) => state.accountGeneralInfo;
 
@@ -27,30 +26,30 @@ export const totalUsdValueSelector = createDeepEqualSelector(
   (state) => state.totalUsdValue,
 );
 
-export const organizationTokensSelector = createDeepEqualSelector(
+export const safeTokensSelector = createDeepEqualSelector(
   accountSelector,
-  (state) => state.organizationTokens,
+  (state) => state.safeTokens,
 );
 
 export const getTokenPhotoUrlById = (
-  state: RootState,
+  state: ReturnType<typeof accountSelector>,
   tokenIdentifier: string,
 ) =>
-  state.organizationTokens?.find(
+  state.safeTokens?.find(
     (token: OrganizationToken) =>
       token.identifier === tokenIdentifier ||
       token.prettyIdentifier === tokenIdentifier,
   )?.photoUrl;
 
 export const getTokenPhotoById = (
-  state: RootState,
+  state: ReturnType<typeof accountSelector>,
   tokenIdentifier: string,
 ) => {
   console.log(
     '!!! WARNING: watchout for comparison here and in getTokenPhotoUrlById',
   );
   const res =
-    state.organizationTokens?.find(
+    state.safeTokens?.find(
       (token: OrganizationToken) =>
         token.identifier === tokenIdentifier ||
         token.prettyIdentifier === tokenIdentifier,
@@ -60,8 +59,10 @@ export const getTokenPhotoById = (
 };
 
 export const organizationTokenByIdentifierSelector = (identifier: string) =>
-  createDeepEqualSelector(accountSelector, (state: StateType) =>
-    getTokenPhotoById(state, identifier),
+  createDeepEqualSelector(
+    accountSelector,
+    (state: ReturnType<typeof accountSelector>) =>
+      getTokenPhotoById(state, identifier),
   );
 
 export const activeDelegationsRowsSelector = createDeepEqualSelector(

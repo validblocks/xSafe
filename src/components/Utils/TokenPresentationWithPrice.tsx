@@ -1,12 +1,12 @@
 import { Box } from '@mui/material';
-import { OrganizationToken } from 'src/types/organization';
 import { useSelector } from 'react-redux';
 import { TokenPresentationProps } from 'src/components/Modals/Proposals/ProposeSendToken';
 import { organizationTokenByIdentifierSelector } from 'src/redux/selectors/accountSelector';
-import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { Text } from '../StyledComponents/StyledComponents';
 import { TokenPhoto } from './TokenPhoto';
 import BigNumber from 'bignumber.js';
+
+export const TOKEN_PRICE_PRECISION = 3;
 
 type TokenPresentationConfig = {
   withPhoto: boolean;
@@ -32,9 +32,7 @@ const TokenPresentationWithPrice = ({
   withPrice = true,
 }: TokenPresentationWithPriceProps) => {
   const { prettyIdentifier, tokenPrice, tokenValue, balanceLocaleString } =
-    useSelector<StateType, OrganizationToken>(
-      organizationTokenByIdentifierSelector(identifier),
-    );
+    useSelector(organizationTokenByIdentifierSelector(identifier));
 
   return (
     <Box
@@ -94,11 +92,9 @@ const TokenPresentationWithPrice = ({
             <Text>{balanceLocaleString}</Text>
           </Box>
         )}
-        {withTokenValue && (
+        {withTokenValue && BigNumber.isBigNumber(tokenValue) && (
           <Box>
-            <Text fontSize={12}>
-              ${tokenValue.toNumber().toLocaleString('EN')}
-            </Text>
+            <Text fontSize={12}>${tokenValue.toNumber()}</Text>
           </Box>
         )}
       </Box>

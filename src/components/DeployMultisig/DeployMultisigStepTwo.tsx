@@ -1,11 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import {
-  useGetAccountProvider,
-  useGetPendingTransactions,
-  useTrackTransactionStatus,
-} from '@multiversx/sdk-dapp/hooks';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { Address } from '@multiversx/sdk-core/out';
 import { Box, Checkbox } from '@mui/material';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
@@ -30,6 +24,12 @@ import { setCurrentMultisigContract } from 'src/redux/slices/multisigContractsSl
 import { FinalStepActionButton } from 'src/components/Theme/StyledComponents';
 import { useMultisigCreationFormContext } from './DeployMultisigModal';
 import * as Styled from '../Utils/styled/index';
+import {
+  useGetAccountProvider,
+  useGetLoginInfo,
+  useGetPendingTransactions,
+  useTrackTransactionStatus,
+} from 'src/hooks/sdkDappHooks';
 
 interface DeployStepsModalType {
   handleClose: () => void;

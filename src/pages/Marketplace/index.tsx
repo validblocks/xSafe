@@ -58,7 +58,7 @@ const Marketplace = () => {
       marginTop={0}
       paddingBottom={maxWidth600 ? '46px' : 0}
     >
-      {!(currentContract?.address.length > 0) && (
+      {currentContract?.address.length === 0 && (
         <NoteSpan mb="5px">
           Looks like you don't have a safe available yet. Simply connect your
           wallet, create a new safe, and start installing any app you need.

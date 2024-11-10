@@ -8,7 +8,6 @@ import WifiProtectedSetupOutlinedIcon from '@mui/icons-material/WifiProtectedSet
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { useSelector } from 'react-redux';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import SafeDark from 'src/assets/img/Safe-dark.png';
 import MobileRightSidebar from 'src/components/MobileRightSidebar';
@@ -37,6 +36,7 @@ import {
   proposeMultiselectModalSelectedOptionSelector,
 } from 'src/redux/selectors/modalsSelector';
 import { MobilePrimaryMenu } from './MobilePrimaryMenu';
+import { useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 
 const MobileLayout = () => {
   const [_walletAddress, setWalletAddress] = useState('');
@@ -61,8 +61,11 @@ const MobileLayout = () => {
   }, [minWidth380, minWidth535]);
 
   useEffect(() => {
-    // eslint-disable-next-line no-nested-ternary
-    setSafeAddress(truncateInTheMiddle(currentContract?.address, addressChars));
+    if (currentContract?.address) {
+      setSafeAddress(
+        truncateInTheMiddle(currentContract?.address, addressChars),
+      );
+    }
   }, [
     addressChars,
     currentContract?.address,
@@ -144,51 +147,53 @@ const MobileLayout = () => {
                 </Box>
               )}
               <Box className="d-flex" alignItems={'center'} width="100%">
-                {currentContract?.address?.length > 0 && isLoggedIn && (
-                  <Box
-                    width={'100%'}
-                    display={'flex'}
-                    flexDirection={'column'}
-                    justifyContent={'center'}
-                    ml={minWidth380 ? '12px' : 0}
-                  >
-                    <Box display="flex" alignItems="center">
-                      <Typography
-                        component="span"
-                        fontWeight={600}
-                        lineHeight={1.1}
-                        display={'flex'}
-                        flexDirection={'row'}
-                        justifyContent={'space-between'}
-                        width={'100%'}
-                        marginRight="10px"
-                      >
-                        {currentContract?.name}
-                      </Typography>
-                    </Box>
-                    <Box display="flex">
-                      <Text mr={1}>{safeAddress}</Text>
-                      <Box className="d-flex">
-                        <Box flex={4} sx={{ mr: 1 }}>
-                          <CopyButton
-                            text={currentContract?.address}
-                            copyIconWidth="11px"
-                            link={CopyIconLinkConnectedAccount}
-                          />
-                        </Box>
-                        <Box sx={{ mr: 1 }}>
-                          <AnchorConnectedAccount
-                            href={`${network.explorerAddress}/accounts/${currentContract?.address}`}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            <SearchIcon sx={{ width: '15px' }} />
-                          </AnchorConnectedAccount>
+                {currentContract?.address &&
+                  currentContract?.address?.length > 0 &&
+                  isLoggedIn && (
+                    <Box
+                      width={'100%'}
+                      display={'flex'}
+                      flexDirection={'column'}
+                      justifyContent={'center'}
+                      ml={minWidth380 ? '12px' : 0}
+                    >
+                      <Box display="flex" alignItems="center">
+                        <Typography
+                          component="span"
+                          fontWeight={600}
+                          lineHeight={1.1}
+                          display={'flex'}
+                          flexDirection={'row'}
+                          justifyContent={'space-between'}
+                          width={'100%'}
+                          marginRight="10px"
+                        >
+                          {currentContract?.name}
+                        </Typography>
+                      </Box>
+                      <Box display="flex">
+                        <Text mr={1}>{safeAddress}</Text>
+                        <Box className="d-flex">
+                          <Box flex={4} sx={{ mr: 1 }}>
+                            <CopyButton
+                              text={currentContract?.address}
+                              copyIconWidth="11px"
+                              link={CopyIconLinkConnectedAccount}
+                            />
+                          </Box>
+                          <Box sx={{ mr: 1 }}>
+                            <AnchorConnectedAccount
+                              href={`${network.explorerAddress}/accounts/${currentContract?.address}`}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              <SearchIcon sx={{ width: '15px' }} />
+                            </AnchorConnectedAccount>
+                          </Box>
                         </Box>
                       </Box>
                     </Box>
-                  </Box>
-                )}
+                  )}
                 <Box className="d-flex" ml={minWidth380 ? '12px' : 0}>
                   {openedSafeSelect === true && (
                     <Box>
@@ -200,7 +205,9 @@ const MobileLayout = () => {
                   )}
                   {openedSafeSelect === false && (
                     <Box>
-                      {isLoggedIn && currentContract?.address.length > 0 ? (
+                      {isLoggedIn &&
+                      currentContract?.address &&
+                      currentContract?.address.length > 0 ? (
                         <IconButton
                           size="small"
                           onClick={() => setOpenedSafeSelect(true)}

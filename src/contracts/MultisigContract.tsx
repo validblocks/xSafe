@@ -1,9 +1,5 @@
 import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import {
-  getAddress,
-  getLatestNonce,
-  refreshAccount,
-} from '@multiversx/sdk-dapp/utils/account';
+import { getAddress, refreshAccount } from '@multiversx/sdk-dapp/utils/account';
 import {
   ContractFunction,
   Address,
@@ -14,6 +10,8 @@ import {
   TokenTransfer,
   ResultsParser,
   Account,
+  SmartContractTransactionsFactory,
+  TransactionsFactoryConfig,
 } from '@multiversx/sdk-core';
 import BigNumber from 'bignumber.js';
 import { NumericalBinaryCodec } from '@multiversx/sdk-core/out/smartcontracts/codec/numerical';
@@ -76,7 +74,7 @@ export async function query(functionName: string, ...args: TypedValue[]) {
       store.getState(),
     );
 
-    if (!currentMultisigAddress || currentMultisigAddress === '') {
+    if (!currentMultisigAddress || currentMultisigAddress === null) {
       throw new Error('No multisig address found.');
     }
 
@@ -177,37 +175,34 @@ export async function sendTransaction(
       store.getState(),
     );
 
-    const contract = new SmartContract({ address: currentMultisigAddress });
+    if (currentMultisigAddress === null) {
+      return;
+    }
 
     const walletAddressBech32 = await getAddress();
     const walletAddress = new Address(walletAddressBech32);
 
-    const transaction = contract.call({
-      caller: walletAddress,
-      receiver: currentMultisigAddress,
-      func: new ContractFunction(functionName),
-      gasLimit: transactionGasLimit,
-      args,
+    const factoryConfig = new TransactionsFactoryConfig({
       chainID: getChainID(),
     });
 
-    transaction.setNonce(
-      getLatestNonce(new Account(new Address(await getAddress()))),
-    );
+    const factory = new SmartContractTransactionsFactory({
+      config: factoryConfig,
+    });
 
-    // const smartContract = new SmartContract({
-    //   address: currentMultisigAddress,
-    // });
+    const transaction = factory.createTransactionForExecute({
+      sender: walletAddress,
+      contract: currentMultisigAddress,
+      function: functionName,
+      gasLimit: BigInt(transactionGasLimit),
+      arguments: args,
+    });
 
-    // const transaction = await buildTransaction(
-    //   0,
-    //   functionName,
-    //   smartContract,
-    //   transactionGasLimit,
-    //   ...args,
-    // );
-
+    console.log({ transaction });
     await refreshAccount();
+    const senderAccount = new Account(new Address(await getAddress()));
+    transaction.nonce = BigInt(senderAccount.getNonceThenIncrement().valueOf());
+
     const { sessionId } = await sendTransactions({
       transactions: [transaction],
       minGasLimit,
@@ -388,6 +383,10 @@ export function mutateEsdtSendNft(proposal: MultisigSendNft) {
     store.getState(),
   );
 
+  if (!currentMultisigAddress) {
+    return;
+  }
+
   const smartContract = new SmartContract({
     address: currentMultisigAddress,
   });
@@ -411,6 +410,10 @@ export function mutateEsdtSendSft(proposal: MultisigSendSft) {
   const currentMultisigAddress = currentMultisigAddressSelector(
     store.getState(),
   );
+
+  if (!currentMultisigAddress) {
+    return;
+  }
 
   const smartContract = new SmartContract({
     address: currentMultisigAddress,

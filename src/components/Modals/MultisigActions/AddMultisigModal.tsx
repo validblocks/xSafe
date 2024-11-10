@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import { addContractToMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
 import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
+import { useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 import { Box, useMediaQuery } from '@mui/material';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import {

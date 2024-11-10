@@ -4,7 +4,7 @@ import { tryParseAddressElseThrow } from 'src/utils/addressUtils';
 import * as Yup from 'yup';
 
 export const validateContractAddressOwner =
-  (ownerAddress?: Address) =>
+  (ownerAddress?: Address | null) =>
   async (value?: string, testContext?: Yup.TestContext) => {
     try {
       if (value == null || ownerAddress == null) {

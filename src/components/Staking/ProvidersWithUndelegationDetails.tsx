@@ -25,7 +25,7 @@ import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import HourglassTopRoundedIcon from '@mui/icons-material/HourglassTop';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
+import { useTrackTransactionStatus } from 'src/hooks/sdkDappHooks';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components */
 import { memo, useCallback, useMemo, useState } from 'react';
 import { GridRenderCellParams, GridSelectionModel } from '@mui/x-data-grid';
 import { useDispatch, useSelector } from 'react-redux';
@@ -184,7 +183,7 @@ const ActiveDelegationsTable = ({
       {maxWidth600 ? (
         <DelegationMobileCards
           items={rows ?? []}
-          actionButton={getTableActions(rows)}
+          actionButton={getTableActions(rows as any)}
         />
       ) : (
         <Styled.MainTable

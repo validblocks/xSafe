@@ -1,4 +1,3 @@
-import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
 import { TokenType } from '@multiversx/sdk-dapp/types/tokens.types';
 import { getAccount } from '@multiversx/sdk-dapp/utils';
 import BigNumber from 'bignumber.js';
@@ -10,7 +9,6 @@ import { QueryKeys } from 'src/react-query/queryKeys';
 import { priceSelector } from 'src/redux/selectors/economicsSelector';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
-import { MultisigContractInfoType } from 'src/types/multisig';
 import { Converters } from 'src/utils/Converters';
 
 interface MultisigBalance {
@@ -21,9 +19,7 @@ interface MultisigBalance {
 
 export const useMultisigBalance = (): MultisigBalance => {
   const egldPrice = useSelector(priceSelector);
-  const currentContract = useSelector<StateType, MultisigContractInfoType>(
-    currentMultisigContractSelector,
-  );
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   const getMultisigEsdts = useCallback(
     () => MultiversxApiProvider.getAddressTokens(currentContract?.address),
@@ -38,15 +34,21 @@ export const useMultisigBalance = (): MultisigBalance => {
   const { data: multisigEsdts } = useQuery(
     [QueryKeys.ADDRESS_ESDT_TOKENS],
     getMultisigEsdts,
-    USE_QUERY_DEFAULT_CONFIG,
+    {
+      ...USE_QUERY_DEFAULT_CONFIG,
+      enabled: !!currentContract,
+      staleTime: 1000 * 30,
+    },
   );
 
   const { data: multisigEgldBalance } = useQuery(
-    [QueryKeys.ADDRESS_EGLD_TOKENS],
+    [QueryKeys.MULTISIG_EGLD_BALANCE],
     getMultisigEgldBalance,
     {
       ...USE_QUERY_DEFAULT_CONFIG,
+      select: (data) => data?.balance,
       enabled: !!multisigEsdts,
+      staleTime: 1000 * 30,
     },
   );
 
@@ -60,10 +62,11 @@ export const useMultisigBalance = (): MultisigBalance => {
       18,
     );
     const multisigEgldBalanceBigNumber = new BigNumber(denominatedEgldBalance);
+
     return multisigEgldBalanceBigNumber.times(new BigNumber(egldPrice));
   }, [multisigEgldBalance, egldPrice]);
 
-  const multisigEsdtsUsdValue = useMemo(
+  const multisigEsdtsUsdValue: BigNumber = useMemo(
     () =>
       multisigEsdts?.reduce((acc: BigNumber, token: TokenType) => {
         if (token.valueUsd != null) {
@@ -88,6 +91,7 @@ export const useMultisigBalance = (): MultisigBalance => {
           token.balance,
           token.decimals,
         );
+
         const esdtBalanceBigNumber = new BigNumber(denominatedBalance);
         const tokenPrice = BigNumber.isBigNumber(token.price)
           ? token.price

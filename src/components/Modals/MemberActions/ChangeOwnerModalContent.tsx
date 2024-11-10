@@ -4,21 +4,9 @@ import {
   CenteredBox,
   Text,
 } from 'src/components/StyledComponents/StyledComponents';
-import { Address } from '@multiversx/sdk-core/out';
-import { buildBlockchainTransaction } from 'src/utils/transactionUtils';
-import { gasLimit, network } from 'src/config';
+import { network } from 'src/config';
 import { CopyIconLink } from 'src/components/Utils/styled';
-import { sendTransactions } from '@multiversx/sdk-dapp/services';
-import {
-  useGetAccountInfo,
-  useGetAccountProvider,
-  useGetPendingTransactions,
-  useTrackTransactionStatus,
-} from '@multiversx/sdk-dapp/hooks';
-import {
-  setCurrentMultisigTransactionId,
-  setHasUnknownOwner,
-} from 'src/redux/slices/multisigContractsSlice';
+import { setHasUnknownOwner } from 'src/redux/slices/multisigContractsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   currentMultisigContractSelector,
@@ -35,42 +23,32 @@ import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import * as Styled from '../../Utils/styled/index';
+import {
+  useGetAccountInfo,
+  useGetPendingTransactions,
+  useTrackTransactionStatus,
+} from 'src/hooks/sdkDappHooks';
 
 const ChangeOwnerModalContent = () => {
   const dispatch = useDispatch();
   const currentContract = useSelector(currentMultisigContractSelector);
   const address = currentContract?.address;
-  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [sessionId] = useState<string | null>(null);
 
   const { address: walletAddress } = useGetAccountInfo();
-  const { providerType } = useGetAccountProvider();
 
   const onSignChangeContractOwner = useCallback(async () => {
     try {
-      const contractAddress = new Address(address);
-      const data = `ChangeOwnerAddress@${contractAddress.hex()}`;
-
-      const transaction = await buildBlockchainTransaction(
-        0,
-        providerType,
-        contractAddress,
-        data,
-        gasLimit,
-      );
-
-      const { sessionId } = await sendTransactions({
-        transactions: [transaction],
-      });
-      dispatch(setCurrentMultisigTransactionId(sessionId));
-      setSessionId(sessionId);
-
-      return sessionId;
+      if (!address) {
+        console.debug('No address found while trying to change owner');
+        return;
+      }
     } catch (error) {
       console.error('An error occurred, please try again', error);
     }
 
     return null;
-  }, [address, dispatch, providerType]);
+  }, [address]);
 
   const updateOwnership = useCallback(async () => {
     const contractDetails = await MultiversxApiProvider.getAccountDetails(

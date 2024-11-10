@@ -43,7 +43,7 @@ export const CustomDataBuilder = React.memo(
       selectedTemplate?.params.map((p: string) => ({
         value: p,
         type: 'custom',
-        key: Math.floor(Math.random() * 100000),
+        key: Math.floor(Math.random() * 100000).toString(),
       })) ?? [],
     );
     const [functionName, setFunctionName] = useState<string>(

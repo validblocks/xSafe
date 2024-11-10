@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { logoutAction } from '../commonActions';
 
-export interface StateType {
+export interface EconomicsSlice {
   totalSupply: number;
   circulatingSupply: number;
   staked: number;
@@ -12,7 +12,7 @@ export interface StateType {
   baseApr: number;
 }
 
-const initialState: StateType = {
+const initialState: EconomicsSlice = {
   totalSupply: 22488795,
   circulatingSupply: 19828795,
   staked: 12059824,
@@ -27,7 +27,10 @@ export const economicsSlice = createSlice({
   name: 'economicsSlice',
   initialState,
   reducers: {
-    setEconomics(_state: StateType, action: PayloadAction<StateType>) {
+    setEconomics(
+      _state: EconomicsSlice,
+      action: PayloadAction<EconomicsSlice>,
+    ) {
       return action.payload;
     },
   },

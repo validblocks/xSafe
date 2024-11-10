@@ -11,7 +11,7 @@ export class CreateTemplateDto {
   endpoint!: string;
   params!: string[];
   description!: string;
-  value!: number;
+  value!: string;
 }
 
 export class SaveTemplateDto {
@@ -21,7 +21,7 @@ export class SaveTemplateDto {
 }
 
 export class xSafeApiProvider extends ApiNetworkProvider {
-  async getAddressDelegations(address: string) {
+  async getAddressDelegations(address?: string) {
     if (!address || !Address.isValid(address)) return null;
 
     return axios

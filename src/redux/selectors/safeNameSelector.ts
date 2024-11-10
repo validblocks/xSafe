@@ -6,8 +6,9 @@ export const currentSafeNameSelector = createDeepEqualSelector(
   safeNameSelector,
   (state) => {
     const currentContract = state.multisigContracts.currentMultisigContract;
-    const currentContractName =
-      state.safeName.safeNames?.[currentContract?.address];
+    const currentContractName = currentContract?.address
+      ? state.safeName.safeNames?.[currentContract?.address]
+      : '';
 
     const displayableName =
       currentContractName ??

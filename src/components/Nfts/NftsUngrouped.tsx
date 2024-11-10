@@ -1,17 +1,17 @@
 import { Grid } from '@mui/material';
 import NoActionsOverlay from 'src/components/Utils/NoActionsOverlay';
-import { useContractNFTs } from 'src/hooks/useContractNFTs';
 import { useSelector } from 'react-redux';
 import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
 import ErrorOnFetchIndicator from '../Utils/ErrorOnFetchIndicator';
 import LoadingDataIndicator from '../Utils/LoadingDataIndicator';
 import NftGrid from './NftGrid';
+import { useMultisigNfts } from 'src/hooks/useMultisigNfts';
 
 const NftsUngrouped = () => {
   const navbarSearchParam = useSelector(navbarSearchSelector);
 
   const { isFetchingNFTs, isLoadingNFTs, isErrorOnFetchNFTs, contractNfts } =
-    useContractNFTs({
+    useMultisigNfts({
       withSearchFilter: true,
       searchParam: navbarSearchParam,
       leaveSftsLast: true,

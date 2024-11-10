@@ -30,6 +30,8 @@ import { TransactionBuilderWithAbi } from './TransactionBuilderWithAbi';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectedTemplateForSavingSelector } from 'src/redux/selectors/modalsSelector';
 import { setSelectedTemplateForCreation } from 'src/redux/slices/modalsSlice';
+import { TemplateType } from '../Modals/Templates/CreateTemplateModalContent';
+import { useGetAccountInfo } from 'src/hooks/sdkDappHooks';
 
 interface Props {
   abi: string;
@@ -51,6 +53,7 @@ export const TransactionBuilderMain = ({
   const t = useCustomTranslation();
   const minWidth600 = useMediaQuery('(min-width:600px)');
   const selectedTemplate = useSelector(selectedTemplateForSavingSelector);
+  const { address } = useGetAccountInfo();
 
   const formik: FormikProps<IFormValues> = useFormik({
     initialValues: {
@@ -111,8 +114,12 @@ export const TransactionBuilderMain = ({
       setSelectedTemplateForCreation({
         endpoint: useAbi ? selectedEndpoint ?? '' : functionName,
         params: callArgs.map((a) => a.value),
-        receiver: callReceiverAddress?.bech32(),
-        value: Number(amount.replaceAll(',', '')),
+        receiver: callReceiverAddress?.bech32() ?? '',
+        value: amount.replaceAll(',', ''),
+        templateName: '',
+        description: '',
+        type: TemplateType.Personal,
+        owner: address,
       }),
     );
   }, [
@@ -123,6 +130,7 @@ export const TransactionBuilderMain = ({
     functionName,
     selectedEndpoint,
     useAbi,
+    address,
   ]);
 
   useEffect(() => {
@@ -252,7 +260,7 @@ export const TransactionBuilderMain = ({
           </Box>
           <Box>
             <AmountInputWithTokenSelection
-              initialAmount={selectedTemplate?.value ?? '0'}
+              initialAmount={new BigNumber(selectedTemplate?.value ?? '0')}
               onAmountChange={setAmount}
               onAmountError={updateAmountError}
               config={{

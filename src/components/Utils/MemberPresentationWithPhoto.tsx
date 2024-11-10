@@ -8,8 +8,7 @@ import { network } from 'src/config';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import * as Styled from './styled/index';
-import * as Cutomed from '../../pages/Safe/styled';
-import { useMemo } from 'react';
+import * as Custom from '../../pages/Safe/styled';
 
 type Props = {
   memberAddress: Address;
@@ -21,21 +20,19 @@ const MemberPresentationWithPhoto = ({
   charactersLeftAfterTruncation = 5,
 }: Props) => {
   const theme = useCustomTheme();
-  const member = useMemo(
-    () =>
-      truncateInTheMiddle(
-        memberAddress?.bech32() ?? '',
-        charactersLeftAfterTruncation,
-      ),
-    [memberAddress, charactersLeftAfterTruncation],
+
+  const memberName = truncateInTheMiddle(
+    memberAddress?.bech32() ?? '',
+    charactersLeftAfterTruncation,
   );
+
   return (
     <div
       key={memberAddress?.bech32()?.toString()}
       className="d-flex align-items-center w-100"
     >
       {
-        <Cutomed.SvgBox
+        <Custom.SvgBox
           dangerouslySetInnerHTML={{
             __html: toSvg(memberAddress?.bech32(), 40),
           }}
@@ -43,7 +40,7 @@ const MemberPresentationWithPhoto = ({
       }
       <Box sx={{ ml: '7px' }}>
         <Box sx={{ display: 'flex' }}>
-          <Box sx={{ color: theme.palette.text.primary }}>{member} </Box>
+          <Box sx={{ color: theme.palette.text.primary }}>{memberName}</Box>
           <Box ml={1}>
             <CopyButton
               link={Styled.CopyIconLinkPurple}

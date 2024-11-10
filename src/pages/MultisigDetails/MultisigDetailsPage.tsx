@@ -4,7 +4,7 @@ import { currentMultisigContractSelector } from 'src/redux/selectors/multisigCon
 import routeNames from 'src/routes/routeNames';
 import { parseMultisigAddress } from 'src/utils/addressUtils';
 import { useEffect, useMemo, useState } from 'react';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
+import { useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 import ContainerWithPanels from 'src/components/Utils/ContainerWithPanels';
 import { SafeDetails } from 'src/components/MultisigDetails/SafeDetails';
 import Dashboard from '../Dashboard/DashboardPage';

@@ -10,13 +10,13 @@ import { setIsMobileSidebarOpen } from 'src/redux/slices/appConfigSlice';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ModalTypes } from 'src/types/multisig/proposals/Proposals';
 import { useDispatch } from 'react-redux';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import {
   preinstalledApps,
   availableApps,
   mobileBottomItems,
   MenuItem,
 } from 'src/apps/apps';
+import { useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 
 type MobileMenuItem = any;
 

@@ -36,7 +36,7 @@ interface PerformActionModal {
   selectedNft: any | null;
   selectedStakingProvider: any | null;
   selectedTemplateForSaving: Template | null;
-  selectedTemplateForCreation: Partial<CreateTemplateDto> | null;
+  selectedTemplateForCreation: CreateTemplateDto | null;
 }
 
 interface ProposeModal {
@@ -47,7 +47,7 @@ interface ProposeMultiselectModal {
   selectedOption?: SelectedOptionType;
 }
 
-export interface ModalsSliceState {
+export interface ModalsSlice {
   txSubmittedModal?: TxSubmittedModal;
   notificationModal?: NotificationModal;
   proposeModal: ProposeModal;
@@ -55,7 +55,7 @@ export interface ModalsSliceState {
   performActionModal: PerformActionModal;
 }
 
-const initialState: ModalsSliceState = {
+const initialState: ModalsSlice = {
   proposeModal: {
     selectedOption: null,
   },
@@ -77,67 +77,70 @@ export const modalsSlice = createSlice({
   initialState,
   reducers: {
     setTxSubmittedModal: (
-      state: ModalsSliceState,
+      state: ModalsSlice,
       action: PayloadAction<TxSubmittedModal>,
     ) => {
       state.txSubmittedModal = action.payload;
     },
     setNotificationModal: (
-      state: ModalsSliceState,
+      state: ModalsSlice,
       action: PayloadAction<NotificationModal>,
     ) => {
       state.notificationModal = action.payload;
     },
-    clearTxSubmittedModal: (state: ModalsSliceState) => {
+    clearTxSubmittedModal: (state: ModalsSlice) => {
       state.txSubmittedModal = undefined;
     },
-    clearNotificationModal: (state: ModalsSliceState) => {
+    clearNotificationModal: (state: ModalsSlice) => {
       state.notificationModal = undefined;
     },
     setProposeModalSelectedOption: (
-      state: ModalsSliceState,
+      state: ModalsSlice,
       action: PayloadAction<SelectedOptionType | ModalOptionType | null>,
     ) => {
       state.proposeModal.selectedOption = action.payload;
     },
     setProposeMultiselectSelectedOption: (
-      state: ModalsSliceState,
+      state: ModalsSlice,
       action: PayloadAction<SelectedOptionType | null>,
     ) => {
       state.proposeMultiselectModal.selectedOption = action.payload;
     },
     setSelectedPerformedAction: (
-      state: ModalsSliceState,
+      state: ModalsSlice,
       action: PayloadAction<SelectedActionToPerform | null>,
     ) => {
       state.performActionModal.selectedAction = action.payload;
     },
     setSelectedTokenToSend: (
-      state: ModalsSliceState,
+      state: ModalsSlice,
       action: PayloadAction<any>,
     ) => {
       state.performActionModal.selectedToken = action.payload;
     },
     setSelectedTemplateForSaving: (
-      state: ModalsSliceState,
+      state: ModalsSlice,
       action: PayloadAction<Template>,
     ) => {
       state.performActionModal.selectedTemplateForSaving = action.payload;
     },
     setSelectedTemplateForCreation: (
-      state: ModalsSliceState,
-      action: PayloadAction<Partial<CreateTemplateDto>>,
+      state: ModalsSlice,
+      action: PayloadAction<CreateTemplateDto>,
     ) => {
-      state.performActionModal.selectedTemplateForCreation = action.payload;
+      state.performActionModal.selectedTemplateForCreation = {
+        ...state.performActionModal.selectedTemplateForCreation,
+        ...action.payload,
+      };
     },
     setSelectedNftToSend: (
-      state: ModalsSliceState,
+      state: ModalsSlice,
       action: PayloadAction<NFTType>,
     ) => {
       state.performActionModal.selectedNft = action.payload;
     },
     setSelectedStakingProvider: (
-      state: ModalsSliceState,
+      state: ModalsSlice,
       action: PayloadAction<any>,
     ) => {
       state.performActionModal.selectedStakingProvider = action.payload;

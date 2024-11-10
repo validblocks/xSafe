@@ -18,8 +18,6 @@ import {
   intervalStartTimestampForFilteringSelector,
 } from 'src/redux/selectors/transactionsSelector';
 import { MultisigActionDetailed } from 'src/types/multisig/MultisigActionDetailed';
-import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
-import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
 import { parseInt } from 'lodash';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import {
@@ -28,7 +26,7 @@ import {
 } from '@multiversx/sdk-core/out';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
-import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
+import { useTrackTransactionStatus } from 'src/hooks/sdkDappHooks';
 import { Box, useMediaQuery } from '@mui/material';
 import TransactionHistoryPresentation from '../../components/Transactions/TransactionHistoryPresentation';
 import NoActionsOverlay from '../../components/Utils/NoActionsOverlay';
@@ -48,9 +46,7 @@ const TransactionHistory = () => {
     PairOfTransactionAndDecodedAction[]
   >([]);
 
-  const currentContract = useSelector<StateType, MultisigContractInfoType>(
-    currentMultisigContractSelector,
-  );
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   const [actionsPerPage, setActionsPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,16 +54,13 @@ const TransactionHistory = () => {
 
   const maxWidth600 = useMediaQuery('(max-width:600px)');
 
-  const globalIntervalEndTimestamp = useSelector<StateType, number>(
-    intervalEndTimestampSelector,
-  );
-  const globalIntervalStartTimestamp = useSelector<StateType, number>(
+  const globalIntervalEndTimestamp = useSelector(intervalEndTimestampSelector);
+  const globalIntervalStartTimestamp = useSelector(
     intervalStartTimestampSelector,
   );
-  const globalIntervalStartTimestampForFiltering = useSelector<
-    StateType,
-    number
-  >(intervalStartTimestampForFilteringSelector);
+  const globalIntervalStartTimestampForFiltering = useSelector(
+    intervalStartTimestampForFilteringSelector,
+  );
 
   const t = useCustomTranslation();
   const fetchTransactions2 = useCallback(async (): Promise<
@@ -86,11 +79,12 @@ const TransactionHistory = () => {
         before: parseInt(globalIntervalEndTimestamp.toString()).toString(),
         from: cursorPointer.toString(),
       });
-      // eslint-disable-next-line no-await-in-loop
-      const data = await MultiversxApiProvider.getAddressTransactions(
-        currentContract?.address,
-        urlParams,
-      );
+      const data = currentContract?.address
+        ? await MultiversxApiProvider.getAddressTransactions(
+            currentContract?.address,
+            urlParams,
+          )
+        : [];
 
       if (!data) break;
 

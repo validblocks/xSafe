@@ -4,9 +4,7 @@ import { useSelector } from 'react-redux';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
-import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
 import { NFTType } from 'src/types/nfts';
 
 interface IUseContractNftsConfig {
@@ -16,7 +14,7 @@ interface IUseContractNftsConfig {
   groupByCollection?: boolean;
 }
 
-export const useContractNFTs = (
+export const useMultisigNfts = (
   {
     withSearchFilter,
     searchParam,
@@ -29,11 +27,12 @@ export const useContractNFTs = (
     groupByCollection: false,
   },
 ) => {
-  const currentContract = useSelector<StateType, MultisigContractInfoType>(
-    currentMultisigContractSelector,
-  );
+  const currentContract = useSelector(currentMultisigContractSelector);
   const fetchNFTs = useCallback(
-    () => MultiversxApiProvider.fetchOrganizationNFTs(currentContract?.address),
+    () =>
+      currentContract?.address
+        ? MultiversxApiProvider.fetchOrganizationNFTs(currentContract?.address)
+        : [],
     [currentContract],
   );
 

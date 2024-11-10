@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { denomination } from 'src/config';
 import { activeDelegationsRowsSelector } from 'src/redux/selectors/accountSelector';
 import { selectedStakingProviderSelector } from 'src/redux/selectors/modalsSelector';
-import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { setSelectedStakingProvider } from 'src/redux/slices/modalsSlice';
 import { IdentityWithColumns } from 'src/types/staking';
 import ProviderColumn from 'src/components/Staking/ProviderColumn';
@@ -50,9 +49,7 @@ const ProposeUnstakeTokens = ({
   const maxWidth600 = useMediaQuery('(max-width: 600px)');
   const [initialAmount, setInitialAmount] = useState('1');
 
-  const activeDelegationsRows = useSelector<StateType, IdentityWithColumns[]>(
-    activeDelegationsRowsSelector,
-  );
+  const activeDelegationsRows = useSelector(activeDelegationsRowsSelector);
   const selectedStakingProvider = useSelector(selectedStakingProviderSelector);
   const [identifier, setIdentifier] = useState(
     selectedStakingProvider?.provider,

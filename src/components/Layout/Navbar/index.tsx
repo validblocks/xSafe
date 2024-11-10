@@ -19,7 +19,6 @@ import routeNames from 'src/routes/routeNames';
 import VpnKeyRoundedIcon from '@mui/icons-material/VpnKeyRounded';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { motion } from 'framer-motion';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
 import { AppIdentifiers } from 'src/components/Marketplace/appIds';
 import { usePendingActions } from 'src/hooks/usePendingActions';
 import { useApps } from 'src/hooks/useApps';
@@ -38,6 +37,7 @@ import * as Styled from '../../Utils/styled';
 import BottomMenu from './MenuItems/BottomMenu';
 import { getAddressShorthand } from 'src/utils/addressUtils';
 import { MenuItem, topItems } from 'src/apps/apps';
+import { useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 
 const MiniDrawer = () => {
   const theme = useCustomTheme();
@@ -73,22 +73,24 @@ const MiniDrawer = () => {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <SidebarDrawer variant="permanent" open={open}>
-        {currentContract?.address?.length > 0 && isLoggedIn && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0 }}
-          >
-            <List sx={{ mt: 1, pb: 0 }}>
-              <AccountDetails
-                uniqueAddress={getAddressShorthand(
-                  currentContract?.address ?? '',
-                )}
-              />
-              <Styled.Dividers />
-            </List>
-          </motion.div>
-        )}
+        {currentContract?.address &&
+          currentContract?.address?.length > 0 &&
+          isLoggedIn && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0 }}
+            >
+              <List sx={{ mt: 1, pb: 0 }}>
+                <AccountDetails
+                  uniqueAddress={getAddressShorthand(
+                    currentContract?.address ?? '',
+                  )}
+                />
+                <Styled.Dividers />
+              </List>
+            </motion.div>
+          )}
         {(!currentContract?.address || !isLoggedIn) && (
           <motion.div
             initial={{ opacity: 1, scale: 1 }}

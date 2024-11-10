@@ -13,14 +13,14 @@ export class MultiversxApiNetworkProvider extends ApiNetworkProvider {
     return this.doGetGeneric(`tokens/${tokenIdentifier}`);
   }
 
-  async getAddressTokens(address: string) {
+  async getAddressTokens(address?: string) {
     if (!address) {
       return undefined;
     }
     return this.doGetGeneric(`accounts/${address}/tokens`);
   }
 
-  async getAccountDetails(contractAddress: string) {
+  async getAccountDetails(contractAddress?: string) {
     if (!contractAddress) {
       return undefined;
     }
@@ -66,7 +66,7 @@ export class MultiversxApiNetworkProvider extends ApiNetworkProvider {
     }
   }
 
-  async fetchOrganizationNFTs(address: string): Promise<NFTType[]> {
+  async fetchOrganizationNFTs(address?: string): Promise<NFTType[]> {
     if (!address) return [];
 
     try {
@@ -79,7 +79,7 @@ export class MultiversxApiNetworkProvider extends ApiNetworkProvider {
     }
   }
 
-  async fetchOrganizationNFTCount(address: string): Promise<number> {
+  async fetchOrganizationNFTCount(address?: string): Promise<number> {
     if (!address) return 0;
 
     try {

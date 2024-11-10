@@ -31,7 +31,7 @@ export const currentMultisigAddressSelector = createDeepEqualSelector(
     if (address != null && address !== '') {
       return new Address(address);
     }
-    return address;
+    return null;
   },
 );
 

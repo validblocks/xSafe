@@ -1,80 +1,38 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Address } from '@multiversx/sdk-core/out';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { GridActionsCellItem, GridRenderCellParams } from '@mui/x-data-grid';
 import { toSvg } from 'jdenticon';
-import { useSelector } from 'react-redux';
-import { queryBoardMemberAddresses } from 'src/contracts/MultisigContract';
-import { addressBookSelector } from 'src/redux/selectors/addressBookSelector';
-import { RootState } from 'src/redux/store';
-import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
+import { Box, useMediaQuery } from '@mui/material';
+import { network } from 'src/config';
 import { MainButtonNoShadow } from 'src/components/Theme/StyledComponents';
 import { truncateInTheMiddle } from 'src/utils/addressUtils';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { Box, useMediaQuery } from '@mui/material';
 import noRowsOverlay from 'src/components/Utils/noRowsOverlay';
 import CopyButton from 'src/components/Utils/CopyButton';
 import { AnchorPurple } from 'src/components/Layout/Navbar/navbar-style';
 import SearchIcon from '@mui/icons-material/Search';
-import { network } from 'src/config';
-import {
-  AccountInfo,
-  AddressBook,
-  Bech32Address,
-  MultisigMember,
-} from '../../types/organization';
 import { useOrganizationInfoContext } from '../../components/Providers/OrganizationInfoContextProvider';
 import * as Styled from './styled';
 import { useMemberManipulationFunctions } from '../../hooks/useMemberManipulationFunctions';
 import MultisigMemberMobileCards from '../../components/Organization/MultisigMemberMobileCards';
-
 import * as StyledUtils from '../../components/Utils/styled/index';
+import { useMultisigMembers } from '../../hooks/useMultisigMembers';
+import { MultisigMember } from 'src/types/organization';
 
 const OrganizationMembers = () => {
   const { isInReadOnlyMode } = useOrganizationInfoContext();
-  const [multisigMembers, setMultisigMembers] = useState<Array<MultisigMember>>(
-    [],
-  );
-  const getAddresses = useCallback(() => queryBoardMemberAddresses(), []);
-  const maxWidth600 = useMediaQuery('(max-width:600px)');
-
-  const addressBook = useSelector<RootState, AddressBook>(addressBookSelector);
-
-  const addAddressBookEntry = useCallback(
-    (accountInformation: AccountInfo): MultisigMember => ({
-      address: accountInformation.address,
-      ...(!!accountInformation.username && {
-        herotag: accountInformation.username,
-      }),
-      ...(!!addressBook[accountInformation.address] && {
-        name: addressBook[accountInformation.address],
-      }),
-    }),
-    [addressBook],
-  );
-
-  useEffect(() => {
-    // get herotag
-    // get addressbook names
-    getAddresses().then((ownerAddresses) => {
-      Promise.all(
-        ownerAddresses.map((address) =>
-          MultiversxApiProvider.getAccountData(new Address(address).bech32()),
-        ),
-      ).then((accountsInformation) => {
-        setMultisigMembers(accountsInformation.map(addAddressBookEntry));
-      });
-    });
-  }, [addAddressBookEntry, getAddresses]);
+  const multisigMembers = useMultisigMembers();
+  const isOnMobile = useMediaQuery('(max-width:600px)');
 
   const { onRemoveMember, onEditMember, onAddBoardMember } =
     useMemberManipulationFunctions();
 
   const onEditMemberClick = useCallback(
-    (multisigMemberAddress: Bech32Address) => {
+    (multisigMemberAddress: string) => {
       const multisigMember = multisigMembers.find(
-        (address) => address.address === multisigMemberAddress,
+        (member) => member.address === multisigMemberAddress,
       );
       if (multisigMember) {
         onEditMember(multisigMember);
@@ -86,7 +44,7 @@ const OrganizationMembers = () => {
   const columns = useMemo(
     () => [
       {
-        field: 'owner',
+        field: 'member',
         headerName: 'Name',
         minWidth: 230,
         maxWidth: 290,
@@ -170,11 +128,18 @@ const OrganizationMembers = () => {
     [isInReadOnlyMode, onRemoveMember, onEditMemberClick],
   );
 
-  const rows = multisigMembers.map((owner: MultisigMember) => ({
-    id: owner.address,
-    owner: { name: owner.name, herotag: owner.herotag },
-    address: { address: owner.address, identicon: toSvg(owner.address, 100) },
-  }));
+  const rows = useMemo(
+    () =>
+      multisigMembers.map(({ address, name, herotag }: MultisigMember) => ({
+        id: address,
+        member: { name, herotag },
+        address: {
+          address: address,
+          identicon: toSvg(address, 100),
+        },
+      })),
+    [multisigMembers],
+  );
 
   return (
     <Box paddingBottom="55px">
@@ -188,7 +153,7 @@ const OrganizationMembers = () => {
         Add member
       </MainButtonNoShadow>
 
-      {maxWidth600 ? (
+      {isOnMobile ? (
         <MultisigMemberMobileCards multisigMembers={multisigMembers} />
       ) : (
         <Styled.MainTable

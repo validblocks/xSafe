@@ -6,7 +6,6 @@ import BigNumber from 'bignumber.js';
 import TokenPresentationWithPrice from 'src/components/Utils/TokenPresentationWithPrice';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import { StyledStakingProvider } from 'src/components/StyledComponents/staking';
-import { StateType } from '@multiversx/sdk-dapp/reduxStore/slices';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { TokenTableRowItem } from 'src/types/organization';
@@ -26,9 +25,7 @@ const SendTokenProposalPresentation = ({
   identifier,
   title,
 }: ISendTokenProposalPresentationProps) => {
-  const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(
-    tokenTableRowsSelector,
-  );
+  const tokenTableRows = useSelector(tokenTableRowsSelector);
   const selectedTokenDetails = useMemo(
     () =>
       tokenTableRows?.find(

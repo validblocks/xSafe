@@ -32,8 +32,7 @@ export const TransactionBuilderPageHeader = () => {
       !Address.isValid(selectedTemplateForCreation?.receiver ?? '') ||
       !selectedTemplateForCreation?.endpoint ||
       selectedTemplateForCreation?.value === undefined ||
-      selectedTemplateForCreation?.value === null ||
-      selectedTemplateForCreation?.value === ''
+      selectedTemplateForCreation?.value === null
     );
   }, [selectedTemplateForCreation]);
 

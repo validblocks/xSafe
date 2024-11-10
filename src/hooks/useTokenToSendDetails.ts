@@ -21,7 +21,7 @@ export const useTokenToSendDetails = ({
       ...tokenDetails,
       ...(useNfts ? { prettyIdentifier: selectedNft?.identifier } : {}),
     }),
-    [tokenDetails],
+    [selectedNft?.identifier, tokenDetails, useNfts],
   );
 };
 

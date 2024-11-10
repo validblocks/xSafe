@@ -189,18 +189,18 @@ const AmountInputWithTokenSelection = ({
 
   useEffect(() => {
     onAmountChange?.(amount);
-  }, [amount]);
+  }, [amount, onAmountChange]);
 
   const handleMaxButtonClick = useCallback(() => {
     onMaxButtonClick?.();
 
     formik?.setFieldValue('amount', maxAmountValue);
-  }, [formik, maxAmountValue, onMaxButtonClick, balance]);
+  }, [formik, maxAmountValue, onMaxButtonClick]);
 
   const handleResetAmount = useCallback(() => {
     formik.setFieldValue('amount', minAmountValue);
     onResetAmount?.();
-  }, [formik, minAmountAllowed, onResetAmount]);
+  }, [formik, minAmountValue, onResetAmount]);
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

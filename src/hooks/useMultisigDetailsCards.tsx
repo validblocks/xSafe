@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import ReceiveModal from 'src/components/Modals/Receive';
 import AmountWithTitleCard from 'src/components/Utils/AmountWithTitleCard';
 import { useOrganizationInfoContext } from 'src/components/Providers/OrganizationInfoContextProvider';
-import {
-  organizationTokensSelector,
-  totalUsdValueSelector,
-} from 'src/redux/selectors/accountSelector';
+import { safeTokensSelector } from 'src/redux/selectors/accountSelector';
 import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
 import routeNames from 'src/routes/routeNames';
 import * as Styled from 'src/components/MultisigDetails/styled';
@@ -17,16 +14,20 @@ import { ProposalsTypes } from 'src/types/multisig/proposals/Proposals';
 import useCurrencyConversion from './useCurrencyConversion';
 import { useCustomTranslation } from './useCustomTranslation';
 import BigNumber from 'bignumber.js';
+import { useMultisigBalance } from './useMultisigBalance';
 
 export default function useMultisigDetailsCards() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const getCurrency = useSelector(selectedCurrencySelector);
-  const totalUsdValue = useSelector(totalUsdValueSelector);
-  const currentContract = useSelector(currentMultisigContractSelector);
   const t = useCustomTranslation();
-  const organizationTokens = useSelector(organizationTokensSelector);
-  const totalUsdValueConverted = useCurrencyConversion(totalUsdValue);
+
+  const getCurrency = useSelector(selectedCurrencySelector);
+  const currentContract = useSelector(currentMultisigContractSelector);
+  const safeTokens = useSelector(safeTokensSelector);
+  const { multisigTotalUsdValue } = useMultisigBalance();
+  const totalUsdValueConverted = useCurrencyConversion(
+    multisigTotalUsdValue.toNumber(),
+  );
 
   const [organizatonAssets, setOrganizationAssets] = useState({
     tokens: 0,
@@ -73,16 +74,9 @@ export default function useMultisigDetailsCards() {
   useEffect(() => {
     setOrganizationAssets((assets) => ({
       ...assets,
-      tokens:
-        totalOrganizationValueToDisplay === '0'
-          ? 0
-          : organizationTokens?.length,
+      tokens: totalOrganizationValueToDisplay === '0' ? 0 : safeTokens?.length,
     }));
-  }, [
-    organizationTokens,
-    currentContract?.address,
-    totalOrganizationValueToDisplay,
-  ]);
+  }, [safeTokens, currentContract?.address, totalOrganizationValueToDisplay]);
 
   useEffect(() => {
     const value = Number(

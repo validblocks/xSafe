@@ -1,4 +1,4 @@
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';

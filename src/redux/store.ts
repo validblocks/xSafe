@@ -4,7 +4,6 @@ import persistStore from 'redux-persist/es/persistStore';
 import localStorage from 'redux-persist/es/storage';
 import makeRootReducer from './makeRootReducer';
 
-
 const persistConfig = {
   key: 'multisig-root',
   storage: localStorage,
@@ -15,11 +14,12 @@ const persistConfig = {
     'economics',
     'currency',
     'safeName',
-    'addressBook',
+    'sharedAddressBook',
   ],
 };
 
-const persistedReducer = persistReducer(persistConfig, makeRootReducer());
+const rootReducer = makeRootReducer();
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
   reducer: persistedReducer,
@@ -32,5 +32,5 @@ export const store = configureStore({
 
 export const persistor = persistStore(store);
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;

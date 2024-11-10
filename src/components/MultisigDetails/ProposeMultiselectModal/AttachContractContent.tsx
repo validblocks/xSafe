@@ -11,10 +11,10 @@ import { ProposalsTypes } from 'src/types/multisig/proposals/Proposals';
 import { ActionResponseButton } from 'src/components/Theme/StyledComponents';
 import { Box } from '@mui/material';
 import { FormikInputField } from 'src/helpers/formikFields';
-import { useGetAccountProvider } from '@multiversx/sdk-dapp/hooks';
 import ModalCardTitle from 'src/components/Layout/Modal/ModalCardTitle';
 import * as Styled from './styled';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
+import { useGetAccountProvider } from 'src/hooks/sdkDappHooks';
 
 const gasLimit = 10_000_000;
 

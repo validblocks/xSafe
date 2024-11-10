@@ -1,4 +1,4 @@
-import { useGetAccountInfo, useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo, useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 import { useEffect, useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { useSelector } from 'react-redux';

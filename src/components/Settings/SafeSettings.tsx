@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Box, Typography, useMediaQuery } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import ChangeCurrency from 'src/components/ChangeCurrency';
@@ -15,43 +15,67 @@ import HeartIcon from 'src/assets/img/heart.svg';
 import { isDarkThemeEnabledSelector } from 'src/redux/selectors/appConfigSelector';
 import { NoteSpan, Span } from './settings-style';
 import BuildNumber from './BuildNumber';
+import { MultisigContractInfoType } from 'src/types/multisig';
 
 function SafeSettings() {
-  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
+  const theme = useCustomTheme();
+  const dispatch = useDispatch();
+  const maxWidth600 = useMediaQuery('(max-width:600px)');
 
   const currentContract = useSelector(currentMultisigContractSelector);
+  const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
+
   const safeName = currentContract?.name;
   const [name, setName] = useState(safeName);
-  const maxWidth600 = useMediaQuery('(max-width:600px)');
-  const theme = useCustomTheme();
 
   useEffect(() => {
     setName(safeName);
   }, [safeName]);
-  const dispatch = useDispatch();
 
-  const changeSafeName = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
-  };
+  const changeSafeName = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setName(event.target.value);
+    },
+    [],
+  );
 
-  function handleUpdateContractName(name: string) {
-    const newContract = {
-      ...currentContract,
-      name,
-    };
-    updateMultisigContractOnServer(newContract);
-    dispatch(updateMultisigContract(newContract));
-  }
+  const updateContractName = useCallback(
+    (name: string) => {
+      if (!currentContract || !currentContract.address) {
+        console.debug('No safe selected! Could not update name.');
+        return;
+      }
 
-  const saveUpdates = () => {
-    handleUpdateContractName(name);
+      const newContract: MultisigContractInfoType = {
+        ...currentContract,
+        name,
+      };
+
+      if (!newContract.address) {
+        console.debug('New contract has no address. Stopping save.');
+        return;
+      }
+
+      updateMultisigContractOnServer(newContract);
+      dispatch(updateMultisigContract(newContract));
+    },
+    [currentContract, dispatch],
+  );
+
+  const saveUpdates = useCallback(() => {
+    if (!name) {
+      console.debug('No name provided. Stopping save');
+      return;
+    }
+
+    updateContractName(name);
     dispatch(
       setSafeName({
         address: currentContract?.address,
         newSafeName: name,
       }),
     );
-  };
+  }, [dispatch, name, updateContractName, currentContract?.address]);
 
   return (
     <Box>

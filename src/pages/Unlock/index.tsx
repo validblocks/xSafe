@@ -10,13 +10,13 @@ import {
   Text,
   UnlockText,
 } from 'src/components/StyledComponents/StyledComponents';
+import * as Styled from './styled';
 import {
   ExtensionLoginButton,
   LedgerLoginButton,
   WalletConnectLoginButton,
   WebWalletLoginButton,
-} from '@multiversx/sdk-dapp/UI';
-import * as Styled from './styled';
+} from 'src/components/Externals/sdkDappComponents';
 
 declare global {
   interface Window {
@@ -33,7 +33,6 @@ const Unlock = () => {
       ? `${routeNames.multisig}/${currentContract?.address}`
       : `${routeNames.multisig}`,
     buttonClassName: 'btn btn-unlock btn-block',
-
   };
 
   return (
@@ -68,8 +67,8 @@ const Unlock = () => {
           {...commonProps}
           {...(walletConnectV2ProjectId
             ? {
-              isWalletConnectV2: true,
-            }
+                isWalletConnectV2: true,
+              }
             : {})}
         >
           <div className="d-flex justify-content-between align-items-center method">
@@ -97,7 +96,9 @@ const Unlock = () => {
       </div>
 
       <div className="mt-3">
-        <Text><span>New to MultiversX?</span></Text>
+        <Text>
+          <span>New to MultiversX?</span>
+        </Text>
       </div>
       <div className="mt-1 mb-1">
         <Styled.MultisigLink

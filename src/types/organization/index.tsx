@@ -70,11 +70,12 @@ export type OrganizationInfoContextType = {
   nftCount: number;
 };
 
-export type AddressBook = Record<string, string>;
+type MemberAddress = string;
+type MemberName = string;
+export type AddressBook = Record<MemberAddress, MemberName>;
 export type AccountInfo = Record<string, any>;
 
 export type Bech32Address = string;
-
 export type MultisigMember = {
   address: Bech32Address;
   herotag?: string;

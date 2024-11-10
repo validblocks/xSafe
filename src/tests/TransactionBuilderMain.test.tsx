@@ -528,7 +528,7 @@ describe('TransactionBuilderMain component', () => {
                 username: '',
                 shard: 0,
                 tokenTableRows: [],
-                organizationTokens: [
+                safeTokens: [
                   {
                     prettyIdentifier: 'EGLD',
                     identifier: 'EGLD',
@@ -546,6 +546,7 @@ describe('TransactionBuilderMain component', () => {
                 ],
                 multisigBalance: new BigNumber(0),
                 activeDelegationsRows: [],
+                isMultiWalletMode: false,
                 isInReadOnlyMode: true,
                 totalUsdValue: new BigNumber(0),
               },

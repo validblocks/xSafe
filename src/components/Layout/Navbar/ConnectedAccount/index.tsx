@@ -1,5 +1,3 @@
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import SearchIcon from '@mui/icons-material/Search';
 import { Box, useMediaQuery } from '@mui/material';
 import { toSvg } from 'jdenticon';
@@ -11,6 +9,7 @@ import * as Styled from '../../../Utils/styled';
 import * as StyledLocal from './Styled/index';
 import { ConnectItems, AnchorConnectedAccount } from '../navbar-style';
 import { LogoutButton } from 'src/components/Utils/LogoutButton';
+import { useGetAccountInfo, useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 
 const ConnectedAccount = () => {
   const { address } = useGetAccountInfo();

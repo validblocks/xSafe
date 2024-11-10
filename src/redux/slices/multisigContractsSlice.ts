@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
 import { logoutAction } from '../commonActions';
 
-interface StateType {
+interface MultisigContractsSlice {
   fetched: boolean;
   multisigContracts: MultisigContractInfoType[];
   currentMultisigContract: MultisigContractInfoType | null;
@@ -11,7 +11,7 @@ interface StateType {
   hasUnknownOwner: boolean | null;
 }
 
-const initialState: StateType = {
+const initialState: MultisigContractsSlice = {
   multisigContracts: [],
   fetched: false,
   isMultisigContractInvalid: false,
@@ -25,29 +25,32 @@ export const multisigContractsSlice = createSlice({
   initialState,
   reducers: {
     setMultisigContracts: (
-      state: StateType,
+      state: MultisigContractsSlice,
       action: PayloadAction<MultisigContractInfoType[]>,
     ) => {
       state.multisigContracts = action.payload;
       state.fetched = true;
     },
-    setHasUnknownOwner: (state: StateType, action: PayloadAction<boolean>) => {
+    setHasUnknownOwner: (
+      state: MultisigContractsSlice,
+      action: PayloadAction<boolean>,
+    ) => {
       state.hasUnknownOwner = action.payload;
     },
     setIsMultisigContractInvalid: (
-      state: StateType,
+      state: MultisigContractsSlice,
       action: PayloadAction<boolean>,
     ) => {
       state.isMultisigContractInvalid = action.payload;
     },
     setCurrentMultisigTransactionId: (
-      state: StateType,
+      state: MultisigContractsSlice,
       action: PayloadAction<string | null>,
     ) => {
       state.currentMultisigTransactionId = action.payload;
     },
     setCurrentMultisigContract: (
-      state: StateType,
+      state: MultisigContractsSlice,
       action: PayloadAction<string>,
     ) => {
       const contracts = state.multisigContracts;
@@ -68,7 +71,7 @@ export const multisigContractsSlice = createSlice({
       };
     },
     updateMultisigContract: (
-      state: StateType,
+      state: MultisigContractsSlice,
       action: PayloadAction<MultisigContractInfoType>,
     ) => {
       const { address } = action.payload;

@@ -1,6 +1,4 @@
 import { useState, useEffect, useMemo, useRef, useCallback } from 'react';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import BoltIcon from '@mui/icons-material/Bolt';
 import { Box, useMediaQuery } from '@mui/material';
 import Typography from '@mui/material/Typography';
@@ -11,6 +9,7 @@ import { ModalTypes } from 'src/types/multisig/proposals/Proposals';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { proposeModalSelectedOptionSelector } from 'src/redux/selectors/modalsSelector';
 import { getAddressShorthand } from 'src/utils/addressUtils';
+import { useGetAccountInfo, useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 
 function Account() {
   const { address } = useGetAccountInfo();
@@ -58,7 +57,7 @@ function Account() {
   const selectedOption = useSelector(proposeModalSelectedOptionSelector);
 
   useEffect(() => {
-    setIsMainButtonActive(selectedOption === ModalTypes.connect_wallet);
+    setIsMainButtonActive(selectedOption?.option === ModalTypes.connect_wallet);
   }, [selectedOption]);
 
   return (

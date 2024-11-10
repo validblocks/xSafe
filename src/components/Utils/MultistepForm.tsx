@@ -1,4 +1,4 @@
-import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
+import { useTrackTransactionStatus } from 'src/hooks/sdkDappHooks';
 import { Box } from '@mui/material';
 import React, {
   createContext,

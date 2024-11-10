@@ -4,7 +4,7 @@ import { IdentityWithColumns } from 'src/types/staking';
 import { logoutAction } from '../commonActions';
 import BigNumber from 'bignumber.js';
 
-export interface StateType {
+export interface AccountGeneralInfoSlice {
   address: string;
   nonce: number;
   balance: BigNumber;
@@ -13,13 +13,13 @@ export interface StateType {
   username: string;
   shard: number;
   tokenTableRows: TokenTableRowItem[];
-  organizationTokens: OrganizationToken[];
+  safeTokens: OrganizationToken[];
   activeDelegationsRows: IdentityWithColumns[];
   isInReadOnlyMode: boolean;
   totalUsdValue: BigNumber;
 }
 
-const initialState: StateType = {
+const initialState: AccountGeneralInfoSlice = {
   shard: 0,
   nonce: 0,
   txCount: 0,
@@ -28,7 +28,7 @@ const initialState: StateType = {
   username: '',
   isInReadOnlyMode: true,
   tokenTableRows: [],
-  organizationTokens: [],
+  safeTokens: [],
   activeDelegationsRows: [],
   balance: new BigNumber(0),
   totalUsdValue: new BigNumber(0),
@@ -38,29 +38,35 @@ export const accountGeneralInfoSlice = createSlice({
   name: 'accountGeneralInfoSlice',
   initialState,
   reducers: {
-    setAccountData(state: Draft<StateType>, action: PayloadAction<StateType>) {
+    setAccountData(
+      state: Draft<AccountGeneralInfoSlice>,
+      action: PayloadAction<AccountGeneralInfoSlice>,
+    ) {
       return {
         ...state,
         ...action.payload,
       };
     },
-    setTotalUsdBalance(state: Draft<StateType>, action: PayloadAction<number>) {
+    setTotalUsdBalance(
+      state: Draft<AccountGeneralInfoSlice>,
+      action: PayloadAction<number>,
+    ) {
       state.totalUsdValue = new BigNumber(action.payload);
     },
     setTokenTableRows(
-      state: Draft<StateType>,
+      state: Draft<AccountGeneralInfoSlice>,
       action: PayloadAction<TokenTableRowItem[]>,
     ) {
       state.tokenTableRows = action.payload;
     },
     setOrganizationTokens(
-      state: Draft<StateType>,
+      state: Draft<AccountGeneralInfoSlice>,
       action: PayloadAction<OrganizationToken[]>,
     ) {
-      state.organizationTokens = action.payload;
+      state.safeTokens = action.payload;
     },
     setActiveDelegationRows(
-      state: Draft<StateType>,
+      state: Draft<AccountGeneralInfoSlice>,
       action: PayloadAction<IdentityWithColumns[]>,
     ) {
       state.activeDelegationsRows = action.payload;

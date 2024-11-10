@@ -9,7 +9,7 @@ import {
 } from '@mui/material';
 import { NFTType } from 'src/types/nfts';
 import MemberPresentationWithPhoto from 'src/components/Utils/MemberPresentationWithPhoto';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from 'src/hooks/sdkDappHooks';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';

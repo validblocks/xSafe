@@ -7,7 +7,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import MapsHomeWorkRoundedIcon from '@mui/icons-material/MapsHomeWorkRounded';
 import PublicIcon from '@mui/icons-material/Public';
 
-import { useGetAccountInfo, useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo, useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 import CopyButton from 'src/components/Utils/CopyButton';
 import { CopyIconLink } from 'src/components/Utils/styled';
 import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
@@ -193,16 +193,23 @@ export const CreateTemplateModalContent: React.FC = () => {
   );
 
   const handleSaveButtonClicked = useCallback(async () => {
+    if (!selectedTemplateForCreation) {
+      console.debug('No template selected for creation');
+      return;
+    }
+
+    if (!currentContract?.address) {
+      console.debug('No current contract address');
+      return;
+    }
+
     await SafeApi.createTemplate(
       {
+        ...selectedTemplateForCreation,
         owner:
           selectedTemplateType === TemplateType.Personal
             ? walletAddress
             : currentContract?.address,
-        endpoint: selectedTemplateForCreation?.endpoint,
-        params: selectedTemplateForCreation?.params,
-        receiver: selectedTemplateForCreation?.receiver,
-        value: selectedTemplateForCreation?.value,
         templateName,
         description: '',
         type: selectedTemplateType,
@@ -214,10 +221,7 @@ export const CreateTemplateModalContent: React.FC = () => {
     currentContract?.address,
     dispatch,
     loginInfo.tokenLogin?.nativeAuthToken,
-    selectedTemplateForCreation?.endpoint,
-    selectedTemplateForCreation?.params,
-    selectedTemplateForCreation?.receiver,
-    selectedTemplateForCreation?.value,
+    selectedTemplateForCreation,
     selectedTemplateType,
     templateName,
     walletAddress,
@@ -235,6 +239,10 @@ export const CreateTemplateModalContent: React.FC = () => {
   );
 
   const isCreateTemplateButtonDisabled = useMemo(() => {
+    if (!selectedTemplateForCreation) {
+      return true;
+    }
+
     const { receiver, endpoint, params, value } = selectedTemplateForCreation;
     const owner =
       selectedTemplateType === TemplateType.Personal
@@ -299,7 +307,9 @@ export const CreateTemplateModalContent: React.FC = () => {
         >
           Arguments
         </Text>
-        {selectedTemplateForCreation.params.length > 0 ? (
+        {selectedTemplateForCreation &&
+        selectedTemplateForCreation.params &&
+        selectedTemplateForCreation.params?.length > 0 ? (
           <Box mb={0.25}>
             {selectedTemplateForCreation.params?.map(
               (param: string, idx: number) => (

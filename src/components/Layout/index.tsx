@@ -1,9 +1,5 @@
 import { useCallback, useEffect } from 'react';
 import {
-  useGetAccountInfo,
-  useGetLoginInfo,
-} from '@multiversx/sdk-dapp/hooks/account';
-import {
   AuthenticatedRoutesWrapper,
   AxiosInterceptorContext,
 } from '@multiversx/sdk-dapp/wrappers';
@@ -50,6 +46,7 @@ import { CenteredBox } from '../StyledComponents/StyledComponents';
 import NetworkAnnouncer from '../Utils/NetworkAnnouncer';
 import { GESTURE, GestureObserver } from 'src/utils/GestureObserver';
 import { useSwipe } from 'src/hooks/useSwipe';
+import { useGetAccountInfo, useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 
 function Layout({ children }: { children: React.ReactNode }) {
   const theme = useCustomTheme();

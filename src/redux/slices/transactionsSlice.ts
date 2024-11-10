@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-export interface StateType {
+export interface TransactionsSlice {
   intervalStartTimestamp: number;
   intervalEndTimestamp: number;
   intervalStartTimestampForFiltering: number;
@@ -12,7 +12,7 @@ oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 const oneDayAgo = new Date();
 oneDayAgo.setDate(oneDayAgo.getDate() - 1);
 
-const initialState: StateType = {
+const initialState: TransactionsSlice = {
   intervalStartTimestamp: Math.floor(oneDayAgo.getTime() / 1000),
   intervalEndTimestamp: Math.floor(new Date().getTime() / 1000),
   intervalStartTimestampForFiltering: Math.floor(oneDayAgo.getTime() / 1000),
@@ -22,14 +22,17 @@ export const transactionsSlice = createSlice({
   name: 'transactionsSlice',
   initialState,
   reducers: {
-    setIntervalStartTimestamp(state: StateType, action: PayloadAction<number>) {
+    setIntervalStartTimestamp(
+      state: TransactionsSlice,
+      action: PayloadAction<number>,
+    ) {
       return {
         ...state,
         intervalStartTimestamp: action.payload,
       };
     },
     setIntervalStartTimestampForFiltering(
-      state: StateType,
+      state: TransactionsSlice,
       action: PayloadAction<number>,
     ) {
       return {
@@ -37,13 +40,16 @@ export const transactionsSlice = createSlice({
         intervalStartTimestampForFiltering: action.payload,
       };
     },
-    setIntervalEndTimestamp(state: StateType, action: PayloadAction<number>) {
+    setIntervalEndTimestamp(
+      state: TransactionsSlice,
+      action: PayloadAction<number>,
+    ) {
       return {
         ...state,
         intervalEndTimestamp: action.payload,
       };
     },
-    enlargeInterval(state: StateType, action: PayloadAction<number>) {
+    enlargeInterval(state: TransactionsSlice, action: PayloadAction<number>) {
       return {
         ...state,
         intervalEndTimestamp: state.intervalStartTimestamp,
@@ -51,7 +57,7 @@ export const transactionsSlice = createSlice({
         intervalStartTimestampForFiltering: action.payload,
       };
     },
-    dwindleInterval(state: StateType, action: PayloadAction<number>) {
+    dwindleInterval(state: TransactionsSlice, action: PayloadAction<number>) {
       return {
         ...state,
         intervalEndTimestamp: new Date().getTime() / 1000,

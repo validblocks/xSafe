@@ -5,10 +5,11 @@ const selector = (state: RootState) => state;
 export const addressBookSelector = createDeepEqualSelector(
   selector,
   (state) => {
-    const { addressBook } = state.addressBook;
-    const currentContractAddress = state.multisigContracts?.currentMultisigContract?.address;
-    return currentContractAddress in addressBook ? addressBook[currentContractAddress] : {
-      [currentContractAddress]: {},
-    };
+    const { addressBook } = state;
+    const currentContractAddress =
+      state.multisigContracts.currentMultisigContract?.address;
+    return currentContractAddress && currentContractAddress in addressBook
+      ? state.addressBook[currentContractAddress]
+      : {};
   },
 );

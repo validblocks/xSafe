@@ -1,4 +1,4 @@
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';

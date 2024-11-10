@@ -13,10 +13,7 @@ import {
   NewTransactionButton,
 } from 'src/components/Theme/StyledComponents';
 import { OrganizationToken, TokenTableRowItem } from 'src/types/organization';
-import {
-  multisigValueInUsdSelector,
-  selectedCurrencySelector,
-} from 'src/redux/selectors/currencySelector';
+import { selectedCurrencySelector } from 'src/redux/selectors/currencySelector';
 import {
   currentMultisigContractSelector,
   currentMultisigTransactionIdSelector,
@@ -35,9 +32,7 @@ import {
   setOrganizationTokens,
   setTokenTableRows,
   setTotalUsdBalance,
-  StateType,
 } from 'src/redux/slices/accountGeneralInfoSlice';
-import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
@@ -46,10 +41,6 @@ import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import useCurrencyConversion from 'src/hooks/useCurrencyConversion';
 import { useOrganizationInfoContext } from 'src/components/Providers/OrganizationInfoContextProvider';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import {
-  useGetLoginInfo,
-  useTrackTransactionStatus,
-} from '@multiversx/sdk-dapp/hooks';
 import { CenteredText } from '../navbar-style';
 import * as Styled from '../styled';
 import { useSendTokenButtonMinWidth } from './useSendTokenButtonMinWidth';
@@ -60,6 +51,10 @@ import { TokenType } from '@multiversx/sdk-dapp/types/tokens.types';
 import { Converters } from 'src/utils/Converters';
 import BigNumber from 'bignumber.js';
 import { useMultisigBalance } from 'src/hooks/useMultisigBalance';
+import {
+  useGetLoginInfo,
+  useTrackTransactionStatus,
+} from 'src/hooks/sdkDappHooks';
 
 const identifierWithoutUniqueHash = (identifier: string) =>
   identifier?.split('-')[0] ?? '';
@@ -156,18 +151,13 @@ function TotalBalance() {
   const selectedCurrency = useSelector(selectedCurrencySelector);
 
   const egldPrice = useSelector(priceSelector);
-  const multisigValueInUsd = useSelector(multisigValueInUsdSelector);
-  const multisigValueInSelectedCurrency =
-    useCurrencyConversion(multisigValueInUsd);
 
-  const currentContract = useSelector<StateType, MultisigContractInfoType>(
-    currentMultisigContractSelector,
-  );
+  const currentContract = useSelector(currentMultisigContractSelector);
 
-  const getMultisigEsdts = useCallback(
-    () => MultiversxApiProvider.getAddressTokens(currentContract?.address),
-    [currentContract],
-  );
+  const getMultisigEsdts = useCallback(() => {
+    console.log('getMultisigEsdts');
+    return MultiversxApiProvider.getAddressTokens(currentContract?.address);
+  }, [currentContract]);
 
   const getMultisigEgldBalance = useCallback(
     () => getAccount(currentContract?.address),
@@ -198,6 +188,9 @@ function TotalBalance() {
     });
 
   const { multisigTotalUsdValue } = useMultisigBalance();
+  const multisigValueInSelectedCurrency = useCurrencyConversion(
+    multisigTotalUsdValue.toNumber(),
+  );
 
   // Remove live updates for now
   // useSocketSubscribe(SocketEvent.INVOLVED_IN_TX, () => {
@@ -211,6 +204,7 @@ function TotalBalance() {
   const currentMultisigTransactionId = useSelector(
     currentMultisigTransactionIdSelector,
   );
+
   useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
     onSuccess: () => {
@@ -250,16 +244,16 @@ function TotalBalance() {
       return;
     }
 
-    const organizationTokens = newTokensWithPrices.map(createOrganizationToken);
+    const safeTokens = newTokensWithPrices.map(createOrganizationToken);
 
     dispatch(setTokenTableRows(newTokensWithPrices));
-    dispatch(setOrganizationTokens(organizationTokens));
+    dispatch(setOrganizationTokens(safeTokens));
   }, [currentContract?.address, dispatch, newTokensWithPrices]);
 
   useEffect(() => {
     dispatch(setValueInUsd(multisigTotalUsdValue?.toNumber()));
     dispatch(setTotalUsdBalance(multisigTotalUsdValue.toNumber()));
-  }, [dispatch, multisigTotalUsdValue, multisigValueInUsd]);
+  }, [dispatch, multisigTotalUsdValue]);
 
   const displayableTotalMultisigValue = useMemo(() => {
     return Number(

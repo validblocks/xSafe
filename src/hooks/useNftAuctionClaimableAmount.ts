@@ -13,6 +13,7 @@ export const useNftAuctionClaimableAmount = () => {
 
   useEffect(() => {
     (async () => {
+      if (!currentContract?.address) return;
       try {
         const claimableAmount = await queryClaimableRoyalties(
           currentContract?.address,

@@ -4,12 +4,10 @@ import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProposeModalSelectedOption } from 'src/redux/slices/modalsSlice';
 import { ModalTypes } from 'src/types/multisig/proposals/Proposals';
-import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import {
   currentMultisigContractSelector,
   hasUnknownOwnerSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
-import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import { MembersBox } from '../navbar-style';
 
@@ -22,9 +20,7 @@ const UnknownOwnerMobileWarning = () => {
     );
   }, [dispatch]);
 
-  const currentContract = useSelector<StateType, MultisigContractInfoType>(
-    currentMultisigContractSelector,
-  );
+  const currentContract = useSelector(currentMultisigContractSelector);
   const maxWidth600 = useMediaQuery('(max-width: 600px)');
   const hasUnknownOwner = useSelector(hasUnknownOwnerSelector);
 

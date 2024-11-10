@@ -7,13 +7,13 @@ export interface MultisigOriginType {
   search: string;
 }
 
-export interface AppConfigStateType {
+export interface AppConfigSlice {
   multisigOrigin: MultisigOriginType;
   selectedTheme: 'Light' | 'Dark';
   isMobileSidebarOpen: boolean;
 }
 
-function getInitialState(): AppConfigStateType {
+function getInitialState(): AppConfigSlice {
   return {
     multisigOrigin: {
       pathname: routeNames?.welcome,
@@ -29,19 +29,19 @@ export const appConfigSlice = createSlice({
   initialState: getInitialState(),
   reducers: {
     setMultisigOrigin: (
-      state: AppConfigStateType,
+      state: AppConfigSlice,
       action: PayloadAction<MultisigOriginType>,
     ) => {
       state.multisigOrigin = action.payload;
     },
     setSelectedTheme: (
-      state: AppConfigStateType,
+      state: AppConfigSlice,
       action: PayloadAction<'Light' | 'Dark'>,
     ) => {
       state.selectedTheme = action.payload;
     },
     setIsMobileSidebarOpen: (
-      state: AppConfigStateType,
+      state: AppConfigSlice,
       action: PayloadAction<boolean>,
     ) => {
       state.isMobileSidebarOpen = action.payload;

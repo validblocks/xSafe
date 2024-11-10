@@ -27,7 +27,7 @@ export const WebSocketsProvider: React.FC<WebSocketsProviderProps> = ({
 
     const currentAddr = currentContract.address;
 
-    if (currentAddr !== oldContractAddress) {
+    if (currentAddr !== oldContractAddress.current) {
       socket.current.removeAllListeners();
       socket.current.emit(SocketEvent.UNREGISTER);
       console.log('UNREGISTER EMITTED ', socket.current.id);

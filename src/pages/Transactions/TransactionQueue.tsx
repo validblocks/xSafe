@@ -14,7 +14,7 @@ import {
 } from 'src/redux/selectors/multisigContractsSelectors';
 import { useSelector } from 'react-redux';
 import { ArrowDropDown } from '@mui/icons-material';
-import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
+import { useTrackTransactionStatus } from 'src/hooks/sdkDappHooks';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { usePendingActions } from 'src/hooks/usePendingActions';
 import LoadingDataIndicator from 'src/components/Utils/LoadingDataIndicator';

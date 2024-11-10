@@ -7,7 +7,7 @@ import useProviderIdentitiesAfterSelection from 'src/hooks/useProviderIdentities
 import { Address, BigUIntValue } from '@multiversx/sdk-core/out';
 import { mutateSmartContractCall } from 'src/contracts/MultisigContract';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
+import { useTrackTransactionStatus } from 'src/hooks/sdkDappHooks';
 import { setProposeMultiselectSelectedOption } from 'src/redux/slices/modalsSlice';
 import ProviderPresentation from './ProviderPresentation';
 import { useMultistepFormContext } from '../Utils/MultistepForm';
@@ -21,7 +21,7 @@ import useAmountInputController from 'src/hooks/useAmountInputController';
 import BigNumber from 'bignumber.js';
 
 const useProposeStakingTransactionStatus = (
-  transactionId: string,
+  transactionId: string | null,
   setIsProcessingTransaction: (status: boolean) => void,
 ) => {
   useTrackTransactionStatus({
@@ -82,6 +82,7 @@ const StakingFormStepTwo = () => {
   }, [amount, closeModal, selectedProvider?.provider]);
 
   const transactionId = useSelector(currentMultisigTransactionIdSelector);
+
   useProposeStakingTransactionStatus(transactionId, setIsProcessingTransaction);
 
   const buttonStyle = useMemo(

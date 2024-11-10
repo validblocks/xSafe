@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-export interface StateType {
+export interface SafeNameSlice {
   safeNames: Record<string, string>;
 }
 
-const initialState: StateType = {
+const initialState: SafeNameSlice = {
   safeNames: {},
 };
 
@@ -12,7 +12,7 @@ export const safeNameSlice = createSlice({
   name: 'safeNameSlice',
   initialState,
   reducers: {
-    setSafeName(state: StateType, { payload: { address, newSafeName } }: any) {
+    setSafeName(state: SafeNameSlice, { payload: { address, newSafeName } }) {
       return {
         ...state,
         safeNames: {

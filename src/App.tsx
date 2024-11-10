@@ -14,15 +14,6 @@ import {
   authenticatedDomains,
 } from 'src/config';
 import routes from 'src/routes';
-import {
-  AxiosInterceptorContext,
-  DappProvider,
-} from '@multiversx/sdk-dapp/wrappers';
-import {
-  TransactionsToastList,
-  SignTransactionsModals,
-  NotificationModal,
-} from '@multiversx/sdk-dapp/UI';
 import i18next from 'i18next';
 import { EnvironmentsEnum } from '@multiversx/sdk-dapp/types';
 import { Suspense } from 'react';
@@ -36,6 +27,13 @@ import CustomThemeProvider from './components/Theme/CustomThemeProvider';
 import { SpotlightCommands } from './components/Utils/SpotlightCommands';
 import { appsWithRouteConfig, AppWithRouteConfig } from './apps/apps';
 import { WebSocketsProvider } from './components/Providers/WebSocketsProvider';
+import {
+  AxiosInterceptorContext,
+  DappProvider,
+  NotificationModal,
+  SignTransactionsModals,
+  TransactionsToastList,
+} from './components/Externals/sdkDappComponents';
 
 dayjs.extend(duration);
 dayjs.extend(relativeTime);
@@ -117,7 +115,7 @@ export const App = () => (
 
                               <SignTransactionsModals className="custom-class-for-modals" />
                               <Routes>
-                                {routes.map((route: any) => (
+                                {routes.map((route) => (
                                   <Route
                                     path={route.path}
                                     key={route.path}

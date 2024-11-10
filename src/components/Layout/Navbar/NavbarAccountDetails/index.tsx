@@ -31,7 +31,6 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { network } from 'src/config';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import DeployStepsModal from 'src/components/DeployMultisig/DeployMultisigModal';
 import { CustomStateType } from 'src/types/organization';
@@ -42,6 +41,7 @@ import TotalBalance from '../TotalBalance';
 import UnknownOwner from './UnknownOwner';
 import * as Styled from '../../../Utils/styled/index';
 import { ActionIconsBox } from './styled/index';
+import { useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 
 interface IDeployStepsContextType {
   showDeployMultisigModalState: CustomStateType<boolean>;
@@ -55,25 +55,28 @@ const DeployStepsContext = createContext<IDeployStepsContextType>(
 export const useDeployStepsContext = () => useContext(DeployStepsContext);
 const NavbarAccountDetails = React.memo(
   ({ uniqueAddress }: { uniqueAddress: string }) => {
+    const t = useCustomTranslation();
+    const dispatch = useDispatch();
     const { isLoggedIn } = useGetLoginInfo();
     const { isInReadOnlyMode } = useOrganizationInfoContext();
+
+    const menuRef = useRef<HTMLElement>();
+
     const [showQr, setShowQr] = useState(false);
     const [openedSafeSelect, setOpenedSafeSelect] = useState(false);
     const [displayableAddress, setDisplayableAddress] = useState(uniqueAddress);
     const [showDeployMultisigModal, setShowDeployMultisigModal] =
       useState(false);
-    const dispatch = useDispatch();
-    const currentContract = useSelector(currentMultisigContractSelector);
-    const menuRef = useRef<HTMLElement>();
-    const t = useCustomTranslation();
+
+    const hasUnknownOwner = useSelector(hasUnknownOwnerSelector);
     const isDarkThemeEnabled = useSelector(isDarkThemeEnabledSelector);
+    const currentContract = useSelector(currentMultisigContractSelector);
+
     const updateMultisigContract = useCallback(
       (newContracts: MultisigContractInfoType[]) =>
         dispatch(setMultisigContracts(newContracts)),
       [dispatch],
     );
-
-    const hasUnknownOwner = useSelector(hasUnknownOwnerSelector);
 
     const openDeployNewContractModal = useCallback(() => {
       setShowDeployMultisigModal(true);
@@ -172,7 +175,7 @@ const NavbarAccountDetails = React.memo(
                   height="60px"
                 />
               </Box>
-              <Grow in={hasUnknownOwner}>
+              <Grow in={!!hasUnknownOwner}>
                 <div>
                   <UnknownOwner />
                 </div>
@@ -202,7 +205,8 @@ const NavbarAccountDetails = React.memo(
                 className="d-flex justify-content-start align-items-center"
               >
                 <Text align="center" lineHeight="1">
-                  {currentContract?.name.length > 0
+                  {currentContract?.name?.length &&
+                  currentContract.name.length > 0
                     ? currentContract?.name
                     : displayableAddress}
                 </Text>
@@ -253,7 +257,7 @@ const NavbarAccountDetails = React.memo(
                 </Box>
                 <Box>
                   <CopyButton
-                    text={currentContract?.address}
+                    text={currentContract?.address ?? ''}
                     link={Styled.CopyIconLink}
                   />
                 </Box>

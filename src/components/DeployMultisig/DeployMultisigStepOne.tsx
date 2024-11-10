@@ -1,13 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import { Box, IconButton, useMediaQuery } from '@mui/material';
-import {
-  useGetAccountProvider,
-  useGetLoginInfo,
-} from '@multiversx/sdk-dapp/hooks/account';
-import {
-  useGetAccountInfo,
-  useTrackTransactionStatus,
-} from '@multiversx/sdk-dapp/hooks';
 import { useCallback, useEffect, useState } from 'react';
 import { useCustomTranslation } from 'src/hooks/useCustomTranslation';
 import { addContractToMultisigContractsList } from 'src/apiCalls/multisigContractsCalls';
@@ -31,6 +23,12 @@ import MemberPresentationWithPhoto from '../Utils/MemberPresentationWithPhoto';
 import { LogoutButton } from '../Utils/LogoutButton';
 import { LoginMethodsEnum } from '@multiversx/sdk-dapp/types';
 import * as StyledLocal from './Styled/index';
+import {
+  useGetAccountInfo,
+  useGetAccountProvider,
+  useGetLoginInfo,
+  useTrackTransactionStatus,
+} from 'src/hooks/sdkDappHooks';
 
 interface DeployStepsModalType {
   handleClose: () => void;

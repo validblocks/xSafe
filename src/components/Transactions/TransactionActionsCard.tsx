@@ -18,7 +18,7 @@ import { gasLimits } from 'src/components/Modals/PerformAction';
 import { setIntervalEndTimestamp } from 'src/redux/slices/transactionsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { currentMultisigTransactionIdSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { useTrackTransactionStatus } from '@multiversx/sdk-dapp/hooks';
+import { useTrackTransactionStatus } from 'src/hooks/sdkDappHooks';
 import { useState } from 'react';
 import useTransactionPermissions from '../../hooks/useTransactionPermissions';
 import { useOrganizationInfoContext } from '../Providers/OrganizationInfoContextProvider';
@@ -49,16 +49,19 @@ function TransactionActionsCard({
     useTransactionPermissions(action);
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
+
   const sign = () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     mutateSign(actionId);
   };
+
   const unsign = () => {
     setIsLoading(true);
     mutateUnsign(actionId);
   };
+
   const performAction = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     const gasLimit =
       type != null
         ? gasLimits[type as keyof typeof gasLimits] ?? defaultGasLimit
@@ -67,6 +70,7 @@ function TransactionActionsCard({
       dispatch(setIntervalEndTimestamp(new Date().getTime() / 1000));
     });
   };
+
   const discardAction = () => {
     setIsLoading(true);
     mutateDiscardAction(actionId);
@@ -75,20 +79,18 @@ function TransactionActionsCard({
   const currentMultisigTransactionId = useSelector(
     currentMultisigTransactionIdSelector,
   );
+
+  const unsetIsLoading = () => {
+    setIsLoading(false);
+    console.log('Setting to false');
+  };
+
   useTrackTransactionStatus({
     transactionId: currentMultisigTransactionId,
-    onSuccess: () => {
-      if (isLoading) setIsLoading(false);
-    },
-    onCancelled: () => {
-      if (isLoading) setIsLoading(false);
-    },
-    onFail: () => {
-      if (isLoading) setIsLoading(false);
-    },
-    onTimedOut: () => {
-      if (isLoading) setIsLoading(false);
-    },
+    onSuccess: unsetIsLoading,
+    onCancelled: unsetIsLoading,
+    onFail: unsetIsLoading,
+    onTimedOut: unsetIsLoading,
   });
 
   if (isInReadOnlyMode) {

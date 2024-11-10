@@ -4,7 +4,7 @@ import { Box, Grid, useMediaQuery } from '@mui/material';
 import { uniqueContractAddress } from 'src/multisigConfig';
 import { setMultisigContracts } from 'src/redux/slices/multisigContractsSlice';
 import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
+import { useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
 import {

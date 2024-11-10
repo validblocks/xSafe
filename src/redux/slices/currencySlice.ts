@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export interface StateType {
+export interface CurrencySlice {
   currencyConverted: number;
   selectedCurrency: string;
   previousCurrency: string;
   multisigValueInUsd: number;
 }
 
-const initialState: StateType = {
+const initialState: CurrencySlice = {
   currencyConverted: 0,
   selectedCurrency: 'USD',
   previousCurrency: 'USD',
@@ -18,13 +18,16 @@ export const currencySlice = createSlice({
   name: 'currencySlice',
   initialState,
   reducers: {
-    setTotalValueConverted(state: StateType, action: PayloadAction<number>) {
+    setTotalValueConverted(
+      state: CurrencySlice,
+      action: PayloadAction<number>,
+    ) {
       return {
         ...state,
         currencyConverted: action.payload,
       };
     },
-    setSelectedCurrency(state: StateType, action: PayloadAction<string>) {
+    setSelectedCurrency(state: CurrencySlice, action: PayloadAction<string>) {
       return {
         ...state,
         previousCurrency:
@@ -34,8 +37,8 @@ export const currencySlice = createSlice({
         selectedCurrency: action.payload,
       };
     },
-    setValueInUsd(state: StateType, action: PayloadAction<number>) {
-      return { ...state, multisigValueInUsd: action.payload };
+    setValueInUsd(state: CurrencySlice, action: PayloadAction<number>) {
+      return { ...state, valueInUsd: action.payload };
     },
   },
 });

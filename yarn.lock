@@ -2192,10 +2192,10 @@
   resolved "https://registry.npmjs.org/@multiversx/sdk-bls-wasm/-/sdk-bls-wasm-0.3.5.tgz"
   integrity sha512-c0tIdQUnbBLSt6NYU+OpeGPYdL0+GV547HeHT8Xc0BKQ7Cj0v82QUoA2QRtWrR1G4MNZmLsIacZSsf6DrIS2Bw==
 
-"@multiversx/sdk-core@13.13.1":
-  version "13.13.1"
-  resolved "https://registry.yarnpkg.com/@multiversx/sdk-core/-/sdk-core-13.13.1.tgz#c0fcf6713efcbab30a3075c5bca2e47b6ffbbdef"
-  integrity sha512-tQD0Z8ma2D+NRXLP8CAK8auwaW9sLehlH1tCyoY6n7x5hT6zuNEPCkUGCen2TzTbOMs5DHO1w2fUZQcrO0XKiA==
+"@multiversx/sdk-core@13.14.1":
+  version "13.14.1"
+  resolved "https://registry.yarnpkg.com/@multiversx/sdk-core/-/sdk-core-13.14.1.tgz#3e68e12054dffb5f2b32d8561277ccc554071e2d"
+  integrity sha512-PlUbeAWJVbqwCjF6zhlTPUTTMTatcI3YZtOa5K+YOs4Xk5UEuZcaKacvt1fNGZiSVubBlUlNK0jaxF3Hbi+VwA==
   dependencies:
     "@multiversx/sdk-transaction-decoder" "1.0.2"
     "@noble/ed25519" "1.7.3"
@@ -2233,10 +2233,10 @@
   resolved "https://registry.yarnpkg.com/@multiversx/sdk-dapp-utils/-/sdk-dapp-utils-1.0.0.tgz#915508726fad0cc57bd29791b58eec213ea81c4b"
   integrity sha512-aPjlbOI5v/95DXc7eqJKI7FlQGrs6s/gQnMAClWEbG6a+Ul3OQOxlLJrxQY1EHfV7roFcvM4yShU5tNILa1srQ==
 
-"@multiversx/sdk-dapp@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@multiversx/sdk-dapp/-/sdk-dapp-3.0.3.tgz#e729f8e1fe0adda070f547d31a57cec40c5d3d4e"
-  integrity sha512-Mi3oksZeD/0D+U1fX8jtDqDthgF/DezBwoOv5J4996tH/YUIkSe/PLITozTwat46Mox7KVPs2rVkyugFh6mZ9Q==
+"@multiversx/sdk-dapp@3.0.9":
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/@multiversx/sdk-dapp/-/sdk-dapp-3.0.9.tgz#bc6b091a33fcdeba6f97e56e3b13f81e2dae9a50"
+  integrity sha512-3MN9zZuuR8YH+18xLJLiOgWikn8DkA2+FNmgrOEsPhXs+hy38pJvoFEalTyoEaoS/2N4JLJHE9rni5BKiCyg6Q==
   dependencies:
     "@lifeomic/axios-fetch" "3.0.1"
     "@metamask/providers" "16.0.0"
@@ -2311,10 +2311,10 @@
   dependencies:
     axios "^1.7.4"
 
-"@multiversx/sdk-network-providers@2.9.1":
-  version "2.9.1"
-  resolved "https://registry.yarnpkg.com/@multiversx/sdk-network-providers/-/sdk-network-providers-2.9.1.tgz#1e70ee0f07ffaf4168006ff7d01f5a29c93e89d4"
-  integrity sha512-AzitPX3tuz8GKqG1wwQGH4pevwbG0KrzYq3Jcr03sE6Ob/akqFrxZPs+SheNCYb1GJRih4ImBsLxIIisulmMjg==
+"@multiversx/sdk-network-providers@2.9.2":
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/@multiversx/sdk-network-providers/-/sdk-network-providers-2.9.2.tgz#efcbceb6e1c08d28bc138702ef37ebd11e38f793"
+  integrity sha512-wyFG2WTSirKxdoZwN9YZjtq9J/a+a+e3+0IPvXqd0xoycpQEPdUZRqsWPTnLzqH0NMmTijOhdkMrXpH3k7BLlA==
   dependencies:
     bech32 "1.1.4"
     bignumber.js "9.0.1"

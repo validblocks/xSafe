@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Address } from '@multiversx/sdk-core/out';
 import { useOrganizationInfoContext } from 'src/components/Providers/OrganizationInfoContextProvider';
 import { MultisigActionDetailed } from 'src/types/multisig/MultisigActionDetailed';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from 'src/hooks/sdkDappHooks';
 
 export default function useTransactionPermissions(
   action: MultisigActionDetailed,

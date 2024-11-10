@@ -17,8 +17,6 @@ import {
   currentMultisigContractSelector,
   currentMultisigTransactionIdSelector,
 } from 'src/redux/selectors/multisigContractsSelectors';
-import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
-import { MultisigContractInfoType } from 'src/types/multisig/multisigContracts';
 import { useQuery, useQueryClient } from 'react-query';
 import { QueryKeys } from 'src/react-query/queryKeys';
 import { MultiversxApiProvider } from 'src/services/MultiversxApiNetworkProvider';
@@ -26,14 +24,14 @@ import { USE_QUERY_DEFAULT_CONFIG } from 'src/react-query/config';
 import { setIntervalEndTimestamp } from 'src/redux/slices/transactionsSlice';
 import { toastDisappearDelay } from 'src/helpers/constants';
 import { removeSignedTransaction } from '@multiversx/sdk-dapp/services';
+import { SignedTransactionsBodyType } from '@multiversx/sdk-dapp/types';
+import { OrganizationInfoContextType } from '../../types/organization';
 import {
   useGetAccountInfo,
   useGetLoginInfo,
   useGetPendingTransactions,
   useTrackTransactionStatus,
-} from '@multiversx/sdk-dapp/hooks';
-import { SignedTransactionsBodyType } from '@multiversx/sdk-dapp/types';
-import { OrganizationInfoContextType } from '../../types/organization';
+} from 'src/hooks/sdkDappHooks';
 
 type Props = {
   children?: JSX.Element | JSX.Element[];
@@ -53,9 +51,7 @@ function OrganizationInfoContextProvider({ children }: Props) {
   const [isBoardMember, setIsBoardMember] = useState(false);
   const [boardMembers, setBoardMembers] = useState<Address[]>([]);
   const [isInReadOnlyMode, setIsInReadOnlyMode] = useState<boolean>(true);
-  const currentContract = useSelector<StateType, MultisigContractInfoType>(
-    currentMultisigContractSelector,
-  );
+  const currentContract = useSelector(currentMultisigContractSelector);
 
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
@@ -181,7 +177,8 @@ function OrganizationInfoContextProvider({ children }: Props) {
     transactionId: currentMultisigTransactionId,
     onTimedOut: () => {
       setTimeout(() => {
-        removeSignedTransaction(currentMultisigTransactionId);
+        currentMultisigTransactionId &&
+          removeSignedTransaction(currentMultisigTransactionId);
       }, toastDisappearDelay);
     },
     onSuccess: () => {
@@ -201,7 +198,8 @@ function OrganizationInfoContextProvider({ children }: Props) {
       );
 
       setTimeout(() => {
-        removeSignedTransaction(currentMultisigTransactionId);
+        currentMultisigTransactionId &&
+          removeSignedTransaction(currentMultisigTransactionId);
       }, toastDisappearDelay);
     },
   });

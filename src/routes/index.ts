@@ -1,22 +1,24 @@
-import DashboardPage from 'src/pages/Dashboard/DashboardPage';
-import MultisigDetailsPage from 'src/pages/MultisigDetails/MultisigDetailsPage';
-import Unlock from 'src/pages/Unlock';
-import AssetsTable from 'src/pages/AssetsPage/AssetsPage';
-import NftPage from 'src/pages/NftPage';
-import TransactionsPage from 'src/pages/Transactions/TransactionsPage';
-import CvorumContainer from 'src/components/Organization/CvorumContainer';
-import Settings from 'src/pages/Settings';
-import AddressBook from 'src/pages/AddressBook';
-import { dAppName } from 'src/config';
-import withPageTitle from 'src/components/PageUtils/PageTitle';
-import StakingDashboard from 'src/pages/Stake/StakingDashboard';
-import { uniqueContractAddress } from 'src/multisigConfig';
-import AppsPage from 'src/components/Apps';
-import HelpCenter from 'src/pages/HelpCenter';
 import routeNames from './routeNames';
+import { dAppName } from 'src/config';
+import { uniqueContractAddress } from 'src/multisigConfig';
 import { ForegroundRoutesType } from '../types/routes';
-import { TransactionBuilder } from 'src/pages/TransactionBuilder';
+
+import AppsPage from 'src/components/Apps';
+import withPageTitle from 'src/components/PageUtils/PageTitle';
+import CvorumContainer from 'src/components/Organization/CvorumContainer';
+
+import Unlock from 'src/pages/Unlock';
+import NftPage from 'src/pages/NftPage';
+import Settings from 'src/pages/Settings';
+import HelpCenter from 'src/pages/HelpCenter';
+import AddressBook from 'src/pages/AddressBook';
 import SafeMembers from 'src/pages/Safe/SafeMembers';
+import AssetsTable from 'src/pages/AssetsPage/AssetsPage';
+import DashboardPage from 'src/pages/Dashboard/DashboardPage';
+import StakingDashboard from 'src/pages/Stake/StakingDashboard';
+import { TransactionBuilder } from 'src/pages/TransactionBuilder';
+import TransactionsPage from 'src/pages/Transactions/TransactionsPage';
+import MultisigDetailsPage from 'src/pages/MultisigDetails/MultisigDetailsPage';
 
 type RouteType = any & { title: string };
 
@@ -132,10 +134,7 @@ const wrappedRoutes = () =>
     return {
       path: route.path,
       authenticatedRoute: Boolean(route.authenticatedRoute),
-      component: withPageTitle(
-        title,
-        route.component,
-      ) as any as React.ComponentClass<any, any>,
+      component: withPageTitle(title, route.component),
     };
   });
 

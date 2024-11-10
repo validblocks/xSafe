@@ -6,7 +6,7 @@ import {
   AccordionDetails,
 } from '@mui/material';
 import { Box } from '@mui/system';
-import { useContractNFTs } from 'src/hooks/useContractNFTs';
+import { useMultisigNfts } from 'src/hooks/useMultisigNfts';
 import NoActionsOverlay from 'src/components/Utils/NoActionsOverlay';
 import { useSelector } from 'react-redux';
 import { navbarSearchSelector } from 'src/redux/selectors/searchSelector';
@@ -28,7 +28,7 @@ const NftsByCollection = () => {
     isLoadingNFTs,
     isErrorOnFetchNFTs,
     nftsGroupedByCollection,
-  } = useContractNFTs({
+  } = useMultisigNfts({
     withSearchFilter: true,
     searchParam: navbarSearchParam,
     leaveSftsLast: true,

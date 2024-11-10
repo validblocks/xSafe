@@ -11,7 +11,6 @@ import { tokenTableRowsSelector } from 'src/redux/selectors/accountSelector';
 import { selectedTokenToSendSelector } from 'src/redux/selectors/modalsSelector';
 import { MultisigSendToken } from 'src/types/multisig/proposals/MultisigSendToken';
 import { TokenTableRowItem } from 'src/types/organization';
-import { StateType } from 'src/redux/slices/accountGeneralInfoSlice';
 import { MultisigSendEgld } from 'src/types/multisig/proposals/MultisigSendEgld';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
 import AmountInputWithTokenSelection from 'src/components/Utils/AmountInputWithTokenSelection';
@@ -45,9 +44,7 @@ const ProposeSendToken = memo(
     const t = useCustomTranslation();
     const selectedToken = useSelector(selectedTokenToSendSelector);
     const { identifier } = selectedToken;
-    const tokenTableRows = useSelector<StateType, TokenTableRowItem[]>(
-      tokenTableRowsSelector,
-    );
+    const tokenTableRows = useSelector(tokenTableRowsSelector);
     const maxWidth600 = useMediaQuery('(max-width:600px)');
 
     const selectedTokenDetails = useMemo(
@@ -156,7 +153,14 @@ const ProposeSendToken = memo(
       const shouldBeDisabled =
         !(formik.isValid && formik.dirty) || !!amountError;
       setSubmitDisabled(shouldBeDisabled);
-    }, [amount, address, setSubmitDisabled, formik.isValid, formik.dirty]);
+    }, [
+      amount,
+      address,
+      setSubmitDisabled,
+      formik.isValid,
+      formik.dirty,
+      amountError,
+    ]);
 
     useEffect(() => {
       refreshProposal();

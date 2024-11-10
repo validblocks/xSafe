@@ -3,7 +3,7 @@ import { network } from 'src/config';
 import SearchIcon from '@mui/icons-material/Search';
 import CopyButton from 'src/components/Utils/CopyButton';
 import { CopyIconLink } from 'src/components/Utils/styled';
-import { useGetAccountInfo, useGetLoginInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo, useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 import { Anchor } from 'src/components/Layout/Navbar/navbar-style';
 import { Text } from 'src/components/StyledComponents/StyledComponents';
 import {
@@ -74,7 +74,8 @@ export const SaveTemplateModalContent = () => {
 
   const adjustedOwnerAfterSave = useAdjustedText({
     initialText:
-      selectedTemplateToSend?.type && selectedTemplateToSend?.type !== 'Public'
+      selectedTemplateToSend?.type &&
+      selectedTemplateToSend?.type !== TemplateType.Public
         ? walletAddress
         : currentContract?.address,
     textToAdjust:
@@ -101,12 +102,22 @@ export const SaveTemplateModalContent = () => {
   const dispatch = useDispatch();
 
   const handleSaveButtonClicked = useCallback(async () => {
+    if (!currentContract?.address) {
+      console.debug('No current contract address');
+      return;
+    }
+
+    if (!selectedTemplateToSend?.id) {
+      console.debug('No selected template to send');
+      return;
+    }
+
     await SafeApi.saveTemplate(
       {
         ownerAddress:
           selectedTemplateType === TemplateType.Personal
             ? walletAddress
-            : currentContract?.address,
+            : currentContract.address,
         templateId: selectedTemplateToSend.id,
         type: selectedTemplateType,
       },
@@ -117,7 +128,7 @@ export const SaveTemplateModalContent = () => {
     currentContract?.address,
     dispatch,
     loginInfo.tokenLogin?.nativeAuthToken,
-    selectedTemplateToSend.id,
+    selectedTemplateToSend?.id,
     selectedTemplateType,
     walletAddress,
   ]);

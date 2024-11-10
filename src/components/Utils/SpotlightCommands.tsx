@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useCustomTheme } from 'src/hooks/useCustomTheme';
 import TipsAndUpdatesRoundedIcon from '@mui/icons-material/TipsAndUpdatesRounded';
 import { currentMultisigContractSelector } from 'src/redux/selectors/multisigContractsSelectors';
-import { useGetAccountInfo } from '@multiversx/sdk-dapp/hooks';
+import { useGetAccountInfo } from 'src/hooks/sdkDappHooks';
 import { useNavigate } from 'react-router-dom';
 import routeNames from 'src/routes/routeNames';
 import {
@@ -82,9 +82,6 @@ export const SpotlightCommands = () => {
             break;
           case 'logout':
             logoutWithCleanup?.();
-            break;
-          case 'csa':
-            handleCopy(currentContract?.address);
             break;
           case 'cwa':
             handleCopy(address);

@@ -15,10 +15,10 @@ import { ProposalsTypes } from 'src/types/multisig/proposals/Proposals';
 import { AssetActionButton } from 'src/components/Theme/StyledComponents';
 import DisplayTokenPrice from 'src/components/Utils/DisplayTokenPrice';
 import { Box, Typography } from '@mui/material';
-import { useGetLoginInfo } from '@multiversx/sdk-dapp/hooks/account';
 import * as Styled from '../../pages/Safe/styled';
 import TokenPresentationWithPrice from '../Utils/TokenPresentationWithPrice';
 import { Converters } from 'src/utils/Converters';
+import { useGetLoginInfo } from 'src/hooks/sdkDappHooks';
 
 export const SQUARE_IMAGE_WIDTH = 30;
 export const SQUARE_SMALL_IMAGE_WIDTH = 20;

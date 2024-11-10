@@ -111,7 +111,7 @@ describe('AmountInputWithTokenSelection component', () => {
                 username: '',
                 shard: 0,
                 tokenTableRows: [],
-                organizationTokens: [
+                safeTokens: [
                   {
                     prettyIdentifier: 'EGLD',
                     identifier: 'EGLD',
@@ -190,7 +190,7 @@ describe('AmountInputWithTokenSelection component', () => {
                     username: '',
                     shard: 0,
                     tokenTableRows: [],
-                    organizationTokens: [
+                    safeTokens: [
                       {
                         prettyIdentifier: 'EGLD',
                         identifier: 'EGLD',
@@ -364,7 +364,7 @@ describe('AmountInputWithTokenSelection component', () => {
               username: '',
               shard: 0,
               tokenTableRows: [],
-              organizationTokens: [
+              safeTokens: [
                 {
                   prettyIdentifier: mockPrettyIdentifier,
                   identifier: mockPrettyIdentifier,
@@ -427,7 +427,7 @@ describe('AmountInputWithTokenSelection component', () => {
               username: '',
               shard: 0,
               tokenTableRows: [],
-              organizationTokens: [
+              safeTokens: [
                 {
                   prettyIdentifier: mockPrettyIdentifier,
                   identifier: mockPrettyIdentifier,
@@ -541,7 +541,7 @@ describe('AmountInputWithTokenSelection component', () => {
                   username: '',
                   shard: 0,
                   tokenTableRows: [],
-                  organizationTokens: [
+                  safeTokens: [
                     {
                       prettyIdentifier: tokenIdentifier,
                       identifier: tokenIdentifier,
@@ -627,7 +627,7 @@ describe('AmountInputWithTokenSelection component', () => {
                   username: '',
                   shard: 0,
                   tokenTableRows: [],
-                  organizationTokens: [
+                  safeTokens: [
                     {
                       prettyIdentifier: tokenIdentifier,
                       identifier: tokenIdentifier,
