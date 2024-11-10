@@ -198,10 +198,10 @@ export async function sendTransaction(
       arguments: args,
     });
 
-    console.log({ transaction });
     await refreshAccount();
     const senderAccount = new Account(new Address(await getAddress()));
     transaction.nonce = BigInt(senderAccount.getNonceThenIncrement().valueOf());
+    console.log({ transaction });
 
     const { sessionId } = await sendTransactions({
       transactions: [transaction],

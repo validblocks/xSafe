@@ -56,7 +56,7 @@ function TransactionActionsCard({
   };
 
   const unsign = () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     mutateUnsign(actionId);
   };
 
@@ -72,7 +72,7 @@ function TransactionActionsCard({
   };
 
   const discardAction = () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     mutateDiscardAction(actionId);
   };
 
